@@ -51,6 +51,20 @@ status: "draft"
   4. CTA
 - **CTA Button:** "Begin Commission". Size: 100% width of the info zone, 60px height. Color: #8C3A3A background, #F4F1EA text. Hover state: The button border thickens to 4px solid #2B2B2B, background remains #8C3A3A.
 
+**Checkout Flow (4 Steps — "The Commission"):**
+
+1. **Step 1: Design Approval (The Blueprint)**
+   A full-screen review of the configured piece. Show the 3D render from the Workbench configurator alongside specs. Include a "Request Modifications" button and an "Approve Design" button. The approve button uses the Atelier's signature color (#8C3A3A). Layout: split-screen, left = 3D render (60vw), right = specifications list (40vw).
+
+2. **Step 2: The Deposit (The Commitment)**
+   A focused payment screen for the 50% deposit. Show the approved design as a thumbnail, the total price, and the deposit amount. Payment via Stripe Elements styled to match Atelier's warm palette. Include estimated crafting timeline. Single column layout, max-width 480px, centered.
+
+3. **Step 3: Crafting Updates (The Atelier Journal)**
+   A POST-DEPOSIT experience. A timeline/journal showing progress photos from the artisan. Push notifications at key milestones: "Stone Setting Complete", "Polishing Phase", "Final QC". Each update includes a GemLightBox photo of the piece in progress.
+
+4. **Step 4: Final Payment & Delivery (The Unveiling)**
+   When crafting is complete, the client receives a notification. This screen shows the finished piece in a full-screen GemLightBox 360° viewer alongside the original design spec for comparison. "Pay Remaining Balance" button. After payment: delivery scheduling with white-glove options. Include a digital certificate of authenticity generated at this step.
+
 ### F) MOBILE
 - **Navigation Pattern:** A persistent bottom sheet that slides up to reveal the "Workbench" configurator, keeping the 3D model visible at all times.
 - **Image Display:** Full-width (100vw), but the 3D model is fully interactive via touch (rotate, zoom).
@@ -91,17 +105,17 @@ This 4-step flow transforms the anxiety of a high-ticket purchase into the excit
 - **At 500 products:** Works, but requires thorough filtering in the "Workbench" to prevent overwhelming the user with loose stone options. The 3D assets must be loaded on-demand, with a maximum of 12 models in GPU memory at any time.
 - **At 5000 products:** Breaks. The sheer volume of 3D assets and texture maps would cripple the browser's memory; requires dynamic loading, aggressive caching strategies, and potentially a server-side rendering fallback for older devices.
 
-**3D Rendering Pipeline (Technical Detail):**
+**3D Rendering Pipeline:**
 
-The Workbench configurator is the most technically complex component of any concept in this document. It requires a custom WebGL rendering pipeline built on Three.js with the following components:
+The Workbench configurator requires a custom WebGL rendering pipeline built on Three.js:
 
-1. **Geometry Library:** A pre-built library of 20 base ring settings (solitaire, halo, three-stone, etc.), each modeled as a GLTF 2.0 file with PBR materials. The models are optimized to under 500KB each, with LOD (Level of Detail) variants for mobile devices.
-2. **GemLightBox Texture Integration:** The GemLightBox 360° captures are processed into equirectangular environment maps. When a user selects a specific stone, its environment map is applied to the gem material's `envMap` property in Three.js, creating a photorealistic reflection that matches the actual stone's light behavior.
-3. **Metal Material System:** Four metal options (Yellow Gold, White Gold, Rose Gold, Platinum), each with a custom PBR material definition including roughness (0.15-0.25), metalness (0.95), and a unique color map. The metal materials are authored in Substance Designer and exported as texture sets.
-4. **Real-Time Shadow Casting:** A single directional light (intensity 1.2, color #FFFAF0) positioned at 45° above the model, casting soft shadows onto a ground plane. The shadow map resolution is 2048x2048 for desktop, 1024x1024 for mobile.
-5. **Performance Budget:** The configurator must maintain 60fps on a 2023 MacBook Air (M2 chip) and 30fps on a 2022 iPhone 14. This requires aggressive draw call batching and texture atlas optimization.
+1. **Geometry Library:** 20 base ring settings modeled as GLTF 2.0 files with PBR materials, optimized under 500KB with LOD variants.
+2. **Texture Integration:** GemLightBox 360° captures are processed into equirectangular environment maps applied to the gem material's `envMap` property.
+3. **Metal Material System:** Four metal options with custom PBR material definitions (roughness, metalness, color map).
+4. **Shadow Casting:** A single directional light casting soft shadows (2048x2048 desktop, 1024x1024 mobile).
+5. **Performance Budget:** Must maintain 60fps on desktop and 30fps on mobile via draw call batching.
 
-The drag-and-drop interaction uses Three.js Raycaster for hit detection. When the user drags a stone from the side panel (a 2D DOM element), the cursor position is projected into the 3D scene using `raycaster.setFromCamera()`. The nearest prong on the ring model is identified by checking distance to pre-defined "snap points" (invisible markers placed at each prong position during the modeling phase). When the distance is below 20px (screen space), the stone snaps to the prong with a spring animation (stiffness: 300, damping: 20).
+The drag-and-drop interaction uses Three.js Raycaster. When dragging a stone, the cursor position is projected into the 3D scene. The nearest prong is identified via "snap points." When distance is below 20px, the stone snaps to the prong with a spring animation.
 
 **The "Lighting Studio" Toggle (Detailed Specification):**
 
