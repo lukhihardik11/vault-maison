@@ -64,21 +64,29 @@ status: "draft"
 - **360° Viewer:** Custom Three.js implementation (to integrate with the configurator).
 - **Hosting:** AWS (S3 + CloudFront) for the massive 3D assets and texture maps.
 
-### H) CONVERSION THESIS
+### I) CONVERSION THESIS
 - The psychological trigger is the Endowment Effect. Once a user has spent 15 minutes selecting a stone, choosing a setting, and watching the 3D model render their creation, they psychologically own it. Abandoning the cart feels like losing something they already possess.
 - Friction is added by forcing the user to actively build the product rather than simply clicking "buy." The 3-step configuration process (Stone > Setting > Review) creates a deliberate, sequential journey that mirrors the real-world experience of commissioning a bespoke piece from a master jeweler.
 - Expected conversion impact is a significantly higher conversion rate for bespoke pieces (estimated 8-12% for users who complete Step 1 of the configurator), as the user feels ownership over the design before they even reach checkout.
 
 **Reference Site:** https://www.vrai.com/engagement-rings/build-your-own — Vrai's configurator is the closest competitor, but it uses pre-rendered images that update with a jarring page refresh. The Atelier's real-time WebGL rendering eliminates this friction entirely.
 
-**Checkout Flow (5 Steps):**
-1. **Review Commission** (Full-screen 3D model of the finished piece, rotating slowly, with all specs listed below).
-2. **Artisan Consultation** (Optional: schedule a 15-minute video call with the master cutter to discuss the commission).
-3. **Shipping & Insurance** (Select from Brinks, Malca-Amit, or Ferrari Group secure logistics).
-4. **Payment** (Wire transfer, credit card, or cryptocurrency via BitPay).
-5. **Commission Confirmed** (A cinematic animation of the 3D model being "placed into a vault," reinforcing the Vault Maison brand).
+### H) CHECKOUT FLOW: THE COMMISSION
 
-### I) SCALABILITY
+The checkout process in The Atelier is designed to feel like commissioning a bespoke piece of high jewelry from a master craftsman. It is a deliberate, 4-step process that emphasizes the custom nature of the order.
+
+- **Step 1: The Design Approval (The Cart)**
+  The screen splits 50/50. The left side displays the final 3D render of the user's configured piece, slowly rotating under the "Daylight" environment map. The right side displays the "Commission Blueprint" — a detailed breakdown of the chosen stone, the metal, the setting style, and the ring size. The user must click a prominent #8C3A3A button labeled "Approve Design Blueprint" to proceed.
+- **Step 2: The Artisan Allocation (Scheduling)**
+  Instead of standard shipping, this step is about time. The screen displays a timeline: "Wax Casting (Week 1) → Metal Pour (Week 2) → Stone Setting (Week 3) → Final Polish (Week 4)." The user selects their preferred secure logistics partner (Brinks or Malca-Amit) for the final delivery. The UI uses a horizontal progress bar that fills with #8C3A3A as selections are made.
+- **Step 3: The Deposit (Payment)**
+  Bespoke work requires commitment. The payment screen defaults to a "50% Commission Deposit" rather than the full amount (though full payment is an option). The form is centered, minimalist, with floating labels. It accepts wire transfers (via Plaid) or high-limit credit cards. The CTA button reads "Initiate Commission."
+- **Step 4: The Workbench Feed (Confirmation)**
+  The confirmation screen does not show an order number. It shows a "Commission ID" and a link to a private "Workbench Feed" where the user will receive weekly photo updates of their specific ring being crafted. The text reads: "Your blueprint has been sent to the master jeweler. The journey begins."
+
+This 4-step flow transforms the anxiety of a high-ticket purchase into the excitement of a creative partnership.
+
+### J) SCALABILITY
 - **At 50 products:** Works perfectly; the configurator handles the permutations easily. The 3D asset library is small enough to be pre-loaded entirely.
 - **At 500 products:** Works, but requires thorough filtering in the "Workbench" to prevent overwhelming the user with loose stone options. The 3D assets must be loaded on-demand, with a maximum of 12 models in GPU memory at any time.
 - **At 5000 products:** Breaks. The sheer volume of 3D assets and texture maps would cripple the browser's memory; requires dynamic loading, aggressive caching strategies, and potentially a server-side rendering fallback for older devices.

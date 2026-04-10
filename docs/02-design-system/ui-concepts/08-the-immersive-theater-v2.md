@@ -32,7 +32,7 @@ On mobile, the experience relies heavily on the device's gyroscope. The navigati
 
 The checkout flow is a 3-step "Curtain Call": 1) The Reservation (Name/Email), 2) The Arrangement (Shipping/Concierge Contact), and 3) The Finale (Secure Payment via a beautifully styled Stripe Elements integration).
 
-This entire experience is built on Next.js, but the heavy lifting is done by React Three Fiber and GSAP for the complex camera movements and spatial UI. The CMS is Sanity, managing the poetic descriptions and 3D coordinates. The e-commerce engine is Swell, handling the backend transactions silently. The massive video assets are served via Mux, ensuring they stream flawlessly without buffering.
+This entire experience is built on Qwik, but the heavy lifting is done by React Three Fiber and GSAP for the complex camera movements and spatial UI. The CMS is Sanity, managing the poetic descriptions and 3D coordinates. The e-commerce engine is Swell, handling the backend transactions silently. The massive video assets are served via Mux, ensuring they stream flawlessly without buffering.
 
 Why does this make me buy? The psychological trigger is the Affect Heuristic. By overwhelming my senses with beauty, sound, and motion, the site bypasses my analytical brain and speaks directly to my emotions. The expected conversion impact is a longer time-on-site (averaging 8+ minutes) and a higher willingness to purchase statement pieces based on the emotional resonance of the experience.
 
@@ -131,7 +131,7 @@ The spatial positioning of products in the 3D constellation is not random. It is
 
 - **Similarity Attraction:** Stones with similar properties (same cut, similar carat, similar color grade) are positioned closer together in 3D space. The attraction force is proportional to the cosine similarity of their normalized property vectors.
 - **Price Repulsion:** Stones with vastly different prices are pushed apart, preventing a $500 melee parcel from sitting next to a $50,000 fancy vivid yellow. The repulsion force is proportional to the log of the price difference.
-- **Collection Clustering:** Stones belonging to the same collection are grouped into visible clusters, with a subtle connecting line (1px, #FFFFFF at 10% opacity) drawn between them.
+- **Collection Clustering:** Stones belonging to the same collection are grouped into visible clusters, with a subtle connecting line (1px, #F5F0EB at 10% opacity) drawn between them.
 - **New Arrival Highlighting:** Stones added in the last 7 days are positioned at the outer edge of the constellation with a brighter glow (1.5x the standard intensity), drawing the eye to new inventory.
 
 The algorithm runs once at build time and outputs a JSON file of [x, y, z] coordinates for each product. This means the constellation layout is deterministic and consistent across all users. The user can also apply filters (cut, color, clarity, price range) which trigger a re-animation: filtered-out stones fade to 5% opacity and drift to the periphery, while matching stones move to the center and increase in brightness. This transition takes 1500ms with a spring physics easing (stiffness: 100, damping: 15), creating a beautiful, organic reorganization that feels like watching stars rearrange themselves.
