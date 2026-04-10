@@ -1,0 +1,15 @@
+# Global owners
+* @research-lead @strategy-lead
+
+# Research documentation
+/docs/00-research/ @research-lead @market-analyst
+/research-data/ @data-lead @research-lead
+
+# Strategy and positioning
+/docs/01-strategy/ @strategy-lead @brand-lead
+
+# Technical specifications
+/docs/03-technical-specs/ @technical-lead @architecture-lead
+
+# AI training data
+/research-data/ai-training-data/ @ai-lead @data-lead

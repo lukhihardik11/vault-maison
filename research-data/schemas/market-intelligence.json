@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Market Intelligence Schema",
+  "description": "Schema for vault-maison market intelligence and competitive analysis data",
+  "type": "object",
+  "properties": {
+    "brand_analysis": {
+      "type": "object",
+      "properties": {
+        "brand_name": {"type": "string"},
+        "category": {"enum": ["heritage-tier-1", "heritage-tier-2", "digital-disruptor", "emerging", "mens-focused", "ultra-luxury", "resale-vintage", "adjacent-luxury"]},
+        "website_url": {"type": "string", "format": "uri"},
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "atmospherics_score": {"type": "number", "minimum": 1, "maximum": 10},
+            "trust_engineering": {"type": "number", "minimum": 1, "maximum": 10},
+            "product_presentation": {"type": "number", "minimum": 1, "maximum": 10},
+            "service_integration": {"type": "number", "minimum": 1, "maximum": 10},
+            "merchandising_sophistication": {"type": "number", "minimum": 1, "maximum": 10},
+            "pricing_transparency": {"type": "number", "minimum": 1, "maximum": 10},
+            "personalization_depth": {"type": "number", "minimum": 1, "maximum": 10},
+            "technical_performance": {"type": "number", "minimum": 1, "maximum": 10},
+            "content_quality": {"type": "number", "minimum": 1, "maximum": 10},
+            "global_sophistication": {"type": "number", "minimum": 1, "maximum": 10},
+            "post_purchase_ritual": {"type": "number", "minimum": 1, "maximum": 10},
+            "innovation_leadership": {"type": "number", "minimum": 1, "maximum": 10}
+          },
+          "required": ["atmospherics_score", "trust_engineering", "technical_performance"]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"enum": ["screenshot", "policy", "pricing", "ux_flow", "performance_test", "content_sample"]},
+              "file_path": {"type": "string"},
+              "description": {"type": "string"},
+              "analysis": {"type": "string"},
+              "date_captured": {"type": "string", "format": "date"}
+            },
+            "required": ["type", "description", "analysis"]
+          }
+        },
+        "pricing": {
+          "type": "object",
+          "properties": {
+            "entry_price": {"type": "number"},
+            "average_selling_price": {"type": "number"},
+            "top_price": {"type": "number"},
+            "currency": {"type": "string", "default": "USD"}
+          }
+        },
+        "technology_stack": {
+          "type": "object",
+          "properties": {
+            "ecommerce_platform": {"type": "string"},
+            "personalization_tools": {"type": "array", "items": {"type": "string"}},
+            "analytics": {"type": "array", "items": {"type": "string"}},
+            "ar_vr_capabilities": {"type": "boolean"}
+          }
+        }
+      },
+      "required": ["brand_name", "category", "metrics"]
+    },
+    "market_data": {
+      "type": "object",
+      "properties": {
+        "segment": {"type": "string"},
+        "market_size_usd": {"type": "number"},
+        "growth_rate_cagr": {"type": "number"},
+        "year": {"type": "integer"},
+        "source": {"type": "string"},
+        "geographic_breakdown": {
+          "type": "object",
+          "additionalProperties": {"type": "number"}
+        }
+      }
+    },
+    "consumer_insight": {
+      "type": "object",
+      "properties": {
+        "finding": {"type": "string"},
+        "demographic": {"type": "string"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "source": {"type": "string"},
+        "methodology": {"type": "string"},
+        "sample_size": {"type": "integer"},
+        "date": {"type": "string", "format": "date"}
+      }
+    }
+  }
+}
