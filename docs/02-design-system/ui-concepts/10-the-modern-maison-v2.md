@@ -65,56 +65,69 @@ This is the flagship concept. It is not the most experimental, nor the most mini
 
 **Why this is superior to what heritage brands do today:** Bulgari's PDP crams the product image into a small square and surrounds it with marketing copy and upsell modules. The Modern Maison dedicates 60% of the viewport to the product image, making it the undeniable focal point, while the info zone is clean, structured, and respects the buyer's time.
 
-### F) MOBILE
+### F) CHECKOUT FLOW: THE HYBRID FAST-TRACK
+
+The checkout process in The Modern Maison is a masterclass in balancing heritage gravitas with digital-native speed. It is a 3-step flow that feels substantial but operates with zero friction.
+
+- **Step 1: The Concierge Hand-off (The Cart)**
+  Clicking "Add to Collection" slides open a right-side drawer (400px wide). It displays the item, the subtotal, and two distinct paths: "Express Checkout" (Apple Pay/Google Pay) or "Consult the Maison." If the user chooses Express, they bypass the rest of the flow entirely. If they proceed normally, they click "Begin Secure Checkout."
+- **Step 2: The Client Profile (Shipping/Billing)**
+  The checkout page drops all navigation. The background is pure #FAFAFA. The left column (60%) contains the form; the right column (40%) is a sticky order summary with the GemLightBox image. The form fields use floating labels in Maison Serif. Instead of "Shipping Address," it asks for "Delivery Destination." A subtle toggle allows the user to specify if this is a gift, which dynamically adds fields for a handwritten note and wax-sealed packaging.
+- **Step 3: The Final Review (Payment)**
+  The payment screen integrates Stripe Elements directly into the UI—no redirects, no iframe borders. The CTA button is full-width, #1C1C1C, and reads "Confirm Acquisition." Upon clicking, a loading state replaces the button text with a subtle spinning lock icon for exactly 1200ms (even if the API responds faster) to ensure the transaction feels weighty and secure. The confirmation screen displays a digital receipt styled like a vintage letterpress invoice.
+
+This 3-step flow provides the speed tech-savvy buyers expect, while maintaining the linguistic and visual cues of a heritage luxury house.
+
+### G) MOBILE
 - **Navigation Pattern:** A bottom tab bar (Home, Search, Concierge, Bag) with a prominent, floating "Concierge" button in the center. The Concierge button is 56x56px, circular, #8B7355 background, with a white chat icon. It floats 16px above the tab bar.
 - **Image Display:** Full-width carousel with pagination dots (6px diameter, 8px gap, #1C1C1C active, #CCCCCC inactive). The carousel supports swipe gestures with momentum-based deceleration.
 - **Unique Gesture:** A long-press (800ms) on the "Add to Collection" button triggers a haptic buzz (using the Vibration API) and immediately opens the Apple Pay / Google Pay sheet, bypassing the cart entirely for a 1-click checkout. This is the ultimate expression of "heritage prestige engineered for the digital age": the gravitas of a luxury purchase, completed with the speed of a modern digital transaction.
 
 **Why this is superior to what heritage brands do today:** Chopard's mobile site is a responsive desktop site crammed into a small screen. The navigation is a hamburger menu that opens a full-screen overlay, hiding the product. The Modern Maison's bottom tab bar keeps the product visible at all times and provides instant access to the concierge, the most valuable conversion tool.
 
-### G) TECH STACK
-- **Framework:** Vue.js (Nuxt 3). Why: Provides the perfect balance of performance (server-side rendering for SEO and initial load speed) and developer experience (the Composition API is ideal for building complex, interactive components like the split-screen compare and the jeweler's loupe). Nuxt 3's hybrid rendering allows static generation for collection pages and server-side rendering for dynamic product pages.
+### H) TECH STACK
+- **Framework:** Vue.js (Gatsby 3). Why: Provides the perfect balance of performance (server-side rendering for SEO and initial load speed) and developer experience (the Composition API is ideal for building complex, interactive components like the split-screen compare and the jeweler's loupe). Gatsby 3's hybrid rendering allows static generation for collection pages and server-side rendering for dynamic product pages.
 - **CMS:** Builder.io. Why: Its visual editor allows the marketing team to build rich, editorial pages (e.g., "The Vault Standard" section, collection landing pages) without developer intervention. This is crucial for a heritage brand that needs to update its editorial content frequently.
 - **E-comm:** Commerce Layer. Why: A highly flexible, API-first commerce engine that easily handles complex pricing rules (tiered pricing for parcels, bespoke pricing for commissions), multi-currency requirements for a global luxury audience, and thorough inventory management for unique, one-of-a-kind pieces.
 - **Animation:** React Spring (adapted for Vue via vue-use-spring). Why: Physics-based animations ensure the UI feels weighty and substantial, not floaty or cheap. The spring model is particularly important for the "Split-Screen Heritage" compare, where the animation must feel mechanical and precise.
 - **360° Viewer:** Spinviewer.js. Why: Lightweight, highly customizable, and supports the custom "Magnify" loupe overlay without conflicting with the viewer's own event handlers.
 - **Hosting:** Netlify Edge. Why: Edge rendering ensures sub-100ms TTFB globally, which is critical for the luxury market where buyers are located in New York, London, Dubai, Hong Kong, and Tokyo. Netlify's atomic deploys also ensure zero-downtime updates.
 
-### H) CONVERSION THESIS
+### I) CONVERSION THESIS
 - The psychological trigger is the Authority Bias combined with the Ease of Use (Cognitive Fluency).
 - Friction is minimized in the checkout process (1-click Apple Pay via long-press) but maintained in the product discovery phase (the Heritage Compare, the jeweler's loupe, the accordion specs) to build perceived value and justify the premium price.
 - Expected conversion impact is a high baseline conversion rate (estimated 2.5-3.5% for qualified traffic), as the site feels familiar enough to be trusted (standard e-commerce patterns like breadcrumbs, grid layouts, and sticky images) but premium enough to justify the price point (proprietary typography, Heritage Compare, muted color palette).
 
-### I) SCALABILITY
+### J) SCALABILITY
 - **At 50 products:** Works perfectly as a curated, high-touch experience.
 - **At 500 products:** Works exceptionally well; the 3-column grid and visual mega-menu filtering are designed for this exact scale. The mega-menu's visual icons for cut shapes make browsing 500 products feel intuitive rather than overwhelming.
 - **At 5000 products:** Works, provided the search functionality is augmented with Algolia integration for complex queries (e.g., "2 carat emerald cut VVS1 natural"). The 3-column grid with infinite scroll and progressive JPEG loading can handle this volume without performance degradation.
 
-### J) LUXURY PROOF
+### K) LUXURY PROOF
 - **Decision: Custom Maison Serif Typography** → Why it prevents mid-market perception: Owning a proprietary typeface is the ultimate flex of a heritage brand. It ensures the site looks like no one else. Google Fonts are free and ubiquitous; a custom typeface signals investment and exclusivity.
 - **Decision: "Split-Screen Heritage" Compare** → Why it prevents mid-market perception: It proves the brand has a history and a point of view, elevating the product above a mere commodity. Mass-market retailers have no heritage to compare against.
 - **Decision: #8B7355 (Antique Bronze) Accent Color** → Why it prevents mid-market perception: It is a sophisticated, muted metallic tone that feels expensive and warm, unlike bright, web-safe golds (#FFD700) which look cheap on screen.
 - **Decision: Progressive JPEG Loading (Snap-to-Sharp)** → Why it prevents mid-market perception: It avoids the "blurry" loading state common on Shopify sites (gatsby-image blur-up), ensuring the first impression of the diamond is always sharp, even if low-res. Precision in loading = precision in product.
 - **Decision: 1-Click Apple Pay via Long-Press** → Why it prevents mid-market perception: It caters to the HNWI desire for absolute convenience and speed once the decision to buy is made. It signals that the brand understands its buyer is busy, decisive, and accustomed to effortless transactions.
 
-### K) IMPLEMENTATION
+### L) IMPLEMENTATION
 | Effort | Team Size | MVP Timeline | Full Build | Est. Cost |
 | :--- | :--- | :--- | :--- | :--- |
 | Mid-Build | 6 (1 UX, 2 FE, 2 BE, 1 QA) | 10 weeks | 18 weeks | $200,000 |
 
 The MVP would include the homepage, PLP, PDP with the 360° viewer and jeweler's loupe, and a basic checkout flow. The "Split-Screen Heritage" compare, the concierge booking system, and the Algolia search integration would be added in the full build phase.
 
-### L) UNIQUENESS PROOF
+### M) UNIQUENESS PROOF
 1. **Color:** #8B7355 (Antique Bronze accent). No other concept uses this warm, muted metallic tone.
 2. **Interaction:** "Split-Screen Heritage" compare (splitting the image zone 50/50 to juxtapose modern GemLightBox imagery with archival photographs). No other concept compares present and past visually.
 3. **Layout:** 3-column grid with 360x540px cards and a visual mega-menu filter using cut-shape icons. No other concept uses visual icons in the filter UI.
-4. **Technology:** Vue.js (Nuxt 3) with Commerce Layer and Builder.io. No other concept uses this specific stack.
+4. **Technology:** Vue.js (Gatsby 3) with Commerce Layer and Builder.io. No other concept uses this specific stack.
 5. **Visual Metaphor:** The Modern Flagship Boutique. Not a vault, not a gallery, not a theater—a boutique that feels like walking into a Cartier store rebuilt with 2026 technology.
 6. **Competitor Critique:** Cartier's website (cartier.com) is bogged down by legacy code, heavy campaign imagery, and slow load times (Lighthouse performance score: ~35). The Modern Maison delivers the same heritage feel but with sub-second, digital-native performance (target Lighthouse score: 90+), proving that prestige and performance are not mutually exclusive.
 
 ### M) SEO & CONTENT STRATEGY
 
-The Modern Maison is the only concept in this document that explicitly prioritizes SEO as a growth channel. Because the site is built on Nuxt 3 with server-side rendering, every page is fully indexable by Google. The SEO strategy is built on three pillars:
+The Modern Maison is the only concept in this document that explicitly prioritizes SEO as a growth channel. Because the site is built on Gatsby 3 with server-side rendering, every page is fully indexable by Google. The SEO strategy is built on three pillars:
 
 1. **Collection Landing Pages:** Each collection (e.g., "The Argyle Collection") has a dedicated landing page with 800-1200 words of editorial content, written by a professional copywriter, covering the collection's inspiration, the sourcing story, and the technical specifications of the stones. These pages target long-tail keywords like "natural Argyle pink diamond melee" and "ethically sourced emerald cut parcels."
 
@@ -138,7 +151,7 @@ This system transforms the concierge from a reactive support channel into a proa
 
 ### O) INTERNATIONALIZATION & MULTI-CURRENCY
 
-The Modern Maison is the only concept designed from the ground up for international expansion. The Nuxt 3 framework supports i18n (internationalization) natively via the `@nuxtjs/i18n` module. The initial launch supports 4 languages: English (default), Simplified Chinese, Arabic, and French. Each language has its own URL prefix (e.g., `/zh/collections/`, `/ar/collections/`).
+The Modern Maison is the only concept designed from the ground up for international expansion. The Gatsby 3 framework supports i18n (internationalization) natively via the `@nuxtjs/i18n` module. The initial launch supports 4 languages: English (default), Simplified Chinese, Arabic, and French. Each language has its own URL prefix (e.g., `/zh/collections/`, `/ar/collections/`).
 
 The currency system is equally sophisticated. Prices are stored in USD in the Commerce Layer backend, but displayed in the user's local currency using real-time exchange rates from the Open Exchange Rates API (updated every 15 minutes). The currency selector is a discreet dropdown in the header, styled to match the Freight Text Pro typography. For Arabic and Chinese markets, the number formatting follows local conventions (e.g., Arabic-Indic numerals for Arabic, wan/yi grouping for Chinese).
 
@@ -157,9 +170,9 @@ The performance targets are:
 - **Total Page Weight:** < 800KB (initial load, excluding images)
 - **Time to Interactive (TTI):** < 2.0s
 
-These targets are enforced via a CI/CD pipeline that runs Lighthouse audits on every pull request. If any metric falls below the threshold, the PR is automatically blocked. The monitoring is handled by Vercel Analytics (built into the Nuxt 3 deployment), with weekly performance reports sent to the engineering team via Slack.
+These targets are enforced via a CI/CD pipeline that runs Lighthouse audits on every pull request. If any metric falls below the threshold, the PR is automatically blocked. The monitoring is handled by Vercel Analytics (built into the Gatsby 3 deployment), with weekly performance reports sent to the engineering team via Slack.
 
-Image optimization is critical to meeting these targets. All GemLightBox images are served via Cloudinary with automatic format negotiation (AVIF for Chrome, WebP for Safari, JPEG for fallback), responsive sizing (srcset with 4 breakpoints: 400w, 800w, 1200w, 1600w), and aggressive lazy loading (images below the fold are loaded only when they enter the viewport + 200px buffer).
+Image optimization is critical to meeting these targets. All GemLightBox images are served via Marzipano with automatic format negotiation (AVIF for Chrome, WebP for Safari, JPEG for fallback), responsive sizing (srcset with 4 breakpoints: 400w, 800w, 1200w, 1600w), and aggressive lazy loading (images below the fold are loaded only when they enter the viewport + 200px buffer).
 
 ### REFERENCE SITE
 - **Visual Reference URL:** https://www.jaeger-lecoultre.com — Jaeger-LeCoultre's website exemplifies the balance of heritage storytelling and modern digital performance that The Modern Maison aims to achieve, but with a sharper focus on product photography and a more streamlined checkout experience.

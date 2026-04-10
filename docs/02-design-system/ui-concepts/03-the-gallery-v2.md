@@ -38,12 +38,22 @@ Image zone: 80vw width, centered, with 10vw margins on either side.
 Info zone: Placed below the image. Title (GT Sectra Fine, 64px), a narrative paragraph about the stone's cut, the specs (minimalist list), and the CTA.
 CTA button: "Acquire Masterwork". Size: 240px width, 64px height. Color: #2C2C2C background, #FDFBF7 text. Hover state: The button MUST shrink slightly (0.98x) rather than grow, signaling density and weight.
 
-**F) MOBILE**
+**F) CHECKOUT FLOW: THE PRIVATE ACQUISITION**
+The checkout process MUST feel like acquiring art at a gallery, not buying shoes online. It is a 3-step flow that emphasizes provenance and agreement over mere transaction.
+
+- **Step 1: The Acquisition Agreement (The Cart)**
+  Instead of a cart sliding out, clicking "Acquire Masterwork" transitions the page to a stark, full-screen document view. The left side shows a small, static thumbnail of the piece. The right side displays a formal "Acquisition Agreement" detailing the piece's specifications, the artist/cutter, and the total value. The user MUST type their full legal name into a signature field (GT Sectra Fine italic) to proceed.
+- **Step 2: Provenance & Transfer (Shipping)**
+  The shipping screen is titled "Transfer of Provenance." It asks for the "Registered Address" for the physical piece and the "Digital Wallet" for the blockchain certificate of authenticity. The form fields are minimalist: a single 1px bottom border (#2C2C2C), no background color.
+- **Step 3: Secure Remittance (Payment)**
+  The payment screen is titled "Secure Remittance." It supports wire transfer instructions (displaying Vault Maison's banking details) or a high-limit credit card input. The final button does not say "Pay." It says "Finalize Acquisition." Upon clicking, the screen fades to pure #FDFBF7 for 2 seconds before displaying a minimalist confirmation message: "Acquisition Confirmed. The Curator will contact you shortly regarding crating and secure transport."
+
+**G) MOBILE**
 Navigation pattern: A sticky bottom bar with text links (Exhibitions, Artists, Acquire), NO icons.
 Image display: Full-width, but with significant (32px) padding on all sides to maintain the "framed artwork" feel.
 Unique gesture: A long-press on any image MUST save it to a personal "Collection" (moodboard), triggering a subtle flash of the screen.
 
-**G) TECH STACK**
+**H) TECH STACK**
 - **Framework:** SvelteKit. Why: We need the absolute smallest bundle size to ensure the massive, high-res images load instantly without JS bloat.
 - **CMS:** Prismic. Why: Its "Slices" feature is perfect for building highly custom, editorial-style exhibition pages.
 - **E-comm:** Medusa. Why: We need complete control over the checkout flow to make it feel like a private gallery acquisition, not a Shopify cart.
@@ -51,19 +61,15 @@ Unique gesture: A long-press on any image MUST save it to a personal "Collection
 - **360° Viewer:** Photo Sphere Viewer.
 - **Hosting:** Cloudflare Pages + Cloudflare Images for on-the-fly resizing and WebP delivery.
 
-**H) CONVERSION THESIS**
+**I) CONVERSION THESIS**
 The psychological trigger is the Halo Effect. By presenting the jewelry in the exact visual language of fine art, the perceived value is anchored to the art market, not the jewelry market. When a buyer sees a 2.0ct round brilliant displayed on a virtual pedestal with gallery lighting, their mental reference point shifts from "how much does a diamond cost?" to "how much does a masterwork cost?" The expected conversion impact is a 25-40% higher average order value (AOV) compared to standard e-commerce presentations, as buyers are conditioned to expect premium pricing for "art."
 
 **Reference Site:** https://www.gagosian.com/exhibitions — Gagosian's online viewing rooms demonstrate how the gallery format transforms commercial objects into cultural artifacts. The Gallery applies this exact principle to melee diamonds.
 
-**Checkout Flow (3 Steps — "The Acquisition"):**
-1. **Exhibition Catalog** (A beautifully formatted summary page showing the selected piece, its exhibition context, the curator's note, and the price. This page is designed to be printable as a keepsake, reinforcing the art-world framing).
-2. **Collector Registration** (Name, email, shipping address, and an optional field for "Collection Notes" where the buyer can record why they acquired this piece. This data is stored and can be referenced in future correspondence, creating a personalized relationship).
-3. **Secure Acquisition** (Payment via Stripe. The confirmation page displays the piece one final time with the text: "This masterwork has been added to your collection." The buyer receives a digital Certificate of Acquisition via email).
 
-The checkout flow is deliberately gallery-like. There is no "cart." There is no "order number." There is a "Collection" and an "Acquisition." Every word reinforces the art-world positioning.
 
-**I) SCALABILITY**
+
+**J) SCALABILITY**
 - At 50 products: Works perfectly as a curated, seasonal exhibition.
 - At 500 products: Breaks. A gallery cannot display 500 masterworks simultaneously.
 - At 5000 products: Completely impossible. This concept relies on extreme curation.
@@ -76,19 +82,19 @@ The exhibition themes are deliberately non-commercial. Instead of organizing by 
 
 This curatorial approach transforms the act of browsing from a transactional search into an educational, emotionally engaging experience. The visitor does not feel like they are shopping; they feel like they are visiting a private exhibition at a museum, which is precisely the psychological positioning that justifies premium pricing.
 
-**J) LUXURY PROOF**
+**K) LUXURY PROOF**
 - Decision: Asymmetrical masonry layout → Why it prevents mid-market perception: It rejects the efficiency of a standard grid in favor of aesthetic composition.
 - Decision: GT Sectra Fine typography → Why it prevents mid-market perception: It is a highly specific, premium editorial typeface, not a standard web font.
 - Decision: "Acquire Masterwork" CTA → Why it prevents mid-market perception: It transforms the purchase to the level of art collecting.
 - Decision: 120px gaps between products → Why it prevents mid-market perception: Mass-market sites cram as many products into the viewport as possible; we use whitespace as a luxury signal.
 - Decision: Progressive SVG wireframe loading → Why it prevents mid-market perception: It turns the loading state into a design feature rather than a technical limitation.
 
-**K) IMPLEMENTATION**
+**L) IMPLEMENTATION**
 | Effort | Team Size | MVP Timeline | Full Build | Est. Cost |
 | :--- | :--- | :--- | :--- | :--- |
 | Mid-Build | 3 (1 UX, 1 FE, 1 BE) | 6 weeks | 10 weeks | $130,000 |
 
-**L) UNIQUENESS PROOF**
+**M) UNIQUENESS PROOF**
 1. **Color:** #FDFBF7 (Alabaster background).
 2. **Interaction:** "Pedestal Focus" (dimming the rest of the page to 20% opacity on hover).
 3. **Layout:** Asymmetrical masonry grid with 120px gaps.

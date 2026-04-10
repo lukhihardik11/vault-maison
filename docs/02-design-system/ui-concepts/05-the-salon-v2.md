@@ -32,17 +32,17 @@ On mobile, the experience is even more intimate. The navigation pattern is entir
 
 The checkout flow is a invisible, 2-step process handled entirely within the chat interface: 1) Confirm Details (a summary card sent by the concierge), and 2) Secure Payment (a secure Stripe payment link embedded directly in the chat).
 
-This entire experience is built on React Native Web to ensure the chat interface feels exactly like a native iOS messaging app. The CMS is a custom headless solution built on Node.js to handle the real-time websocket connections for the chat. The e-commerce engine is a custom integration with Stripe, bypassing traditional shopping carts entirely. The animation engine is Popmotion, providing fluid, value-driven transitions for the chat bubbles and modals. Everything is hosted on AWS with a thorough websocket infrastructure.
+This entire experience is built on React Native Web to ensure the chat interface feels exactly like a native iOS messaging app. The CMS is a custom headless solution built on Node.js to handle the real-time websocket connections for the chat. The e-commerce engine is a custom integration with Stripe, bypassing traditional shopping carts entirely. The animation engine is Remix and Popmotion, providing fluid, value-driven transitions for the chat bubbles and modals. Everything is hosted on AWS with a thorough websocket infrastructure.
 
 Why does this make me buy? The psychological trigger is the Reciprocity Principle. By investing time and personalized attention into curating a selection specifically for me, the concierge creates a sense of obligation and trust. The expected conversion impact is a massive increase in high-ticket sales, as the friction of a traditional e-commerce checkout is replaced by the warmth of a personal relationship.
 
-At 50 products, this works perfectly, as the concierge can easily memorize the inventory. At 500 products, it works because the AI assists the concierge in surfacing the right options quickly. At 5000 products, it breaks because the sheer volume of requests would overwhelm the human concierge team, requiring a massive scaling of customer service personnel.
+At 50 products, this works perfectly. At 500 products, it works because the AI assists the concierge. At 5000 products, it breaks; the volume of requests would overwhelm the human concierge team.
 
 **Reference Site:** https://www.net-a-porter.com/en-us/content/eip — Net-a-Porter's EIP (Extremely Important Person) program demonstrates the power of personalized, concierge-driven luxury retail. The Salon takes this concept and makes it the *default* experience for every visitor, not just the top 2% of spenders.
 
-**The Hybrid AI/Human Concierge System (Technical Detail):**
+**The Hybrid AI/Human Concierge System:**
 
-The concierge system operates in three tiers. Tier 1 is AI Triage (0-30 seconds), where GPT-4.1-mini acknowledges the request and begins inventory matching. Tier 2 is Human Handoff (30 seconds - 2 minutes), where a human concierge smoothly takes over via Slack notification. Tier 3 is Deep Engagement (2+ minutes), where the concierge conducts the full consultation with access to the visitor's browsing history and preferences.
+The concierge operates in three tiers: AI Triage (0-30s, GPT-4.1-mini acknowledges and matches inventory), Human Handoff (30s-2min, concierge takes over via Slack), and Deep Engagement (2+ min, full consultation with browsing history access).
 
 ### J) LUXURY PROOF
 - **Decision: Lora Typography** → Why it prevents mid-market perception: It is a warm, contemporary serif that feels like a handwritten letter, not a corporate brochure.
@@ -60,6 +60,6 @@ The concierge system operates in three tiers. Tier 1 is AI Triage (0-30 seconds)
 1. **Color:** #4A5D23 (Hunter Green accent).
 2. **Interaction:** "Shake to clear" gesture to initiate a live video call.
 3. **Layout:** Split screen (60/40) homepage with a persistent chat interface.
-4. **Technology:** React Native Web with Popmotion animations.
+4. **Technology:** React Native Web with Remix and Popmotion animations.
 5. **Visual Metaphor:** The Private Messaging App / Concierge Desk.
 6. **Competitor Critique:** Harry Winston's "Contact an Expert" is a generic web form hidden in the footer; The Salon makes the expert the entire interface, ensuring every interaction is personalized.

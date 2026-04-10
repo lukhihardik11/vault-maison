@@ -89,6 +89,10 @@ This data density is the entire point. The Observatory does not hide behind vagu
 | :--- | :--- | :--- | :--- | :--- |
 | Mid-Build | 5 (1 UX, 2 FE, 1 BE, 1 Data) | 8 weeks | 14 weeks | $160,000 |
 
+The MVP phase (weeks 1-8) delivers the homepage with the GSAP scroll animation, the 3-column PLP with the Spectral Index badges, the PDP with Magic360 viewer and measurement overlays, and the 4-step checkout flow. The full build (weeks 9-14) adds the Spectral Index calculation microservice, the comparison tool, the shared comparison URL system, and the Algolia-powered search integration. A dedicated data engineer is required for the Spectral Index system, as it involves building the Python microservice, the Redis caching layer, and the GemLightBox ASET data pipeline.
+
+**Performance Budget:** The Observatory must achieve a Lighthouse Performance score of 90+ on desktop and 80+ on mobile. The critical rendering path must complete in under 1.8 seconds on a 4G connection. The 360° viewer assets are loaded asynchronously after the initial page paint, with a skeleton loader (a pulsing #0D1B2A rectangle) displayed in the viewer container during loading.
+
 ### L) UNIQUENESS PROOF
 1. **Color:** #00E5FF (Cyan reticle/accent).
 2. **Interaction:** Two-finger pinch-to-zoom swapping to the 10x macro shot.

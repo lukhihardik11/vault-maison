@@ -24,7 +24,7 @@ Team, here is the direction for The Marketplace of Rarity. We are building an au
 You MUST implement the "Bid/Buy Pulse" mechanic. When a user hovers over a product card, the entire card MUST pulse with a subtle #FF3B30 (Crimson) glow, and a live countdown timer MUST appear, ticking down the milliseconds until the "Drop" closes. You WILL use the Velocity.js library to handle this specific pulsing animation, ensuring it feels urgent but not cheap. The GemLightBox 360° content is NOT visible on the PLP; it is reserved for the PDP to reward users who click through.
 
 **C) HOMEPAGE**
-The homepage MUST open with Section 1 (100vh): A stark #F2F2F2 (Off-White) background. Centered is a massive, bold countdown timer (e.g., "04:12:59:99") in the Space Grotesk typeface at 120px, colored #111111 (Jet Black). Below the timer, the title of the upcoming "Drop" (e.g., "The Argyle Parcel").
+The homepage MUST open with Section 1 (100vh): A stark #F2F2F2 (Off-White) background. Centered is a massive, bold countdown timer (e.g., "04:12:59:99") in the Space Grotesk typeface at 120px, colored #1A1A1A (Jet Black). Below the timer, the title of the upcoming "Drop" (e.g., "The Argyle Parcel").
 Section 2 (100vh): "Active Lots." A grid of currently available pieces. The background remains #F2F2F2.
 Section 3 (60vh): "Past Results." A list of recently sold pieces with their final acquisition prices, reinforcing the scarcity and value.
 
@@ -36,7 +36,7 @@ The layout MUST be a left-right split grid (60/40).
 Image zone: 60vw width, sticky on scroll. 
 360° viewer: You MUST use the Cloudinary 360 Spin library. Size: 100% container width/height. Autoplay: Yes (fast rotation, 2x speed). The background MUST be #F2F2F2, requiring the GemLightBox output to be perfectly masked.
 Info zone: Placed on the right (40vw). Lot Number (Space Grotesk, 24px), Title (Space Grotesk, 48px), Current Price, Countdown Timer, and the CTA.
-CTA button: "Place Bid / Acquire Now". Size: 100% width of the info zone, 64px height. Color: #FF3B30 background, #FFFFFF text. Hover state: The button MUST pulse rapidly, signaling urgency.
+CTA button: "Place Bid / Acquire Now". Size: 100% width of the info zone, 64px height. Color: #FF3B30 background, #F0F0F0 text. Hover state: The button MUST pulse rapidly, signaling urgency.
 
 **F) MOBILE**
 Navigation pattern: A sticky bottom bar with icons (Home, Active Lots, My Bids, Profile).
@@ -44,7 +44,7 @@ Image display: Full-width, with the countdown timer permanently sticky at the to
 Unique gesture: A "swipe up to bid" mechanic, similar to a physical paddle raise, requiring a deliberate, committed action.
 
 **G) TECH STACK**
-- **Framework:** Remix. Why: We need lightning-fast page loads and invisible data mutations for the live bidding environment.
+- **Framework:** Fresh (Deno). Why: We need lightning-fast page loads and invisible data mutations for the live bidding environment.
 - **CMS:** Supabase. Why: Its headless architecture and real-time capabilities are perfect for managing live auction data.
 - **E-comm:** Custom Node.js backend with Stripe Connect. Why: Traditional e-commerce platforms cannot handle the complex logic of live bidding and escrow payments.
 - **Animation:** Velocity.js. Why: Highly performant for the continuous pulsing and countdown animations.
@@ -110,6 +110,6 @@ This calendar-driven model creates a rhythm of anticipation and release that kee
 1. **Color:** #FF3B30 (Crimson accent).
 2. **Interaction:** "Bid/Buy Pulse" (card pulses with a red glow on hover).
 3. **Layout:** 4-column grid with 300x450px cards featuring live countdown timers.
-4. **Technology:** Remix with Supabase and Velocity.js.
+4. **Technology:** Fresh (Deno) with Supabase and Velocity.js.
 5. **Visual Metaphor:** The Auction House / The Drop.
 6. **Competitor Critique:** Sotheby's online auctions are clunky and slow, with page loads exceeding 4 seconds; The Marketplace of Rarity uses modern edge rendering on Fly.io to make the bidding process feel instantaneous and thrilling, with sub-100ms response times.

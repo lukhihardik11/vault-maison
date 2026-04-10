@@ -175,7 +175,7 @@ Every page transition in The Archive uses a custom horizontal "page turn" animat
 4. The animation duration is 800ms with a custom cubic-bezier easing (0.25, 0.1, 0.25, 1.0).
 5. A subtle shadow is cast by the curling page onto the incoming page, using a Gaussian blur with a 4px radius.
 
-This transition is triggered on every route change via SvelteKit's `beforeNavigate` hook (note: The Archive uses Gatsby, so this is implemented via Gatsby's `wrapPageElement` API with a custom transition component). The effect is subtle but unmistakable: the user feels like they are turning pages in a rare book, not clicking links on a website.
+This transition is triggered on every route change via SolidStart's `beforeNavigate` hook (note: The Archive uses Gatsby, so this is implemented via Gatsby's `wrapPageElement` API with a custom transition component). The effect is subtle but unmistakable: the user feels like they are turning pages in a rare book, not clicking links on a website.
 
 For users with `prefers-reduced-motion: reduce` set in their OS accessibility settings, the page turn animation is replaced with a simple 300ms crossfade.
 
