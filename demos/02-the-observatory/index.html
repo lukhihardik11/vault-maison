@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Vault Maison — The Observatory</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/observatory.css">
+</head>
+<body>
+<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON <span class="nav-sub">OBSERVATORY</span></a>
+<div class="nav-links"><a href="listing.html">Analysis Lab</a><a href="index.html">Dashboard</a></div></nav>
+<section class="hero">
+<div class="hero-data">
+<div class="data-readout"><span class="readout-label">MARKET INDEX</span><span class="readout-value" id="marketIdx">4,287.3</span></div>
+<div class="data-readout"><span class="readout-label">AVG $/CT</span><span class="readout-value" id="avgPrice">$12,450</span></div>
+<div class="data-readout"><span class="readout-label">STONES ANALYZED</span><span class="readout-value" id="stoneCount">12</span></div>
+<div class="data-readout"><span class="readout-label">CLARITY SCORE</span><span class="readout-value" id="clarityScore">97.4</span></div>
+</div>
+<div class="hero-main">
+<h1>THE OBSERVATORY</h1>
+<p class="hero-desc">Data-driven diamond intelligence. Every stone measured, analyzed, and indexed.</p>
+<a href="listing.html" class="cta-btn">Enter Analysis Lab →</a>
+</div>
+</section>
+<section class="spectral-preview">
+<h2>// SPECTRAL INDEX</h2>
+<div class="spectral-bars" id="spectralBars"></div>
+</section>
+<footer class="footer"><p>© 2026 Vault Maison Observatory. All data sourced from GIA reports.</p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="js/observatory.js"></script>
+</body></html>

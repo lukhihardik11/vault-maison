@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Detail — Vault Maison</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/vault.css">
+<style>
+.detail-page { padding: 120px 48px 80px; }
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.detail-image-wrap {
+  position: sticky;
+  top: 120px;
+  overflow: hidden;
+  background: var(--charcoal);
+  border: 1px solid rgba(212,175,55,0.15);
+}
+.detail-image-wrap img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.4s;
+}
+.image-toggle {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.image-toggle button {
+  flex: 1;
+  padding: 8px;
+  background: var(--charcoal);
+  border: 1px solid rgba(212,175,55,0.2);
+  color: var(--off-white);
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+.image-toggle button.active,
+.image-toggle button:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.detail-info {}
+.detail-lot {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  opacity: 0.6;
+}
+.detail-name {
+  font-family: 'Cinzel', serif;
+  font-size: 36px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-top: 8px;
+}
+.detail-desc {
+  font-size: 15px;
+  color: var(--mid-gray);
+  line-height: 1.8;
+  margin-top: 24px;
+}
+.detail-specs {
+  margin-top: 40px;
+  border-top: 1px solid rgba(212,175,55,0.15);
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(212,175,55,0.08);
+  font-size: 14px;
+}
+.spec-row .label { color: var(--mid-gray); letter-spacing: 1px; }
+.spec-row .value { font-family: 'Cinzel', serif; letter-spacing: 1px; }
+.detail-price {
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  color: var(--gold);
+  margin-top: 40px;
+}
+.detail-cta {
+  display: inline-block;
+  margin-top: 32px;
+  padding: 18px 56px;
+  background: var(--gold);
+  color: var(--black);
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+.detail-cta:hover { opacity: 0.85; }
+.detail-cert {
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--mid-gray);
+  letter-spacing: 1px;
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: 32px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+@media (max-width: 768px) {
+  .detail-page { padding: 100px 24px 48px; }
+  .detail-grid { grid-template-columns: 1fr; gap: 32px; }
+  .detail-image-wrap { position: static; }
+  .detail-image-wrap img { height: 350px; }
+  .detail-name { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand">VAULT MAISON</a>
+  <div class="nav-links">
+    <a href="listing.html">Collection</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="detail-page">
+  <a href="listing.html" class="back-link">← Back to Collection</a>
+  <div class="detail-grid">
+    <div class="detail-image-wrap">
+      <img id="mainImage" src="" alt="">
+      <div class="image-toggle">
+        <button class="active" id="btnImg1">View 1</button>
+        <button id="btnImg2">View 2</button>
+      </div>
+    </div>
+    <div class="detail-info" id="detailInfo"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>© 2026 Vault Maison. All rights reserved.</p>
+</footer>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const productId = params.get('id') || 'vm-001';
+
+fetch('../shared/data/products.json')
+  .then(r => r.json())
+  .then(products => {
+    const p = products.find(x => x.id === productId) || products[0];
+    document.title = p.name + ' — Vault Maison';
+    const img = document.getElementById('mainImage');
+    img.src = p.image;
+    img.alt = p.name;
+
+    document.getElementById('btnImg1').addEventListener('click', () => {
+      img.src = p.image;
+      document.getElementById('btnImg1').classList.add('active');
+      document.getElementById('btnImg2').classList.remove('active');
+    });
+    document.getElementById('btnImg2').addEventListener('click', () => {
+      img.src = p.imageAlt;
+      document.getElementById('btnImg2').classList.add('active');
+      document.getElementById('btnImg1').classList.remove('active');
+    });
+
+    document.getElementById('detailInfo').innerHTML = `
+      <div class="detail-lot">${p.lotNumber}</div>
+      <h1 class="detail-name">${p.name}</h1>
+      <p class="detail-desc">${p.description}</p>
+      <div class="detail-specs">
+        <div class="spec-row"><span class="label">Shape</span><span class="value">${p.shape}</span></div>
+        <div class="spec-row"><span class="label">Carat Weight</span><span class="value">${p.carat}ct</span></div>
+        <div class="spec-row"><span class="label">Color</span><span class="value">${p.color}</span></div>
+        <div class="spec-row"><span class="label">Clarity</span><span class="value">${p.clarity}</span></div>
+        <div class="spec-row"><span class="label">Cut</span><span class="value">${p.cut}</span></div>
+        <div class="spec-row"><span class="label">Origin</span><span class="value">${p.origin}</span></div>
+        <div class="spec-row"><span class="label">Certification</span><span class="value">${p.certified} — ${p.certNumber}</span></div>
+      </div>
+      <div class="detail-price">$${p.price.toLocaleString()}</div>
+      <button class="detail-cta" onclick="alert('Acquisition request submitted. A Vault Maison advisor will contact you within 24 hours.')">Request Acquisition</button>
+      <div class="detail-cert">Authenticated by ${p.certified}. Certificate available upon request.</div>
+    `;
+  });
+</script>
+</body>
+</html>

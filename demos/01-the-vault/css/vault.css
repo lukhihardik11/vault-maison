@@ -1,0 +1,291 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #D4AF37;
+  --black: #0A0A0A;
+  --charcoal: #1A1A1A;
+  --off-white: #F5F0E8;
+  --mid-gray: #888;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--black);
+  color: var(--off-white);
+  overflow-x: hidden;
+}
+
+/* VAULT OVERLAY */
+.vault-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.vault-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.vault-door {
+  text-align: center;
+}
+.vault-circle {
+  width: 240px;
+  height: 240px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  user-select: none;
+}
+.vault-circle:hover {
+  box-shadow: 0 0 40px rgba(212,175,55,0.3);
+}
+.vault-circle.pressing {
+  transform: scale(0.95);
+  box-shadow: 0 0 80px rgba(212,175,55,0.6);
+}
+.vault-dial {
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 50%;
+  position: absolute;
+  transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.vault-circle.pressing .vault-dial {
+  transform: rotate(720deg);
+}
+.vault-text {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-align: center;
+  line-height: 1.8;
+  z-index: 1;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.main-content.visible { opacity: 1; }
+
+/* NAV */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.9);
+  backdrop-filter: blur(10px);
+}
+.nav-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--off-white);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+.nav-links a:hover { opacity: 1; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0 48px;
+}
+.hero-inner { padding-right: 48px; }
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: 72px;
+  font-weight: 700;
+  letter-spacing: 12px;
+  color: var(--gold);
+  line-height: 1.1;
+}
+.hero-subtitle {
+  font-size: 18px;
+  color: var(--mid-gray);
+  margin-top: 24px;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+.hero-cta {
+  display: inline-block;
+  margin-top: 48px;
+  padding: 16px 48px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: background 0.4s, color 0.4s;
+}
+.hero-cta:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+.hero-image {
+  height: 70vh;
+  overflow: hidden;
+}
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+/* FEATURES */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  padding: 120px 48px;
+  border-top: 1px solid rgba(212,175,55,0.15);
+}
+.feature { padding: 32px 0; }
+.feature-number {
+  font-family: 'Cinzel', serif;
+  font-size: 36px;
+  color: var(--gold);
+  opacity: 0.4;
+}
+.feature h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  margin-top: 16px;
+  letter-spacing: 2px;
+}
+.feature p {
+  font-size: 14px;
+  color: var(--mid-gray);
+  margin-top: 12px;
+  line-height: 1.7;
+}
+
+/* FEATURED STONES */
+.featured-stones {
+  padding: 80px 48px;
+}
+.featured-stones h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-bottom: 48px;
+}
+.stones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.stone-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(212,175,55,0.1);
+  transition: border-color 0.4s;
+}
+.stone-card:hover {
+  border-color: var(--gold);
+}
+.stone-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  filter: brightness(0.7);
+  transition: filter 0.4s, transform 0.4s;
+}
+.stone-card:hover img {
+  filter: brightness(0.9);
+  transform: scale(1.03);
+}
+.stone-card-info {
+  padding: 20px;
+  background: var(--charcoal);
+}
+.stone-card-info h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+.stone-card-info .stone-meta {
+  font-size: 12px;
+  color: var(--mid-gray);
+  margin-top: 8px;
+}
+.stone-card-info .stone-price {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 16px;
+  margin-top: 8px;
+}
+.view-all {
+  display: inline-block;
+  margin-top: 48px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 2px;
+  transition: opacity 0.3s;
+}
+.view-all:hover { opacity: 0.7; }
+
+/* FOOTER */
+.footer {
+  padding: 48px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--mid-gray);
+  border-top: 1px solid rgba(212,175,55,0.1);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .nav { padding: 16px 24px; }
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 100px 24px 48px;
+  }
+  .hero-inner { padding-right: 0; }
+  .hero-title { font-size: 42px; letter-spacing: 6px; }
+  .hero-image { height: 50vh; margin-top: 32px; }
+  .features { grid-template-columns: 1fr; padding: 60px 24px; gap: 32px; }
+  .stones-grid { grid-template-columns: 1fr; }
+  .featured-stones { padding: 48px 24px; }
+  .vault-circle { width: 180px; height: 180px; }
+  .vault-dial { width: 150px; height: 150px; }
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Reserve — Vault Maison Theater</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theater.css">
+<style>
+.detail-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:10}
+.detail-img{position:fixed;inset:0;z-index:0}
+.detail-img img{width:100%;height:100%;object-fit:cover;filter:brightness(0.3)}
+.detail-overlay{position:relative;z-index:10;text-align:center;max-width:600px;padding:40px}
+.detail-overlay .lot{font-size:10px;letter-spacing:3px;color:var(--dim)}
+.detail-overlay h1{font-family:var(--heading);font-size:42px;color:var(--gold);margin-top:8px;font-weight:400}
+.detail-overlay .desc{font-size:14px;color:var(--dim);line-height:1.8;margin-top:20px}
+.detail-overlay .specs{font-size:12px;color:var(--dim);margin-top:16px;line-height:2;letter-spacing:1px}
+.detail-overlay .price{font-size:32px;color:var(--gold);margin-top:24px;font-family:var(--heading)}
+.reserve-btn{display:inline-block;margin-top:24px;padding:16px 48px;background:var(--gold);color:var(--aubergine);border:none;font-family:var(--heading);font-size:14px;letter-spacing:2px;cursor:pointer;transition:opacity 0.3s}
+.reserve-btn:hover{opacity:0.85}
+.reveal-btn{display:inline-block;margin-top:16px;font-size:12px;color:var(--gold);cursor:pointer;letter-spacing:2px;background:none;border:none;text-decoration:underline}
+.back{position:fixed;top:80px;left:40px;z-index:20;color:var(--gold);text-decoration:none;font-size:12px;letter-spacing:2px}
+.specs-panel{display:none;margin-top:16px;text-align:left;background:rgba(26,26,36,0.8);padding:20px;border:1px solid rgba(224,192,151,0.2)}
+.specs-panel.visible{display:block}
+.specs-panel table{width:100%;border-collapse:collapse}
+.specs-panel td{padding:8px 0;font-size:12px;border-bottom:1px solid rgba(224,192,151,0.1)}
+.specs-panel td:first-child{color:var(--dim)}
+.specs-panel td:last-child{color:var(--gold);text-align:right}
+</style></head><body>
+<div class="starfield" id="starfield"></div>
+<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON</a>
+<div class="nav-links"><a href="listing.html">Constellation</a><a href="index.html">Home</a></div></nav>
+<a href="listing.html" class="back">← Back</a>
+<div class="detail-img"><img id="bgImg" src="" alt=""></div>
+<div class="detail-wrap"><div class="detail-overlay" id="overlay"></div></div>
+<script>
+const sf=document.getElementById('starfield');
+for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';sf.appendChild(s)}
+const pid=new URLSearchParams(window.location.search).get('id')||'vm-001';
+fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
+const p=products.find(x=>x.id===pid)||products[0];
+document.getElementById('bgImg').src=p.image;
+document.getElementById('overlay').innerHTML=`
+<div class="lot">${p.lotNumber}</div>
+<h1>${p.name}</h1>
+<p class="desc">${p.description}</p>
+<button class="reveal-btn" onclick="document.getElementById('specsPanel').classList.toggle('visible')">Reveal Details</button>
+<div class="specs-panel" id="specsPanel"><table>
+<tr><td>Shape</td><td>${p.shape}</td></tr><tr><td>Carat</td><td>${p.carat}ct</td></tr><tr><td>Color</td><td>${p.color}</td></tr><tr><td>Clarity</td><td>${p.clarity}</td></tr><tr><td>Cut</td><td>${p.cut}</td></tr><tr><td>Origin</td><td>${p.origin}</td></tr><tr><td>Cert</td><td>${p.certNumber}</td></tr></table></div>
+<div class="price">$${p.price.toLocaleString()}</div>
+<button class="reserve-btn" onclick="alert('Reservation confirmed. The curtain call awaits.')">Reserve This Piece</button>`;
+})
+</script></body></html>
