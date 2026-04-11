@@ -1,25 +1,114 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Vault Maison — The Atelier</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/atelier.css">
-</head><body>
-<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON</a>
-<div class="nav-links"><a href="listing.html">The Workbench</a><a href="index.html">Home</a></div></nav>
-<section class="hero">
-<div class="hero-left"><img src="../shared/images/diamond-collection-1.jpg" alt="Atelier workspace"></div>
-<div class="hero-right">
-<h1>Begin Your Commission</h1>
-<p>Every piece in the Atelier begins with a conversation between stone and vision. Select your materials, define your design, and watch as master craftsmen bring your creation to life.</p>
-<a href="listing.html" class="cta">Explore the Workbench →</a>
-</div>
-</section>
-<section class="process">
-<div class="step"><span class="step-num">01</span><h3>Select</h3><p>Choose your stones from our curated inventory of certified diamonds.</p></div>
-<div class="step"><span class="step-num">02</span><h3>Design</h3><p>Work with our artisans to configure setting, metal, and arrangement.</p></div>
-<div class="step"><span class="step-num">03</span><h3>Craft</h3><p>Track your commission from workbench to completion with live updates.</p></div>
-</section>
-<footer class="footer"><p>© 2026 Vault Maison Atelier</p></footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script>gsap.from('.hero-right h1',{opacity:0,y:30,duration:1,delay:0.3});gsap.from('.hero-right p',{opacity:0,y:20,duration:1,delay:0.5});gsap.from('.step',{opacity:0,y:30,stagger:0.2,duration:0.8,delay:0.8})</script>
-</body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Atelier — Vault Maison</title>
+  <link rel="stylesheet" href="../shared/css/luxury-foundation.css">
+  <link rel="stylesheet" href="css/atelier.css">
+</head>
+<body>
+  <div class="scroll-progress"></div>
+  <nav class="luxury-nav">
+    <a href="index.html" class="nav-logo">The Atelier</a>
+    <div class="nav-links">
+      <a href="listing.html">Commissions</a>
+      <a href="#">Process</a>
+      <a href="#">Artisans</a>
+      <a href="#">Appointment</a>
+    </div>
+  </nav>
+
+  <section class="atelier-hero">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-overline reveal">Bespoke Atelier</div>
+        <h1 class="hero-title">Crafted by Hand,<br>Guided by You</h1>
+        <p class="hero-desc reveal">Every commission begins with a conversation. Our master artisans translate your vision into a one-of-a-kind creation, shaped by centuries of craft and your singular taste.</p>
+        <a href="listing.html" class="hero-cta reveal">Begin Your Commission</a>
+      </div>
+      <div class="hero-image-wrap">
+        <img class="hero-image luxury-image" data-src="../shared/images/diamond-facets-1.jpg" alt="Artisan at work">
+        <div class="hero-annotation">Hand-finished, 47 hours</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="process-inner">
+      <div class="process-header">
+        <div class="hero-overline">The Process</div>
+        <h2 class="process-title">Four Stages of Creation</h2>
+      </div>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-number">01</div>
+          <div class="step-name">Consultation</div>
+          <div class="step-desc">A private dialogue to understand your vision, preferences, and the occasion that inspires this creation.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-number">02</div>
+          <div class="step-name">Design</div>
+          <div class="step-desc">Hand-drawn sketches and 3D renderings bring your concept to life before a single tool touches metal.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-number">03</div>
+          <div class="step-name">Crafting</div>
+          <div class="step-desc">Our master artisans shape, set, and polish your piece over 40 to 120 hours of focused handwork.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-number">04</div>
+          <div class="step-name">Unveiling</div>
+          <div class="step-desc">A private presentation of your finished creation, accompanied by its certificate of authenticity and provenance dossier.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="config-section">
+    <div class="config-inner">
+      <div class="config-preview">
+        <img src="../shared/images/diamond-dark-bg-1.jpg" alt="Configuration preview">
+      </div>
+      <div class="config-panel">
+        <h2 class="config-title">Configure Your Stone</h2>
+        <div class="config-option active">
+          <div class="config-label">Shape</div>
+          <div class="config-value">Round Brilliant — Maximum fire and scintillation</div>
+        </div>
+        <div class="config-option">
+          <div class="config-label">Carat Weight</div>
+          <div class="config-value">2.00 — 2.50 ct — Statement presence</div>
+        </div>
+        <div class="config-option">
+          <div class="config-label">Color Grade</div>
+          <div class="config-value">D — E — Colorless perfection</div>
+        </div>
+        <div class="config-option">
+          <div class="config-label">Setting Style</div>
+          <div class="config-value">Platinum Solitaire — Timeless architecture</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="process-inner">
+      <div class="process-header">
+        <div class="hero-overline">Featured Stones</div>
+        <h2 class="process-title">Available for Commission</h2>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <footer class="atl-footer">
+    <p class="footer-text">The Atelier &mdash; Vault Maison &mdash; By Appointment Only</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="../shared/js/luxury-animations.js"></script>
+  <script src="js/atelier.js"></script>
+</body>
+</html>
