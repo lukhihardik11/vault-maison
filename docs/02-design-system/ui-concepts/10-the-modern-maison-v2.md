@@ -46,7 +46,7 @@ This is the flagship concept. It is not the most experimental, nor the most mini
   - Text: 2 lines. Line 1: Collection Name (Maison Serif, 14px, #1C1C1C). Line 2: Carat Weight and Cut (Maison Serif, 12px, #777777).
   - Price: Visible, but styled subtly in a lighter grey (#777777) at 14px. The price is not the focal point; the image is.
 - **Sort/Filter:** A clean, horizontal bar (56px height) positioned below the header. It contains text links: "All," "Round Brilliant," "Emerald Cut," "Oval," "Fancy." Clicking "Filter" expands a mega-menu overlay (100vw, 400px height) with visual icons for each cut shape, color grade, and carat range. The mega-menu uses a 4-column layout with clear section headers.
-- **Image Loading:** Progressive JPEG loading. Images load as a low-res, pixelated version (a 20px-wide thumbnail scaled up) and snap to the high-res version instantly when fully downloaded. This avoids the "blur-up" effect (used by Gatsby and many Shopify themes) which can feel cheap and uncertain. The snap-to-sharp transition reinforces the "precision" brand code.
+- **Image Loading:** Progressive JPEG loading. Images load as a low-res, pixelated version (a 20px-wide thumbnail scaled up) and snap to the high-res version instantly when fully downloaded. This avoids the "blur-up" effect (used by many Shopify themes) which can feel cheap and uncertain. The snap-to-sharp transition reinforces the "precision" brand code.
 
 **Why this is superior to what heritage brands do today:** Van Cleef & Arpels uses a 4-column grid with tiny images and prominent prices, making their $50,000 pieces look like items in a catalog. The Modern Maison uses a 3-column grid with larger images and subdued prices, ensuring every piece commands attention and the price is secondary to the visual impact.
 
@@ -86,7 +86,7 @@ This 3-step flow provides the speed tech-savvy buyers expect, while maintaining 
 **Why this is superior to what heritage brands do today:** Chopard's mobile site is a responsive desktop site crammed into a small screen. The navigation is a hamburger menu that opens a full-screen overlay, hiding the product. The Modern Maison's bottom tab bar keeps the product visible at all times and provides instant access to the concierge, the most valuable conversion tool.
 
 ### H) TECH STACK
-- **Framework:** Vue.js (Gatsby 3). Why: Provides the perfect balance of performance (server-side rendering for SEO and initial load speed) and developer experience (the Composition API is ideal for building complex, interactive components like the split-screen compare and the jeweler's loupe). Gatsby 3's hybrid rendering allows static generation for collection pages and server-side rendering for dynamic product pages.
+- **Framework:** SolidStart. Why: Fine-grained reactivity without virtual DOM overhead provides the perfect balance of heritage gravitas and high performance. Streaming SSR delivers sub-second TTFB while maintaining rich interactivity for the split-screen compare and the jeweler's loupe. SolidStart's hybrid rendering allows static generation for collection pages and server-side rendering for dynamic product pages.
 - **CMS:** Builder.io. Why: Its visual editor allows the marketing team to build rich, editorial pages (e.g., "The Vault Standard" section, collection landing pages) without developer intervention. This is crucial for a heritage brand that needs to update its editorial content frequently.
 - **E-comm:** Commerce Layer. Why: A highly flexible, API-first commerce engine that easily handles complex pricing rules (tiered pricing for parcels, bespoke pricing for commissions), multi-currency requirements for a global luxury audience, and thorough inventory management for unique, one-of-a-kind pieces.
 - **Animation:** React Spring (adapted for Vue via vue-use-spring). Why: Physics-based animations ensure the UI feels weighty and substantial, not floaty or cheap. The spring model is particularly important for the "Split-Screen Heritage" compare, where the animation must feel mechanical and precise.
@@ -107,7 +107,7 @@ This 3-step flow provides the speed tech-savvy buyers expect, while maintaining 
 - **Decision: Custom Maison Serif Typography** → Why it prevents mid-market perception: Owning a proprietary typeface is the ultimate flex of a heritage brand. It ensures the site looks like no one else. Google Fonts are free and ubiquitous; a custom typeface signals investment and exclusivity.
 - **Decision: "Split-Screen Heritage" Compare** → Why it prevents mid-market perception: It proves the brand has a history and a point of view, elevating the product above a mere commodity. Mass-market retailers have no heritage to compare against.
 - **Decision: #8B7355 (Antique Bronze) Accent Color** → Why it prevents mid-market perception: It is a sophisticated, muted metallic tone that feels expensive and warm, unlike bright, web-safe golds (#FFD700) which look cheap on screen.
-- **Decision: Progressive JPEG Loading (Snap-to-Sharp)** → Why it prevents mid-market perception: It avoids the "blurry" loading state common on Shopify sites (gatsby-image blur-up), ensuring the first impression of the diamond is always sharp, even if low-res. Precision in loading = precision in product.
+- **Decision: Progressive JPEG Loading (Snap-to-Sharp)** → Why it prevents mid-market perception: It avoids the "blurry" loading state common on Shopify sites, ensuring the first impression of the diamond is always sharp, even if low-res. Precision in loading = precision in product.
 - **Decision: 1-Click Apple Pay via Long-Press** → Why it prevents mid-market perception: It caters to the HNWI desire for absolute convenience and speed once the decision to buy is made. It signals that the brand understands its buyer is busy, decisive, and accustomed to effortless transactions.
 
 ### L) IMPLEMENTATION
@@ -121,13 +121,13 @@ The MVP would include the homepage, PLP, PDP with the 360° viewer and jeweler's
 1. **Color:** #8B7355 (Antique Bronze accent). No other concept uses this warm, muted metallic tone.
 2. **Interaction:** "Split-Screen Heritage" compare (splitting the image zone 50/50 to juxtapose modern GemLightBox imagery with archival photographs). No other concept compares present and past visually.
 3. **Layout:** 3-column grid with 360x540px cards and a visual mega-menu filter using cut-shape icons. No other concept uses visual icons in the filter UI.
-4. **Technology:** Vue.js (Gatsby 3) with Commerce Layer and Builder.io. No other concept uses this specific stack.
+4. **Technology:** SolidStart with Commerce Layer and Builder.io. No other concept uses this specific stack.
 5. **Visual Metaphor:** The Modern Flagship Boutique. Not a vault, not a gallery, not a theater—a boutique that feels like walking into a Cartier store rebuilt with 2026 technology.
 6. **Competitor Critique:** Cartier's website (cartier.com) is bogged down by legacy code, heavy campaign imagery, and slow load times (Lighthouse performance score: ~35). The Modern Maison delivers the same heritage feel but with sub-second, digital-native performance (target Lighthouse score: 90+), proving that prestige and performance are not mutually exclusive.
 
 ### M) SEO & CONTENT STRATEGY
 
-The Modern Maison is the only concept in this document that explicitly prioritizes SEO as a growth channel. Because the site is built on Gatsby 3 with server-side rendering, every page is fully indexable by Google. The SEO strategy is built on three pillars:
+The Modern Maison is the only concept in this document that explicitly prioritizes SEO as a growth channel. Because the site is built on SolidStart with streaming SSR, every page is fully indexable by Google. The SEO strategy is built on three pillars:
 
 1. **Collection Landing Pages:** Each collection (e.g., "The Argyle Collection") has a dedicated landing page with 800-1200 words of editorial content, written by a professional copywriter, covering the collection's inspiration, the sourcing story, and the technical specifications of the stones. These pages target long-tail keywords like "natural Argyle pink diamond melee" and "ethically sourced emerald cut parcels."
 
@@ -151,7 +151,7 @@ This system transforms the concierge from a reactive support channel into a proa
 
 ### O) INTERNATIONALIZATION & MULTI-CURRENCY
 
-The Modern Maison is the only concept designed from the ground up for international expansion. The Gatsby 3 framework supports i18n (internationalization) natively via the `@nuxtjs/i18n` module. The initial launch supports 4 languages: English (default), Simplified Chinese, Arabic, and French. Each language has its own URL prefix (e.g., `/zh/collections/`, `/ar/collections/`).
+The Modern Maison is the only concept designed from the ground up for international expansion. SolidStart supports i18n (internationalization) natively through its routing system and the `solid-i18n` library. The initial launch supports 4 languages: English (default), Simplified Chinese, Arabic, and French. Each language has its own URL prefix (e.g., `/zh/collections/`, `/ar/collections/`).
 
 The currency system is equally sophisticated. Prices are stored in USD in the Commerce Layer backend, but displayed in the user's local currency using real-time exchange rates from the Open Exchange Rates API (updated every 15 minutes). The currency selector is a discreet dropdown in the header, styled to match the Freight Text Pro typography. For Arabic and Chinese markets, the number formatting follows local conventions (e.g., Arabic-Indic numerals for Arabic, wan/yi grouping for Chinese).
 
@@ -170,7 +170,7 @@ The performance targets are:
 - **Total Page Weight:** < 800KB (initial load, excluding images)
 - **Time to Interactive (TTI):** < 2.0s
 
-These targets are enforced via a CI/CD pipeline that runs Lighthouse audits on every pull request. If any metric falls below the threshold, the PR is automatically blocked. The monitoring is handled by Vercel Analytics (built into the Gatsby 3 deployment), with weekly performance reports sent to the engineering team via Slack.
+These targets are enforced via a CI/CD pipeline that runs Lighthouse audits on every pull request. If any metric falls below the threshold, the PR is automatically blocked. The monitoring is handled by Vercel Analytics (built into the SolidStart deployment), with weekly performance reports sent to the engineering team via Slack.
 
 Image optimization is critical to meeting these targets. All GemLightBox images are served via Marzipano with automatic format negotiation (AVIF for Chrome, WebP for Safari, JPEG for fallback), responsive sizing (srcset with 4 breakpoints: 400w, 800w, 1200w, 1600w), and aggressive lazy loading (images below the fold are loaded only when they enter the viewport + 200px buffer).
 
