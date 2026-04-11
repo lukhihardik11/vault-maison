@@ -3,262 +3,247 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vault Maison — 10 UI Concept Demos</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Vault Maison — 10 UI Concept Directions</title>
+<link rel="stylesheet" href="shared/css/luxury-foundation.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  --bg: #0A0A0A;
-  --card-bg: #141414;
-  --text: #E8E4DF;
-  --dim: #6A6A6A;
-  --gold: #D4AF37;
-  --heading: 'DM Serif Display', serif;
-  --body: 'DM Sans', sans-serif;
+  --gal-bg: #0C0C0C;
+  --gal-surface: #141414;
+  --gal-white: #F5F3F0;
+  --gal-muted: rgba(245,243,240,0.35);
+  --gal-dim: rgba(245,243,240,0.15);
+  --gal-border: rgba(245,243,240,0.06);
+  --gal-accent: #8B7355;
+  --gal-gold: #D4AF37;
 }
-body { font-family: var(--body); background: var(--bg); color: var(--text); overflow-x: hidden; }
-.header {
-  text-align: center;
-  padding: 80px 40px 60px;
-  border-bottom: 1px solid rgba(212,175,55,0.1);
+body { background: var(--gal-bg); color: var(--gal-white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; margin: 0; }
+
+/* NOISE OVERLAY */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-repeat: repeat; background-size: 256px;
 }
-.header h1 {
-  font-family: var(--heading);
-  font-size: 48px;
-  color: var(--gold);
-  letter-spacing: 2px;
-}
-.header p {
-  font-size: 16px;
-  color: var(--dim);
-  margin-top: 16px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.7;
-}
-.header .stats {
-  display: flex;
-  justify-content: center;
-  gap: 48px;
-  margin-top: 32px;
-}
-.stat { text-align: center; }
-.stat .num { font-family: var(--heading); font-size: 32px; color: var(--gold); }
-.stat .label { font-size: 11px; letter-spacing: 2px; color: var(--dim); margin-top: 4px; }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  padding: 60px 48px 80px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.concept-card {
-  background: var(--card-bg);
-  border: 1px solid rgba(212,175,55,0.08);
-  padding: 32px;
-  transition: border-color 0.3s, transform 0.3s;
-  text-decoration: none;
-  color: var(--text);
-  display: block;
+
+/* HERO */
+.gallery-hero {
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 120px 40px 80px;
   position: relative;
-  overflow: hidden;
 }
-.concept-card:hover {
-  border-color: rgba(212,175,55,0.4);
-  transform: translateY(-4px);
+.gallery-hero::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 80px; background: linear-gradient(to bottom, transparent, var(--gal-accent));
 }
-.concept-card .num {
-  font-family: var(--heading);
-  font-size: 48px;
-  color: var(--gold);
-  opacity: 0.15;
-  position: absolute;
-  top: 16px;
-  right: 24px;
+.hero-overline {
+  font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gal-accent); margin-bottom: 40px; opacity: 0;
 }
-.concept-card h2 {
-  font-family: var(--heading);
-  font-size: 24px;
-  color: var(--gold);
-  margin-bottom: 8px;
+.hero-title {
+  font-family: 'DM Serif Display', serif; font-size: clamp(42px, 6vw, 80px);
+  line-height: 1.08; font-weight: 400; margin-bottom: 32px; opacity: 0;
 }
-.concept-card .dna {
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: var(--dim);
-  margin-bottom: 12px;
+.hero-subtitle {
+  font-size: 17px; font-weight: 200; line-height: 1.7; color: var(--gal-muted);
+  max-width: 48ch; margin: 0 auto 48px; opacity: 0;
 }
-.concept-card .desc {
-  font-size: 14px;
-  color: var(--dim);
-  line-height: 1.7;
-  margin-bottom: 16px;
+.hero-stats {
+  display: flex; gap: 64px; opacity: 0;
 }
-.concept-card .tech-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
+.hero-stat { text-align: center; }
+.hero-stat-num {
+  font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--gal-accent);
+  display: block;
 }
-.tech-tag {
-  font-size: 10px;
-  letter-spacing: 1px;
-  padding: 4px 10px;
-  border: 1px solid rgba(212,175,55,0.2);
-  color: var(--gold);
+.hero-stat-label {
+  font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gal-muted); margin-top: 6px; display: block;
 }
-.concept-card .color-strip {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 16px;
+
+/* SECTION DIVIDER */
+.section-divider {
+  text-align: center; padding: 80px 40px 48px;
 }
-.color-swatch {
-  width: 24px;
-  height: 24px;
-  border: 1px solid rgba(255,255,255,0.1);
+.divider-line {
+  width: 48px; height: 1px; background: var(--gal-accent); margin: 0 auto 24px;
 }
-.enter-link {
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: var(--gold);
-  text-transform: uppercase;
+.divider-text {
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gal-muted);
 }
-.footer {
-  text-align: center;
-  padding: 48px;
-  font-size: 11px;
-  color: var(--dim);
-  border-top: 1px solid rgba(212,175,55,0.1);
+
+/* CONCEPTS GRID */
+.concepts-section { padding: 0 48px 120px; }
+.concepts-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
 }
+
+/* CONCEPT CARD */
+.concept-card {
+  background: var(--gal-surface); border: 1px solid var(--gal-border);
+  padding: 40px 36px 36px; text-decoration: none; color: inherit; display: block;
+  position: relative; overflow: hidden;
+  transition: border-color 800ms cubic-bezier(0.16,1,0.3,1), transform 800ms cubic-bezier(0.16,1,0.3,1);
+}
+.concept-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--card-accent, var(--gal-accent)), transparent);
+  opacity: 0; transition: opacity 600ms;
+}
+.concept-card:hover { border-color: rgba(139,115,85,0.3); transform: translateY(-3px); }
+.concept-card:hover::before { opacity: 1; }
+
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.card-number { font-size: 10px; letter-spacing: 0.2em; color: var(--gal-dim); }
+.card-color {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+}
+.card-name {
+  font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400;
+  margin-bottom: 4px; line-height: 1.3;
+}
+.card-dna {
+  font-size: 11px; letter-spacing: 0.08em; color: var(--gal-muted);
+  margin-bottom: 16px; font-style: italic;
+}
+.card-desc {
+  font-size: 14px; line-height: 1.7; color: var(--gal-muted); margin-bottom: 20px;
+}
+.card-tech {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px;
+}
+.tech-pill {
+  font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 4px 10px; border: 1px solid var(--gal-border); color: var(--gal-dim);
+  transition: border-color 400ms, color 400ms;
+}
+.concept-card:hover .tech-pill { border-color: rgba(139,115,85,0.2); color: var(--gal-muted); }
+.card-colors { display: flex; gap: 4px; margin-bottom: 20px; }
+.card-swatch {
+  width: 20px; height: 20px; border: 1px solid rgba(255,255,255,0.06);
+}
+.card-enter {
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gal-accent); display: inline-block;
+  opacity: 0; transform: translateX(-8px);
+  transition: opacity 600ms, transform 600ms;
+}
+.concept-card:hover .card-enter { opacity: 1; transform: translateX(0); }
+
+/* FOOTER */
+.gallery-footer {
+  padding: 48px; border-top: 1px solid var(--gal-border); text-align: center;
+}
+.footer-text {
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gal-dim);
+}
+
 @media (max-width: 768px) {
-  .grid { grid-template-columns: 1fr; padding: 32px 24px; }
-  .header h1 { font-size: 32px; }
-  .header .stats { gap: 24px; }
+  .concepts-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; justify-content: center; }
+  .concepts-section { padding: 0 24px 80px; }
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>VAULT MAISON</h1>
-  <p>10 radically different UI concept directions for an ultra-luxury diamond e-commerce platform. Each demo is fully interactive with 3 pages.</p>
-  <div class="stats">
-    <div class="stat"><div class="num">10</div><div class="label">CONCEPTS</div></div>
-    <div class="stat"><div class="num">30</div><div class="label">PAGES</div></div>
-    <div class="stat"><div class="num">12</div><div class="label">PRODUCTS</div></div>
-    <div class="stat"><div class="num">44</div><div class="label">FILES</div></div>
+<section class="gallery-hero">
+  <div class="hero-overline">Vault Maison &mdash; Design Exploration</div>
+  <h1 class="hero-title">Ten Worlds.<br>One Maison.</h1>
+  <p class="hero-subtitle">Each concept direction represents a fundamentally different philosophy for presenting extraordinary diamonds in the digital realm. Explore all ten.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-num">10</span><span class="hero-stat-label">Concepts</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">30</span><span class="hero-stat-label">Pages</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">12</span><span class="hero-stat-label">Diamonds</span></div>
   </div>
+</section>
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <div class="divider-text">Select a Concept Direction</div>
 </div>
 
-<div class="grid">
+<section class="concepts-section">
+  <div class="concepts-grid" id="conceptsGrid"></div>
+</section>
 
-  <a href="01-the-vault/index.html" class="concept-card">
-    <span class="num">01</span>
-    <h2>The Vault</h2>
-    <div class="dna">Gated · Monolithic · Intimate</div>
-    <div class="desc">Press-and-hold to reveal hidden drawers. A biometric-inspired interaction pattern that treats every product as a secret worth protecting.</div>
-    <div class="tech-stack"><span class="tech-tag">Next.js</span><span class="tech-tag">Framer Motion</span><span class="tech-tag">Cinzel</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#D4AF37"></div><div class="color-swatch" style="background:#1A1A1A"></div><div class="color-swatch" style="background:#2A2A2A"></div></div>
-    <span class="enter-link">Enter Demo →</span>
+<footer class="gallery-footer">
+  <p class="footer-text">Vault Maison &copy; 2026 &middot; UI Concept Directions &middot; Stakeholder Review</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+const concepts = [
+  { num:'01', name:'The Vault', dna:'Gated · Monolithic · Intimate', color:'#D4AF37', colors:['#D4AF37','#1A1A1A','#2A2A2A'],
+    desc:'Press-and-hold to reveal hidden drawers. A biometric-inspired interaction pattern that treats every product as a secret worth protecting.',
+    tags:['Next.js','Framer Motion','Cinzel'], dir:'01-the-vault' },
+  { num:'02', name:'The Observatory', dna:'Analytical · Transparent · Authoritative', color:'#0D1B2A', colors:['#0D1B2A','#00D4FF','#00FF88'],
+    desc:'Data-rich dashboard with spectral analysis overlays, animated readouts, and scientific precision. Diamond intelligence as interface.',
+    tags:['Nuxt.js','GSAP','IBM Plex Mono'], dir:'02-the-observatory' },
+  { num:'03', name:'The Gallery', dna:'Editorial · Curated · Spacious', color:'#B8956A', colors:['#FDFBF7','#2A2A2A','#B8956A'],
+    desc:'Museum-like exhibitions where diamonds are presented as works of art. Masonry layout with slow-zoom hover reveals and generous white space.',
+    tags:['SvelteKit','Anime.js','Libre Baskerville'], dir:'03-the-gallery' },
+  { num:'04', name:'The Atelier', dna:'Bespoke · Tactile · Process-driven', color:'#8C3A3A', colors:['#F4F1EA','#8C3A3A','#FFFAF0'],
+    desc:'Co-creation workbench with slide-out configuration panels, step-by-step commission flow, and artisan process storytelling.',
+    tags:['Astro','Three.js','Cormorant Garamond'], dir:'04-the-atelier' },
+  { num:'05', name:'The Salon', dna:'Intimate · Conversational · Warm', color:'#4A5D23', colors:['#FDF5E6','#4A5D23','#E8DCC4'],
+    desc:'Concierge-IS-the-interface. Chat-first design with AI advisor, recommendation bubbles, and bottom-sheet product modals.',
+    tags:['Remix','Popmotion','Lora'], dir:'05-the-salon' },
+  { num:'06', name:'The Archive', dna:'Historical · Provenance-obsessed · Deep', color:'#D4A574', colors:['#2C1A1D','#D4A574','#4682B4'],
+    desc:'Timeline navigation with origin mapping, provenance scrub bar, and dossier-style detail pages. Every stone\'s journey told.',
+    tags:['Gatsby','D3.js','Playfair Display'], dir:'06-the-archive' },
+  { num:'07', name:'The Minimal Machine', dna:'Brutalist · Restrained · Product-first', color:'#050505', colors:['#FFFFFF','#050505'],
+    desc:'Zero chrome. Scroll-snap full-screen product reveals. The product IS the interface. Nothing between you and the stone.',
+    tags:['Vanilla JS','CSS Snap','Helvetica Neue'], dir:'07-the-minimal-machine' },
+  { num:'08', name:'The Immersive Theater', dna:'Cinematic · Emotional · Enveloping', color:'#E0C097', colors:['#1A1A24','#E0C097','#F5F0EB'],
+    desc:'Letter-by-letter title reveal, starfield background, full-bleed imagery, and theatrical product presentations with ambient atmosphere.',
+    tags:['Qwik','React Three Fiber','Bodoni Moda'], dir:'08-the-immersive-theater' },
+  { num:'09', name:'The Marketplace of Rarity', dna:'Urgent · Scarce · Event-driven', color:'#FF3B30', colors:['#1A1A1A','#FF3B30','#F2F2F2'],
+    desc:'Auction/drop mechanics with live countdown timers, lot numbers, bid history, and status badges. Scarcity as conversion engine.',
+    tags:['Fresh (Deno)','Supabase RT','Space Grotesk'], dir:'09-the-marketplace-of-rarity' },
+  { num:'10', name:'The Modern Maison', dna:'Balanced · Performant · Timeless', color:'#8B7355', colors:['#FAF7F2','#8B7355','#1C1C1C'],
+    desc:'Heritage prestige meets digital-native performance. Split-screen hero, pillar storytelling, horizontal scroll strip, and shape filtering.',
+    tags:['SolidStart','React Spring','DM Serif Display'], dir:'10-the-modern-maison' }
+];
+
+const grid = document.getElementById('conceptsGrid');
+grid.innerHTML = concepts.map(c => `
+  <a href="${c.dir}/index.html" class="concept-card" style="--card-accent:${c.color}">
+    <div class="card-header">
+      <span class="card-number">${c.num}</span>
+      <div class="card-color" style="background:${c.color}"></div>
+    </div>
+    <h2 class="card-name">${c.name}</h2>
+    <div class="card-dna">${c.dna}</div>
+    <p class="card-desc">${c.desc}</p>
+    <div class="card-tech">${c.tags.map(t=>`<span class="tech-pill">${t}</span>`).join('')}</div>
+    <div class="card-colors">${c.colors.map(cl=>`<div class="card-swatch" style="background:${cl}"></div>`).join('')}</div>
+    <span class="card-enter">Explore Concept &rarr;</span>
   </a>
+`).join('');
 
-  <a href="02-the-observatory/index.html" class="concept-card">
-    <span class="num">02</span>
-    <h2>The Observatory</h2>
-    <div class="dna">Analytical · Transparent · Authoritative</div>
-    <div class="desc">Data-rich dashboard with spectral analysis overlays, animated readouts, and scientific precision. Diamond intelligence as interface.</div>
-    <div class="tech-stack"><span class="tech-tag">Nuxt.js</span><span class="tech-tag">GSAP</span><span class="tech-tag">IBM Plex Mono</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#0D1B2A"></div><div class="color-swatch" style="background:#00D4FF"></div><div class="color-swatch" style="background:#00FF88"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
+gsap.registerPlugin(ScrollTrigger);
 
-  <a href="03-the-gallery/index.html" class="concept-card">
-    <span class="num">03</span>
-    <h2>The Gallery</h2>
-    <div class="dna">Editorial · Curated · Spacious</div>
-    <div class="desc">Museum-like exhibitions where diamonds are presented as works of art. Masonry layout with slow-zoom hover reveals and generous white space.</div>
-    <div class="tech-stack"><span class="tech-tag">SvelteKit</span><span class="tech-tag">Anime.js</span><span class="tech-tag">Libre Baskerville</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#FDFBF7"></div><div class="color-swatch" style="background:#2A2A2A"></div><div class="color-swatch" style="background:#B8956A"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
+// Hero entrance
+const heroTl = gsap.timeline({defaults:{ease:'power3.out'}});
+heroTl.to('.hero-overline', {opacity:1, duration:0.8, delay:0.3})
+  .to('.hero-title', {opacity:1, y:0, duration:1.2}, '-=0.4')
+  .to('.hero-subtitle', {opacity:1, duration:1}, '-=0.6')
+  .to('.hero-stats', {opacity:1, duration:0.8}, '-=0.4');
 
-  <a href="04-the-atelier/index.html" class="concept-card">
-    <span class="num">04</span>
-    <h2>The Atelier</h2>
-    <div class="dna">Bespoke · Tactile · Process-driven</div>
-    <div class="desc">Co-creation workbench with slide-out configuration panels, step-by-step commission flow, and artisan process storytelling.</div>
-    <div class="tech-stack"><span class="tech-tag">Astro</span><span class="tech-tag">Three.js</span><span class="tech-tag">Cormorant Garamond</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#F4F1EA"></div><div class="color-swatch" style="background:#8C3A3A"></div><div class="color-swatch" style="background:#FFFAF0"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
-
-  <a href="05-the-salon/index.html" class="concept-card">
-    <span class="num">05</span>
-    <h2>The Salon</h2>
-    <div class="dna">Intimate · Conversational · Warm</div>
-    <div class="desc">Concierge-IS-the-interface. Chat-first design with AI advisor, recommendation bubbles, and bottom-sheet product modals.</div>
-    <div class="tech-stack"><span class="tech-tag">Remix</span><span class="tech-tag">Popmotion</span><span class="tech-tag">Lora</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#FDF5E6"></div><div class="color-swatch" style="background:#4A5D23"></div><div class="color-swatch" style="background:#E8DCC4"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
-
-  <a href="06-the-archive/index.html" class="concept-card">
-    <span class="num">06</span>
-    <h2>The Archive</h2>
-    <div class="dna">Historical · Provenance-obsessed · Deep</div>
-    <div class="desc">Timeline navigation with origin mapping, provenance scrub bar, and dossier-style detail pages. Every stone's journey told.</div>
-    <div class="tech-stack"><span class="tech-tag">Gatsby</span><span class="tech-tag">D3.js</span><span class="tech-tag">Playfair Display</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#2C1A1D"></div><div class="color-swatch" style="background:#D4A574"></div><div class="color-swatch" style="background:#4682B4"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
-
-  <a href="07-the-minimal-machine/index.html" class="concept-card">
-    <span class="num">07</span>
-    <h2>The Minimal Machine</h2>
-    <div class="dna">Brutalist · Restrained · Product-first</div>
-    <div class="desc">Zero chrome. Scroll-snap full-screen product reveals. The product IS the interface. Nothing between you and the stone.</div>
-    <div class="tech-stack"><span class="tech-tag">Vanilla JS</span><span class="tech-tag">CSS Snap</span><span class="tech-tag">Helvetica Neue</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#FFFFFF"></div><div class="color-swatch" style="background:#050505"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
-
-  <a href="08-the-immersive-theater/index.html" class="concept-card">
-    <span class="num">08</span>
-    <h2>The Immersive Theater</h2>
-    <div class="dna">Cinematic · Emotional · Enveloping</div>
-    <div class="desc">Letter-by-letter title reveal, starfield background, full-bleed imagery, and theatrical product presentations with ambient atmosphere.</div>
-    <div class="tech-stack"><span class="tech-tag">Qwik</span><span class="tech-tag">React Three Fiber</span><span class="tech-tag">Bodoni Moda</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#1A1A24"></div><div class="color-swatch" style="background:#E0C097"></div><div class="color-swatch" style="background:#F5F0EB"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
-
-  <a href="09-the-marketplace-of-rarity/index.html" class="concept-card">
-    <span class="num">09</span>
-    <h2>The Marketplace of Rarity</h2>
-    <div class="dna">Urgent · Scarce · Event-driven</div>
-    <div class="desc">Auction/drop mechanics with live countdown timers, lot numbers, bid history, and status badges (LIVE / UPCOMING / SOLD).</div>
-    <div class="tech-stack"><span class="tech-tag">Fresh (Deno)</span><span class="tech-tag">Supabase RT</span><span class="tech-tag">Space Grotesk</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#1A1A1A"></div><div class="color-swatch" style="background:#FF3B30"></div><div class="color-swatch" style="background:#F2F2F2"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
-
-  <a href="10-the-modern-maison/index.html" class="concept-card">
-    <span class="num">10</span>
-    <h2>The Modern Maison</h2>
-    <div class="dna">Balanced · Performant · Timeless</div>
-    <div class="desc">Heritage prestige meets digital-native performance. Split-screen hero, pillar storytelling, horizontal scroll strip, and shape filtering.</div>
-    <div class="tech-stack"><span class="tech-tag">SolidStart</span><span class="tech-tag">React Spring</span><span class="tech-tag">DM Serif Display</span></div>
-    <div class="color-strip"><div class="color-swatch" style="background:#FAF7F2"></div><div class="color-swatch" style="background:#8B7355"></div><div class="color-swatch" style="background:#1C1C1C"></div></div>
-    <span class="enter-link">Enter Demo →</span>
-  </a>
-
-</div>
-
-<div class="footer">
-  <p>Vault Maison © 2026 · 10 Concept Directions · Built for stakeholder review</p>
-</div>
-
+// Card reveals
+gsap.utils.toArray('.concept-card').forEach((el, i) => {
+  gsap.fromTo(el,
+    {opacity:0, y:40},
+    {opacity:1, y:0, duration:0.9, ease:'power2.out',
+     scrollTrigger:{trigger:el, start:'top 88%'},
+     delay:(i%2)*0.12}
+  );
+});
+</script>
 </body>
 </html>

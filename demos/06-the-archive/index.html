@@ -1,37 +1,58 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Vault Maison — The Archive</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/archive.css">
-</head><body>
-<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON <span class="sub">ARCHIVE</span></a>
-<div class="nav-links"><a href="listing.html">Catalog</a><a href="index.html">Home</a></div></nav>
-<section class="hero">
-<h1>Every Stone Tells a Story</h1>
-<div class="timeline-hero">
-<div class="tl-point" data-label="Origin"><span>●</span></div>
-<div class="tl-line"></div>
-<div class="tl-point" data-label="Cut"><span>●</span></div>
-<div class="tl-line"></div>
-<div class="tl-point" data-label="Certified"><span>●</span></div>
-<div class="tl-line"></div>
-<div class="tl-point" data-label="Vaulted"><span>●</span></div>
-</div>
-<a href="listing.html" class="cta">Enter the Archive →</a>
-</section>
-<section class="recent">
-<h2>Recently Archived</h2>
-<div class="recent-grid" id="recentGrid"></div>
-</section>
-<footer class="footer"><p>© 2026 Vault Maison Archive</p></footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script>
-fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
-const grid=document.getElementById('recentGrid');
-products.slice(0,4).forEach(p=>{
-const card=document.createElement('a');card.href='detail.html?id='+p.id;card.className='recent-card';
-card.innerHTML=`<div class="rc-lot">${p.lotNumber}</div><h3>${p.name}</h3><div class="rc-meta">${p.origin} · ${p.dateArchived}</div><div class="rc-price">$${p.price.toLocaleString()}</div>`;
-grid.appendChild(card)})});
-gsap.from('.hero h1',{opacity:0,y:30,duration:1,delay:0.3});
-gsap.from('.tl-point',{opacity:0,scale:0,stagger:0.2,duration:0.6,delay:0.6});
-</script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Archive — Vault Maison</title>
+  <link rel="stylesheet" href="../shared/css/luxury-foundation.css">
+  <link rel="stylesheet" href="css/archive.css">
+</head>
+<body>
+  <div class="scroll-progress"></div>
+  <nav class="luxury-nav">
+    <a href="index.html" class="nav-logo">The Archive</a>
+    <div class="nav-links">
+      <a href="listing.html">Registry</a>
+      <a href="#">Provenance</a>
+      <a href="#">Timeline</a>
+      <a href="#">Inquiry</a>
+    </div>
+  </nav>
+
+  <section class="archive-hero">
+    <div class="hero-overline">Est. 2026 &mdash; Provenance Registry</div>
+    <h1 class="hero-title">Every Stone<br>Has a Story</h1>
+    <p class="hero-subtitle">We do not merely sell diamonds. We are custodians of their history, archivists of their journey from deep earth to your hand.</p>
+    <a href="listing.html" class="hero-cta">Enter the Archive</a>
+  </section>
+
+  <section class="timeline-section">
+    <div class="timeline-inner">
+      <div class="timeline-header">
+        <div class="hero-overline" style="color: var(--arc-gold);">The Journey</div>
+        <h2 class="timeline-title">A Timeline of Creation</h2>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <section class="provenance-section">
+    <div class="provenance-inner">
+      <div class="timeline-header" style="margin-bottom: var(--space-xl);">
+        <div class="hero-overline">Featured Dossiers</div>
+        <h2 class="timeline-title" style="color: var(--arc-parchment);">Stones with Documented Lineage</h2>
+      </div>
+      <div class="provenance-grid" id="provenanceGrid"></div>
+    </div>
+  </section>
+
+  <footer class="arc-footer">
+    <p class="footer-text">The Archive &mdash; Vault Maison &mdash; Provenance Verified</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="../shared/js/luxury-animations.js"></script>
+  <script src="js/archive.js"></script>
+</body>
+</html>

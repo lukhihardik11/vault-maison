@@ -1,18 +1,37 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Vault Maison</title>
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-snap-type:y mandatory;overflow-y:scroll}
-body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#FFFFFF;color:#050505}
-section{height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center}
-.s1{font-size:14px;letter-spacing:4px}
-.s2 img{width:100vw;height:100vh;object-fit:cover}
-.s3{font-size:14px;letter-spacing:2px;text-align:center;line-height:2}
-.s3 a{color:#050505;text-decoration:none;display:block;margin-top:32px;letter-spacing:3px}
-.s3 a:hover{opacity:0.5}
-</style></head><body>
-<section class="s1">Vault Maison</section>
-<section class="s2"><img src="../shared/images/diamond-facets-1.jpg" alt="Diamond"></section>
-<section class="s3">12 pieces. Nothing more.<br><a href="listing.html">Enter →</a></section>
-</body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Minimal Machine — Vault Maison</title>
+  <link rel="stylesheet" href="../shared/css/luxury-foundation.css">
+  <link rel="stylesheet" href="css/minimal.css">
+</head>
+<body>
+  <div class="scroll-progress"></div>
+  <nav class="luxury-nav">
+    <a href="index.html" class="nav-logo">Vault Maison</a>
+    <div class="nav-links">
+      <a href="listing.html">All</a>
+      <a href="#">About</a>
+    </div>
+  </nav>
+
+  <section class="snap-section minimal-hero">
+    <h1 class="hero-title">Diamond.</h1>
+    <p class="hero-subtitle">Nothing more. Nothing less. The stone is the entire experience.</p>
+    <a href="listing.html" class="hero-cta">View All</a>
+  </section>
+
+  <div id="reveals"></div>
+
+  <footer class="min-footer">
+    <p class="footer-text">Vault Maison</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="../shared/js/luxury-animations.js"></script>
+  <script src="js/minimal.js"></script>
+</body>
+</html>

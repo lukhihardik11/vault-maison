@@ -1,64 +1,41 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Stone Analysis — Vault Maison Observatory</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/observatory.css">
-<style>
-.detail-page{padding:100px 40px 80px}
-.back{color:var(--cyan);text-decoration:none;font-size:12px;letter-spacing:2px;display:inline-block;margin-bottom:24px}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-.img-panel{position:sticky;top:100px}
-.img-panel img{width:100%;height:450px;object-fit:cover;border:1px solid rgba(0,212,255,0.15)}
-.spectral-overlay{height:80px;display:flex;gap:2px;align-items:flex-end;margin-top:8px}
-.s-bar{flex:1;background:var(--cyan);opacity:0.5;border-radius:1px 1px 0 0;transition:opacity 0.2s}
-.s-bar:hover{opacity:1}
-.info-panel .lot{font-size:10px;letter-spacing:3px;color:var(--dim)}
-.info-panel h1{font-size:28px;color:var(--cyan);letter-spacing:3px;margin-top:8px}
-.info-panel .desc{color:var(--dim);font-size:13px;line-height:1.8;margin-top:16px;font-family:var(--sans)}
-.data-table{margin-top:24px;width:100%;border-collapse:collapse}
-.data-table tr{border-bottom:1px solid rgba(0,212,255,0.08)}
-.data-table td{padding:10px 0;font-size:12px}
-.data-table td:first-child{color:var(--dim);letter-spacing:1px;width:40%}
-.data-table td:last-child{color:var(--cyan);text-align:right}
-.price-block{margin-top:32px;padding:20px;background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2)}
-.price-block .price{font-size:28px;color:var(--green);font-weight:600}
-.price-block .per-ct{font-size:11px;color:var(--dim);margin-top:4px}
-.acquire-btn{display:block;width:100%;margin-top:24px;padding:16px;background:var(--cyan);color:var(--navy);border:none;font-family:var(--mono);font-size:13px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:opacity 0.3s}
-.acquire-btn:hover{opacity:0.85}
-@media(max-width:768px){.detail-grid{grid-template-columns:1fr}.img-panel{position:static}.detail-page{padding:80px 20px 40px}}
-</style></head><body>
-<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON <span class="nav-sub">OBSERVATORY</span></a>
-<div class="nav-links"><a href="listing.html">Analysis Lab</a><a href="index.html">Dashboard</a></div></nav>
-<div class="detail-page">
-<a href="listing.html" class="back">← BACK TO LAB</a>
-<div class="detail-grid">
-<div class="img-panel"><img id="mainImg" src="" alt=""><div class="spectral-overlay" id="specOverlay"></div></div>
-<div class="info-panel" id="infoPanel"></div>
-</div></div>
-<footer class="footer"><p>© 2026 Vault Maison Observatory</p></footer>
-<script>
-const pid=new URLSearchParams(window.location.search).get('id')||'vm-001';
-fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
-const p=products.find(x=>x.id===pid)||products[0];
-document.getElementById('mainImg').src=p.image;
-// Spectral bars
-const so=document.getElementById('specOverlay');
-for(let i=0;i<40;i++){const b=document.createElement('div');b.className='s-bar';b.style.height=Math.random()*70+10+'px';so.appendChild(b)}
-const ppc=(p.price/p.carat).toFixed(0);
-document.getElementById('infoPanel').innerHTML=`
-<div class="lot">${p.lotNumber} · ${p.certified}</div>
-<h1>${p.name}</h1>
-<p class="desc">${p.description}</p>
-<table class="data-table">
-<tr><td>SHAPE</td><td>${p.shape}</td></tr>
-<tr><td>CARAT</td><td>${p.carat}ct</td></tr>
-<tr><td>COLOR</td><td>${p.color}</td></tr>
-<tr><td>CLARITY</td><td>${p.clarity}</td></tr>
-<tr><td>CUT GRADE</td><td>${p.cut}</td></tr>
-<tr><td>ORIGIN</td><td>${p.origin}</td></tr>
-<tr><td>CERT #</td><td>${p.certNumber}</td></tr>
-</table>
-<div class="price-block"><div class="price">$${p.price.toLocaleString()}</div><div class="per-ct">$${Number(ppc).toLocaleString()} per carat</div></div>
-<button class="acquire-btn" onclick="alert('Analysis report generated. Acquisition request submitted.')">ACQUIRE THIS STONE</button>`;
-})
-</script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Specimen Detail — The Observatory</title>
+  <link rel="stylesheet" href="../shared/css/luxury-foundation.css">
+  <link rel="stylesheet" href="css/observatory.css">
+</head>
+<body>
+  <div class="noise-overlay"></div>
+  <div class="scroll-progress"></div>
+  <nav class="luxury-nav">
+    <a href="index.html" class="nav-logo">Observatory</a>
+    <div class="nav-links">
+      <a href="listing.html">Analysis</a>
+      <a href="#">Research</a>
+      <a href="#">Methodology</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+  <div class="detail-layout">
+    <div class="detail-image-col">
+      <img id="detailImage" class="detail-main-image" src="" alt="Specimen">
+    </div>
+    <div class="detail-info-col">
+      <div class="detail-breadcrumb"><a href="index.html">Observatory</a> / <a href="listing.html">Index</a> / <span id="detailBreadcrumb">Specimen</span></div>
+      <h1 class="detail-title" id="detailTitle"></h1>
+      <p class="detail-subtitle" id="detailSubtitle"></p>
+      <p class="detail-price" id="detailPrice"></p>
+      <p class="detail-description" id="detailDesc"></p>
+      <div class="detail-specs" id="detailSpecs"></div>
+      <a href="#" class="detail-cta" onclick="alert('Analysis report requested. You will receive the full spectral dossier within 48 hours.'); return false;">Request Full Analysis</a>
+    </div>
+  </div>
+  <footer class="obs-footer"><p class="footer-text">The Observatory &mdash; Vault Maison</p></footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="../shared/js/luxury-animations.js"></script>
+  <script src="js/observatory.js"></script>
+</body>
+</html>

@@ -1,40 +1,30 @@
-/* ═══ THE IMMERSIVE THEATER — JavaScript ═══ */
+/* ═══ THE MINIMAL MACHINE — JavaScript ═══ */
 
-function initLetterReveal() {
-  const title = document.getElementById('heroTitle');
-  if (!title || typeof gsap === 'undefined') return;
-  const text = title.textContent;
-  title.innerHTML = text.split('').map(c => c === ' ' ? ' ' : `<span>${c}</span>`).join('');
-  gsap.to('#heroTitle span', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.04, delay: 0.5 });
-}
-
-async function loadScenes() {
+async function loadReveals() {
   try {
     const res = await fetch('../shared/data/products.json');
     const products = await res.json();
-    const container = document.getElementById('scenes');
+    const container = document.getElementById('reveals');
     if (!container) return;
-    container.innerHTML = products.slice(0, 3).map((p, i) => `
-      <section class="scene-section">
-        <div class="scene-inner" style="${i % 2 === 1 ? 'direction: rtl;' : ''}">
-          <div class="scene-image-wrap" style="direction: ltr;">
-            <div class="scene-glow"></div>
-            <img class="scene-image" src="${p.image}" alt="${p.name}">
-          </div>
-          <div class="scene-content" style="direction: ltr;">
-            <div class="scene-number">Act ${['I', 'II', 'III'][i]}</div>
-            <h2 class="scene-title">${p.name}</h2>
-            <p class="scene-desc">${p.description}</p>
-            <a href="detail.html?id=${p.id}" class="scene-link">Experience &rarr;</a>
+    container.innerHTML = products.slice(0, 4).map((p, i) => `
+      <section class="snap-section product-reveal">
+        <div class="reveal-inner" style="${i % 2 === 1 ? 'direction: rtl;' : ''}">
+          <div style="direction: ltr;"><img class="reveal-image" src="${p.image}" alt="${p.name}"></div>
+          <div class="reveal-info" style="direction: ltr;">
+            <div class="reveal-number">${String(i + 1).padStart(2, '0')} / 04</div>
+            <h2 class="reveal-name">${p.name}</h2>
+            <div class="reveal-meta">${p.shape} &middot; ${p.carat}ct &middot; ${p.color}/${p.clarity}</div>
+            <div class="reveal-price">$${p.price.toLocaleString()}</div>
+            <a href="detail.html?id=${p.id}" class="reveal-link">View Details</a>
           </div>
         </div>
       </section>
     `).join('');
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
-      gsap.utils.toArray('.scene-section').forEach(el => {
-        gsap.fromTo(el.querySelector('.scene-image'), {opacity:0,scale:0.9}, {opacity:1,scale:1,duration:1.5,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 75%'}});
-        gsap.fromTo(el.querySelector('.scene-content'), {opacity:0,y:60}, {opacity:1,y:0,duration:1.2,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 75%'},delay:0.3});
+      gsap.utils.toArray('.product-reveal').forEach(el => {
+        gsap.fromTo(el.querySelector('.reveal-image'), {opacity:0,scale:0.95}, {opacity:1,scale:1,duration:1.2,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 70%'}});
+        gsap.fromTo(el.querySelector('.reveal-info'), {opacity:0,y:40}, {opacity:1,y:0,duration:1,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 70%'},delay:0.2});
       });
     }
   } catch (e) { console.error(e); }
@@ -49,14 +39,11 @@ async function loadListing() {
     grid.innerHTML = products.map(p => `
       <a href="detail.html?id=${p.id}" class="product-card">
         <img class="product-card-image" src="${p.image}" alt="${p.name}">
-        <div class="product-card-info">
-          <div class="product-card-name">${p.name}</div>
-          <div class="product-card-meta">${p.shape} &middot; ${p.carat}ct</div>
-          <div class="product-card-price">$${p.price.toLocaleString()}</div>
-        </div>
+        <div class="product-card-name">${p.name}</div>
+        <div class="product-card-meta">${p.shape} &middot; ${p.carat}ct</div>
+        <div class="product-card-price">$${p.price.toLocaleString()}</div>
       </a>
     `).join('');
-    if (typeof gsap !== 'undefined') gsap.fromTo('.product-card', {opacity:0,y:40}, {opacity:1,y:0,duration:0.8,ease:'power2.out',stagger:0.1});
   } catch (e) { console.error(e); }
 }
 
@@ -82,18 +69,17 @@ async function loadDetail() {
       <div class="spec-row"><span class="spec-label">Origin</span><span class="spec-value">${p.origin}</span></div>
       <div class="spec-row"><span class="spec-label">Certificate</span><span class="spec-value">${p.certified} \u2014 ${p.certNumber}</span></div>
     `;
-    if (typeof gsap !== 'undefined') gsap.fromTo('.detail-info-col > *', {opacity:0,y:30}, {opacity:1,y:0,duration:0.8,ease:'power2.out',stagger:0.1,delay:0.3});
+    if (typeof gsap !== 'undefined') gsap.fromTo('.detail-info-col > *', {opacity:0,y:20}, {opacity:1,y:0,duration:0.6,ease:'power2.out',stagger:0.08,delay:0.2});
   } catch (e) { console.error(e); }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  initLetterReveal();
-  if (document.getElementById('scenes')) loadScenes();
+  if (document.getElementById('reveals')) loadReveals();
   if (document.getElementById('listingGrid')) loadListing();
   if (document.getElementById('detailImage')) loadDetail();
-  if (typeof gsap !== 'undefined' && document.querySelector('.theater-hero')) {
-    gsap.fromTo('.hero-overline', {opacity:0}, {opacity:1,duration:1,ease:'power2.out',delay:0.2});
-    gsap.fromTo('.hero-subtitle', {opacity:0,y:20}, {opacity:1,y:0,duration:1,ease:'power2.out',delay:1.5});
-    gsap.fromTo('.hero-cta', {opacity:0}, {opacity:1,duration:0.8,ease:'power2.out',delay:2});
+  if (typeof gsap !== 'undefined' && document.querySelector('.minimal-hero')) {
+    gsap.fromTo('.hero-title', {opacity:0,y:20}, {opacity:1,y:0,duration:1.2,ease:'power2.out'});
+    gsap.fromTo('.hero-subtitle', {opacity:0}, {opacity:1,duration:1,ease:'power2.out',delay:0.4});
+    gsap.fromTo('.hero-cta', {opacity:0}, {opacity:1,duration:0.8,ease:'power2.out',delay:0.7});
   }
 });
