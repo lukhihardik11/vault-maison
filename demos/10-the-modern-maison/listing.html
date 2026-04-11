@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Collection — Vault Maison</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/maison.css">
+<style>
+.listing-header{padding:120px 48px 40px}
+.listing-header h1{font-family:var(--heading);font-size:36px}
+.listing-header p{color:var(--warm-gray);font-size:13px;margin-top:8px}
+.filter-bar{display:flex;gap:16px;padding:0 48px 32px}
+.filter-btn{padding:8px 20px;border:1px solid rgba(139,115,85,0.3);background:transparent;color:var(--warm-gray);font-size:12px;letter-spacing:1px;cursor:pointer;transition:all 0.3s;font-family:var(--body)}
+.filter-btn:hover,.filter-btn.active{background:var(--sand);color:white;border-color:var(--sand)}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;padding:0 48px 80px}
+.product-card{text-decoration:none;color:var(--dark);transition:transform 0.3s;display:block}
+.product-card:hover{transform:translateY(-4px)}
+.product-card img{width:100%;height:280px;object-fit:cover;display:block}
+.product-card .info{padding:16px 0}
+.product-card h3{font-family:var(--heading);font-size:18px}
+.product-card .meta{font-size:12px;color:var(--warm-gray);margin-top:4px}
+.product-card .price{font-size:16px;color:var(--sand);margin-top:8px}
+@media(max-width:768px){.product-grid{grid-template-columns:1fr;padding:0 24px 40px}.listing-header{padding:100px 24px 24px}.filter-bar{padding:0 24px 16px;flex-wrap:wrap}}
+</style></head><body>
+<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON</a>
+<div class="nav-links"><a href="listing.html">Collection</a><a href="index.html">Maison</a></div></nav>
+<div class="listing-header"><h1>The Collection</h1><p>Curated diamonds for the modern collector</p></div>
+<div class="filter-bar">
+<button class="filter-btn active" data-filter="all">All</button>
+<button class="filter-btn" data-filter="Round">Round</button>
+<button class="filter-btn" data-filter="Emerald">Emerald</button>
+<button class="filter-btn" data-filter="Oval">Oval</button>
+<button class="filter-btn" data-filter="Pear">Pear</button>
+</div>
+<div class="product-grid" id="productGrid"></div>
+<footer class="footer"><p>© 2026 Vault Maison</p></footer>
+<script>
+let allProducts=[];
+fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
+allProducts=products;renderProducts(products)});
+function renderProducts(list){const grid=document.getElementById('productGrid');grid.innerHTML='';
+list.forEach(p=>{const card=document.createElement('a');card.href='detail.html?id='+p.id;card.className='product-card';card.dataset.shape=p.shape;
+card.innerHTML=`<img src="${p.image}" alt="${p.name}"><div class="info"><h3>${p.name}</h3><div class="meta">${p.shape} · ${p.carat}ct · ${p.color}/${p.clarity}</div><div class="price">$${p.price.toLocaleString()}</div></div>`;
+grid.appendChild(card)})}
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+const f=btn.dataset.filter;renderProducts(f==='all'?allProducts:allProducts.filter(p=>p.shape===f))})})
+</script></body></html>

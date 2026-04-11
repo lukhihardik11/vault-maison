@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Collection — Vault Maison</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/vault.css">
+<style>
+.listing-hero {
+  padding: 140px 48px 60px;
+  text-align: center;
+}
+.listing-hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 48px;
+  letter-spacing: 8px;
+  color: var(--gold);
+}
+.listing-hero p {
+  color: var(--mid-gray);
+  margin-top: 16px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.listing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 0 48px 80px;
+}
+.vault-drawer {
+  position: relative;
+  background: var(--charcoal);
+  overflow: hidden;
+  cursor: pointer;
+}
+.vault-drawer .drawer-cover {
+  position: absolute;
+  inset: 0;
+  background: var(--charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid rgba(212,175,55,0.15);
+}
+.vault-drawer.revealed .drawer-cover {
+  transform: translateY(-100%);
+}
+.drawer-cover-inner {
+  text-align: center;
+}
+.drawer-cover-inner .lot {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  opacity: 0.6;
+}
+.drawer-cover-inner .name {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-top: 8px;
+}
+.drawer-cover-inner .hint {
+  font-size: 11px;
+  color: var(--mid-gray);
+  margin-top: 16px;
+  letter-spacing: 1px;
+}
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+}
+.drawer-content img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+.drawer-info {
+  padding: 20px;
+}
+.drawer-info h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+.drawer-info .meta {
+  font-size: 12px;
+  color: var(--mid-gray);
+  margin-top: 6px;
+}
+.drawer-info .price {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 16px;
+  margin-top: 10px;
+}
+.drawer-info .view-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 2px;
+}
+@media (max-width: 768px) {
+  .listing-grid { grid-template-columns: 1fr; padding: 0 24px 48px; }
+  .listing-hero { padding: 120px 24px 40px; }
+  .listing-hero h1 { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand">VAULT MAISON</a>
+  <div class="nav-links">
+    <a href="listing.html">Collection</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<section class="listing-hero">
+  <h1>THE COLLECTION</h1>
+  <p>Press and hold each drawer to reveal what lies within</p>
+</section>
+
+<div class="listing-grid" id="listingGrid"></div>
+
+<footer class="footer">
+  <p>© 2026 Vault Maison. All rights reserved.</p>
+</footer>
+
+<script>
+// SIGNATURE INTERACTION: Press-and-hold to reveal drawers
+let activeDrawer = null;
+let drawTimer = null;
+
+function setupDrawer(el) {
+  const cover = el.querySelector('.drawer-cover');
+  el.addEventListener('mousedown', () => {
+    activeDrawer = el;
+    drawTimer = setTimeout(() => { el.classList.add('revealed'); }, 800);
+  });
+  el.addEventListener('mouseup', () => { clearTimeout(drawTimer); });
+  el.addEventListener('mouseleave', () => { clearTimeout(drawTimer); });
+  el.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    activeDrawer = el;
+    drawTimer = setTimeout(() => { el.classList.add('revealed'); }, 800);
+  });
+  el.addEventListener('touchend', () => { clearTimeout(drawTimer); });
+}
+
+fetch('../shared/data/products.json')
+  .then(r => r.json())
+  .then(products => {
+    const grid = document.getElementById('listingGrid');
+    products.forEach(p => {
+      const drawer = document.createElement('div');
+      drawer.className = 'vault-drawer';
+      drawer.innerHTML = `
+        <div class="drawer-cover">
+          <div class="drawer-cover-inner">
+            <div class="lot">${p.lotNumber}</div>
+            <div class="name">${p.name}</div>
+            <div class="hint">Press &amp; hold to reveal</div>
+          </div>
+        </div>
+        <div class="drawer-content">
+          <img src="${p.image}" alt="${p.name}">
+          <div class="drawer-info">
+            <h4>${p.name}</h4>
+            <div class="meta">${p.shape} · ${p.carat}ct · ${p.color}/${p.clarity} · ${p.certified}</div>
+            <div class="price">$${p.price.toLocaleString()}</div>
+            <a href="detail.html?id=${p.id}" class="view-link">View Details →</a>
+          </div>
+        </div>
+      `;
+      grid.appendChild(drawer);
+      setupDrawer(drawer);
+    });
+  });
+</script>
+</body>
+</html>

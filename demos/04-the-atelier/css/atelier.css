@@ -1,0 +1,24 @@
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--linen:#F4F1EA;--garnet:#8C3A3A;--dark:#2B2B2B;--floral:#FFFAF0;--warm-gray:#9A9080;--heading:'Cormorant Garamond',serif;--body:'DM Sans',sans-serif}
+body{font-family:var(--body);background:var(--linen);color:var(--dark);overflow-x:hidden}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:20px 48px;position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(244,241,234,0.95);backdrop-filter:blur(8px)}
+.nav-brand{font-family:var(--heading);font-size:18px;letter-spacing:3px;color:var(--dark);text-decoration:none;font-weight:600}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);text-decoration:none;transition:color 0.3s}
+.nav-links a:hover{color:var(--garnet)}
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;align-items:center}
+.hero-left{height:100vh;overflow:hidden}
+.hero-left img{width:100%;height:100%;object-fit:cover}
+.hero-right{padding:60px 80px}
+.hero-right h1{font-family:var(--heading);font-size:48px;font-weight:400;color:var(--dark);line-height:1.2}
+.hero-right h1::after{content:'';display:block;width:60px;height:2px;background:var(--garnet);margin-top:16px}
+.hero-right p{font-size:15px;color:var(--warm-gray);line-height:1.8;margin-top:24px}
+.cta{display:inline-block;margin-top:32px;padding:14px 40px;background:var(--garnet);color:var(--floral);text-decoration:none;font-size:13px;letter-spacing:2px;transition:opacity 0.3s}
+.cta:hover{opacity:0.85}
+.process{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;padding:80px 48px;border-top:1px solid rgba(140,58,58,0.15)}
+.step{text-align:center;padding:32px}
+.step-num{font-family:var(--heading);font-size:48px;color:var(--garnet);opacity:0.3}
+.step h3{font-family:var(--heading);font-size:24px;margin-top:12px}
+.step p{font-size:14px;color:var(--warm-gray);margin-top:12px;line-height:1.7}
+.footer{padding:48px;text-align:center;font-size:11px;color:var(--warm-gray)}
+@media(max-width:768px){.hero{grid-template-columns:1fr}.hero-left{height:50vh}.hero-right{padding:32px 24px}.hero-right h1{font-size:32px}.process{grid-template-columns:1fr;padding:40px 24px}}

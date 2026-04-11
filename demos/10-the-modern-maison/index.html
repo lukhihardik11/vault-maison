@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Vault Maison — The Modern Maison</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/maison.css">
+</head><body>
+<nav class="nav">
+<a href="index.html" class="nav-brand">VAULT MAISON</a>
+<div class="nav-links"><a href="listing.html">Collection</a><a href="index.html">Maison</a></div>
+</nav>
+<section class="hero">
+<div class="hero-split">
+<div class="hero-text">
+<span class="hero-tag">EST. 2026</span>
+<h1>Where Heritage<br>Meets Tomorrow</h1>
+<p>A modern maison for the discerning collector. Curated diamonds, authenticated provenance, delivered with white-glove precision.</p>
+<div class="hero-actions">
+<a href="listing.html" class="btn-primary">Explore Collection</a>
+<a href="#heritage" class="btn-secondary">Our Heritage →</a>
+</div>
+</div>
+<div class="hero-image"><img src="../shared/images/diamond-collection-1.jpg" alt="Diamond Collection"></div>
+</div>
+</section>
+<section class="pillars" id="heritage">
+<div class="pillar"><span class="pillar-num">01</span><h3>Provenance</h3><p>Every stone traced from mine to maison with blockchain-verified documentation.</p></div>
+<div class="pillar"><span class="pillar-num">02</span><h3>Craftsmanship</h3><p>Master artisans with decades of experience shaping nature's finest creations.</p></div>
+<div class="pillar"><span class="pillar-num">03</span><h3>Service</h3><p>Personal concierge for every client. White-glove delivery to your door.</p></div>
+</section>
+<section class="featured-strip">
+<h2>Featured Pieces</h2>
+<div class="strip-scroll" id="featuredStrip"></div>
+</section>
+<footer class="footer"><p>© 2026 Vault Maison. The Modern Maison.</p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
+const strip=document.getElementById('featuredStrip');
+products.slice(0,6).forEach(p=>{
+const card=document.createElement('a');card.href='detail.html?id='+p.id;card.className='strip-card';
+card.innerHTML=`<img src="${p.image}" alt="${p.name}"><div class="strip-info"><h4>${p.name}</h4><span>$${p.price.toLocaleString()}</span></div>`;
+strip.appendChild(card)})});
+gsap.from('.hero-text',{opacity:0,x:-30,duration:1,delay:0.3});
+gsap.from('.hero-image',{opacity:0,x:30,duration:1,delay:0.5});
+gsap.from('.pillar',{opacity:0,y:30,stagger:0.2,duration:0.8,delay:0.8});
+</script></body></html>

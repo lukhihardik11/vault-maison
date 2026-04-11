@@ -1,0 +1,33 @@
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--crimson:#FF3B30;--dark:#1A1A1A;--light:#F2F2F2;--dim:#666;--font:'Space Grotesk',sans-serif}
+body{font-family:var(--font);background:var(--dark);color:var(--light);overflow-x:hidden}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,26,26,0.95);backdrop-filter:blur(8px)}
+.nav-brand{font-size:14px;letter-spacing:3px;color:var(--crimson);text-decoration:none;font-weight:700}
+.nav-links{display:flex;gap:24px}
+.nav-links a{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color 0.3s}
+.nav-links a:hover{color:var(--crimson)}
+.hero{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 40px 60px}
+.hero h1{font-size:96px;font-weight:700;color:var(--crimson);letter-spacing:8px}
+.countdown{display:flex;align-items:center;gap:8px;margin-top:32px}
+.cd-unit{text-align:center}
+.cd-num{display:block;font-size:48px;font-weight:700;color:var(--light);font-variant-numeric:tabular-nums}
+.cd-label{display:block;font-size:10px;letter-spacing:2px;color:var(--dim);margin-top:4px}
+.cd-sep{font-size:36px;color:var(--dim);padding:0 4px}
+.cta{display:inline-block;margin-top:40px;padding:16px 48px;background:var(--crimson);color:white;text-decoration:none;font-size:14px;letter-spacing:2px;font-weight:600;transition:opacity 0.3s}
+.cta:hover{opacity:0.85}
+.upcoming{padding:60px 40px 80px}
+.upcoming h2{font-size:24px;letter-spacing:2px;margin-bottom:32px;color:var(--crimson)}
+.lots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.lot-card{background:rgba(255,59,48,0.05);border:1px solid rgba(255,59,48,0.15);overflow:hidden;transition:border-color 0.3s,box-shadow 0.3s;text-decoration:none;color:var(--light);display:block}
+.lot-card:hover{border-color:var(--crimson);box-shadow:0 0 20px rgba(255,59,48,0.2)}
+.lot-card img{width:100%;height:200px;object-fit:cover}
+.lot-card .info{padding:16px}
+.lot-card .lot-num{font-size:11px;color:var(--crimson);letter-spacing:2px;font-weight:600}
+.lot-card h3{font-size:16px;margin-top:4px}
+.lot-card .meta{font-size:11px;color:var(--dim);margin-top:4px}
+.lot-card .badge{display:inline-block;margin-top:8px;padding:4px 12px;font-size:10px;letter-spacing:1px;font-weight:600;border-radius:2px}
+.badge-live{background:var(--crimson);color:white}
+.badge-upcoming{background:rgba(255,59,48,0.15);color:var(--crimson)}
+.badge-sold{background:rgba(102,102,102,0.2);color:var(--dim)}
+.footer{padding:48px;text-align:center;font-size:11px;color:var(--dim);border-top:1px solid rgba(255,59,48,0.1)}
+@media(max-width:768px){.hero h1{font-size:48px}.cd-num{font-size:32px}.lots-grid{grid-template-columns:1fr}}

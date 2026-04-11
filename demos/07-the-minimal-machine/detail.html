@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Vault Maison</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-snap-type:y mandatory;overflow-y:scroll}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#FFFFFF;color:#050505}
+section{height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center}
+.img-section img{width:100vw;height:100vh;object-fit:cover}
+.specs-section{flex-direction:column;gap:16px;padding:48px;text-align:center}
+.specs-section .name{font-size:14px;letter-spacing:3px}
+.specs-section .detail{font-size:14px;color:#888;letter-spacing:1px;line-height:2.5}
+.cta-section{flex-direction:column;gap:16px}
+.cta-section .price{font-size:14px;letter-spacing:2px}
+.cta-section button{padding:14px 48px;background:#050505;color:#FFFFFF;border:none;font-size:14px;letter-spacing:3px;cursor:pointer;font-family:inherit}
+.cta-section button:hover{opacity:0.7}
+.back{position:fixed;top:16px;left:16px;font-size:14px;letter-spacing:2px;z-index:10;color:#050505;text-decoration:none;mix-blend-mode:difference;color:white}
+</style></head><body>
+<a href="listing.html" class="back">← Back</a>
+<div id="content"></div>
+<script>
+const pid=new URLSearchParams(window.location.search).get('id')||'vm-001';
+fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
+const p=products.find(x=>x.id===pid)||products[0];
+document.getElementById('content').innerHTML=`
+<section class="img-section"><img src="${p.image}" alt="${p.name}"></section>
+<section class="specs-section"><div class="name">${p.name}</div><div class="detail">${p.shape}<br>${p.carat}ct · ${p.color} · ${p.clarity}<br>${p.cut} Cut<br>${p.origin}<br>${p.certified}</div></section>
+<section class="cta-section"><div class="price">$${p.price.toLocaleString()}</div><button onclick="alert('Acquisition confirmed. Details will be sent to your email.')">Acquire — $${p.price.toLocaleString()}</button></section>`;
+})
+</script></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Constellation — Vault Maison Theater</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theater.css">
+<style>
+.constellation{position:relative;width:100%;min-height:100vh;padding:100px 40px}
+.constellation-point{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--gold);opacity:0.4;cursor:pointer;transition:opacity 0.3s,transform 0.3s,box-shadow 0.3s}
+.constellation-point:hover{opacity:1;transform:scale(2);box-shadow:0 0 30px rgba(224,192,151,0.6)}
+.tooltip{position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(26,26,36,0.95);border:1px solid var(--gold);padding:12px 16px;white-space:nowrap;opacity:0;transition:opacity 0.3s;pointer-events:none;font-size:12px;color:var(--gold);letter-spacing:1px}
+.constellation-point:hover .tooltip{opacity:1}
+.page-title{text-align:center;padding:100px 0 20px;font-family:var(--heading);font-size:32px;color:var(--gold);position:relative;z-index:10}
+.page-sub{text-align:center;font-size:12px;color:var(--dim);margin-bottom:40px;position:relative;z-index:10}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;padding:40px;position:relative;z-index:10}
+.theater-card{background:rgba(224,192,151,0.05);border:1px solid rgba(224,192,151,0.15);overflow:hidden;transition:border-color 0.3s;text-decoration:none;color:var(--warm-white);display:block}
+.theater-card:hover{border-color:var(--gold)}
+.theater-card img{width:100%;height:220px;object-fit:cover;filter:brightness(0.7);transition:filter 0.4s}
+.theater-card:hover img{filter:brightness(0.9)}
+.theater-card .info{padding:16px}
+.theater-card h3{font-family:var(--heading);font-size:16px;color:var(--gold)}
+.theater-card .meta{font-size:11px;color:var(--dim);margin-top:4px}
+.theater-card .price{font-size:16px;color:var(--gold);margin-top:8px}
+</style></head><body>
+<div class="starfield" id="starfield"></div>
+<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON</a>
+<div class="nav-links"><a href="listing.html">Constellation</a><a href="index.html">Home</a></div></nav>
+<h2 class="page-title">The Constellation</h2>
+<p class="page-sub">Each point of light is a stone. Hover to reveal. Click to enter.</p>
+<div class="product-grid" id="productGrid"></div>
+<footer class="footer"><p>© 2026 Vault Maison Theater</p></footer>
+<script>
+// Stars
+const sf=document.getElementById('starfield');
+for(let i=0;i<100;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.opacity=Math.random()*0.4+0.1;sf.appendChild(s)}
+fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
+const grid=document.getElementById('productGrid');
+products.forEach(p=>{
+const card=document.createElement('a');card.href='detail.html?id='+p.id;card.className='theater-card';
+card.innerHTML=`<img src="${p.image}" alt="${p.name}"><div class="info"><h3>${p.name}</h3><div class="meta">${p.shape} · ${p.carat}ct</div><div class="price">$${p.price.toLocaleString()}</div></div>`;
+grid.appendChild(card)})})
+</script></body></html>

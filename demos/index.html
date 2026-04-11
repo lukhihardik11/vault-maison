@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Maison — 10 UI Concept Demos</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0A0A0A;
+  --card-bg: #141414;
+  --text: #E8E4DF;
+  --dim: #6A6A6A;
+  --gold: #D4AF37;
+  --heading: 'DM Serif Display', serif;
+  --body: 'DM Sans', sans-serif;
+}
+body { font-family: var(--body); background: var(--bg); color: var(--text); overflow-x: hidden; }
+.header {
+  text-align: center;
+  padding: 80px 40px 60px;
+  border-bottom: 1px solid rgba(212,175,55,0.1);
+}
+.header h1 {
+  font-family: var(--heading);
+  font-size: 48px;
+  color: var(--gold);
+  letter-spacing: 2px;
+}
+.header p {
+  font-size: 16px;
+  color: var(--dim);
+  margin-top: 16px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+.header .stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-top: 32px;
+}
+.stat { text-align: center; }
+.stat .num { font-family: var(--heading); font-size: 32px; color: var(--gold); }
+.stat .label { font-size: 11px; letter-spacing: 2px; color: var(--dim); margin-top: 4px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  padding: 60px 48px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.concept-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(212,175,55,0.08);
+  padding: 32px;
+  transition: border-color 0.3s, transform 0.3s;
+  text-decoration: none;
+  color: var(--text);
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.concept-card:hover {
+  border-color: rgba(212,175,55,0.4);
+  transform: translateY(-4px);
+}
+.concept-card .num {
+  font-family: var(--heading);
+  font-size: 48px;
+  color: var(--gold);
+  opacity: 0.15;
+  position: absolute;
+  top: 16px;
+  right: 24px;
+}
+.concept-card h2 {
+  font-family: var(--heading);
+  font-size: 24px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.concept-card .dna {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--dim);
+  margin-bottom: 12px;
+}
+.concept-card .desc {
+  font-size: 14px;
+  color: var(--dim);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.concept-card .tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tech-tag {
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border: 1px solid rgba(212,175,55,0.2);
+  color: var(--gold);
+}
+.concept-card .color-strip {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+.color-swatch {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.enter-link {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.footer {
+  text-align: center;
+  padding: 48px;
+  font-size: 11px;
+  color: var(--dim);
+  border-top: 1px solid rgba(212,175,55,0.1);
+}
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; padding: 32px 24px; }
+  .header h1 { font-size: 32px; }
+  .header .stats { gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>VAULT MAISON</h1>
+  <p>10 radically different UI concept directions for an ultra-luxury diamond e-commerce platform. Each demo is fully interactive with 3 pages.</p>
+  <div class="stats">
+    <div class="stat"><div class="num">10</div><div class="label">CONCEPTS</div></div>
+    <div class="stat"><div class="num">30</div><div class="label">PAGES</div></div>
+    <div class="stat"><div class="num">12</div><div class="label">PRODUCTS</div></div>
+    <div class="stat"><div class="num">44</div><div class="label">FILES</div></div>
+  </div>
+</div>
+
+<div class="grid">
+
+  <a href="01-the-vault/index.html" class="concept-card">
+    <span class="num">01</span>
+    <h2>The Vault</h2>
+    <div class="dna">Gated · Monolithic · Intimate</div>
+    <div class="desc">Press-and-hold to reveal hidden drawers. A biometric-inspired interaction pattern that treats every product as a secret worth protecting.</div>
+    <div class="tech-stack"><span class="tech-tag">Next.js</span><span class="tech-tag">Framer Motion</span><span class="tech-tag">Cinzel</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#D4AF37"></div><div class="color-swatch" style="background:#1A1A1A"></div><div class="color-swatch" style="background:#2A2A2A"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="02-the-observatory/index.html" class="concept-card">
+    <span class="num">02</span>
+    <h2>The Observatory</h2>
+    <div class="dna">Analytical · Transparent · Authoritative</div>
+    <div class="desc">Data-rich dashboard with spectral analysis overlays, animated readouts, and scientific precision. Diamond intelligence as interface.</div>
+    <div class="tech-stack"><span class="tech-tag">Nuxt.js</span><span class="tech-tag">GSAP</span><span class="tech-tag">IBM Plex Mono</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#0D1B2A"></div><div class="color-swatch" style="background:#00D4FF"></div><div class="color-swatch" style="background:#00FF88"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="03-the-gallery/index.html" class="concept-card">
+    <span class="num">03</span>
+    <h2>The Gallery</h2>
+    <div class="dna">Editorial · Curated · Spacious</div>
+    <div class="desc">Museum-like exhibitions where diamonds are presented as works of art. Masonry layout with slow-zoom hover reveals and generous white space.</div>
+    <div class="tech-stack"><span class="tech-tag">SvelteKit</span><span class="tech-tag">Anime.js</span><span class="tech-tag">Libre Baskerville</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#FDFBF7"></div><div class="color-swatch" style="background:#2A2A2A"></div><div class="color-swatch" style="background:#B8956A"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="04-the-atelier/index.html" class="concept-card">
+    <span class="num">04</span>
+    <h2>The Atelier</h2>
+    <div class="dna">Bespoke · Tactile · Process-driven</div>
+    <div class="desc">Co-creation workbench with slide-out configuration panels, step-by-step commission flow, and artisan process storytelling.</div>
+    <div class="tech-stack"><span class="tech-tag">Astro</span><span class="tech-tag">Three.js</span><span class="tech-tag">Cormorant Garamond</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#F4F1EA"></div><div class="color-swatch" style="background:#8C3A3A"></div><div class="color-swatch" style="background:#FFFAF0"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="05-the-salon/index.html" class="concept-card">
+    <span class="num">05</span>
+    <h2>The Salon</h2>
+    <div class="dna">Intimate · Conversational · Warm</div>
+    <div class="desc">Concierge-IS-the-interface. Chat-first design with AI advisor, recommendation bubbles, and bottom-sheet product modals.</div>
+    <div class="tech-stack"><span class="tech-tag">Remix</span><span class="tech-tag">Popmotion</span><span class="tech-tag">Lora</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#FDF5E6"></div><div class="color-swatch" style="background:#4A5D23"></div><div class="color-swatch" style="background:#E8DCC4"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="06-the-archive/index.html" class="concept-card">
+    <span class="num">06</span>
+    <h2>The Archive</h2>
+    <div class="dna">Historical · Provenance-obsessed · Deep</div>
+    <div class="desc">Timeline navigation with origin mapping, provenance scrub bar, and dossier-style detail pages. Every stone's journey told.</div>
+    <div class="tech-stack"><span class="tech-tag">Gatsby</span><span class="tech-tag">D3.js</span><span class="tech-tag">Playfair Display</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#2C1A1D"></div><div class="color-swatch" style="background:#D4A574"></div><div class="color-swatch" style="background:#4682B4"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="07-the-minimal-machine/index.html" class="concept-card">
+    <span class="num">07</span>
+    <h2>The Minimal Machine</h2>
+    <div class="dna">Brutalist · Restrained · Product-first</div>
+    <div class="desc">Zero chrome. Scroll-snap full-screen product reveals. The product IS the interface. Nothing between you and the stone.</div>
+    <div class="tech-stack"><span class="tech-tag">Vanilla JS</span><span class="tech-tag">CSS Snap</span><span class="tech-tag">Helvetica Neue</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#FFFFFF"></div><div class="color-swatch" style="background:#050505"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="08-the-immersive-theater/index.html" class="concept-card">
+    <span class="num">08</span>
+    <h2>The Immersive Theater</h2>
+    <div class="dna">Cinematic · Emotional · Enveloping</div>
+    <div class="desc">Letter-by-letter title reveal, starfield background, full-bleed imagery, and theatrical product presentations with ambient atmosphere.</div>
+    <div class="tech-stack"><span class="tech-tag">Qwik</span><span class="tech-tag">React Three Fiber</span><span class="tech-tag">Bodoni Moda</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#1A1A24"></div><div class="color-swatch" style="background:#E0C097"></div><div class="color-swatch" style="background:#F5F0EB"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="09-the-marketplace-of-rarity/index.html" class="concept-card">
+    <span class="num">09</span>
+    <h2>The Marketplace of Rarity</h2>
+    <div class="dna">Urgent · Scarce · Event-driven</div>
+    <div class="desc">Auction/drop mechanics with live countdown timers, lot numbers, bid history, and status badges (LIVE / UPCOMING / SOLD).</div>
+    <div class="tech-stack"><span class="tech-tag">Fresh (Deno)</span><span class="tech-tag">Supabase RT</span><span class="tech-tag">Space Grotesk</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#1A1A1A"></div><div class="color-swatch" style="background:#FF3B30"></div><div class="color-swatch" style="background:#F2F2F2"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+  <a href="10-the-modern-maison/index.html" class="concept-card">
+    <span class="num">10</span>
+    <h2>The Modern Maison</h2>
+    <div class="dna">Balanced · Performant · Timeless</div>
+    <div class="desc">Heritage prestige meets digital-native performance. Split-screen hero, pillar storytelling, horizontal scroll strip, and shape filtering.</div>
+    <div class="tech-stack"><span class="tech-tag">SolidStart</span><span class="tech-tag">React Spring</span><span class="tech-tag">DM Serif Display</span></div>
+    <div class="color-strip"><div class="color-swatch" style="background:#FAF7F2"></div><div class="color-swatch" style="background:#8B7355"></div><div class="color-swatch" style="background:#1C1C1C"></div></div>
+    <span class="enter-link">Enter Demo →</span>
+  </a>
+
+</div>
+
+<div class="footer">
+  <p>Vault Maison © 2026 · 10 Concept Directions · Built for stakeholder review</p>
+</div>
+
+</body>
+</html>

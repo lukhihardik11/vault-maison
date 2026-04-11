@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Auction Floor — Vault Maison Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/marketplace.css">
+<style>
+.floor-header{padding:120px 40px 40px}
+.floor-header h1{font-size:32px;letter-spacing:3px;color:var(--crimson);font-weight:700}
+.floor-header p{color:var(--dim);font-size:12px;margin-top:8px}
+.watchers{font-size:11px;color:var(--dim);margin-top:4px}
+</style></head><body>
+<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON</a>
+<div class="nav-links"><a href="listing.html">Auction Floor</a><a href="index.html">Home</a></div></nav>
+<div class="floor-header"><h1>THE AUCTION FLOOR</h1><p>Hover to pulse. Click to bid.</p></div>
+<div class="lots-grid" style="padding:0 40px 80px" id="auctionGrid"></div>
+<footer class="footer"><p>© 2026 Vault Maison Marketplace</p></footer>
+<script>
+const statuses=['LIVE','UPCOMING','LIVE','SOLD','LIVE','UPCOMING','SOLD','UPCOMING','LIVE','UPCOMING','LIVE','SOLD'];
+fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
+const grid=document.getElementById('auctionGrid');
+products.forEach((p,i)=>{
+const status=statuses[i%statuses.length];const
+ badgeClass='badge-live' if status=='LIVE' else ('badge-sold' if status=='SOLD' else 'badge-upcoming')
+card=document.createElement('a');card.href='detail.html?id='+p.id;card.className='lot-card';
+card.innerHTML=`<img src="${p.image}" alt="${p.name}"><div class="info"><div class="lot-num">${p.lotNumber}</div><h3>${p.name}</h3><div class="meta">${p.shape} · ${p.carat}ct · $${p.price.toLocaleString()}</div><span class="badge ${badgeClass}">${status}</span></div>`;
+grid.appendChild(card)})})
+</script></body></html>

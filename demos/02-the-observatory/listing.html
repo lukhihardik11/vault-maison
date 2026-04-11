@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Analysis Lab — Vault Maison Observatory</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/observatory.css">
+<style>
+.lab-header{padding:120px 40px 40px}
+.lab-header h1{font-size:32px;letter-spacing:4px;color:var(--cyan)}
+.lab-header p{color:var(--dim);font-size:12px;margin-top:8px;letter-spacing:1px}
+.analysis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px;padding:0 40px 80px}
+.analysis-card{background:rgba(0,212,255,0.03);border:1px solid rgba(0,212,255,0.12);padding:0;overflow:hidden;transition:border-color 0.3s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+.analysis-card:hover{border-color:var(--cyan)}
+.card-header{display:flex;gap:16px;padding:20px;align-items:center}
+.card-header img{width:100px;height:100px;object-fit:cover;border:1px solid rgba(0,212,255,0.1)}
+.card-meta{flex:1}
+.card-meta .lot{font-size:10px;letter-spacing:2px;color:var(--dim)}
+.card-meta h3{font-size:16px;color:var(--cyan);margin-top:4px;letter-spacing:1px}
+.card-meta .specs{font-size:11px;color:var(--dim);margin-top:6px;line-height:1.6}
+.card-data{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(0,212,255,0.08)}
+.card-datum{padding:12px;text-align:center;border-right:1px solid rgba(0,212,255,0.08)}
+.card-datum:last-child{border-right:none}
+.card-datum .d-label{font-size:9px;letter-spacing:1px;color:var(--dim);display:block}
+.card-datum .d-value{font-size:14px;color:var(--cyan);margin-top:4px;display:block;font-weight:500}
+.card-price{padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,212,255,0.08)}
+.card-price .price{font-size:18px;color:var(--green);font-weight:600}
+.card-price .action{font-size:10px;letter-spacing:2px;color:var(--cyan);text-transform:uppercase}
+@media(max-width:768px){.analysis-grid{grid-template-columns:1fr;padding:0 20px 40px}.lab-header{padding:100px 20px 24px}}
+</style></head><body>
+<nav class="nav"><a href="index.html" class="nav-brand">VAULT MAISON <span class="nav-sub">OBSERVATORY</span></a>
+<div class="nav-links"><a href="listing.html">Analysis Lab</a><a href="index.html">Dashboard</a></div></nav>
+<div class="lab-header"><h1>// ANALYSIS LAB</h1><p>Hover over data points to reveal spectral analysis overlays</p></div>
+<div class="analysis-grid" id="analysisGrid"></div>
+<footer class="footer"><p>© 2026 Vault Maison Observatory</p></footer>
+<script>
+fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
+const grid=document.getElementById('analysisGrid');
+products.forEach(p=>{
+const card=document.createElement('a');card.href='detail.html?id='+p.id;card.className='analysis-card';
+const brilliance=(Math.random()*5+95).toFixed(1);const fire=(Math.random()*5+92).toFixed(1);const scint=(Math.random()*5+90).toFixed(1);
+card.innerHTML=`<div class="card-header"><img src="${p.image}" alt="${p.name}"><div class="card-meta"><div class="lot">${p.lotNumber}</div><h3>${p.name}</h3><div class="specs">${p.shape} · ${p.carat}ct · ${p.color}/${p.clarity} · ${p.cut}</div></div></div>
+<div class="card-data"><div class="card-datum"><span class="d-label">BRILLIANCE</span><span class="d-value">${brilliance}</span></div><div class="card-datum"><span class="d-label">FIRE</span><span class="d-value">${fire}</span></div><div class="card-datum"><span class="d-label">SCINTILLATION</span><span class="d-value">${scint}</span></div><div class="card-datum"><span class="d-label">ORIGIN</span><span class="d-value">${p.origin.substring(0,3).toUpperCase()}</span></div></div>
+<div class="card-price"><span class="price">$${p.price.toLocaleString()}</span><span class="action">Analyze →</span></div>`;
+grid.appendChild(card)})})
+</script></body></html>

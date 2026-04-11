@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Product — Vault Maison Salon</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/salon.css">
+<style>
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.modal{background:white;width:100%;max-width:600px;max-height:90vh;border-radius:16px 16px 0 0;overflow-y:auto;padding:32px}
+.modal img{width:100%;height:300px;object-fit:cover;border-radius:12px}
+.modal h1{font-size:28px;font-weight:400;margin-top:20px}
+.modal .desc{font-size:14px;color:var(--dim);line-height:1.8;margin-top:12px}
+.modal .specs{font-family:var(--body);font-size:12px;color:var(--dim);margin-top:16px;line-height:2}
+.modal .price{font-size:24px;color:var(--sage);margin-top:16px}
+.modal .btn-row{display:flex;gap:12px;margin-top:20px}
+.modal .btn-primary{flex:1;padding:14px;background:var(--sage);color:white;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:var(--body)}
+.modal .btn-secondary{flex:1;padding:14px;background:transparent;color:var(--sage);border:1px solid var(--sage);border-radius:8px;font-size:13px;cursor:pointer;font-family:var(--body)}
+.chat-fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:var(--sage);color:white;border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:100}
+.back{display:inline-block;padding:100px 48px 0;font-family:var(--body);font-size:12px;color:var(--sage);text-decoration:none;letter-spacing:2px}
+</style></head><body>
+<nav class="nav"><a href="index.html" class="nav-brand">Vault Maison</a>
+<div class="nav-links"><a href="listing.html">Collection</a><a href="index.html">Home</a></div></nav>
+<a href="listing.html" class="back">← Back to Collection</a>
+<div class="modal-overlay">
+<div class="modal" id="modal"></div>
+</div>
+<button class="chat-fab" onclick="alert('Chat with your advisor: Your personal concierge is available 24/7.')">💬</button>
+<footer class="footer"><p>© 2026 Vault Maison Salon</p></footer>
+<script>
+const pid=new URLSearchParams(window.location.search).get('id')||'vm-001';
+fetch('../shared/data/products.json').then(r=>r.json()).then(products=>{
+const p=products.find(x=>x.id===pid)||products[0];
+document.getElementById('modal').innerHTML=`
+<img src="${p.image}" alt="${p.name}">
+<h1>${p.name}</h1>
+<p class="desc">${p.description}</p>
+<div class="specs">${p.shape} · ${p.carat}ct · Color ${p.color} · Clarity ${p.clarity} · ${p.cut} Cut<br>Origin: ${p.origin} · ${p.certified} ${p.certNumber}</div>
+<div class="price">$${p.price.toLocaleString()}</div>
+<div class="btn-row"><button class="btn-primary" onclick="alert('Your advisor has been notified. They will reach out shortly to discuss this piece.')">Discuss with Advisor</button><button class="btn-secondary">Add to Wishlist</button></div>`;
+})
+</script></body></html>
