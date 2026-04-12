@@ -8,10 +8,6 @@ import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers } from '@/data/products'
 import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
-import { BlurFade } from '@/components/ui/blur-fade'
-import { HoverBorderGradient } from '@/components/ui/hover-border-gradient'
-import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards'
-import { MagneticButton } from '@/components/ui/magnetic-button'
 
 interface Message {
   role: 'concierge' | 'user'
@@ -69,7 +65,7 @@ function ConciergeChat({ concept }: { concept: ConceptConfig }) {
     >
       <div className="px-4 py-3 flex items-center gap-3" style={{ borderBottom: `1px solid ${concept.palette.muted}` }}>
         <div className="w-2 h-2 rounded-full bg-green-400" />
-        <span className="text-[10px] uppercase tracking-[0.15em] opacity-60">Concierge Online</span>
+        <span className="text-[10px] uppercase tracking-[0.15em]" style={{ color: concept.palette.text, opacity: 0.6 }}>Concierge Online</span>
       </div>
       <div ref={chatRef} className="flex-1 overflow-y-auto p-4 space-y-3">
         <AnimatePresence>
@@ -95,7 +91,7 @@ function ConciergeChat({ concept }: { concept: ConceptConfig }) {
           ))}
         </AnimatePresence>
         {typing && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-1 px-4 py-3">
+          <div className="flex gap-1 px-4 py-3">
             {[0, 1, 2].map((i) => (
               <motion.span
                 key={i}
@@ -105,7 +101,7 @@ function ConciergeChat({ concept }: { concept: ConceptConfig }) {
                 transition={{ duration: 1, delay: i * 0.2, repeat: Infinity }}
               />
             ))}
-          </motion.div>
+          </div>
         )}
       </div>
       <div className="p-3" style={{ borderTop: `1px solid ${concept.palette.muted}` }}>
@@ -140,46 +136,38 @@ export function SalonHome({ concept }: { concept: ConceptConfig }) {
       <section className="min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12 py-32 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <BlurFade delay={0.1}>
+            <div>
               <p className="text-[10px] uppercase tracking-[0.3em] mb-8" style={{ color: concept.palette.accent }}>
                 The Salon Experience
               </p>
-              <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}>
+              <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
                 Your Personal<br />
                 <span style={{ color: concept.palette.accent }}>Concierge</span>
               </h1>
-              <p className="text-sm font-light opacity-50 mb-8 leading-relaxed max-w-md">
+              <p className="text-sm font-light mb-8 leading-relaxed max-w-md" style={{ color: concept.palette.text, opacity: 0.5 }}>
                 The Salon reimagines luxury shopping as a conversation. No browsing, no searching —
                 simply tell us what you desire and our concierge will curate the perfect selection for you.
               </p>
               <div className="flex gap-4">
-                {/* 21st.dev: MagneticButton */}
-                <MagneticButton>
-                  <Link
-                    href={buildConceptUrl('salon', 'appointments')}
-                    className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
-                    style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
-                  >
-                    Book Appointment
-                  </Link>
-                </MagneticButton>
-                {/* Aceternity: HoverBorderGradient */}
-                <HoverBorderGradient
-                  gradientColors={[concept.palette.accent, concept.palette.muted, concept.palette.accent]}
+                <Link
+                  href={buildConceptUrl('salon', 'appointments')}
+                  className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
+                  style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
                 >
-                  <Link
-                    href={buildConceptUrl('salon', 'collections')}
-                    className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em]"
-                    style={{ backgroundColor: concept.palette.bg, color: concept.palette.text }}
-                  >
-                    Browse Independently →
-                  </Link>
-                </HoverBorderGradient>
+                  Book Appointment
+                </Link>
+                <Link
+                  href={buildConceptUrl('salon', 'collections')}
+                  className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
+                  style={{ borderColor: concept.palette.muted, color: concept.palette.text }}
+                >
+                  Browse Independently &rarr;
+                </Link>
               </div>
-            </BlurFade>
-            <BlurFade delay={0.3}>
+            </div>
+            <div>
               <ConciergeChat concept={concept} />
-            </BlurFade>
+            </div>
           </div>
         </div>
       </section>
@@ -202,30 +190,31 @@ export function SalonHome({ concept }: { concept: ConceptConfig }) {
 
       <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <BlurFade>
-            <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
-              Browse Categories
-            </h2>
-          </BlurFade>
+          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+            Browse Categories
+          </h2>
           <CategoryGrid concept={concept} />
         </div>
       </div>
 
-      {/* Aceternity: InfiniteMovingCards */}
+      {/* Testimonials grid */}
       <section className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.surface }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12 mb-8">
-          <BlurFade>
-            <h2 className={`text-xl font-light tracking-[0.05em] ${concept.fonts.headingClass}`}>
-              Client Experiences
-            </h2>
-          </BlurFade>
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
+          <h2 className={`text-xl font-light tracking-[0.05em] mb-12 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+            Client Experiences
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {salonTestimonials.map((t) => (
+              <div key={t.name} className="p-8" style={{ backgroundColor: concept.palette.bg }}>
+                <p className="text-sm font-light leading-relaxed mb-6" style={{ color: concept.palette.text, opacity: 0.7 }}>
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <p className="text-[11px] font-medium" style={{ color: concept.palette.text }}>{t.name}</p>
+                <p className="text-[10px] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>{t.title}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <InfiniteMovingCards
-          items={salonTestimonials}
-          speed="slow"
-          textColor={concept.palette.text}
-          accentColor={concept.palette.accent}
-        />
       </section>
 
       <CTABanner

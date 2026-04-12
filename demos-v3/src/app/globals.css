@@ -71,3 +71,11 @@ body {
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 ::selection { background: rgba(212, 175, 55, 0.3); color: inherit; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}

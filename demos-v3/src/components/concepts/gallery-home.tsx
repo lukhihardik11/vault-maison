@@ -1,16 +1,12 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers, getNewArrivals, products } from '@/data/products'
 import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
-import { BlurFade } from '@/components/ui/blur-fade'
-import { TextReveal } from '@/components/ui/text-reveal'
 import { ParallaxScroll } from '@/components/ui/parallax-scroll'
-import { Marquee } from '@/components/ui/marquee'
 
 export function GalleryHome({ concept }: { concept: ConceptConfig }) {
   const featured = getBestsellers().slice(0, 3)
@@ -36,7 +32,7 @@ export function GalleryHome({ concept }: { concept: ConceptConfig }) {
           />
         </div>
         <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12 pb-20 lg:pb-32 w-full">
-          <BlurFade delay={0.2}>
+          <div>
             <p
               className="text-[10px] uppercase tracking-[0.3em] mb-6"
               style={{ color: concept.palette.accent }}
@@ -45,11 +41,12 @@ export function GalleryHome({ concept }: { concept: ConceptConfig }) {
             </p>
             <h1
               className={`text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.01em] leading-[1.05] mb-6 ${concept.fonts.headingClass}`}
+              style={{ color: concept.palette.text }}
             >
               The Art of<br />
               <em className="italic">Brilliance</em>
             </h1>
-            <p className="text-sm font-light opacity-50 max-w-md mb-10 leading-relaxed">
+            <p className="text-sm font-light max-w-md mb-10 leading-relaxed" style={{ color: concept.palette.text, opacity: 0.5 }}>
               A curated exhibition of extraordinary diamonds and fine jewelry,
               presented as works of art deserving of contemplation and reverence.
             </p>
@@ -60,32 +57,30 @@ export function GalleryHome({ concept }: { concept: ConceptConfig }) {
             >
               Enter the Exhibition
             </Link>
-          </BlurFade>
+          </div>
         </div>
       </section>
 
       {/* Exhibition marquee */}
-      <section className="py-6" style={{ borderBottom: `1px solid ${concept.palette.muted}` }}>
-        <Marquee speed={50}>
-          {['Now Showing', 'The Art of Brilliance', 'Curated Collection', 'By Appointment', 'Private Viewings Available', 'Limited Exhibition'].map((text) => (
-            <span key={text} className="text-[10px] uppercase tracking-[0.3em] opacity-20 mx-8 whitespace-nowrap">
+      <section className="py-6 overflow-hidden" style={{ borderBottom: `1px solid ${concept.palette.muted}` }}>
+        <div className="flex gap-16 animate-marquee whitespace-nowrap">
+          {['Now Showing', 'The Art of Brilliance', 'Curated Collection', 'By Appointment', 'Private Viewings Available', 'Limited Exhibition', 'Now Showing', 'The Art of Brilliance', 'Curated Collection', 'By Appointment', 'Private Viewings Available', 'Limited Exhibition'].map((text, i) => (
+            <span key={i} className="text-[10px] uppercase tracking-[0.3em]" style={{ color: concept.palette.text, opacity: 0.2 }}>
               {text}
             </span>
           ))}
-        </Marquee>
+        </div>
       </section>
 
       {/* Editorial grid - asymmetric layout */}
       <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <BlurFade>
-            <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-12">
-              Featured Works
-            </p>
-          </BlurFade>
+          <p className="text-[10px] uppercase tracking-[0.2em] mb-12" style={{ color: concept.palette.text, opacity: 0.4 }}>
+            Featured Works
+          </p>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Large feature */}
-            <BlurFade delay={0.1} className="lg:col-span-7">
+            <div className="lg:col-span-7">
               <Link href={buildConceptUrl('gallery', `product/${featured[0].slug}`)} className="group block">
                 <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
                   <Image
@@ -98,72 +93,64 @@ export function GalleryHome({ concept }: { concept: ConceptConfig }) {
                   />
                 </div>
                 <div className="mt-4">
-                  <h3 className={`text-lg font-light tracking-[0.02em] ${concept.fonts.headingClass}`}>
+                  <h3 className={`text-lg font-light tracking-[0.02em] ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
                     {featured[0].name}
                   </h3>
-                  <p className="text-xs opacity-40 mt-1">{featured[0].subtitle}</p>
+                  <p className="text-xs mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>{featured[0].subtitle}</p>
                   <p className="text-sm mt-2" style={{ color: concept.palette.accent }}>{featured[0].priceDisplay}</p>
                 </div>
               </Link>
-            </BlurFade>
+            </div>
 
             {/* Stacked features */}
             <div className="lg:col-span-5 flex flex-col gap-6">
-              {featured.slice(1).map((p, i) => (
-                <BlurFade key={p.id} delay={0.2 + i * 0.1}>
-                  <Link href={buildConceptUrl('gallery', `product/${p.slug}`)} className="group block">
-                    <div className="relative overflow-hidden" style={{ aspectRatio: '3/2' }}>
-                      <Image
-                        src={p.images[0]}
-                        alt={p.name}
-                        fill
-                        className="object-cover transition-transform group-hover:scale-[1.02]"
-                        style={{ transitionDuration: '1200ms' }}
-                        sizes="40vw"
-                      />
-                    </div>
-                    <div className="mt-3">
-                      <h3 className={`text-sm font-light ${concept.fonts.headingClass}`}>{p.name}</h3>
-                      <p className="text-xs opacity-40 mt-1">{p.priceDisplay}</p>
-                    </div>
-                  </Link>
-                </BlurFade>
+              {featured.slice(1).map((p) => (
+                <Link key={p.id} href={buildConceptUrl('gallery', `product/${p.slug}`)} className="group block">
+                  <div className="relative overflow-hidden" style={{ aspectRatio: '3/2' }}>
+                    <Image
+                      src={p.images[0]}
+                      alt={p.name}
+                      fill
+                      className="object-cover transition-transform group-hover:scale-[1.02]"
+                      style={{ transitionDuration: '1200ms' }}
+                      sizes="40vw"
+                    />
+                  </div>
+                  <div className="mt-3">
+                    <h3 className={`text-sm font-light ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>{p.name}</h3>
+                    <p className="text-xs mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>{p.priceDisplay}</p>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Magic UI: TextReveal */}
+      {/* Quote section */}
       <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-4xl px-6 lg:px-12">
-          <TextReveal
-            text="Like a museum curator selecting works for an exhibition, we choose each piece for its artistic merit, rarity, and emotional resonance."
-            className={`text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed ${concept.fonts.headingClass}`}
-            revealColor={concept.palette.text}
-          />
+          <p className={`text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+            &ldquo;Like a museum curator selecting works for an exhibition, we choose each piece for its artistic merit, rarity, and emotional resonance.&rdquo;
+          </p>
         </div>
       </section>
 
-      {/* Aceternity: ParallaxScroll gallery */}
+      {/* Gallery wall */}
       <section className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.surface }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <BlurFade>
-            <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
-              Gallery Wall
-            </h2>
-          </BlurFade>
+          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+            Gallery Wall
+          </h2>
           <ParallaxScroll images={galleryImages} />
         </div>
       </section>
 
       <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <BlurFade>
-            <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
-              Exhibition Rooms
-            </h2>
-          </BlurFade>
+          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+            Exhibition Rooms
+          </h2>
           <CategoryGrid concept={concept} />
         </div>
       </div>
