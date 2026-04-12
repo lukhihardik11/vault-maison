@@ -29,3 +29,6 @@ export { AnimatedBeam } from './animated-beam'
 
 // 21st.dev inspired components
 export { MagneticButton } from './magnetic-button'
+
+// Background patterns
+export { DotPattern } from './dot-pattern'
