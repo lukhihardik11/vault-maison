@@ -8,11 +8,22 @@ import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers } from '@/data/products'
 import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { BlurFade } from '@/components/ui/blur-fade'
+import { HoverBorderGradient } from '@/components/ui/hover-border-gradient'
+import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards'
+import { MagneticButton } from '@/components/ui/magnetic-button'
 
 interface Message {
   role: 'concierge' | 'user'
   text: string
 }
+
+const salonTestimonials = [
+  { quote: 'The Salon concierge understood exactly what I wanted before I could even articulate it.', name: 'Elena Vasquez', title: 'Client, New York' },
+  { quote: 'Within minutes, they presented three options — and one was absolutely perfect for our anniversary.', name: 'David Park', title: 'Client, Seoul' },
+  { quote: 'A truly bespoke experience. The concierge made me feel like the only client in the world.', name: 'Sophia Laurent', title: 'Client, Paris' },
+  { quote: 'The level of personal attention is unmatched. They remembered every detail from our first conversation.', name: 'Aisha Khan', title: 'Client, Dubai' },
+]
 
 function ConciergeChat({ concept }: { concept: ConceptConfig }) {
   const [messages, setMessages] = useState<Message[]>([])
@@ -129,11 +140,7 @@ export function SalonHome({ concept }: { concept: ConceptConfig }) {
       <section className="min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12 py-32 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1 }}
-            >
+            <BlurFade delay={0.1}>
               <p className="text-[10px] uppercase tracking-[0.3em] mb-8" style={{ color: concept.palette.accent }}>
                 The Salon Experience
               </p>
@@ -145,21 +152,34 @@ export function SalonHome({ concept }: { concept: ConceptConfig }) {
                 The Salon reimagines luxury shopping as a conversation. No browsing, no searching —
                 simply tell us what you desire and our concierge will curate the perfect selection for you.
               </p>
-              <Link
-                href={buildConceptUrl('salon', 'collections')}
-                className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
-                style={{ borderColor: concept.palette.muted }}
-              >
-                Or Browse Independently →
-              </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
+              <div className="flex gap-4">
+                {/* 21st.dev: MagneticButton */}
+                <MagneticButton>
+                  <Link
+                    href={buildConceptUrl('salon', 'appointments')}
+                    className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
+                    style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
+                  >
+                    Book Appointment
+                  </Link>
+                </MagneticButton>
+                {/* Aceternity: HoverBorderGradient */}
+                <HoverBorderGradient
+                  gradientColors={[concept.palette.accent, concept.palette.muted, concept.palette.accent]}
+                >
+                  <Link
+                    href={buildConceptUrl('salon', 'collections')}
+                    className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em]"
+                    style={{ backgroundColor: concept.palette.bg, color: concept.palette.text }}
+                  >
+                    Browse Independently →
+                  </Link>
+                </HoverBorderGradient>
+              </div>
+            </BlurFade>
+            <BlurFade delay={0.3}>
               <ConciergeChat concept={concept} />
-            </motion.div>
+            </BlurFade>
           </div>
         </div>
       </section>
@@ -182,19 +202,31 @@ export function SalonHome({ concept }: { concept: ConceptConfig }) {
 
       <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
-            Browse Categories
-          </h2>
+          <BlurFade>
+            <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
+              Browse Categories
+            </h2>
+          </BlurFade>
           <CategoryGrid concept={concept} />
         </div>
       </div>
 
-      <Testimonial
-        concept={concept}
-        quote="The Salon concierge understood exactly what I wanted before I could even articulate it. Within minutes, they presented three options — and one was absolutely perfect."
-        author="Elena Vasquez"
-        title="Salon Client, New York"
-      />
+      {/* Aceternity: InfiniteMovingCards */}
+      <section className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.surface }}>
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-12 mb-8">
+          <BlurFade>
+            <h2 className={`text-xl font-light tracking-[0.05em] ${concept.fonts.headingClass}`}>
+              Client Experiences
+            </h2>
+          </BlurFade>
+        </div>
+        <InfiniteMovingCards
+          items={salonTestimonials}
+          speed="slow"
+          textColor={concept.palette.text}
+          accentColor={concept.palette.accent}
+        />
+      </section>
 
       <CTABanner
         concept={concept}

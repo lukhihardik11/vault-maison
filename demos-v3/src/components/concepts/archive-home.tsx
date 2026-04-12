@@ -7,6 +7,10 @@ import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers } from '@/data/products'
 import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { BlurFade } from '@/components/ui/blur-fade'
+import { TextReveal } from '@/components/ui/text-reveal'
+import { NumberTicker } from '@/components/ui/number-ticker'
+import { AnimatedBeam } from '@/components/ui/animated-beam'
 
 export function ArchiveHome({ concept }: { concept: ConceptConfig }) {
   const featured = getBestsellers().slice(0, 4)
@@ -35,76 +39,112 @@ export function ArchiveHome({ concept }: { concept: ConceptConfig }) {
           />
         </div>
         <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12 py-32 w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2 }}
-            className="max-w-2xl"
-          >
-            <p className="text-[10px] uppercase tracking-[0.3em] mb-8" style={{ color: concept.palette.accent }}>
-              The Archive · Provenance & Heritage
-            </p>
-            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}>
-              Every Stone<br />
-              Carries <em className="italic" style={{ color: concept.palette.accent }}>History</em>
-            </h1>
-            <p className="text-sm font-light opacity-50 mb-10 leading-relaxed max-w-lg">
-              The Archive is dedicated to the provenance and heritage of extraordinary gems.
-              Here, every diamond comes with its full story — from the earth to your hand,
-              documented and authenticated across generations.
-            </p>
-            <Link
-              href={buildConceptUrl('archive', 'collections')}
-              className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
-              style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
-            >
-              {concept.ctaText.browse}
-            </Link>
-          </motion.div>
+          <BlurFade delay={0.2}>
+            <div className="max-w-2xl">
+              <p className="text-[10px] uppercase tracking-[0.3em] mb-8" style={{ color: concept.palette.accent }}>
+                The Archive · Provenance & Heritage
+              </p>
+              <h1 className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}>
+                Every Stone<br />
+                Carries <em className="italic" style={{ color: concept.palette.accent }}>History</em>
+              </h1>
+              <p className="text-sm font-light opacity-50 mb-10 leading-relaxed max-w-lg">
+                The Archive is dedicated to the provenance and heritage of extraordinary gems.
+                Here, every diamond comes with its full story — from the earth to your hand,
+                documented and authenticated across generations.
+              </p>
+              <Link
+                href={buildConceptUrl('archive', 'collections')}
+                className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
+                style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
+              >
+                {concept.ctaText.browse}
+              </Link>
+            </div>
+          </BlurFade>
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.surface }}>
+      {/* Archive stats */}
+      <section className="py-12" style={{ backgroundColor: concept.palette.surface }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4">Heritage Timeline</p>
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-16 ${concept.fonts.headingClass}`}>
-            A History of Brilliance
-          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            {[
+              { value: 5000, suffix: '+', label: 'Years of Diamond History' },
+              { value: 150, suffix: '+', label: 'Documented Specimens' },
+              { value: 12, suffix: '', label: 'Source Countries' },
+              { value: 100, suffix: '%', label: 'Verified Provenance' },
+            ].map((stat, i) => (
+              <BlurFade key={stat.label} delay={i * 0.1}>
+                <div>
+                  <p className={`text-3xl lg:text-4xl font-light ${concept.fonts.headingClass}`} style={{ color: concept.palette.accent }}>
+                    <NumberTicker value={stat.value} delay={0.3 + i * 0.1} suffix={stat.suffix} />
+                  </p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mt-2">{stat.label}</p>
+                </div>
+              </BlurFade>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline with AnimatedBeam */}
+      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
+          <BlurFade>
+            <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4">Heritage Timeline</p>
+            <h2 className={`text-xl font-light tracking-[0.05em] mb-16 ${concept.fonts.headingClass}`}>
+              A History of Brilliance
+            </h2>
+          </BlurFade>
           <div className="relative">
             <div
               className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px"
               style={{ backgroundColor: concept.palette.muted }}
             />
+            {/* Magic UI: AnimatedBeam on timeline */}
+            <AnimatedBeam
+              color={concept.palette.accent}
+              direction="vertical"
+              className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
+            />
             {timeline.map((item, i) => (
-              <motion.div
-                key={item.year}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className={`relative flex items-center mb-12 ${
-                  i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                <div className={`hidden md:block md:w-1/2 ${i % 2 === 0 ? 'pr-12 text-right' : 'pl-12'}`}>
-                  <p className="text-2xl font-light" style={{ color: concept.palette.accent, opacity: 0.5 }}>
-                    {item.year}
-                  </p>
-                </div>
+              <BlurFade key={item.year} delay={i * 0.1}>
                 <div
-                  className="absolute left-4 md:left-1/2 w-3 h-3 rounded-full -translate-x-1/2"
-                  style={{ backgroundColor: concept.palette.accent }}
-                />
-                <div className={`ml-12 md:ml-0 md:w-1/2 ${i % 2 === 0 ? 'md:pl-12' : 'md:pr-12 md:text-right'}`}>
-                  <p className="text-lg font-light md:hidden mb-1" style={{ color: concept.palette.accent, opacity: 0.5 }}>
-                    {item.year}
-                  </p>
-                  <p className="text-sm font-light opacity-60 leading-relaxed">{item.event}</p>
+                  className={`relative flex items-center mb-12 ${
+                    i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                  }`}
+                >
+                  <div className={`hidden md:block md:w-1/2 ${i % 2 === 0 ? 'pr-12 text-right' : 'pl-12'}`}>
+                    <p className="text-2xl font-light" style={{ color: concept.palette.accent, opacity: 0.5 }}>
+                      {item.year}
+                    </p>
+                  </div>
+                  <div
+                    className="absolute left-4 md:left-1/2 w-3 h-3 rounded-full -translate-x-1/2"
+                    style={{ backgroundColor: concept.palette.accent }}
+                  />
+                  <div className={`ml-12 md:ml-0 md:w-1/2 ${i % 2 === 0 ? 'md:pl-12' : 'md:pr-12 md:text-right'}`}>
+                    <p className="text-lg font-light md:hidden mb-1" style={{ color: concept.palette.accent, opacity: 0.5 }}>
+                      {item.year}
+                    </p>
+                    <p className="text-sm font-light opacity-60 leading-relaxed">{item.event}</p>
+                  </div>
                 </div>
-              </motion.div>
+              </BlurFade>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Magic UI: TextReveal */}
+      <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.surface }}>
+        <div className="mx-auto max-w-4xl px-6 lg:px-12">
+          <TextReveal
+            text="Knowing the complete history of a diamond, from the mine to the cutting house, gives it a meaning that transcends its material value. Provenance is the soul of every extraordinary gem."
+            className={`text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed ${concept.fonts.headingClass}`}
+            revealColor={concept.palette.text}
+          />
         </div>
       </section>
 
@@ -126,9 +166,11 @@ export function ArchiveHome({ concept }: { concept: ConceptConfig }) {
 
       <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
-            Browse the Archive
-          </h2>
+          <BlurFade>
+            <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
+              Browse the Archive
+            </h2>
+          </BlurFade>
           <CategoryGrid concept={concept} />
         </div>
       </div>

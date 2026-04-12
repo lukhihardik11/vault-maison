@@ -83,13 +83,14 @@ export function LuxuryNav({ concept }: LuxuryNavProps) {
 
             {/* Actions */}
             <div className="flex items-center gap-4 lg:gap-6">
-              <button
+              <Link
+                href={buildConceptUrl(concept.id, 'search')}
                 className="transition-opacity hover:opacity-60 hidden lg:block"
                 style={{ transitionDuration: '600ms' }}
                 aria-label="Search"
               >
                 <Search size={isMinimal ? 16 : 18} strokeWidth={1.5} />
-              </button>
+              </Link>
               <Link
                 href={buildConceptUrl(concept.id, 'account')}
                 className="transition-opacity hover:opacity-60 hidden lg:block"
@@ -99,7 +100,7 @@ export function LuxuryNav({ concept }: LuxuryNavProps) {
                 <User size={isMinimal ? 16 : 18} strokeWidth={1.5} />
               </Link>
               <Link
-                href={buildConceptUrl(concept.id, 'account')}
+                href={buildConceptUrl(concept.id, 'wishlist')}
                 className="relative transition-opacity hover:opacity-60"
                 style={{ transitionDuration: '600ms' }}
                 aria-label="Wishlist"
@@ -195,15 +196,24 @@ export function LuxuryNav({ concept }: LuxuryNavProps) {
                     </Link>
                   </motion.div>
                 ))}
-                <div className="mt-8 pt-8" style={{ borderTop: `1px solid ${concept.palette.muted}` }}>
-                  <Link
-                    href={buildConceptUrl(concept.id, 'contact')}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="block text-xs uppercase tracking-[0.2em] font-light opacity-60"
-                    style={{ color: concept.palette.text }}
-                  >
-                    {concept.ctaText.contact}
-                  </Link>
+                <div className="mt-8 pt-8 space-y-4" style={{ borderTop: `1px solid ${concept.palette.muted}` }}>
+                  {[
+                    { label: 'Search', href: buildConceptUrl(concept.id, 'search') },
+                    { label: 'Wishlist', href: buildConceptUrl(concept.id, 'wishlist') },
+                    { label: 'Cart', href: buildConceptUrl(concept.id, 'cart') },
+                    { label: 'Account', href: buildConceptUrl(concept.id, 'account') },
+                    { label: concept.ctaText.contact, href: buildConceptUrl(concept.id, 'contact') },
+                  ].map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block text-xs uppercase tracking-[0.2em] font-light opacity-60"
+                      style={{ color: concept.palette.text }}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
                 </div>
               </div>
             </div>

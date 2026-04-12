@@ -8,6 +8,10 @@ import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers } from '@/data/products'
 import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { BlurFade } from '@/components/ui/blur-fade'
+import { Particles } from '@/components/ui/particles'
+import { GradientText } from '@/components/ui/gradient-text'
+import { Marquee } from '@/components/ui/marquee'
 
 const heroSlides = [
   { image: '/images/diamond-dark-bg-1.jpg', title: 'Act I', subtitle: 'The Discovery', desc: 'Deep within the earth, carbon transforms under immense pressure into something extraordinary.' },
@@ -28,8 +32,11 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
 
   return (
     <ConceptLayout concept={concept}>
-      {/* Cinematic hero with slide transitions */}
+      {/* Cinematic hero with slide transitions + Particles */}
       <section className="relative h-screen overflow-hidden" style={{ backgroundColor: '#000' }}>
+        {/* Magic UI: Particles */}
+        <Particles quantity={40} color={concept.palette.accent} size={1} className="z-20" />
+
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -65,7 +72,10 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
                   {heroSlides[currentSlide].title}
                 </p>
                 <h2 className={`text-4xl md:text-6xl font-light tracking-[0.02em] mb-4 text-white ${concept.fonts.headingClass}`}>
-                  {heroSlides[currentSlide].subtitle}
+                  {/* Magic UI: GradientText */}
+                  <GradientText colors={[concept.palette.accent, '#F5E6A3', concept.palette.accent]}>
+                    {heroSlides[currentSlide].subtitle}
+                  </GradientText>
                 </h2>
                 <p className="text-sm font-light opacity-50 max-w-md text-white leading-relaxed">
                   {heroSlides[currentSlide].desc}
@@ -98,24 +108,31 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
+      {/* Cinematic marquee */}
+      <section className="py-4" style={{ backgroundColor: '#000', borderBottom: `1px solid ${concept.palette.muted}` }}>
+        <Marquee speed={45}>
+          {['Now Showing', 'The Diamond Theater', 'Act I: Discovery', 'Act II: Transformation', 'Act III: The Reveal', 'Private Screenings Available'].map((text) => (
+            <span key={text} className="text-[10px] uppercase tracking-[0.3em] opacity-20 mx-8 whitespace-nowrap text-white">
+              {text}
+            </span>
+          ))}
+        </Marquee>
+      </section>
+
       {/* Dramatic product showcase */}
       <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4" style={{ color: concept.palette.accent }}>
-            Now Showing
-          </p>
-          <h2 className={`text-2xl font-light tracking-[0.05em] mb-16 ${concept.fonts.headingClass}`}>
-            The Main Stage
-          </h2>
+          <BlurFade>
+            <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4" style={{ color: concept.palette.accent }}>
+              Now Showing
+            </p>
+            <h2 className={`text-2xl font-light tracking-[0.05em] mb-16 ${concept.fonts.headingClass}`}>
+              The Main Stage
+            </h2>
+          </BlurFade>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
             {featured.map((p, i) => (
-              <motion.div
-                key={p.id}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: i * 0.15 }}
-              >
+              <BlurFade key={p.id} delay={i * 0.15}>
                 <Link href={buildConceptUrl('theater', `product/${p.slug}`)} className="group block relative overflow-hidden">
                   <div className="relative" style={{ aspectRatio: '16/9' }}>
                     <Image
@@ -138,7 +155,7 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </BlurFade>
             ))}
           </div>
         </div>
@@ -155,9 +172,11 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
 
       <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
-            Browse Scenes
-          </h2>
+          <BlurFade>
+            <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
+              Browse Scenes
+            </h2>
+          </BlurFade>
           <CategoryGrid concept={concept} />
         </div>
       </div>

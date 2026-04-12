@@ -8,6 +8,11 @@ import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers, products } from '@/data/products'
 import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { NumberTicker } from '@/components/ui/number-ticker'
+import { SpotlightCard } from '@/components/ui/spotlight-card'
+import { BlurFade } from '@/components/ui/blur-fade'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
+import { AnimatedGradient } from '@/components/ui/animated-gradient'
 
 function CountdownTimer({ concept }: { concept: ConceptConfig }) {
   const [time, setTime] = useState({ h: 23, m: 45, s: 12 })
@@ -57,55 +62,54 @@ export function MarketplaceHome({ concept }: { concept: ConceptConfig }) {
       <section className="min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12 py-32 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1 }}
-            >
-              <div
-                className="inline-block px-3 py-1 text-[9px] uppercase tracking-[0.2em] mb-8"
-                style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
-              >
-                Live Auction
-              </div>
-              <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}>
-                The Diamond<br />
-                <span style={{ color: concept.palette.accent }}>Marketplace</span>
-              </h1>
-              <p className="text-sm font-light opacity-50 mb-8 leading-relaxed max-w-md">
-                Exclusive access to rare and exceptional diamonds. Bid on one-of-a-kind pieces,
-                explore curated lots, and acquire extraordinary stones at market-driven prices.
-              </p>
-              <div className="mb-8">
-                <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4">
-                  Current Auction Ends In
+            <BlurFade delay={0.1}>
+              <div>
+                {/* Magic UI: AnimatedGradient badge */}
+                <AnimatedGradient
+                  colors={[concept.palette.accent, '#8B6914', concept.palette.accent, '#F5E6A3']}
+                  className="inline-block px-3 py-1 mb-8"
+                >
+                  <span className="text-[9px] uppercase tracking-[0.2em]" style={{ color: concept.palette.bg }}>
+                    Live Auction
+                  </span>
+                </AnimatedGradient>
+                <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}>
+                  The Diamond<br />
+                  <span style={{ color: concept.palette.accent }}>Marketplace</span>
+                </h1>
+                <p className="text-sm font-light opacity-50 mb-8 leading-relaxed max-w-md">
+                  Exclusive access to rare and exceptional diamonds. Bid on one-of-a-kind pieces,
+                  explore curated lots, and acquire extraordinary stones at market-driven prices.
                 </p>
-                <CountdownTimer concept={concept} />
+                <div className="mb-8">
+                  <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4">
+                    Current Auction Ends In
+                  </p>
+                  <CountdownTimer concept={concept} />
+                </div>
+                <div className="flex gap-4">
+                  <Link href={buildConceptUrl('marketplace', 'collections')}>
+                    {/* Magic UI: ShimmerButton */}
+                    <ShimmerButton
+                      shimmerColor={concept.palette.accent}
+                      background={concept.palette.accent}
+                    >
+                      <span style={{ color: concept.palette.bg }}>Browse Lots</span>
+                    </ShimmerButton>
+                  </Link>
+                  <Link
+                    href={buildConceptUrl('marketplace', 'account')}
+                    className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
+                    style={{ borderColor: concept.palette.muted }}
+                  >
+                    Register to Bid
+                  </Link>
+                </div>
               </div>
-              <div className="flex gap-4">
-                <Link
-                  href={buildConceptUrl('marketplace', 'collections')}
-                  className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
-                  style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
-                >
-                  Browse Lots
-                </Link>
-                <Link
-                  href={buildConceptUrl('marketplace', 'account')}
-                  className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
-                  style={{ borderColor: concept.palette.muted }}
-                >
-                  Register to Bid
-                </Link>
-              </div>
-            </motion.div>
+            </BlurFade>
 
             {/* Featured lot */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
+            <BlurFade delay={0.3}>
               {featured[0] && (
                 <Link href={buildConceptUrl('marketplace', `product/${featured[0].slug}`)} className="group block">
                   <div className="relative overflow-hidden" style={{ aspectRatio: '1/1' }}>
@@ -138,21 +142,46 @@ export function MarketplaceHome({ concept }: { concept: ConceptConfig }) {
                   </div>
                 </Link>
               )}
-            </motion.div>
+            </BlurFade>
           </div>
         </div>
       </section>
 
-      {/* Active lots grid */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.surface }}>
+      {/* Market stats with NumberTicker */}
+      <section className="py-10" style={{ backgroundColor: concept.palette.surface }}>
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+            {[
+              { value: 2450, label: 'Active Lots', prefix: '' },
+              { value: 18, label: 'Average Savings', suffix: '%' },
+              { value: 12000, label: 'Registered Bidders', prefix: '' },
+              { value: 340, label: 'Lots Sold This Week', prefix: '' },
+            ].map((stat, i) => (
+              <BlurFade key={stat.label} delay={i * 0.1}>
+                <div>
+                  <p className={`text-2xl lg:text-3xl font-light ${concept.fonts.headingClass}`} style={{ color: concept.palette.accent }}>
+                    <NumberTicker value={stat.value} delay={0.2 + i * 0.1} prefix={stat.prefix} suffix={stat.suffix} />
+                  </p>
+                  <p className="text-[10px] uppercase tracking-[0.15em] opacity-40 mt-1">{stat.label}</p>
+                </div>
+              </BlurFade>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Active lots grid with SpotlightCard */}
+      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
           <div className="flex items-center justify-between mb-12">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-2">Active Lots</p>
-              <h2 className={`text-xl font-light tracking-[0.05em] ${concept.fonts.headingClass}`}>
-                Open for Bidding
-              </h2>
-            </div>
+            <BlurFade>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-2">Active Lots</p>
+                <h2 className={`text-xl font-light tracking-[0.05em] ${concept.fonts.headingClass}`}>
+                  Open for Bidding
+                </h2>
+              </div>
+            </BlurFade>
             <Link
               href={buildConceptUrl('marketplace', 'collections')}
               className="text-[10px] uppercase tracking-[0.15em] transition-opacity hover:opacity-60"
@@ -163,35 +192,32 @@ export function MarketplaceHome({ concept }: { concept: ConceptConfig }) {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {featured.map((p, i) => (
-              <motion.div
-                key={p.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-              >
-                <Link href={buildConceptUrl('marketplace', `product/${p.slug}`)} className="group block">
-                  <div className="relative overflow-hidden mb-3" style={{ aspectRatio: '1/1' }}>
-                    <Image
-                      src={p.images[0]}
-                      alt={p.name}
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                      style={{ transitionDuration: '800ms' }}
-                      sizes="25vw"
-                    />
-                    <div
-                      className="absolute bottom-3 right-3 px-2 py-1 text-[8px] uppercase tracking-[0.1em]"
-                      style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
-                    >
-                      {Math.floor(Math.random() * 12 + 3)} bids
+              <BlurFade key={p.id} delay={i * 0.1}>
+                {/* Aceternity: SpotlightCard */}
+                <SpotlightCard spotlightColor={`${concept.palette.accent}15`}>
+                  <Link href={buildConceptUrl('marketplace', `product/${p.slug}`)} className="group block">
+                    <div className="relative overflow-hidden mb-3" style={{ aspectRatio: '1/1' }}>
+                      <Image
+                        src={p.images[0]}
+                        alt={p.name}
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105"
+                        style={{ transitionDuration: '800ms' }}
+                        sizes="25vw"
+                      />
+                      <div
+                        className="absolute bottom-3 right-3 px-2 py-1 text-[8px] uppercase tracking-[0.1em]"
+                        style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
+                      >
+                        {3 + i * 2} bids
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-[9px] uppercase tracking-[0.1em] opacity-40 mb-1">Lot #{p.id}</p>
-                  <h3 className="text-xs font-light mb-1">{p.name}</h3>
-                  <p className="text-sm" style={{ color: concept.palette.accent }}>{p.priceDisplay}</p>
-                </Link>
-              </motion.div>
+                    <p className="text-[9px] uppercase tracking-[0.1em] opacity-40 mb-1">Lot #{p.id}</p>
+                    <h3 className="text-xs font-light mb-1">{p.name}</h3>
+                    <p className="text-sm" style={{ color: concept.palette.accent }}>{p.priceDisplay}</p>
+                  </Link>
+                </SpotlightCard>
+              </BlurFade>
             ))}
           </div>
         </div>
@@ -208,9 +234,11 @@ export function MarketplaceHome({ concept }: { concept: ConceptConfig }) {
 
       <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
-            Browse Categories
-          </h2>
+          <BlurFade>
+            <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
+              Browse Categories
+            </h2>
+          </BlurFade>
           <CategoryGrid concept={concept} />
         </div>
       </div>

@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import { concepts } from '@/data/concepts'
 
+export const dynamicParams = true
+
 export function generateStaticParams() {
   return concepts.map((c) => ({ concept: c.id }))
 }

@@ -4,9 +4,13 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { type ConceptConfig } from '@/data/concepts'
-import { getBestsellers, getNewArrivals } from '@/data/products'
+import { getBestsellers } from '@/data/products'
 import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { BlurFade } from '@/components/ui/blur-fade'
+import { TextReveal } from '@/components/ui/text-reveal'
+import { SpotlightCard } from '@/components/ui/spotlight-card'
+import { NumberTicker } from '@/components/ui/number-ticker'
 
 export function AtelierHome({ concept }: { concept: ConceptConfig }) {
   const featured = getBestsellers().slice(0, 4)
@@ -30,11 +34,7 @@ export function AtelierHome({ concept }: { concept: ConceptConfig }) {
         </div>
         <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12 w-full">
           <div className="ml-auto max-w-lg lg:max-w-xl">
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2 }}
-            >
+            <BlurFade delay={0.2}>
               <p className="text-[10px] uppercase tracking-[0.3em] mb-8" style={{ color: concept.palette.accent }}>
                 L&apos;Atelier · Est. 2024
               </p>
@@ -63,42 +63,75 @@ export function AtelierHome({ concept }: { concept: ConceptConfig }) {
                   {concept.ctaText.browse}
                 </Link>
               </div>
-            </motion.div>
+            </BlurFade>
           </div>
         </div>
       </section>
 
-      {/* Process showcase */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.surface }}>
+      {/* Atelier stats */}
+      <section className="py-12" style={{ backgroundColor: concept.palette.surface }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4">Our Process</p>
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-16 ${concept.fonts.headingClass}`}>
-            From Sketch to Masterpiece
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            {[
+              { value: 40, suffix: '+', label: 'Hours per Piece' },
+              { value: 12, suffix: '', label: 'Master Artisans' },
+              { value: 500, suffix: '+', label: 'Bespoke Commissions' },
+              { value: 100, suffix: '%', label: 'Handcrafted' },
+            ].map((stat, i) => (
+              <BlurFade key={stat.label} delay={i * 0.1}>
+                <div>
+                  <p className={`text-3xl lg:text-4xl font-light ${concept.fonts.headingClass}`} style={{ color: concept.palette.accent }}>
+                    <NumberTicker value={stat.value} delay={0.3 + i * 0.1} suffix={stat.suffix} />
+                  </p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mt-2">{stat.label}</p>
+                </div>
+              </BlurFade>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process showcase with SpotlightCard */}
+      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
+          <BlurFade>
+            <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4">Our Process</p>
+            <h2 className={`text-xl font-light tracking-[0.05em] mb-16 ${concept.fonts.headingClass}`}>
+              From Sketch to Masterpiece
+            </h2>
+          </BlurFade>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
               { step: '01', title: 'Consultation', desc: 'Share your vision over tea in our private salon. We listen, sketch, and dream together.' },
               { step: '02', title: 'Design', desc: 'Our designers create detailed renderings. You refine until every line is perfect.' },
               { step: '03', title: 'Creation', desc: 'Master artisans bring your design to life with 40-80 hours of handwork.' },
               { step: '04', title: 'Unveiling', desc: 'Your finished piece is presented in a private ceremony, a moment to treasure.' },
             ].map((item, i) => (
-              <motion.div
-                key={item.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-              >
-                <p className="text-3xl font-light mb-4" style={{ color: concept.palette.accent, opacity: 0.3 }}>
-                  {item.step}
-                </p>
-                <h3 className={`text-sm uppercase tracking-[0.15em] font-medium mb-3 ${concept.fonts.headingClass}`}>
-                  {item.title}
-                </h3>
-                <p className="text-xs font-light leading-relaxed opacity-60">{item.desc}</p>
-              </motion.div>
+              <BlurFade key={item.step} delay={i * 0.1}>
+                {/* Aceternity: SpotlightCard */}
+                <SpotlightCard spotlightColor={`${concept.palette.accent}15`} className="p-8">
+                  <p className="text-3xl font-light mb-4" style={{ color: concept.palette.accent, opacity: 0.3 }}>
+                    {item.step}
+                  </p>
+                  <h3 className={`text-sm uppercase tracking-[0.15em] font-medium mb-3 ${concept.fonts.headingClass}`}>
+                    {item.title}
+                  </h3>
+                  <p className="text-xs font-light leading-relaxed opacity-60">{item.desc}</p>
+                </SpotlightCard>
+              </BlurFade>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Magic UI: TextReveal */}
+      <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.bg }}>
+        <div className="mx-auto max-w-4xl px-6 lg:px-12">
+          <TextReveal
+            text="Every piece that leaves our atelier bears the invisible signature of the artisan who created it. We celebrate the human touch, the warmth of handwork, the soul that no machine can replicate."
+            className={`text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed ${concept.fonts.headingClass}`}
+            revealColor={concept.palette.text}
+          />
         </div>
       </section>
 
@@ -120,9 +153,11 @@ export function AtelierHome({ concept }: { concept: ConceptConfig }) {
 
       <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
-            Browse Collections
-          </h2>
+          <BlurFade>
+            <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
+              Browse Collections
+            </h2>
+          </BlurFade>
           <CategoryGrid concept={concept} />
         </div>
       </div>
