@@ -112,7 +112,7 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
         className="py-6 border-y"
         style={{ backgroundColor: concept.palette.surface, borderColor: concept.palette.muted }}
       >
-        <Marquee speed={40} className="[--gap:3rem]">
+        <Marquee className="[--duration:40s] [--gap:3rem]">
           {["Rings", "Necklaces", "Bracelets", "Earrings", "Timepieces", "Engagement", "Bespoke", "Heritage", "Haute Joaillerie", "Loose Stones"].map((item) => (
             <span
               key={item}

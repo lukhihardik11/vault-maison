@@ -73,7 +73,7 @@ export function GalleryHome({ concept }: { concept: ConceptConfig }) {
         className="py-5"
         style={{ borderBottom: `1px solid ${concept.palette.muted}` }}
       >
-        <Marquee speed={25} className="[--gap:2rem]">
+        <Marquee className="[--duration:25s] [--gap:2rem]">
           {['Now Showing', 'The Art of Brilliance', 'Curated Collection', 'By Appointment', 'Private Viewings Available', 'Limited Exhibition'].map((text) => (
             <span
               key={text}

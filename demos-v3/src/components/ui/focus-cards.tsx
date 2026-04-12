@@ -1,80 +1,59 @@
 "use client";
-import { useState } from "react";
-import { motion } from "framer-motion";
+
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
-export type FocusCard = {
-  title: string;
-  subtitle?: string;
-  src: string;
-  href?: string;
-};
-
-const Card = ({
-  card,
-  index,
-  hovered,
-  setHovered,
-}: {
-  card: FocusCard;
-  index: number;
-  hovered: number | null;
-  setHovered: React.Dispatch<React.SetStateAction<number | null>>;
-}) => (
-  <motion.div
-    onMouseEnter={() => setHovered(index)}
-    onMouseLeave={() => setHovered(null)}
-    className={cn(
-      "rounded-lg relative overflow-hidden cursor-pointer transition-all duration-500 ease-out",
-      "h-60 md:h-[28rem]",
-      hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
-    )}
-  >
-    <Image
-      src={card.src}
-      alt={card.title}
-      fill
-      className="object-cover absolute inset-0 transition-transform duration-700 ease-out"
-      style={{
-        transform: hovered === index ? "scale(1.05)" : "scale(1)",
-      }}
-    />
+export const Card = React.memo(
+  ({
+    card,
+    index,
+    hovered,
+    setHovered,
+  }: {
+    card: any;
+    index: number;
+    hovered: number | null;
+    setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+  }) => (
     <div
+      onMouseEnter={() => setHovered(index)}
+      onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 flex flex-col justify-end p-6 md:p-8 transition-opacity duration-500",
-        "bg-gradient-to-t from-black/80 via-black/20 to-transparent",
-        hovered === index ? "opacity-100" : "opacity-0"
+        "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-60 md:h-96 w-full transition-all duration-300 ease-out",
+        hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
       )}
     >
-      {card.subtitle && (
-        <p className="text-xs uppercase tracking-[0.2em] text-white/60 mb-1">
-          {card.subtitle}
-        </p>
-      )}
-      <h3 className="text-lg md:text-2xl font-light text-white tracking-wide">
-        {card.title}
-      </h3>
+      <img
+        src={card.src}
+        alt={card.title}
+        className="object-cover absolute inset-0"
+      />
+      <div
+        className={cn(
+          "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
+          hovered === index ? "opacity-100" : "opacity-0"
+        )}
+      >
+        <div className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
+          {card.title}
+        </div>
+      </div>
     </div>
-  </motion.div>
+  )
 );
 
-export const FocusCards = ({
-  cards,
-  className,
-}: {
-  cards: FocusCard[];
-  className?: string;
-}) => {
+Card.displayName = "Card";
+
+type Card = {
+  title: string;
+  src: string;
+};
+
+export function FocusCards({ cards }: { cards: Card[] }) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6",
-        className
-      )}
-    >
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto md:px-8 w-full">
       {cards.map((card, index) => (
         <Card
           key={card.title}
@@ -86,4 +65,4 @@ export const FocusCards = ({
       ))}
     </div>
   );
-};
+}

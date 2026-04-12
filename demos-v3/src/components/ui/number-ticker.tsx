@@ -1,49 +1,74 @@
-'use client'
-import { useEffect, useRef, useState } from 'react'
-import { motion, useInView, useMotionValue, useSpring } from 'framer-motion'
-import { cn } from '@/lib/utils'
+"use client"
 
-interface NumberTickerProps {
+import { useEffect, useRef, type ComponentPropsWithoutRef } from "react"
+import { useInView, useMotionValue, useSpring } from "motion/react"
+
+import { cn } from "@/lib/utils"
+
+interface NumberTickerProps extends ComponentPropsWithoutRef<"span"> {
   value: number
-  direction?: 'up' | 'down'
+  startValue?: number
+  direction?: "up" | "down"
   delay?: number
-  className?: string
-  prefix?: string
-  suffix?: string
+  decimalPlaces?: number
 }
 
 export function NumberTicker({
   value,
-  direction = 'up',
+  startValue = 0,
+  direction = "up",
   delay = 0,
   className,
-  prefix = '',
-  suffix = '',
+  decimalPlaces = 0,
+  ...props
 }: NumberTickerProps) {
   const ref = useRef<HTMLSpanElement>(null)
-  const motionValue = useMotionValue(direction === 'down' ? value : 0)
-  const springValue = useSpring(motionValue, { damping: 60, stiffness: 100 })
-  const isInView = useInView(ref, { once: true, margin: '0px' })
-  const [displayValue, setDisplayValue] = useState(direction === 'down' ? value : 0)
+  const motionValue = useMotionValue(direction === "down" ? value : startValue)
+  const springValue = useSpring(motionValue, {
+    damping: 60,
+    stiffness: 100,
+  })
+  const isInView = useInView(ref, { once: true, margin: "0px" })
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = null
+
     if (isInView) {
-      setTimeout(() => {
-        motionValue.set(direction === 'down' ? 0 : value)
+      timer = setTimeout(() => {
+        motionValue.set(direction === "down" ? startValue : value)
       }, delay * 1000)
     }
-  }, [motionValue, isInView, delay, value, direction])
 
-  useEffect(() => {
-    const unsubscribe = springValue.on('change', (latest) => {
-      setDisplayValue(Math.round(latest))
-    })
-    return unsubscribe
-  }, [springValue])
+    return () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+    }
+  }, [motionValue, isInView, delay, value, direction, startValue])
+
+  useEffect(
+    () =>
+      springValue.on("change", (latest) => {
+        if (ref.current) {
+          ref.current.textContent = Intl.NumberFormat("en-US", {
+            minimumFractionDigits: decimalPlaces,
+            maximumFractionDigits: decimalPlaces,
+          }).format(Number(latest.toFixed(decimalPlaces)))
+        }
+      }),
+    [springValue, decimalPlaces]
+  )
 
   return (
-    <span ref={ref} className={cn('tabular-nums', className)}>
-      {prefix}{displayValue.toLocaleString()}{suffix}
+    <span
+      ref={ref}
+      className={cn(
+        "inline-block tracking-wider text-black tabular-nums dark:text-white",
+        className
+      )}
+      {...props}
+    >
+      {startValue}
     </span>
   )
 }

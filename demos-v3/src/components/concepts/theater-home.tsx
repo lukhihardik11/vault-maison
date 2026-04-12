@@ -82,7 +82,7 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
 
       {/* Cinematic marquee */}
       <section className="py-5" style={{ backgroundColor: '#0a0a0a', borderBottom: `1px solid ${concept.palette.muted}` }}>
-        <Marquee speed={25} className="[--gap:2rem]">
+        <Marquee className="[--duration:25s] [--gap:2rem]">
           {['Now Showing', 'The Jewelry Theater', 'Act I: Discovery', 'Act II: The Craft', 'Act III: The Reveal', 'Private Screenings Available'].map((text) => (
             <span
               key={text}

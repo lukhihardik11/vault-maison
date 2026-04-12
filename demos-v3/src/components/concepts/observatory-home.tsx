@@ -7,7 +7,7 @@ import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers, products } from '@/data/products'
 import { ConceptLayout, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
-import { BentoGrid, BentoCard } from '@/components/ui/bento-grid'
+import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid'
 import { Spotlight } from '@/components/ui/spotlight-new'
 
 function DataTicker({ items }: { items: { label: string; value: string }[] }) {
@@ -120,31 +120,34 @@ export function ObservatoryHome({ concept }: { concept: ConceptConfig }) {
             Collection Dashboard
           </h2>
           <BentoGrid className="lg:grid-cols-4 gap-4">
-            <BentoCard colSpan={2} className="p-8" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
-              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-4" style={{ color: concept.palette.text, opacity: 0.4 }}>Average Metrics</p>
-              <div className="grid grid-cols-3 gap-4">
-                {[
-                  { label: 'Avg. Carat', value: '1.42ct' },
-                  { label: 'Clarity', value: 'VVS1-IF' },
-                  { label: 'Color', value: 'D-F' },
-                ].map((m) => (
-                  <div key={m.label}>
-                    <p className="text-xl font-light" style={{ color: concept.palette.accent }}>{m.value}</p>
-                    <p className="font-ibm-plex text-[8px] uppercase tracking-[0.1em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>{m.label}</p>
-                  </div>
-                ))}
-              </div>
-            </BentoCard>
-            <BentoCard className="p-8" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
-              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-4" style={{ color: concept.palette.text, opacity: 0.4 }}>Certification</p>
-              <p className="text-3xl font-light" style={{ color: concept.palette.accent }}>100%</p>
-              <p className="font-ibm-plex text-[8px] uppercase tracking-[0.1em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>GIA Certified</p>
-            </BentoCard>
-            <BentoCard className="p-8" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
-              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-4" style={{ color: concept.palette.text, opacity: 0.4 }}>Ethical Score</p>
-              <p className="text-3xl font-light" style={{ color: concept.palette.accent }}>98/100</p>
-              <p className="font-ibm-plex text-[8px] uppercase tracking-[0.1em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>Sustainability Rating</p>
-            </BentoCard>
+            <BentoGridItem
+              className="col-span-2"
+              title="Average Metrics"
+              header={
+                <div className="grid grid-cols-3 gap-4 p-4">
+                  {[
+                    { label: 'Avg. Carat', value: '1.42ct' },
+                    { label: 'Clarity', value: 'VVS1-IF' },
+                    { label: 'Color', value: 'D-F' },
+                  ].map((m) => (
+                    <div key={m.label}>
+                      <p className="text-xl font-light" style={{ color: concept.palette.accent }}>{m.value}</p>
+                      <p className="font-ibm-plex text-[8px] uppercase tracking-[0.1em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>{m.label}</p>
+                    </div>
+                  ))}
+                </div>
+              }
+            />
+            <BentoGridItem
+              title="Certification"
+              description="GIA Certified"
+              header={<div className="p-4"><p className="text-3xl font-light" style={{ color: concept.palette.accent }}>100%</p></div>}
+            />
+            <BentoGridItem
+              title="Ethical Score"
+              description="Sustainability Rating"
+              header={<div className="p-4"><p className="text-3xl font-light" style={{ color: concept.palette.accent }}>98/100</p></div>}
+            />
           </BentoGrid>
         </div>
       </section>

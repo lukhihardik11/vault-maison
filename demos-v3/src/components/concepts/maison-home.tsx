@@ -217,7 +217,7 @@ export function MaisonHome({ concept }: { concept: ConceptConfig }) {
           borderBottom: `1px solid ${concept.palette.muted}`,
         }}
       >
-        <Marquee speed={30} className="[--gap:2rem]">
+        <Marquee className="[--duration:30s] [--gap:2rem]">
           {['GIA Certified', 'Ethically Sourced', 'Master Craftsmanship', 'Lifetime Warranty', 'Free Worldwide Shipping', 'Bespoke Service', 'Expert Consultation'].map((text) => (
             <span
               key={text}
