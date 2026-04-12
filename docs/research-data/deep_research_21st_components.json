@@ -1,0 +1,544 @@
+{
+  "results": [
+    {
+      "input": "https://21st.dev/r/Codehagen/hero",
+      "output": {
+        "component_name": "Hero",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/Codehagen/hero",
+        "dependencies": "framer-motion, @radix-ui/react-slot, class-variance-authority",
+        "props_api": "interface HeroContentProps {\n  title: string;\n  titleHighlight?: string;\n  description: string;\n  primaryAction?: {\n    href: string;\n    text: string;\n    icon?: React.ReactNode;\n  };\n  secondaryAction?: {\n    href: string;\n    text: string;\n    icon?: React.ReactNode;\n  };\n}\n\ninterface HeroProps {\n  pill?: {\n    href?: string;\n    text: string;\n    icon?: React.ReactNode;\n    endIcon?: React.ReactNode;\n    variant?: 'default' | 'outline' | 'ghost';\n    size?: 'sm' | 'md' | 'lg';\n    className?: string;\n  };\n  content: HeroContentProps;\n  preview?: React.ReactNode;\n}",
+        "description": "The Hero component is a full-screen component that displays a title, a description, and two action buttons. It can also display a pill-shaped badge and a preview component. The component is animated with framer-motion, creating a smooth and elegant user experience.",
+        "full_source_code": "/home/ubuntu/full_source_code/0_rAiyEGPFEbnbUgJyXQpvAP_1775970607078_na1fn_L2hvbWUvdWJ1bnR1L2hlcm8.tsx",
+        "demo_code": "import { Hero } from '@/components/blocks/hero';\n\nexport default function WebPage() {\n  return (\n    <Hero\n      pill={{ text: 'New Collection', href: '#' }}\n      content={{\n        title: 'Exquisite Jewellery',\n        titleHighlight: 'For Every Occasion',\n        description: 'Discover our stunning collection of handcrafted jewellery, designed to make every moment special. From timeless classics to modern designs, we have something for everyone.',\n        primaryAction: {\n          href: '#',\n          text: 'Shop Now',\n        },\n        secondaryAction: {\n          href: '#',\n          text: 'Learn More',\n        },\n      }}\n      preview={<div>Preview</div>}\n    />\n  );\n}",
+        "animations_interactions": "The title, description, and action buttons fade in and slide up from the bottom of the screen on load. The animations are staggered, with the title appearing first, followed by the description, and then the buttons. The animation uses a custom cubic bezier curve for a smooth and elegant feel. The pill badge has a subtle hover animation where the icon rotates slightly.",
+        "tailwind_classes": "text-4xl, font-bold, tracking-tight, sm:text-6xl, lg:text-7xl, xl:text-8xl, text-primary, max-w-[42rem], leading-normal, text-muted-foreground, sm:text-xl, sm:leading-8, flex, flex-col, sm:flex-row, gap-4, pt-4, container, relative, overflow-hidden, min-h-[calc(100vh-64px)], items-center, py-8, px-4, md:px-8, lg:px-12, w-full, lg:max-w-2xl, lg:max-w-xl, lg:pl-16, mt-12, lg:mt-0",
+        "customization_notes": "To customize this component for a luxury jewelry theme, you can change the primary color in your tailwind.config.js file to a gold or silver hue. The font can be changed by updating the font-family in your global CSS file. Spacing can be adjusted by modifying the padding and margin values in the component's className props.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/JurreHoutkamp/hover-zoom",
+      "output": {
+        "component_name": "Hover Zoom",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/JurreHoutkamp/hover-zoom",
+        "dependencies": "framer-motion",
+        "props_api": "interface ZoomImageUIProps {\n  image?: {\n    src: string;\n    alt: string;\n  };\n  zoomScale?: number;\n  transition?: {\n    duration: number;\n    ease: string;\n  };\n  backgroundColor?: string;\n  borderRadius?: number;\n  style?: React.CSSProperties;\n}",
+        "description": "A React component that displays an image and smoothly zooms in on it when the user hovers with their mouse. The zoom effect follows the cursor's position, providing a magnified view of the image details. It is highly customizable through props.",
+        "full_source_code": "/home/ubuntu/full_source_code/1_6iouRjBeF40Dq71tOHIQuk_1775970606528_na1fn_L2hvbWUvdWJ1bnR1L2hvdmVyLXpvb20.tsx",
+        "demo_code": "import { ZoomImageUI } from '@/components/ui/hover-zoom';\n\nexport default function MyPage() {\n  return (\n    <div style={{ width: '500px', height: '500px' }}>\n      <ZoomImageUI \n        image={{ src: 'path/to/your/jewelry.jpg', alt: 'Diamond Ring' }} \n        zoomScale={2} \n        backgroundColor='#1a1a1a' \n        borderRadius={12} \n      />\n    </div>\n  );\n}",
+        "animations_interactions": "On hover, the image smoothly zooms in to a scale defined by the `zoomScale` prop. The zoom's transform origin follows the mouse cursor's position within the component, creating a dynamic and interactive magnification effect. The animation is powered by Framer Motion, with customizable duration and easing.",
+        "tailwind_classes": "The component primarily uses inline styles for styling, not Tailwind CSS classes.",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations:\n- **Colors:** Change the `backgroundColor` to a dark, elegant color like charcoal or navy to make the jewelry stand out.\n- **Zoom Scale:** Reduce the `zoomScale` to a more subtle value like 1.5 or 2 for a less dramatic, more refined effect.\n- **Transition:** Adjust the `transition` prop to have a slightly longer duration (e.g., 0.3s) for a smoother, more graceful zoom animation.\n- **Border:** Use the `borderRadius` prop to match the border radius of other elements on the website for a consistent look and feel.",
+        "concept_mapping": "03-gallery"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/ShadcnStudio/breadrcrumb",
+      "output": {
+        "component_name": "Breadrcrumb",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/ShadcnStudio/breadrcrumb",
+        "dependencies": "breadcrumb, badge, dropdown-menu",
+        "props_api": "The component itself does not accept any props. The props are passed to the underlying `Breadcrumb`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbList`, `BreadcrumbPage`, and `BreadcrumbSeparator` components from `@/components/ui/breadcrumb`.",
+        "description": "This is a breadcrumb component that displays a hierarchical navigation trail. It shows the user their current location within the site structure, with links to parent pages.",
+        "full_source_code": "/home/ubuntu/full_source_code/2_yLhbwSGJSiSyNUGaOPUDSx_1775970589186_na1fn_L2hvbWUvdWJ1bnR1L2JyZWFkcmNydW1i.tsx",
+        "demo_code": "import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'\\n\\nconst BreadcrumbDemo = () => {\\n  return (\\n    <Breadcrumb>\\n      <BreadcrumbList>\\n        <BreadcrumbItem>\\n          <BreadcrumbLink href='#'>Home</BreadcrumbLink>\\n        </BreadcrumbItem>\\n        <BreadcrumbSeparator />\\n        <BreadcrumbItem>\\n          <BreadcrumbLink href='#'>Documents</BreadcrumbLink>\\n        </BreadcrumbItem>\\n        <BreadcrumbSeparator />\\n        <BreadcrumbItem>\\n          <BreadcrumbPage>Add Document</BreadcrumbPage>\\n        </BreadcrumbItem>\\n      </BreadcrumbList>\\n    </Breadcrumb>\\n  )\\n}\\n\\nexport default BreadcrumbDemo",
+        "animations_interactions": "The component has no animations. The 'Home' and 'Documents' links are standard anchor tags and will navigate to the specified href on click. The 'Add Document' text is not interactive.",
+        "tailwind_classes": "No notable Tailwind CSS classes are used directly in this component. Styling is likely encapsulated in the imported `breadcrumb` components.",
+        "customization_notes": "For a luxury jewelry theme, the component can be customized by changing the color of the links and the separator to match a premium color palette (e.g., gold, silver). The font can be updated to a more elegant, serif font. The spacing between the breadcrumb items can be increased to create a more open and luxurious feel. The default separator can be replaced with a custom icon, such as a small diamond or a decorative slash.",
+        "concept_mapping": "01-vault, 03-gallery, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/badtzx0/3d-wrapper",
+      "output": {
+        "component_name": "3d Wrapper",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/badtzx0/3d-wrapper",
+        "dependencies": "motion, https://21st.dev/r/shadcn/button, https://21st.dev/r/shadcn/input, https://21st.dev/r/shadcn/label, https://21st.dev/r/shadcn/select, https://21st.dev/r/shadcn/card",
+        "props_api": "interface Wrapper3DProps {\n  children: ReactNode\n  damping?: number\n  swiftness?: number\n  mass?: number\n  maxRotation?: number\n  translateZ?: number\n  perspective?: boolean\n  className?: string\n}",
+        "description": "A 3d-wrapper component.",
+        "full_source_code": "/home/ubuntu/full_source_code/3_lMqRyOdRHZT1QCDIt3KWjL_1775970605530_na1fn_L2hvbWUvdWJ1bnR1LzNkLXdyYXBwZXI.tsx",
+        "demo_code": "import { Wrapper3D } from \"@/components/ui/3d-wrapper\";\n\nexport default function MyComponent() {\n  return (\n    <Wrapper3D>\n      <div>Your 3D content here</div>\n    </Wrapper3D>\n  );\n}",
+        "animations_interactions": "The component utilizes framer-motion to create a 3D parallax effect. On mouse move over the component, it calculates the mouse position relative to the component's dimensions and applies a rotation in the X and Y axes, creating a tilting effect. The rotation is smoothed using `useSpring` for a fluid animation. When the mouse leaves the component, the rotation is reset to its initial state (0, 0). The component also has an initial animation where it fades in and scales up on load.",
+        "tailwind_classes": "preserve-3d, motion.div",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations:\n- **Colors:** Adjust the background and text colors to match the brand's palette. Since the component is a wrapper, the content's color will be the primary focus.\n- **Fonts:** The font of the wrapped content can be customized to a more elegant, serif font.\n- **Spacing:** The `translateZ` prop can be adjusted to control the depth of the 3D effect. A smaller value will make the effect more subtle and sophisticated.",
+        "concept_mapping": "01-vault, 03-gallery"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/beratberkayg/basic-chat",
+      "output": {
+        "component_name": "Basic Chat",
+        "status": "live",
+        "install_command": "npx shadcn@latest add basic-chat",
+        "dependencies": "lucide-react, card, button, input",
+        "props_api": "userName: string;\nuserAvatar?: string;\nuserOnline?: boolean;",
+        "description": "A basic-chat component.",
+        "full_source_code": "/home/ubuntu/full_source_code/4_Ps31RiBoc8JYuWoslVCmJp_1775970626708_na1fn_L2hvbWUvdWJ1bnR1L2Jhc2ljLWNoYXQ.tsx",
+        "demo_code": "import ChatScreen from \"@/components/ui/basic-chat\";\n\nconst MyChat = () => {\n  return <ChatScreen userName=\"John Doe\" userOnline={true} />;\n};",
+        "animations_interactions": "- Messages scroll smoothly to the bottom when a new message is added.\n- Message input fields have a smooth transition on focus.\n- Send button has a hover effect.\n- Individual messages have a hover effect (scale-105).",
+        "tailwind_classes": "h-[600px], space-y-3, h-10, bg-gray-400, w-full, dark:bg-gray-600, flex, overflow-hidden, bg-gray-50, border-t, hover:bg-blue-600, h-4, dark:bg-gray-800, rounded, dark:bg-gray-700, text-green-500, max-w-md, font-semibold, bg-gray-100, dark:text-gray-100, bg-blue-500, gap-3, justify-center, p-3, shrink-0, text-xs, w-6, text-white, overflow-y-auto, dark:bg-gray-900, flex-col, gap-2, p-4, h-full, items-center, w-10, text-sm, h-6, border-b, flex-1, rounded-full, text-gray-900, w-4, bg-white",
+        "customization_notes": "- Colors: The primary color (blue-500) can be changed to a luxury color like gold or silver. The background colors (gray-50, gray-900) can be adjusted to match the website theme.\n- Fonts: The font can be changed to a more elegant font to match the luxury theme.\n- Spacing: The spacing between messages and other elements can be adjusted to create a more spacious and luxurious feel.",
+        "concept_mapping": "08-concierge"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/beratberkayg/product-card-1",
+      "output": {
+        "component_name": "Product Card 1",
+        "status": "live",
+        "install_command": "npx shadcn-ui@latest add product-card-1",
+        "dependencies": "framer-motion, lucide-react, @/components/ui/card, @/components/ui/button, @/components/ui/badge",
+        "props_api": "export interface ProductCardProps {\n  name?: string;\n  price?: number;\n  originalPrice?: number;\n  rating?: number;\n  reviewCount?: number;\n  images?: string[];\n  colors?: string[];\n  sizes?: string[];\n  isNew?: boolean;\n  isBestSeller?: boolean;\n  discount?: number;\n  freeShipping?: boolean;\n}",
+        "description": "A modern, interactive product card component that showcases a product with multiple images, color and size options, pricing, and ratings. It includes interactive elements like an image carousel, wishlist button, and an add-to-cart button with loading and success states.",
+        "full_source_code": "/home/ubuntu/full_source_code/5_IkOmSBkHjagLK7ZrWw7KlN_1775970616350_na1fn_L2hvbWUvdWJ1bnR1L3Byb2R1Y3QtY2FyZC0x.tsx",
+        "demo_code": "import { ProductCard } from '@/components/ui/product-card-1';\n\nconst MyProductPage = () => (\n  <ProductCard \n    name='Diamond Solitaire Ring'\n    price={2499.99}\n    originalPrice={2999.99}\n    rating={4.9}\n    reviewCount={78}\n    images={['/ring-image-1.jpg', '/ring-image-2.jpg']}\n    colors={['#FFD700', '#C0C0C0', '#E5E4E2']}\n    sizes={['5', '6', '7', '8']}\n  />\n);",
+        "animations_interactions": "The card has a hover effect that increases its shadow. The product image is a carousel with fade-in/fade-out transitions between images, navigable by previous/next buttons that appear on hover. The wishlist button fills with color when clicked. The 'Add to Cart' button shows a loading spinner and then a checkmark upon successful addition.",
+        "tailwind_classes": "w-full, max-w-sm, overflow-hidden, group, bg-background, text-foreground, shadow-xl, hover:shadow-lg, transition-all, duration-300, rounded-md, relative, aspect-[3/4], object-cover, absolute, inset-0, flex, items-center, justify-between, p-2, opacity-0, group-hover:opacity-100, h-8, w-8, rounded-full, bg-background/80, backdrop-blur-sm, shadow-sm, line-clamp-1, font-medium, text-lg, font-semibold, text-muted-foreground, line-through, ring-2, ring-primary, ring-offset-2, animate-spin",
+        "customization_notes": "For a luxury jewelry theme, consider replacing the default blue, amber, and rose badge colors with more subtle, metallic tones like gold, silver, or platinum. The font can be updated to a more elegant serif font. Spacing can be increased to give a more open and luxurious feel. The color swatches can be customized to reflect the different metals or gemstones of the jewelry.",
+        "concept_mapping": "03-gallery"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/berkcangumusisik/spotlight-card",
+      "output": {
+        "component_name": "Spotlight Card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add spotlight-card",
+        "dependencies": "react",
+        "props_api": "interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode;\n  spotlightColor?: string;\n}",
+        "description": "A card component that reveals a spotlight effect on hover. The spotlight follows the mouse cursor, creating a visually engaging effect. The card itself has a subtle border and background color transition on hover.",
+        "full_source_code": "/home/ubuntu/full_source_code/6_0vtdgV6wVmwf1m44r1bp7i_1775970590684_na1fn_L2hvbWUvdWJ1bnR1L3Nwb3RsaWdodC1jYXJk.tsx",
+        "demo_code": "import { SpotlightCard } from \"@/components/ui/spotlight-card\";\n\nexport default function Page() {\n  return (\n    <SpotlightCard>\n      <div className=\"p-8\">\n        <h2 className=\"text-2xl font-bold\">Spotlight Card</h2>\n        <p className=\"mt-2 text-neutral-400\">\n          This is a card with a spotlight effect.\n        </p>\n      </div>\n    </SpotlightCard>\n  );\n}",
+        "animations_interactions": "On mouse enter, a radial gradient spotlight appears and follows the cursor's position within the card. The spotlight fades in and out smoothly. On mouse leave, the spotlight fades out. The card's border color also transitions on hover.",
+        "tailwind_classes": "relative, overflow-hidden, rounded-xl, border, border-neutral-800, bg-neutral-900, text-neutral-200, transition-colors, hover:border-neutral-700, pointer-events-none, absolute, -inset-px, transition, duration-300, z-10",
+        "customization_notes": "To adapt for a luxury jewelry theme, consider the following:\n*   **Colors**: Change `spotlightColor` to a soft gold or silver hue (e.g., `rgba(212, 175, 55, 0.1)`). Modify the `border-neutral-800`, `bg-neutral-900`, and `text-neutral-200` classes to use a palette of deep charcoals, rich creams, and metallic tones.\n*   **Fonts**: Use a sophisticated serif font for the text inside the card.\n*   **Spacing**: Increase the padding within the card to give the content more breathing room and a more premium feel.",
+        "concept_mapping": "03-gallery, 07-product"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/bucharitesh/view-magnifier",
+      "output": {
+        "component_name": "View Magnifier",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/bucharitesh/view-magnifier",
+        "dependencies": "framer-motion",
+        "props_api": "interface ViewMagnifierProps {\n  children: React.ReactNode;\n  className?: string;\n  maxScale?: number;\n  onScaleChange?: (isActive: boolean) => void;\n  onMaxScaleReached?: (isAtMax: boolean) => void;\n}",
+        "description": "A view-magnifier component that allows users to zoom in on content, such as an image, using a draggable slider. The component provides a smooth, animated zoom experience with a blurred backdrop that fades in as the content is magnified. It is ideal for showcasing product details or high-resolution imagery.",
+        "full_source_code": "/home/ubuntu/full_source_code/7_np63g26iBYTbjZzIAoWVt2_1775970584157_na1fn_L2hvbWUvdWJ1bnR1L3ZhdWx0LW1haXNvbi92aWV3LW1hZ25pZmllcg.tsx",
+        "demo_code": "import { Component as ViewMagnifier } from \"@/components/ui/view-magnifier\";\n\nexport default function Page() {\n  return (\n    <div className=\"w-full h-screen flex items-center justify-center\">\n      <ViewMagnifier>\n        <img src=\"/placeholder.svg\" alt=\"Placeholder\" className=\"w-full h-full object-cover\" />\n      </ViewMagnifier>\n    </div>\n  );\n}",
+        "animations_interactions": "The component utilizes `framer-motion` for smooth animations. The primary interaction is a draggable slider that controls the zoom level of the content. As the user drags the slider, the content scales up or down with a spring-like animation. A backdrop with a blur effect fades in as the zoom level increases. The cursor changes from 'grab' to 'grabbing' during the drag interaction, providing clear visual feedback. The slider also has a hover effect, changing its background color.",
+        "tailwind_classes": "fixed, h-screen, w-screen, inset-0, backdrop-blur-xl, relative, left-1/2, right-1/2, z-[60], rounded-2xl, absolute, top-1/2, -right-6, w-1, h-14, rounded-full, bg-gray-400, dark:bg-gray-600, hover:bg-gray-500, dark:hover:bg-gray-500, transition-colors, duration-300, focus-visible:outline-none, focus-visible:ring-2, focus-visible:ring-gray-400, dark:focus-visible:ring-gray-500, focus-visible:ring-offset-2, focus-visible:ring-offset-white, dark:focus-visible:ring-offset-gray-900, cursor-grabbing, cursor-grab",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations:\n\n*   **Colors:** Change the slider's background color from gray to a more luxurious color like gold or a deep charcoal. The hover and focus states should also be updated to match the new color scheme. The backdrop blur color can be tinted to match the overall theme.\n*   **Fonts:** While this component doesn't directly use text, if you were to add zoom level indicators or other text elements, ensure they use the brand's primary font.\n*   **Spacing:** The spacing of the component is generally good, but you could adjust the distance of the slider from the content to create a more spacious and premium feel.",
+        "concept_mapping": "03-gallery, 05-product"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/designali-in/gallery",
+      "output": {
+        "component_name": "gallery",
+        "status": "live",
+        "install_command": "npx shadcn@latest add gallery",
+        "dependencies": "framer-motion, @radix-ui/react-slot, class-variance-authority",
+        "props_api": "animationDelay?: number;\nsrc: string;\nalt: string;\nclassName?: string;\ndirection?: \"left\" | \"right\";\nwidth: number;\nheight: number;",
+        "description": "A photo gallery component that displays a collection of images in a visually appealing layout. It features animations and interactions to enhance the user experience.",
+        "full_source_code": "/home/ubuntu/full_source_code/8_xSU7e4MCPRbCPfjVIV7whc_1775970729290_na1fn_L2hvbWUvdWJ1bnR1L2dhbGxlcnk.tsx",
+        "demo_code": "import { Gallery } from \"@/components/ui/gallery\";\n\nexport default function Page() {\n  return (\n    <div className=\"container mx-auto py-10\">\n      <Gallery />\n    </div>\n  );\n}\n",
+        "animations_interactions": "The component uses framer-motion for animations. The photos animate into position with a spring-like effect. On hover, the photos scale up and rotate slightly. The gallery container fades in when it becomes visible.",
+        "tailwind_classes": "absolute left-0 top-0, relative mx-auto shrink-0 cursor-grab active:cursor-grabbing, absolute inset-0 max-md:hidden top-[200px] -z-10 h-[300px] w-full bg-transparent bg-[linear-gradient(to_right,#57534e_1px,transparent_1px),linear-gradient(to_bottom,#57534e_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-20 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)] dark:bg-[linear-gradient(to_right,#a8a29e_1px,transparent_1px),linear-gradient(to_bottom,#a8a29e_1px,transparent_1px)], lg:text-md my-2 text-center text-xs font-light uppercase tracking-widest text-slate-600 dark:text-slate-400, text-rose-500, relative h-[220px] w-[220px], mt-40 relative, relative mb-8 h-[350px] w-full items-center justify-center lg:flex, relative mx-auto flex w-full max-w-7xl justify-center, relative flex w-full justify-center, z-20 mx-auto max-w-2xl justify-center bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text py-3 text-center text-4xl text-transparent dark:bg-gradient-to-r dark:from-slate-100 dark:via-slate-200 dark:to-slate-100 dark:bg-clip-text md:text-7xl, relative h-full w-full overflow-hidden rounded-3xl shadow-sm, flex w-full justify-center",
+        "customization_notes": "To customize the component for a luxury jewelry theme, you can change the color palette to use gold, silver, and other metallic colors. You can also adjust the fonts to use more elegant and sophisticated typefaces. The spacing and layout can be modified to create a more spacious and luxurious feel.",
+        "concept_mapping": "03-gallery"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/designali-in/hero-shader",
+      "output": {
+        "component_name": "Hero Shader",
+        "status": "live",
+        "install_command": "npx shadcn@latest add hero-shader",
+        "dependencies": "@paper-design/shaders-react",
+        "props_api": "interface ShaderBackgroundProps {\n  children: React.ReactNode\n}",
+        "description": "A hero-shader component that provides a dynamic, animated mesh gradient background. It also includes SVG filters for glass and gooey effects.",
+        "full_source_code": "/home/ubuntu/full_source_code/9_ucs53E8SVXVk5hbBWVNsd1_1775970605001_na1fn_L2hvbWUvdWJ1bnR1L2hlcm8tc2hhZGVy.tsx",
+        "demo_code": "import { ShaderBackground } from \"@/components/ui/hero-shader\";\n\nexport default function MyPage() {\n  return (\n    <ShaderBackground>\n      <div className=\"flex flex-col items-center justify-center h-full\">\n        <h1 className=\"text-4xl font-bold text-white\">Vault-Maison</h1>\n        <p className=\"text-lg text-white/80\">Luxury Redefined</p>\n      </div>\n    </ShaderBackground>\n  );\n}",
+        "animations_interactions": "The component features a continuous, gentle animation of a mesh gradient. On mouse enter, an active state is set, which can be used to trigger further animations or effects, although in the provided code it does not have a direct visual impact. The core animation is the fluid movement of the gradient colors.",
+        "tailwind_classes": "min-h-[650px], w-full, relative, overflow-hidden, absolute, inset-0, opacity-60",
+        "customization_notes": "To customize for a luxury jewelry theme, the `colors` prop of the `MeshGradient` components should be updated to a palette of golds, silvers, deep blues, and rich purples to evoke a sense of opulence. The `speed` prop can be adjusted to make the animation more subtle and elegant. The `backgroundColor` can be set to a dark, sophisticated color to make the jewelry stand out.",
+        "concept_mapping": "01-vault"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/designali-in/image-zoom",
+      "output": {
+        "component_name": "Image Zoom",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/designali-in/image-zoom",
+        "dependencies": "next, lucide-react, react-medium-image-zoom",
+        "props_api": "type ImageZoomProps = {\n  children: React.ReactNode;\n} & React.ComponentPropsWithoutRef<typeof Zoom>;",
+        "description": "A image-zoom component.",
+        "full_source_code": "/home/ubuntu/full_source_code/10_P4AwCjp0AU96IMFteKXMmV_1775970696537_na1fn_L2hvbWUvdWJ1bnR1L2ltYWdlLXpvb20.tsx",
+        "demo_code": "export const Component = () => {  \n  return (\n    <div >\n       <div class=\\\"border-brand/10 relative mx-auto my-6 flex h-[336px] max-w-[250px] flex-col items-start border p-4 md:h-[28rem] md:max-w-sm\\\">\n                        <Plus\n                            strokeWidth={0.5}\n                            class=\\\"text-[#fff200] absolute -left-4 -top-4 h-8 w-8\\\">\n                        <Plus\n                            strokeWidth={0.5}\n                            class=\\\"text-[#fff200] absolute -bottom-4 -left-4 h-8 w-8\\\">\n                        <Plus\n                            strokeWidth={0.5}\n                            class=\\\"text-[#fff200] absolute -right-4 -top-4 h-8 w-8\\\">\n                        <Plus\n                            strokeWidth={0.5}\n                            class=\\\"text-[#fff200] absolute -bottom-4 -right-4 h-8 w-8\\\">\n                        <ImageZoom>\n                            <Image\n                                src=\\\"https://raw.githubusercontent.com/dalim-in/dalim/refs/heads/main/apps/www/public/ai.JPEG\\\">\n                                alt=\\\"Your Image\\\">\n                                height={700}\n                                width={700}\n                                class=\\\"h-[300px] object-cover md:h-[404px]\\\">\n                            <div class=\\\"relative -mt-14 bg-gradient-to-b from-black/0 to-black text-white md:-mt-24\\\">\n                                <h1 class=\\\"z-20 items-center text-center text-[40px] font-black tracking-tighter md:text-[70px]\\\">Ali Imam</h1>{' '}\n                            </div>\n                        </ImageZoom>\n                    </div>\n    </div>\n  );\n};",
+        "animations_interactions": "On hover, the image zooms in. The zoom is controlled by the react-medium-image-zoom library.",
+        "tailwind_classes": "border-brand/10, relative, mx-auto, my-6, flex, h-[336px], max-w-[250px], flex-col, items-start, border, p-4, md:h-[28rem], md:max-w-sm, text-[#fff200], absolute, -left-4, -top-4, h-8, w-8, text-[#fff200], absolute, -bottom-4, -left-4, h-8, w-8, text-[#fff200], absolute, -right-4, -top-4, h-8, w-8, text-[#fff200], absolute, -bottom-4, -right-4, h-8, w-8, h-[300px], object-cover, md:h-[404px], relative, -mt-14, bg-gradient-to-b, from-black/0, to-black, text-white, md:-mt-24, z-20, items-center, text-center, text-[40px], font-black, tracking-tighter, md:text-[70px]",
+        "customization_notes": "The component can be customized by changing the Tailwind CSS classes. The colors, fonts, and spacing can be adjusted to match the luxury jewelry theming. The zoomMargin prop can be used to adjust the zoom level.",
+        "concept_mapping": "03-gallery"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/designali-in/landing-page",
+      "output": {
+        "component_name": "Landing Page",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/designali-in/landing-page",
+        "dependencies": "lucide-react, framer-motion, @radix-ui/react-slot, class-variance-authority, @/components/ui/button, @/components/ui/input, @/components/ui/textarea",
+        "props_api": "The component does not accept any props.",
+        "description": "This is a comprehensive landing page component for a design agency. It features a modern and clean design with a hero section, client logos, services, featured projects, an about us section, and a contact form. The component is fully responsive and includes smooth animations and transitions.",
+        "full_source_code": "/home/ubuntu/full_source_code/11_fAWCv1DAYbajieu4yrUIKK_1775970648834_na1fn_L2hvbWUvdWJ1bnR1L2xhbmRpbmctcGFnZQ.tsx",
+        "demo_code": "import { DesignAgency } from '@/components/ui/landing-page';\n\nconst HomePage = () => {\n  return <DesignAgency />;\n};\n\nexport default HomePage;",
+        "animations_interactions": "The component uses framer-motion for animations. The header animates in from the top. The hero section content fades in. The mobile menu fades in and the menu items stagger in. The client logos, services, work, about, and contact sections also have fade-in animations. There are hover effects on buttons, links, and project cards, which include scaling, translation, and color changes.",
+        "tailwind_classes": "flex, min-h-screen, flex-col, bg-gradient-to-br, from-background, via-background, to-muted/20, sticky, top-0, z-50, w-full, border-b, bg-background/95, backdrop-blur, container, items-center, justify-between, font-bold, text-xl, hidden, md:flex, gap-3, text-sm, font-medium, transition-colors, hover:text-primary, rounded-3xl, group, overflow-hidden, border, bg-background/80, hover:shadow-xl, transition-all",
+        "customization_notes": "To adapt this component for a luxury jewelry theme, consider the following customizations:\n\n*   **Colors:** Replace the primary and secondary colors with a more luxurious palette, such as deep jewel tones (e.g., emerald, sapphire, ruby) or a classic black, white, and gold combination. Update the `tailwind.config.js` file to reflect these changes.\n*   **Fonts:** Replace the default sans-serif font with a more elegant serif font for headings and a clean sans-serif for body text. Google Fonts offers a wide variety of free fonts that can be easily integrated.\n*   **Spacing:** Increase the spacing between sections and elements to create a more open and luxurious feel. Adjust the padding and margin values in the Tailwind CSS classes.\n*   **Imagery:** Replace the placeholder images with high-quality, professional photographs of jewelry.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/designali-in/navbar",
+      "output": {
+        "component_name": "Navbar",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/designali-in/navbar",
+        "dependencies": "next, lucide-react, @/components/ui/liquid-glass-button",
+        "props_api": "The component does not accept any props.",
+        "description": "A responsive navigation bar that becomes sticky and changes background on scroll. It includes a logo, navigation links, and call-to-action buttons. On smaller screens, it collapses into a hamburger menu.",
+        "full_source_code": "/home/ubuntu/full_source_code/12_wGp6LiAdGmIGW4yrhluqrn_1775970779735_na1fn_L2hvbWUvdWJ1bnR1L3NyYy9jb21wb25lbnRzL3VpL25hdmJhcg.tsx",
+        "demo_code": "import { Header } from '@/components/ui/navbar';\n\nconst MyPage = () => {\n  return (\n    <div>\n      <Header />\n      {/* Other page content */}\n    </div>\n  );\n};\n\nexport default MyPage;",
+        "animations_interactions": "- The navbar smoothly transitions its background and size on scroll.\n- The hamburger menu icon animates to a close icon when the menu is open.\n- The mobile menu slides in and out.\n- Links have a hover effect, changing their color.",
+        "tailwind_classes": "fixed, w-full, z-20, transition-all, duration-300, bg-background/50, backdrop-blur-lg, flex, justify-between, items-center, gap-6, lg:gap-0, py-2, text-muted-foreground, hover:text-accent-foreground, shadow-2xl",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations:\n- **Colors:** Change the background color to a dark, elegant shade like charcoal or navy, and use gold or silver for text and accents.\n- **Fonts:** Use a sophisticated serif font for the navigation links and a clean sans-serif for the buttons.\n- **Spacing:** Increase the spacing between navigation items to create a more spacious and luxurious feel.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/easemize/cinematic-landing-hero",
+      "output": {
+        "component_name": "Cinematic Landing Hero",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/easemize/cinematic-landing-hero",
+        "dependencies": "gsap",
+        "props_api": "export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement> {\n  brandName?: string;\n  tagline1?: string;\n  tagline2?: string;\n  cardHeading?: string;\n  cardDescription?: React.ReactNode;\n  metricValue?: number;\n  metricLabel?: string;\n  ctaHeading?: string;\n  ctaDescription?: string;\n}",
+        "description": "A cinematic-landing-hero component that creates a dramatic, animated landing page experience. It features a scroll-triggered timeline that animates text and a central card, which has a 3D-like effect that responds to mouse movement.",
+        "full_source_code": "/home/ubuntu/full_source_code/13_uEW4BNXz6BwHEvqQia8b9i_1775970625274_na1fn_L2hvbWUvdWJ1bnR1L2NpbmVtYXRpYy1sYW5kaW5nLWhlcm8.tsx",
+        "demo_code": "import { CinematicHero } from \"@/components/ui/cinematic-landing-hero\";\n\nexport default function Page() {\n  return (\n    <CinematicHero />\n  );\n}\n",
+        "animations_interactions": "The component has a complex scroll-based animation timeline managed by GSAP and ScrollTrigger. As the user scrolls, the initial taglines fade and scale into view, followed by the main card animating into its final position. The card itself has a subtle 3D tilt effect that follows the mouse cursor, creating a sense of depth. Additionally, there are hover effects on the buttons, and a progress ring that animates as the user scrolls.",
+        "tailwind_classes": "premium-depth-card, card-sheen, iphone-bezel, hardware-btn, screen-glare, widget-depth, floating-ui-badge, btn-modern-light, btn-modern-dark, progress-ring, text-track, main-card, card-left-text, card-right-text, text-days",
+        "customization_notes": "For a luxury jewelry theme, the color palette can be customized by modifying the CSS variables for `--color-foreground`. The deep blue background of the `premium-depth-card` can be changed to a more suitable color like a dark charcoal, rich burgundy, or a deep emerald green. The fonts can be replaced with elegant serif fonts. The spacing can be adjusted to create a more open and luxurious feel. The placeholder image inside the iPhone mockup should be replaced with a high-quality image of a piece of jewelry.",
+        "concept_mapping": "01-vault, 03-gallery, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/isaiahbjork/portfolio-gallery",
+      "output": {
+        "component_name": "Portfolio Gallery",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/isaiahbjork/portfolio-gallery",
+        "dependencies": "lucide-react,next,framer-motion",
+        "props_api": "interface PortfolioGalleryProps {\\n  title?: string;\\n  archiveButton?: {\\n    text: string;\\n    href: string;\\n  };\\n  images?: Array<{\\n    src: string;\\n    alt: string;\\n    title?: string;\\n  }>;\\n  className?: string;\\n  maxHeight?: number;\\n  spacing?: string;\\n  onImageClick?: (index: number) => void;\\n  /**\\n   * Whether to pause marquee animation on hover (mobile only)\\n   * @default true\\n   */\\n  pauseOnHover?: boolean;\\n  /**\\n   * Number of times to repeat the content in marquee (mobile only)\\n   * @default 4\\n   */\\n  marqueeRepeat?: number;\\n}",
+        "description": "A portfolio-gallery component.",
+        "full_source_code": "/home/ubuntu/full_source_code/14_Q8cC2OfuW68qC7vi1xtzmF_1775970708110_na1fn_L2hvbWUvdWJ1bnR1L3BvcnRmb2xpby1nYWxsZXJ5.tsx",
+        "demo_code": "return (\\n    <section\\n      aria-label={title}\\n      className={`relative min-h-screen py-20 px-4 ${className}`}\\n      id=\\\"archives\\\"\\n    >\\n      <div className=\\\"max-w-7xl mx-auto bg-background/50 backdrop-blur-sm rounded-2xl border border-border overflow-hidden\\\">\\n        {/* Header Section */}\\n        <div className=\\\"relative z-10 text-center pt-16 pb-8 px-8\\\">\\n          <h2 className=\\\"text-4xl md:text-6xl font-bold text-foreground mb-8 text-balance\\\">{title}</h2>\\n\\n          <Link\\n            href={archiveButton.href}\\n            className=\\\"inline-flex items-center gap-3 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors group mb-20\\\"\\n          >\\n            <span>{archiveButton.text}</span>\\n            <ArrowRight className=\\\"w-5 h-5 group-hover:translate-x-1 transition-transform\\\" />\\n          </Link>\\n        </div>\\n\\n        {/* Desktop 3D overlapping layout - hidden on mobile */}\\n        <div className=\\\"hidden md:block relative overflow-hidden h-[400px] -mb-[200px]\\\">\\n          <div className={`flex ${spacing} pb-8 pt-40 items-end justify-center`}>\\n            {images.map((image, index) => {\\n              // Calculate stagger height - peak in middle, descending to edges\\n              const totalImages = images.length\\n              const middle = Math.floor(totalImages / 2)\\n              const distanceFromMiddle = Math.abs(index - middle)\\n              const staggerOffset = maxHeight - distanceFromMiddle * 20\\n\\n              const zIndex = totalImages - index\\n\\n              const isHovered = hoveredIndex === index\\n              const isOtherHovered = hoveredIndex !== null && hoveredIndex !== index\\n\\n              // When hovering: hovered card moves to consistent top position, others move to baseline\\n              const yOffset = isHovered ? -120 : isOtherHovered ? 0 : -staggerOffset\\n\\n              return (\\n                <motion.div\\n                  key={index}\\n                  className=\\\"group cursor-pointer flex-shrink-0\\\"\\n                  style={{\\n                    zIndex: zIndex,\\n                  }}\\n                  initial={{\\n                    transform: `perspective(5000px) rotateY(-45deg) translateY(200px)`,\n                    opacity: 0,\n                  }}\\n                  animate={{\\n                    transform: `perspective(5000px) rotateY(-45deg) translateY(${yOffset}px)`,\n                    opacity: 1,\n                  }}\\n                  transition={{\\n                    duration: 0.2, // Much faster hover animation\\n                    delay: index * 0.05, // Faster entrance stagger\\n                    ease: [0.25, 0.1, 0.25, 1],\\n                  }}\\n                  onHoverStart={() => setHoveredIndex(index)}\\n                  onHoverEnd={() => setHoveredIndex(null)}\\n                  onClick={() => onImageClick?.(index)}\\n                >\\n                  <div\\n                    className=\\\"relative aspect-video w-64 md:w-80 lg:w-96 rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-105\\\"\\n                    style={{\\n                      boxShadow: `\\n                        rgba(0, 0, 0, 0.01) 0.796192px 0px 0.796192px 0px,\\n                        rgba(0, 0, 0, 0.03) 2.41451px 0px 2.41451px 0px,\\n                        rgba(0, 0, 0, 0.08) 6.38265px 0px 6.38265px 0px,\\n                        rgba(0, 0, 0, 0.25) 20px 0px 20px 0px\\n                      `,\\n                    }}\\n                  >\\n                    <img\\n                      src={image.src || \\\"/placeholder.svg\\\"}\\n                      alt={image.alt}\\n                      className=\\\"w-full h-full object-cover object-left-top\\\"\\n                      loading=\\\"lazy\\\"\\n                      decoding=\\\"async\\\"\\n                    />\\n                  </div>\\n                </motion.div>\\n              )\\n            })}\\n          </div>\\n        </div>\\n\\n        {/* Mobile marquee layout */}\\n        <div className=\\\"block md:hidden relative pb-8\\\">\\n          <div\\n            className={cn(\\n              \\\"group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]\\\",\\n              \\\"flex-row\\\"\\n            )}\\n          >\\n            {Array(marqueeRepeat)\\n              .fill(0)\\n              .map((_, i) => (\\n                <div\\n                  key={i}\\n                  className={cn(\\n                    \\\"flex shrink-0 justify-around [gap:var(--gap)]\\\",\\n                    \\\"animate-marquee flex-row\\\",\\n                    {\\n                      \\\"group-hover:[animation-play-state:paused]\\\": pauseOnHover,\\n                    }\\n                  )}\\n                >\\n                  {images.map((image, index) => (\\n                    <div\\n                      key={`${i}-${index}`}\\n                      className=\\\"group cursor-pointer flex-shrink-0\\\"\\n                      onClick={() => onImageClick?.(index)}\\n                    >\\n                      <div\\n                        className=\\\"relative aspect-video w-64 rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-105\\\"\\n                        style={{\\n                          boxShadow: `\\n                            rgba(0, 0, 0, 0.01) 0.796192px 0px 0.796192px 0px,\\n                            rgba(0, 0, 0, 0.03) 2.41451px 0px 2.41451px 0px,\\n                            rgba(0, 0, 0, 0.08) 6.38265px 0px 6.38265px 0px,\\n                            rgba(0, 0, 0, 0.25) 20px 0px 20px 0px\\n                          `,\\n                        }}\\n                      >\\n                        <img\\n                          src={image.src || \\\"/placeholder.svg\\\"}\\n                          alt={image.alt}\\n                          className=\\\"w-full h-full object-cover object-left-top\\\"\\n                          loading=\\\"lazy\\\"\\n                          decoding=\\\"async\\\"\\n                        />\\n                      </div>\\n                    </div>\\n                  ))}\\n                </div>\\n              ))}\\n          </div>\\n        </div>\\n      </div>\\n    </section>\\n  ",
+        "animations_interactions": "The component uses framer-motion for animations. It has 1 motion divs. There are hover effects on some elements, indicated by 'group-hover' classes. ",
+        "tailwind_classes": "relative, min-h-screen, py-20, px-4, max-w-7xl, mx-auto, bg-background/50, backdrop-blur-sm, rounded-2xl, border, border-border, overflow-hidden, relative, z-10, text-center, pt-16, pb-8, px-8, text-4xl, md:text-6xl, font-bold, text-foreground, mb-8, text-balance, inline-flex, items-center, gap-3, bg-foreground, text-background, px-6, py-3, rounded-full, font-medium, hover:bg-foreground/90, transition-colors, group, mb-20, w-5, h-5, group-hover:translate-x-1, transition-transform, hidden, md:block, relative, overflow-hidden, h-[400px], -mb-[200px], flex, pb-8, pt-40, items-end, justify-center, group, cursor-pointer, flex-shrink-0, relative, aspect-video, w-64, md:w-80, lg:w-96, rounded-lg, overflow-hidden, transition-transform, duration-300, group-hover:scale-105, w-full, h-full, object-cover, object-left-top, block, md:hidden, relative, pb-8, group, flex, overflow-hidden, p-2, [--duration:40s], [--gap:1rem], [gap:var(--gap)], flex-row, flex, shrink-0, justify-around, [gap:var(--gap)], animate-marquee, flex-row, group-hover:[animation-play-state:paused], group, cursor-pointer, flex-shrink-0, relative, aspect-video, w-64, rounded-lg, overflow-hidden, transition-transform, duration-300, group-hover:scale-105, w-full, h-full, object-cover, object-left-top",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations: *   **Colors:** Replace the default background and foreground colors with a palette of rich, deep colors like burgundy, navy, or charcoal, accented with metallic tones like gold, silver, or rose gold. *   **Fonts:** Use elegant serif fonts for titles and headings, and a clean sans-serif font for body text. *   **Spacing:** Increase the spacing between elements to create a more open and luxurious feel. The `spacing` prop can be used to adjust the overlap of the images in the desktop view. *   **Images:** Replace the placeholder images with high-quality, professional photographs of jewelry pieces. Ensure the images are well-lit and showcase the details of the jewelry.",
+        "concept_mapping": "03-gallery, 04-collection"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/isaiahbjork/product-reveal-card",
+      "output": {
+        "component_name": "Product Reveal Card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/isaiahbjork/product-reveal-card",
+        "dependencies": "framer-motion, lucide-react, @/components/ui/button",
+        "props_api": "interface ProductRevealCardProps {\n  name?: string;\n  price?: string;\n  originalPrice?: string;\n  image?: string;\n  description?: string;\n  rating?: number;\n  reviewCount?: number;\n  onAdd?: () => void;\n  onFavorite?: () => void;\n  enableAnimations?: boolean;\n  className?: string;\n}",
+        "description": "A product-reveal-card component that showcases a product with an image, name, price, and rating. On hover, an overlay slides up from the bottom to reveal more details and action buttons, creating an interactive and engaging user experience.",
+        "full_source_code": "/home/ubuntu/full_source_code/15_h5u99yNSUs1KOkemVC3ymm_1775970635676_na1fn_L2hvbWUvdWJ1bnR1L3Byb2R1Y3QtcmV2ZWFsLWNhcmQ.tsx",
+        "demo_code": "import { ProductRevealCard } from \"@/components/ui/product-reveal-card\";\n\nexport default function MyPage() {\n  return (\n    <div className=\"grid place-items-center h-screen\">\n      <ProductRevealCard />\n    </div>\n  );\n}",
+        "animations_interactions": "The component has several animations that are triggered on hover. The main container scales up and moves slightly upwards. The product image zooms in. An overlay with product details slides up from the bottom, and the content within the overlay fades in and slides up. The 'Add to Cart' and 'View Details' buttons also have a subtle scale and slide animation on hover. The favorite button has a heart icon that fills with red color and does a small bounce and rotation animation when clicked.",
+        "tailwind_classes": "relative, w-80, rounded-2xl, border, border-border/50, bg-card, text-card-foreground, overflow-hidden, shadow-lg, shadow-black/5, cursor-pointer, group, h-56, w-full, object-cover, absolute, inset-0, bg-gradient-to-t, from-black/30, via-transparent, to-transparent, top-4, right-4, p-2, rounded-full, backdrop-blur-sm, border-white/20, bg-red-500, text-white, bg-white/20, hover:bg-white/30, w-4, h-4, fill-current, p-6, space-y-3, flex, items-center, gap-2, text-sm, text-muted-foreground, space-y-1, text-xl, font-bold, leading-tight, tracking-tight, text-2xl, text-primary, text-lg, line-through, bg-background/96, backdrop-blur-xl, flex-col, justify-end, space-y-4, font-semibold, mb-2, leading-relaxed, grid, grid-cols-2, gap-3, text-xs, bg-muted/50, rounded-lg, text-center, font-medium, bg-gradient-to-r, from-primary, to-primary/90, hover:from-primary/90, hover:to-primary, shadow-primary/25, mr-2",
+        "customization_notes": "To adapt this component for a luxury jewelry theme, consider the following customizations. For colors, use a palette of gold, silver, and dark grays or blues. The `bg-card`, `text-card-foreground`, and `text-primary` classes can be customized in the Tailwind theme. For fonts, use elegant serif or sans-serif fonts for the product name and description. Spacing can be increased to create a more open and luxurious feel. The border and shadow can be softened or removed for a cleaner look.",
+        "concept_mapping": "This component is well-suited for '03-gallery' and '05-product' concepts, as it is designed to showcase individual products in a visually engaging manner."
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/isaiahbjork/profile-card",
+      "output": {
+        "component_name": "Profile Card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/isaiahbjork/profile-card",
+        "dependencies": "framer-motion, lucide-react",
+        "props_api": "interface ProfileCardProps {\n  name?: string;\n  description?: string;\n  image?: string;\n  isVerified?: boolean;\n  followers?: number;\n  following?: number;\n  enableAnimations?: boolean;\n  className?: string;\n  onFollow?: () => void;\n  isFollowing?: boolean;\n}",
+        "description": "A profile-card component that displays a user's profile information including their name, description, image, and follower/following counts. The card has a hover effect that animates the card and its contents. It also includes a follow button with a different state when the user is already being followed.",
+        "full_source_code": "/home/ubuntu/full_source_code/16_BoqZa70IWOiKF4x76gVmJV_1775970602058_na1fn_L2hvbWUvdWJ1bnR1L3Byb2ZpbGUtY2FyZA.tsx",
+        "demo_code": "import { ProfileCard } from '@/components/ui/profile-card';\n\nexport default function MyPage() {\n  return (\n    <div className=\"flex justify-center items-center h-screen\">\n      <ProfileCard />\n    </div>\n  );\n}",
+        "animations_interactions": "The card has a hover effect that scales it up and moves it slightly on the Y-axis. The profile image also scales up on hover. The content inside the card, including the name, description, stats, and button, animates in with a staggered fade-in and slide-up effect. The name has a letter-by-letter animation. The verified icon has a slight rotation and scale animation on hover. The follow button also has a scale animation on hover and tap.",
+        "tailwind_classes": "relative, w-80, h-96, rounded-3xl, border, border-border/20, text-card-foreground, overflow-hidden, shadow-xl, shadow-black/5, cursor-pointer, group, backdrop-blur-sm, dark:shadow-black/20, absolute, inset-0, w-full, h-full, object-cover, bg-gradient-to-t, from-background/95, via-background/40, via-background/20, via-background/10, to-transparent, bottom-0, left-0, right-0, h-64, from-background/90, via-background/60, via-background/30, via-background/15, via-background/8, backdrop-blur-[1px], h-32, from-background/85, backdrop-blur-sm, p-6, space-y-4, flex, items-center, gap-2, text-2xl, font-bold, text-foreground, inline-block, justify-center, rounded-full, bg-green-500, text-white, w-4, h-4, w-2.5, h-2.5, text-muted-foreground, text-sm, leading-relaxed, gap-6, pt-2, font-semibold, cursor-pointer, py-3, px-4, rounded-2xl, transition-all, duration-200, shadow-sm, bg-muted, hover:bg-muted/80, bg-foreground, text-background, hover:bg-foreground/90, transform-gpu",
+        "customization_notes": "For a luxury jewelry theme, the color palette can be updated to use more sophisticated and elegant colors like gold, silver, and dark grays. The fonts can be changed to a more classic and high-end serif font. The spacing and layout can be adjusted to be more spacious and minimalist to create a more luxurious feel. The blur and gradient effects can be intensified to create a more dreamy and ethereal look.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/kavikatiyar/order-confirmation-card",
+      "output": {
+        "component_name": "Order Confirmation Card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/kavikatiyar/order-confirmation-card",
+        "dependencies": "framer-motion, lucide-react",
+        "props_api": "interface OrderConfirmationCardProps {\n  orderId: string;\n  paymentMethod: string;\n  dateTime: string;\n  totalAmount: string;\n  onGoToAccount: () => void;\n  title?: string;\n  buttonText?: string;\n  icon?: React.ReactNode;\n  className?: string;\n}",
+        "description": "The Order Confirmation Card is a responsive and theme-adaptive component that displays a summary of a completed order. It includes details like the order ID, payment method, date, and total amount, along with a confirmation icon and a call-to-action button. The card uses subtle animations to present the information in an engaging way.",
+        "full_source_code": "/home/ubuntu/full_source_code/17_0b1kLweNasvJfBgkrfTBXa_1775970605374_na1fn_L2hvbWUvdWJ1bnR1L29yZGVyLWNvbmZpcm1hdGlvbi1jYXJk.tsx",
+        "demo_code": "import { OrderConfirmationCard } from \"@/components/ui/order-confirmation-card\";\n\nconst MyOrderPage = () => (\n  <OrderConfirmationCard\n    orderId=\"#12345-ABCDE\"\n    paymentMethod=\"Visa **** 1234\"\n    dateTime=\"April 12, 2026, 1:09 PM\"\n    totalAmount=\"$1,234.56\"\n    onGoToAccount={() => console.log(\"Go to account\")}\n  />\n);",
+        "animations_interactions": "The card and its elements animate into view with a fade-in and scale-up effect using Framer Motion. The main container has a `staggerChildren` transition, causing the icon, title, details, and button to appear sequentially. Each item also has a subtle upward slide-in animation.",
+        "tailwind_classes": "w-full, max-w-sm, rounded-xl, border, bg-card, text-card-foreground, shadow-lg, p-6, sm:p-8, flex, flex-col, items-center, space-y-6, text-center, text-2xl, font-semibold, text-sm, text-muted-foreground, font-bold",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations:\n- **Colors**: Change the background color (`bg-card`) to a more luxurious shade like a deep charcoal, navy, or a soft cream. The primary button color can be customized to match the brand's primary color.\n- **Fonts**: Use a serif font for the title and a clean sans-serif font for the details to create a more elegant look.\n- **Spacing**: Increase the padding (`p-6 sm:p-8`) to give the elements more breathing room and create a more premium feel.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/kokonutd/interactive-checkout",
+      "output": {
+        "component_name": "Interactive Checkout",
+        "status": "live",
+        "install_command": "npx shadcn@latest add interactive-checkout",
+        "dependencies": "lucide-react, framer-motion, @number-flow/react",
+        "props_api": "interface Product {\n    id: string;\n    name: string;\n    price: number;\n    category: string;\n    image: string;\n    color: string;\n}\n\ninterface InteractiveCheckoutProps {\n    products?: Product[];\n}",
+        "description": "An interactive checkout component that allows users to add products to a cart, update quantities, and see the total price update in real-time. The component features a two-column layout with a list of products on the left and a sticky cart on the right.",
+        "full_source_code": "/home/ubuntu/full_source_code/18_mYivmNxg2UtOYomcyy4t5M_1775970610405_na1fn_L2hvbWUvdWJ1bnR1L2ludGVyYWN0aXZlLWNoZWNrb3V0.tsx",
+        "demo_code": "import InteractiveCheckout from \"@/components/ui/interactive-checkout\";\n\nconst Page = () => {\n  return (\n    <div className=\\\"p-4\\\">\n      <InteractiveCheckout />\n    </div>\n  );\n};\n\nexport default Page;",
+        "animations_interactions": "The component utilizes framer-motion for animations. When a product is added to the cart, it animates into the cart section. The cart items also have a layout animation when items are added or removed. Buttons have a subtle scale effect on hover and tap. The product cards have a slight lift and border color change on hover.",
+        "tailwind_classes": "group, p-4, rounded-xl, bg-white, dark:bg-zinc-900, border, border-zinc-200, dark:border-zinc-800, hover:border-zinc-300, dark:hover:border-zinc-700, transition-all, duration-200, flex, items-center, justify-between, gap-3, relative, w-12, h-12, rounded-lg, overflow-hidden, bg-zinc-100, dark:bg-zinc-800, transition-colors, group-hover:bg-zinc-200, dark:group-hover:bg-zinc-700, object-cover, text-sm, font-medium, text-zinc-900, dark:text-zinc-100, px-2, py-0.5, text-xs, rounded-full, text-zinc-500, dark:text-zinc-400, w-80, flex-col, sticky, top-4, max-h-[32rem], flex-1, overflow-y-auto, min-h-0, -mx-4, px-4, space-y-3, truncate, mt-auto, pt-4, border-t",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations:\n-   **Colors**: Replace the default zinc colors with a more luxurious palette, such as deep blues, rich burgundies, or classic black and white with metallic accents (gold, silver, rose gold).\n-   **Fonts**: Use elegant serif or high-end sans-serif fonts for product names and prices.\n-   **Spacing**: Increase the spacing between elements to create a more open and premium feel.\n-   **Imagery**: Replace the placeholder images with high-quality, professionally shot photos of the jewelry.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/molecule-lab-rushil/glass-card",
+      "output": {
+        "component_name": "glass-card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/molecule-lab-rushil/glass-card",
+        "dependencies": "https://21st.dev/r/shadcn/button,https://21st.dev/r/shadcn/label,https://21st.dev/r/shadcn/input",
+        "props_api": "interface GlassCardProps extends React.ComponentProps<\"div\"> {}\ninterface GlassCardHeaderProps extends React.ComponentProps<\"div\"> {}\ninterface GlassCardTitleProps extends React.ComponentProps<\"div\"> {}\ninterface GlassCardDescriptionProps extends React.ComponentProps<\"div\"> {}\ninterface GlassCardActionProps extends React.ComponentProps<\"div\"> {}\ninterface GlassCardContentProps extends React.ComponentProps<\"div\"> {}\ninterface GlassCardFooterProps extends React.ComponentProps<\"div\"> {}",
+        "description": "A glass-card component.",
+        "full_source_code": "/home/ubuntu/full_source_code/19_vy8EIC2exB3W7zcTvDBCr6_1775970652016_na1fn_L2hvbWUvdWJ1bnR1L2dsYXNzX2NhcmQ.tsx",
+        "demo_code": "import {\n  GlassCard,\n  GlassCardHeader,\n  GlassCardTitle,\n  GlassCardDescription,\n  GlassCardAction,\n  GlassCardContent,\n  GlassCardFooter,\n} from \"@/components/ui/glass-card\";\nimport { Button } from \"@/components/ui/button\";\n\nexport function GlassCardDemo() {\n  return (\n    <GlassCard>\n      <GlassCardHeader>\n        <GlassCardTitle>Vault-Maison Diamond</GlassCardTitle>\n        <GlassCardDescription>A stunning, one-of-a-kind diamond.</GlassCardDescription>\n        <GlassCardAction>\n          <Button variant=\"ghost\" size=\"icon\">\n            <svg fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n              <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M5 12h14\" />\n            </svg>\n          </Button>\n        </GlassCardAction>\n      </GlassCardHeader>\n      <GlassCardContent>\n        <p>This is where the main content of the card would go, such as a more detailed description of the diamond.</p>\n      </GlassCardContent>\n      <GlassCardFooter>\n        <Button>Add to Cart</Button>\n      </GlassCardFooter>\n    </GlassCard>\n  );\n}",
+        "animations_interactions": "The component has a glass-like visual effect created by the `backdrop-blur-md` Tailwind CSS class. This is not an animation but a static visual style. There are no other explicit animations or interactions defined in the component's source code. The component parts are standard divs and will behave as such.",
+        "tailwind_classes": "",
+        "customization_notes": "For a luxury jewelry theme, the following customizations are recommended:\n\n- **Colors:** The component uses `primary-foreground` for its background and border. To align with a luxury aesthetic, you should update your Tailwind theme to use a dark, sophisticated color palette. For example, you could set `primary-foreground` to a deep charcoal or navy blue, and use gold or silver for text and accents.\n\n- **Fonts:** The component uses `font-semibold`. For a more elegant and high-end feel, consider using a serif font family for titles and a clean sans-serif for body text. You can configure this in your `tailwind.config.js` file.\n\n- **Spacing:** The component has a `gap-6` and `py-6`. You can adjust these values to create more or less whitespace, depending on the desired visual density. For a luxury feel, generous spacing is often preferred.\n\n- **Blur:** The `backdrop-blur-md` can be adjusted to `backdrop-blur-lg` or `backdrop-blur-xl` for a more pronounced glass effect.",
+        "concept_mapping": "01-vault, 03-gallery, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/muhammad-binsalman/glowing-ai-chat-assistant",
+      "output": {
+        "component_name": "Glowing Ai Chat Assistant",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/muhammad-binsalman/glowing-ai-chat-assistant",
+        "dependencies": "lucide-react",
+        "props_api": "The component does not accept any props.",
+        "description": "A floating AI chat assistant component that is displayed as a glowing button on the bottom right of the screen. When clicked, it expands into a chat window with a header, a text area for user input, and controls for sending messages and attaching files. The component is self-contained and manages its own state.",
+        "full_source_code": "/home/ubuntu/full_source_code/20_gsGoRLK81AMDqRB9ypmuPf_1775970676392_na1fn_L2hvbWUvdWJ1bnR1L2dsb3dpbmctYWktY2hhdC1hc3Npc3RhbnQ.tsx",
+        "demo_code": "import FloatingAiAssistant from '@/components/ui/glowing-ai-chat-assistant';\n\nconst Page = () => {\n  return (\n    <div>\n      <FloatingAiAssistant />\n    </div>\n  );\n};",
+        "animations_interactions": "The floating AI assistant button has a continuous glowing animation and rotates 90 degrees when clicked to open the chat window. The chat window appears with a 'popIn' animation using a custom cubic-bezier curve. The control buttons for file upload, link, code, and design have hover effects that include scaling, rotation, and a tooltip appearing above them. The 'Send' button has a hover effect that makes it scale and rotate slightly, and it is disabled when there is no text in the input area. The green dot in the header indicating the AI is active has a pulse animation.",
+        "tailwind_classes": "fixed, bottom-6, right-6, z-50, rounded-full, flex, items-center, justify-center, transition-all, duration-500, transform, rotate-90, bg-gradient-to-br, from-zinc-800/80, to-zinc-900/90, border, border-zinc-500/50, shadow-2xl, backdrop-blur-3xl, overflow-hidden, animate-ping, animate-pulse",
+        "customization_notes": "To adapt this component for a luxury jewelry theme, the color palette can be updated to use gold, silver, and other precious metal colors. The gradients and box shadows can be adjusted to create a more subtle and sophisticated glow effect. The default fonts can be replaced with elegant serif or sans-serif fonts that match the brand's identity. The spacing and padding can be increased to give the component a more open and luxurious feel.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/nakulgupta2004/amazing-card",
+      "output": {
+        "component_name": "amazing-card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/nakulgupta2004/amazing-card",
+        "dependencies": "react, clsx, lucide-react, framer-motion",
+        "props_api": "export interface FashionCardProps extends React.HTMLAttributes<HTMLDivElement> {\n  image: string\n  title: string\n  description?: string\n  price: string\n  badge?: string\n  badgeColor?: \"sale\" | \"new\" | \"exclusive\" | \"limited\"\n  aspect?: \"portrait\" | \"landscape\" | \"square\"\n  glowEffect?: boolean\n}",
+        "description": "A responsive card component with 3D tilt effect on hover, a glow pulse animation, and a shine effect on the button. It can display an image, title, description, price, and a badge. The component is highly customizable with options for aspect ratio, badge color, and glow effect.",
+        "full_source_code": "/home/ubuntu/full_source_code/21_wERd2U4n2xxRDo6YrF6H7m_1775970708362_na1fn_L2hvbWUvdWJ1bnR1L2FtYXppbmctY2FyZA.tsx",
+        "demo_code": "export function FashionCardDemo() {\n  return (\n    <div className=\\\"p-8 bg-gradient-to-br from-fashion-cream to-fashion-beige min-h-screen\\\">\n      <h2 className=\\\"text-3xl md:text-4xl font-serif font-bold text-fashion-charcoal mb-8 text-center\\\">New Arrivals</h2>\n      \n      <div className=\\\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8\\\">\n        <AmazingCard\n          image=\\\"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80\\\"\n          title=\\\"Cashmere Blend Coat\\\"\n          description=\\\"Luxurious camel coat crafted from premium cashmere blend for ultimate warmth and style.\\\"\n          price=\\\"$349.99\\\"\n          badge=\\\"new\\\"\n          badgeColor=\\\"new\\\"\n        />\n        <AmazingCard\n          image=\\\"https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80\\\"\n          title=\\\"Designer Handbag\\\"\n          description=\\\"Elegant structured handbag with gold hardware and adjustable strap.\\\"\n          price=\\\"$189.99\\\"\n          badge=\\\"sale\\\"\n          badgeColor=\\\"sale\\\"\n          aspect=\\\"square\\\"\n        />\n        <AmazingCard\n          image=\\\"https://images.unsplash.com/photo-1543076447-215ad9ba6923?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80\\\"\n          title=\\\"Leather Chelsea Boots\\\"\n          description=\\\"Classic Chelsea boots crafted from genuine leather with durable rubber sole.\\\"\n          price=\\\"$129.99\\\"\n          badge=\\\"exclusive\\\"\n          badgeColor=\\\"exclusive\\\"\n        />\n      </div>\n    </div>\n  );\n}",
+        "animations_interactions": "The card has a 3D tilt effect on mouse hover, implemented with React hooks to calculate and apply rotation based on mouse position. An optional glow pulse animation can be enabled. The card also features a glass effect overlay that appears on hover. The title, description and price have a fade-in animation. The badge has a floating animation. The \\\"Shop now\\\" button has a shine animation on hover and scales up slightly.",
+        "tailwind_classes": "group, relative, overflow-hidden, rounded-xl, animate-glow-pulse, transition-all, duration-300, absolute, inset-0, z-10, opacity-0, group-hover:opacity-100, z-20, flex, flex-col, w-full, aspect-[3/4], aspect-[4/3], aspect-square, object-cover, p-5, bg-white, dark:bg-gray-900, space-y-2, flex-grow, group-hover:bg-opacity-80, dark:group-hover:bg-opacity-90, backdrop-blur-sm, font-serif, text-lg, md:text-xl, font-medium, leading-none, tracking-tight, gradient-text, animate-fadeIn, font-sans, text-sm, text-muted-foreground, line-clamp-2, flex, items-center, justify-between, mt-auto, pt-3, font-semibold, shine-effect, rounded-full, px-4, py-1.5, text-xs, bg-fashion-charcoal, text-white, hover:animate-shine, transform, hover:scale-105, fashion-card-badge, px-2.5, py-1, capitalize, animate-float, bg-fashion-accent, text-white, bg-fashion-highlight, text-fashion-charcoal, bg-fashion-charcoal, text-fashion-cream, bg-gradient-to-r, from-fashion-accent, to-fashion-highlight",
+        "customization_notes": "For a luxury jewelry theme, consider using a more subtle and elegant color palette. The `badgeColor` prop can be used to define custom badge styles. The `font-serif` and `font-sans` classes can be replaced with custom fonts that match the brand identity. The spacing and rounded corners can be adjusted to create a more refined look. The glow effect can be disabled for a more minimalist aesthetic.",
+        "concept_mapping": "03-gallery, 07-product"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/rahil1202/credit-card-form",
+      "output": {
+        "component_name": "Credit Card Form",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/rahil1202/credit-card-form",
+        "dependencies": "react",
+        "props_api": "type Props = {\n  /** Prefill values (optional) */\n  defaultNumber?: string;\n  defaultHolder?: string;\n  defaultMonth?: string; // \"01\"..\"12\"\n  defaultYear?: string;  // \"2025\"\n  defaultCVV?: string;\n\n  /** Mask digits 5..12 with * on the card front */\n  maskMiddle?: boolean;\n\n  /** Override gradient accent rings (front/back :before/:after) */\n  ring1?: string; // e.g. \"#ff6be7\"\n  ring2?: string; // e.g. \"#7288ff\"\n\n  /** Show a submit button */\n  showSubmit?: boolean;\n  /** Live change callback */\n  onChange?: (state: CardState, validity: CardValidity) => void;\n  /** Submit callback */\n  onSubmit?: (state: CardState, validity: CardValidity) => void;\n\n  /** Class for wrapping container */\n  className?: string;\n};",
+        "description": "A credit-card-form component that provides a user-friendly interface for entering credit card details. It includes a visual representation of the credit card that updates in real-time as the user types. The component also includes validation for all fields and a flip animation to reveal the CVV input on the back of the card.",
+        "full_source_code": "/home/ubuntu/full_source_code/22_A8vwO7BNrNYXsoYYQFgoht_1775970671705_na1fn_L2hvbWUvdWJ1bnR1L2NyZWRpdC1jYXJkLWZvcm0.tsx",
+        "demo_code": "import CreditCardForm from '@/components/ui/credit-card-form';\n\nconst MyCheckoutPage = () => {\n  return (\n    <CreditCardForm\n      onSubmit={(state, validity) => {\n        if (validity.allValid) {\n          console.log('Card details:', state);\n        } else {\n          console.log('Invalid card details');\n        }\n      }}\n    />\n  );\n};\n\nexport default MyCheckoutPage;",
+        "animations_interactions": "The credit card component features several animations and interactions to enhance user experience. A prominent 3D flip animation, triggered on focus of the CVV field, rotates the card to reveal the back. As the user inputs their card number, the digits slide into place from the bottom. The component also highlights the active input field on the card visual itself, providing clear visual feedback. The submit button is disabled until all fields are valid.",
+        "tailwind_classes": "This component does not use Tailwind CSS. It is styled using styled-jsx. Key classes include: ccp, wrap, card, card__front, card__back, card__number, card__holder, card__expires, card_cvv, form, submit.",
+        "customization_notes": "For a luxury jewelry theme, the color scheme can be customized by overriding the `ring1` and `ring2` props with sophisticated colors like gold, silver, or deep jewel tones. The default blue and purple gradient can be replaced to match the brand's aesthetic. The font can be changed via CSS to a more elegant serif or a clean, modern sans-serif. Spacing can be adjusted in the CSS to create a more open and luxurious feel.",
+        "concept_mapping": "08-checkout"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/ravikatiyar162/feature-highlight-card",
+      "output": {
+        "component_name": "Feature Highlight Card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/ravikatiyar162/feature-highlight-card",
+        "dependencies": "framer-motion",
+        "props_api": "interface FeatureHighlightCardProps {\\n  imageSrc: string;\\n  imageAlt?: string;\\n  title: string;\\n  description: string;\\n  buttonText: string;\\n  className?: string;\\n}",
+        "description": "* A responsive and animated card component to highlight a feature.\\nBuilt with TypeScript, Tailwind CSS, and Framer Motion.\\nIt supports shadcn/ui theming for light and dark modes.",
+        "full_source_code": "/home/ubuntu/full_source_code/23_NexNGZwmoZxBS1GXcKeYy0_1775970780553_na1fn_L2hvbWUvdWJ1bnR1L2ZlYXR1cmUtaGlnaGxpZ2h0LWNhcmQ.tsx",
+        "demo_code": "import { FeatureHighlightCard } from \"@/components/ui/feature-highlight-card\";\n\n<FeatureHighlightCard\n  imageSrc=\"/path/to/your/image.png\"\n  title=\"Exquisite Diamond Necklace\"\n  description=\"Crafted with precision, this necklace features a stunning array of diamonds set in 18k white gold.\"\n  buttonText=\"View Details\"\n/>",
+        "animations_interactions": "The card and its elements fade in and slide up on load. The main container has a staggered animation for its children. The image scales in and fades in. The title, description, and button fade in and slide up from the bottom.",
+        "tailwind_classes": "relative, w-full, max-w-lg, overflow-hidden, rounded-2xl, border, bg-card, p-8, text-center, shadow-sm, absolute, left-1/2, top-0, -z-10, h-2/3, w-2/3, -translate-x-1/2, -translate-y-1/2, rounded-full, bg-primary/10, blur-3xl, mb-6, flex, justify-center, h-auto, w-full, object-contain, text-3xl, font-bold, tracking-tight, text-card-foreground, md:text-4xl, mt-4, text-base, text-muted-foreground, mt-8, w-full, sm:w-auto",
+        "customization_notes": "To adapt for a luxury jewelry theme, consider the following: Change the color palette to use gold, silver, and dark, rich tones. The `bg-primary/10` and `blur-3xl` classes can be adjusted to match the brand's color scheme. The font can be updated to a more elegant serif or a clean, modern sans-serif font. Spacing can be increased to give a more open and luxurious feel.",
+        "concept_mapping": "03-gallery, 05-product"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/ravikatiyar162/glowing-card",
+      "output": {
+        "component_name": "Glowing Card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/ravikatiyar162/glowing-card",
+        "dependencies": "react",
+        "props_api": "The component does not accept any props.",
+        "description": "A simple card component that features a glowing dot that animates around its border. The card displays a number and a label, making it suitable for showcasing statistics or key metrics in a visually appealing way.",
+        "full_source_code": "/home/ubuntu/full_source_code/24_INfWVxo5kUYawv4NeYNRW1_1775970660941_na1fn_L2hvbWUvdWJ1bnR1L2dsb3dpbmctY2FyZA.tsx",
+        "demo_code": "import { Component as GlowingCard } from \"@/components/ui/glowing-card\";\n\nconst MyPage = () => (\n  <div className=\"flex justify-center items-center h-screen\">\n    <GlowingCard />\n  </div>\n);",
+        "animations_interactions": "The component features a glowing dot that animates around the border of the card. The animation, named `moveDot`, moves the dot from the top-right corner, to the top-left, then to the bottom-left, then to the bottom-right, and finally back to the top-right, creating a continuous loop. This is achieved using a CSS keyframe animation.",
+        "tailwind_classes": "outer, dot, card, ray, text, line, topl, leftl, bottoml, rightl",
+        "customization_notes": "To adapt this component for a luxury jewelry theme, consider the following customizations:\n\n*   **Colors:** Change the background color of the card to a deep, rich color like charcoal, navy, or burgundy. The glowing dot and the text can be changed to a metallic color like gold or silver to evoke a sense of luxury.\n*   **Fonts:** Use a serif font for the text to give it a more classic and elegant feel.\n*   **Spacing:** Adjust the padding and margins to create a more spacious and refined layout.",
+        "concept_mapping": "03-gallery, 07-spotlight"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/reuno-ui/hero",
+      "output": {
+        "component_name": "Hero",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/reuno-ui/hero",
+        "dependencies": "@paper-design/shaders-react, framer-motion",
+        "props_api": "The component does not have any props.",
+        "description": "A hero component with a dynamic mesh gradient background, animated logo, and other interactive elements. It's designed to be a visually stunning and engaging landing page hero section.",
+        "full_source_code": "/home/ubuntu/full_source_code/25_3i9NJWRKAHIsGS2rzaPf92_1775970680185_na1fn_L2hvbWUvdWJ1bnR1L2hlcm8.tsx",
+        "demo_code": "import Hero from '@/components/ui/hero';\n\nexport default function MyPage() {\n  return (\n    <main>\n      <Hero />\n    </main>\n  );\n}",
+        "animations_interactions": "The component features several animations and interactions. On mouse hover over the main container, the background mesh gradient animates. The logo has a hover effect that changes its fill and makes it rotate. A particle animation is triggered on hover over the logo. The main title and subtitle fade in and slide up. The buttons have a hover effect that changes their background color and scales them up. A pulsing border with rotating text is present in the bottom right corner.",
+        "tailwind_classes": "min-h-screen, bg-black, relative, overflow-hidden, absolute, inset-0, w-full, h-full, z-20, flex, items-center, justify-between, p-6, text-white, font-bold, text-6xl, md:text-7xl, lg:text-8xl, leading-none, tracking-tight",
+        "customization_notes": "To customize for a luxury jewelry theme, the color palette of the mesh gradients and other elements should be updated to reflect the brand's colors. The fonts can be replaced with more elegant and luxurious ones. The spacing and layout can be adjusted to create a more spacious and premium feel. The pulsing border could be customized to incorporate brand-specific colors or icons.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/ruixen.ui/footer",
+      "output": {
+        "component_name": "Footer",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/ruixen.ui/footer",
+        "dependencies": "next, lucide-react, @/components/ui/input, @/components/ui/button, @/components/ui/card",
+        "props_api": "The component does not accept any props. All the content is managed internally through the `footerConfig` object.",
+        "description": "This is a comprehensive footer component that displays company information, navigation links, and contact details. It is designed to be easily configurable and adaptable to different branding requirements.",
+        "full_source_code": "/home/ubuntu/full_source_code/26_MPtjS8hVUiXyHm7UxEYIt6_1775970690372_na1fn_L2hvbWUvdWJ1bnR1L2Zvb3Rlcg.tsx",
+        "demo_code": "import Footer from '@/components/ui/footer';\n\nexport default function Page() {\n  return (\n    <div>\n      <Footer />\n    </div>\n  );\n}",
+        "animations_interactions": "The links in the footer have a smooth color transition on hover. The text color changes to blue-500, providing visual feedback to the user.",
+        "tailwind_classes": "bg-white, dark:bg-black, text-black, dark:text-white, border-t, border-gray-200, dark:border-gray-800, max-w-7xl, grid, grid-cols-2, md:grid-cols-5, gap-8, hover:text-blue-500, transition",
+        "customization_notes": "To adapt this component for a luxury jewelry theme, the `footerConfig` object should be modified. The color scheme can be updated to incorporate gold, silver, and black to evoke a sense of elegance. The typography can be changed to a more refined serif font. Increasing the spacing between elements will also contribute to a more luxurious and uncluttered aesthetic.",
+        "concept_mapping": "01-vault, 03-gallery, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/ruixen.ui/ruixen-mono-chat",
+      "output": {
+        "component_name": "Ruixen Mono Chat",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/ruixen.ui/ruixen-mono-chat",
+        "dependencies": "lucide-react, next",
+        "props_api": "interface RuixenCard04Props {\n    chatName?: string;\n    messages?: Message[];\n}",
+        "description": "A chat component that displays a list of participants and their messages. It allows filtering messages by participant and includes features like message status, reactions, and a message input field. The component has a clean, modern design with both light and dark modes.",
+        "full_source_code": "/home/ubuntu/full_source_code/27_3U4W7C2IVFBvId052dMFDa_1775970702937_na1fn_L2hvbWUvdWJ1bnR1L3J1aXhlbi1tb25vLWNoYXQ.tsx",
+        "demo_code": "import RuixenMonoChat from '@/components/ui/ruixen-mono-chat';\n\nexport default function Page() {\n  return (\n    <div className=\"w-full\">\n      <RuixenMonoChat />\n    </div>\n  );\n}",
+        "animations_interactions": "The component features several subtle animations and interactions. Buttons have a transition effect on hover, changing their background color. The main chat container and participant list have smooth scrolling. When a participant is selected, their background color changes with a transition. The input field has a focus effect, showing a ring around it. The send button has a hover effect that slightly changes its brightness.",
+        "tailwind_classes": "w-full, max-w-5xl, mx-auto, p-6, bg-white, dark:bg-black, rounded-3xl, shadow-lg, flex, flex-col, h-[550px], border, border-gray-300, dark:border-gray-700, justify-between, items-center, border-b, pb-3, mb-6, gap-3, text-2xl, font-semibold, italic, text-sm, text-gray-600, dark:text-gray-400, p-2, rounded-lg, hover:bg-gray-100, dark:hover:bg-gray-900, transition, flex-1, overflow-hidden, rounded-xl, w-56, bg-gray-50, dark:bg-gray-900, border-r, p-4, overflow-y-auto, w-full, p-3, mb-3, transition-colors, relative, rounded-full, ring-1, ring-gray-400, dark:ring-gray-600, absolute, bottom-0, right-0, w-3, h-3, ring-2, ring-white, dark:ring-black, bg-green-500, bg-gray-400, text-left, font-medium, truncate, p-6, text-center, text-gray-500, dark:text-gray-400, mb-6, last:mb-0, group, border-b, border-gray-200, dark:border-gray-800, pb-4, gap-4, mb-2, font-semibold, text-xs, text-lg, mb-1, justify-between, text-sm, gap-1, w-5, h-5, text-green-500, gap-2, px-2, py-1, rounded-md, bg-gray-300, dark:bg-gray-700, bg-gray-100, dark:bg-gray-800, hover:bg-gray-200, dark:hover:bg-gray-600, mt-6, gap-4, border-t, pt-4, p-3, rounded-full, w-6, h-6, flex-1, px-5, py-3, focus:outline-none, focus:ring-2, focus:ring-black, dark:focus:ring-white, hover:brightness-90",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations:\n\n*   **Colors**: Replace the default gray and black colors with a more luxurious palette. For example, use a soft gold or silver for accents, and a deep charcoal or navy for the dark mode background. The green for the 'online' status could be a more subtle, jewel-toned green.\n*   **Fonts**: Use a more elegant, serif font for the chat name and participant names. A clean, sans-serif font can be used for the message content for readability.\n*   **Spacing**: Increase the padding and spacing between elements to create a more open and luxurious feel.\n*   **Icons**: The `lucide-react` icons can be replaced with custom-designed icons that match the brand's aesthetic.",
+        "concept_mapping": "04-service, 08-community"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/thanh/moving-dot-card",
+      "output": {
+        "component_name": "Moving Dot Card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/thanh/moving-dot-card",
+        "dependencies": "react",
+        "props_api": "interface DotCardProps {\n  target?: number;\n  duration?: number;\n}",
+        "description": "Moving Dot Card is a dynamic component that displays a numerical value animating up to a target number. It features a decorative dot that continuously moves around the perimeter of the card, creating an engaging visual effect.",
+        "full_source_code": "/home/ubuntu/full_source_code/28_Y4hhYVvVSApgH1SrYXUzyx_1775970676661_na1fn_L2hvbWUvdWJ1bnR1L21vdmluZy1kb3QtY2FyZA.tsx",
+        "demo_code": "import MovingDotCard from '@/components/ui/moving-dot-card';\n\nexport default function MyComponent() {\n  return (\n    <MovingDotCard target={888000} duration={2500} />\n  );\n}",
+        "animations_interactions": "The component features a dot that continuously animates around the border of the card in a square path. The animation keyframes 'moveDot' define this path, moving the dot from top-right, to top-left, to bottom-left, to bottom-right, and back to top-right. Simultaneously, a number inside the card animates, counting up from 0 to a specified 'target' value over a given 'duration'.",
+        "tailwind_classes": "outer, dot, card, ray, text, label, topl, leftl, bottoml, rightl",
+        "customization_notes": "For a luxury jewelry theme, consider the following customizations:\n- **Colors**: Modify the CSS to use a palette of deep charcoals, golds, and silvers for the card, text, and animated dot to evoke a sense of elegance.\n- **Fonts**: Replace the default font with a sophisticated serif or a clean, high-end sans-serif font for the displayed number and label.\n- **Spacing**: Adjust the padding and margins within the card to create a more open and refined layout.\n- **Animation**: The animation speed can be adjusted via the `duration` prop for a more subtle and graceful effect.",
+        "concept_mapping": "01-vault, 10-maison"
+      },
+      "error": ""
+    },
+    {
+      "input": "https://21st.dev/r/user_hardp/sparkle-card",
+      "output": {
+        "component_name": "Sparkle Card",
+        "status": "live",
+        "install_command": "npx shadcn@latest add https://21st.dev/r/user_hardp/sparkle-card",
+        "dependencies": "clsx, motion",
+        "props_api": "type SparkleCardProps = {\n  children: React.ReactNode;\n  className?: string;\n  /** Number of sparkles */\n  sparkles?: number;\n  /** Duration of one sparkle cycle */\n  duration?: number;\n};",
+        "description": "A sparkle-card component that displays a card with animated sparkles in the background. The sparkles fade in and out at random positions within the card.",
+        "full_source_code": "/home/ubuntu/full_source_code/29_tcEfSKYigA7vF2lHLdETUX_1775970680611_na1fn_L2hvbWUvdWJ1bnR1L3NwYXJrbGUtY2FyZC9zcmMvY29tcG9uZW50cy91aS9zcGFya2xlLWNhcmQ.tsx",
+        "demo_code": "import { SparkleCard } from \"@/components/ui/sparkle-card\";\n\nexport default function MyComponent() {\n  return (\n    <SparkleCard>\n      <h3 class=\"text-lg font-semibold\">Sparkle Card</h3>\n      <p class=\"text-sm text-muted-foreground\">\n        This is a card with sparkling background.\n      </p>\n    </SparkleCard>\n  );\n}",
+        "animations_interactions": "The component features a background with animated sparkles. Each sparkle is a small dot that animates its opacity from 0 to 0.8 and back to 0, and its scale from 0.5 to 1 and back to 0.5. The animations have a configurable duration and are staggered with a random delay. When a sparkle animation completes, it respawns at a new random location.",
+        "tailwind_classes": "relative, overflow-hidden, rounded-2xl, border, border-border, p-6, bg-background, shadow-md, absolute, inset-0, pointer-events-none, block, w-0.5, h-0.5, rounded-full, bg-black, dark:bg-white, z-10",
+        "customization_notes": "The component can be customized for a luxury jewelry theme by adjusting the following: \n- **Colors**: Modify the `bg-background` and `border-border` classes to match the website's color palette. The sparkle color can be changed by modifying `bg-black` and `dark:bg-white` to a more shimmery color like gold or silver.\n- **Fonts**: The font of the content within the card can be customized by applying custom font classes to the children elements.\n- **Spacing**: The padding of the card can be adjusted by changing the `p-6` class.",
+        "concept_mapping": "01-vault, 03-gallery"
+      },
+      "error": ""
+    }
+  ]
+}
