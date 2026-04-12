@@ -1,41 +1,121 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers } from '@/data/products'
 import { collections } from '@/data/collections'
 import { ConceptLayout } from '@/components/shared'
 import { buildConceptUrl, buildProductUrl, buildCategoryUrl } from '@/lib/concept-utils'
 
-/* ── Official Aceternity UI Components ── */
-import { TextGenerateEffect } from '@/components/ui/text-generate-effect'
-import { FocusCards } from '@/components/ui/focus-cards'
-import { GlareCard } from '@/components/ui/glare-card'
-import { StickyScroll } from '@/components/ui/sticky-scroll-reveal'
-import { AnimatedTestimonials } from '@/components/ui/animated-testimonials'
-import { PlaceholdersAndVanishInput } from '@/components/ui/placeholders-and-vanish-input'
-import ColourfulText from '@/components/ui/colourful-text'
+/* ── Utility: Fade-in on scroll using IntersectionObserver with CSS fallback ── */
+function FadeIn({
+  children,
+  className = '',
+  delay = 0,
+  direction = 'up',
+}: {
+  children: React.ReactNode
+  className?: string
+  delay?: number
+  direction?: 'up' | 'down' | 'left' | 'right' | 'none'
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
 
-/* ── Official Magic UI Components ── */
-import { BlurFade } from '@/components/ui/blur-fade'
-import { MagicCard } from '@/components/ui/magic-card'
-import { NeonGradientCard } from '@/components/ui/neon-gradient-card'
-import { BorderBeam } from '@/components/ui/border-beam'
-import { Marquee } from '@/components/ui/marquee'
-import { MorphingText } from '@/components/ui/morphing-text'
-import { NumberTicker } from '@/components/ui/number-ticker'
-import { DotPattern } from '@/components/ui/dot-pattern'
-import { ShimmerButton } from '@/components/ui/shimmer-button'
-import { ScrollVelocityContainer, ScrollVelocityRow } from '@/components/ui/scroll-based-velocity'
+  const directionMap = {
+    up: 'translateY(24px)',
+    down: 'translateY(-24px)',
+    left: 'translateX(24px)',
+    right: 'translateX(-24px)',
+    none: 'none',
+  }
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? 'none' : directionMap[direction],
+        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+/* ── Utility: Typing effect that always shows text (CSS fallback) ── */
+function TypedText({ text, className = '' }: { text: string; className?: string }) {
+  const [displayed, setDisplayed] = useState(text) // Always show full text by default
+  const [isTyping, setIsTyping] = useState(false)
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true })
+
+  useEffect(() => {
+    if (!isInView) return
+    setDisplayed('')
+    setIsTyping(true)
+    let i = 0
+    const interval = setInterval(() => {
+      i++
+      setDisplayed(text.slice(0, i))
+      if (i >= text.length) {
+        clearInterval(interval)
+        setIsTyping(false)
+      }
+    }, 40)
+    return () => clearInterval(interval)
+  }, [isInView, text])
+
+  return (
+    <span ref={ref} className={className}>
+      {displayed}
+      {isTyping && <span className="animate-pulse">|</span>}
+    </span>
+  )
+}
+
+/* ── Utility: Animated counter ── */
+function Counter({ value, suffix = '' }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true })
+  const [count, setCount] = useState(value) // Show real value by default
+
+  useEffect(() => {
+    if (!isInView) return
+    setCount(0)
+    const duration = 1500
+    const steps = 40
+    const increment = value / steps
+    let current = 0
+    const interval = setInterval(() => {
+      current += increment
+      if (current >= value) {
+        setCount(value)
+        clearInterval(interval)
+      } else {
+        setCount(Math.round(current * 10) / 10)
+      }
+    }, duration / steps)
+    return () => clearInterval(interval)
+  }, [isInView, value])
+
+  return (
+    <span ref={ref}>
+      {Number.isInteger(value) ? Math.round(count) : count.toFixed(1)}
+      {suffix}
+    </span>
+  )
+}
 
 /* ═══════════════════════════════════════════════════════════════
    SECTION 1 — HERO
-   Full viewport. MorphingText cycles through jewelry words.
-   TextGenerateEffect for subtitle. DotPattern texture.
-   BlurFade for staggered entrance.
+   Full viewport. Clean typography. Content ALWAYS visible.
+   Subtle parallax on scroll as enhancement.
    ═══════════════════════════════════════════════════════════════ */
 
 function HeroSection({ concept }: { concept: ConceptConfig }) {
@@ -44,8 +124,7 @@ function HeroSection({ concept }: { concept: ConceptConfig }) {
     target: ref,
     offset: ['start start', 'end start'],
   })
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '25%'])
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
 
   return (
     <section
@@ -53,130 +132,111 @@ function HeroSection({ concept }: { concept: ConceptConfig }) {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{ backgroundColor: '#fafafa' }}
     >
-      {/* DotPattern — official Magic UI background texture */}
-      <DotPattern
-        className="[mask-image:radial-gradient(600px_circle_at_center,white,transparent)] fill-neutral-300/30"
+      {/* Subtle dot pattern via CSS */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: 'radial-gradient(circle, #000 0.5px, transparent 0.5px)',
+          backgroundSize: '24px 24px',
+        }}
       />
 
       <motion.div
-        className="relative z-10 mx-auto max-w-[1440px] w-full px-8 lg:px-16"
-        style={{ y, opacity }}
+        className="relative z-10 mx-auto max-w-[1440px] w-full px-6 sm:px-8 lg:px-16"
+        style={{ y }}
       >
-        <div className="pt-32 pb-16">
-          {/* Micro-label with BlurFade */}
-          <BlurFade delay={0.1} duration={0.6}>
-            <p className="text-[10px] uppercase tracking-[0.35em] text-neutral-400 mb-14">
+        <div className="pt-28 sm:pt-32 pb-16">
+          {/* Micro-label — ALWAYS VISIBLE */}
+          <FadeIn delay={0}>
+            <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-neutral-400 mb-10 sm:mb-14">
               Est. 2024 — Vault Maison
             </p>
-          </BlurFade>
+          </FadeIn>
 
-          {/* MorphingText — official Magic UI — cycles through jewelry words */}
-          <BlurFade delay={0.2} duration={0.8}>
-            <div className="mb-6">
-              <MorphingText
-                texts={['JEWELRY', 'RINGS', 'NECKLACES', 'BRACELETS', 'EARRINGS', 'TIMEPIECES']}
-                className="text-[clamp(4rem,13vw,11rem)] font-extralight tracking-[-0.04em] leading-[0.85] text-neutral-900"
-              />
-            </div>
-          </BlurFade>
+          {/* Main heading — ALWAYS VISIBLE, large typography */}
+          <h1 className="text-[clamp(3.5rem,12vw,11rem)] font-extralight tracking-[-0.04em] leading-[0.85] text-neutral-900 mb-6">
+            <TypedText text="JEWELRY." />
+          </h1>
 
-          {/* TextGenerateEffect — official Aceternity UI — subtitle */}
-          <BlurFade delay={0.4} duration={0.6}>
-            <div className="max-w-md mt-8">
-              <TextGenerateEffect
-                words="Nothing more. Nothing less. Only what matters."
-                className="text-sm font-light tracking-wide leading-relaxed text-neutral-400"
-                duration={0.6}
-              />
-            </div>
-          </BlurFade>
+          {/* Subtitle — ALWAYS VISIBLE */}
+          <FadeIn delay={0.2}>
+            <p className="max-w-md text-sm sm:text-base font-light tracking-wide leading-relaxed text-neutral-400 mt-6 sm:mt-8">
+              Nothing more. Nothing less. Only what matters.
+            </p>
+          </FadeIn>
 
           {/* Hairline rule */}
-          <BlurFade delay={0.6} duration={0.8}>
-            <div className="h-px w-full max-w-xs bg-neutral-200 mt-14" />
-          </BlurFade>
+          <FadeIn delay={0.3}>
+            <div className="h-px w-full max-w-xs bg-neutral-200 mt-10 sm:mt-14" />
+          </FadeIn>
 
-          {/* CTA with ShimmerButton — official Magic UI */}
-          <BlurFade delay={0.8} duration={0.6}>
-            <div className="mt-10">
-              <Link href={buildConceptUrl('minimal', 'collections')}>
-                <ShimmerButton
-                  shimmerColor="rgba(0,0,0,0.05)"
-                  shimmerSize="0.1em"
-                  background="rgba(0,0,0,0.02)"
-                  borderRadius="2px"
-                  className="text-[11px] uppercase tracking-[0.2em] font-light text-neutral-600 px-8 py-3"
-                >
+          {/* CTA button — ALWAYS VISIBLE */}
+          <FadeIn delay={0.4}>
+            <div className="mt-8 sm:mt-10">
+              <Link
+                href={buildConceptUrl('minimal', 'collections')}
+                className="group inline-flex items-center gap-4 text-[11px] uppercase tracking-[0.2em] font-light text-neutral-600 hover:text-neutral-900 transition-colors duration-500"
+              >
+                <span className="px-6 sm:px-8 py-3 border border-neutral-200 hover:border-neutral-400 transition-all duration-500">
                   View Collection
-                </ShimmerButton>
+                </span>
               </Link>
             </div>
-          </BlurFade>
+          </FadeIn>
         </div>
       </motion.div>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
         <span className="text-[9px] uppercase tracking-[0.3em] text-neutral-300">Scroll</span>
-        <motion.div
-          className="w-px h-6 bg-neutral-300"
-          animate={{ scaleY: [0, 1, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ transformOrigin: 'top' }}
-        />
+        <div className="w-px h-6 bg-neutral-300 animate-pulse" />
       </div>
     </section>
   )
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 2 — SCROLL VELOCITY MARQUEE
-   Official Magic UI ScrollVelocityContainer + ScrollVelocityRow.
-   Text speeds up/slows down based on scroll velocity.
+   SECTION 2 — MARQUEE
+   CSS-only infinite scroll — no JS dependency for visibility.
    ═══════════════════════════════════════════════════════════════ */
 
-function VelocityMarqueeSection() {
+function MarqueeSection() {
   return (
-    <section className="py-4 border-t border-b border-neutral-100 overflow-hidden bg-white">
-      <ScrollVelocityContainer>
-        <ScrollVelocityRow baseVelocity={-2}>
-          <span className="text-[clamp(2rem,5vw,4rem)] font-extralight tracking-[-0.02em] text-neutral-100 mx-8 whitespace-nowrap">
+    <section className="py-3 sm:py-4 border-t border-b border-neutral-100 overflow-hidden bg-white">
+      <div className="flex animate-marquee whitespace-nowrap">
+        {[...Array(3)].map((_, i) => (
+          <span
+            key={i}
+            className="text-[clamp(1.5rem,4vw,3.5rem)] font-extralight tracking-[-0.02em] text-neutral-100 mx-4 sm:mx-8 flex-shrink-0"
+          >
             Rings &nbsp;·&nbsp; Necklaces &nbsp;·&nbsp; Bracelets &nbsp;·&nbsp; Earrings &nbsp;·&nbsp; Timepieces &nbsp;·&nbsp; Bespoke &nbsp;·&nbsp;
           </span>
-        </ScrollVelocityRow>
-        <ScrollVelocityRow baseVelocity={1.5}>
-          <span className="text-[clamp(0.7rem,1.5vw,1rem)] font-light tracking-[0.3em] uppercase text-neutral-200 mx-8 whitespace-nowrap">
-            Crafted with intention &nbsp;&nbsp;&nbsp; Designed to last &nbsp;&nbsp;&nbsp; Nothing unnecessary &nbsp;&nbsp;&nbsp;
-          </span>
-        </ScrollVelocityRow>
-      </ScrollVelocityContainer>
+        ))}
+      </div>
     </section>
   )
 }
 
 /* ═══════════════════════════════════════════════════════════════
    SECTION 3 — EDITORIAL IMAGE WITH PARALLAX
-   Full-width image with parallax scroll effect.
+   Full-width image. Content always visible.
+   Parallax as progressive enhancement.
    ═══════════════════════════════════════════════════════════════ */
 
-function EditorialParallaxSection() {
+function EditorialSection() {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
   })
-  const y = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1.03, 1])
+  const y = useTransform(scrollYProgress, [0, 1], ['-5%', '5%'])
 
   return (
-    <BlurFade delay={0.1} duration={0.8}>
-      <section ref={ref} className="py-16 lg:py-24 bg-white">
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
+    <FadeIn>
+      <section ref={ref} className="py-12 sm:py-16 lg:py-24 bg-white">
+        <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-16">
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: '21/9' }}>
-            <motion.div
-              className="absolute inset-[-10%] w-[120%] h-[120%]"
-              style={{ y, scale }}
-            >
+            <motion.div className="absolute inset-[-8%] w-[116%] h-[116%]" style={{ y }}>
               <Image
                 src="/images/fine-jewelry-product.jpg"
                 alt="Gold jewelry collection — bracelet, hoops, and layered chains on linen"
@@ -187,39 +247,34 @@ function EditorialParallaxSection() {
               />
             </motion.div>
           </div>
-          <div className="flex justify-between items-center mt-4">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-300">
+          <div className="flex justify-between items-center mt-3 sm:mt-4">
+            <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-neutral-300">
               SS26 Collection
             </p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-300">
+            <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-neutral-300">
               01
             </p>
           </div>
         </div>
       </section>
-    </BlurFade>
+    </FadeIn>
   )
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 4 — FOCUS CARDS PRODUCT GRID
-   Official Aceternity UI FocusCards.
-   Hover one product → all others blur/dim.
+   SECTION 4 — PRODUCT GRID
+   Clean grid with hover effects. All products visible immediately.
+   Hover: image scales up, overlay appears.
    ═══════════════════════════════════════════════════════════════ */
 
-function FocusProductSection() {
+function ProductGridSection() {
   const featured = getBestsellers().slice(0, 6)
 
-  const focusCards = featured.map((product) => ({
-    title: product.name,
-    src: product.images[0],
-  }))
-
   return (
-    <section className="py-20 lg:py-32 bg-white">
-      <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-        <BlurFade delay={0.1} duration={0.6}>
-          <div className="flex items-center justify-between mb-14">
+    <section className="py-16 sm:py-20 lg:py-32 bg-white">
+      <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-16">
+        <FadeIn>
+          <div className="flex items-center justify-between mb-10 sm:mb-14">
             <h2 className="text-[11px] uppercase tracking-[0.25em] font-light text-neutral-400">
               Selected Pieces
             </h2>
@@ -230,21 +285,49 @@ function FocusProductSection() {
               View All →
             </Link>
           </div>
-        </BlurFade>
+        </FadeIn>
 
-        {/* FocusCards — official Aceternity UI */}
-        <BlurFade delay={0.2} duration={0.8}>
-          <FocusCards cards={focusCards} />
-        </BlurFade>
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-px bg-neutral-100">
+          {featured.map((product, i) => (
+            <FadeIn key={product.slug} delay={i * 0.05}>
+              <Link
+                href={buildProductUrl('minimal', product.slug)}
+                className="group block bg-white"
+              >
+                <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                  />
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                    <div className="bg-white/90 backdrop-blur-sm p-3 sm:p-4">
+                      <p className="text-[10px] sm:text-xs font-light text-neutral-900 truncate">{product.name}</p>
+                      <p className="text-[10px] text-neutral-400 mt-1">{product.priceDisplay}</p>
+                    </div>
+                  </div>
+                </div>
+                {/* Always visible product info below image */}
+                <div className="p-3 sm:p-5">
+                  <p className="text-xs sm:text-sm font-light text-neutral-800 truncate">{product.name}</p>
+                  <p className="text-[10px] sm:text-xs text-neutral-400 mt-1">{product.priceDisplay}</p>
+                </div>
+              </Link>
+            </FadeIn>
+          ))}
+        </div>
       </div>
     </section>
   )
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 5 — STATS WITH NUMBER TICKER
-   Official Magic UI NumberTicker for animated counting.
-   MagicCard with spotlight gradient for each stat.
+   SECTION 5 — STATS
+   Animated counters. Numbers always visible (start at real value).
    ═══════════════════════════════════════════════════════════════ */
 
 function StatsSection() {
@@ -256,28 +339,22 @@ function StatsSection() {
   ]
 
   return (
-    <section className="py-20 lg:py-28 bg-neutral-50">
-      <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <section className="py-16 sm:py-20 lg:py-28 bg-neutral-50">
+      <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {stats.map((stat, i) => (
-            <BlurFade key={stat.label} delay={0.1 + i * 0.1} duration={0.6}>
-              {/* MagicCard — official Magic UI — spotlight follows cursor */}
-              <MagicCard
-                className="p-8 lg:p-10 bg-white border border-neutral-100 cursor-pointer"
-                gradientColor="rgba(0,0,0,0.03)"
-                gradientSize={200}
-              >
-                <div className="text-center">
-                  <div className="text-3xl lg:text-4xl font-extralight tracking-tight text-neutral-900 mb-2">
-                    <NumberTicker value={stat.value} />
-                    <span className="text-neutral-300">{stat.suffix}</span>
-                  </div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-400">
-                    {stat.label}
-                  </p>
+            <FadeIn key={stat.label} delay={i * 0.08}>
+              <div className="group p-6 sm:p-8 lg:p-10 bg-white border border-neutral-100 hover:border-neutral-200 transition-colors duration-500 text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extralight tracking-tight text-neutral-900 mb-2">
+                  <Counter value={stat.value} suffix={stat.suffix} />
                 </div>
-              </MagicCard>
-            </BlurFade>
+                <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                  {stat.label}
+                </p>
+                {/* Subtle bottom border animation on hover */}
+                <div className="h-px w-0 group-hover:w-full bg-neutral-900 mx-auto mt-4 transition-all duration-700" />
+              </div>
+            </FadeIn>
           ))}
         </div>
       </div>
@@ -286,184 +363,156 @@ function StatsSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 6 — STICKY SCROLL REVEAL — BRAND STORY
-   Official Aceternity UI StickyScroll.
-   Left: scrolling text about craftsmanship.
-   Right: sticky image that changes with each block.
+   SECTION 6 — BRAND STORY (Split layout, not sticky scroll)
+   Two-column layout with image + text blocks.
+   Mobile-friendly — stacks vertically.
    ═══════════════════════════════════════════════════════════════ */
 
 function BrandStorySection() {
-  const storyContent = [
+  const stories = [
     {
       title: 'Material Integrity',
-      description:
-        'Every piece begins with the selection of materials. We source only ethically mined diamonds and recycled precious metals, ensuring that beauty never comes at the cost of conscience. Our gemologists inspect each stone under 10x magnification before it enters our atelier.',
-      content: (
-        <div className="w-full h-full relative rounded-lg overflow-hidden">
-          <Image
-            src="/images/diamond-facets-1.jpg"
-            alt="Diamond facets close-up"
-            fill
-            className="object-cover"
-          />
-        </div>
-      ),
+      text: 'Every piece begins with the selection of materials. We source only ethically mined diamonds and recycled precious metals, ensuring that beauty never comes at the cost of conscience.',
+      image: '/images/diamond-facets-1.jpg',
+      imageAlt: 'Diamond facets close-up',
     },
     {
       title: 'Precision Craft',
-      description:
-        'Our master jewelers work with tolerances measured in hundredths of a millimeter. Each setting is hand-finished, each prong individually shaped to hold its stone with the minimum metal necessary. The result is jewelry that appears to float — light passing through unobstructed.',
-      content: (
-        <div className="w-full h-full relative rounded-lg overflow-hidden">
-          <Image
-            src="/images/jewelry-ring-closeup.jpg"
-            alt="Ring craftsmanship detail"
-            fill
-            className="object-cover"
-          />
-        </div>
-      ),
+      text: 'Our master jewelers work with tolerances measured in hundredths of a millimeter. Each setting is hand-finished, each prong individually shaped to hold its stone with the minimum metal necessary.',
+      image: '/images/jewelry-ring-closeup.jpg',
+      imageAlt: 'Ring craftsmanship detail',
     },
     {
       title: 'Intentional Design',
-      description:
-        'We design by subtraction. Every curve, every angle, every proportion is questioned until only the essential remains. Our design philosophy is rooted in the belief that true luxury is not about excess — it is about the confidence to leave things out.',
-      content: (
-        <div className="w-full h-full relative rounded-lg overflow-hidden">
-          <Image
-            src="/images/minimalist-jewelry.jpg"
-            alt="Minimalist jewelry design"
-            fill
-            className="object-cover"
-          />
-        </div>
-      ),
-    },
-    {
-      title: 'Lasting Value',
-      description:
-        'Every piece is built to be worn daily for decades. We use solid gold — never plated, never filled. Our diamonds are certified by GIA or IGI. We offer lifetime maintenance because we believe in the things we make. This is jewelry designed to outlast trends.',
-      content: (
-        <div className="w-full h-full relative rounded-lg overflow-hidden">
-          <Image
-            src="/images/gold-jewelry-collection.jpg"
-            alt="Gold jewelry collection"
-            fill
-            className="object-cover"
-          />
-        </div>
-      ),
+      text: 'We design by subtraction. Every curve, every angle, every proportion is questioned until only the essential remains. True luxury is the confidence to leave things out.',
+      image: '/images/minimalist-jewelry.jpg',
+      imageAlt: 'Minimalist jewelry design',
     },
   ]
 
   return (
-    <section className="bg-neutral-50">
-      <BlurFade delay={0.1} duration={0.6}>
-        <div className="pt-20 lg:pt-28 px-8 lg:px-16">
-          <h2 className="text-[11px] uppercase tracking-[0.25em] font-light text-neutral-400 mb-4">
+    <section className="py-16 sm:py-24 lg:py-36 bg-white">
+      <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-16">
+        <FadeIn>
+          <h2 className="text-[11px] uppercase tracking-[0.25em] font-light text-neutral-400 mb-12 sm:mb-20">
             Our Philosophy
           </h2>
+        </FadeIn>
+
+        <div className="space-y-16 sm:space-y-24 lg:space-y-36">
+          {stories.map((story, i) => (
+            <FadeIn key={story.title} delay={0.1}>
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center ${i % 2 === 1 ? 'lg:direction-rtl' : ''}`}>
+                {/* Image */}
+                <div className={`relative overflow-hidden ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
+                  <div className="relative w-full" style={{ aspectRatio: '4/5' }}>
+                    <Image
+                      src={story.image}
+                      alt={story.imageAlt}
+                      fill
+                      className="object-cover transition-transform duration-1000 hover:scale-[1.03]"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                </div>
+
+                {/* Text */}
+                <div className={`${i % 2 === 1 ? 'lg:order-1 lg:text-right' : ''}`}>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-300 mb-4">
+                    {String(i + 1).padStart(2, '0')}
+                  </p>
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extralight tracking-[-0.02em] text-neutral-900 mb-6">
+                    {story.title}
+                  </h3>
+                  <p className="text-sm sm:text-base font-light leading-[1.9] text-neutral-400 max-w-md">
+                    {story.text}
+                  </p>
+                  <div className={`h-px w-16 bg-neutral-200 mt-8 ${i % 2 === 1 ? 'lg:ml-auto' : ''}`} />
+                </div>
+              </div>
+            </FadeIn>
+          ))}
         </div>
-      </BlurFade>
-      {/* StickyScroll — official Aceternity UI */}
-      <StickyScroll content={storyContent} contentClassName="rounded-lg" />
+      </div>
     </section>
   )
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 7 — FEATURED PIECE WITH GLARE CARD + NEON GRADIENT
-   Official Aceternity GlareCard for 3D tilt + glare.
-   Official Magic UI NeonGradientCard for neon glow border.
-   Official Magic UI BorderBeam for animated border.
+   SECTION 7 — FEATURED PIECE
+   Large product showcase. Content always visible.
+   Hover effects as enhancement.
    ═══════════════════════════════════════════════════════════════ */
 
 function FeaturedPieceSection() {
   const featured = getBestsellers()[0]
 
   return (
-    <section className="py-24 lg:py-36 bg-white">
-      <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* GlareCard — official Aceternity UI — 3D tilt with glare */}
-          <BlurFade delay={0.1} duration={0.8} direction="left">
-            <GlareCard className="w-full max-w-lg mx-auto">
+    <section className="py-16 sm:py-24 lg:py-36 bg-neutral-50">
+      <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
+          {/* Product image with hover zoom */}
+          <FadeIn direction="left">
+            <div className="relative overflow-hidden group">
               <div className="relative w-full" style={{ aspectRatio: '3/4' }}>
                 <Image
                   src={featured.images[0]}
                   alt={featured.name}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <p className="text-[9px] uppercase tracking-[0.3em] text-white/50 mb-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6">
+                  <p className="text-[9px] uppercase tracking-[0.3em] text-white/60">
                     The Statement Piece
                   </p>
-                  <h3 className="text-xl font-light text-white tracking-wide">
-                    {featured.name}
-                  </h3>
                 </div>
               </div>
-            </GlareCard>
-          </BlurFade>
+            </div>
+          </FadeIn>
 
-          {/* Product details with NeonGradientCard border */}
-          <BlurFade delay={0.3} duration={0.8} direction="right">
-            <NeonGradientCard
-              borderSize={1}
-              borderRadius={4}
-              neonColors={{ firstColor: '#d4af37', secondColor: '#f5e6cc' }}
-              className="bg-white"
-            >
-              <div className="p-8 lg:p-12">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-neutral-300 mb-6">
-                  Featured
-                </p>
-                <h2 className="text-3xl lg:text-4xl font-extralight tracking-[-0.02em] leading-[1.2] mb-6 text-neutral-900">
-                  {featured.name}
-                </h2>
-                <p className="text-sm font-light leading-[1.9] text-neutral-400 mb-8">
-                  {featured.description}
-                </p>
-                <div className="flex items-baseline gap-6 mb-10">
-                  <span className="text-2xl font-extralight text-neutral-900">{featured.priceDisplay}</span>
-                  <span className="text-[10px] uppercase tracking-[0.15em] text-neutral-300">
-                    {featured.material}
-                  </span>
-                </div>
-                {featured.diamondSpecs && (
-                  <div className="grid grid-cols-2 gap-4 mb-10 py-6 border-t border-b border-neutral-100">
-                    <div>
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-300 mb-1">Carat</p>
-                      <p className="text-sm font-light text-neutral-700">{featured.diamondSpecs.carat}</p>
-                    </div>
-                    <div>
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-300 mb-1">Cut</p>
-                      <p className="text-sm font-light text-neutral-700">{featured.diamondSpecs.cut}</p>
-                    </div>
-                    <div>
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-300 mb-1">Color</p>
-                      <p className="text-sm font-light text-neutral-700">{featured.diamondSpecs.color}</p>
-                    </div>
-                    <div>
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-300 mb-1">Clarity</p>
-                      <p className="text-sm font-light text-neutral-700">{featured.diamondSpecs.clarity}</p>
-                    </div>
-                  </div>
-                )}
-                <Link
-                  href={buildProductUrl('minimal', featured.slug)}
-                  className="group inline-flex items-center gap-4"
-                >
-                  <span className="text-[11px] uppercase tracking-[0.2em] font-light text-neutral-500 group-hover:text-neutral-900 transition-colors duration-500">
-                    View Details
-                  </span>
-                  <span className="inline-block w-8 h-px bg-neutral-300 transition-all duration-500 group-hover:w-16 group-hover:bg-neutral-900" />
-                </Link>
+          {/* Product details — ALWAYS VISIBLE */}
+          <FadeIn direction="right" delay={0.15}>
+            <div className="p-4 sm:p-8 lg:p-12 border border-neutral-100 bg-white">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-neutral-300 mb-4 sm:mb-6">
+                Featured
+              </p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extralight tracking-[-0.02em] leading-[1.2] mb-4 sm:mb-6 text-neutral-900">
+                {featured.name}
+              </h2>
+              <p className="text-sm font-light leading-[1.9] text-neutral-400 mb-6 sm:mb-8">
+                {featured.description}
+              </p>
+              <div className="flex items-baseline gap-4 sm:gap-6 mb-8 sm:mb-10">
+                <span className="text-xl sm:text-2xl font-extralight text-neutral-900">{featured.priceDisplay}</span>
+                <span className="text-[10px] uppercase tracking-[0.15em] text-neutral-300">
+                  {featured.material}
+                </span>
               </div>
-            </NeonGradientCard>
-          </BlurFade>
+
+              {featured.diamondSpecs && (
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8 sm:mb-10 py-4 sm:py-6 border-t border-b border-neutral-100">
+                  {Object.entries(featured.diamondSpecs).map(([key, val]) => (
+                    <div key={key}>
+                      <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-300 mb-1">{key}</p>
+                      <p className="text-xs sm:text-sm font-light text-neutral-700">{val}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <Link
+                href={buildProductUrl('minimal', featured.slug)}
+                className="group inline-flex items-center gap-4"
+              >
+                <span className="text-[11px] uppercase tracking-[0.2em] font-light text-neutral-500 group-hover:text-neutral-900 transition-colors duration-500">
+                  View Details
+                </span>
+                <span className="inline-block w-8 h-px bg-neutral-300 transition-all duration-500 group-hover:w-16 group-hover:bg-neutral-900" />
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </section>
@@ -471,117 +520,141 @@ function FeaturedPieceSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 8 — MARQUEE COLLECTIONS
-   Official Magic UI Marquee for infinite scrolling collection cards.
-   Each card uses MagicCard for spotlight effect.
+   SECTION 8 — COLLECTIONS HORIZONTAL SCROLL
+   CSS-only horizontal scroll. All cards visible.
    ═══════════════════════════════════════════════════════════════ */
 
-function CollectionsMarqueeSection() {
-  const CollectionCard = ({ collection }: { collection: typeof collections[0] }) => (
-    <Link
-      href={buildConceptUrl('minimal', `collection/${collection.id}`)}
-      className="block w-[300px] lg:w-[380px] mx-3 flex-shrink-0"
-    >
-      <MagicCard
-        className="bg-white border border-neutral-100 overflow-hidden cursor-pointer"
-        gradientColor="rgba(0,0,0,0.03)"
-        gradientSize={250}
-      >
-        <div className="relative w-full" style={{ aspectRatio: '4/5' }}>
-          <Image
-            src={collection.heroImage}
-            alt={collection.name}
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6">
-            <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-400 mb-2">
-              {collection.subtitle}
-            </p>
-            <h3 className="text-lg font-light tracking-wide text-neutral-900">
-              {collection.name}
-            </h3>
-          </div>
-        </div>
-      </MagicCard>
-    </Link>
-  )
-
+function CollectionsSection() {
   return (
-    <section className="py-20 lg:py-28 bg-neutral-50">
-      <BlurFade delay={0.1} duration={0.6}>
-        <div className="px-8 lg:px-16 mb-10">
+    <section className="py-16 sm:py-20 lg:py-28 bg-white">
+      <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-16 mb-8 sm:mb-10">
+        <FadeIn>
           <h2 className="text-[11px] uppercase tracking-[0.25em] font-light text-neutral-400">
             Collections
           </h2>
-        </div>
-      </BlurFade>
+        </FadeIn>
+      </div>
 
-      {/* Marquee — official Magic UI — infinite scrolling */}
-      <Marquee pauseOnHover className="[--duration:40s]">
-        {collections.map((collection) => (
-          <CollectionCard key={collection.id} collection={collection} />
-        ))}
-      </Marquee>
+      {/* Horizontal scrolling container */}
+      <div className="overflow-x-auto scrollbar-hide">
+        <div className="flex gap-4 sm:gap-6 px-6 sm:px-8 lg:px-16 pb-4">
+          {collections.map((collection, i) => (
+            <FadeIn key={collection.id} delay={i * 0.05}>
+              <Link
+                href={buildConceptUrl('minimal', `collection/${collection.id}`)}
+                className="group block w-[260px] sm:w-[300px] lg:w-[360px] flex-shrink-0"
+              >
+                <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
+                  <Image
+                    src={collection.heroImage}
+                    alt={collection.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="360px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-white/60 mb-1 sm:mb-2">
+                      {collection.subtitle}
+                    </p>
+                    <h3 className="text-base sm:text-lg font-light tracking-wide text-white">
+                      {collection.name}
+                    </h3>
+                  </div>
+                </div>
+              </Link>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 9 — ANIMATED TESTIMONIALS
-   Official Aceternity UI AnimatedTestimonials.
-   Animated transitions between customer reviews.
+   SECTION 9 — TESTIMONIALS
+   Simple quote carousel. Content always visible.
    ═══════════════════════════════════════════════════════════════ */
 
 function TestimonialsSection() {
+  const [active, setActive] = useState(0)
   const testimonials = [
     {
       quote: 'The craftsmanship is extraordinary. Every detail is considered, every edge is perfect. This is what jewelry should be.',
       name: 'Alexandra Chen',
-      designation: 'Art Director, Milan',
-      src: '/images/diamond-facets-1.jpg',
+      title: 'Art Director, Milan',
     },
     {
       quote: 'I have worn this ring every day for two years. It looks exactly as it did the day I received it. That is quality.',
       name: 'James Whitfield',
-      designation: 'Architect, London',
-      src: '/images/jewelry-ring-closeup.jpg',
+      title: 'Architect, London',
     },
     {
       quote: 'Nothing unnecessary. Nothing missing. The design philosophy resonates with everything I believe about luxury.',
       name: 'Sofia Bergström',
-      designation: 'Creative Director, Stockholm',
-      src: '/images/minimalist-jewelry.jpg',
+      title: 'Creative Director, Stockholm',
     },
     {
       quote: 'The packaging, the weight in your hand, the way light catches the stone — every moment is designed.',
       name: 'Marcus Tanaka',
-      designation: 'Gallery Owner, Tokyo',
-      src: '/images/fine-jewelry-necklace.jpg',
+      title: 'Gallery Owner, Tokyo',
     },
   ]
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActive((prev) => (prev + 1) % testimonials.length)
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [testimonials.length])
+
   return (
-    <section className="py-24 lg:py-32 bg-white">
-      <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-        <BlurFade delay={0.1} duration={0.6}>
-          <h2 className="text-[11px] uppercase tracking-[0.25em] font-light text-neutral-400 mb-12">
+    <section className="py-20 sm:py-24 lg:py-36 bg-neutral-50">
+      <div className="mx-auto max-w-3xl px-6 sm:px-8 lg:px-16 text-center">
+        <FadeIn>
+          <h2 className="text-[11px] uppercase tracking-[0.25em] font-light text-neutral-400 mb-12 sm:mb-16">
             Voices
           </h2>
-        </BlurFade>
+        </FadeIn>
 
-        {/* AnimatedTestimonials — official Aceternity UI */}
-        <AnimatedTestimonials testimonials={testimonials} autoplay />
+        {/* Quote — always visible, crossfade between testimonials */}
+        <div className="relative min-h-[200px] sm:min-h-[180px]">
+          {testimonials.map((t, i) => (
+            <div
+              key={i}
+              className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-700"
+              style={{ opacity: i === active ? 1 : 0, pointerEvents: i === active ? 'auto' : 'none' }}
+            >
+              <blockquote className="text-lg sm:text-xl lg:text-2xl font-extralight leading-[1.6] tracking-[-0.01em] text-neutral-700 mb-8">
+                &ldquo;{t.quote}&rdquo;
+              </blockquote>
+              <p className="text-xs sm:text-sm font-light text-neutral-900">{t.name}</p>
+              <p className="text-[10px] uppercase tracking-[0.15em] text-neutral-400 mt-1">{t.title}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-8 sm:mt-12">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${
+                i === active ? 'bg-neutral-900 w-6' : 'bg-neutral-300'
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 10 — CATEGORIES WITH BORDER BEAM
-   Numbered list with animated BorderBeam on hover.
-   BlurFade staggered entrance.
+   SECTION 10 — CATEGORIES
+   Numbered list with hover animations.
+   Content always visible.
    ═══════════════════════════════════════════════════════════════ */
 
 function CategoriesSection() {
@@ -594,31 +667,31 @@ function CategoriesSection() {
   ]
 
   return (
-    <section className="py-24 lg:py-32 bg-neutral-50">
-      <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-        <BlurFade delay={0.1} duration={0.6}>
-          <h2 className="text-[11px] uppercase tracking-[0.25em] font-light text-neutral-400 mb-16">
+    <section className="py-16 sm:py-24 lg:py-32 bg-white">
+      <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-16">
+        <FadeIn>
+          <h2 className="text-[11px] uppercase tracking-[0.25em] font-light text-neutral-400 mb-10 sm:mb-16">
             Categories
           </h2>
-        </BlurFade>
+        </FadeIn>
 
         <div>
           {categories.map((cat, i) => (
-            <BlurFade key={cat.slug} delay={0.15 + i * 0.08} duration={0.5} direction="left">
+            <FadeIn key={cat.slug} delay={i * 0.05} direction="left">
               <Link
                 href={buildCategoryUrl('minimal', cat.slug)}
-                className="group relative flex items-center justify-between py-6 border-t border-neutral-200 transition-colors hover:bg-white"
+                className="group relative flex items-center justify-between py-4 sm:py-6 border-t border-neutral-200 transition-colors hover:bg-neutral-50"
               >
-                <div className="flex items-baseline gap-6 lg:gap-10">
+                <div className="flex items-baseline gap-4 sm:gap-6 lg:gap-10">
                   <span className="text-[10px] tracking-[0.15em] font-light tabular-nums text-neutral-300 group-hover:text-neutral-500 transition-colors duration-500">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <span className="text-lg lg:text-3xl font-extralight tracking-[-0.01em] text-neutral-800 group-hover:text-neutral-500 transition-colors duration-500">
+                  <span className="text-base sm:text-lg lg:text-3xl font-extralight tracking-[-0.01em] text-neutral-800 group-hover:text-neutral-500 transition-colors duration-500">
                     {cat.label}
                   </span>
                 </div>
                 <span className="flex items-center gap-2 text-neutral-300 group-hover:text-neutral-600 transition-all duration-500">
-                  <span className="text-[10px] uppercase tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-8px] group-hover:translate-x-0">
+                  <span className="hidden sm:inline text-[10px] uppercase tracking-[0.15em] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-8px] group-hover:translate-x-0">
                     Explore
                   </span>
                   <svg
@@ -628,14 +701,14 @@ function CategoriesSection() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1"
-                    className="opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-4px] group-hover:translate-x-0"
+                    className="transition-transform duration-500 group-hover:translate-x-1"
                   >
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
                   </svg>
                 </span>
               </Link>
-            </BlurFade>
+            </FadeIn>
           ))}
           <div className="border-t border-neutral-200" />
         </div>
@@ -645,43 +718,50 @@ function CategoriesSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 11 — NEWSLETTER WITH PLACEHOLDERS AND VANISH INPUT
-   Official Aceternity UI PlaceholdersAndVanishInput.
-   Cycling animated placeholders that vanish on submit.
+   SECTION 11 — NEWSLETTER
+   Simple email input. Always visible.
    ═══════════════════════════════════════════════════════════════ */
 
 function NewsletterSection() {
+  const [email, setEmail] = useState('')
+
   return (
-    <section className="py-28 lg:py-40 bg-white">
-      <div className="mx-auto max-w-lg px-8 text-center">
-        <BlurFade delay={0.1} duration={0.6}>
-          <div className="w-12 h-px mx-auto mb-12 bg-neutral-200" />
-          <h2 className="text-xl font-extralight tracking-[-0.01em] mb-3 text-neutral-900">
+    <section className="py-20 sm:py-28 lg:py-40 bg-neutral-50">
+      <div className="mx-auto max-w-lg px-6 sm:px-8 text-center">
+        <FadeIn>
+          <div className="w-12 h-px mx-auto mb-8 sm:mb-12 bg-neutral-200" />
+          <h2 className="text-lg sm:text-xl font-extralight tracking-[-0.01em] mb-3 text-neutral-900">
             Stay informed.
           </h2>
-          <p className="text-[11px] font-light leading-relaxed text-neutral-400 mb-12">
+          <p className="text-[11px] font-light leading-relaxed text-neutral-400 mb-8 sm:mb-12">
             New pieces, restocks, and nothing else.
           </p>
-        </BlurFade>
+        </FadeIn>
 
-        <BlurFade delay={0.2} duration={0.6}>
-          {/* PlaceholdersAndVanishInput — official Aceternity UI */}
-          <PlaceholdersAndVanishInput
-            placeholders={[
-              'Enter your email address',
-              'Get notified about new arrivals',
-              'Join our quiet community',
-              'Be the first to know',
-              'No spam. Ever.',
-            ]}
-            onChange={() => {}}
-            onSubmit={(e) => { e.preventDefault() }}
-          />
-        </BlurFade>
+        <FadeIn delay={0.1}>
+          <form
+            onSubmit={(e) => { e.preventDefault(); setEmail('') }}
+            className="flex border-b border-neutral-300 focus-within:border-neutral-900 transition-colors duration-500"
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address"
+              className="flex-1 bg-transparent py-3 text-sm font-light text-neutral-900 placeholder:text-neutral-300 outline-none"
+            />
+            <button
+              type="submit"
+              className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 hover:text-neutral-900 transition-colors duration-500 px-4"
+            >
+              Subscribe
+            </button>
+          </form>
+        </FadeIn>
 
-        <BlurFade delay={0.3} duration={0.6}>
-          <div className="w-12 h-px mx-auto mt-12 bg-neutral-200" />
-        </BlurFade>
+        <FadeIn delay={0.2}>
+          <div className="w-12 h-px mx-auto mt-8 sm:mt-12 bg-neutral-200" />
+        </FadeIn>
       </div>
     </section>
   )
@@ -689,51 +769,40 @@ function NewsletterSection() {
 
 /* ═══════════════════════════════════════════════════════════════
    SECTION 12 — CLOSING STATEMENT
-   "Nothing more." in massive ghost typography.
-   ColourfulText on "more" for a subtle pop of color.
+   "Nothing more." in massive typography. Always visible.
    ═══════════════════════════════════════════════════════════════ */
 
 function ClosingSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.85, 1])
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7], [0, 1, 0.4])
-
   return (
-    <section ref={ref} className="py-32 lg:py-44 overflow-hidden bg-white">
-      <motion.div
-        className="mx-auto max-w-[1440px] px-8 lg:px-16 text-center"
-        style={{ scale, opacity }}
-      >
-        <p className="text-[clamp(2.5rem,9vw,8rem)] font-extralight tracking-[-0.04em] leading-[0.85]">
-          <span className="text-neutral-200">Nothing </span>
-          <ColourfulText text="more" />
-          <span className="text-neutral-200">.</span>
-        </p>
-      </motion.div>
+    <section className="py-24 sm:py-32 lg:py-44 overflow-hidden bg-white">
+      <FadeIn>
+        <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-16 text-center">
+          <p className="text-[clamp(2rem,8vw,7rem)] font-extralight tracking-[-0.04em] leading-[0.85] text-neutral-200">
+            Nothing more.
+          </p>
+        </div>
+      </FadeIn>
     </section>
   )
 }
 
 /* ═══════════════════════════════════════════════════════════════
    MAIN EXPORT — MINIMAL HOME
-   12 sections, each using genuine official UI components.
+   12 sections. All content visible by default.
+   Animations are progressive enhancement only.
    ═══════════════════════════════════════════════════════════════ */
 
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   return (
     <ConceptLayout concept={concept}>
       <HeroSection concept={concept} />
-      <VelocityMarqueeSection />
-      <EditorialParallaxSection />
-      <FocusProductSection />
+      <MarqueeSection />
+      <EditorialSection />
+      <ProductGridSection />
       <StatsSection />
       <BrandStorySection />
       <FeaturedPieceSection />
-      <CollectionsMarqueeSection />
+      <CollectionsSection />
       <TestimonialsSection />
       <CategoriesSection />
       <NewsletterSection />
