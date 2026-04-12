@@ -6,8 +6,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers } from '@/data/products'
-import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
+import { ConceptLayout, FeaturedProducts, SplitSection, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards'
 
 interface Message {
   role: 'concierge' | 'user'
@@ -60,14 +61,16 @@ function ConciergeChat({ concept }: { concept: ConceptConfig }) {
 
   return (
     <div
-      className="flex flex-col h-[400px] rounded-none"
+      className="flex flex-col h-[420px]"
       style={{ backgroundColor: concept.palette.surface, border: `1px solid ${concept.palette.muted}` }}
     >
-      <div className="px-4 py-3 flex items-center gap-3" style={{ borderBottom: `1px solid ${concept.palette.muted}` }}>
-        <div className="w-2 h-2 rounded-full bg-green-400" />
-        <span className="text-[10px] uppercase tracking-[0.15em]" style={{ color: concept.palette.text, opacity: 0.6 }}>Concierge Online</span>
+      <div className="px-5 py-4 flex items-center gap-3" style={{ borderBottom: `1px solid ${concept.palette.muted}` }}>
+        <div className="w-2 h-2 rounded-full bg-green-500" />
+        <span className={`text-[10px] uppercase tracking-[0.15em] ${concept.fonts.bodyClass}`} style={{ color: concept.palette.text, opacity: 0.6 }}>
+          Concierge Online
+        </span>
       </div>
-      <div ref={chatRef} className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div ref={chatRef} className="flex-1 overflow-y-auto p-5 space-y-3">
         <AnimatePresence>
           {messages.map((msg, i) => (
             <motion.div
@@ -77,10 +80,10 @@ function ConciergeChat({ concept }: { concept: ConceptConfig }) {
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className="max-w-[80%] px-4 py-3 text-xs font-light leading-relaxed"
+                className={`max-w-[80%] px-4 py-3 text-xs font-light leading-relaxed ${concept.fonts.bodyClass}`}
                 style={{
                   backgroundColor: msg.role === 'user' ? concept.palette.accent : 'transparent',
-                  color: msg.role === 'user' ? concept.palette.bg : concept.palette.text,
+                  color: msg.role === 'user' ? '#fff' : concept.palette.text,
                   border: msg.role === 'concierge' ? `1px solid ${concept.palette.muted}` : 'none',
                   opacity: msg.role === 'concierge' ? 0.8 : 1,
                 }}
@@ -104,20 +107,20 @@ function ConciergeChat({ concept }: { concept: ConceptConfig }) {
           </div>
         )}
       </div>
-      <div className="p-3" style={{ borderTop: `1px solid ${concept.palette.muted}` }}>
+      <div className="p-4" style={{ borderTop: `1px solid ${concept.palette.muted}` }}>
         <div className="flex gap-2">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Type your message..."
-            className="flex-1 bg-transparent text-xs px-3 py-2 focus:outline-none"
+            className={`flex-1 bg-transparent text-xs px-3 py-2 focus:outline-none ${concept.fonts.bodyClass}`}
             style={{ color: concept.palette.text }}
           />
           <button
             onClick={handleSend}
-            className="px-4 py-2 text-[9px] uppercase tracking-[0.15em]"
-            style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
+            className="px-5 py-2 text-[9px] uppercase tracking-[0.15em] transition-opacity hover:opacity-80"
+            style={{ backgroundColor: concept.palette.accent, color: '#fff' }}
           >
             Send
           </button>
@@ -132,36 +135,45 @@ export function SalonHome({ concept }: { concept: ConceptConfig }) {
 
   return (
     <ConceptLayout concept={concept}>
-      {/* Chat-first hero */}
+      {/* Chat-first hero with boutique imagery */}
       <section className="min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12 py-32 w-full">
+        <div className="mx-auto max-w-[1440px] px-8 lg:px-16 py-32 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] mb-8" style={{ color: concept.palette.accent }}>
+              <p
+                className={`text-[10px] uppercase tracking-[0.35em] mb-8 font-light ${concept.fonts.bodyClass}`}
+                style={{ color: concept.palette.accent }}
+              >
                 The Salon Experience
               </p>
-              <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+              <h1
+                className={`text-4xl md:text-5xl lg:text-[3.5rem] font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}
+                style={{ color: concept.palette.text }}
+              >
                 Your Personal<br />
-                <span style={{ color: concept.palette.accent }}>Concierge</span>
+                <span style={{ color: concept.palette.accent }}>Jeweler</span>
               </h1>
-              <p className="text-sm font-light mb-8 leading-relaxed max-w-md" style={{ color: concept.palette.text, opacity: 0.5 }}>
+              <p
+                className={`text-sm font-light mb-10 leading-relaxed max-w-md ${concept.fonts.bodyClass}`}
+                style={{ color: concept.palette.text, opacity: 0.5 }}
+              >
                 The Salon reimagines luxury shopping as a conversation. No browsing, no searching —
                 simply tell us what you desire and our concierge will curate the perfect selection for you.
               </p>
               <div className="flex gap-4">
                 <Link
                   href={buildConceptUrl('salon', 'appointments')}
-                  className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
-                  style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
+                  className="inline-block px-10 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
+                  style={{ backgroundColor: concept.palette.accent, color: '#fff' }}
                 >
                   Book Appointment
                 </Link>
                 <Link
                   href={buildConceptUrl('salon', 'collections')}
-                  className="inline-block px-8 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
+                  className="inline-block px-10 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
                   style={{ borderColor: concept.palette.muted, color: concept.palette.text }}
                 >
-                  Browse Independently &rarr;
+                  Browse Independently →
                 </Link>
               </div>
             </div>
@@ -170,6 +182,17 @@ export function SalonHome({ concept }: { concept: ConceptConfig }) {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Boutique image strip */}
+      <section className="relative h-[300px]">
+        <Image
+          src="/images/jewelry-boutique.jpg"
+          alt="Luxury jewelry boutique"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, ${concept.palette.bg}, transparent 30%, transparent 70%, ${concept.palette.bg})` }} />
       </section>
 
       <FeaturedProducts
@@ -183,37 +206,43 @@ export function SalonHome({ concept }: { concept: ConceptConfig }) {
         concept={concept}
         title="The Art of Service"
         description="Our concierge team consists of certified gemologists and luxury consultants with decades of combined experience. They don't just sell jewelry — they listen, advise, and guide you to the piece that perfectly matches your story, your style, and your budget."
-        image="/images/diamond-collection-1.jpg"
+        image="/images/gold-jewelry-collection.jpg"
         ctaLabel="Meet the Team"
         ctaHref={buildConceptUrl('salon', 'about')}
       />
 
-      <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+      <div className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
+        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
+          <p className={`text-[10px] tracking-[0.3em] uppercase mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
+            Explore
+          </p>
+          <h2
+            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
+            style={{ color: concept.palette.text }}
+          >
             Browse Categories
           </h2>
           <CategoryGrid concept={concept} />
         </div>
       </div>
 
-      {/* Testimonials grid */}
-      <section className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.surface }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-12 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+      {/* Testimonials with InfiniteMovingCards */}
+      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.surface }}>
+        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
+          <p className={`text-[10px] tracking-[0.3em] uppercase mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
+            Testimonials
+          </p>
+          <h2
+            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
+            style={{ color: concept.palette.text }}
+          >
             Client Experiences
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {salonTestimonials.map((t) => (
-              <div key={t.name} className="p-8" style={{ backgroundColor: concept.palette.bg }}>
-                <p className="text-sm font-light leading-relaxed mb-6" style={{ color: concept.palette.text, opacity: 0.7 }}>
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <p className="text-[11px] font-medium" style={{ color: concept.palette.text }}>{t.name}</p>
-                <p className="text-[10px] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>{t.title}</p>
-              </div>
-            ))}
-          </div>
+          <InfiniteMovingCards
+            items={salonTestimonials}
+            speed="slow"
+            className="py-4"
+          />
         </div>
       </section>
 

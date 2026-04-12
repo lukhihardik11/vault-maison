@@ -6,6 +6,13 @@ export { GlowingBorder } from './glowing-border'
 export { HoverBorderGradient } from './hover-border-gradient'
 export { InfiniteMovingCards } from './infinite-moving-cards'
 export { TypewriterEffect } from './typewriter-effect'
+export { Spotlight } from './spotlight-new'
+export { CardContainer, CardBody, CardItem } from './3d-card'
+export { LampContainer } from './lamp'
+export { DirectionAwareHover } from './direction-aware-hover'
+export { FlipWords } from './flip-words'
+export { TracingBeam } from './tracing-beam'
+export { WavyBackground } from './wavy-background'
 
 // Magic UI inspired components
 export { TextReveal } from './text-reveal'

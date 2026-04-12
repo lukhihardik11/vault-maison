@@ -1,19 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers } from '@/data/products'
-import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
+import { ConceptLayout, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
-import { Particles } from '@/components/ui/particles'
+import { Marquee } from '@/components/ui/marquee'
 
 const heroSlides = [
-  { image: '/images/diamond-dark-bg-1.jpg', title: 'Act I', subtitle: 'The Discovery', desc: 'Deep within the earth, carbon transforms under immense pressure into something extraordinary.' },
-  { image: '/images/diamond-facets-1.jpg', title: 'Act II', subtitle: 'The Transformation', desc: 'Master cutters reveal the fire within, facet by facet, in a performance of precision and artistry.' },
-  { image: '/images/diamond-velvet-1.jpg', title: 'Act III', subtitle: 'The Reveal', desc: 'The final masterpiece emerges — a symphony of light, ready for its starring role.' },
+  { image: '/images/jewelry-set-elegant.jpg', title: 'Act I', subtitle: 'The Discovery', desc: 'Deep within the earth, precious metals and gemstones await their transformation into art.' },
+  { image: '/images/diamond-facets-1.jpg', title: 'Act II', subtitle: 'The Craft', desc: 'Master artisans reveal the fire within, facet by facet, in a performance of precision and artistry.' },
+  { image: '/images/gold-jewelry-collection.jpg', title: 'Act III', subtitle: 'The Reveal', desc: 'The final masterpiece emerges — a symphony of light and metal, ready for its starring role.' },
 ]
 
 export function TheaterHome({ concept }: { concept: ConceptConfig }) {
@@ -27,54 +26,42 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
     return () => clearInterval(interval)
   }, [])
 
+  const slide = heroSlides[currentSlide]
+
   return (
     <ConceptLayout concept={concept}>
-      {/* Cinematic hero with slide transitions + Particles */}
-      <section className="relative h-screen overflow-hidden" style={{ backgroundColor: '#000' }}>
-        <Particles quantity={40} color={concept.palette.accent} size={1} className="z-20" />
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0"
-          >
-            <Image
-              src={heroSlides[currentSlide].image}
-              alt={heroSlides[currentSlide].subtitle}
-              fill
-              className="object-cover"
-              style={{ opacity: 0.5 }}
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
-          </motion.div>
-        </AnimatePresence>
+      {/* Cinematic hero - no framer-motion opacity, always visible */}
+      <section className="relative h-screen overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
+        {/* Background image - always visible */}
+        <div className="absolute inset-0">
+          <Image
+            src={slide.image}
+            alt={slide.subtitle}
+            fill
+            className="object-cover transition-opacity duration-1000"
+            style={{ opacity: 0.45 }}
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+        </div>
 
         <div className="relative z-10 h-full flex flex-col justify-end pb-20 lg:pb-32">
-          <div className="mx-auto max-w-[1440px] px-6 lg:px-12 w-full">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.8 }}
-              >
-                <p className="text-[10px] uppercase tracking-[0.3em] mb-4" style={{ color: concept.palette.accent }}>
-                  {heroSlides[currentSlide].title}
-                </p>
-                <h2 className={`text-4xl md:text-6xl font-light tracking-[0.02em] mb-4 ${concept.fonts.headingClass}`} style={{ color: concept.palette.accent }}>
-                  {heroSlides[currentSlide].subtitle}
-                </h2>
-                <p className="text-sm font-light opacity-50 max-w-md text-white leading-relaxed">
-                  {heroSlides[currentSlide].desc}
-                </p>
-              </motion.div>
-            </AnimatePresence>
+          <div className="mx-auto max-w-[1440px] px-8 lg:px-16 w-full">
+            <p
+              className={`text-[10px] uppercase tracking-[0.35em] mb-4 ${concept.fonts.bodyClass}`}
+              style={{ color: concept.palette.accent }}
+            >
+              {slide.title}
+            </p>
+            <h2
+              className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[0.02em] mb-4 ${concept.fonts.headingClass}`}
+              style={{ color: concept.palette.accent }}
+            >
+              {slide.subtitle}
+            </h2>
+            <p className={`text-sm font-light max-w-md text-white/50 leading-relaxed ${concept.fonts.bodyClass}`}>
+              {slide.desc}
+            </p>
 
             {/* Slide indicators */}
             <div className="flex gap-4 mt-12">
@@ -82,19 +69,11 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
                 <button
                   key={i}
                   onClick={() => setCurrentSlide(i)}
-                  className="relative h-[2px] w-16 overflow-hidden"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
-                >
-                  {currentSlide === i && (
-                    <motion.div
-                      className="absolute inset-y-0 left-0"
-                      style={{ backgroundColor: concept.palette.accent }}
-                      initial={{ width: '0%' }}
-                      animate={{ width: '100%' }}
-                      transition={{ duration: 6, ease: 'linear' }}
-                    />
-                  )}
-                </button>
+                  className="h-[2px] w-16 transition-colors duration-300"
+                  style={{
+                    backgroundColor: currentSlide === i ? concept.palette.accent : 'rgba(255,255,255,0.2)',
+                  }}
+                />
               ))}
             </div>
           </div>
@@ -102,23 +81,32 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
       </section>
 
       {/* Cinematic marquee */}
-      <section className="py-4 overflow-hidden" style={{ backgroundColor: '#000', borderBottom: `1px solid ${concept.palette.muted}` }}>
-        <div className="flex gap-16 animate-marquee whitespace-nowrap">
-          {['Now Showing', 'The Diamond Theater', 'Act I: Discovery', 'Act II: Transformation', 'Act III: The Reveal', 'Private Screenings Available', 'Now Showing', 'The Diamond Theater', 'Act I: Discovery', 'Act II: Transformation', 'Act III: The Reveal', 'Private Screenings Available'].map((text, i) => (
-            <span key={i} className="text-[10px] uppercase tracking-[0.3em] opacity-20 text-white">
+      <section className="py-5" style={{ backgroundColor: '#0a0a0a', borderBottom: `1px solid ${concept.palette.muted}` }}>
+        <Marquee speed={25} className="[--gap:2rem]">
+          {['Now Showing', 'The Jewelry Theater', 'Act I: Discovery', 'Act II: The Craft', 'Act III: The Reveal', 'Private Screenings Available'].map((text) => (
+            <span
+              key={text}
+              className="text-[10px] uppercase tracking-[0.3em] mx-8 text-white/20"
+            >
               {text}
             </span>
           ))}
-        </div>
+        </Marquee>
       </section>
 
       {/* Dramatic product showcase */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 mb-4" style={{ color: concept.palette.accent }}>
+      <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.bg }}>
+        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
+          <p
+            className={`text-[10px] uppercase tracking-[0.3em] mb-3 ${concept.fonts.bodyClass}`}
+            style={{ color: concept.palette.accent, opacity: 0.5 }}
+          >
             Now Showing
           </p>
-          <h2 className={`text-2xl font-light tracking-[0.05em] mb-16 ${concept.fonts.headingClass}`}>
+          <h2
+            className={`text-2xl font-light tracking-[0.04em] mb-16 ${concept.fonts.headingClass}`}
+            style={{ color: concept.palette.text }}
+          >
             The Main Stage
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
@@ -153,15 +141,21 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
       <SplitSection
         concept={concept}
         title="The Drama of Light"
-        description="Every diamond is a theater of light. Watch as photons enter the crown, dance between facets, and burst forth in a dazzling display of brilliance and fire. Our master cutters are the directors of this performance, shaping each facet to maximize the drama."
+        description="Every gemstone is a theater of light. Watch as photons enter the crown, dance between facets, and burst forth in a dazzling display of brilliance and fire. Our master artisans are the directors of this performance, shaping each piece to maximize the drama."
         image="/images/diamond-bokeh-1.jpg"
         ctaLabel="Behind the Scenes"
         ctaHref={buildConceptUrl('theater', 'craftsmanship')}
       />
 
-      <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`}>
+      <div className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
+        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
+          <p className={`text-[10px] tracking-[0.3em] uppercase mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
+            Explore
+          </p>
+          <h2
+            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
+            style={{ color: concept.palette.text }}
+          >
             Browse Scenes
           </h2>
           <CategoryGrid concept={concept} />
@@ -170,7 +164,7 @@ export function TheaterHome({ concept }: { concept: ConceptConfig }) {
 
       <Testimonial
         concept={concept}
-        quote="The Theater experience is pure cinema. From the moment you arrive, you are immersed in a world where every diamond is the star of its own story."
+        quote="The Theater experience is pure cinema. From the moment you arrive, you are immersed in a world where every piece of jewelry is the star of its own story."
         author="François Delacroix"
         title="Film Director & Collector"
       />

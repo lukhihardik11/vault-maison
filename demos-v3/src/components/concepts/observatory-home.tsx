@@ -5,9 +5,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers, products } from '@/data/products'
-import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
+import { ConceptLayout, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { BentoGrid, BentoCard } from '@/components/ui/bento-grid'
+import { Spotlight } from '@/components/ui/spotlight-new'
 
 function DataTicker({ items }: { items: { label: string; value: string }[] }) {
   const [idx, setIdx] = useState(0)
@@ -25,20 +26,15 @@ function DataTicker({ items }: { items: { label: string; value: string }[] }) {
 
 export function ObservatoryHome({ concept }: { concept: ConceptConfig }) {
   const featured = getBestsellers().slice(0, 6)
-  const totalCarats = products.reduce((sum, p) => {
-    if (!p.diamondSpecs?.carat) return sum
-    const val = parseFloat(p.diamondSpecs.carat)
-    return sum + (isNaN(val) ? 0 : val)
-  }, 0)
 
   return (
     <ConceptLayout concept={concept}>
-      {/* Hero with data overlay */}
+      {/* Hero with data overlay and Spotlight */}
       <section className="relative min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
         <div className="absolute inset-0">
           <Image
-            src="/images/diamond-bokeh-1.jpg"
-            alt="Observatory"
+            src="/images/diamond-display.jpg"
+            alt="Diamond observatory display"
             fill
             className="object-cover"
             style={{ opacity: 0.15 }}
@@ -46,36 +42,47 @@ export function ObservatoryHome({ concept }: { concept: ConceptConfig }) {
           />
         </div>
 
+        <Spotlight
+          gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(187, 100%, 50%, .08) 0, hsla(187, 100%, 50%, .02) 50%, transparent 80%)"
+          gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(187, 100%, 50%, .05) 0, transparent 80%)"
+          gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(187, 100%, 50%, .03) 0, transparent 80%)"
+          duration={7}
+        />
+
         {/* Grid overlay */}
         <div
           className="absolute inset-0"
           style={{
             opacity: 0.03,
-            backgroundImage: `linear-gradient(${concept.palette.text} 1px, transparent 1px), linear-gradient(90deg, ${concept.palette.text} 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(${concept.palette.accent}40 1px, transparent 1px), linear-gradient(90deg, ${concept.palette.accent}40 1px, transparent 1px)`,
             backgroundSize: '60px 60px',
           }}
         />
 
-        <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12 py-32 w-full">
-          <div>
-            <p className="font-ibm-plex text-[10px] tracking-[0.3em] uppercase mb-8" style={{ color: concept.palette.accent }}>
-              Observatory // Data-Driven Luxury
-            </p>
-            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[0.02em] leading-[1.1] mb-8 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
-              Every Diamond<br />Has a Story<br />
-              <span style={{ color: concept.palette.accent }}>in Data</span>
-            </h1>
-            <p className="font-ibm-plex text-xs max-w-md mb-12 leading-relaxed" style={{ color: concept.palette.text, opacity: 0.5 }}>
-              We believe in radical transparency. Every stone in our collection is documented,
-              measured, and analyzed with scientific precision. No mystery, no ambiguity — just data.
-            </p>
-          </div>
+        <div className="relative z-10 mx-auto max-w-[1440px] px-8 lg:px-16 py-32 w-full">
+          <p className="font-ibm-plex text-[10px] tracking-[0.35em] uppercase mb-8" style={{ color: concept.palette.accent }}>
+            Observatory // Data-Driven Luxury
+          </p>
+          <h1
+            className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[0.02em] leading-[1.1] mb-8 ${concept.fonts.headingClass}`}
+            style={{ color: concept.palette.text }}
+          >
+            Every Jewel<br />Has a Story<br />
+            <span style={{ color: concept.palette.accent }}>in Data</span>
+          </h1>
+          <p
+            className="font-ibm-plex text-xs max-w-md mb-12 leading-relaxed"
+            style={{ color: concept.palette.text, opacity: 0.5 }}
+          >
+            We believe in radical transparency. Every piece in our collection is documented,
+            measured, and analyzed with scientific precision. No mystery, no ambiguity — just data.
+          </p>
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {[
               { label: 'Pieces in Collection', value: products.length.toString() },
-              { label: 'Total Carats', value: totalCarats > 0 ? Math.round(totalCarats).toString() : '42' },
+              { label: 'Total Carats Curated', value: '2,450+' },
               { label: 'Countries Sourced', value: '12' },
               { label: 'Master Gemologists', value: '8' },
             ].map((stat) => (
@@ -92,23 +99,29 @@ export function ObservatoryHome({ concept }: { concept: ConceptConfig }) {
 
           <Link
             href={buildConceptUrl('observatory', 'collections')}
-            className="inline-block font-ibm-plex px-8 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
+            className="inline-block font-ibm-plex px-10 py-4 text-[10px] uppercase tracking-[0.2em] border transition-all duration-300 hover:bg-[#00E5FF] hover:text-[#0D1B2A]"
             style={{ borderColor: concept.palette.accent, color: concept.palette.accent }}
           >
-            Explore Dataset &rarr;
+            Explore Dataset →
           </Link>
         </div>
       </section>
 
       {/* Bento Grid data dashboard */}
-      <section className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.surface }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-8 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.surface }}>
+        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
+          <p className="font-ibm-plex text-[10px] tracking-[0.3em] uppercase mb-3" style={{ color: concept.palette.accent, opacity: 0.5 }}>
+            Analytics
+          </p>
+          <h2
+            className={`text-2xl font-light tracking-[0.04em] mb-10 ${concept.fonts.headingClass}`}
+            style={{ color: concept.palette.text }}
+          >
             Collection Dashboard
           </h2>
           <BentoGrid className="lg:grid-cols-4 gap-4">
-            <BentoCard colSpan={2} className="p-6" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
-              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-3" style={{ color: concept.palette.text, opacity: 0.4 }}>Average Metrics</p>
+            <BentoCard colSpan={2} className="p-8" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
+              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-4" style={{ color: concept.palette.text, opacity: 0.4 }}>Average Metrics</p>
               <div className="grid grid-cols-3 gap-4">
                 {[
                   { label: 'Avg. Carat', value: '1.42ct' },
@@ -116,19 +129,19 @@ export function ObservatoryHome({ concept }: { concept: ConceptConfig }) {
                   { label: 'Color', value: 'D-F' },
                 ].map((m) => (
                   <div key={m.label}>
-                    <p className="text-lg font-light" style={{ color: concept.palette.accent }}>{m.value}</p>
+                    <p className="text-xl font-light" style={{ color: concept.palette.accent }}>{m.value}</p>
                     <p className="font-ibm-plex text-[8px] uppercase tracking-[0.1em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>{m.label}</p>
                   </div>
                 ))}
               </div>
             </BentoCard>
-            <BentoCard className="p-6" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
-              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-3" style={{ color: concept.palette.text, opacity: 0.4 }}>Certification</p>
+            <BentoCard className="p-8" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
+              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-4" style={{ color: concept.palette.text, opacity: 0.4 }}>Certification</p>
               <p className="text-3xl font-light" style={{ color: concept.palette.accent }}>100%</p>
               <p className="font-ibm-plex text-[8px] uppercase tracking-[0.1em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>GIA Certified</p>
             </BentoCard>
-            <BentoCard className="p-6" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
-              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-3" style={{ color: concept.palette.text, opacity: 0.4 }}>Ethical Score</p>
+            <BentoCard className="p-8" style={{ backgroundColor: concept.palette.bg, border: `1px solid ${concept.palette.muted}` }}>
+              <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mb-4" style={{ color: concept.palette.text, opacity: 0.4 }}>Ethical Score</p>
               <p className="text-3xl font-light" style={{ color: concept.palette.accent }}>98/100</p>
               <p className="font-ibm-plex text-[8px] uppercase tracking-[0.1em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>Sustainability Rating</p>
             </BentoCard>
@@ -137,14 +150,17 @@ export function ObservatoryHome({ concept }: { concept: ConceptConfig }) {
       </section>
 
       {/* Featured with data cards */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <div className="flex items-center justify-between mb-12">
+      <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.bg }}>
+        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
+          <div className="flex items-center justify-between mb-14">
             <div>
-              <p className="font-ibm-plex text-[10px] tracking-[0.2em] uppercase mb-2" style={{ color: concept.palette.text, opacity: 0.4 }}>
+              <p className="font-ibm-plex text-[10px] tracking-[0.25em] uppercase mb-3" style={{ color: concept.palette.accent, opacity: 0.5 }}>
                 Collection Analysis
               </p>
-              <h2 className={`text-xl font-light tracking-[0.05em] ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+              <h2
+                className={`text-2xl font-light tracking-[0.04em] ${concept.fonts.headingClass}`}
+                style={{ color: concept.palette.text }}
+              >
                 Top Performing Specimens
               </h2>
             </div>
@@ -195,15 +211,21 @@ export function ObservatoryHome({ concept }: { concept: ConceptConfig }) {
       <SplitSection
         concept={concept}
         title="Scientific Precision"
-        description="Our gemologists use advanced spectroscopy, 3D scanning, and AI-assisted analysis to evaluate every stone. Each diamond's light performance is mapped across 17 parameters, giving you unprecedented insight into what makes your stone exceptional."
-        image="/images/round-brilliant-diagram.jpg"
+        description="Our gemologists use advanced spectroscopy, 3D scanning, and AI-assisted analysis to evaluate every piece. Each stone's light performance is mapped across 17 parameters, giving you unprecedented insight into what makes your jewelry exceptional."
+        image="/images/diamond-facets-1.jpg"
         ctaLabel="View Grading Process"
         ctaHref={buildConceptUrl('observatory', 'grading')}
       />
 
-      <div className="py-16 lg:py-24" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-          <h2 className={`text-xl font-light tracking-[0.05em] mb-10 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
+      <div className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
+        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
+          <p className="font-ibm-plex text-[10px] tracking-[0.3em] uppercase mb-3" style={{ color: concept.palette.accent, opacity: 0.5 }}>
+            Explore
+          </p>
+          <h2
+            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
+            style={{ color: concept.palette.text }}
+          >
             Browse Categories
           </h2>
           <CategoryGrid concept={concept} />
