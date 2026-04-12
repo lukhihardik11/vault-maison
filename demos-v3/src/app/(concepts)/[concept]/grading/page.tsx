@@ -3,11 +3,14 @@ import { useParams } from 'next/navigation'
 import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalGrading } from '@/components/concepts/minimal/pages'
 
 export default function GradingPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalGrading />
   return (
     <InfoPage
       concept={concept}

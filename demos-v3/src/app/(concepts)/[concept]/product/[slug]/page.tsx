@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation'
 import { getConcept } from '@/data/concepts'
 import { getProduct } from '@/data/products'
 import { ConceptLayout, ProductDetail } from '@/components/shared'
+import { MinimalProductDetail } from '@/components/concepts/minimal/pages'
 
 export default function ProductPage() {
   const params = useParams()
@@ -11,6 +12,8 @@ export default function ProductPage() {
   const product = getProduct(params.slug as string)
 
   if (!concept || !product) return null
+
+  if (concept.id === 'minimal') return <MinimalProductDetail product={product} />
 
   return (
     <ConceptLayout concept={concept}>

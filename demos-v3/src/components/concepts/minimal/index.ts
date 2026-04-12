@@ -1,0 +1,6 @@
+export { MinimalLayout } from './MinimalLayout'
+export { MinimalNav } from './MinimalNav'
+export { MinimalFooter } from './MinimalFooter'
+export { MinimalProductCard } from './MinimalProductCard'
+export { MinimalProductGrid } from './MinimalProductGrid'
+export { MinimalPage } from './MinimalPage'

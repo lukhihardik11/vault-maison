@@ -6,11 +6,14 @@ import { MapPin, Phone, Mail, Clock } from 'lucide-react'
 import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalContact } from '@/components/concepts/minimal/pages'
 
 export default function ContactPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalContact />
 
   const contactInfo = [
     { icon: MapPin, label: 'Visit Us', value: '47 Hatton Garden, London EC1N 8YS' },

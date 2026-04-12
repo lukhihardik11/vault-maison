@@ -3,11 +3,14 @@ import { useParams } from 'next/navigation'
 import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalShipping } from '@/components/concepts/minimal/pages'
 
 export default function ShippingPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalShipping />
   return (
     <InfoPage
       concept={concept}

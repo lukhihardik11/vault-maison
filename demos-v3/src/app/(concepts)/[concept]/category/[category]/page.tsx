@@ -5,6 +5,7 @@ import { getConcept, categoryLabels, categoryDescriptions, type ProductCategory 
 import { getProductsByCategory } from '@/data/products'
 import { ConceptLayout, ProductGrid, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalCategory } from '@/components/concepts/minimal/pages'
 
 export default function CategoryPage() {
   const params = useParams()
@@ -12,6 +13,8 @@ export default function CategoryPage() {
   const category = params.category as ProductCategory
 
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalCategory category={category} />
 
   const categoryProducts = getProductsByCategory(category)
   const label = categoryLabels[category] || category.replace(/-/g, ' ')
