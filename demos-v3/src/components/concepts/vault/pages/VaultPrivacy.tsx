@@ -16,16 +16,17 @@ const sections = [
 export function VaultPrivacy() {
   return (
     <VaultLayout>
-      <div style={{ maxWidth: 800, margin: '0 auto', padding: '120px 24px 80px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 60 }}>
-          <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase' }}>Legal</span>
-          <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 42, fontWeight: 400, color: TEXT, marginTop: 12 }}>Privacy Policy</h1>
-          <p style={{ fontSize: 14, color: 'rgba(234,234,234,0.4)', marginTop: 12 }}>Last updated: March 2026</p>
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '120px 24px 100px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 72 }}>
+          <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase', fontWeight: 500 }}>Legal</span>
+          <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(32px, 4vw, 42px)', fontWeight: 400, color: TEXT, marginTop: 12 }}>Privacy Policy</h1>
+          <div style={{ width: 50, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)`, margin: '20px auto 0' }} />
+          <p style={{ fontSize: 14, color: 'rgba(234,234,234,0.35)', marginTop: 20, letterSpacing: '0.05em' }}>Last updated: March 2026</p>
         </div>
-        {sections.map((s) => (
-          <div key={s.title} style={{ marginBottom: 32 }}>
-            <h2 style={{ fontSize: 18, fontWeight: 500, color: TEXT, marginBottom: 12 }}>{s.title}</h2>
-            <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(234,234,234,0.6)' }}>{s.content}</p>
+        {sections.map((s, i) => (
+          <div key={s.title} style={{ marginBottom: 40, paddingBottom: i < sections.length - 1 ? 40 : 0, borderBottom: i < sections.length - 1 ? '1px solid rgba(212,175,55,0.06)' : 'none' }}>
+            <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 18, fontWeight: 400, color: TEXT, marginBottom: 14 }}>{s.title}</h2>
+            <p style={{ fontSize: 15, lineHeight: 2, color: 'rgba(234,234,234,0.5)' }}>{s.content}</p>
           </div>
         ))}
       </div>

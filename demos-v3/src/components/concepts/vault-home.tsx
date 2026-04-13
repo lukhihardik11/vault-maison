@@ -46,8 +46,11 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
   const [email, setEmail] = useState('')
 
   useEffect(() => {
-    const timer = setTimeout(() => setGateOpen(true), 800)
-    return () => clearTimeout(timer)
+    // Open gate after a short delay; also set a safety fallback
+    const timer = setTimeout(() => setGateOpen(true), 600)
+    // Safety: force gate open after 2s even if something goes wrong
+    const safety = setTimeout(() => setGateOpen(true), 2000)
+    return () => { clearTimeout(timer); clearTimeout(safety) }
   }, [])
 
   const cat = useInView()
@@ -60,6 +63,8 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
   return (
     <VaultLayout>
       <style jsx global>{`
+        @keyframes vaultGateFallback { 0%,80% { opacity: 1; } 100% { opacity: 0; pointer-events: none; } }
+        .vault-gate-overlay { animation: vaultGateFallback 2.5s ease forwards; }
         .vault-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
         .vault-reveal.visible { opacity: 1; transform: translateY(0); }
         .vault-card { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -82,9 +87,11 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
           VAULT GATE + CINEMATIC HERO
       ═══════════════════════════════════════════════════════════════ */}
       <section style={{ position: 'relative', overflow: 'hidden' }}>
-        <div style={{
+        <div className="vault-gate-overlay" style={{
           position: 'absolute', inset: 0, display: 'flex', zIndex: 20,
           pointerEvents: gateOpen ? 'none' : 'auto',
+          opacity: gateOpen ? 0 : 1,
+          transition: 'opacity 0.6s ease',
         }}>
           <div style={{
             width: '50%', height: '100%', backgroundColor: '#050505',
