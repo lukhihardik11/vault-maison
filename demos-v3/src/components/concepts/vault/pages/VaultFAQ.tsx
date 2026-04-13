@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { VaultLayout } from '../VaultLayout'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { DarkNeumorphicInput } from '../ui/DarkNeumorphicInput'
 
 const GOLD = '#D4AF37'
 const MUTED = '#333333'

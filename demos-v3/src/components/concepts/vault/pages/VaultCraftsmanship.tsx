@@ -1,5 +1,6 @@
 'use client'
 import { VaultLayout } from '../VaultLayout'
+import { ElegantDarkButton } from '../ui/ElegantDarkButton'
 
 const GOLD = '#D4AF37'
 const SURFACE = '#141414'

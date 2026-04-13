@@ -1,6 +1,8 @@
 'use client'
 import { VaultLayout } from '../VaultLayout'
 import { Diamond, Shield, Award, Clock, Users, Globe } from 'lucide-react'
+import { PhotoGallery } from '../ui/PhotoGallery'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -34,6 +36,23 @@ export function VaultAbout() {
         <p style={{ fontSize: 16, lineHeight: 2, color: 'rgba(234,234,234,0.6)', marginTop: 20 }}>
           Our master artisans, trained in the finest ateliers of Europe, bring centuries of accumulated knowledge to every piece. From the initial sketch to the final polish, each creation undergoes over 200 hours of meticulous handwork.
         </p>
+      </section>
+
+      {/* Gallery */}
+      <section style={{ padding: '40px 24px 80px' }}>
+        <div style={{ maxWidth: 1440, margin: '0 auto', textAlign: 'center', marginBottom: 40 }}>
+          <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase' }}>Our Atelier</span>
+          <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, fontWeight: 400, color: TEXT, marginTop: 12 }}>Behind the Craft</h2>
+        </div>
+        <PhotoGallery
+          images={[
+            { src: '/images/vault/diamond-ring-dark-1.jpg', alt: 'Diamond Ring Craftsmanship' },
+            { src: '/images/vault/gold-necklace-dark-1.jpg', alt: 'Gold Necklace Detail' },
+            { src: '/images/vault/diamond-earring-dark-1.jpg', alt: 'Diamond Earring Artistry' },
+            { src: '/images/vault/gold-bracelets-dark-3.jpg', alt: 'Gold Bracelet Collection' },
+            { src: '/images/vault/diamond-macro-dark.jpg', alt: 'Diamond Macro Detail' },
+          ]}
+        />
       </section>
 
       {/* Values */}

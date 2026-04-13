@@ -6,6 +6,8 @@ import { useCartStore } from '@/store/cart'
 import { useWishlistStore } from '@/store/wishlist'
 import { VaultLayout } from '../VaultLayout'
 import { Heart, ShoppingBag, Share2, Shield, Truck, RotateCcw, ChevronDown, ChevronUp, X, Minus, Plus, ArrowRight, Diamond } from 'lucide-react'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
+import { ElegantDarkButton } from '../ui/ElegantDarkButton'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -181,18 +183,12 @@ export function VaultProductDetail({ product }: { product: Product }) {
           </div>
 
           {/* Add to Cart + Wishlist */}
-          <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-            <button
-              onClick={() => addItem(product, selectedSize)}
-              style={{
-                flex: 1, padding: '16px 32px', backgroundColor: GOLD, color: BG,
-                border: 'none', borderRadius: 4, fontSize: 13, fontWeight: 600,
-                letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              }}
-            >
-              <ShoppingBag size={16} /> Add to Cart — {product.priceDisplay}
-            </button>
+          <div style={{ display: 'flex', gap: 12, marginBottom: 24, alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
+              <SparkleGlowButton onClick={() => addItem(product, selectedSize)}>
+                <ShoppingBag size={16} style={{ marginRight: 8 }} /> Add to Cart — {product.priceDisplay}
+              </SparkleGlowButton>
+            </div>
             <button
               onClick={() => isWished ? removeWish(product.id) : addWish(product)}
               style={{
@@ -201,6 +197,7 @@ export function VaultProductDetail({ product }: { product: Product }) {
                 backgroundColor: isWished ? 'rgba(212,175,55,0.1)' : 'transparent',
                 color: isWished ? GOLD : 'rgba(234,234,234,0.5)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.3s ease',
               }}
             >
               <Heart size={18} fill={isWished ? GOLD : 'none'} />
@@ -288,9 +285,9 @@ export function VaultProductDetail({ product }: { product: Product }) {
                 <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase' }}>You May Also Like</span>
                 <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, fontWeight: 400, color: TEXT, marginTop: 8 }}>Related Pieces</h2>
               </div>
-              <Link href={`/vault/category/${product.category}`} style={{ color: GOLD, textDecoration: 'none', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
-                View All <ArrowRight size={14} />
-              </Link>
+              <ElegantDarkButton href={`/vault/category/${product.category}`}>
+                View All
+              </ElegantDarkButton>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
               {related.map((p) => (

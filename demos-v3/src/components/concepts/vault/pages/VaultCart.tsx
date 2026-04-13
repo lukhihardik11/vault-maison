@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { useCartStore } from '@/store/cart'
 import { VaultLayout } from '../VaultLayout'
 import { Minus, Plus, X, ShoppingBag, ArrowRight, Shield, Truck, RotateCcw } from 'lucide-react'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
+import { ElegantDarkButton } from '../ui/ElegantDarkButton'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -20,9 +22,7 @@ export function VaultCart() {
           <ShoppingBag size={48} color={MUTED} style={{ marginBottom: 24 }} />
           <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, color: TEXT, marginBottom: 12 }}>Your Vault is Empty</h1>
           <p style={{ fontSize: 15, color: 'rgba(234,234,234,0.5)', marginBottom: 32 }}>Discover extraordinary pieces to add to your collection.</p>
-          <Link href="/vault/collections" style={{ padding: '14px 32px', backgroundColor: GOLD, color: BG, textDecoration: 'none', fontSize: 13, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', borderRadius: 4 }}>
-            Explore Collections
-          </Link>
+          <SparkleGlowButton onClick={() => window.location.href='/vault/collections'}>Explore Collections</SparkleGlowButton>
         </div>
       </VaultLayout>
     )
@@ -80,14 +80,7 @@ export function VaultCart() {
               <span style={{ fontSize: 16, fontWeight: 500, color: TEXT }}>Total</span>
               <span style={{ fontSize: 20, fontFamily: 'Cinzel, serif', color: TEXT }}>${getTotal().toLocaleString()}</span>
             </div>
-            <Link href="/vault/checkout" style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              width: '100%', padding: '16px', marginTop: 24, backgroundColor: GOLD, color: BG,
-              textDecoration: 'none', fontSize: 13, fontWeight: 600, letterSpacing: '0.15em',
-              textTransform: 'uppercase', borderRadius: 4,
-            }}>
-              Proceed to Checkout <ArrowRight size={16} />
-            </Link>
+            <div style={{ marginTop: 24 }}><SparkleGlowButton onClick={() => window.location.href='/vault/checkout'}>Proceed to Checkout</SparkleGlowButton></div>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 24 }}>
               {[{ icon: Shield, label: 'Secure' }, { icon: Truck, label: 'Free Ship' }, { icon: RotateCcw, label: '30-Day' }].map((b) => (
                 <div key={b.label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>

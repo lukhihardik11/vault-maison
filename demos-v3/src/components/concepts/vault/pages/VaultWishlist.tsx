@@ -4,6 +4,8 @@ import { useWishlistStore } from '@/store/wishlist'
 import { useCartStore } from '@/store/cart'
 import { VaultLayout } from '../VaultLayout'
 import { Heart, ShoppingBag, X } from 'lucide-react'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
+import { ElegantDarkButton } from '../ui/ElegantDarkButton'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -21,9 +23,7 @@ export function VaultWishlist() {
           <Heart size={48} color="#333" style={{ marginBottom: 24 }} />
           <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, color: TEXT, marginBottom: 12 }}>Your Wishlist is Empty</h1>
           <p style={{ fontSize: 15, color: 'rgba(234,234,234,0.5)', marginBottom: 32 }}>Save pieces you love to revisit later.</p>
-          <Link href="/vault/collections" style={{ padding: '14px 32px', backgroundColor: GOLD, color: BG, textDecoration: 'none', fontSize: 13, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', borderRadius: 4 }}>
-            Explore Collections
-          </Link>
+          <SparkleGlowButton onClick={() => window.location.href='/vault/collections'}>Explore Collections</SparkleGlowButton>
         </div>
       </VaultLayout>
     )

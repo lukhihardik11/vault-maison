@@ -4,12 +4,15 @@ import Link from 'next/link'
 import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers, getNewArrivals } from '@/data/products'
 import { VaultLayout } from './vault/VaultLayout'
+import { CinematicHero } from './vault/ui/CinematicHero'
+import { SparkleGlowButton } from './vault/ui/SparkleGlowButton'
+import { ElegantDarkButton } from './vault/ui/ElegantDarkButton'
+import { DarkNeumorphicInput } from './vault/ui/DarkNeumorphicInput'
 import { ArrowRight, Diamond, Shield, Award, Clock, Star, ChevronRight } from 'lucide-react'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
 const SURFACE = '#141414'
-const MUTED = '#333333'
 const TEXT = '#EAEAEA'
 
 const categories = [
@@ -37,6 +40,7 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
   const bestsellers = getBestsellers().slice(0, 4)
   const newArrivals = getNewArrivals().slice(0, 4)
   const [gateOpen, setGateOpen] = useState(false)
+  const [email, setEmail] = useState('')
 
   useEffect(() => {
     const timer = setTimeout(() => setGateOpen(true), 800)
@@ -63,18 +67,13 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
         .vault-gold-border:hover { border-color: rgba(212,175,55,0.4); }
       `}</style>
 
-      {/* VAULT GATE HERO */}
-      <section style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'url(/images/vault/diamond-macro-dark.jpg)',
-          backgroundSize: 'cover', backgroundPosition: 'center',
-          filter: 'brightness(0.3)', transform: 'scale(1.1)',
-        }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.08) 0%, transparent 60%)' }} />
-
+      {/* VAULT GATE + CINEMATIC HERO */}
+      <section style={{ position: 'relative', overflow: 'hidden' }}>
         {/* Vault Gate Animation */}
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', zIndex: 10, pointerEvents: gateOpen ? 'none' : 'auto' }}>
+        <div style={{
+          position: 'absolute', inset: 0, display: 'flex', zIndex: 20,
+          pointerEvents: gateOpen ? 'none' : 'auto',
+        }}>
           <div style={{
             width: '50%', height: '100%', backgroundColor: '#050505',
             borderRight: '1px solid rgba(212,175,55,0.3)',
@@ -95,49 +94,14 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
           </div>
         </div>
 
-        {/* Hero Content */}
-        <div style={{
-          position: 'relative', zIndex: 5, textAlign: 'center', maxWidth: 800, padding: '0 24px',
-          opacity: gateOpen ? 1 : 0, transform: gateOpen ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'all 1s ease 0.8s',
-        }}>
-          <div style={{ fontSize: 11, letterSpacing: '0.4em', color: GOLD, textTransform: 'uppercase', marginBottom: 24, fontWeight: 500 }}>Access Granted</div>
-          <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 400, lineHeight: 1.1, marginBottom: 24, color: TEXT }}>
-            Where Rarity<br /><span style={{ color: GOLD }}>Meets Perfection</span>
-          </h1>
-          <p style={{ fontSize: 16, lineHeight: 1.8, color: 'rgba(234,234,234,0.6)', maxWidth: 500, margin: '0 auto 40px' }}>
-            A curated sanctuary of the world&apos;s most extraordinary diamonds and fine jewelry, reserved for the discerning few.
-          </p>
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/vault/collections" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '16px 40px', backgroundColor: GOLD, color: BG,
-              textDecoration: 'none', fontSize: 13, fontWeight: 600,
-              letterSpacing: '0.15em', textTransform: 'uppercase', borderRadius: 4,
-            }}>
-              Enter the Vault <ArrowRight size={16} />
-            </Link>
-            <Link href="/vault/bespoke" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '16px 40px', backgroundColor: 'transparent',
-              border: '1px solid rgba(212,175,55,0.4)', color: GOLD,
-              textDecoration: 'none', fontSize: 13, fontWeight: 500,
-              letterSpacing: '0.15em', textTransform: 'uppercase', borderRadius: 4,
-            }}>
-              Commission a Piece
-            </Link>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div style={{
-          position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
-          opacity: gateOpen ? 1 : 0, transition: 'opacity 1s ease 1.5s',
-        }}>
-          <span style={{ fontSize: 10, letterSpacing: '0.3em', color: 'rgba(212,175,55,0.5)', textTransform: 'uppercase' }}>Scroll to Explore</span>
-          <div style={{ width: 1, height: 40, background: `linear-gradient(to bottom, ${GOLD}, transparent)`, animation: 'vaultPulse 2s ease infinite' }} />
-        </div>
+        {/* CinematicHero replaces old hero */}
+        <CinematicHero
+          heroImage="/images/vault/diamond-macro-dark.jpg"
+          brandName="VAULT MAISON"
+          tagline="Where rarity meets perfection"
+          ctaText="Enter the Vault"
+          onCtaClick={() => window.location.href = '/vault/collections'}
+        />
       </section>
 
       {/* CATEGORIES */}
@@ -177,7 +141,7 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
               {bestsellers[0]?.name || 'Celestial Solitaire'}
             </h2>
             <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(234,234,234,0.6)', marginBottom: 32 }}>
-              {bestsellers[0]?.description?.slice(0, 200) || 'A breathtaking masterpiece that captures the essence of timeless elegance. Each facet engineered to maximize brilliance and fire.'}...
+              {bestsellers[0]?.description?.slice(0, 200) || 'A breathtaking masterpiece that captures the essence of timeless elegance.'}...
             </p>
             {bestsellers[0]?.diamondSpecs && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginBottom: 32 }}>
@@ -194,18 +158,18 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
                 ))}
               </div>
             )}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 32 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
               <span style={{ fontSize: 28, fontFamily: 'Cinzel, serif', color: TEXT }}>{bestsellers[0]?.priceDisplay || '$12,500'}</span>
               <span style={{ fontSize: 12, color: 'rgba(234,234,234,0.4)', letterSpacing: '0.1em' }}>GIA Certified</span>
             </div>
-            <Link href={`/vault/product/${bestsellers[0]?.slug || 'celestial-diamond-ring'}`} style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '16px 40px', backgroundColor: GOLD, color: BG,
-              textDecoration: 'none', fontSize: 13, fontWeight: 600,
-              letterSpacing: '0.15em', textTransform: 'uppercase', borderRadius: 4,
-            }}>
-              Secure This Piece <ArrowRight size={16} />
-            </Link>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              <SparkleGlowButton href={`/vault/product/${bestsellers[0]?.slug || 'celestial-diamond-ring'}`}>
+                Secure This Piece
+              </SparkleGlowButton>
+              <ElegantDarkButton href="/vault/bespoke">
+                Commission Custom
+              </ElegantDarkButton>
+            </div>
           </div>
         </div>
       </section>
@@ -238,13 +202,11 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
                 </div>
               ))}
             </div>
-            <Link href="/vault/craftsmanship" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 32,
-              color: GOLD, textDecoration: 'none', fontSize: 13, fontWeight: 500,
-              letterSpacing: '0.1em', textTransform: 'uppercase',
-            }}>
-              Discover Our Process <ChevronRight size={14} />
-            </Link>
+            <div style={{ marginTop: 32 }}>
+              <ElegantDarkButton href="/vault/craftsmanship">
+                Discover Our Process
+              </ElegantDarkButton>
+            </div>
           </div>
           <div style={{ position: 'relative', aspectRatio: '4/5', borderRadius: 8, overflow: 'hidden' }} className="vault-gold-border">
             <img src="/images/vault/diamond-texture-dark.jpg" alt="Craftsmanship" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -335,7 +297,7 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* NEWSLETTER */}
+      {/* NEWSLETTER — with DarkNeumorphicInput + SparkleGlowButton */}
       <section ref={newsletter.ref} className={`vault-reveal ${newsletter.visible ? 'visible' : ''}`} style={{ padding: '100px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
           <Diamond size={32} color={GOLD} style={{ margin: '0 auto 20px', display: 'block' }} />
@@ -343,16 +305,18 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
           <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(234,234,234,0.5)', marginBottom: 32 }}>
             Be the first to discover new arrivals, limited editions, and private events. Reserved for members of the Vault.
           </p>
-          <div style={{ display: 'flex', gap: 8, maxWidth: 460, margin: '0 auto' }}>
-            <input type="email" placeholder="Your email address" style={{
-              flex: 1, padding: '14px 20px', backgroundColor: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(212,175,55,0.2)', borderRadius: 4, color: TEXT, fontSize: 14, outline: 'none',
-            }} />
-            <button style={{
-              padding: '14px 32px', backgroundColor: GOLD, color: BG,
-              border: 'none', borderRadius: 4, fontSize: 13, fontWeight: 600,
-              letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer',
-            }}>Join</button>
+          <div style={{ display: 'flex', gap: 12, maxWidth: 500, margin: '0 auto', alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
+              <DarkNeumorphicInput
+                type="email"
+                placeholder="Your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <SparkleGlowButton onClick={() => setEmail('')}>
+              Join
+            </SparkleGlowButton>
           </div>
           <p style={{ fontSize: 11, color: 'rgba(234,234,234,0.3)', marginTop: 16 }}>
             By subscribing, you agree to our Privacy Policy. Unsubscribe anytime.
