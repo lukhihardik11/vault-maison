@@ -7,6 +7,7 @@ import { ConceptLayout, ProductGrid, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCategory } from '@/components/concepts/minimal/pages'
 import { VaultCategory } from '@/components/concepts/vault/pages'
+import { GalleryCategory } from '@/components/concepts/gallery/pages'
 
 export default function CategoryPage() {
   const params = useParams()
@@ -17,6 +18,7 @@ export default function CategoryPage() {
 
   if (concept.id === 'minimal') return <MinimalCategory category={category} />
   if (concept.id === 'vault') return <VaultCategory category={category} />
+  if (concept.id === 'gallery') return <GalleryCategory category={category} />
 
   const categoryProducts = getProductsByCategory(category)
   const label = categoryLabels[category] || category.replace(/-/g, ' ')

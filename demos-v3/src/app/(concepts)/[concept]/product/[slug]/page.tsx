@@ -6,6 +6,7 @@ import { getProduct } from '@/data/products'
 import { ConceptLayout, ProductDetail } from '@/components/shared'
 import { MinimalProductDetail } from '@/components/concepts/minimal/pages'
 import { VaultProductDetail } from '@/components/concepts/vault/pages'
+import { GalleryProductDetail } from '@/components/concepts/gallery/pages'
 
 export default function ProductPage() {
   const params = useParams()
@@ -16,6 +17,7 @@ export default function ProductPage() {
 
   if (concept.id === 'minimal') return <MinimalProductDetail product={product} />
   if (concept.id === 'vault') return <VaultProductDetail product={product} />
+  if (concept.id === 'gallery') return <GalleryProductDetail product={product} />
 
   return (
     <ConceptLayout concept={concept}>

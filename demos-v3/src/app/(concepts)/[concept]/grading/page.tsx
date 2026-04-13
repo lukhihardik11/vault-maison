@@ -5,6 +5,7 @@ import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalGrading } from '@/components/concepts/minimal/pages'
 import { VaultGrading } from '@/components/concepts/vault/pages'
+import { GalleryGrading } from '@/components/concepts/gallery/pages'
 
 export default function GradingPage() {
   const params = useParams()
@@ -13,6 +14,7 @@ export default function GradingPage() {
 
   if (concept.id === 'minimal') return <MinimalGrading />
   if (concept.id === 'vault') return <VaultGrading />
+  if (concept.id === 'gallery') return <GalleryGrading />
   return (
     <InfoPage
       concept={concept}

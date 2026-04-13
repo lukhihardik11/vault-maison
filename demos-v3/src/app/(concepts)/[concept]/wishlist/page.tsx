@@ -9,6 +9,7 @@ import { buildConceptUrl } from '@/lib/concept-utils'
 import { useWishlistStore } from '@/store/wishlist'
 import { MinimalWishlist } from '@/components/concepts/minimal/pages'
 import { VaultWishlist } from '@/components/concepts/vault/pages'
+import { GalleryWishlist } from '@/components/concepts/gallery/pages'
 
 export default function WishlistPage() {
   const params = useParams()
@@ -19,6 +20,7 @@ export default function WishlistPage() {
 
   if (concept.id === 'minimal') return <MinimalWishlist />
   if (concept.id === 'vault') return <VaultWishlist />
+  if (concept.id === 'gallery') return <GalleryWishlist />
 
   return (
     <ConceptLayout concept={concept}>

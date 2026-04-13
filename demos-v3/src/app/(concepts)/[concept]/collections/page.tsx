@@ -6,6 +6,7 @@ import { ConceptLayout, PageHeader, CategoryGrid, CTABanner } from '@/components
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCollections } from '@/components/concepts/minimal/pages'
 import { VaultCollections } from '@/components/concepts/vault/pages'
+import { GalleryCollections } from '@/components/concepts/gallery/pages'
 
 export default function CollectionsPage() {
   const params = useParams()
@@ -14,6 +15,7 @@ export default function CollectionsPage() {
 
   if (concept.id === 'minimal') return <MinimalCollections />
   if (concept.id === 'vault') return <VaultCollections />
+  if (concept.id === 'gallery') return <GalleryCollections />
 
   return (
     <ConceptLayout concept={concept}>
