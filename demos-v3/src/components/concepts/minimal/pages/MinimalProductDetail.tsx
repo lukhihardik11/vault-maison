@@ -106,10 +106,7 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
     <MinimalLayout>
       <section style={{ padding: '80px 5vw 0' }} className="minimal-pdp">
         {/* Breadcrumb */}
-        <motion.nav
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+        <nav
           style={{ marginBottom: '40px' }}
         >
           <Link href="/minimal" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#050505', opacity: 0.4, textDecoration: 'none', fontFamily: font }}>
@@ -123,15 +120,12 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
           <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#050505', opacity: 0.6, fontFamily: font }}>
             {product.name}
           </span>
-        </motion.nav>
+        </nav>
 
         {/* Product Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '60px', maxWidth: '1200px' }} className="minimal-pdp-grid">
           {/* Left: Gallery with animated image swap */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
           >
             <div
               style={{
@@ -144,12 +138,8 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
               }}
             >
               <AnimatePresence mode="wait">
-                <motion.div
+                <div
                   key={selectedImage}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
                   style={{ position: 'absolute', inset: 0 }}
                 >
                   <Image
@@ -160,7 +150,7 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
                     sizes="(max-width: 768px) 100vw, 600px"
                     unoptimized
                   />
-                </motion.div>
+                </div>
               </AnimatePresence>
             </div>
             {product.images.length > 1 && (
@@ -186,13 +176,10 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
                 ))}
               </div>
             )}
-          </motion.div>
+          </div>
 
           {/* Right: Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+          <div
             style={{ paddingTop: '20px' }}
           >
             {product.isNew && (
@@ -271,9 +258,7 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
                   hoverText="Adding..."
                   onClick={() => addItem(product)}
                 />
-                <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
+                <button
                   onClick={() => toggleItem(product)}
                   style={{
                     padding: '14px 24px',
@@ -291,22 +276,18 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
                   }}
                 >
                   {inWishlist ? '♥ Saved' : '♡ Save'}
-                </motion.button>
+                </button>
               </div>
               <SocialButton onShare={(platform) => console.log(`Share ${product.name} on ${platform}`)} />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Related Products */}
       {related.length > 0 && (
         <section style={{ padding: '120px 5vw', borderTop: '1px solid #E5E5E5', marginTop: '80px' }} className="minimal-pdp-related">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.6 }}
+          <div
           >
             <p style={{
               fontFamily: font,
@@ -329,7 +310,7 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
             }}>
               Related Pieces
             </h2>
-          </motion.div>
+          </div>
           <div
             style={{
               display: 'grid',
@@ -339,15 +320,11 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
             className="minimal-pdp-related-grid"
           >
             {related.map((p, i) => (
-              <motion.div
+              <div
                 key={p.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
               >
                 <MinimalProductCard product={p} />
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>

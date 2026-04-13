@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'motion/react'
 import { MinimalLayout } from '../MinimalLayout'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
@@ -72,10 +71,7 @@ export function MinimalJournal() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -109,16 +105,12 @@ export function MinimalJournal() {
           }}>
             Observations on material, design, and the pursuit of precision.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* Featured Article — Full Width */}
       <section style={{ padding: '60px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <div
         >
           <Link
             href="#"
@@ -185,7 +177,7 @@ export function MinimalJournal() {
               </div>
             </div>
           </Link>
-        </motion.div>
+        </div>
       </section>
 
       {/* Article Grid — 3 columns */}
@@ -193,12 +185,8 @@ export function MinimalJournal() {
         <div style={{ borderTop: '1px solid #E5E5E5', paddingTop: '48px' }}>
           <div className="minimal-journal-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
             {rest.map((article, i) => (
-              <motion.div
+              <div
                 key={article.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
               >
                 <Link
                   href="#"
@@ -249,7 +237,7 @@ export function MinimalJournal() {
                     {article.excerpt}
                   </p>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

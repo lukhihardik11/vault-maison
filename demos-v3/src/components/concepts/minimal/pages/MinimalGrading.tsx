@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { Scissors, Palette, Eye, Scale } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { SpotlightCards, SlideTextButton } from '../ui'
@@ -20,10 +19,7 @@ export function MinimalGrading() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -58,7 +54,7 @@ export function MinimalGrading() {
           }}>
             Every diamond in our collection above 0.30 carats is independently certified by the Gemological Institute of America (GIA) or the International Gemological Institute (IGI). These certificates provide an objective assessment of each stone&apos;s quality characteristics.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* 4Cs SpotlightCards */}
@@ -73,11 +69,7 @@ export function MinimalGrading() {
       {/* Documentation */}
       <section style={{ padding: '80px 5vw 120px', borderTop: '1px solid #E5E5E5' }}>
         <div className="minimal-grading-docs" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', maxWidth: '900px' }}>
-          <motion.div
-            initial={{ opacity: 0, x: -15 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <div
           >
             <p style={{
               fontFamily: font,
@@ -110,12 +102,8 @@ export function MinimalGrading() {
             }}>
               Every purchase includes the original grading certificate, a Vault Maison certificate of authenticity, and a detailed appraisal for insurance purposes. Digital copies are available through your account.
             </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 15 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          </div>
+          <div
           >
             <p style={{
               fontFamily: font,
@@ -139,7 +127,7 @@ export function MinimalGrading() {
             <div style={{ marginTop: '32px' }}>
               <SlideTextButton text="View Collections" hoverText="Browse" href="/minimal/collections" />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

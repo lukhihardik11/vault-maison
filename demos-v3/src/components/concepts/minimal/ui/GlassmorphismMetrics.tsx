@@ -1,6 +1,5 @@
 'use client'
 
-import { motion, type Variants } from 'motion/react'
 import { ArrowUpRight, Diamond, Shield, Clock, Gem } from 'lucide-react'
 import Link from 'next/link'
 
@@ -53,11 +52,6 @@ const defaultMetrics: Metric[] = [
   },
 ]
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-}
-
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
 export default function GlassmorphismMetrics({
@@ -79,13 +73,7 @@ export default function GlassmorphismMetrics({
 
       <div className="mx-auto max-w-6xl space-y-12">
         {/* Header */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          className="mx-auto max-w-3xl text-center"
-        >
+        <div className="mx-auto max-w-3xl text-center">
           <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#050505]/10 bg-white/70 px-4 py-1.5 text-[10px] uppercase tracking-[0.25em] text-[#050505]/60 backdrop-blur">
             <Diamond className="h-3 w-3" />
             {eyebrow}
@@ -96,18 +84,12 @@ export default function GlassmorphismMetrics({
           <p className="mt-5 text-sm leading-relaxed text-[#050505]/60 md:text-base" style={{ fontWeight: 300 }}>
             {subheading}
           </p>
-        </motion.div>
+        </div>
 
         {/* Metrics Grid */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ staggerChildren: 0.08 }}
-          className="grid gap-4 md:grid-cols-2"
-        >
+        <div className="grid gap-4 md:grid-cols-2">
           {metrics.map((metric) => (
-            <motion.div key={metric.label} variants={fadeUp}>
+            <div key={metric.label}>
               <div className="group relative overflow-hidden rounded-2xl border border-[#050505]/8 bg-white/60 p-8 backdrop-blur-2xl transition-transform duration-300 hover:-translate-y-1">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#050505]/[0.02] via-transparent to-transparent" />
                 <div className="relative z-10 space-y-5">
@@ -130,18 +112,12 @@ export default function GlassmorphismMetrics({
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* CTA Bar */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-[#050505]/8 bg-white/50 px-6 py-6 backdrop-blur-xl md:px-8"
-        >
+        <div className="flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-[#050505]/8 bg-white/50 px-6 py-6 backdrop-blur-xl md:px-8">
           <div className="flex items-center gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#050505]/10 bg-white/70 text-[#050505]/70">
               <Gem className="h-5 w-5" />
@@ -161,7 +137,7 @@ export default function GlassmorphismMetrics({
           >
             {ctaText}
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

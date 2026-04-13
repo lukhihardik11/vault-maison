@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { Package, Globe, Lock, RotateCcw } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 
@@ -11,10 +10,7 @@ export function MinimalShipping() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -48,16 +44,12 @@ export function MinimalShipping() {
           }}>
             Every order is fully insured, discreetly packaged, and delivered with care.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* Shipping Options Table */}
       <section style={{ padding: '60px 5vw 0', maxWidth: '700px' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+        <div
         >
           <div style={{ display: 'grid', gridTemplateColumns: '40px 1fr', gap: '20px', marginBottom: '40px' }}>
             <Package size={20} strokeWidth={1} style={{ color: '#050505', opacity: 0.3, marginTop: '2px' }} />
@@ -82,7 +74,7 @@ export function MinimalShipping() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* Info Sections */}
@@ -106,12 +98,8 @@ export function MinimalShipping() {
         ].map((section, i) => {
           const Icon = section.icon
           return (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
               style={{
                 display: 'grid',
                 gridTemplateColumns: '40px 1fr',
@@ -129,7 +117,7 @@ export function MinimalShipping() {
                   {section.content}
                 </p>
               </div>
-            </motion.div>
+            </div>
           )
         })}
       </section>

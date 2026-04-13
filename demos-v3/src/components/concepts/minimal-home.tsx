@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'motion/react'
 import { type ConceptConfig, categoryLabels } from '@/data/concepts'
 import { MinimalLayout } from './minimal/MinimalLayout'
 import { MinimalProductCard } from './minimal/MinimalProductCard'
@@ -10,7 +9,6 @@ import {
   TypewriterTitle,
   CardStack,
   CardFlip,
-  ScrollText,
   GlassmorphismMetrics,
   SpotlightCards,
   SlideTextButton,
@@ -87,12 +85,7 @@ const categoryImages: Record<string, string> = {
   'diamond-rings': '/images/minimal-engagement-ring.jpg',
   'diamond-necklaces': '/images/minimal-necklace-heart.jpg',
   'diamond-earrings': '/images/minimal-diamond-studs.jpg',
-  'diamond-bracelets': '/images/minimal-tennis-bracelet.jpg',
   'gold-rings': '/images/minimal-ring-gold.jpg',
-  'gold-necklaces': '/images/minimal-gold-chain.jpg',
-  'gold-earrings': '/images/minimal-chandelier-earrings.jpg',
-  'gold-bracelets': '/images/minimal-gold-cuff.jpg',
-  'loose-diamonds': '/images/minimal-loose-diamond.jpg',
   'wedding-bridal': '/images/minimal-wedding-rings.jpg',
 }
 
@@ -100,12 +93,7 @@ const categoryDescriptions: Record<string, string> = {
   'diamond-rings': 'Solitaires, halos, and bands crafted with precision-cut stones.',
   'diamond-necklaces': 'Pendants and chains that frame the collarbone with light.',
   'diamond-earrings': 'Studs, drops, and hoops that catch every angle.',
-  'diamond-bracelets': 'Tennis bracelets and bangles of unbroken brilliance.',
   'gold-rings': 'Bands and statement rings in 18K and 24K gold.',
-  'gold-necklaces': 'Chains, pendants, and layering pieces in fine gold.',
-  'gold-earrings': 'Hoops, studs, and chandeliers in warm gold tones.',
-  'gold-bracelets': 'Cuffs, bangles, and link bracelets in solid gold.',
-  'loose-diamonds': 'GIA-certified stones, hand-selected for your bespoke piece.',
   'wedding-bridal': 'Engagement rings, wedding bands, and bridal sets.',
 }
 
@@ -133,7 +121,7 @@ const services: SpotlightItem[] = [
   },
 ]
 
-/* ── Brand values for ScrollText ── */
+/* ── Brand values ── */
 const brandValues = [
   'We believe in the quiet power of precision.',
   'Every stone is hand-selected. Every setting is intentional.',
@@ -149,7 +137,6 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
     <MinimalLayout>
       {/* ═══════════════════════════════════════════════════════
           SECTION 1: HeroFashion — Editorial 2-col hero
-          Like Tiffany's full-viewport cinematic hero
       ═══════════════════════════════════════════════════════ */}
       <HeroFashion
         brandName="Vault Maison."
@@ -172,13 +159,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           SECTION 2: TypewriterTitle — Animated tagline
       ═══════════════════════════════════════════════════════ */}
       <section className="py-20 px-5 text-center border-t border-[#050505]/5">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto"
-        >
+        <div className="max-w-3xl mx-auto">
           <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-6" style={{ fontFamily: font }}>
             Crafted for
           </p>
@@ -197,21 +178,14 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               className="text-4xl md:text-5xl lg:text-6xl"
             />
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
           SECTION 3: Shop by Category — CardFlip grid
-          Like Tiffany's 3-col category navigation
       ═══════════════════════════════════════════════════════ */}
       <section className="py-20 px-5 border-t border-[#050505]/5">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="max-w-7xl mx-auto"
-        >
+        <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-12">
             <div>
               <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-3" style={{ fontFamily: font }}>
@@ -230,14 +204,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {featuredCategories.map((cat, i) => (
-              <motion.div
-                key={cat}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-              >
+            {featuredCategories.map((cat) => (
+              <div key={cat}>
                 <CardFlip
                   title={categoryLabels[cat as keyof typeof categoryLabels] || cat}
                   subtitle={`${products.filter(p => p.category === cat).length} pieces`}
@@ -245,25 +213,18 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   image={categoryImages[cat] || '/images/minimal-ring-white.jpg'}
                   href={`/minimal/category/${cat}`}
                 />
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
           SECTION 4: Editorial Split — Featured Product
-          Like Cartier's cinematic product feature
       ═══════════════════════════════════════════════════════ */}
       <section className="py-0 border-t border-[#050505]/5">
         <div className="grid md:grid-cols-2 min-h-[70vh]">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8 }}
-            className="relative aspect-square md:aspect-auto overflow-hidden bg-[#F5F5F5]"
-          >
+          <div className="relative aspect-square md:aspect-auto overflow-hidden bg-[#F5F5F5]">
             <Image
               src="/images/minimal-ring-white.jpg"
               alt="Celestial Solitaire Ring"
@@ -271,14 +232,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               className="object-cover"
               unoptimized
             />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex items-center px-8 md:px-16 py-16"
-          >
+          </div>
+          <div className="flex items-center px-8 md:px-16 py-16">
             <div className="max-w-md">
               <p className="text-[10px] uppercase tracking-[0.25em] text-[#050505]/40 mb-4" style={{ fontFamily: font }}>
                 Featured
@@ -308,22 +263,15 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 href="/minimal/product/celestial-diamond-ring"
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
           SECTION 5: Featured Products — CardStack
-          Stacked cards that fan out on click
       ═══════════════════════════════════════════════════════ */}
       <section className="py-20 px-5 border-t border-[#050505]/5">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="max-w-7xl mx-auto"
-        >
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
             <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-3" style={{ fontFamily: font }}>
               Featured
@@ -333,20 +281,34 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </h2>
           </div>
           <CardStack products={heroProducts} />
-        </motion.div>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
-          SECTION 6: Brand Manifesto — ScrollText
-          Scroll-reveal philosophy text like Mejuri
+          SECTION 6: Brand Manifesto
       ═══════════════════════════════════════════════════════ */}
-      <section className="border-t border-[#050505]/5">
-        <ScrollText texts={brandValues} />
+      <section className="py-24 px-5 border-t border-[#050505]/5">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-8" style={{ fontFamily: font }}>
+            Our Philosophy
+          </p>
+          {brandValues.map((text, i) => (
+            <p
+              key={i}
+              className="text-xl md:text-2xl lg:text-3xl font-extralight tracking-tight text-[#050505] leading-relaxed"
+              style={{
+                fontFamily: font,
+                opacity: 1 - i * 0.15,
+              }}
+            >
+              {text}
+            </p>
+          ))}
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
           SECTION 7: Trust Metrics — GlassmorphismMetrics
-          Animated counters like Brilliant Earth
       ═══════════════════════════════════════════════════════ */}
       <section className="border-t border-[#050505]/5">
         <GlassmorphismMetrics
@@ -361,16 +323,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
 
       {/* ═══════════════════════════════════════════════════════
           SECTION 8: New Arrivals — Product Grid
-          Like Tiffany's product carousel
       ═══════════════════════════════════════════════════════ */}
       <section className="py-20 px-5 border-t border-[#050505]/5">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="max-w-7xl mx-auto"
-        >
+        <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-10">
             <div>
               <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-3" style={{ fontFamily: font }}>
@@ -389,24 +344,17 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {featuredProducts.map((product, i) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-              >
+            {featuredProducts.map((product) => (
+              <div key={product.id}>
                 <MinimalProductCard product={product} />
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════
           SECTION 9: Services — SpotlightCards
-          3D tilt cards for Bespoke, Sizing, Care, Consultation
       ═══════════════════════════════════════════════════════ */}
       <section className="py-20 px-5 border-t border-[#050505]/5">
         <div className="max-w-7xl mx-auto">
@@ -422,13 +370,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           SECTION 10: Newsletter / Final CTA
       ═══════════════════════════════════════════════════════ */}
       <section className="py-24 px-5 border-t border-[#050505]/5 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8 }}
-          className="max-w-lg mx-auto"
-        >
+        <div className="max-w-lg mx-auto">
           <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-4" style={{ fontFamily: font }}>
             Stay Informed
           </p>
@@ -442,7 +384,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <SlideTextButton text="Our Story" hoverText="Learn More" href="/minimal/about" variant="ghost" />
             <SlideTextButton text="Contact Us" hoverText="Get in Touch" href="/minimal/contact" />
           </div>
-        </motion.div>
+        </div>
       </section>
     </MinimalLayout>
   )

@@ -58,9 +58,7 @@ function AccordionItem({ faq, index, isOpen, onToggle }: { faq: FAQ; index: numb
         }}
       >
         <span>{faq.q}</span>
-        <motion.span
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
+        <span
           style={{
             fontSize: '18px',
             fontWeight: 200,
@@ -70,15 +68,11 @@ function AccordionItem({ faq, index, isOpen, onToggle }: { faq: FAQ; index: numb
           }}
         >
           +
-        </motion.span>
+        </span>
       </button>
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          <div
             style={{ overflow: 'hidden' }}
           >
             <p style={{
@@ -93,7 +87,7 @@ function AccordionItem({ faq, index, isOpen, onToggle }: { faq: FAQ; index: numb
             }}>
               {faq.a}
             </p>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>
@@ -128,10 +122,7 @@ export function MinimalFAQ() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -165,7 +156,7 @@ export function MinimalFAQ() {
           }}>
             Everything you need to know about our diamonds, ordering process, and services.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* FAQ Tabs */}
@@ -175,11 +166,7 @@ export function MinimalFAQ() {
 
       {/* CTA */}
       <section style={{ padding: '80px 5vw 120px', borderTop: '1px solid #E5E5E5', textAlign: 'center' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
+        <div
           style={{ maxWidth: '400px', margin: '0 auto' }}
         >
           <h2 style={{
@@ -207,7 +194,7 @@ export function MinimalFAQ() {
             hoverText="Get in Touch"
             href="/minimal/contact"
           />
-        </motion.div>
+        </div>
       </section>
     </MinimalLayout>
   )

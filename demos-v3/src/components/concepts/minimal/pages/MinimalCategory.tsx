@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'motion/react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductGrid } from '../MinimalProductGrid'
 import { MatrixText } from '../ui'
@@ -23,10 +22,7 @@ export function MinimalCategory({ category }: MinimalCategoryProps) {
     <MinimalLayout>
       <section style={{ padding: '80px 5vw 0' }}>
         {/* Breadcrumb */}
-        <motion.nav
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+        <nav
           style={{ marginBottom: '40px' }}
         >
           <Link href="/minimal" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#050505', opacity: 0.4, textDecoration: 'none', fontFamily: font }}>
@@ -40,13 +36,10 @@ export function MinimalCategory({ category }: MinimalCategoryProps) {
           <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#050505', opacity: 0.6, fontFamily: font }}>
             {label}
           </span>
-        </motion.nav>
+        </nav>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
           style={{ marginBottom: '16px' }}
         >
           <h1 style={{
@@ -83,18 +76,15 @@ export function MinimalCategory({ category }: MinimalCategoryProps) {
               {products.length} {products.length === 1 ? 'piece' : 'pieces'}
             </span>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* Product Grid */}
       <section style={{ padding: '40px 5vw 120px' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        <div
         >
           <MinimalProductGrid products={products} />
-        </motion.div>
+        </div>
       </section>
     </MinimalLayout>
   )

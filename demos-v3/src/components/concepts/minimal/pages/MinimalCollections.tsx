@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { MinimalLayout } from '../MinimalLayout'
 import { CardFlip } from '../ui'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
@@ -41,10 +40,7 @@ export function MinimalCollections() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -78,7 +74,7 @@ export function MinimalCollections() {
           }}>
             Ten curated categories spanning diamonds, gold, and bridal. Hover to explore what each collection offers.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* Category Grid with CardFlip */}
@@ -94,12 +90,8 @@ export function MinimalCollections() {
           {allCategories.map((cat: ProductCategory, i: number) => {
             const count = getProductsByCategory(cat).length
             return (
-              <motion.div
+              <div
                 key={cat}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
               >
                 <CardFlip
                   title={categoryLabels[cat]}
@@ -110,7 +102,7 @@ export function MinimalCollections() {
                   href={`/minimal/category/${cat}`}
                   count={count}
                 />
-              </motion.div>
+              </div>
             )
           })}
         </div>

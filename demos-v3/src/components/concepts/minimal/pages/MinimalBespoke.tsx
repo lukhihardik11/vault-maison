@@ -49,10 +49,7 @@ export function MinimalBespoke() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -86,18 +83,14 @@ export function MinimalBespoke() {
           }}>
             Every bespoke creation begins with a conversation. Tell us your vision, and we will bring it to life with precision and care.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* Editorial: Image + Process Timeline */}
       <section style={{ padding: '80px 5vw' }}>
         <div className="minimal-bespoke-editorial" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'start' }}>
           {/* Left: Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <div
           >
             <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
               <Image
@@ -108,14 +101,10 @@ export function MinimalBespoke() {
                 unoptimized
               />
             </div>
-          </motion.div>
+          </div>
 
           {/* Right: Process Timeline */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+          <div
             style={{ paddingTop: '20px' }}
           >
             <p style={{
@@ -132,12 +121,8 @@ export function MinimalBespoke() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
               {steps.map((step, i) => (
-                <motion.div
+                <div
                   key={step.num}
-                  initial={{ opacity: 0, x: 15 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '40px 1fr',
@@ -175,10 +160,10 @@ export function MinimalBespoke() {
                       {step.desc}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -186,11 +171,8 @@ export function MinimalBespoke() {
       <section style={{ padding: '80px 5vw 120px', borderTop: '1px solid #E5E5E5' }}>
         <AnimatePresence mode="wait">
           {submitted ? (
-            <motion.div
+            <div
               key="success"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
               style={{ maxWidth: '500px', textAlign: 'center', margin: '0 auto', padding: '40px 0' }}
             >
               <h2 style={{
@@ -218,14 +200,10 @@ export function MinimalBespoke() {
                 hoverText="Browse"
                 href="/minimal/collections"
               />
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
+            <div
               key="form"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
               style={{ maxWidth: '600px' }}
             >
               <p style={{
@@ -281,9 +259,7 @@ export function MinimalBespoke() {
                   <label style={labelStyle}>Your Vision</label>
                   <textarea required rows={5} style={{ ...inputStyle, resize: 'none' }} placeholder="Describe your ideal piece — materials, style, occasion..." onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
+                <button
                   type="submit"
                   style={{
                     alignSelf: 'flex-start',
@@ -300,9 +276,9 @@ export function MinimalBespoke() {
                   }}
                 >
                   Submit Inquiry
-                </motion.button>
+                </button>
               </form>
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </section>

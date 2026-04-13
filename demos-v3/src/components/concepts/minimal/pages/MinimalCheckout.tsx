@@ -52,10 +52,7 @@ export function MinimalCheckout() {
     return (
       <MinimalLayout hideFooter>
         <section style={{ padding: '120px 5vw', maxWidth: '500px', margin: '0 auto', textAlign: 'center' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+          <div
           >
             <div style={{
               width: '48px', height: '48px', border: '1px solid #050505',
@@ -74,7 +71,7 @@ export function MinimalCheckout() {
               Order {orderNumber} has been placed. You will receive a confirmation email with tracking details shortly.
             </p>
             <SlideTextButton text="Return Home" hoverText="Home" href="/minimal" />
-          </motion.div>
+          </div>
         </section>
       </MinimalLayout>
     )
@@ -84,10 +81,7 @@ export function MinimalCheckout() {
     <MinimalLayout hideFooter>
       <section style={{ padding: '80px 5vw 120px' }} className="minimal-checkout">
         {/* Step Progress */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        <div
           style={{ maxWidth: '1100px', marginBottom: '48px' }}
         >
           <div style={{ display: 'flex', gap: '0', alignItems: 'center' }}>
@@ -120,25 +114,19 @@ export function MinimalCheckout() {
           </div>
           {/* Progress bar */}
           <div style={{ height: '1px', backgroundColor: '#E5E5E5', marginTop: '16px', position: 'relative' }}>
-            <motion.div
-              animate={{ width: `${((stepIndex + 1) / allSteps.length) * 100}%` }}
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
-              style={{ height: '1px', backgroundColor: '#050505', position: 'absolute', top: 0, left: 0 }}
+            <div
+              style={{ height: '1px', backgroundColor: '#050505', position: 'absolute', top: 0, left: 0, width: `${((stepIndex + 1) / allSteps.length) * 100}%`, transition: 'width 0.3s ease' }}
             />
           </div>
-        </motion.div>
+        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: '80px', maxWidth: '1100px' }} className="minimal-checkout-grid">
           {/* Left: Form */}
           <div>
             <AnimatePresence mode="wait">
               {step === 'information' && (
-                <motion.form
+                <form
                   key="info"
-                  initial={{ opacity: 0, x: -15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 15 }}
-                  transition={{ duration: 0.3 }}
                   onSubmit={(e) => { e.preventDefault(); setStep('shipping') }}
                   style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}
                 >
@@ -178,9 +166,7 @@ export function MinimalCheckout() {
                       <input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
                     </div>
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     type="submit"
                     style={{
                       alignSelf: 'flex-start',
@@ -198,17 +184,13 @@ export function MinimalCheckout() {
                     }}
                   >
                     Continue to Shipping
-                  </motion.button>
-                </motion.form>
+                  </button>
+                </form>
               )}
 
               {step === 'shipping' && (
-                <motion.form
+                <form
                   key="ship"
-                  initial={{ opacity: 0, x: -15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 15 }}
-                  transition={{ duration: 0.3 }}
                   onSubmit={(e) => { e.preventDefault(); setStep('payment') }}
                   style={{ display: 'flex', flexDirection: 'column', gap: '0' }}
                 >
@@ -258,9 +240,7 @@ export function MinimalCheckout() {
                     >
                       Back
                     </button>
-                    <motion.button
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.98 }}
+                    <button
                       type="submit"
                       style={{
                         padding: '14px 48px',
@@ -276,18 +256,14 @@ export function MinimalCheckout() {
                       }}
                     >
                       Continue to Payment
-                    </motion.button>
+                    </button>
                   </div>
-                </motion.form>
+                </form>
               )}
 
               {step === 'payment' && (
-                <motion.form
+                <form
                   key="pay"
-                  initial={{ opacity: 0, x: -15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 15 }}
-                  transition={{ duration: 0.3 }}
                   onSubmit={(e) => { e.preventDefault(); clearCart(); setStep('confirmation') }}
                   style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}
                 >
@@ -328,9 +304,7 @@ export function MinimalCheckout() {
                     >
                       Back
                     </button>
-                    <motion.button
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.98 }}
+                    <button
                       type="submit"
                       style={{
                         padding: '14px 48px',
@@ -346,18 +320,15 @@ export function MinimalCheckout() {
                       }}
                     >
                       Place Order
-                    </motion.button>
+                    </button>
                   </div>
-                </motion.form>
+                </form>
               )}
             </AnimatePresence>
           </div>
 
           {/* Right: Order Summary */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+          <div
             style={{ position: 'sticky', top: '100px' }}
           >
             <p style={{ fontFamily: font, fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.25em', color: '#050505', opacity: 0.35, marginBottom: '24px' }}>
@@ -402,7 +373,7 @@ export function MinimalCheckout() {
               <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#050505' }}>Total</span>
               <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#050505' }}>{formatPrice(getTotal())}</span>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

@@ -40,10 +40,7 @@ export function MinimalContact() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -77,18 +74,15 @@ export function MinimalContact() {
           }}>
             We respond within 24 hours. Every interaction is personal, unhurried, and entirely on your terms.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* Main Content: Info + Form side by side */}
       <section style={{ padding: '60px 5vw 120px' }}>
         <AnimatePresence mode="wait">
           {submitted ? (
-            <motion.div
+            <div
               key="success"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
               style={{ maxWidth: '500px', textAlign: 'center', margin: '0 auto', padding: '80px 0' }}
             >
               <h2 style={{
@@ -116,21 +110,15 @@ export function MinimalContact() {
                 hoverText="Continue"
                 href="/minimal"
               />
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
+            <div
               key="form"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
               className="minimal-contact-layout"
               style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '80px' }}
             >
               {/* Left: Contact Info */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+              <div
               >
                 <div style={{ marginBottom: '40px' }}>
                   <p style={labelStyle}>Visit</p>
@@ -152,13 +140,10 @@ export function MinimalContact() {
                   <p style={labelStyle}>Email</p>
                   <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505' }}>contact@vaultmaison.com</p>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Right: Form */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+              <div
               >
                 <form
                   onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }}
@@ -193,9 +178,7 @@ export function MinimalContact() {
                     <label style={labelStyle}>Message</label>
                     <textarea required rows={5} style={{ ...inputStyle, resize: 'none' }} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     type="submit"
                     style={{
                       alignSelf: 'flex-start',
@@ -212,10 +195,10 @@ export function MinimalContact() {
                     }}
                   >
                     Send Message
-                  </motion.button>
+                  </button>
                 </form>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           )}
         </AnimatePresence>
       </section>

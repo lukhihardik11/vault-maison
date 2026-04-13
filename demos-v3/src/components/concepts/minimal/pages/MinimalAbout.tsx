@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { motion } from 'motion/react'
 import { Gem, Shield, Eye, Leaf, Ruler, Heart } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { SpotlightCards, ScrollText, SlideTextButton } from '../ui'
@@ -56,10 +55,7 @@ export function MinimalAbout() {
     <MinimalLayout>
       {/* ─── Hero ─── */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -93,17 +89,13 @@ export function MinimalAbout() {
           }}>
             Founded by third-generation gemologists who believe that every extraordinary diamond deserves an equally extraordinary setting.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* ─── Editorial Split: Image + Story ─── */}
       <section style={{ padding: '80px 5vw' }} className="minimal-about-editorial">
         <div className="minimal-about-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '60px', alignItems: 'center' }}>
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.8 }}
+          <div
           >
             <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
               <Image
@@ -114,13 +106,9 @@ export function MinimalAbout() {
                 unoptimized
               />
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <div
           >
             <p style={{
               fontFamily: font,
@@ -177,17 +165,13 @@ export function MinimalAbout() {
             }}>
               Today, we continue that tradition — sourcing the finest diamonds and crafting pieces that transcend trends, serving clients who understand that true luxury lies in what you choose to leave out.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* ─── ScrollText: Brand Values ─── */}
       <section style={{ padding: '80px 5vw', borderTop: '1px solid #E5E5E5' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
+        <div
           style={{ textAlign: 'center', marginBottom: '20px' }}
         >
           <p style={{
@@ -211,7 +195,7 @@ export function MinimalAbout() {
           }}>
             What We Stand For
           </h2>
-        </motion.div>
+        </div>
         <ScrollText texts={brandValues} />
       </section>
 
@@ -227,11 +211,7 @@ export function MinimalAbout() {
       {/* ─── Sustainability Statement ─── */}
       <section style={{ padding: '120px 5vw', borderTop: '1px solid #E5E5E5' }}>
         <div className="minimal-about-sustain" style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '60px', alignItems: 'center' }}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.8 }}
+          <div
           >
             <p style={{
               fontFamily: font,
@@ -273,13 +253,9 @@ export function MinimalAbout() {
               href="/minimal/grading"
               variant="ghost"
             />
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <div
           >
             <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
               <Image
@@ -290,17 +266,13 @@ export function MinimalAbout() {
                 unoptimized
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* ─── CTA ─── */}
       <section style={{ padding: '120px 5vw', borderTop: '1px solid #E5E5E5', textAlign: 'center' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
+        <div
           style={{ maxWidth: '500px', margin: '0 auto' }}
         >
           <h2 style={{
@@ -337,7 +309,7 @@ export function MinimalAbout() {
               variant="ghost"
             />
           </div>
-        </motion.div>
+        </div>
       </section>
 
       <style>{`

@@ -31,10 +31,7 @@ export function MinimalSearch() {
       <section style={{ padding: '100px 5vw 120px' }} className="minimal-search">
         <div style={{ maxWidth: '1000px' }}>
           {/* Search Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
           >
             <p style={{
               fontFamily: font,
@@ -48,13 +45,10 @@ export function MinimalSearch() {
             }}>
               Search
             </p>
-          </motion.div>
+          </div>
 
           {/* Search Input */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+          <div
             style={{ position: 'relative', marginBottom: '48px' }}
           >
             <SearchIcon
@@ -89,16 +83,12 @@ export function MinimalSearch() {
                 letterSpacing: '0.01em',
               }}
             />
-          </motion.div>
+          </div>
 
           {/* Suggested Searches (when empty) */}
           <AnimatePresence>
             {!query.trim() && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+              <div
               >
                 <p style={{
                   fontFamily: font,
@@ -114,11 +104,8 @@ export function MinimalSearch() {
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {suggestedSearches.map((s, i) => (
-                    <motion.button
+                    <button
                       key={s}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: i * 0.05 }}
                       onClick={() => setQuery(s)}
                       style={{
                         padding: '8px 16px',
@@ -143,22 +130,18 @@ export function MinimalSearch() {
                       }}
                     >
                       {s}
-                    </motion.button>
+                    </button>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             )}
           </AnimatePresence>
 
           {/* Results */}
           <AnimatePresence mode="wait">
             {query.trim() && (
-              <motion.div
+              <div
                 key="results"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
               >
                 <p style={{
                   fontFamily: font,
@@ -181,14 +164,11 @@ export function MinimalSearch() {
                     className="minimal-search-grid"
                   >
                     {results.map((p, i) => (
-                      <motion.div
+                      <div
                         key={p.id}
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: i * 0.05 }}
                       >
                         <MinimalProductCard product={p} />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 ) : (
@@ -213,7 +193,7 @@ export function MinimalSearch() {
                     </p>
                   </div>
                 )}
-              </motion.div>
+              </div>
             )}
           </AnimatePresence>
         </div>

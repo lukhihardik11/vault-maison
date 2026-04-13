@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { Heart } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductCard } from '../MinimalProductCard'
@@ -16,10 +15,7 @@ export function MinimalWishlist() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -42,15 +38,12 @@ export function MinimalWishlist() {
           }}>
             Saved Pieces
           </h1>
-        </motion.div>
+        </div>
       </section>
 
       <section style={{ padding: '40px 5vw 120px' }}>
         {items.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
             style={{ textAlign: 'center', padding: '80px 0' }}
           >
             <Heart size={32} strokeWidth={0.8} style={{ color: '#050505', opacity: 0.15, marginBottom: '16px' }} />
@@ -78,13 +71,10 @@ export function MinimalWishlist() {
               hoverText="View All"
               href="/minimal/collections"
             />
-          </motion.div>
+          </div>
         ) : (
           <>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
+            <p
               style={{
                 fontFamily: font,
                 fontSize: '11px',
@@ -96,7 +86,7 @@ export function MinimalWishlist() {
               }}
             >
               {items.length} {items.length === 1 ? 'piece' : 'pieces'} saved
-            </motion.p>
+            </p>
             <div
               style={{
                 display: 'grid',
@@ -107,14 +97,11 @@ export function MinimalWishlist() {
               className="minimal-wishlist-grid"
             >
               {items.map((product, i) => (
-                <motion.div
+                <div
                   key={product.id}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
                 >
                   <MinimalProductCard product={product} />
-                </motion.div>
+                </div>
               ))}
             </div>
           </>

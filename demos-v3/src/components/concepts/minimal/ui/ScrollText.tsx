@@ -116,8 +116,7 @@ export default function ScrollText({
               key={text}
               ref={(el) => setupObserver(el, index)}
               variants={itemVariants}
-              viewport={{ once: false, margin: '-20% 0px -20% 0px' }}
-              whileInView="visible"
+              animate="visible"
               style={{
                 fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
                 fontWeight: 200,

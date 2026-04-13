@@ -38,10 +38,7 @@ export function MinimalAccount() {
   return (
     <MinimalLayout>
       <section style={{ padding: '120px 5vw', display: 'flex', justifyContent: 'center' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        <div
           style={{ width: '100%', maxWidth: '400px' }}
         >
           {/* Mode Toggle */}
@@ -73,12 +70,8 @@ export function MinimalAccount() {
 
           <AnimatePresence mode="wait">
             {mode === 'signin' ? (
-              <motion.form
+              <form
                 key="signin"
-                initial={{ opacity: 0, x: -15 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 15 }}
-                transition={{ duration: 0.25 }}
                 onSubmit={(e) => e.preventDefault()}
                 style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
               >
@@ -91,9 +84,7 @@ export function MinimalAccount() {
                   <input type="password" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     type="submit"
                     style={{
                       padding: '14px 48px',
@@ -109,7 +100,7 @@ export function MinimalAccount() {
                     }}
                   >
                     Sign In
-                  </motion.button>
+                  </button>
                   <button
                     type="button"
                     style={{
@@ -126,14 +117,10 @@ export function MinimalAccount() {
                     Forgot password?
                   </button>
                 </div>
-              </motion.form>
+              </form>
             ) : (
-              <motion.form
+              <form
                 key="register"
-                initial={{ opacity: 0, x: 15 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -15 }}
-                transition={{ duration: 0.25 }}
                 onSubmit={(e) => e.preventDefault()}
                 style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
               >
@@ -159,9 +146,7 @@ export function MinimalAccount() {
                   <label style={labelStyle}>Confirm Password</label>
                   <input type="password" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
+                <button
                   type="submit"
                   style={{
                     alignSelf: 'flex-start',
@@ -178,11 +163,11 @@ export function MinimalAccount() {
                   }}
                 >
                   Create Account
-                </motion.button>
-              </motion.form>
+                </button>
+              </form>
             )}
           </AnimatePresence>
-        </motion.div>
+        </div>
       </section>
     </MinimalLayout>
   )

@@ -17,10 +17,7 @@ export function MinimalCart() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -43,15 +40,12 @@ export function MinimalCart() {
           }}>
             Your Selection
           </h1>
-        </motion.div>
+        </div>
       </section>
 
       <section style={{ padding: '40px 5vw 120px' }}>
         {items.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
             style={{ textAlign: 'center', padding: '80px 0' }}
           >
             <p style={{
@@ -78,19 +72,15 @@ export function MinimalCart() {
               hoverText="View All"
               href="/minimal/collections"
             />
-          </motion.div>
+          </div>
         ) : (
           <div className="minimal-cart-layout" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '80px', alignItems: 'start' }}>
             {/* Left: Cart Items */}
             <div>
               <AnimatePresence>
                 {items.map((item, i) => (
-                  <motion.div
+                  <div
                     key={item.product.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.3, delay: i * 0.05 }}
                     style={{
                       display: 'flex',
                       gap: '24px',
@@ -183,16 +173,13 @@ export function MinimalCart() {
                     <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#050505', flexShrink: 0 }}>
                       {formatPrice(item.product.price * item.quantity)}
                     </p>
-                  </motion.div>
+                  </div>
                 ))}
               </AnimatePresence>
             </div>
 
             {/* Right: Summary */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+            <div
               style={{
                 position: 'sticky',
                 top: '100px',
@@ -263,7 +250,7 @@ export function MinimalCart() {
               >
                 Continue Shopping
               </Link>
-            </motion.div>
+            </div>
           </div>
         )}
       </section>

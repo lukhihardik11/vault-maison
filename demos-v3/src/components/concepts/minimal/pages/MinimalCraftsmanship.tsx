@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { motion } from 'motion/react'
 import { Gem, Ruler, Focus, Sparkles } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { SpotlightCards, SlideTextButton } from '../ui'
@@ -48,10 +47,7 @@ export function MinimalCraftsmanship() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -85,7 +81,7 @@ export function MinimalCraftsmanship() {
           }}>
             From raw stone to finished jewel — every step guided by precision, restraint, and decades of accumulated expertise.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* Alternating Image/Text Sections */}
@@ -101,11 +97,7 @@ export function MinimalCraftsmanship() {
               direction: i % 2 === 1 ? 'rtl' : 'ltr',
             }}
           >
-            <motion.div
-              initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6 }}
+            <div
               style={{ direction: 'ltr' }}
             >
               <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
@@ -117,13 +109,9 @@ export function MinimalCraftsmanship() {
                   unoptimized
                 />
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: i % 2 === 0 ? 20 : -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6, delay: 0.15 }}
+            <div
               style={{ direction: 'ltr' }}
             >
               <span style={{
@@ -158,7 +146,7 @@ export function MinimalCraftsmanship() {
               }}>
                 {step.text}
               </p>
-            </motion.div>
+            </div>
           </div>
         </section>
       ))}
@@ -174,11 +162,7 @@ export function MinimalCraftsmanship() {
 
       {/* CTA */}
       <section style={{ padding: '80px 5vw 120px', borderTop: '1px solid #E5E5E5', textAlign: 'center' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <div
           style={{ maxWidth: '400px', margin: '0 auto' }}
         >
           <h2 style={{
@@ -206,7 +190,7 @@ export function MinimalCraftsmanship() {
             hoverText="Bespoke"
             href="/minimal/bespoke"
           />
-        </motion.div>
+        </div>
       </section>
 
       <style>{`

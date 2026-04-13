@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { Droplets, Sun, Box, Wrench, Shield } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { SlideTextButton } from '../ui'
@@ -40,10 +39,7 @@ export function MinimalCare() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -77,7 +73,7 @@ export function MinimalCare() {
           }}>
             Simple practices to maintain the beauty and integrity of your fine jewelry for generations.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* Care Sections */}
@@ -85,12 +81,8 @@ export function MinimalCare() {
         {sections.map((section, i) => {
           const Icon = section.icon
           return (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
               style={{
                 display: 'grid',
                 gridTemplateColumns: '40px 1fr',
@@ -121,18 +113,14 @@ export function MinimalCare() {
                   {section.content}
                 </p>
               </div>
-            </motion.div>
+            </div>
           )
         })}
       </section>
 
       {/* CTA */}
       <section style={{ padding: '80px 5vw 120px', borderTop: '1px solid #E5E5E5', textAlign: 'center' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <div
           style={{ maxWidth: '400px', margin: '0 auto' }}
         >
           <h2 style={{
@@ -156,7 +144,7 @@ export function MinimalCare() {
             Schedule a complimentary cleaning and inspection at our atelier.
           </p>
           <SlideTextButton text="Book Service" hoverText="Schedule" href="/minimal/contact" />
-        </motion.div>
+        </div>
       </section>
     </MinimalLayout>
   )

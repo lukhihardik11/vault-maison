@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { MinimalLayout } from '../MinimalLayout'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
@@ -37,10 +36,7 @@ export function MinimalPrivacy() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '100px 5vw 0' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
         >
           <p style={{
             fontFamily: font,
@@ -73,18 +69,14 @@ export function MinimalPrivacy() {
           }}>
             Last updated: March 2024
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* Sections */}
       <section style={{ padding: '60px 5vw 120px', maxWidth: '700px' }}>
         {sections.map((section, i) => (
-          <motion.div
+          <div
             key={i}
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5, delay: i * 0.05 }}
             style={{
               display: 'grid',
               gridTemplateColumns: '40px 1fr',
@@ -123,7 +115,7 @@ export function MinimalPrivacy() {
                 {section.content}
               </p>
             </div>
-          </motion.div>
+          </div>
         ))}
       </section>
     </MinimalLayout>
