@@ -6,6 +6,7 @@ import { ConceptLayout, PageHeader, SplitSection, Testimonial, CTABanner } from 
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalAbout } from '@/components/concepts/minimal/pages'
 import { VaultAbout } from '@/components/concepts/vault/pages'
+import { GalleryAbout } from '@/components/concepts/gallery/pages'
 
 export default function AboutPage() {
   const params = useParams()
@@ -14,6 +15,7 @@ export default function AboutPage() {
 
   if (concept.id === 'minimal') return <MinimalAbout />
   if (concept.id === 'vault') return <VaultAbout />
+  if (concept.id === 'gallery') return <GalleryAbout />
 
   return (
     <ConceptLayout concept={concept}>

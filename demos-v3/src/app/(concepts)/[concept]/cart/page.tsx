@@ -12,6 +12,7 @@ import { getBestsellers } from '@/data/products'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCart } from '@/components/concepts/minimal/pages'
 import { VaultCart } from '@/components/concepts/vault/pages'
+import { GalleryCart } from '@/components/concepts/gallery/pages'
 
 export default function CartPage() {
   const params = useParams()
@@ -22,6 +23,7 @@ export default function CartPage() {
 
   if (concept.id === 'minimal') return <MinimalCart />
   if (concept.id === 'vault') return <VaultCart />
+  if (concept.id === 'gallery') return <GalleryCart />
 
   return (
     <ConceptLayout concept={concept}>
