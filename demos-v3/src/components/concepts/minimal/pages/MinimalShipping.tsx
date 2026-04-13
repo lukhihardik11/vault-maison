@@ -1,126 +1,87 @@
 'use client'
 
-import { Package, Globe, Lock, RotateCcw } from 'lucide-react'
+import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
+import { Truck, Clock, Globe, Shield, Package, ArrowRight } from 'lucide-react'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+
+const methods = [
+  { icon: Truck, title: 'Standard Shipping', time: '5-7 Business Days', price: 'Complimentary', desc: 'Fully insured FedEx delivery with signature required. Includes tracking and our signature packaging.' },
+  { icon: Clock, title: 'Express Shipping', time: '2-3 Business Days', price: '$35', desc: 'Priority FedEx delivery with full insurance. Ideal for time-sensitive occasions.' },
+  { icon: Package, title: 'White Glove Delivery', time: 'Next Business Day', price: '$75', desc: 'Premium hand-delivery service in select metropolitan areas. Your piece arrives in a presentation box with a personal note.' },
+  { icon: Globe, title: 'International Shipping', time: '7-14 Business Days', price: 'From $50', desc: 'Insured international delivery to over 40 countries. Import duties and taxes may apply at destination.' },
+]
 
 export function MinimalShipping() {
   return (
     <MinimalLayout>
       {/* Header */}
-      <section style={{ padding: '100px 5vw 0' }}>
-        <div
-        >
-          <p style={{
-            fontFamily: font,
-            fontSize: '11px',
-            fontWeight: 400,
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: '#050505',
-            opacity: 0.4,
-            marginBottom: '8px',
-          }}>
-            Shipping & Returns
-          </p>
-          <h1 style={{
-            fontFamily: font,
-            fontSize: '32px',
-            fontWeight: 200,
-            letterSpacing: '0.02em',
-            color: '#050505',
-            marginBottom: '16px',
-          }}>
-            Secure Delivery Worldwide
-          </h1>
-          <p style={{
-            fontFamily: font,
-            fontSize: '13px',
-            fontWeight: 300,
-            color: '#050505',
-            opacity: 0.5,
-            maxWidth: '500px',
-          }}>
-            Every order is fully insured, discreetly packaged, and delivered with care.
-          </p>
+      <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Delivery</p>
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Shipping & Returns</h1>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#8B8B8B', maxWidth: '500px', margin: '0 auto' }}>
+          Every order is carefully packaged and fully insured from our atelier to your door.
+        </p>
+      </section>
+
+      {/* Shipping Methods */}
+      <section style={{ padding: '60px 5vw', maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }} className="vm-ship-grid">
+          {methods.map((m, i) => (
+            <div key={i} style={{ padding: '32px', border: '1px solid #E8E5E0' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                <m.icon size={22} strokeWidth={1.5} style={{ color: '#C4A265' }} />
+                <div>
+                  <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A' }}>{m.title}</h3>
+                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B' }}>{m.time}</p>
+                </div>
+              </div>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#555', marginBottom: '12px' }}>{m.desc}</p>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: m.price === 'Complimentary' ? '#C4A265' : '#1A1A1A' }}>{m.price}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Shipping Options Table */}
-      <section style={{ padding: '60px 5vw 0', maxWidth: '700px' }}>
-        <div
-        >
-          <div style={{ display: 'grid', gridTemplateColumns: '40px 1fr', gap: '20px', marginBottom: '40px' }}>
-            <Package size={20} strokeWidth={1} style={{ color: '#050505', opacity: 0.3, marginTop: '2px' }} />
+      {/* Returns */}
+      <section style={{ padding: '60px 5vw 0', maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ padding: '40px', backgroundColor: '#F5F4F0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+            <Shield size={22} strokeWidth={1.5} style={{ color: '#C4A265' }} />
+            <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A' }}>Returns & Exchanges</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }} className="vm-returns-grid">
             <div>
-              <h2 style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#050505', marginBottom: '20px' }}>
-                Domestic Shipping
-              </h2>
-              <div style={{ borderTop: '1px solid #E5E5E5' }}>
-                {[
-                  { method: 'Standard', time: '5–7 business days', price: 'Complimentary' },
-                  { method: 'Express', time: '2–3 business days', price: '$25' },
-                  { method: 'Priority Insured', time: 'Next business day', price: '$75' },
-                ].map((opt, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid #E5E5E5' }}>
-                    <div>
-                      <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#050505' }}>{opt.method}</p>
-                      <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#050505', opacity: 0.4 }}>{opt.time}</p>
-                    </div>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505' }}>{opt.price}</p>
-                  </div>
-                ))}
-              </div>
+              <h3 style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A', marginBottom: '8px' }}>30-Day Return Policy</h3>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555' }}>
+                We offer a hassle-free 30-day return policy for unworn items in their original condition and packaging. Bespoke and engraved pieces are final sale.
+              </p>
+            </div>
+            <div>
+              <h3 style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A', marginBottom: '8px' }}>How to Return</h3>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555' }}>
+                Contact our concierge team to initiate a return. We will provide a prepaid, insured shipping label. Refunds are processed within 5 business days of receiving your item.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Info Sections */}
-      <section style={{ padding: '20px 5vw 120px', maxWidth: '700px' }}>
-        {[
-          {
-            icon: Globe,
-            title: 'International Shipping',
-            content: 'We ship to over 40 countries. International orders are fully insured and include customs documentation. Duties and import taxes are calculated at checkout. Delivery typically takes 7–14 business days depending on destination.',
-          },
-          {
-            icon: Lock,
-            title: 'Security',
-            content: 'All shipments are fully insured from our facility to your door. Packages are discreetly labeled with no indication of contents. Signature is required upon delivery for all orders.',
-          },
-          {
-            icon: RotateCcw,
-            title: 'Returns',
-            content: 'We accept returns within 30 days of delivery. Items must be in original, unworn condition with all documentation and packaging. Return shipping is complimentary for domestic orders. Bespoke and engraved pieces are final sale.',
-          },
-        ].map((section, i) => {
-          const Icon = section.icon
-          return (
-            <div
-              key={i}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '40px 1fr',
-                gap: '20px',
-                padding: '32px 0',
-                borderBottom: '1px solid #E5E5E5',
-              }}
-            >
-              <Icon size={20} strokeWidth={1} style={{ color: '#050505', opacity: 0.3, marginTop: '2px' }} />
-              <div>
-                <h2 style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>
-                  {section.title}
-                </h2>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#050505', opacity: 0.6 }}>
-                  {section.content}
-                </p>
-              </div>
-            </div>
-          )
-        })}
+      {/* CTA */}
+      <section style={{ padding: '60px 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#8B8B8B', marginBottom: '16px' }}>Have questions about your order?</p>
+        <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', textDecoration: 'none' }}>
+          Contact Our Concierge <ArrowRight size={14} />
+        </Link>
       </section>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .vm-ship-grid { grid-template-columns: 1fr !important; }
+          .vm-returns-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </MinimalLayout>
   )
 }

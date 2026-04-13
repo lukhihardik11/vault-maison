@@ -1,532 +1,266 @@
 'use client'
-import Link from 'next/link'
+
+import { motion } from 'motion/react'
 import Image from 'next/image'
-import { type ConceptConfig, categoryLabels } from '@/data/concepts'
+import Link from 'next/link'
+import { ArrowRight, Diamond, Shield, Gem, Clock } from 'lucide-react'
 import { MinimalLayout } from './minimal/MinimalLayout'
-import { products, getBestsellers, getNewArrivals } from '@/data/products'
+import { products } from '@/data/products'
+import { categoryLabels } from '@/data/concepts'
+import type { ConceptConfig } from '@/data/concepts'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
-/* ── Style constants cloned from Celine/Mejuri ── */
-const eyebrow: React.CSSProperties = {
-  fontFamily: font, fontSize: '10px', textTransform: 'uppercase',
-  letterSpacing: '0.25em', color: 'rgba(5,5,5,0.4)', fontWeight: 400,
-}
-const heading: React.CSSProperties = {
-  fontFamily: font, fontWeight: 200, letterSpacing: '-0.02em', color: '#050505',
-}
-const body: React.CSSProperties = {
-  fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.7,
-  color: 'rgba(5,5,5,0.6)',
-}
-const linkStyle: React.CSSProperties = {
-  fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
-  letterSpacing: '0.2em', color: '#050505', textDecoration: 'none',
-  borderBottom: '1px solid #050505', paddingBottom: '4px', fontWeight: 400,
+const fadeUp = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-50px' },
+  transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const },
 }
 
-/* ── Category data ── */
+const stagger = (i: number) => ({
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-30px' },
+  transition: { duration: 0.6, delay: i * 0.1 },
+})
+
+const bestsellers = products.filter((p) => p.isBestseller).slice(0, 4)
+const newArrivals = products.filter((p) => p.isNew).slice(0, 4)
+const heroProduct = products[0]
+
 const categories = [
-  { slug: 'diamond-rings', label: 'Diamond Rings', image: '/images/products/diamond-solitaire-ring.jpg' },
-  { slug: 'diamond-necklaces', label: 'Necklaces', image: '/images/products/diamond-pendant-necklace.jpg' },
-  { slug: 'diamond-earrings', label: 'Earrings', image: '/images/products/classic-diamond-studs.jpg' },
-  { slug: 'gold-rings', label: 'Gold Rings', image: '/images/products/gold-signet-ring.jpg' },
-  { slug: 'gold-necklaces', label: 'Gold Chains', image: '/images/products/gold-chain-necklace.jpg' },
-  { slug: 'gold-earrings', label: 'Gold Earrings', image: '/images/products/gold-hoop-earrings.jpg' },
-  { slug: 'diamond-bracelets', label: 'Bracelets', image: '/images/products/diamond-tennis-bracelet.jpg' },
-  { slug: 'wedding-bridal', label: 'Bridal', image: '/images/products/classic-engagement-ring.jpg' },
+  { slug: 'diamond-rings', label: 'Diamond Rings', image: '/images/minimal-engagement-ring.jpg' },
+  { slug: 'diamond-necklaces', label: 'Necklaces', image: '/images/minimal-necklace-pendant.jpg' },
+  { slug: 'diamond-earrings', label: 'Earrings', image: '/images/minimal-diamond-studs.jpg' },
+  { slug: 'diamond-bracelets', label: 'Bracelets', image: '/images/minimal-tennis-bracelet.jpg' },
+  { slug: 'gold-rings', label: 'Gold Rings', image: '/images/minimal-ring-gold.jpg' },
+  { slug: 'gold-necklaces', label: 'Gold Chains', image: '/images/minimal-gold-chain.jpg' },
+  { slug: 'gold-earrings', label: 'Gold Earrings', image: '/images/minimal-earrings-studs.jpg' },
+  { slug: 'loose-diamonds', label: 'Loose Diamonds', image: '/images/minimal-loose-diamond.jpg' },
 ]
 
-const bestsellers = getBestsellers().slice(0, 4)
-const newArrivals = getNewArrivals().slice(0, 4)
+/* ── Product Card ── */
+function ProductCard({ product, index }: { product: typeof products[0]; index: number }) {
+  return (
+    <motion.div {...stagger(index)}>
+      <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+        <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '16px', overflow: 'hidden' }}>
+          <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} unoptimized />
+          {product.isNew && (
+            <span style={{ position: 'absolute', top: '12px', left: '12px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', backgroundColor: 'rgba(250,250,248,0.92)', padding: '4px 10px', backdropFilter: 'blur(4px)' }}>New</span>
+          )}
+          {product.isBestseller && !product.isNew && (
+            <span style={{ position: 'absolute', top: '12px', left: '12px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1A1A1A', backgroundColor: 'rgba(250,250,248,0.92)', padding: '4px 10px', backdropFilter: 'blur(4px)' }}>Bestseller</span>
+          )}
+        </div>
+        <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{product.name}</p>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B', marginBottom: '6px' }}>{product.subtitle}</p>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{product.priceDisplay}</p>
+      </Link>
+    </motion.div>
+  )
+}
+
+/* ── Section Heading ── */
+function SectionHeading({ label, title, align = 'left', right }: { label: string; title: string; align?: 'left' | 'center'; right?: React.ReactNode }) {
+  return (
+    <motion.div {...fadeUp} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', textAlign: align }}>
+      <div style={{ flex: 1 }}>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>{label}</p>
+        <h2 style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#1A1A1A', letterSpacing: '-0.01em' }}>{title}</h2>
+      </div>
+      {right}
+    </motion.div>
+  )
+}
 
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   return (
     <MinimalLayout>
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 1: HERO — Clone Celine full-viewport editorial
-          Dark background, centered brand name, large type
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{
-        minHeight: '100vh',
-        backgroundColor: '#050505',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* Background image with overlay */}
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.3 }}>
-          <Image
-            src="/images/products/diamond-solitaire-ring.jpg"
-            alt="Diamond ring editorial"
-            fill
-            style={{ objectFit: 'cover' }}
-            unoptimized
-            priority
-          />
+      {/* ═══ 1. HERO ═══ */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2 }}
+        style={{ position: 'relative', height: '90vh', minHeight: '600px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}
+      >
+        <div style={{ position: 'absolute', inset: 0 }}>
+          <Image src="/images/diamond-velvet-1.jpg" alt="Vault Maison" fill style={{ objectFit: 'cover' }} priority unoptimized />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(26,26,26,0.75) 0%, rgba(26,26,26,0.35) 50%, transparent 100%)' }} />
         </div>
-        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 20px' }}>
-          <p style={{
-            fontFamily: font, fontSize: '10px', textTransform: 'uppercase',
-            letterSpacing: '0.4em', color: 'rgba(255,255,255,0.5)', marginBottom: '24px',
-          }}>
-            Collection 2025
-          </p>
-          <h1 style={{
-            fontFamily: font, fontSize: 'clamp(48px, 10vw, 120px)', fontWeight: 200,
-            color: '#FFFFFF', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '32px',
-          }}>
-            VAULT MAISON
-          </h1>
-          <p style={{
-            fontFamily: font, fontSize: '13px', fontWeight: 300,
-            color: 'rgba(255,255,255,0.6)', maxWidth: '400px', margin: '0 auto 40px',
-            lineHeight: 1.8, letterSpacing: '0.02em',
-          }}>
-            Precision-cut diamonds and fine gold, presented without distraction.
-          </p>
-          <Link
-            href="/minimal/collections"
-            style={{
-              fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
-              letterSpacing: '0.2em', color: '#FFFFFF', textDecoration: 'none',
-              borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: '6px',
-            }}
-          >
-            Discover the Collection
-          </Link>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 2: EDITORIAL CAMPAIGN — Clone Celine 2-col images
-          Two large editorial images side by side
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 0 0' }}>
-        <div style={{ textAlign: 'center', marginBottom: '48px', padding: '0 5vw' }}>
-          <p style={eyebrow}>The Atelier</p>
-          <h2 style={{ ...heading, fontSize: 'clamp(24px, 3vw, 36px)', marginTop: '12px' }}>
-            Where Precision Meets Permanence
-          </h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px' }}>
-          <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
-            <Image
-              src="/images/products/classic-engagement-ring.jpg"
-              alt="Engagement ring editorial"
-              fill
-              style={{ objectFit: 'cover' }}
-              unoptimized
-            />
-          </div>
-          <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
-            <Image
-              src="/images/products/diamond-pendant-necklace.jpg"
-              alt="Diamond pendant editorial"
-              fill
-              style={{ objectFit: 'cover' }}
-              unoptimized
-            />
-          </div>
-        </div>
-        <div style={{ textAlign: 'center', padding: '40px 5vw' }}>
-          <Link href="/minimal/craftsmanship" style={linkStyle}>
-            Discover the Process
-          </Link>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 3: SHOP BY CATEGORY — Clone Mejuri horizontal scroll
-          8 categories in a scrollable row with circular/square images
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 0', borderTop: '1px solid rgba(5,5,5,0.06)' }}>
-        <div style={{ padding: '0 5vw', marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-          <div>
-            <p style={eyebrow}>Shop by Category</p>
-            <h2 style={{ ...heading, fontSize: '24px', marginTop: '8px' }}>Collections</h2>
-          </div>
-          <Link href="/minimal/collections" style={linkStyle}>View All</Link>
-        </div>
-        <div style={{
-          display: 'flex', gap: '24px', overflowX: 'auto', padding: '0 5vw',
-          scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch',
-        }}>
-          {categories.map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/minimal/category/${cat.slug}`}
-              style={{ textDecoration: 'none', flexShrink: 0, width: '140px', textAlign: 'center' }}
-            >
-              <div style={{
-                width: '140px', height: '140px', borderRadius: '50%', overflow: 'hidden',
-                backgroundColor: '#F5F5F5', marginBottom: '12px', position: 'relative',
-              }}>
-                <Image
-                  src={cat.image}
-                  alt={cat.label}
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  unoptimized
-                />
-              </div>
-              <p style={{
-                fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
-                letterSpacing: '0.15em', color: '#050505', fontWeight: 400,
-              }}>
-                {cat.label}
-              </p>
+        <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '20px' }}>
+            The Minimal Machine
+          </motion.p>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5 }}
+            style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.1, marginBottom: '24px', maxWidth: '600px' }}>
+            Precision-Cut<br /><span style={{ color: '#C4A265' }}>Diamonds</span>
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }}
+            style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '420px', marginBottom: '40px', lineHeight: 1.7 }}>
+            Every stone is hand-selected by third-generation gemologists. GIA certified. Crafted to last generations.
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.9 }} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <Link href="/minimal/collections" className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '14px 32px', textDecoration: 'none' }}>
+              Shop Collection <ArrowRight size={14} />
             </Link>
+            <Link href="/minimal/bespoke" className="vm-btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.4)', padding: '14px 32px', textDecoration: 'none' }}>
+              Bespoke Design
+            </Link>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* ═══ 2. SHOP BY CATEGORY ═══ */}
+      <section style={{ padding: '100px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
+        <SectionHeading label="Explore" title="Shop by Category" align="center" />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '32px' }}>
+          {categories.map((cat, i) => (
+            <motion.div key={cat.slug} {...stagger(i)}>
+              <Link href={`/minimal/category/${cat.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block', textAlign: 'center' }}>
+                <div className="vm-card-img" style={{ width: '100%', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', marginBottom: '14px', backgroundColor: '#F5F4F0' }}>
+                  <Image src={cat.image} alt={cat.label} width={200} height={200} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} unoptimized />
+                </div>
+                <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#1A1A1A', letterSpacing: '0.05em' }}>{cat.label}</p>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 4: FEATURED PRODUCT — Clone Celine editorial split
-          Full-width image left, text right
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{ borderTop: '1px solid rgba(5,5,5,0.06)' }}>
-        <div className="grid md:grid-cols-2" style={{ minHeight: '70vh' }}>
-          <div style={{ position: 'relative', aspectRatio: '1', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
-            <Image
-              src="/images/products/diamond-solitaire-ring.jpg"
-              alt="Celestial Diamond Ring"
-              fill
-              style={{ objectFit: 'cover' }}
-              unoptimized
-            />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', padding: '60px 5vw' }}>
-            <div style={{ maxWidth: '420px' }}>
-              <p style={{ ...eyebrow, marginBottom: '16px' }}>Featured</p>
-              <h2 style={{ ...heading, fontSize: 'clamp(28px, 3vw, 40px)', marginBottom: '16px', lineHeight: 1.2 }}>
-                Celestial Diamond Ring
-              </h2>
-              <p style={{ ...body, marginBottom: '32px' }}>
-                A breathtaking 1.5-carat round brilliant diamond set in a cathedral
-                18K white gold mounting. Six-prong setting maximizes light return.
-              </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '40px' }}>
-                {[
-                  { label: 'Carat', value: '1.50ct' },
-                  { label: 'Cut', value: 'Ideal' },
-                  { label: 'Color', value: 'D' },
-                  { label: 'Clarity', value: 'VVS1' },
-                ].map((spec) => (
-                  <div key={spec.label}>
-                    <p style={{ ...eyebrow, marginBottom: '4px' }}>{spec.label}</p>
-                    <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#050505' }}>{spec.value}</p>
+      {/* ═══ 3. FEATURED PRODUCT ═══ */}
+      <section style={{ backgroundColor: '#F5F4F0' }}>
+        <div className="vm-grid-2col" style={{ maxWidth: '1400px', margin: '0 auto', padding: '100px 5vw', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+          <motion.div {...fadeUp}>
+            <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden' }}>
+              <Image src={heroProduct.images[0]} alt={heroProduct.name} fill style={{ objectFit: 'cover' }} unoptimized />
+            </div>
+          </motion.div>
+          <motion.div {...fadeUp} transition={{ duration: 0.8, delay: 0.2 }}>
+            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Featured Piece</p>
+            <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>{heroProduct.name}</h2>
+            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', marginBottom: '24px' }}>{heroProduct.subtitle}</p>
+            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#1A1A1A', lineHeight: 1.8, marginBottom: '32px' }}>{heroProduct.description}</p>
+            {heroProduct.diamondSpecs && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
+                {Object.entries(heroProduct.diamondSpecs).filter(([k]) => ['carat','cut','color','clarity'].includes(k)).map(([key, val]) => (
+                  <div key={key}>
+                    <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B8B8B', marginBottom: '4px' }}>{key}</p>
+                    <p style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#1A1A1A' }}>{val}</p>
                   </div>
                 ))}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                <Link href="/minimal/product/celestial-diamond-ring" style={linkStyle}>
-                  View Details
-                </Link>
-                <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#050505' }}>
-                  $12,500
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 5: BESTSELLERS — Clone Mejuri 4-col product grid
-          4 products with image, name, price, material
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 5vw', borderTop: '1px solid rgba(5,5,5,0.06)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}>
-            <div>
-              <p style={eyebrow}>Most Loved</p>
-              <h2 style={{ ...heading, fontSize: '24px', marginTop: '8px' }}>Bestsellers</h2>
-            </div>
-            <Link href="/minimal/collections" style={linkStyle}>Shop All</Link>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '24px' }}>
-            {bestsellers.map((product) => (
-              <Link
-                key={product.id}
-                href={`/minimal/product/${product.slug}`}
-                style={{ textDecoration: 'none' }}
-                className="minimal-product-card"
-              >
-                <div style={{
-                  position: 'relative', aspectRatio: '1', overflow: 'hidden',
-                  backgroundColor: '#F5F5F5', marginBottom: '12px',
-                }}>
-                  <Image
-                    src={product.images[0]}
-                    alt={product.name}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    unoptimized
-                  />
-                  {product.isBestseller && (
-                    <span style={{
-                      position: 'absolute', top: '10px', left: '10px',
-                      fontFamily: font, fontSize: '9px', textTransform: 'uppercase',
-                      letterSpacing: '0.15em', color: '#050505', fontWeight: 500,
-                      backgroundColor: 'rgba(255,255,255,0.9)', padding: '4px 8px',
-                    }}>
-                      Bestseller
-                    </span>
-                  )}
-                </div>
-                <p style={{
-                  fontFamily: font, fontSize: '12px', textTransform: 'uppercase',
-                  letterSpacing: '0.08em', color: '#050505', fontWeight: 500, marginBottom: '4px',
-                }}>
-                  {product.name}
-                </p>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505' }}>
-                  {product.priceDisplay}
-                </p>
-                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: 'rgba(5,5,5,0.45)', marginTop: '2px' }}>
-                  {product.material}{product.goldKarat ? ` · ${product.goldKarat} ${product.goldColor}` : ''}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 6: BRAND MANIFESTO — Clone Aesop long-form text
-          Large centered text, generous whitespace
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{
-        padding: '100px 5vw', borderTop: '1px solid rgba(5,5,5,0.06)',
-        textAlign: 'center',
-      }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <p style={{ ...eyebrow, marginBottom: '32px' }}>Our Philosophy</p>
-          <blockquote style={{
-            fontFamily: font, fontSize: 'clamp(20px, 3vw, 32px)', fontWeight: 200,
-            lineHeight: 1.5, color: '#050505', letterSpacing: '-0.01em',
-            margin: '0 0 24px', padding: 0, border: 'none',
-          }}>
-            We believe in the quiet power of precision.
-          </blockquote>
-          <p style={{ ...body, maxWidth: '500px', margin: '0 auto 40px' }}>
-            Every stone is hand-selected. Every setting is intentional.
-            No excess. No decoration. Only the essential geometry of precious materials.
-          </p>
-          <Link href="/minimal/about" style={linkStyle}>
-            Read Our Story
-          </Link>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 7: SECOND EDITORIAL — Clone Celine campaign images
-          Single full-width image with text overlay
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{ position: 'relative', minHeight: '60vh', overflow: 'hidden' }}>
-        <Image
-          src="/images/products/diamond-tennis-bracelet.jpg"
-          alt="Tennis bracelet editorial"
-          fill
-          style={{ objectFit: 'cover' }}
-          unoptimized
-        />
-        <div style={{
-          position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.3)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <div style={{ textAlign: 'center', padding: '0 20px' }}>
-            <p style={{
-              fontFamily: font, fontSize: '10px', textTransform: 'uppercase',
-              letterSpacing: '0.3em', color: 'rgba(255,255,255,0.6)', marginBottom: '16px',
-            }}>
-              The Eternal Collection
-            </p>
-            <h2 style={{
-              fontFamily: font, fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 200,
-              color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: '24px',
-            }}>
-              Tennis Bracelets
-            </h2>
-            <Link
-              href="/minimal/category/diamond-bracelets"
-              style={{
-                fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
-                letterSpacing: '0.2em', color: '#FFFFFF', textDecoration: 'none',
-                borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: '6px',
-              }}
-            >
-              Shop Now
+            )}
+            <p style={{ fontFamily: font, fontSize: '24px', fontWeight: 300, color: '#1A1A1A', marginBottom: '32px' }}>{heroProduct.priceDisplay}</p>
+            <Link href={`/minimal/product/${heroProduct.slug}`} className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '14px 32px', textDecoration: 'none' }}>
+              View Details <ArrowRight size={14} />
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 8: NEW ARRIVALS — Clone Mejuri product grid
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 5vw', borderTop: '1px solid rgba(5,5,5,0.06)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}>
-            <div>
-              <p style={eyebrow}>Just Added</p>
-              <h2 style={{ ...heading, fontSize: '24px', marginTop: '8px' }}>New Arrivals</h2>
-            </div>
-            <Link href="/minimal/collections" style={linkStyle}>View All</Link>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '24px' }}>
-            {newArrivals.map((product) => (
-              <Link
-                key={product.id}
-                href={`/minimal/product/${product.slug}`}
-                style={{ textDecoration: 'none' }}
-                className="minimal-product-card"
-              >
-                <div style={{
-                  position: 'relative', aspectRatio: '1', overflow: 'hidden',
-                  backgroundColor: '#F5F5F5', marginBottom: '12px',
-                }}>
-                  <Image
-                    src={product.images[0]}
-                    alt={product.name}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    unoptimized
-                  />
-                  <span style={{
-                    position: 'absolute', top: '10px', left: '10px',
-                    fontFamily: font, fontSize: '9px', textTransform: 'uppercase',
-                    letterSpacing: '0.15em', color: '#050505', fontWeight: 500,
-                    backgroundColor: 'rgba(255,255,255,0.9)', padding: '4px 8px',
-                  }}>
-                    New
-                  </span>
-                </div>
-                <p style={{
-                  fontFamily: font, fontSize: '12px', textTransform: 'uppercase',
-                  letterSpacing: '0.08em', color: '#050505', fontWeight: 500, marginBottom: '4px',
-                }}>
-                  {product.name}
-                </p>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505' }}>
-                  {product.priceDisplay}
-                </p>
-                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: 'rgba(5,5,5,0.45)', marginTop: '2px' }}>
-                  {product.material}{product.goldKarat ? ` · ${product.goldKarat} ${product.goldColor}` : ''}
-                </p>
-              </Link>
-            ))}
-          </div>
+      {/* ═══ 4. BESTSELLERS ═══ */}
+      <section style={{ padding: '100px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
+        <SectionHeading label="Most Loved" title="Bestsellers" right={
+          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B8B8B', textDecoration: 'none' }}>View All →</Link>
+        } />
+        <div className="vm-grid-products" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+          {bestsellers.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 9: TRUST / METRICS — Clean stat counters
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '60px 5vw', borderTop: '1px solid rgba(5,5,5,0.06)', borderBottom: '1px solid rgba(5,5,5,0.06)' }}>
-        <div className="grid grid-cols-2 md:grid-cols-4" style={{ maxWidth: '1200px', margin: '0 auto', gap: '40px', textAlign: 'center' }}>
+      {/* ═══ 5. BRAND MANIFESTO ═══ */}
+      <section style={{ padding: '120px 5vw', backgroundColor: '#1A1A1A', textAlign: 'center' }}>
+        <motion.div {...fadeUp} style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '32px' }}>Our Philosophy</p>
+          <p style={{ fontFamily: font, fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.6, marginBottom: '32px' }}>
+            &ldquo;We believe in the quiet power of precision. Every facet, every angle, every proportion is calculated to maximize brilliance while minimizing everything else.&rdquo;
+          </p>
+          <div style={{ width: '40px', height: '1px', backgroundColor: '#C4A265', margin: '0 auto 24px' }} />
+          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#8B8B8B', letterSpacing: '0.1em' }}>— Vault Maison, Est. 1974</p>
+        </motion.div>
+      </section>
+
+      {/* ═══ 6. EDITORIAL CAMPAIGN ═══ */}
+      <section style={{ maxWidth: '1400px', margin: '0 auto', padding: '100px 5vw' }}>
+        <SectionHeading label="Editorial" title="The Campaign" />
+        <div className="vm-grid-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <motion.div {...fadeUp}>
+            <Link href="/minimal/category/diamond-necklaces" style={{ display: 'block', position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
+              <Image src="/images/fine-jewelry-necklace.jpg" alt="Necklace editorial" fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} className="vm-editorial-img" unoptimized />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%)' }} />
+              <div style={{ position: 'absolute', bottom: '32px', left: '32px' }}>
+                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Collection</p>
+                <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 200, color: '#FFFFFF' }}>Diamond Necklaces</p>
+              </div>
+            </Link>
+          </motion.div>
+          <motion.div {...fadeUp} transition={{ duration: 0.8, delay: 0.15 }}>
+            <Link href="/minimal/category/gold-rings" style={{ display: 'block', position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
+              <Image src="/images/gold-diamond-jewelry.jpg" alt="Gold editorial" fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} className="vm-editorial-img" unoptimized />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%)' }} />
+              <div style={{ position: 'absolute', bottom: '32px', left: '32px' }}>
+                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Collection</p>
+                <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 200, color: '#FFFFFF' }}>Gold Collection</p>
+              </div>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ 7. NEW ARRIVALS ═══ */}
+      <section style={{ padding: '0 5vw 100px', maxWidth: '1400px', margin: '0 auto' }}>
+        <SectionHeading label="Just In" title="New Arrivals" right={
+          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B8B8B', textDecoration: 'none' }}>View All →</Link>
+        } />
+        <div className="vm-grid-products" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+          {(newArrivals.length > 0 ? newArrivals : products.slice(4, 8)).map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
+        </div>
+      </section>
+
+      {/* ═══ 8. TRUST METRICS ═══ */}
+      <section style={{ padding: '80px 5vw', borderTop: '1px solid #E8E5E0', borderBottom: '1px solid #E8E5E0' }}>
+        <div className="vm-grid-metrics" style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px', textAlign: 'center' }}>
           {[
-            { number: '1,000+', label: 'Diamonds Sourced' },
-            { number: '50+', label: 'Years of Heritage' },
-            { number: '2,400', label: 'Bespoke Designs' },
-            { number: '98%', label: 'Client Satisfaction' },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <p style={{ fontFamily: font, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 200, color: '#050505', marginBottom: '8px' }}>
-                {stat.number}
-              </p>
-              <p style={{ ...eyebrow, fontSize: '10px' }}>{stat.label}</p>
-            </div>
+            { icon: Diamond, value: '1,000+', label: 'Certified Diamonds' },
+            { icon: Shield, value: 'GIA', label: 'Every Stone Certified' },
+            { icon: Gem, value: '50+', label: 'Years of Expertise' },
+            { icon: Clock, value: 'Lifetime', label: 'Warranty Included' },
+          ].map((m, i) => (
+            <motion.div key={i} {...stagger(i)}>
+              <m.icon size={28} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '12px', display: 'inline-block' }} />
+              <p style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#1A1A1A', marginBottom: '4px' }}>{m.value}</p>
+              <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8B8B8B' }}>{m.label}</p>
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 10: SERVICES — 3 columns, icon + text
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 5vw' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p style={eyebrow}>Services</p>
-            <h2 style={{ ...heading, fontSize: '24px', marginTop: '8px' }}>Beyond the Purchase</h2>
-          </div>
-          <div className="grid md:grid-cols-3" style={{ gap: '48px' }}>
-            {[
-              { title: 'Bespoke Design', desc: 'Commission a one-of-a-kind piece. From sketch to setting, we bring your vision to life in 6-8 weeks.', link: '/minimal/bespoke' },
-              { title: 'Lifetime Care', desc: 'Complimentary cleaning, inspection, and re-polishing for the life of your piece. Because permanence is our promise.', link: '/minimal/care' },
-              { title: 'Private Consultation', desc: 'Book a one-on-one appointment with our gemologists. In-person at our atelier or virtual from anywhere.', link: '/minimal/contact' },
-            ].map((service) => (
-              <div key={service.title} style={{ textAlign: 'center' }}>
-                <h3 style={{ fontFamily: font, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#050505', marginBottom: '12px' }}>
-                  {service.title}
-                </h3>
-                <p style={{ ...body, fontSize: '13px', marginBottom: '16px' }}>
-                  {service.desc}
-                </p>
-                <Link href={service.link} style={{ ...linkStyle, fontSize: '10px' }}>
-                  Learn More
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SECTION 11: NEWSLETTER CTA — Clone Mejuri footer CTA
-      ═══════════════════════════════════════════════════════ */}
-      <section style={{
-        padding: '80px 5vw', borderTop: '1px solid rgba(5,5,5,0.06)',
-        textAlign: 'center',
-      }}>
-        <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-          <p style={{ ...eyebrow, marginBottom: '16px' }}>Stay Informed</p>
-          <h2 style={{ ...heading, fontSize: 'clamp(20px, 2.5vw, 28px)', marginBottom: '12px' }}>
-            Exclusive access to new collections
-          </h2>
-          <p style={{ ...body, fontSize: '13px', marginBottom: '32px' }}>
-            Be the first to discover new pieces, private events, and bespoke opportunities.
-          </p>
+      {/* ═══ 9. NEWSLETTER ═══ */}
+      <section style={{ padding: '100px 5vw', textAlign: 'center' }}>
+        <motion.div {...fadeUp} style={{ maxWidth: '500px', margin: '0 auto' }}>
+          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Stay Connected</p>
+          <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Join the Vault</h2>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', marginBottom: '32px' }}>Receive early access to new collections, private events, and expert insights.</p>
           <div style={{ display: 'flex', gap: '0', maxWidth: '400px', margin: '0 auto' }}>
-            <input
-              type="email"
-              placeholder="Email address"
-              style={{
-                flex: 1, fontFamily: font, fontSize: '12px', padding: '14px 16px',
-                border: '1px solid rgba(5,5,5,0.15)', borderRight: 'none',
-                backgroundColor: 'transparent', outline: 'none', color: '#050505',
-                letterSpacing: '0.05em',
-              }}
-            />
-            <button
-              style={{
-                fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
-                letterSpacing: '0.15em', padding: '14px 24px',
-                backgroundColor: '#050505', color: '#FFFFFF', border: 'none',
-                cursor: 'pointer', fontWeight: 400,
-              }}
-            >
-              Subscribe
-            </button>
+            <input type="email" placeholder="Your email address" style={{ flex: 1, fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '14px 16px', border: '1px solid #E8E5E0', borderRight: 'none', backgroundColor: 'transparent', color: '#1A1A1A', outline: 'none' }} />
+            <button className="vm-btn-gold" style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '14px 24px', backgroundColor: '#C4A265', color: '#FFFFFF', border: '1px solid #C4A265', cursor: 'pointer' }}>Subscribe</button>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Hover styles for product cards */}
+      {/* ── Hover CSS ── */}
       <style>{`
-        .minimal-product-card:hover img {
-          transform: scale(1.03);
-          transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .minimal-product-card img {
-          transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
+        .vm-card-img:hover img { transform: scale(1.04) !important; }
+        .vm-editorial-img:hover { transform: scale(1.03) !important; }
+        .vm-btn-gold:hover { background-color: #B3924F !important; }
+        .vm-btn-outline:hover { border-color: #C4A265 !important; color: #C4A265 !important; }
         @media (max-width: 768px) {
-          .grid.md\\:grid-cols-2 { grid-template-columns: 1fr !important; }
+          .vm-grid-2col { grid-template-columns: 1fr !important; }
+          .vm-grid-products { grid-template-columns: repeat(2, 1fr) !important; }
+          .vm-grid-metrics { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </MinimalLayout>
