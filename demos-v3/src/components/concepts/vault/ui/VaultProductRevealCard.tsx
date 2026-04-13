@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion"
 import { Heart, ShoppingCart, Eye } from "lucide-react"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Link from "next/link"
 
 const GOLD = '#D4AF37'
@@ -40,6 +40,7 @@ export function VaultProductRevealCard({
   const [isFavorite, setIsFavorite] = useState(false)
   const shouldReduceMotion = useReducedMotion()
   const shouldAnimate = enableAnimations && !shouldReduceMotion
+  const cardRef = useRef<HTMLDivElement>(null)
 
   const handleFavorite = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -48,11 +49,21 @@ export function VaultProductRevealCard({
     onFavorite?.()
   }
 
+  /* ── Mouse-tracking shine ── */
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    cardRef.current.style.setProperty('--mouse-x', `${x}px`)
+    cardRef.current.style.setProperty('--mouse-y', `${y}px`)
+  }
+
   const containerVariants = {
     rest: { scale: 1, y: 0 },
     hover: shouldAnimate ? {
       scale: 1.02,
-      y: -8,
+      y: -4,
       transition: { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.8 }
     } : {},
   }
@@ -99,9 +110,11 @@ export function VaultProductRevealCard({
   return (
     <Link href={href} style={{ textDecoration: 'none' }}>
       <motion.div
+        ref={cardRef}
         initial="rest"
         whileHover="hover"
         variants={containerVariants}
+        onMouseMove={handleMouseMove}
         className={className}
         style={{
           position: 'relative',
@@ -110,15 +123,28 @@ export function VaultProductRevealCard({
           backgroundColor: SURFACE,
           border: `1px solid rgba(212,175,55,0.12)`,
           cursor: 'pointer',
+          transition: 'box-shadow 0.5s cubic-bezier(0.16,1,0.3,1)',
         }}
       >
+        {/* ── Mouse-tracking shine overlay ── */}
+        <div
+          style={{
+            position: 'absolute', inset: 0, zIndex: 6,
+            pointerEvents: 'none',
+            opacity: 0,
+            transition: 'opacity 0.3s ease',
+            background: `radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212,175,55,0.1), transparent 40%)`,
+          }}
+          className="vault-card-shine"
+        />
+
         {/* Gold glow on hover */}
         <motion.div
           variants={glowVariants}
           style={{
             position: 'absolute', inset: -1, zIndex: 0,
             borderRadius: 12,
-            boxShadow: `0 0 40px rgba(212,175,55,0.15), 0 0 80px rgba(212,175,55,0.05)`,
+            boxShadow: `0 8px 30px rgba(212,175,55,0.1), 0 0 60px rgba(212,175,55,0.05)`,
             pointerEvents: 'none',
           }}
         />
@@ -144,6 +170,7 @@ export function VaultProductRevealCard({
             onClick={handleFavorite}
             variants={favoriteVariants}
             animate={isFavorite ? "favorite" : "rest"}
+            whileTap={{ scale: 0.9 }}
             style={{
               position: 'absolute', top: 14, right: 14,
               width: 36, height: 36, borderRadius: '50%',
@@ -160,10 +187,7 @@ export function VaultProductRevealCard({
 
           {/* New Badge */}
           {isNew && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, x: -10 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
+            <div
               style={{
                 position: 'absolute', top: 14, left: 14,
                 padding: '5px 14px',
@@ -173,7 +197,7 @@ export function VaultProductRevealCard({
               }}
             >
               New
-            </motion.div>
+            </div>
           )}
 
           {/* Category tag at bottom of image */}
@@ -261,7 +285,8 @@ export function VaultProductRevealCard({
 
             {/* Action Buttons */}
             <motion.div variants={contentVariants} style={{ display: 'flex', gap: 10 }}>
-              <button
+              <motion.button
+                whileTap={{ scale: 0.97 }}
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
                 style={{
                   flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -275,8 +300,9 @@ export function VaultProductRevealCard({
               >
                 <ShoppingCart size={14} />
                 Add to Cart
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -288,10 +314,16 @@ export function VaultProductRevealCard({
                 }}
               >
                 <Eye size={16} />
-              </button>
+              </motion.button>
             </motion.div>
           </div>
         </motion.div>
+
+        {/* CSS for shine hover effect */}
+        <style>{`
+          .vault-card-shine { opacity: 0 !important; }
+          *:hover > .vault-card-shine { opacity: 1 !important; }
+        `}</style>
       </motion.div>
     </Link>
   )

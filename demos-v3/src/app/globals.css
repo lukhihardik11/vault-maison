@@ -149,3 +149,94 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   VAULT MICRO-INTERACTIONS — Natural feel across all pages
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Button press feedback — scale down on click */
+.vault-btn-press {
+  transition: transform 0.15s ease, box-shadow 0.3s ease;
+}
+.vault-btn-press:active {
+  transform: scale(0.97) !important;
+}
+
+/* All buttons inside vault pages get press feedback */
+[style*="backgroundColor: rgb(212"] button,
+[style*="background: linear-gradient"] {
+  transition: transform 0.15s ease, box-shadow 0.3s ease;
+}
+
+/* Link underline animation — slides in from left */
+.vault-link-animate {
+  position: relative;
+  text-decoration: none;
+}
+.vault-link-animate::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #D4AF37;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vault-link-animate:hover::after {
+  width: 100%;
+}
+
+/* Form input gold glow on focus */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.3), 0 0 12px rgba(212, 175, 55, 0.08) !important;
+  border-color: rgba(212, 175, 55, 0.5) !important;
+}
+
+/* Scroll reveal — elements fade in from below when visible */
+.vault-scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vault-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Product image subtle zoom on hover */
+.vault-product-img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vault-product-img:hover {
+  transform: scale(1.03);
+}
+
+/* Accordion smooth height */
+.vault-accordion-body {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Nav link gold underline on hover */
+.vault-nav-link {
+  position: relative;
+  text-decoration: none;
+}
+.vault-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: #D4AF37;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vault-nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}

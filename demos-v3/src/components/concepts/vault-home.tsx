@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { type ConceptConfig } from '@/data/concepts'
 import { getBestsellers, getNewArrivals } from '@/data/products'
@@ -67,10 +67,12 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
         .vault-gate-overlay { animation: vaultGateFallback 2.5s ease forwards; }
         .vault-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
         .vault-reveal.visible { opacity: 1; transform: translateY(0); }
-        .vault-card { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .vault-card:hover { transform: translateY(-8px); box-shadow: 0 24px 80px rgba(212,175,55,0.12); }
+        .vault-card { position: relative; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .vault-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 30px rgba(212,175,55,0.1); }
+        .vault-card .vault-card-shine-inner { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; z-index: 5; background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212,175,55,0.1), transparent 40%); }
+        .vault-card:hover .vault-card-shine-inner { opacity: 1; }
         .vault-img-zoom { transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
-        .vault-img-zoom:hover { transform: scale(1.06); }
+        .vault-img-zoom:hover { transform: scale(1.03); }
         .vault-gold-border { border: 1px solid rgba(212,175,55,0.12); transition: border-color 0.4s ease; }
         .vault-gold-border:hover { border-color: rgba(212,175,55,0.35); }
         .vault-section-divider {
@@ -137,7 +139,12 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
                 <div className="vault-card vault-gold-border" style={{
                   position: 'relative', borderRadius: 8, overflow: 'hidden',
                   aspectRatio: i === 0 ? '1/1.2' : '1/1', backgroundColor: SURFACE,
+                }} onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                  e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
                 }}>
+                  <div className="vault-card-shine-inner" />
                   <img src={c.image} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.6)' }} className="vault-img-zoom" />
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 24, background: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent)' }}>
                     <div style={{ fontSize: 10, letterSpacing: '0.2em', color: GOLD, textTransform: 'uppercase', marginBottom: 6 }}>{c.count}</div>

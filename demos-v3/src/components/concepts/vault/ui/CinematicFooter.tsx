@@ -297,6 +297,7 @@ export function CinematicFooter() {
             <Link
               key={link.href}
               href={link.href}
+              className="vault-nav-link"
               style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.75rem',

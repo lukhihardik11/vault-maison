@@ -22,6 +22,8 @@ const metals = ['White Gold', 'Yellow Gold', 'Rose Gold', 'Platinum']
 export function VaultProductDetail({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [isZoomed, setIsZoomed] = useState(false)
+  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
   const [selectedSize, setSelectedSize] = useState('7')
   const [selectedMetal, setSelectedMetal] = useState(product.goldColor ? `${product.goldColor} Gold` : metals[0])
   const [quantity, setQuantity] = useState(1)
@@ -60,21 +62,39 @@ export function VaultProductDetail({ product }: { product: Product }) {
 
       {/* Main Product Section */}
       <div style={{ maxWidth: 1440, margin: '0 auto', padding: '40px 24px 100px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }}>
-        {/* Gallery */}
-        <div>
+        {/* Gallery — with working thumbnails + zoom on hover */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {/* Main image with zoom */}
           <div
+            onMouseEnter={() => setIsZoomed(true)}
+            onMouseLeave={() => setIsZoomed(false)}
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              setZoomPos({ x: ((e.clientX - rect.left) / rect.width) * 100, y: ((e.clientY - rect.top) / rect.height) * 100 });
+            }}
             onClick={() => setLightboxOpen(true)}
             style={{
-              aspectRatio: '1/1', borderRadius: 10, overflow: 'hidden', cursor: 'zoom-in',
+              aspectRatio: '1/1', borderRadius: 10, overflow: 'hidden',
+              cursor: isZoomed ? 'zoom-in' : 'zoom-in',
               border: '1px solid rgba(212,175,55,0.1)', backgroundColor: SURFACE, position: 'relative',
             }}
           >
-            <img src={product.images[selectedImage]} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }} />
+            <img
+              src={product.images[selectedImage]}
+              alt={product.name}
+              style={{
+                width: '100%', height: '100%', objectFit: 'cover',
+                transition: 'transform 0.3s ease',
+                transform: isZoomed ? 'scale(2)' : 'scale(1)',
+                transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
+              }}
+            />
             {product.isNew && (
               <span style={{
                 position: 'absolute', top: 16, left: 16, padding: '6px 16px',
                 background: `linear-gradient(135deg, ${GOLD}, #B8962E)`,
                 color: BG, fontSize: 9, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', borderRadius: 3,
+                pointerEvents: 'none',
               }}>New</span>
             )}
             {product.isLimited && (
@@ -83,21 +103,22 @@ export function VaultProductDetail({ product }: { product: Product }) {
                 backgroundColor: 'rgba(212,175,55,0.1)', color: GOLD,
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase',
                 borderRadius: 3, border: '1px solid rgba(212,175,55,0.25)',
-                backdropFilter: 'blur(8px)',
+                backdropFilter: 'blur(8px)', pointerEvents: 'none',
               }}>Limited</span>
             )}
           </div>
-          <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+          {/* Thumbnail row */}
+          <div style={{ display: 'flex', gap: 10 }}>
             {product.images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedImage(i)}
                 style={{
                   width: 80, height: 80, borderRadius: 8, overflow: 'hidden', cursor: 'pointer',
-                  border: selectedImage === i ? `2px solid ${GOLD}` : '1px solid rgba(212,175,55,0.08)',
+                  border: selectedImage === i ? `2px solid ${GOLD}` : '2px solid rgba(212,175,55,0.08)',
                   backgroundColor: SURFACE, padding: 0,
                   transition: 'all 0.3s ease',
-                  opacity: selectedImage === i ? 1 : 0.6,
+                  opacity: selectedImage === i ? 1 : 0.5,
                 }}
               >
                 <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
