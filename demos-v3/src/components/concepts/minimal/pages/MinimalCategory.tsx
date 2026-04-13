@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'motion/react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductGrid } from '../MinimalProductGrid'
+import { MatrixText } from '../ui'
 import { categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
 
@@ -56,7 +57,7 @@ export function MinimalCategory({ category }: MinimalCategoryProps) {
             color: '#050505',
             marginBottom: '12px',
           }}>
-            {label}
+            <MatrixText text={label} className="text-[32px] font-extralight tracking-tight" />
           </h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <p style={{

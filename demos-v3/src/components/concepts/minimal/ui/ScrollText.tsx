@@ -89,7 +89,7 @@ export default function ScrollText({
     <div className={cn('mx-auto w-full max-w-3xl', className)}>
       <div
         className={cn(
-          'h-[300px] overflow-y-auto',
+          'h-[400px] overflow-y-auto',
           'relative flex flex-col items-center',
           '[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
         )}
@@ -105,7 +105,7 @@ export default function ScrollText({
           {texts.map((text, index) => (
             <motion.div
               className={cn(
-                'whitespace-nowrap px-4 py-8 text-4xl md:text-5xl',
+                'whitespace-nowrap px-4 py-6 text-3xl md:text-4xl',
                 'transition-colors duration-300',
                 activeIndex === index
                   ? 'text-[#050505]'

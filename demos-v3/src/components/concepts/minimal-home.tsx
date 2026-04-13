@@ -1,16 +1,28 @@
 'use client'
-
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'motion/react'
-import { type ConceptConfig } from '@/data/concepts'
+import { type ConceptConfig, categoryLabels } from '@/data/concepts'
 import { MinimalLayout } from './minimal/MinimalLayout'
-import { TypewriterTitle, SlideTextButton, CardStack } from './minimal/ui'
 import { MinimalProductCard } from './minimal/MinimalProductCard'
-import { products, formatPrice } from '@/data/products'
+import {
+  HeroFashion,
+  TypewriterTitle,
+  CardStack,
+  CardFlip,
+  ScrollText,
+  GlassmorphismMetrics,
+  SpotlightCards,
+  SlideTextButton,
+  ShimmerText,
+} from './minimal/ui'
+import { products } from '@/data/products'
+import { Diamond, Ruler, Sparkles, Phone } from 'lucide-react'
+import type { SpotlightItem } from './minimal/ui/SpotlightCards'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
+/* ── Data for CardStack featured products ── */
 const heroProducts = [
   {
     id: 'celestial-diamond-ring',
@@ -70,349 +82,368 @@ const heroProducts = [
   },
 ]
 
-const categoryHighlights = [
-  { slug: 'diamond-rings', label: 'Diamond Rings', image: '/images/minimal-engagement-ring.jpg' },
-  { slug: 'diamond-necklaces', label: 'Necklaces', image: '/images/minimal-necklace-heart.jpg' },
-  { slug: 'gold-rings', label: 'Gold Rings', image: '/images/minimal-ring-gold.jpg' },
-  { slug: 'diamond-earrings', label: 'Earrings', image: '/images/minimal-diamond-studs.jpg' },
+/* ── Category images for CardFlip ── */
+const categoryImages: Record<string, string> = {
+  'diamond-rings': '/images/minimal-engagement-ring.jpg',
+  'diamond-necklaces': '/images/minimal-necklace-heart.jpg',
+  'diamond-earrings': '/images/minimal-diamond-studs.jpg',
+  'diamond-bracelets': '/images/minimal-tennis-bracelet.jpg',
+  'gold-rings': '/images/minimal-ring-gold.jpg',
+  'gold-necklaces': '/images/minimal-gold-chain.jpg',
+  'gold-earrings': '/images/minimal-chandelier-earrings.jpg',
+  'gold-bracelets': '/images/minimal-gold-cuff.jpg',
+  'loose-diamonds': '/images/minimal-loose-diamond.jpg',
+  'wedding-bridal': '/images/minimal-wedding-rings.jpg',
+}
+
+const categoryDescriptions: Record<string, string> = {
+  'diamond-rings': 'Solitaires, halos, and bands crafted with precision-cut stones.',
+  'diamond-necklaces': 'Pendants and chains that frame the collarbone with light.',
+  'diamond-earrings': 'Studs, drops, and hoops that catch every angle.',
+  'diamond-bracelets': 'Tennis bracelets and bangles of unbroken brilliance.',
+  'gold-rings': 'Bands and statement rings in 18K and 24K gold.',
+  'gold-necklaces': 'Chains, pendants, and layering pieces in fine gold.',
+  'gold-earrings': 'Hoops, studs, and chandeliers in warm gold tones.',
+  'gold-bracelets': 'Cuffs, bangles, and link bracelets in solid gold.',
+  'loose-diamonds': 'GIA-certified stones, hand-selected for your bespoke piece.',
+  'wedding-bridal': 'Engagement rings, wedding bands, and bridal sets.',
+}
+
+/* ── Services for SpotlightCards ── */
+const services: SpotlightItem[] = [
+  {
+    icon: Diamond,
+    title: 'Bespoke Design',
+    description: 'Commission a one-of-a-kind piece. From sketch to setting, we bring your vision to life.',
+  },
+  {
+    icon: Ruler,
+    title: 'Expert Sizing',
+    description: 'Complimentary ring sizing and bracelet adjustment with every purchase.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Lifetime Care',
+    description: 'Free cleaning, inspection, and re-polishing for the life of your piece.',
+  },
+  {
+    icon: Phone,
+    title: 'Private Consultation',
+    description: 'Book a one-on-one appointment with our gemologists. In-person or virtual.',
+  },
 ]
 
-// Get 4 featured products from the data
+/* ── Brand values for ScrollText ── */
+const brandValues = [
+  'We believe in the quiet power of precision.',
+  'Every stone is hand-selected. Every setting is intentional.',
+  'No excess. No decoration. Only the essential geometry of precious materials.',
+  'Restraint is the ultimate luxury.',
+]
+
+const featuredCategories = ['diamond-rings', 'diamond-necklaces', 'diamond-earrings', 'gold-rings', 'wedding-bridal']
 const featuredProducts = products.slice(0, 4)
 
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   return (
     <MinimalLayout>
-      {/* ─── SECTION 1: Hero with TypewriterTitle ─── */}
-      <section
-        style={{
-          minHeight: '80vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '0 5vw',
-          position: 'relative',
-        }}
-      >
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          style={{
-            fontFamily: font,
-            fontSize: '11px',
-            fontWeight: 400,
-            letterSpacing: '0.25em',
-            textTransform: 'uppercase',
-            color: '#050505',
-            opacity: 0.4,
-            marginBottom: '24px',
-          }}
-        >
-          Vault Maison
-        </motion.p>
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 1: HeroFashion — Editorial 2-col hero
+          Like Tiffany's full-viewport cinematic hero
+      ═══════════════════════════════════════════════════════ */}
+      <HeroFashion
+        brandName="Vault Maison."
+        season="COLLECTION 2025"
+        description="Precision-cut diamonds and fine gold, presented without distraction. Each piece exists because it must — not because it can."
+        heroImage="/images/minimal-ring-white.jpg"
+        heroImageAlt="Diamond solitaire ring on white background"
+        categories={[
+          { label: 'Diamond Rings', href: '/minimal/category/diamond-rings' },
+          { label: 'Necklaces & Pendants', href: '/minimal/category/diamond-necklaces' },
+          { label: 'Earrings', href: '/minimal/category/diamond-earrings' },
+          { label: 'Gold Collection', href: '/minimal/category/gold-rings' },
+          { label: 'Wedding & Bridal', href: '/minimal/category/wedding-bridal' },
+        ]}
+        ctaHref="/minimal/collections"
+        ctaLabel="View All Collections"
+      />
 
-        <div style={{ fontSize: '48px', fontWeight: 200, letterSpacing: '0.04em' }} className="minimal-hero-typewriter">
-          <TypewriterTitle
-            sequences={[
-              { text: 'Diamonds', deleteAfter: true },
-              { text: 'Gold', deleteAfter: true },
-              { text: 'Eternity', deleteAfter: true },
-            ]}
-            typingSpeed={70}
-            deleteSpeed={40}
-            pauseBeforeDelete={1800}
-            loopDelay={800}
-            className="text-4xl md:text-6xl"
-          />
-        </div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-          style={{
-            fontFamily: font,
-            fontSize: '13px',
-            fontWeight: 300,
-            color: '#050505',
-            opacity: 0.5,
-            marginTop: '32px',
-            maxWidth: '400px',
-            textAlign: 'center',
-            lineHeight: 1.8,
-          }}
-        >
-          Nothing more than what matters. Precision-cut diamonds and fine gold, presented without distraction.
-        </motion.p>
-
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 2: TypewriterTitle — Animated tagline
+      ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 px-5 text-center border-t border-[#050505]/5">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.8 }}
-          style={{ marginTop: '48px', display: 'flex', gap: '16px' }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+          className="max-w-3xl mx-auto"
         >
-          <SlideTextButton
-            text="Collections"
-            hoverText="View All"
-            href="/minimal/collections"
-          />
-          <SlideTextButton
-            text="Bespoke"
-            hoverText="Custom Design"
-            href="/minimal/bespoke"
-            variant="ghost"
-          />
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
-          transition={{ duration: 1, delay: 2.5 }}
-          style={{
-            position: 'absolute',
-            bottom: '40px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-          }}
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              width: '1px',
-              height: '40px',
-              backgroundColor: '#050505',
-            }}
-          />
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-6" style={{ fontFamily: font }}>
+            Crafted for
+          </p>
+          <div className="text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-[#050505]" style={{ fontFamily: font }}>
+            <TypewriterTitle
+              sequences={[
+                { text: 'Diamonds', deleteAfter: true },
+                { text: 'Gold', deleteAfter: true },
+                { text: 'Eternity', deleteAfter: true },
+                { text: 'You', deleteAfter: true },
+              ]}
+              typingSpeed={70}
+              deleteSpeed={40}
+              pauseBeforeDelete={2000}
+              loopDelay={600}
+              className="text-4xl md:text-5xl lg:text-6xl"
+            />
+          </div>
         </motion.div>
       </section>
 
-      {/* ─── SECTION 2: Editorial Split ─── */}
-      <section style={{ padding: '0 5vw 80px' }} className="minimal-editorial-section">
-        <div className="minimal-editorial-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 3: Shop by Category — CardFlip grid
+          Like Tiffany's 3-col category navigation
+      ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 px-5 border-t border-[#050505]/5">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+          className="max-w-7xl mx-auto"
+        >
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-3" style={{ fontFamily: font }}>
+                Shop by Category
+              </p>
+              <h2 className="text-2xl md:text-3xl font-extralight tracking-tight text-[#050505]" style={{ fontFamily: font }}>
+                Collections
+              </h2>
+            </div>
+            <Link
+              href="/minimal/collections"
+              className="text-[11px] uppercase tracking-[0.2em] text-[#050505]/40 hover:text-[#050505] transition-colors"
+              style={{ fontFamily: font }}
+            >
+              View All →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {featuredCategories.map((cat, i) => (
+              <motion.div
+                key={cat}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+              >
+                <CardFlip
+                  title={categoryLabels[cat as keyof typeof categoryLabels] || cat}
+                  subtitle={`${products.filter(p => p.category === cat).length} pieces`}
+                  description={categoryDescriptions[cat] || ''}
+                  image={categoryImages[cat] || '/images/minimal-ring-white.jpg'}
+                  href={`/minimal/category/${cat}`}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 4: Editorial Split — Featured Product
+          Like Cartier's cinematic product feature
+      ═══════════════════════════════════════════════════════ */}
+      <section className="py-0 border-t border-[#050505]/5">
+        <div className="grid md:grid-cols-2 min-h-[70vh]">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8 }}
+            className="relative aspect-square md:aspect-auto overflow-hidden bg-[#F5F5F5]"
           >
-            <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
-              <Image
-                src="/images/minimal-ring-white.jpg"
-                alt="Celestial Solitaire Ring"
-                fill
-                style={{ objectFit: 'cover' }}
-                unoptimized
-              />
-            </div>
+            <Image
+              src="/images/minimal-ring-white.jpg"
+              alt="Celestial Solitaire Ring"
+              fill
+              className="object-cover"
+              unoptimized
+            />
           </motion.div>
-
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            style={{ maxWidth: '440px' }}
+            className="flex items-center px-8 md:px-16 py-16"
           >
-            <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', opacity: 0.4, marginBottom: '16px' }}>
-              Featured
-            </p>
-            <h2 style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, letterSpacing: '0.02em', color: '#050505', lineHeight: 1.3, marginBottom: '20px' }}>
-              Celestial Solitaire
-            </h2>
-            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505', opacity: 0.6, lineHeight: 1.8, marginBottom: '32px' }}>
-              A breathtaking solitaire featuring a 1.5-carat round brilliant diamond set in a cathedral 18K white gold mounting. The six-prong setting maximizes light return while the thin band draws all attention to the extraordinary center stone.
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '40px' }}>
-              {[
-                { label: 'Carat', value: '1.50ct' },
-                { label: 'Cut', value: 'Ideal' },
-                { label: 'Color', value: 'D' },
-                { label: 'Clarity', value: 'VVS1' },
-              ].map((spec) => (
-                <div key={spec.label}>
-                  <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', opacity: 0.35, marginBottom: '4px' }}>
-                    {spec.label}
-                  </p>
-                  <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#050505' }}>
-                    {spec.value}
-                  </p>
-                </div>
-              ))}
+            <div className="max-w-md">
+              <p className="text-[10px] uppercase tracking-[0.25em] text-[#050505]/40 mb-4" style={{ fontFamily: font }}>
+                Featured
+              </p>
+              <h2 className="text-3xl md:text-4xl font-extralight tracking-tight text-[#050505] mb-5 leading-tight" style={{ fontFamily: font }}>
+                Celestial Solitaire
+              </h2>
+              <p className="text-sm text-[#050505]/60 leading-relaxed mb-8" style={{ fontFamily: font, fontWeight: 300 }}>
+                A breathtaking solitaire featuring a 1.5-carat round brilliant diamond set in a cathedral 18K white gold mounting. The six-prong setting maximizes light return while the thin band draws all attention to the extraordinary center stone.
+              </p>
+              <div className="grid grid-cols-2 gap-4 mb-10">
+                {[
+                  { label: 'Carat', value: '1.50ct' },
+                  { label: 'Cut', value: 'Ideal' },
+                  { label: 'Color', value: 'D' },
+                  { label: 'Clarity', value: 'VVS1' },
+                ].map((spec) => (
+                  <div key={spec.label}>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#050505]/35 mb-1" style={{ fontFamily: font }}>{spec.label}</p>
+                    <p className="text-sm text-[#050505]" style={{ fontFamily: font, fontWeight: 300 }}>{spec.value}</p>
+                  </div>
+                ))}
+              </div>
+              <SlideTextButton
+                text="View Details"
+                hoverText="$12,500"
+                href="/minimal/product/celestial-diamond-ring"
+              />
             </div>
-            <SlideTextButton
-              text="View Details"
-              hoverText="$12,500"
-              href="/minimal/product/celestial-diamond-ring"
-            />
           </motion.div>
         </div>
       </section>
 
-      {/* ─── SECTION 3: CardStack — Featured Products ─── */}
-      <section style={{ padding: '80px 5vw', borderTop: '1px solid #E5E5E5' }}>
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 5: Featured Products — CardStack
+          Stacked cards that fan out on click
+      ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 px-5 border-t border-[#050505]/5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', marginBottom: '40px' }}
+          className="max-w-7xl mx-auto"
         >
-          <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', opacity: 0.4, marginBottom: '12px' }}>
-            Curated Selection
-          </p>
-          <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, letterSpacing: '0.02em', color: '#050505' }}>
-            Four Essential Pieces
-          </h2>
-        </motion.div>
-
-        <CardStack products={heroProducts} />
-      </section>
-
-      {/* ─── SECTION 4: Category Strip ─── */}
-      <section style={{ padding: '80px 5vw', borderTop: '1px solid #E5E5E5' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          style={{ marginBottom: '40px' }}
-        >
-          <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', opacity: 0.4, marginBottom: '12px' }}>
-            Categories
-          </p>
-          <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, letterSpacing: '0.02em', color: '#050505' }}>
-            Browse by Type
-          </h2>
-        </motion.div>
-
-        <div className="minimal-category-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
-          {categoryHighlights.map((cat, i) => (
-            <motion.div
-              key={cat.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
-              <Link
-                href={`/minimal/category/${cat.slug}`}
-                style={{ textDecoration: 'none', color: '#050505', display: 'block' }}
-                className="minimal-cat-card"
-              >
-                <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
-                  <Image
-                    src={cat.image}
-                    alt={cat.label}
-                    fill
-                    style={{ objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}
-                    unoptimized
-                    className="minimal-cat-img"
-                  />
-                </div>
-                <div style={{ padding: '16px 0' }}>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, letterSpacing: '0.02em', color: '#050505' }}>
-                    {cat.label}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ─── SECTION 5: New Arrivals Grid ─── */}
-      <section style={{ padding: '80px 5vw', borderTop: '1px solid #E5E5E5' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}
-        >
-          <div>
-            <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', opacity: 0.4, marginBottom: '12px' }}>
-              New Arrivals
+          <div className="text-center mb-8">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-3" style={{ fontFamily: font }}>
+              Featured
             </p>
-            <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, letterSpacing: '0.02em', color: '#050505' }}>
-              Recently Added
+            <h2 className="text-2xl md:text-3xl font-extralight tracking-tight text-[#050505]" style={{ fontFamily: font }}>
+              <ShimmerText text="The Celestial Collection" className="text-2xl md:text-3xl font-extralight" />
             </h2>
           </div>
-          <Link
-            href="/minimal/collections"
-            style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#050505', opacity: 0.4, textDecoration: 'none' }}
-          >
-            View All →
-          </Link>
+          <CardStack products={heroProducts} />
         </motion.div>
+      </section>
 
-        <div className="minimal-arrivals-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
-          {featuredProducts.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 6: Brand Manifesto — ScrollText
+          Scroll-reveal philosophy text like Mejuri
+      ═══════════════════════════════════════════════════════ */}
+      <section className="border-t border-[#050505]/5">
+        <ScrollText texts={brandValues} />
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 7: Trust Metrics — GlassmorphismMetrics
+          Animated counters like Brilliant Earth
+      ═══════════════════════════════════════════════════════ */}
+      <section className="border-t border-[#050505]/5">
+        <GlassmorphismMetrics
+          eyebrow="Our Promise"
+          heading="Numbers that speak for themselves"
+          subheading="Every diamond is hand-selected. Every setting is precision-crafted. Every client is a relationship, not a transaction."
+          ctaText="Book a Consultation"
+          ctaHref="/minimal/bespoke"
+          ctaDescription="Private appointments available for bespoke commissions and collection viewings."
+        />
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 8: New Arrivals — Product Grid
+          Like Tiffany's product carousel
+      ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 px-5 border-t border-[#050505]/5">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+          className="max-w-7xl mx-auto"
+        >
+          <div className="flex justify-between items-end mb-10">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-3" style={{ fontFamily: font }}>
+                New Arrivals
+              </p>
+              <h2 className="text-2xl font-extralight tracking-tight text-[#050505]" style={{ fontFamily: font }}>
+                Recently Added
+              </h2>
+            </div>
+            <Link
+              href="/minimal/collections"
+              className="text-[11px] uppercase tracking-[0.2em] text-[#050505]/40 hover:text-[#050505] transition-colors"
+              style={{ fontFamily: font }}
             >
-              <MinimalProductCard product={product} />
-            </motion.div>
-          ))}
+              View All →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {featuredProducts.map((product, i) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+              >
+                <MinimalProductCard product={product} />
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 9: Services — SpotlightCards
+          3D tilt cards for Bespoke, Sizing, Care, Consultation
+      ═══════════════════════════════════════════════════════ */}
+      <section className="py-20 px-5 border-t border-[#050505]/5">
+        <div className="max-w-7xl mx-auto">
+          <SpotlightCards
+            eyebrow="Services"
+            heading="Beyond the Purchase"
+            items={services}
+          />
         </div>
       </section>
 
-      {/* ─── SECTION 6: Philosophy Statement ─── */}
-      <section style={{ padding: '100px 5vw', borderTop: '1px solid #E5E5E5', textAlign: 'center' }}>
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 10: Newsletter / Final CTA
+      ═══════════════════════════════════════════════════════ */}
+      <section className="py-24 px-5 border-t border-[#050505]/5 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8 }}
-          style={{ maxWidth: '600px', margin: '0 auto' }}
+          className="max-w-lg mx-auto"
         >
-          <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', opacity: 0.4, marginBottom: '24px' }}>
-            Philosophy
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#050505]/40 mb-4" style={{ fontFamily: font }}>
+            Stay Informed
           </p>
-          <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, letterSpacing: '0.02em', color: '#050505', lineHeight: 1.4, marginBottom: '24px' }}>
-            Restraint is the ultimate luxury
+          <h2 className="text-2xl md:text-3xl font-extralight tracking-tight text-[#050505] mb-4" style={{ fontFamily: font }}>
+            Exclusive access to new collections
           </h2>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505', opacity: 0.5, lineHeight: 1.8, marginBottom: '48px' }}>
-            We believe in the power of reduction. Every piece in our collection exists because it must — not because it can. No excess. No decoration. Only the essential geometry of precious materials, presented with absolute clarity.
+          <p className="text-sm text-[#050505]/50 mb-8 leading-relaxed" style={{ fontFamily: font, fontWeight: 300 }}>
+            Be the first to discover new pieces, private events, and bespoke opportunities.
           </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <SlideTextButton text="Our Story" hoverText="Learn More" href="/minimal/about" variant="ghost" />
-            <SlideTextButton text="Contact" hoverText="Get in Touch" href="/minimal/contact" variant="ghost" />
+            <SlideTextButton text="Contact Us" hoverText="Get in Touch" href="/minimal/contact" />
           </div>
         </motion.div>
       </section>
-
-      <style>{`
-        .minimal-hero-typewriter {
-          font-weight: 200;
-          letter-spacing: 0.04em;
-        }
-        .minimal-cat-card:hover .minimal-cat-img {
-          transform: scale(1.03);
-        }
-        @media (max-width: 768px) {
-          .minimal-editorial-grid {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
-          }
-          .minimal-category-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
-          .minimal-arrivals-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
-          .minimal-hero-typewriter {
-            font-size: 32px !important;
-          }
-        }
-      `}</style>
     </MinimalLayout>
   )
 }

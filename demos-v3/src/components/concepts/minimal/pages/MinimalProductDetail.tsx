@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'motion/react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductCard } from '../MinimalProductCard'
-import { SmoothTab, SlideTextButton } from '../ui'
+import { SmoothTab, SlideTextButton, AttractButton, SocialButton, ShimmerText } from '../ui'
 import type { SmoothTabItem } from '../ui/SmoothTab'
 import { type Product, getRelatedProducts } from '@/data/products'
 import { useCartStore } from '@/store/cart'
@@ -202,12 +202,10 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
                 fontWeight: 400,
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#050505',
-                opacity: 0.4,
                 display: 'block',
                 marginBottom: '8px',
               }}>
-                New
+                <ShimmerText text="New" className="text-[10px] tracking-[0.25em] uppercase" />
               </span>
             )}
             <h1 style={{
@@ -265,49 +263,37 @@ export function MinimalProductDetail({ product }: MinimalProductDetailProps) {
               <SmoothTab items={tabItems} />
             </div>
 
-            {/* Actions */}
-            <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
-              <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => addItem(product)}
-                style={{
-                  padding: '14px 40px',
-                  border: '1px solid #050505',
-                  backgroundColor: '#050505',
-                  color: '#FFFFFF',
-                  fontSize: '11px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.2em',
-                  fontWeight: 400,
-                  cursor: 'pointer',
-                  fontFamily: font,
-                  transition: 'background-color 300ms ease',
-                }}
-              >
-                Add to Cart
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => toggleItem(product)}
-                style={{
-                  padding: '14px 24px',
-                  border: '1px solid #E5E5E5',
-                  backgroundColor: 'transparent',
-                  color: '#050505',
-                  fontSize: '11px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.2em',
-                  fontWeight: 400,
-                  cursor: 'pointer',
-                  fontFamily: font,
-                  opacity: inWishlist ? 1 : 0.5,
-                  transition: 'all 300ms ease',
-                }}
-              >
-                {inWishlist ? 'Saved' : 'Save'}
-              </motion.button>
+            {/* Actions — AttractButton + Wishlist + SocialButton */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '24px' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <AttractButton
+                  text="Add to Cart"
+                  hoverText="Adding..."
+                  onClick={() => addItem(product)}
+                />
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => toggleItem(product)}
+                  style={{
+                    padding: '14px 24px',
+                    border: '1px solid #E5E5E5',
+                    backgroundColor: 'transparent',
+                    color: '#050505',
+                    fontSize: '11px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.2em',
+                    fontWeight: 400,
+                    cursor: 'pointer',
+                    fontFamily: font,
+                    opacity: inWishlist ? 1 : 0.5,
+                    transition: 'all 300ms ease',
+                  }}
+                >
+                  {inWishlist ? '♥ Saved' : '♡ Save'}
+                </motion.button>
+              </div>
+              <SocialButton onShare={(platform) => console.log(`Share ${product.name} on ${platform}`)} />
             </div>
           </motion.div>
         </div>
