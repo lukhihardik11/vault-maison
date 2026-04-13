@@ -53,7 +53,7 @@ const Card = ({ product, index, totalCards, isExpanded }: CardProps) => {
       }}
       className={cn(
         'absolute inset-0 w-full p-5',
-        'bg-white border border-[#E5E5E5]',
+        'bg-white border border-[#E8E5E0]',
         'transition-shadow duration-500',
         isExpanded ? 'shadow-[0_8px_30px_rgba(0,0,0,0.08)]' : 'shadow-[0_4px_12px_rgba(0,0,0,0.04)]'
       )}

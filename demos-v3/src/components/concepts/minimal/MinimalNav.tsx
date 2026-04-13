@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Search, Heart, ShoppingBag, Menu, X } from 'lucide-react'
@@ -12,12 +12,17 @@ const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', s
 export function MinimalNav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const pathname = usePathname()
   const cartCount = useCartStore((s) => s.items.length)
   const wishlistCount = useWishlistStore((s) => s.items.length)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      setScrollProgress(docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0)
+    }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -33,10 +38,12 @@ export function MinimalNav() {
 
   return (
     <>
+      {/* Scroll Progress Bar */}
+      <div style={{ position: 'fixed', top: 0, left: 0, width: `${scrollProgress}%`, height: '1px', backgroundColor: '#C4A265', zIndex: 51, transition: 'width 100ms linear' }} />
       <nav
         style={{
           position: 'fixed',
-          top: 2,
+          top: 1,
           left: 0,
           right: 0,
           height: '60px',
@@ -93,7 +100,7 @@ export function MinimalNav() {
                   color: isActive(link.href) ? '#C4A265' : '#1A1A1A',
                   textDecoration: 'none',
                   opacity: isActive(link.href) ? 1 : 0.6,
-                  borderBottom: isActive(link.href) ? '1px solid #C4A265' : '1px solid transparent',
+                  borderBottom: isActive(link.href) ? '2px solid #C4A265' : '2px solid transparent',
                   paddingBottom: '2px',
                   transition: 'all 300ms ease',
                 }}
@@ -123,13 +130,13 @@ export function MinimalNav() {
             <Link href="/minimal/wishlist" className="vm-nav-desktop" style={{ color: '#1A1A1A', opacity: 0.6, position: 'relative', transition: 'opacity 300ms' }} onMouseEnter={(e) => { e.currentTarget.style.opacity = '1' }} onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.6' }}>
               <Heart size={18} strokeWidth={1.5} />
               {wishlistCount > 0 && (
-                <span style={{ position: 'absolute', top: -6, right: -8, backgroundColor: '#C4A265', color: '#fff', fontSize: '9px', fontWeight: 600, width: '16px', height: '16px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{wishlistCount}</span>
+                <span style={{ position: 'absolute', top: -4, right: -4, backgroundColor: '#C4A265', width: '8px', height: '8px', borderRadius: '50%', display: 'block' }} />
               )}
             </Link>
             <Link href="/minimal/cart" style={{ color: '#1A1A1A', opacity: 0.6, position: 'relative', transition: 'opacity 300ms' }} onMouseEnter={(e) => { e.currentTarget.style.opacity = '1' }} onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.6' }}>
               <ShoppingBag size={18} strokeWidth={1.5} />
               {cartCount > 0 && (
-                <span style={{ position: 'absolute', top: -6, right: -8, backgroundColor: '#C4A265', color: '#fff', fontSize: '9px', fontWeight: 600, width: '16px', height: '16px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{cartCount}</span>
+                <span style={{ position: 'absolute', top: -4, right: -4, backgroundColor: '#C4A265', width: '8px', height: '8px', borderRadius: '50%', display: 'block' }} />
               )}
             </Link>
             <button

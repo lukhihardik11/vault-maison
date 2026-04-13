@@ -33,7 +33,7 @@ export function MinimalFooter() {
     fontFamily: font,
     fontSize: '12px',
     fontWeight: 300 as const,
-    color: '#8B8B8B',
+    color: '#9B9590',
     textDecoration: 'none',
     transition: 'color 300ms ease',
     display: 'block',
@@ -60,7 +60,7 @@ export function MinimalFooter() {
             <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1A1A1A', marginBottom: '12px' }}>
               VAULT MAISON
             </p>
-            <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#8B8B8B', lineHeight: 1.7 }}>
+            <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590', lineHeight: 1.7 }}>
               Precision-cut diamonds and fine gold jewelry. Every piece is GIA certified and crafted to last generations.
             </p>
           </div>
@@ -70,7 +70,7 @@ export function MinimalFooter() {
             {shopLinks.map((link) => (
               <Link key={link.href} href={link.href} style={linkStyle}
                 onMouseEnter={(e) => { e.currentTarget.style.color = '#C4A265' }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#8B8B8B' }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = '#9B9590' }}
               >{link.label}</Link>
             ))}
           </div>
@@ -80,7 +80,7 @@ export function MinimalFooter() {
             {aboutLinks.map((link) => (
               <Link key={link.href} href={link.href} style={linkStyle}
                 onMouseEnter={(e) => { e.currentTarget.style.color = '#C4A265' }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#8B8B8B' }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = '#9B9590' }}
               >{link.label}</Link>
             ))}
           </div>
@@ -90,7 +90,7 @@ export function MinimalFooter() {
             {helpLinks.map((link) => (
               <Link key={link.href} href={link.href} style={linkStyle}
                 onMouseEnter={(e) => { e.currentTarget.style.color = '#C4A265' }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#8B8B8B' }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = '#9B9590' }}
               >{link.label}</Link>
             ))}
           </div>
@@ -98,10 +98,10 @@ export function MinimalFooter() {
 
         {/* Bottom bar */}
         <div style={{ borderTop: '1px solid #E8E5E0', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-          <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B' }}>
+          <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>
             &copy; {new Date().getFullYear()} Vault Maison. All rights reserved.
           </span>
-          <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B' }}>
+          <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>
             GIA Certified &middot; Ethically Sourced &middot; Lifetime Warranty
           </span>
         </div>

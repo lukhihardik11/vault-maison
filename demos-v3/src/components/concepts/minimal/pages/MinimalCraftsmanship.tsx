@@ -39,7 +39,7 @@ export function MinimalCraftsmanship() {
             <div key={i} style={{ padding: '32px', backgroundColor: '#F5F4F0' }}>
               <t.icon size={24} strokeWidth={1.5} style={{ color: '#C4A265', marginBottom: '16px' }} />
               <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A', marginBottom: '10px' }}>{t.title}</h3>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#8B8B8B' }}>{t.desc}</p>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590' }}>{t.desc}</p>
             </div>
           ))}
         </div>

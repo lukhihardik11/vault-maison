@@ -55,7 +55,7 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
           )}
         </div>
         <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{product.name}</p>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B', marginBottom: '6px' }}>{product.subtitle}</p>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{product.subtitle}</p>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{product.priceDisplay}</p>
       </Link>
     </motion.div>
@@ -141,13 +141,13 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <motion.div {...fadeUp} transition={{ duration: 0.8, delay: 0.2 }}>
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Featured Piece</p>
             <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>{heroProduct.name}</h2>
-            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', marginBottom: '24px' }}>{heroProduct.subtitle}</p>
+            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '24px' }}>{heroProduct.subtitle}</p>
             <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#1A1A1A', lineHeight: 1.8, marginBottom: '32px' }}>{heroProduct.description}</p>
             {heroProduct.diamondSpecs && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
                 {Object.entries(heroProduct.diamondSpecs).filter(([k]) => ['carat','cut','color','clarity'].includes(k)).map(([key, val]) => (
                   <div key={key}>
-                    <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B8B8B', marginBottom: '4px' }}>{key}</p>
+                    <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', marginBottom: '4px' }}>{key}</p>
                     <p style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#1A1A1A' }}>{val}</p>
                   </div>
                 ))}
@@ -164,7 +164,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ═══ 4. BESTSELLERS ═══ */}
       <section style={{ padding: '100px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
         <SectionHeading label="Most Loved" title="Bestsellers" right={
-          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B8B8B', textDecoration: 'none' }}>View All →</Link>
+          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', textDecoration: 'none' }}>View All →</Link>
         } />
         <div className="vm-grid-products" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
           {bestsellers.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
@@ -179,7 +179,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             &ldquo;We believe in the quiet power of precision. Every facet, every angle, every proportion is calculated to maximize brilliance while minimizing everything else.&rdquo;
           </p>
           <div style={{ width: '40px', height: '1px', backgroundColor: '#C4A265', margin: '0 auto 24px' }} />
-          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#8B8B8B', letterSpacing: '0.1em' }}>— Vault Maison, Est. 1974</p>
+          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590', letterSpacing: '0.1em' }}>— Vault Maison, Est. 1974</p>
         </motion.div>
       </section>
 
@@ -213,7 +213,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ═══ 7. NEW ARRIVALS ═══ */}
       <section style={{ padding: '0 5vw 100px', maxWidth: '1400px', margin: '0 auto' }}>
         <SectionHeading label="Just In" title="New Arrivals" right={
-          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B8B8B', textDecoration: 'none' }}>View All →</Link>
+          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', textDecoration: 'none' }}>View All →</Link>
         } />
         <div className="vm-grid-products" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
           {(newArrivals.length > 0 ? newArrivals : products.slice(4, 8)).map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
@@ -232,7 +232,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <motion.div key={i} {...stagger(i)}>
               <m.icon size={28} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '12px', display: 'inline-block' }} />
               <p style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#1A1A1A', marginBottom: '4px' }}>{m.value}</p>
-              <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8B8B8B' }}>{m.label}</p>
+              <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590' }}>{m.label}</p>
             </motion.div>
           ))}
         </div>
@@ -243,7 +243,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         <motion.div {...fadeUp} style={{ maxWidth: '500px', margin: '0 auto' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Stay Connected</p>
           <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Join the Vault</h2>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', marginBottom: '32px' }}>Receive early access to new collections, private events, and expert insights.</p>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '32px' }}>Receive early access to new collections, private events, and expert insights.</p>
           <div style={{ display: 'flex', gap: '0', maxWidth: '400px', margin: '0 auto' }}>
             <input type="email" placeholder="Your email address" style={{ flex: 1, fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '14px 16px', border: '1px solid #E8E5E0', borderRight: 'none', backgroundColor: 'transparent', color: '#1A1A1A', outline: 'none' }} />
             <button className="vm-btn-gold" style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '14px 24px', backgroundColor: '#C4A265', color: '#FFFFFF', border: '1px solid #C4A265', cursor: 'pointer' }}>Subscribe</button>
@@ -254,6 +254,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ── Hover CSS ── */}
       <style>{`
         .vm-card-img:hover img { transform: scale(1.04) !important; }
+        .vm-card-img:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
         .vm-editorial-img:hover { transform: scale(1.03) !important; }
         .vm-btn-gold:hover { background-color: #B3924F !important; }
         .vm-btn-outline:hover { border-color: #C4A265 !important; color: #C4A265 !important; }

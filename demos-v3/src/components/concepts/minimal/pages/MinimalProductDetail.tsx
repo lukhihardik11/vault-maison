@@ -23,7 +23,7 @@ function Accordion({ title, children, defaultOpen = false }: { title: string; ch
     <div style={{ borderBottom: '1px solid #E8E5E0' }}>
       <button onClick={() => setOpen(!open)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', background: 'none', border: 'none', cursor: 'pointer' }}>
         <span style={{ fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A' }}>{title}</span>
-        <ChevronDown size={16} style={{ color: '#8B8B8B', transition: 'transform 300ms ease', transform: open ? 'rotate(180deg)' : 'rotate(0)' }} />
+        <ChevronDown size={16} style={{ color: '#9B9590', transition: 'transform 300ms ease', transform: open ? 'rotate(180deg)' : 'rotate(0)' }} />
       </button>
       <AnimatePresence>
         {open && (
@@ -52,12 +52,12 @@ export function MinimalProductDetail({ product }: Props) {
     <MinimalLayout>
       {/* ── Breadcrumb ── */}
       <nav style={{ padding: '24px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', fontFamily: font, fontSize: '11px', color: '#8B8B8B' }}>
-          <Link href="/minimal" style={{ color: '#8B8B8B', textDecoration: 'none' }}>Home</Link>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', fontFamily: font, fontSize: '11px', color: '#9B9590' }}>
+          <Link href="/minimal" style={{ color: '#9B9590', textDecoration: 'none' }}>Home</Link>
           <span>/</span>
-          <Link href="/minimal/collections" style={{ color: '#8B8B8B', textDecoration: 'none' }}>Collections</Link>
+          <Link href="/minimal/collections" style={{ color: '#9B9590', textDecoration: 'none' }}>Collections</Link>
           <span>/</span>
-          <Link href={`/minimal/category/${product.category}`} style={{ color: '#8B8B8B', textDecoration: 'none' }}>{product.category.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')}</Link>
+          <Link href={`/minimal/category/${product.category}`} style={{ color: '#9B9590', textDecoration: 'none' }}>{product.category.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')}</Link>
           <span>/</span>
           <span style={{ color: '#1A1A1A' }}>{product.name}</span>
         </div>
@@ -117,17 +117,17 @@ export function MinimalProductDetail({ product }: Props) {
             {product.category.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')}
           </p>
           <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '8px' }}>{product.name}</h1>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', marginBottom: '20px' }}>{product.subtitle}</p>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '20px' }}>{product.subtitle}</p>
           <p style={{ fontFamily: font, fontSize: '28px', fontWeight: 300, color: '#1A1A1A', marginBottom: '32px' }}>{product.priceDisplay}</p>
 
           {/* Metal Selector */}
           <div style={{ marginBottom: '24px' }}>
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A', marginBottom: '12px' }}>
-              Metal: <span style={{ fontWeight: 300, color: '#8B8B8B' }}>{selectedMetal}</span>
+              Metal: <span style={{ fontWeight: 300, color: '#9B9590' }}>{selectedMetal}</span>
             </p>
             <div style={{ display: 'flex', gap: '8px' }}>
               {metals.map((m) => (
-                <button key={m} onClick={() => setSelectedMetal(m)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, padding: '10px 16px', border: selectedMetal === m ? '1px solid #1A1A1A' : '1px solid #E8E5E0', backgroundColor: selectedMetal === m ? '#1A1A1A' : 'transparent', color: selectedMetal === m ? '#FFFFFF' : '#1A1A1A', cursor: 'pointer', transition: 'all 200ms ease' }}>
+                <button key={m} onClick={() => setSelectedMetal(m)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, padding: '10px 16px', border: selectedMetal === m ? '1px solid #C4A265' : '1px solid #E8E5E0', backgroundColor: selectedMetal === m ? '#1A1A1A' : 'transparent', color: selectedMetal === m ? '#FFFFFF' : '#1A1A1A', cursor: 'pointer', transition: 'all 200ms ease' }}>
                   {m}
                 </button>
               ))}
@@ -139,13 +139,13 @@ export function MinimalProductDetail({ product }: Props) {
             <div style={{ marginBottom: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                 <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A' }}>
-                  Size: <span style={{ fontWeight: 300, color: '#8B8B8B' }}>{selectedSize}</span>
+                  Size: <span style={{ fontWeight: 300, color: '#9B9590' }}>{selectedSize}</span>
                 </p>
                 <Link href="/minimal/care" style={{ fontFamily: font, fontSize: '11px', color: '#C4A265', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Size Guide</Link>
               </div>
               <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                 {sizes.map((s) => (
-                  <button key={s} onClick={() => setSelectedSize(s)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: selectedSize === s ? '1px solid #1A1A1A' : '1px solid #E8E5E0', backgroundColor: selectedSize === s ? '#1A1A1A' : 'transparent', color: selectedSize === s ? '#FFFFFF' : '#1A1A1A', cursor: 'pointer', transition: 'all 200ms ease' }}>
+                  <button key={s} onClick={() => setSelectedSize(s)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: selectedSize === s ? '1px solid #C4A265' : '1px solid #E8E5E0', backgroundColor: selectedSize === s ? '#1A1A1A' : 'transparent', color: selectedSize === s ? '#FFFFFF' : '#1A1A1A', cursor: 'pointer', transition: 'all 200ms ease' }}>
                     {s}
                   </button>
                 ))}
@@ -157,9 +157,9 @@ export function MinimalProductDetail({ product }: Props) {
           <div style={{ marginBottom: '32px' }}>
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A', marginBottom: '12px' }}>Quantity</p>
             <div style={{ display: 'inline-flex', alignItems: 'center', border: '1px solid #E8E5E0' }}>
-              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', backgroundColor: 'transparent', cursor: 'pointer' }}><Minus size={14} color="#8B8B8B" /></button>
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', backgroundColor: 'transparent', cursor: 'pointer' }}><Minus size={14} color="#9B9590" /></button>
               <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, width: '44px', textAlign: 'center', color: '#1A1A1A' }}>{quantity}</span>
-              <button onClick={() => setQuantity(quantity + 1)} style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', backgroundColor: 'transparent', cursor: 'pointer' }}><Plus size={14} color="#8B8B8B" /></button>
+              <button onClick={() => setQuantity(quantity + 1)} style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', backgroundColor: 'transparent', cursor: 'pointer' }}><Plus size={14} color="#9B9590" /></button>
             </div>
           </div>
 
@@ -176,14 +176,14 @@ export function MinimalProductDetail({ product }: Props) {
               onClick={() => toggleItem(product)}
               style={{ width: '52px', height: '52px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E8E5E0', backgroundColor: 'transparent', cursor: 'pointer', transition: 'all 200ms ease' }}
             >
-              <Heart size={18} fill={inWishlist ? '#C4A265' : 'none'} color={inWishlist ? '#C4A265' : '#8B8B8B'} />
+              <Heart size={18} fill={inWishlist ? '#C4A265' : 'none'} color={inWishlist ? '#C4A265' : '#9B9590'} />
             </button>
           </div>
 
           {/* Share */}
           <button
             onClick={() => navigator.clipboard?.writeText(window.location.href)}
-            style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#8B8B8B', background: 'none', border: 'none', cursor: 'pointer', marginBottom: '32px', padding: 0 }}
+            style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#9B9590', background: 'none', border: 'none', cursor: 'pointer', marginBottom: '32px', padding: 0 }}
           >
             <Share2 size={14} /> Share this piece
           </button>
@@ -197,7 +197,7 @@ export function MinimalProductDetail({ product }: Props) {
             ].map((b, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <b.icon size={16} strokeWidth={1.5} style={{ color: '#C4A265' }} />
-                <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#8B8B8B' }}>{b.text}</span>
+                <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#9B9590' }}>{b.text}</span>
               </div>
             ))}
           </div>
@@ -219,7 +219,7 @@ export function MinimalProductDetail({ product }: Props) {
                   ['Certification', product.diamondSpecs.certification],
                 ].filter(([,v]) => v).map(([label, value]) => (
                   <div key={label} style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px 12px 0', borderBottom: '1px solid #F5F4F0' }}>
-                    <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8B8B8B' }}>{label}</span>
+                    <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590' }}>{label}</span>
                     <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A' }}>{value}</span>
                   </div>
                 ))}
@@ -259,7 +259,7 @@ export function MinimalProductDetail({ product }: Props) {
               <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>You May Also Like</p>
               <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#1A1A1A' }}>Related Pieces</h2>
             </div>
-            <Link href={`/minimal/category/${product.category}`} style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8B8B8B', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Link href={`/minimal/category/${product.category}`} style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
               View All <ArrowRight size={12} />
             </Link>
           </div>
@@ -280,6 +280,7 @@ export function MinimalProductDetail({ product }: Props) {
       <style>{`
         .vm-btn-gold:hover { background-color: #B3924F !important; }
         .vm-card-img:hover img { transform: scale(1.04) !important; }
+        .vm-card-img:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
         @media (max-width: 768px) {
           .vm-pdp { grid-template-columns: 1fr !important; gap: 32px !important; }
           .vm-related-grid { grid-template-columns: repeat(2, 1fr) !important; }

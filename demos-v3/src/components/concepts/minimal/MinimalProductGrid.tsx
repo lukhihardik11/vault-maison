@@ -46,7 +46,7 @@ export function MinimalProductGrid({ products, showSort = false }: MinimalProduc
             gap: '24px',
             marginBottom: '40px',
             paddingBottom: '16px',
-            borderBottom: '1px solid #E5E5E5',
+            borderBottom: '1px solid #E8E5E0',
           }}
         >
           {sortOptions.map((opt) => (

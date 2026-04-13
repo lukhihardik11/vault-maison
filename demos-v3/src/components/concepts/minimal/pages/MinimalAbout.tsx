@@ -72,7 +72,7 @@ export function MinimalAbout() {
               <div key={i} style={{ textAlign: 'center' }}>
                 <v.icon size={28} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '16px' }} />
                 <h3 style={{ fontFamily: font, fontSize: '15px', fontWeight: 500, color: '#1A1A1A', marginBottom: '10px' }}>{v.title}</h3>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#8B8B8B' }}>{v.desc}</p>
+                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590' }}>{v.desc}</p>
               </div>
             ))}
           </div>
@@ -92,7 +92,7 @@ export function MinimalAbout() {
               <div style={{ width: '45%', padding: i % 2 === 0 ? '0 40px 0 0' : '0 0 0 40px', textAlign: i % 2 === 0 ? 'right' : 'left' }} className="vm-timeline-content">
                 <p style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#C4A265', marginBottom: '8px' }}>{m.year}</p>
                 <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A', marginBottom: '8px' }}>{m.title}</h3>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#8B8B8B' }}>{m.desc}</p>
+                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590' }}>{m.desc}</p>
               </div>
               <div style={{ position: 'absolute', left: '50%', top: '8px', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#C4A265', transform: 'translateX(-50%)', zIndex: 2 }} className="vm-timeline-dot" />
             </div>
@@ -121,7 +121,7 @@ export function MinimalAbout() {
       <section style={{ padding: '100px 5vw', textAlign: 'center' }}>
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Begin Your Journey</p>
         <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '16px' }}>Let Us Create Something Extraordinary</h2>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#8B8B8B', maxWidth: '500px', margin: '0 auto 32px' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', maxWidth: '500px', margin: '0 auto 32px' }}>
           Whether you are searching for the perfect engagement ring or a bespoke heirloom, our team is here to guide you.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>

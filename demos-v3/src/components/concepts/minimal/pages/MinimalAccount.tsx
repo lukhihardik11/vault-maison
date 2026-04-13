@@ -31,7 +31,7 @@ export function MinimalAccount() {
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>My Account</p>
             <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A' }}>Welcome Back</h1>
           </div>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#8B8B8B', background: 'none', border: 'none', cursor: 'pointer' }}>
+          <button style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#9B9590', background: 'none', border: 'none', cursor: 'pointer' }}>
             <LogOut size={14} /> Sign Out
           </button>
         </div>
@@ -45,12 +45,12 @@ export function MinimalAccount() {
               </div>
               <div>
                 <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>Jane Doe</p>
-                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B' }}>jane@example.com</p>
+                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>jane@example.com</p>
               </div>
             </div>
             {tabs.map(tab => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '14px 16px', fontFamily: font, fontSize: '13px', fontWeight: activeTab === tab.id ? 500 : 300, color: activeTab === tab.id ? '#1A1A1A' : '#8B8B8B', backgroundColor: activeTab === tab.id ? '#F5F4F0' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'all 200ms ease' }}>
-                <tab.icon size={16} strokeWidth={1.5} style={{ color: activeTab === tab.id ? '#C4A265' : '#8B8B8B' }} />
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '14px 16px', fontFamily: font, fontSize: '13px', fontWeight: activeTab === tab.id ? 500 : 300, color: activeTab === tab.id ? '#1A1A1A' : '#9B9590', backgroundColor: activeTab === tab.id ? '#F5F4F0' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'all 200ms ease' }}>
+                <tab.icon size={16} strokeWidth={1.5} style={{ color: activeTab === tab.id ? '#C4A265' : '#9B9590' }} />
                 {tab.label}
               </button>
             ))}
@@ -65,11 +65,11 @@ export function MinimalAccount() {
                   <div key={order.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', borderBottom: '1px solid #E8E5E0' }}>
                     <div>
                       <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{order.items}</p>
-                      <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#8B8B8B' }}>Order {order.id} · {order.date}</p>
+                      <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590' }}>Order {order.id} · {order.date}</p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
                       <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A', marginBottom: '4px' }}>{order.total}</p>
-                      <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: order.status === 'Delivered' ? '#4CAF50' : order.status === 'Shipped' ? '#C4A265' : '#8B8B8B', padding: '3px 8px', border: `1px solid ${order.status === 'Delivered' ? '#4CAF50' : order.status === 'Shipped' ? '#C4A265' : '#E8E5E0'}` }}>{order.status}</span>
+                      <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: order.status === 'Delivered' ? '#4CAF50' : order.status === 'Shipped' ? '#C4A265' : '#9B9590', padding: '3px 8px', border: `1px solid ${order.status === 'Delivered' ? '#4CAF50' : order.status === 'Shipped' ? '#C4A265' : '#E8E5E0'}` }}>{order.status}</span>
                     </div>
                   </div>
                 ))}
@@ -79,7 +79,7 @@ export function MinimalAccount() {
             {activeTab === 'wishlist' && (
               <div>
                 <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '12px' }}>Saved Pieces</h2>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', marginBottom: '24px' }}>
+                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '24px' }}>
                   Items you have saved will appear here. <Link href="/minimal/wishlist" style={{ color: '#C4A265', textDecoration: 'underline', textUnderlineOffset: '3px' }}>View full wishlist</Link>
                 </p>
               </div>
@@ -91,7 +91,7 @@ export function MinimalAccount() {
                 {['Personal Information', 'Shipping Addresses', 'Payment Methods', 'Notification Preferences'].map((item, i) => (
                   <button key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '20px 0', borderBottom: '1px solid #E8E5E0', background: 'none', border: 'none', borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: '#E8E5E0', cursor: 'pointer', textAlign: 'left' }}>
                     <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A' }}>{item}</span>
-                    <ChevronRight size={16} color="#8B8B8B" />
+                    <ChevronRight size={16} color="#9B9590" />
                   </button>
                 ))}
               </div>

@@ -52,10 +52,10 @@ export function MinimalCategory({ category }: Props) {
       {/* Header */}
       <section style={{ padding: '40px 5vw 0', maxWidth: '1400px', margin: '0 auto' }}>
         {/* Breadcrumb */}
-        <nav style={{ display: 'flex', gap: '8px', alignItems: 'center', fontFamily: font, fontSize: '11px', color: '#8B8B8B', marginBottom: '40px' }}>
-          <Link href="/minimal" style={{ color: '#8B8B8B', textDecoration: 'none' }}>Home</Link>
+        <nav style={{ display: 'flex', gap: '8px', alignItems: 'center', fontFamily: font, fontSize: '11px', color: '#9B9590', marginBottom: '40px' }}>
+          <Link href="/minimal" style={{ color: '#9B9590', textDecoration: 'none' }}>Home</Link>
           <span>/</span>
-          <Link href="/minimal/collections" style={{ color: '#8B8B8B', textDecoration: 'none' }}>Collections</Link>
+          <Link href="/minimal/collections" style={{ color: '#9B9590', textDecoration: 'none' }}>Collections</Link>
           <span>/</span>
           <span style={{ color: '#1A1A1A' }}>{label}</span>
         </nav>
@@ -63,9 +63,9 @@ export function MinimalCategory({ category }: Props) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}>
           <div>
             <h1 style={{ fontFamily: font, fontSize: '36px', fontWeight: 200, color: '#1A1A1A', marginBottom: '8px' }}>{label}</h1>
-            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#8B8B8B', maxWidth: '500px' }}>{description}</p>
+            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9590', maxWidth: '500px' }}>{description}</p>
           </div>
-          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#8B8B8B' }}>
+          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#9B9590' }}>
             {products.length} {products.length === 1 ? 'piece' : 'pieces'}
           </p>
         </div>
@@ -80,7 +80,7 @@ export function MinimalCategory({ category }: Props) {
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
             {/* Sort */}
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <label style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8B8B8B' }}>Sort:</label>
+              <label style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590' }}>Sort:</label>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortOption)}
@@ -91,7 +91,7 @@ export function MinimalCategory({ category }: Props) {
                 <option value="price-desc">Price: High to Low</option>
                 <option value="newest">Newest</option>
               </select>
-              <ChevronDown size={12} style={{ color: '#8B8B8B', position: 'absolute', right: 0, pointerEvents: 'none' }} />
+              <ChevronDown size={12} style={{ color: '#9B9590', position: 'absolute', right: 0, pointerEvents: 'none' }} />
             </div>
             {/* View Toggle */}
             <div style={{ display: 'flex', gap: '4px', borderLeft: '1px solid #E8E5E0', paddingLeft: '16px' }}>
@@ -137,7 +137,7 @@ export function MinimalCategory({ category }: Props) {
       <section style={{ padding: '0 5vw 100px', maxWidth: '1400px', margin: '0 auto' }}>
         {products.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
-            <p style={{ fontFamily: font, fontSize: '16px', fontWeight: 300, color: '#8B8B8B' }}>No pieces match your filters.</p>
+            <p style={{ fontFamily: font, fontSize: '16px', fontWeight: 300, color: '#9B9590' }}>No pieces match your filters.</p>
             <button onClick={() => { setPriceRange([0, 100000]); setSelectedMaterial('all') }} style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#C4A265', background: 'none', border: 'none', cursor: 'pointer', marginTop: '12px', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Clear all filters</button>
           </div>
         ) : view === 'grid' ? (
@@ -174,13 +174,14 @@ function ProductCard({ product, toggleItem, isInWishlist }: { product: Product; 
           )}
         </div>
         <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '2px' }}>{product.name}</p>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B', marginBottom: '6px' }}>{product.subtitle}</p>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{product.subtitle}</p>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{product.priceDisplay}</p>
       </Link>
       <button onClick={(e) => { e.preventDefault(); toggleItem(product) }} style={{ position: 'absolute', top: '12px', right: '12px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(250,250,248,0.9)', border: 'none', cursor: 'pointer', zIndex: 2 }}>
-        <Heart size={14} fill={isInWishlist ? '#C4A265' : 'none'} color={isInWishlist ? '#C4A265' : '#8B8B8B'} />
+        <Heart size={14} fill={isInWishlist ? '#C4A265' : 'none'} color={isInWishlist ? '#C4A265' : '#9B9590'} />
       </button>
-      <style>{`.vm-pcard-img:hover img { transform: scale(1.04) !important; }`}</style>
+      <style>{`.vm-pcard-img:hover img { transform: scale(1.04) !important; }
+        .vm-pcard-img:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }`}</style>
     </div>
   )
 }
@@ -194,14 +195,14 @@ function ProductListItem({ product, toggleItem, isInWishlist }: { product: Produ
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none' }}>
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{product.name}</p>
-          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#8B8B8B', marginBottom: '8px' }}>{product.subtitle}</p>
+          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590', marginBottom: '8px' }}>{product.subtitle}</p>
         </Link>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#8B8B8B', marginBottom: '4px' }}>{product.material}</p>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9590', marginBottom: '4px' }}>{product.material}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', gap: '12px' }}>
         <p style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A' }}>{product.priceDisplay}</p>
         <button onClick={() => toggleItem(product)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-          <Heart size={16} fill={isInWishlist ? '#C4A265' : 'none'} color={isInWishlist ? '#C4A265' : '#8B8B8B'} />
+          <Heart size={16} fill={isInWishlist ? '#C4A265' : 'none'} color={isInWishlist ? '#C4A265' : '#9B9590'} />
         </button>
       </div>
     </div>

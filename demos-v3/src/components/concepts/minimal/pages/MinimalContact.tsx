@@ -14,7 +14,7 @@ const inputStyle: React.CSSProperties = {
 
 const labelStyle: React.CSSProperties = {
   fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
-  letterSpacing: '0.15em', fontWeight: 500, color: '#8B8B8B',
+  letterSpacing: '0.15em', fontWeight: 500, color: '#9B9590',
   display: 'block', marginBottom: '6px',
 }
 
@@ -27,7 +27,7 @@ export function MinimalContact() {
       <section style={{ padding: '80px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Get in Touch</p>
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Contact Us</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#8B8B8B', maxWidth: '500px', margin: '0 auto' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', maxWidth: '500px', margin: '0 auto' }}>
           Our client advisors are available to assist you with any inquiry — from product questions to bespoke consultations.
         </p>
       </section>
@@ -48,7 +48,7 @@ export function MinimalContact() {
                 <div key={i} style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
                   <item.icon size={18} strokeWidth={1.5} style={{ color: '#C4A265', flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8B8B8B', marginBottom: '4px' }}>{item.label}</p>
+                    <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590', marginBottom: '4px' }}>{item.label}</p>
                     <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#1A1A1A', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{item.value}</p>
                   </div>
                 </div>
@@ -60,7 +60,7 @@ export function MinimalContact() {
                 <MessageSquare size={18} strokeWidth={1.5} style={{ color: '#C4A265' }} />
                 <h3 style={{ fontFamily: font, fontSize: '15px', fontWeight: 500, color: '#1A1A1A' }}>Private Consultation</h3>
               </div>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#8B8B8B', marginBottom: '16px' }}>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590', marginBottom: '16px' }}>
                 Schedule a one-on-one session with our gemologist for personalized guidance on engagement rings, bespoke pieces, or investment stones.
               </p>
               <a href="/minimal/bespoke" style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
@@ -75,7 +75,7 @@ export function MinimalContact() {
               <div style={{ padding: '80px 40px', textAlign: 'center', backgroundColor: '#F5F4F0' }}>
                 <Send size={32} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '16px' }} />
                 <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '8px' }}>Message Sent</h3>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', lineHeight: 1.7 }}>
+                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', lineHeight: 1.7 }}>
                   Thank you for reaching out. Our team will respond within 24 hours.
                 </p>
               </div>

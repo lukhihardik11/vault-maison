@@ -15,7 +15,7 @@ const inputStyle: React.CSSProperties = {
 
 const labelStyle: React.CSSProperties = {
   fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
-  letterSpacing: '0.15em', fontWeight: 500, color: '#8B8B8B',
+  letterSpacing: '0.15em', fontWeight: 500, color: '#9B9590',
   display: 'block', marginBottom: '6px',
 }
 
@@ -57,7 +57,7 @@ export function MinimalBespoke() {
               </div>
               <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Step {i + 1}</p>
               <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A', marginBottom: '8px' }}>{s.title}</h3>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#8B8B8B' }}>{s.desc}</p>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590' }}>{s.desc}</p>
             </div>
           ))}
         </div>
@@ -69,7 +69,7 @@ export function MinimalBespoke() {
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>Begin Your Journey</p>
             <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Request a Consultation</h2>
-            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#8B8B8B' }}>
+            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9590' }}>
               Share your vision and we will arrange a private session with our design team.
             </p>
           </div>
@@ -80,7 +80,7 @@ export function MinimalBespoke() {
                 <Check size={20} color="#FFFFFF" />
               </div>
               <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '8px' }}>Request Received</h3>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', lineHeight: 1.7 }}>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', lineHeight: 1.7 }}>
                 Thank you for your interest in our bespoke service. A design consultant will contact you within 24 hours to schedule your private session.
               </p>
             </div>

@@ -22,7 +22,7 @@ const inputStyle: React.CSSProperties = {
 
 const labelStyle: React.CSSProperties = {
   fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
-  letterSpacing: '0.15em', fontWeight: 500, color: '#8B8B8B',
+  letterSpacing: '0.15em', fontWeight: 500, color: '#9B9590',
   display: 'block', marginBottom: '6px',
 }
 
@@ -42,10 +42,10 @@ export function MinimalCheckout() {
           </div>
           <p style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#C4A265', marginBottom: '16px', fontWeight: 500 }}>Order Confirmed</p>
           <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Thank You</h1>
-          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#8B8B8B', marginBottom: '8px' }}>
+          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', marginBottom: '8px' }}>
             Your order <strong style={{ color: '#1A1A1A' }}>{orderNumber}</strong> has been placed.
           </p>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#8B8B8B', marginBottom: '40px' }}>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', marginBottom: '40px' }}>
             A confirmation email with tracking details will be sent to your inbox shortly. Each piece is carefully inspected and packaged in our signature presentation box.
           </p>
           <Link href="/minimal" style={{ display: 'inline-block', padding: '14px 40px', backgroundColor: '#C4A265', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>
@@ -59,7 +59,7 @@ export function MinimalCheckout() {
   return (
     <MinimalLayout>
       <section style={{ padding: '40px 5vw 100px', maxWidth: '1200px', margin: '0 auto' }} className="vm-checkout">
-        <Link href="/minimal/cart" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontFamily: font, fontSize: '12px', color: '#8B8B8B', textDecoration: 'none', marginBottom: '32px' }}>
+        <Link href="/minimal/cart" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontFamily: font, fontSize: '12px', color: '#9B9590', textDecoration: 'none', marginBottom: '32px' }}>
           <ChevronLeft size={14} /> Back to Cart
         </Link>
 
@@ -70,9 +70,9 @@ export function MinimalCheckout() {
               <div key={s} style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: i <= stepIndex ? '#C4A265' : 'transparent', border: i <= stepIndex ? '1px solid #C4A265' : '1px solid #E8E5E0', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 200ms ease' }}>
-                    {i < stepIndex ? <Check size={12} color="#FFFFFF" /> : <span style={{ fontFamily: font, fontSize: '10px', color: i <= stepIndex ? '#FFFFFF' : '#8B8B8B' }}>{i + 1}</span>}
+                    {i < stepIndex ? <Check size={12} color="#FFFFFF" /> : <span style={{ fontFamily: font, fontSize: '10px', color: i <= stepIndex ? '#FFFFFF' : '#9B9590' }}>{i + 1}</span>}
                   </div>
-                  <button onClick={() => i < stepIndex ? setStep(s) : undefined} style={{ fontFamily: font, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: step === s ? 500 : 300, color: step === s ? '#1A1A1A' : '#8B8B8B', border: 'none', backgroundColor: 'transparent', cursor: i < stepIndex ? 'pointer' : 'default', padding: 0 }}>
+                  <button onClick={() => i < stepIndex ? setStep(s) : undefined} style={{ fontFamily: font, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: step === s ? 500 : 300, color: step === s ? '#1A1A1A' : '#9B9590', border: 'none', backgroundColor: 'transparent', cursor: i < stepIndex ? 'pointer' : 'default', padding: 0 }}>
                     {stepLabels[s]}
                   </button>
                 </div>
@@ -122,7 +122,7 @@ export function MinimalCheckout() {
                       <opt.icon size={18} strokeWidth={1.5} style={{ color: '#C4A265' }} />
                       <div>
                         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A' }}>{opt.label}</p>
-                        <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#8B8B8B' }}>{opt.desc}</p>
+                        <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590' }}>{opt.desc}</p>
                       </div>
                     </div>
                     <span style={{ fontFamily: font, fontSize: '13px', fontWeight: i === 0 ? 500 : 300, color: i === 0 ? '#C4A265' : '#1A1A1A' }}>{opt.price}</span>
@@ -141,7 +141,7 @@ export function MinimalCheckout() {
                   <Lock size={14} color="#C4A265" />
                   <p style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#1A1A1A' }}>Secure Payment</p>
                 </div>
-                <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#8B8B8B', marginTop: '-12px' }}>All transactions are encrypted and secure.</p>
+                <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590', marginTop: '-12px' }}>All transactions are encrypted and secure.</p>
                 <div>
                   <label style={labelStyle}>Card Number</label>
                   <div style={{ position: 'relative' }}>
@@ -156,7 +156,7 @@ export function MinimalCheckout() {
                 <div><label style={labelStyle}>Name on Card</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'} onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'} /></div>
                 <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
                   <button type="button" onClick={() => setStep('shipping')} style={{ padding: '16px 32px', border: '1px solid #E8E5E0', backgroundColor: 'transparent', color: '#1A1A1A', fontFamily: font, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 400, cursor: 'pointer' }}>Back</button>
-                  <button type="submit" style={{ padding: '16px 48px', backgroundColor: '#1A1A1A', color: '#FFFFFF', border: 'none', fontFamily: font, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button type="submit" className="vm-btn-gold" style={{ padding: '16px 48px', backgroundColor: '#C4A265', color: '#FFFFFF', border: 'none', fontFamily: font, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Lock size={12} /> Place Order · {formatPrice(getTotal())}
                   </button>
                 </div>
@@ -178,18 +178,18 @@ export function MinimalCheckout() {
                   </div>
                   <div style={{ flex: 1 }}>
                     <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A' }}>{item.product.name}</p>
-                    <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B' }}>{item.product.material}</p>
+                    <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>{item.product.material}</p>
                   </div>
                   <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A' }}>{formatPrice(item.product.price * item.quantity)}</p>
                 </div>
               ))}
               <div style={{ height: '1px', backgroundColor: '#E8E5E0', margin: '16px 0' }} />
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B' }}>Subtotal</span>
+                <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590' }}>Subtotal</span>
                 <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A' }}>{formatPrice(getTotal())}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B' }}>Shipping</span>
+                <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590' }}>Shipping</span>
                 <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#C4A265' }}>Complimentary</span>
               </div>
               <div style={{ height: '1px', backgroundColor: '#1A1A1A', margin: '16px 0' }} />

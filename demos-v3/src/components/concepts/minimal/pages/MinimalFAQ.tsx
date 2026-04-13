@@ -53,7 +53,7 @@ function AccordionItem({ q, a }: { q: string; a: string }) {
       </button>
       {open && (
         <div style={{ paddingBottom: '20px' }}>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#8B8B8B' }}>{a}</p>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590' }}>{a}</p>
         </div>
       )}
     </div>
@@ -74,12 +74,12 @@ export function MinimalFAQ() {
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Support</p>
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Frequently Asked Questions</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#8B8B8B', marginBottom: '32px' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9590', marginBottom: '32px' }}>
           Find answers to common questions about our products, services, and policies.
         </p>
         {/* Search */}
         <div style={{ position: 'relative', maxWidth: '500px', margin: '0 auto' }}>
-          <Search size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#8B8B8B' }} />
+          <Search size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#9B9590' }} />
           <input
             type="text"
             placeholder="Search questions..."
@@ -97,7 +97,7 @@ export function MinimalFAQ() {
         {!searchQuery && (
           <div style={{ display: 'flex', gap: '0', borderBottom: '1px solid #E8E5E0', marginBottom: '32px', overflowX: 'auto' }}>
             {categories.map(cat => (
-              <button key={cat} onClick={() => setActiveTab(cat)} style={{ fontFamily: font, fontSize: '12px', fontWeight: activeTab === cat ? 500 : 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: activeTab === cat ? '#C4A265' : '#8B8B8B', padding: '12px 20px', border: 'none', borderBottom: activeTab === cat ? '2px solid #C4A265' : '2px solid transparent', backgroundColor: 'transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 200ms ease' }}>
+              <button key={cat} onClick={() => setActiveTab(cat)} style={{ fontFamily: font, fontSize: '12px', fontWeight: activeTab === cat ? 500 : 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: activeTab === cat ? '#C4A265' : '#9B9590', padding: '12px 20px', border: 'none', borderBottom: activeTab === cat ? '2px solid #C4A265' : '2px solid transparent', backgroundColor: 'transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 200ms ease' }}>
                 {cat}
               </button>
             ))}
@@ -105,7 +105,7 @@ export function MinimalFAQ() {
         )}
 
         {searchQuery && (
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', marginBottom: '24px' }}>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '24px' }}>
             {filteredFaqs.length} result{filteredFaqs.length !== 1 ? 's' : ''} for &ldquo;{searchQuery}&rdquo;
           </p>
         )}
@@ -121,7 +121,7 @@ export function MinimalFAQ() {
         <div style={{ marginTop: '60px', padding: '40px', backgroundColor: '#F5F4F0', textAlign: 'center' }}>
           <MessageSquare size={28} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '12px' }} />
           <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#1A1A1A', marginBottom: '8px' }}>Still Have Questions?</h3>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B', marginBottom: '20px' }}>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '20px' }}>
             Our concierge team is available Monday through Saturday, 10am to 7pm EST.
           </p>
           <Link href="/minimal/contact" style={{ display: 'inline-block', padding: '14px 32px', backgroundColor: '#C4A265', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>

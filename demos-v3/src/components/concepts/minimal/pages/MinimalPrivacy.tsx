@@ -22,7 +22,7 @@ export function MinimalPrivacy() {
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Legal</p>
           <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Privacy Policy</h1>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B' }}>Last updated: March 2025</p>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590' }}>Last updated: March 2025</p>
         </div>
 
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#555', marginBottom: '48px' }}>
@@ -41,7 +41,7 @@ export function MinimalPrivacy() {
 
         <div style={{ padding: '32px', backgroundColor: '#F5F4F0', marginTop: '48px' }}>
           <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A', marginBottom: '8px' }}>Questions about your privacy?</p>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8B8B8B' }}>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590' }}>
             Contact our privacy team at <a href="mailto:privacy@vaultmaison.com" style={{ color: '#C4A265', textDecoration: 'underline', textUnderlineOffset: '3px' }}>privacy@vaultmaison.com</a>
           </p>
         </div>

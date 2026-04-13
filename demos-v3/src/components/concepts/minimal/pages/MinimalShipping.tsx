@@ -20,7 +20,7 @@ export function MinimalShipping() {
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Delivery</p>
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Shipping & Returns</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#8B8B8B', maxWidth: '500px', margin: '0 auto' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', maxWidth: '500px', margin: '0 auto' }}>
           Every order is carefully packaged and fully insured from our atelier to your door.
         </p>
       </section>
@@ -34,7 +34,7 @@ export function MinimalShipping() {
                 <m.icon size={22} strokeWidth={1.5} style={{ color: '#C4A265' }} />
                 <div>
                   <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A' }}>{m.title}</h3>
-                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B' }}>{m.time}</p>
+                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>{m.time}</p>
                 </div>
               </div>
               <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#555', marginBottom: '12px' }}>{m.desc}</p>
@@ -70,7 +70,7 @@ export function MinimalShipping() {
 
       {/* CTA */}
       <section style={{ padding: '60px 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#8B8B8B', marginBottom: '16px' }}>Have questions about your order?</p>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9590', marginBottom: '16px' }}>Have questions about your order?</p>
         <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', textDecoration: 'none' }}>
           Contact Our Concierge <ArrowRight size={14} />
         </Link>

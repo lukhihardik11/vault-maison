@@ -36,7 +36,7 @@ export function MinimalGrading() {
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <Diamond size={32} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '16px' }} />
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Diamond Grading Guide</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#8B8B8B', maxWidth: '550px', margin: '0 auto' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', maxWidth: '550px', margin: '0 auto' }}>
           Understanding the 4Cs — Carat, Cut, Color, and Clarity — is essential to choosing the perfect diamond. This guide explains each factor and how they influence a diamond&apos;s beauty and value.
         </p>
       </section>
@@ -59,10 +59,10 @@ export function MinimalGrading() {
                     </div>
                   ))}
                 </div>
-                {i === 0 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B', marginTop: '8px' }}>← Smaller · Larger →</p>}
-                {i === 1 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B', marginTop: '8px' }}>← Less Brilliant · More Brilliant →</p>}
-                {i === 2 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B', marginTop: '8px' }}>← Colorless · Near Colorless →</p>}
-                {i === 3 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#8B8B8B', marginTop: '8px' }}>← More Inclusions · Flawless →</p>}
+                {i === 0 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginTop: '8px' }}>← Smaller · Larger →</p>}
+                {i === 1 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginTop: '8px' }}>← Less Brilliant · More Brilliant →</p>}
+                {i === 2 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginTop: '8px' }}>← Colorless · Near Colorless →</p>}
+                {i === 3 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginTop: '8px' }}>← More Inclusions · Flawless →</p>}
               </div>
             </div>
           </div>
