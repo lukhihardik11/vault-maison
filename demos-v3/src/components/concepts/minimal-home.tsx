@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ArrowRight, ArrowDown, Diamond, Shield, Gem, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 import { MinimalLayout } from './minimal/MinimalLayout'
 import { products } from '@/data/products'
-import { GlassmorphismMetrics, DynamicText, CardFlip, SpotlightCards, AttractButton, ShimmerText } from './minimal/ui'
+import { GlassmorphismMetrics, DynamicText, CardFlip, SpotlightCards, AttractButton, ShimmerText, ProductBounceCard, AnimatedSendButton, AnimatedSocialIcons, ExploreButton } from './minimal/ui'
 import type { ConceptConfig } from '@/data/concepts'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
@@ -110,7 +110,7 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
   return (
     <FadeIn delay={index * 100}>
       <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-        <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '16px', overflow: 'hidden', borderRadius: '4px' }}>
+        <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '16px', overflow: 'hidden', borderRadius: '8px' }}>
           <img src={product.images[0]} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} />
           {product.isNew && (
             <span className="vm-glass-badge" style={{ position: 'absolute', top: '12px', left: '12px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', padding: '4px 10px' }}>New</span>
@@ -160,8 +160,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(26,26,26,0.82) 0%, rgba(26,26,26,0.45) 50%, rgba(26,26,26,0.2) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-          <p className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '24px', animationDelay: '0.3s' }}>
-            The Minimal Machine
+          <p className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '24px', animationDelay: '0.3s' }}>
+            <ShimmerText text="The Minimal Machine" style={{ color: '#C4A265' }} />
           </p>
           <h1 className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.05, marginBottom: '24px', maxWidth: '650px', letterSpacing: '-0.02em', animationDelay: '0.5s' }}>
             <DynamicText text="Where Precision" effect="glow" style={{ fontSize: 'inherit', fontWeight: 'inherit', color: 'inherit' }} />
@@ -172,9 +172,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             Every stone hand-selected by third-generation gemologists. GIA certified. Crafted to last generations.
           </p>
           <div className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', animationDelay: '0.9s' }}>
-            <Link href="/minimal/collections" className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '16px 36px', textDecoration: 'none', borderRadius: '2px' }}>
-              Shop Collection <ArrowRight size={14} />
-            </Link>
+            <AttractButton href="/minimal/collections" text="Shop Collection" />
             <Link href="/minimal/bespoke" className="vm-btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.35)', padding: '16px 36px', textDecoration: 'none', borderRadius: '2px' }}>
               Bespoke Design
             </Link>
@@ -208,12 +206,12 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* ═══ SECTION 3: FEATURED PIECE (sticky parallax) ═══ */}
+      {/* ═══ SECTION 3: FEATURED PIECE (sticky parallax + ProductBounceCard) ═══ */}
       <section style={{ backgroundColor: '#F5F4F0', position: 'relative', overflow: 'hidden' }}>
         <div className="vm-featured-grid" style={{ maxWidth: '1400px', margin: '0 auto', padding: '120px 5vw', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
           <FadeIn>
-            <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '4px' }}>
-              <ParallaxImage src={heroProduct.images[0]} alt={heroProduct.name} speed={0.15} />
+            <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#EDEAE5' }}>
+              <ProductBounceCard imageUrl={heroProduct.images[0]} alt={heroProduct.name} />
             </div>
           </FadeIn>
           <div>
@@ -274,12 +272,12 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>Curated</p>
             <h2 style={{ fontFamily: font, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 200, color: '#1A1A1A' }}>Collections</h2>
           </div>
-          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', textDecoration: 'none' }}>View All →</Link>
+          <ExploreButton text="View All" href="/minimal/collections" />
         </FadeIn>
         <div className="vm-coll-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
           {collections.map((col, i) => (
             <FadeIn key={col.title} delay={i * 120}>
-              <Link href={col.href} style={{ display: 'block', position: 'relative', aspectRatio: i < 2 ? '3/4' : '4/3', overflow: 'hidden', borderRadius: '4px', textDecoration: 'none' }} className="vm-coll-card">
+              <Link href={col.href} style={{ display: 'block', position: 'relative', aspectRatio: i < 2 ? '3/4' : '4/3', overflow: 'hidden', borderRadius: '8px', textDecoration: 'none' }} className="vm-coll-card">
                 <img src={col.image} alt={col.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 700ms cubic-bezier(0.25,0.46,0.45,0.94)' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)' }} />
                 <div style={{ position: 'absolute', bottom: '28px', left: '28px' }}>
@@ -299,6 +297,22 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </FadeIn>
       </section>
 
+      {/* ═══ SECTION 6B: SPOTLIGHT BESTSELLERS (SpotlightCards) ═══ */}
+      <section style={{ padding: '80px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
+        <FadeIn style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>Most Loved</p>
+          <h2 style={{ fontFamily: font, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 200, color: '#1A1A1A' }}>Bestsellers</h2>
+        </FadeIn>
+        <SpotlightCards
+          items={bestsellers.map((p) => ({
+            title: p.name,
+            description: `${p.subtitle} — ${p.priceDisplay}`,
+            image: p.images[0],
+            href: `/minimal/product/${p.slug}`,
+          }))}
+        />
+      </section>
+
       {/* ═══ SECTION 7: NEW ARRIVALS CAROUSEL (Embla) ═══ */}
       <section style={{ padding: '120px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
         <FadeIn style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px' }}>
@@ -316,7 +330,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             {(newArrivals.length > 0 ? newArrivals : products.slice(0, 8)).map((p) => (
               <div key={p.id} style={{ flex: '0 0 calc(25% - 18px)', minWidth: '220px' }}>
                 <Link href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '14px', overflow: 'hidden', borderRadius: '4px' }}>
+                  <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '14px', overflow: 'hidden', borderRadius: '8px' }}>
                     <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} />
                     {p.isNew && <span className="vm-glass-badge" style={{ position: 'absolute', top: '10px', left: '10px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', padding: '4px 10px' }}>New</span>}
                   </div>
@@ -330,15 +344,19 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* ═══ SECTION 8: NEWSLETTER + CTA ═══ */}
+      {/* ═══ SECTION 8: NEWSLETTER + CTA (AnimatedSendButton) ═══ */}
       <section style={{ padding: '120px 5vw', textAlign: 'center', borderTop: '1px solid #E8E5E0' }}>
         <FadeIn style={{ maxWidth: '520px', margin: '0 auto' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '20px' }}>Stay Connected</p>
           <h2 style={{ fontFamily: font, fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Join the Maison</h2>
           <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '40px', lineHeight: 1.7 }}>Receive early access to new collections, private events, and expert insights.</p>
-          <div style={{ display: 'flex', gap: '0', maxWidth: '420px', margin: '0 auto' }}>
-            <input type="email" placeholder="Your email address" className="vm-neumorph-input" style={{ flex: 1, fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '16px 18px', border: '1px solid #E8E5E0', borderRight: 'none', backgroundColor: '#F5F3F0', color: '#1A1A1A', outline: 'none', borderRadius: '2px 0 0 2px' }} />
-            <button className="vm-btn-gold" style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '16px 28px', backgroundColor: '#C4A265', color: '#FFFFFF', border: '1px solid #C4A265', cursor: 'pointer', borderRadius: '0 2px 2px 0' }}>Subscribe</button>
+          <div style={{ display: 'flex', gap: '0', maxWidth: '420px', margin: '0 auto', alignItems: 'stretch' }}>
+            <input type="email" placeholder="Your email address" className="vm-neumorph-input" style={{ flex: 1, fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '16px 18px', border: '1px solid #E8E5E0', borderRight: 'none', backgroundColor: '#F5F3F0', color: '#1A1A1A', outline: 'none', borderRadius: '8px 0 0 8px' }} />
+            <AnimatedSendButton text="Subscribe" sentText="Subscribed!" />
+          </div>
+          {/* Social icons */}
+          <div style={{ marginTop: '48px', display: 'flex', justifyContent: 'center' }}>
+            <AnimatedSocialIcons />
           </div>
         </FadeIn>
       </section>

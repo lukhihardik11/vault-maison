@@ -6,6 +6,7 @@ import { MinimalLayout } from '../MinimalLayout'
 import { useCartStore } from '@/store/cart'
 import { formatPrice } from '@/data/products'
 import { Check, Lock, Truck, Shield, CreditCard, ChevronLeft } from 'lucide-react'
+import { TruckLoader } from '../ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -36,8 +37,8 @@ export function MinimalCheckout() {
     return (
       <MinimalLayout>
         <section style={{ padding: '120px 5vw', maxWidth: '560px', margin: '0 auto', textAlign: 'center', minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: '#C4A265', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-            <Check size={24} color="#FFFFFF" strokeWidth={2} />
+          <div style={{ margin: '0 auto 32px', display: 'flex', justifyContent: 'center' }}>
+            <TruckLoader />
           </div>
           <p style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#C4A265', marginBottom: '16px', fontWeight: 500 }}>Order Confirmed</p>
           <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Thank You</h1>
@@ -68,7 +69,7 @@ export function MinimalCheckout() {
             {allSteps.map((s, i) => (
               <div key={s} style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: i <= stepIndex ? '#C4A265' : 'transparent', border: i <= stepIndex ? '1px solid #C4A265' : '1px solid #E8E5E0', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 200ms ease' }}>
+                  <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: i <= stepIndex ? '#C4A265' : 'transparent', border: i <= stepIndex ? '1px solid #C4A265' : '1px solid #E8E5E0', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 300ms ease' }}>
                     {i < stepIndex ? <Check size={12} color="#FFFFFF" /> : <span style={{ fontFamily: font, fontSize: '10px', color: i <= stepIndex ? '#FFFFFF' : '#9B9590' }}>{i + 1}</span>}
                   </div>
                   <button onClick={() => i < stepIndex ? setStep(s) : undefined} style={{ fontFamily: font, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: step === s ? 500 : 300, color: step === s ? '#1A1A1A' : '#9B9590', border: 'none', backgroundColor: 'transparent', cursor: i < stepIndex ? 'pointer' : 'default', padding: 0 }}>

@@ -59,7 +59,7 @@ export function MinimalSearch() {
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
               {popularSearches.map(s => (
-                <button key={s} onClick={() => setQuery(s)} style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '10px 20px', border: '1px solid #E8E5E0', backgroundColor: 'transparent', color: '#1A1A1A', cursor: 'pointer', transition: 'all 200ms ease' }}
+                <button key={s} onClick={() => setQuery(s)} style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '10px 20px', border: '1px solid #E8E5E0', backgroundColor: 'transparent', color: '#1A1A1A', cursor: 'pointer', transition: 'all 300ms ease' }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#C4A265'; e.currentTarget.style.color = '#C4A265' }}
                   onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#E8E5E0'; e.currentTarget.style.color = '#1A1A1A' }}
                 >

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MapPin, Phone, Mail, Clock, MessageSquare, Send } from 'lucide-react'
+import { AnimatedSendButton } from '../ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -99,9 +100,9 @@ export function MinimalContact() {
                   </select>
                 </div>
                 <div><label style={labelStyle}>Message</label><textarea required rows={5} style={{ ...inputStyle, resize: 'vertical' }} onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'} onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'} /></div>
-                <button type="submit" style={{ alignSelf: 'flex-start', padding: '16px 48px', backgroundColor: '#C4A265', color: '#FFFFFF', border: 'none', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}>
-                  Send Message
-                </button>
+                <div style={{ alignSelf: 'flex-start' }}>
+                  <AnimatedSendButton text="Send Message" sentText="Message Sent!" type="submit" />
+                </div>
               </form>
             )}
           </div>

@@ -38,7 +38,7 @@ export default function AvatarPicker({ initials = 'VM', onSelect }: AvatarPicker
               border: selected === color ? '2px solid #C4A265' : '2px solid transparent',
               outline: selected === color ? '2px solid #FAFAF8' : 'none',
               cursor: 'pointer',
-              transition: 'all 200ms ease',
+              transition: 'all 300ms ease',
               transform: selected === color ? 'scale(1.15)' : 'scale(1)',
             }}
           />

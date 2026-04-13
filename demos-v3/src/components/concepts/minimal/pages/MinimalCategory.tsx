@@ -7,7 +7,7 @@ import { ChevronRight, SlidersHorizontal, X, Heart, Grid, List } from 'lucide-re
 import { MinimalLayout } from '../MinimalLayout'
 import { products } from '@/data/products'
 import { allCategories, categoryLabels, type ProductCategory } from '@/data/concepts'
-import { SmoothDrawer } from '../ui'
+import { SmoothDrawer, NeuProductCard } from '../ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -105,15 +105,15 @@ export function MinimalCategory({ category }: { category?: string }) {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>Showing {filtered.length} pieces</span>
-            <button onClick={() => setFilterOpen(true)} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A', background: '#F5F3F0', border: '1px solid #E8E5E0', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', boxShadow: '2px 2px 4px #d4d0cb, -2px -2px 4px #ffffff' }}>
+            <button onClick={() => setFilterOpen(true)} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A', background: '#F5F3F0', border: '1px solid #E8E5E0', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', boxShadow: '2px 2px 4px #d4d0cb, -2px -2px 4px #ffffff' }}>
               <SlidersHorizontal size={14} /> Filters
             </button>
-            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#1A1A1A', background: '#F5F3F0', border: '1px solid #E8E5E0', padding: '8px 12px', borderRadius: '4px', cursor: 'pointer' }}>
+            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#1A1A1A', background: '#F5F3F0', border: '1px solid #E8E5E0', padding: '8px 12px', borderRadius: '8px', cursor: 'pointer' }}>
               {sortOptions.map((o) => <option key={o} value={o}>{o}</option>)}
             </select>
             <div style={{ display: 'flex', gap: '4px' }}>
-              <button onClick={() => setView('grid')} style={{ padding: '6px', background: view === 'grid' ? '#1A1A1A' : '#F5F3F0', color: view === 'grid' ? '#FFFFFF' : '#9B9590', border: 'none', borderRadius: '4px', cursor: 'pointer' }}><Grid size={16} /></button>
-              <button onClick={() => setView('list')} style={{ padding: '6px', background: view === 'list' ? '#1A1A1A' : '#F5F3F0', color: view === 'list' ? '#FFFFFF' : '#9B9590', border: 'none', borderRadius: '4px', cursor: 'pointer' }}><List size={16} /></button>
+              <button onClick={() => setView('grid')} style={{ padding: '6px', background: view === 'grid' ? '#1A1A1A' : '#F5F3F0', color: view === 'grid' ? '#FFFFFF' : '#9B9590', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><Grid size={16} /></button>
+              <button onClick={() => setView('list')} style={{ padding: '6px', background: view === 'list' ? '#1A1A1A' : '#F5F3F0', color: view === 'list' ? '#FFFFFF' : '#9B9590', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><List size={16} /></button>
             </div>
           </div>
         </div>
@@ -130,16 +130,16 @@ export function MinimalCategory({ category }: { category?: string }) {
           <div className="cat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
             {filtered.map((p, i) => (
               <FadeIn key={p.id} delay={i * 80}>
-                <Link href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                  <div className="cat-card" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '14px', overflow: 'hidden', borderRadius: '4px' }}>
-                    <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} />
-                    {p.isNew && <span style={{ position: 'absolute', top: '10px', left: '10px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', padding: '4px 10px', background: 'rgba(250,250,248,0.85)', backdropFilter: 'blur(8px)', borderRadius: '2px' }}>New</span>}
-                    <button className="cat-wish" style={{ position: 'absolute', top: '10px', right: '10px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(250,250,248,0.85)', backdropFilter: 'blur(8px)', border: 'none', borderRadius: '50%', cursor: 'pointer', opacity: 0, transition: 'opacity 200ms' }} onClick={(e) => e.preventDefault()}><Heart size={14} color="#9B9590" /></button>
-                  </div>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{p.name}</p>
-                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{p.subtitle}</p>
-                  <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{p.priceDisplay}</p>
-                </Link>
+                <NeuProductCard
+                  name={p.name}
+                  price={p.price}
+                  image={p.images[0]}
+                  href={`/minimal/product/${p.slug}`}
+                  material={p.material || p.subtitle}
+                  carat={p.diamondSpecs?.carat ? `${p.diamondSpecs.carat}ct` : undefined}
+                  certification={p.diamondSpecs?.certification}
+                  isNew={p.isNew}
+                />
               </FadeIn>
             ))}
           </div>
@@ -148,7 +148,7 @@ export function MinimalCategory({ category }: { category?: string }) {
             {filtered.map((p, i) => (
               <FadeIn key={p.id} delay={i * 60}>
                 <Link href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: '24px', padding: '16px', borderBottom: '1px solid #E8E5E0', alignItems: 'center' }}>
-                  <div style={{ width: '100px', height: '100px', flexShrink: 0, backgroundColor: '#F5F4F0', borderRadius: '4px', overflow: 'hidden' }}><img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
+                  <div style={{ width: '100px', height: '100px', flexShrink: 0, backgroundColor: '#F5F4F0', borderRadius: '8px', overflow: 'hidden' }}><img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                   <div style={{ flex: 1 }}><p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{p.name}</p><p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590' }}>{p.subtitle}</p></div>
                   <p style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A' }}>{p.priceDisplay}</p>
                 </Link>
@@ -169,16 +169,16 @@ export function MinimalCategory({ category }: { category?: string }) {
           <div style={{ marginBottom: '32px' }}>
             <p style={{ fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1A1A1A', marginBottom: '12px' }}>Material</p>
             {materialFilters.map((m) => (
-              <button key={m} onClick={() => setMaterial(m)} style={{ display: 'block', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: material === m ? 500 : 300, color: material === m ? '#C4A265' : '#1A1A1A', background: material === m ? 'rgba(196,162,101,0.08)' : 'transparent', border: 'none', padding: '10px 12px', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', transition: 'all 200ms', marginBottom: '4px' }}>{m}</button>
+              <button key={m} onClick={() => setMaterial(m)} style={{ display: 'block', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: material === m ? 500 : 300, color: material === m ? '#C4A265' : '#1A1A1A', background: material === m ? 'rgba(196,162,101,0.08)' : 'transparent', border: 'none', padding: '10px 12px', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', transition: 'all 300ms ease', marginBottom: '4px' }}>{m}</button>
             ))}
           </div>
           <div style={{ marginBottom: '32px' }}>
             <p style={{ fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1A1A1A', marginBottom: '12px' }}>Price Range</p>
             {priceFilters.map((p) => (
-              <button key={p} onClick={() => setPrice(p)} style={{ display: 'block', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: price === p ? 500 : 300, color: price === p ? '#C4A265' : '#1A1A1A', background: price === p ? 'rgba(196,162,101,0.08)' : 'transparent', border: 'none', padding: '10px 12px', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', transition: 'all 200ms', marginBottom: '4px' }}>{p}</button>
+              <button key={p} onClick={() => setPrice(p)} style={{ display: 'block', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: price === p ? 500 : 300, color: price === p ? '#C4A265' : '#1A1A1A', background: price === p ? 'rgba(196,162,101,0.08)' : 'transparent', border: 'none', padding: '10px 12px', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', transition: 'all 300ms ease', marginBottom: '4px' }}>{p}</button>
             ))}
           </div>
-          <button onClick={() => setFilterOpen(false)} style={{ width: '100%', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '16px', backgroundColor: '#C4A265', color: '#FFFFFF', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Apply Filters</button>
+          <button onClick={() => setFilterOpen(false)} style={{ width: '100%', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '16px', backgroundColor: '#C4A265', color: '#FFFFFF', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Apply Filters</button>
         </div>
       </SmoothDrawer>
 

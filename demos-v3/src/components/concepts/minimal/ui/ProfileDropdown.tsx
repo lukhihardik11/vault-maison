@@ -28,7 +28,7 @@ export default function ProfileDropdown() {
     <div ref={ref} style={{ position: 'relative' }}>
       <button
         onClick={() => setOpen(!open)}
-        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#1A1A1A', opacity: 0.6, transition: 'opacity 200ms' }}
+        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#1A1A1A', opacity: 0.6, transition: 'opacity 300ms ease' }}
         onMouseEnter={(e) => { e.currentTarget.style.opacity = '1' }}
         onMouseLeave={(e) => { if (!open) e.currentTarget.style.opacity = '0.6' }}
       >

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { MinimalLayout } from '../MinimalLayout'
 import { Pencil, Gem, Hammer, Gift, Check } from 'lucide-react'
+import { BlobGlassCard } from '../ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -59,6 +60,15 @@ export function MinimalBespoke() {
               <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590' }}>{s.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Why Bespoke - BlobGlassCard */}
+      <section style={{ padding: '80px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }} className="vm-bespoke-steps">
+          <BlobGlassCard title="Unique Design" description="No two pieces are alike. Your jewelry is designed from scratch to reflect your personal story." />
+          <BlobGlassCard title="Expert Guidance" description="Work directly with our master gemologists and designers throughout the entire creation process." />
+          <BlobGlassCard title="Lifetime Value" description="Bespoke pieces appreciate over time. Each comes with full GIA certification and lifetime warranty." />
         </div>
       </section>
 

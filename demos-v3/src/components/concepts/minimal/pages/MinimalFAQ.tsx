@@ -97,7 +97,7 @@ export function MinimalFAQ() {
         {!searchQuery && (
           <div style={{ display: 'flex', gap: '0', borderBottom: '1px solid #E8E5E0', marginBottom: '32px', overflowX: 'auto' }}>
             {categories.map(cat => (
-              <button key={cat} onClick={() => setActiveTab(cat)} style={{ fontFamily: font, fontSize: '12px', fontWeight: activeTab === cat ? 500 : 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: activeTab === cat ? '#C4A265' : '#9B9590', padding: '12px 20px', border: 'none', borderBottom: activeTab === cat ? '2px solid #C4A265' : '2px solid transparent', backgroundColor: 'transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 200ms ease' }}>
+              <button key={cat} onClick={() => setActiveTab(cat)} style={{ fontFamily: font, fontSize: '12px', fontWeight: activeTab === cat ? 500 : 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: activeTab === cat ? '#C4A265' : '#9B9590', padding: '12px 20px', border: 'none', borderBottom: activeTab === cat ? '2px solid #C4A265' : '2px solid transparent', backgroundColor: 'transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 300ms ease' }}>
                 {cat}
               </button>
             ))}

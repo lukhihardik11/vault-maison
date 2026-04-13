@@ -7,7 +7,7 @@ import { Heart, Share2, ShoppingBag, ChevronRight, X, Minus, Plus, Truck, Shield
 import { MinimalLayout } from '../MinimalLayout'
 import { products, type Product } from '@/data/products'
 import { useCartStore } from '@/store/cart'
-import { SmoothDrawer } from '../ui'
+import { SmoothDrawer, AnimatedSocialIcons, ExploreButton } from '../ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -94,13 +94,13 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
       <div className="pdp-grid" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 5vw 80px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px' }}>
         <FadeIn>
           <div>
-            <div onClick={() => setLightbox(true)} style={{ position: 'relative', aspectRatio: '4/5', backgroundColor: '#F5F4F0', marginBottom: '12px', borderRadius: '4px', overflow: 'hidden' }}>
+            <div onClick={() => setLightbox(true)} style={{ position: 'relative', aspectRatio: '4/5', backgroundColor: '#F5F4F0', marginBottom: '12px', borderRadius: '8px', overflow: 'hidden' }}>
               <ZoomImage src={product.images[mainImg]} alt={product.name} />
               {product.isNew && <span style={{ position: 'absolute', top: '16px', left: '16px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', padding: '6px 12px', background: 'rgba(250,250,248,0.85)', backdropFilter: 'blur(8px)', borderRadius: '2px' }}>New</span>}
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               {product.images.map((img, i) => (
-                <button key={i} onClick={() => setMainImg(i)} style={{ width: '72px', height: '72px', borderRadius: '4px', overflow: 'hidden', cursor: 'pointer', border: mainImg === i ? '2px solid #C4A265' : '2px solid transparent', opacity: mainImg === i ? 1 : 0.6, transition: 'all 200ms ease', backgroundColor: '#F5F4F0', padding: 0 }}>
+                <button key={i} onClick={() => setMainImg(i)} style={{ width: '72px', height: '72px', borderRadius: '8px', overflow: 'hidden', cursor: 'pointer', border: mainImg === i ? '2px solid #C4A265' : '2px solid transparent', opacity: mainImg === i ? 1 : 0.6, transition: 'all 300ms ease', backgroundColor: '#F5F4F0', padding: 0 }}>
                   <img src={img} alt={`${product.name} ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </button>
               ))}
@@ -121,7 +121,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A', marginBottom: '10px' }}>Metal: <span style={{ fontWeight: 300, color: '#9B9590' }}>{metal}</span></p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {metals.map((m) => (
-                  <button key={m} onClick={() => setMetal(m)} style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, padding: '10px 18px', border: metal === m ? '1px solid #C4A265' : '1px solid #E8E5E0', backgroundColor: metal === m ? '#FAFAF8' : '#F5F3F0', color: metal === m ? '#C4A265' : '#1A1A1A', borderRadius: '4px', cursor: 'pointer', boxShadow: metal === m ? 'none' : '2px 2px 4px #d4d0cb, -2px -2px 4px #ffffff', transition: 'all 200ms ease' }}>{m}</button>
+                  <button key={m} onClick={() => setMetal(m)} style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, padding: '10px 18px', border: metal === m ? '1px solid #C4A265' : '1px solid #E8E5E0', backgroundColor: metal === m ? '#FAFAF8' : '#F5F3F0', color: metal === m ? '#C4A265' : '#1A1A1A', borderRadius: '8px', cursor: 'pointer', boxShadow: metal === m ? 'none' : '2px 2px 4px #d4d0cb, -2px -2px 4px #ffffff', transition: 'all 300ms ease' }}>{m}</button>
                 ))}
               </div>
             </div>
@@ -135,7 +135,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               </div>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {sizes.map((s) => (
-                  <button key={s} onClick={() => setSize(s)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: size === s ? '1px solid #C4A265' : '1px solid #E8E5E0', backgroundColor: size === s ? '#1A1A1A' : '#F5F3F0', color: size === s ? '#FFFFFF' : '#1A1A1A', borderRadius: '4px', cursor: 'pointer', boxShadow: size === s ? 'none' : '2px 2px 4px #d4d0cb, -2px -2px 4px #ffffff', transition: 'all 200ms cubic-bezier(0.34,1.56,0.64,1)' }}>{s}</button>
+                  <button key={s} onClick={() => setSize(s)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: size === s ? '1px solid #C4A265' : '1px solid #E8E5E0', backgroundColor: size === s ? '#1A1A1A' : '#F5F3F0', color: size === s ? '#FFFFFF' : '#1A1A1A', borderRadius: '8px', cursor: 'pointer', boxShadow: size === s ? 'none' : '2px 2px 4px #d4d0cb, -2px -2px 4px #ffffff', transition: 'all 200ms cubic-bezier(0.34,1.56,0.64,1)' }}>{s}</button>
                 ))}
               </div>
             </div>
@@ -154,12 +154,19 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
 
           <FadeIn delay={250}>
             <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
-              <button onClick={handleAdd} className="pdp-add-btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '18px 24px', backgroundColor: added ? '#1A1A1A' : '#C4A265', color: '#FFFFFF', border: 'none', borderRadius: '4px', cursor: 'pointer', transition: 'all 300ms ease' }}>
+              <button onClick={handleAdd} className="pdp-add-btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '18px 24px', backgroundColor: added ? '#1A1A1A' : '#C4A265', color: '#FFFFFF', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'all 300ms ease' }}>
                 {added ? '✓ Added to Cart' : <><ShoppingBag size={16} /> Add to Cart — {product.priceDisplay}</>}
               </button>
-              <button onClick={() => setWish(!wish)} style={{ width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E8E5E0', borderRadius: '4px', cursor: 'pointer', backgroundColor: '#F5F3F0', boxShadow: '3px 3px 6px #d4d0cb, -3px -3px 6px #ffffff', transition: 'all 200ms ease' }}>
-                <Heart size={18} fill={wish ? '#C4A265' : 'none'} color={wish ? '#C4A265' : '#9B9590'} style={{ transition: 'all 200ms ease', transform: wish ? 'scale(1.15)' : 'scale(1)' }} />
+              <button onClick={() => setWish(!wish)} style={{ width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E8E5E0', borderRadius: '8px', cursor: 'pointer', backgroundColor: '#F5F3F0', boxShadow: '3px 3px 6px #d4d0cb, -3px -3px 6px #ffffff', transition: 'all 300ms ease' }}>
+                <Heart size={18} fill={wish ? '#C4A265' : 'none'} color={wish ? '#C4A265' : '#9B9590'} style={{ transition: 'all 300ms ease', transform: wish ? 'scale(1.15)' : 'scale(1)' }} />
               </button>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={280}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+              <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#9B9590', letterSpacing: '0.05em' }}>Share this piece</span>
+              <AnimatedSocialIcons size={36} />
             </div>
           </FadeIn>
 
@@ -213,15 +220,18 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
 
       {related.length > 0 && (
         <section style={{ padding: '80px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
-          <FadeIn style={{ marginBottom: '48px' }}>
-            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>You May Also Like</p>
-            <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#1A1A1A' }}>Related Pieces</h2>
+          <FadeIn style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px' }}>
+            <div>
+              <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>You May Also Like</p>
+              <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#1A1A1A' }}>Related Pieces</h2>
+            </div>
+            <ExploreButton text="View All" href={`/minimal/category/${product.category}`} />
           </FadeIn>
           <div className="pdp-related-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
             {related.map((p, i) => (
               <FadeIn key={p.id} delay={i * 100}>
                 <Link href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <div className="vm-card-img" style={{ aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '12px', overflow: 'hidden', borderRadius: '4px' }}>
+                  <div className="vm-card-img" style={{ aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '12px', overflow: 'hidden', borderRadius: '8px' }}>
                     <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} />
                   </div>
                   <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{p.name}</p>
@@ -240,7 +250,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
           <img src={product.images[mainImg]} alt={product.name} style={{ maxWidth: '85vw', maxHeight: '85vh', objectFit: 'contain' }} onClick={(e) => e.stopPropagation()} />
           <div style={{ position: 'absolute', bottom: '32px', display: 'flex', gap: '8px' }} onClick={(e) => e.stopPropagation()}>
             {product.images.map((img, i) => (
-              <button key={i} onClick={() => setMainImg(i)} style={{ width: '56px', height: '56px', borderRadius: '4px', overflow: 'hidden', border: mainImg === i ? '2px solid #C4A265' : '2px solid transparent', opacity: mainImg === i ? 1 : 0.5, cursor: 'pointer', padding: 0, background: 'none' }}>
+              <button key={i} onClick={() => setMainImg(i)} style={{ width: '56px', height: '56px', borderRadius: '8px', overflow: 'hidden', border: mainImg === i ? '2px solid #C4A265' : '2px solid transparent', opacity: mainImg === i ? 1 : 0.5, cursor: 'pointer', padding: 0, background: 'none' }}>
                 <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </button>
             ))}

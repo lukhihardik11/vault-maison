@@ -87,7 +87,7 @@ export function MinimalAbout() {
             </div>
           </FadeIn>
           <FadeIn delay={200}>
-            <div style={{ position: 'relative', aspectRatio: '4/5', backgroundColor: '#F5F4F0', overflow: 'hidden', borderRadius: '4px' }}>
+            <div style={{ position: 'relative', aspectRatio: '4/5', backgroundColor: '#F5F4F0', overflow: 'hidden', borderRadius: '8px' }}>
               <img src="/images/products/classic-gold-ring.jpg" alt="Craftsmanship" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </FadeIn>
@@ -161,10 +161,10 @@ export function MinimalAbout() {
             Whether you are searching for the perfect engagement ring or a bespoke heirloom, our team is here to guide you.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-            <Link href="/minimal/bespoke" className="abt-cta-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', backgroundColor: '#C4A265', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', borderRadius: '4px', transition: 'all 300ms' }}>
+            <Link href="/minimal/bespoke" className="abt-cta-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', backgroundColor: '#C4A265', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', borderRadius: '8px', transition: 'all 300ms' }}>
               Book Consultation <ArrowRight size={14} />
             </Link>
-            <Link href="/minimal/collections" className="abt-cta-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', border: '1px solid #E8E5E0', color: '#1A1A1A', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', borderRadius: '4px', transition: 'all 300ms' }}>
+            <Link href="/minimal/collections" className="abt-cta-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', border: '1px solid #E8E5E0', color: '#1A1A1A', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', borderRadius: '8px', transition: 'all 300ms' }}>
               Browse Collections
             </Link>
           </div>

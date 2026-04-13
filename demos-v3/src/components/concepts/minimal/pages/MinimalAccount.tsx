@@ -6,6 +6,7 @@ import { MinimalLayout } from '../MinimalLayout'
 import { Package, Heart, Settings, LogOut, ChevronRight } from 'lucide-react'
 import AvatarPicker from '../ui/AvatarPicker'
 import SwitchButton from '../ui/SwitchButton'
+import { DarkLoginForm } from '../ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -23,6 +24,17 @@ const mockOrders = [
 
 export function MinimalAccount() {
   const [activeTab, setActiveTab] = useState('orders')
+  const [loggedIn, setLoggedIn] = useState(true)
+
+  if (!loggedIn) {
+    return (
+      <MinimalLayout>
+        <section style={{ padding: '80px 5vw 100px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+          <DarkLoginForm onLogin={() => setLoggedIn(true)} />
+        </section>
+      </MinimalLayout>
+    )
+  }
 
   return (
     <MinimalLayout>
@@ -33,7 +45,7 @@ export function MinimalAccount() {
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>My Account</p>
             <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A' }}>Welcome Back</h1>
           </div>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#9B9590', background: 'none', border: 'none', cursor: 'pointer' }}>
+          <button onClick={() => setLoggedIn(false)} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#9B9590', background: 'none', border: 'none', cursor: 'pointer' }}>
             <LogOut size={14} /> Sign Out
           </button>
         </div>
@@ -50,7 +62,7 @@ export function MinimalAccount() {
               </div>
             </div>
             {tabs.map(tab => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '14px 16px', fontFamily: font, fontSize: '13px', fontWeight: activeTab === tab.id ? 500 : 300, color: activeTab === tab.id ? '#1A1A1A' : '#9B9590', backgroundColor: activeTab === tab.id ? '#F5F4F0' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'all 200ms ease', borderRadius: '4px' }}>
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '14px 16px', fontFamily: font, fontSize: '13px', fontWeight: activeTab === tab.id ? 500 : 300, color: activeTab === tab.id ? '#1A1A1A' : '#9B9590', backgroundColor: activeTab === tab.id ? '#F5F4F0' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'all 300ms ease', borderRadius: '8px' }}>
                 <tab.icon size={16} strokeWidth={1.5} style={{ color: activeTab === tab.id ? '#C4A265' : '#9B9590' }} />
                 {tab.label}
               </button>
