@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Pencil, Gem, Hammer, Gift, Check } from 'lucide-react'
 
@@ -33,7 +32,7 @@ export function MinimalBespoke() {
     <MinimalLayout>
       {/* Hero */}
       <section style={{ position: 'relative', height: '50vh', minHeight: '360px', backgroundColor: '#1A1A1A', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-        <Image src="/images/products/classic-gold-ring.jpg" alt="Bespoke" fill style={{ objectFit: 'cover', opacity: 0.35 }} priority unoptimized />
+        <img src="/images/products/classic-gold-ring.jpg" alt="Bespoke" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', opacity: 0.35  }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '600px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Bespoke Service</p>
           <h1 style={{ fontFamily: font, fontSize: '44px', fontWeight: 200, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.1 }}>Your Vision, Our Craft</h1>

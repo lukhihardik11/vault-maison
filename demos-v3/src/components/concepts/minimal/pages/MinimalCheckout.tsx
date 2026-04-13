@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { useCartStore } from '@/store/cart'
@@ -173,7 +172,7 @@ export function MinimalCheckout() {
               {items.map((item) => (
                 <div key={item.product.id} style={{ display: 'flex', gap: '14px', marginBottom: '16px', alignItems: 'center' }}>
                   <div style={{ position: 'relative', width: '56px', height: '56px', flexShrink: 0, backgroundColor: '#FFFFFF' }}>
-                    <Image src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} sizes="56px" unoptimized />
+                    <img src={item.product.images[0]} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover'  }} />
                     {item.quantity > 1 && <span style={{ position: 'absolute', top: '-6px', right: '-6px', width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#C4A265', color: '#FFFFFF', fontFamily: font, fontSize: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{item.quantity}</span>}
                   </div>
                   <div style={{ flex: 1 }}>

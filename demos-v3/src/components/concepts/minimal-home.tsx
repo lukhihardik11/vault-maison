@@ -1,31 +1,39 @@
 'use client'
 
-import { useEffect, useRef, useCallback } from 'react'
-import Image from 'next/image'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Diamond, Shield, Gem, Clock } from 'lucide-react'
+import { ArrowRight, ArrowDown, Diamond, Shield, Gem, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 import { MinimalLayout } from './minimal/MinimalLayout'
 import { products } from '@/data/products'
+import { GlassmorphismMetrics, DynamicText, CardFlip, SpotlightCards, AttractButton, ShimmerText } from './minimal/ui'
 import type { ConceptConfig } from '@/data/concepts'
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
 const bestsellers = products.filter((p) => p.isBestseller).slice(0, 4)
-const newArrivals = products.filter((p) => p.isNew).slice(0, 4)
+const newArrivals = products.filter((p) => p.isNew).slice(0, 8)
 const heroProduct = products[0]
 
 const categories = [
-  { slug: 'diamond-rings', label: 'Diamond Rings', image: '/images/minimal-engagement-ring.jpg' },
-  { slug: 'diamond-necklaces', label: 'Necklaces', image: '/images/minimal-necklace-pendant.jpg' },
-  { slug: 'diamond-earrings', label: 'Earrings', image: '/images/minimal-diamond-studs.jpg' },
-  { slug: 'diamond-bracelets', label: 'Bracelets', image: '/images/minimal-tennis-bracelet.jpg' },
-  { slug: 'gold-rings', label: 'Gold Rings', image: '/images/minimal-ring-gold.jpg' },
-  { slug: 'gold-necklaces', label: 'Gold Chains', image: '/images/minimal-gold-chain.jpg' },
-  { slug: 'gold-earrings', label: 'Gold Earrings', image: '/images/minimal-earrings-studs.jpg' },
-  { slug: 'loose-diamonds', label: 'Loose Diamonds', image: '/images/minimal-loose-diamond.jpg' },
+  { slug: 'diamond-rings', label: 'Rings', image: '/images/minimal-engagement-ring.jpg', desc: 'Handcrafted diamond rings' },
+  { slug: 'diamond-necklaces', label: 'Necklaces', image: '/images/minimal-necklace-pendant.jpg', desc: 'Elegant pendant necklaces' },
+  { slug: 'diamond-earrings', label: 'Earrings', image: '/images/minimal-diamond-studs.jpg', desc: 'Diamond stud earrings' },
+  { slug: 'diamond-bracelets', label: 'Bracelets', image: '/images/minimal-tennis-bracelet.jpg', desc: 'Tennis bracelets' },
+  { slug: 'loose-diamonds', label: 'Diamonds', image: '/images/minimal-loose-diamond.jpg', desc: 'Certified loose diamonds' },
 ]
 
-/* ── Fade-in on scroll hook ── */
+const collections = [
+  { title: 'Engagement Rings', image: '/images/minimal-engagement-ring.jpg', href: '/minimal/category/diamond-rings' },
+  { title: 'Gold Collection', image: '/images/gold-jewelry-collection.jpg', href: '/minimal/category/gold-rings' },
+  { title: 'Diamond Necklaces', image: '/images/minimal-necklace-pendant.jpg', href: '/minimal/category/diamond-necklaces' },
+  { title: 'Bridal', image: '/images/minimal-wedding-rings.jpg', href: '/minimal/category/wedding-bridal' },
+  { title: 'Earrings', image: '/images/minimal-chandelier-earrings.jpg', href: '/minimal/category/diamond-earrings' },
+  { title: 'Bracelets', image: '/images/minimal-tennis-bracelet.jpg', href: '/minimal/category/diamond-bracelets' },
+]
+
+/* ── Scroll-triggered fade-in ── */
 function useFadeIn() {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -33,7 +41,7 @@ function useFadeIn() {
     if (!el) return
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { el.classList.add('vm-visible'); observer.unobserve(el) } },
-      { threshold: 0.1, rootMargin: '-30px' }
+      { threshold: 0.08, rootMargin: '-20px' }
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -43,9 +51,56 @@ function useFadeIn() {
 
 function FadeIn({ children, className = '', delay = 0, style = {} }: { children: React.ReactNode; className?: string; delay?: number; style?: React.CSSProperties }) {
   const ref = useFadeIn()
+  return <div ref={ref} className={`vm-fade ${className}`} style={{ ...style, transitionDelay: `${delay}ms` }}>{children}</div>
+}
+
+/* ── Parallax Image ── */
+function ParallaxImage({ src, alt, speed = 0.3 }: { src: string; alt: string; speed?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!ref.current) return
+      const rect = ref.current.getBoundingClientRect()
+      const y = (rect.top - window.innerHeight / 2) * speed
+      ref.current.style.transform = `translateY(${y}px) scale(1.15)`
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [speed])
   return (
-    <div ref={ref} className={`vm-fade ${className}`} style={{ ...style, transitionDelay: `${delay}ms` }}>
-      {children}
+    <div style={{ position: 'absolute', inset: '-15%', willChange: 'transform' }} ref={ref}>
+      <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+    </div>
+  )
+}
+
+/* ── Word-by-word scroll reveal ── */
+function ScrollRevealText({ text, className = '' }: { text: string; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const words = el.querySelectorAll('.sr-word')
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        words.forEach((w, i) => {
+          setTimeout(() => (w as HTMLElement).style.opacity = '1', i * 80)
+        })
+        observer.unobserve(el)
+      }
+    }, { threshold: 0.3 })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} className={className}>
+      {text.split(' ').map((word, i) => (
+        <span key={i} className="sr-word" style={{ opacity: 0.15, transition: 'opacity 0.5s ease', display: 'inline-block', marginRight: '0.3em' }}>
+          {word}
+        </span>
+      ))}
     </div>
   )
 }
@@ -55,13 +110,13 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
   return (
     <FadeIn delay={index * 100}>
       <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-        <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '16px', overflow: 'hidden' }}>
+        <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '16px', overflow: 'hidden', borderRadius: '4px' }}>
           <img src={product.images[0]} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} />
           {product.isNew && (
-            <span style={{ position: 'absolute', top: '12px', left: '12px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', backgroundColor: 'rgba(250,250,248,0.92)', padding: '4px 10px', backdropFilter: 'blur(4px)' }}>New</span>
+            <span className="vm-glass-badge" style={{ position: 'absolute', top: '12px', left: '12px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', padding: '4px 10px' }}>New</span>
           )}
           {product.isBestseller && !product.isNew && (
-            <span style={{ position: 'absolute', top: '12px', left: '12px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1A1A1A', backgroundColor: 'rgba(250,250,248,0.92)', padding: '4px 10px', backdropFilter: 'blur(4px)' }}>Bestseller</span>
+            <span className="vm-glass-badge" style={{ position: 'absolute', top: '12px', left: '12px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1A1A1A', padding: '4px 10px' }}>Bestseller</span>
           )}
         </div>
         <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{product.name}</p>
@@ -72,229 +127,275 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
   )
 }
 
-/* ── Section Heading ── */
-function SectionHeading({ label, title, align = 'left', right }: { label: string; title: string; align?: 'left' | 'center'; right?: React.ReactNode }) {
-  return (
-    <FadeIn style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', textAlign: align }}>
-      <div style={{ flex: 1 }}>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>{label}</p>
-        <h2 style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#1A1A1A', letterSpacing: '-0.01em' }}>{title}</h2>
-      </div>
-      {right}
-    </FadeIn>
-  )
-}
-
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
+  const [heroLoaded, setHeroLoaded] = useState(false)
+
+  // Embla carousel for new arrivals
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: 'start', slidesToScroll: 1 },
+    [Autoplay({ delay: 4000, stopOnInteraction: true })]
+  )
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+
+  // Hero parallax
+  const heroImgRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    setHeroLoaded(true)
+    const handleScroll = () => {
+      if (heroImgRef.current) {
+        heroImgRef.current.style.transform = `translateY(${window.scrollY * 0.35}px) scale(1.1)`
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <MinimalLayout>
-      {/* ═══ 1. HERO ═══ */}
-      <section className="vm-hero-animate" style={{ position: 'relative', height: '90vh', minHeight: '600px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0 }}>
+      {/* ═══ SECTION 1: HERO (100vh, parallax) ═══ */}
+      <section style={{ position: 'relative', height: '100vh', minHeight: '600px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+        <div ref={heroImgRef} style={{ position: 'absolute', inset: '-10%', willChange: 'transform' }}>
           <img src="/images/moody-jewelry-1.jpg" alt="Vault Maison" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(26,26,26,0.78) 0%, rgba(26,26,26,0.4) 50%, transparent 100%)' }} />
         </div>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(26,26,26,0.82) 0%, rgba(26,26,26,0.45) 50%, rgba(26,26,26,0.2) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-          <p className="vm-hero-text" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '20px', animationDelay: '0.3s' }}>
+          <p className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '24px', animationDelay: '0.3s' }}>
             The Minimal Machine
           </p>
-          <h1 className="vm-hero-text" style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.1, marginBottom: '24px', maxWidth: '600px', animationDelay: '0.5s' }}>
-            Precision-Cut<br /><span style={{ color: '#C4A265' }}>Diamonds</span>
+          <h1 className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.05, marginBottom: '24px', maxWidth: '650px', letterSpacing: '-0.02em', animationDelay: '0.5s' }}>
+            <DynamicText text="Where Precision" effect="glow" style={{ fontSize: 'inherit', fontWeight: 'inherit', color: 'inherit' }} />
+            <br />
+            <span style={{ color: '#C4A265' }}>Meets Desire</span>
           </h1>
-          <p className="vm-hero-text" style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '420px', marginBottom: '40px', lineHeight: 1.7, animationDelay: '0.7s' }}>
-            Every stone is hand-selected by third-generation gemologists. GIA certified. Crafted to last generations.
+          <p className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: 'rgba(255,255,255,0.65)', maxWidth: '440px', marginBottom: '48px', lineHeight: 1.8, animationDelay: '0.7s' }}>
+            Every stone hand-selected by third-generation gemologists. GIA certified. Crafted to last generations.
           </p>
-          <div className="vm-hero-text" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', animationDelay: '0.9s' }}>
-            <Link href="/minimal/collections" className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '14px 32px', textDecoration: 'none' }}>
+          <div className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', animationDelay: '0.9s' }}>
+            <Link href="/minimal/collections" className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '16px 36px', textDecoration: 'none', borderRadius: '2px' }}>
               Shop Collection <ArrowRight size={14} />
             </Link>
-            <Link href="/minimal/bespoke" className="vm-btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.4)', padding: '14px 32px', textDecoration: 'none' }}>
+            <Link href="/minimal/bespoke" className="vm-btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.35)', padding: '16px 36px', textDecoration: 'none', borderRadius: '2px' }}>
               Bespoke Design
             </Link>
           </div>
         </div>
+        {/* Scroll indicator */}
+        <div className="vm-bounce" style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+          <ArrowDown size={20} color="rgba(255,255,255,0.4)" />
+        </div>
       </section>
 
-      {/* ═══ 2. SHOP BY CATEGORY ═══ */}
-      <section style={{ padding: '100px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
-        <SectionHeading label="Explore" title="Shop by Category" align="center" />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '32px' }}>
+      {/* ═══ SECTION 2: CATEGORY SHOWCASE (CardFlip) ═══ */}
+      <section style={{ padding: '120px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
+        <FadeIn style={{ textAlign: 'center', marginBottom: '64px' }}>
+          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Explore</p>
+          <h2 style={{ fontFamily: font, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 200, color: '#1A1A1A' }}>Shop by Category</h2>
+        </FadeIn>
+        <div className="vm-cat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px' }}>
           {categories.map((cat, i) => (
-            <FadeIn key={cat.slug} delay={i * 80}>
-              <Link href={`/minimal/category/${cat.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block', textAlign: 'center' }}>
-                <div className="vm-card-img" style={{ width: '100%', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', marginBottom: '14px', backgroundColor: '#F5F4F0' }}>
-                  <img src={cat.image} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} />
+            <FadeIn key={cat.slug} delay={i * 100}>
+              <CardFlip
+                title={cat.label}
+                subtitle={cat.desc}
+                description={`Explore our curated ${cat.label.toLowerCase()} collection`}
+                image={cat.image}
+                href={`/minimal/category/${cat.slug}`}
+                features={['GIA Certified', 'Free Shipping', 'Lifetime Warranty']}
+              />
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ SECTION 3: FEATURED PIECE (sticky parallax) ═══ */}
+      <section style={{ backgroundColor: '#F5F4F0', position: 'relative', overflow: 'hidden' }}>
+        <div className="vm-featured-grid" style={{ maxWidth: '1400px', margin: '0 auto', padding: '120px 5vw', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+          <FadeIn>
+            <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '4px' }}>
+              <ParallaxImage src={heroProduct.images[0]} alt={heroProduct.name} speed={0.15} />
+            </div>
+          </FadeIn>
+          <div>
+            <FadeIn>
+              <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '20px' }}>Featured Piece</p>
+              <h2 style={{ fontFamily: font, fontSize: 'clamp(28px, 3vw, 40px)', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>{heroProduct.name}</h2>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '28px' }}>{heroProduct.subtitle}</p>
+            </FadeIn>
+            <FadeIn delay={100}>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555', lineHeight: 1.8, marginBottom: '36px' }}>{heroProduct.description}</p>
+            </FadeIn>
+            {heroProduct.diamondSpecs && (
+              <FadeIn delay={200}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '36px' }}>
+                  {Object.entries(heroProduct.diamondSpecs).filter(([k]) => ['carat','cut','color','clarity'].includes(k)).map(([key, val], i) => (
+                    <div key={key} className="vm-neumorph-card" style={{ padding: '16px 12px', textAlign: 'center' }}>
+                      <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', marginBottom: '6px' }}>{key}</p>
+                      <p style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A' }}>{val}</p>
+                    </div>
+                  ))}
                 </div>
-                <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#1A1A1A', letterSpacing: '0.05em' }}>{cat.label}</p>
+              </FadeIn>
+            )}
+            <FadeIn delay={300}>
+              <p style={{ fontFamily: font, fontSize: '28px', fontWeight: 300, color: '#1A1A1A', marginBottom: '36px' }}>{heroProduct.priceDisplay}</p>
+              <Link href={`/minimal/product/${heroProduct.slug}`} className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '16px 36px', textDecoration: 'none', borderRadius: '2px' }}>
+                Discover <ArrowRight size={14} />
+              </Link>
+            </FadeIn>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SECTION 4: BRAND STORY (kinetic typography) ═══ */}
+      <section style={{ padding: '160px 5vw', backgroundColor: '#1A1A1A', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        {/* Floating parallax images behind text */}
+        <div style={{ position: 'absolute', top: '10%', left: '5%', width: '200px', height: '260px', opacity: 0.08 }}>
+          <ParallaxImage src="/images/diamond-facets-1.jpg" alt="" speed={0.2} />
+        </div>
+        <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: '180px', height: '240px', opacity: 0.08 }}>
+          <ParallaxImage src="/images/diamond-bokeh-1.jpg" alt="" speed={0.25} />
+        </div>
+        <FadeIn style={{ maxWidth: '800px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '40px' }}>Our Philosophy</p>
+          <ScrollRevealText
+            text="Crafted with obsession. Worn with intention. Every facet, every angle, every proportion is calculated to maximize brilliance while minimizing everything else."
+            className="vm-brand-text"
+          />
+          <div style={{ width: '40px', height: '1px', backgroundColor: '#C4A265', margin: '48px auto 24px' }} />
+          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590', letterSpacing: '0.1em' }}>— Vault Maison, Est. 1974</p>
+        </FadeIn>
+      </section>
+
+      {/* ═══ SECTION 5: COLLECTION GRID (stagger) ═══ */}
+      <section style={{ padding: '120px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
+        <FadeIn style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px' }}>
+          <div>
+            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>Curated</p>
+            <h2 style={{ fontFamily: font, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 200, color: '#1A1A1A' }}>Collections</h2>
+          </div>
+          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', textDecoration: 'none' }}>View All →</Link>
+        </FadeIn>
+        <div className="vm-coll-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+          {collections.map((col, i) => (
+            <FadeIn key={col.title} delay={i * 120}>
+              <Link href={col.href} style={{ display: 'block', position: 'relative', aspectRatio: i < 2 ? '3/4' : '4/3', overflow: 'hidden', borderRadius: '4px', textDecoration: 'none' }} className="vm-coll-card">
+                <img src={col.image} alt={col.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 700ms cubic-bezier(0.25,0.46,0.45,0.94)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)' }} />
+                <div style={{ position: 'absolute', bottom: '28px', left: '28px' }}>
+                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Collection</p>
+                  <p style={{ fontFamily: font, fontSize: '20px', fontWeight: 200, color: '#FFFFFF' }}>{col.title}</p>
+                </div>
               </Link>
             </FadeIn>
           ))}
         </div>
       </section>
 
-      {/* ═══ 3. FEATURED PRODUCT ═══ */}
-      <section style={{ backgroundColor: '#F5F4F0' }}>
-        <div className="vm-grid-2col" style={{ maxWidth: '1400px', margin: '0 auto', padding: '100px 5vw', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
-          <FadeIn>
-            <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden' }}>
-              <img src={heroProduct.images[0]} alt={heroProduct.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-          </FadeIn>
-          <FadeIn delay={150}>
-            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Featured Piece</p>
-            <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>{heroProduct.name}</h2>
-            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '24px' }}>{heroProduct.subtitle}</p>
-            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#1A1A1A', lineHeight: 1.8, marginBottom: '32px' }}>{heroProduct.description}</p>
-            {heroProduct.diamondSpecs && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
-                {Object.entries(heroProduct.diamondSpecs).filter(([k]) => ['carat','cut','color','clarity'].includes(k)).map(([key, val]) => (
-                  <div key={key}>
-                    <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', marginBottom: '4px' }}>{key}</p>
-                    <p style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#1A1A1A' }}>{val}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-            <p style={{ fontFamily: font, fontSize: '24px', fontWeight: 300, color: '#1A1A1A', marginBottom: '32px' }}>{heroProduct.priceDisplay}</p>
-            <Link href={`/minimal/product/${heroProduct.slug}`} className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '14px 32px', textDecoration: 'none' }}>
-              View Details <ArrowRight size={14} />
-            </Link>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ═══ 4. BESTSELLERS ═══ */}
-      <section style={{ padding: '100px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
-        <SectionHeading label="Most Loved" title="Bestsellers" right={
-          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', textDecoration: 'none' }}>View All →</Link>
-        } />
-        <div className="vm-grid-products" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
-          {bestsellers.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
-        </div>
-      </section>
-
-      {/* ═══ 5. BRAND MANIFESTO ═══ */}
-      <section style={{ padding: '120px 5vw', backgroundColor: '#1A1A1A', textAlign: 'center' }}>
-        <FadeIn style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '32px' }}>Our Philosophy</p>
-          <p style={{ fontFamily: font, fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.6, marginBottom: '32px' }}>
-            &ldquo;We believe in the quiet power of precision. Every facet, every angle, every proportion is calculated to maximize brilliance while minimizing everything else.&rdquo;
-          </p>
-          <div style={{ width: '40px', height: '1px', backgroundColor: '#C4A265', margin: '0 auto 24px' }} />
-          <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590', letterSpacing: '0.1em' }}>— Vault Maison, Est. 1974</p>
+      {/* ═══ SECTION 6: TRUST & CRAFTSMANSHIP (GlassmorphismMetrics) ═══ */}
+      <section style={{ padding: '120px 5vw', background: 'linear-gradient(180deg, #F5F4F0 0%, #FAFAF8 100%)' }}>
+        <FadeIn>
+          <GlassmorphismMetrics />
         </FadeIn>
       </section>
 
-      {/* ═══ 6. EDITORIAL CAMPAIGN ═══ */}
-      <section style={{ maxWidth: '1400px', margin: '0 auto', padding: '100px 5vw' }}>
-        <SectionHeading label="Editorial" title="The Campaign" />
-        <div className="vm-grid-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <FadeIn>
-            <Link href="/minimal/category/diamond-necklaces" style={{ display: 'block', position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
-              <img src="/images/moody-jewelry-2.jpg" alt="Necklace editorial" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} className="vm-editorial-img" />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%)' }} />
-              <div style={{ position: 'absolute', bottom: '32px', left: '32px' }}>
-                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Collection</p>
-                <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 200, color: '#FFFFFF' }}>Diamond Necklaces</p>
+      {/* ═══ SECTION 7: NEW ARRIVALS CAROUSEL (Embla) ═══ */}
+      <section style={{ padding: '120px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
+        <FadeIn style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px' }}>
+          <div>
+            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>Just In</p>
+            <h2 style={{ fontFamily: font, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 200, color: '#1A1A1A' }}>New Arrivals</h2>
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button onClick={scrollPrev} className="vm-carousel-btn" aria-label="Previous"><ChevronLeft size={18} /></button>
+            <button onClick={scrollNext} className="vm-carousel-btn" aria-label="Next"><ChevronRight size={18} /></button>
+          </div>
+        </FadeIn>
+        <div ref={emblaRef} style={{ overflow: 'hidden', cursor: 'grab' }}>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            {(newArrivals.length > 0 ? newArrivals : products.slice(0, 8)).map((p) => (
+              <div key={p.id} style={{ flex: '0 0 calc(25% - 18px)', minWidth: '220px' }}>
+                <Link href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '14px', overflow: 'hidden', borderRadius: '4px' }}>
+                    <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} />
+                    {p.isNew && <span className="vm-glass-badge" style={{ position: 'absolute', top: '10px', left: '10px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', padding: '4px 10px' }}>New</span>}
+                  </div>
+                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{p.name}</p>
+                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{p.subtitle}</p>
+                  <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{p.priceDisplay}</p>
+                </Link>
               </div>
-            </Link>
-          </FadeIn>
-          <FadeIn delay={120}>
-            <Link href="/minimal/category/gold-rings" style={{ display: 'block', position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
-              <img src="/images/gold-jewelry-collection.jpg" alt="Gold editorial" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} className="vm-editorial-img" />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%)' }} />
-              <div style={{ position: 'absolute', bottom: '32px', left: '32px' }}>
-                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Collection</p>
-                <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 200, color: '#FFFFFF' }}>Gold Collection</p>
-              </div>
-            </Link>
-          </FadeIn>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ═══ 7. NEW ARRIVALS ═══ */}
-      <section style={{ padding: '0 5vw 100px', maxWidth: '1400px', margin: '0 auto' }}>
-        <SectionHeading label="Just In" title="New Arrivals" right={
-          <Link href="/minimal/collections" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590', textDecoration: 'none' }}>View All →</Link>
-        } />
-        <div className="vm-grid-products" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
-          {(newArrivals.length > 0 ? newArrivals : products.slice(4, 8)).map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
-        </div>
-      </section>
-
-      {/* ═══ 8. TRUST METRICS ═══ */}
-      <section style={{ padding: '80px 5vw', borderTop: '1px solid #E8E5E0', borderBottom: '1px solid #E8E5E0' }}>
-        <div className="vm-grid-metrics" style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px', textAlign: 'center' }}>
-          {[
-            { icon: Diamond, value: '1,000+', label: 'Certified Diamonds' },
-            { icon: Shield, value: 'GIA', label: 'Every Stone Certified' },
-            { icon: Gem, value: '50+', label: 'Years of Expertise' },
-            { icon: Clock, value: 'Lifetime', label: 'Warranty Included' },
-          ].map((m, i) => (
-            <FadeIn key={i} delay={i * 100}>
-              <m.icon size={28} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '12px', display: 'inline-block' }} />
-              <p style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#1A1A1A', marginBottom: '4px' }}>{m.value}</p>
-              <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590' }}>{m.label}</p>
-            </FadeIn>
-          ))}
-        </div>
-      </section>
-
-      {/* ═══ 9. NEWSLETTER ═══ */}
-      <section style={{ padding: '100px 5vw', textAlign: 'center' }}>
-        <FadeIn style={{ maxWidth: '500px', margin: '0 auto' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Stay Connected</p>
-          <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Join the Vault</h2>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '32px' }}>Receive early access to new collections, private events, and expert insights.</p>
-          <div style={{ display: 'flex', gap: '0', maxWidth: '400px', margin: '0 auto' }}>
-            <input type="email" placeholder="Your email address" style={{ flex: 1, fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '14px 16px', border: '1px solid #E8E5E0', borderRight: 'none', backgroundColor: 'transparent', color: '#1A1A1A', outline: 'none' }} />
-            <button className="vm-btn-gold" style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '14px 24px', backgroundColor: '#C4A265', color: '#FFFFFF', border: '1px solid #C4A265', cursor: 'pointer' }}>Subscribe</button>
+      {/* ═══ SECTION 8: NEWSLETTER + CTA ═══ */}
+      <section style={{ padding: '120px 5vw', textAlign: 'center', borderTop: '1px solid #E8E5E0' }}>
+        <FadeIn style={{ maxWidth: '520px', margin: '0 auto' }}>
+          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '20px' }}>Stay Connected</p>
+          <h2 style={{ fontFamily: font, fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Join the Maison</h2>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '40px', lineHeight: 1.7 }}>Receive early access to new collections, private events, and expert insights.</p>
+          <div style={{ display: 'flex', gap: '0', maxWidth: '420px', margin: '0 auto' }}>
+            <input type="email" placeholder="Your email address" className="vm-neumorph-input" style={{ flex: 1, fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '16px 18px', border: '1px solid #E8E5E0', borderRight: 'none', backgroundColor: '#F5F3F0', color: '#1A1A1A', outline: 'none', borderRadius: '2px 0 0 2px' }} />
+            <button className="vm-btn-gold" style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '16px 28px', backgroundColor: '#C4A265', color: '#FFFFFF', border: '1px solid #C4A265', cursor: 'pointer', borderRadius: '0 2px 2px 0' }}>Subscribe</button>
           </div>
         </FadeIn>
       </section>
 
-      {/* ── CSS Animations ── */}
+      {/* ── Global Styles ── */}
       <style>{`
         /* Fade-in on scroll */
-        .vm-fade {
-          opacity: 0;
-          transform: translateY(24px);
-          transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .vm-fade.vm-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        .vm-fade { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .vm-fade.vm-visible { opacity: 1; transform: translateY(0); }
 
         /* Hero entrance */
-        .vm-hero-animate {
-          animation: vmHeroFade 1.2s ease forwards;
-        }
-        @keyframes vmHeroFade {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .vm-hero-text {
-          opacity: 0;
-          transform: translateY(20px);
-          animation: vmHeroText 0.8s ease forwards;
-        }
-        @keyframes vmHeroText {
-          to { opacity: 1; transform: translateY(0); }
-        }
+        .vm-hero-el { opacity: 0; transform: translateY(24px); }
+        .vm-hero-el.vm-hero-in { animation: vmHeroIn 0.9s ease forwards; }
+        @keyframes vmHeroIn { to { opacity: 1; transform: translateY(0); } }
+
+        /* Bounce arrow */
+        .vm-bounce { animation: vmBounce 2s ease infinite; }
+        @keyframes vmBounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+        /* Brand story text */
+        .vm-brand-text { font-family: ${font}; font-size: clamp(22px, 3vw, 32px); font-weight: 200; color: #FFFFFF; line-height: 1.7; }
+
+        /* Glassmorphism badge */
+        .vm-glass-badge { background: rgba(250,250,248,0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; }
+
+        /* Neumorphism cards */
+        .vm-neumorph-card { background: #F5F3F0; border-radius: 12px; box-shadow: 4px 4px 8px #d4d0cb, -4px -4px 8px #ffffff; }
+        .vm-neumorph-input { box-shadow: inset 2px 2px 4px #d4d0cb, inset -2px -2px 4px #ffffff; }
+        .vm-neumorph-input:focus { box-shadow: inset 2px 2px 4px #d4d0cb, inset -2px -2px 4px #ffffff, 0 0 0 2px rgba(196,162,101,0.3) !important; }
 
         /* Hover effects */
-        .vm-card-img:hover img { transform: scale(1.04) !important; }
-        .vm-card-img:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
-        .vm-editorial-img:hover { transform: scale(1.03) !important; }
+        .vm-card-img:hover img { transform: scale(1.05) !important; }
+        .vm-card-img:hover { box-shadow: 0 8px 30px rgba(180,170,160,0.15) !important; }
+        .vm-coll-card:hover img { transform: scale(1.05) !important; }
         .vm-btn-gold:hover { background-color: #B3924F !important; }
         .vm-btn-outline:hover { border-color: #C4A265 !important; color: #C4A265 !important; }
 
+        /* Carousel buttons */
+        .vm-carousel-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid #E8E5E0; background: #F5F3F0; border-radius: 50%; cursor: pointer; color: #1A1A1A; box-shadow: 3px 3px 6px #d4d0cb, -3px -3px 6px #ffffff; transition: all 200ms ease; }
+        .vm-carousel-btn:hover { box-shadow: 1px 1px 3px #d4d0cb, -1px -1px 3px #ffffff; color: #C4A265; }
+        .vm-carousel-btn:active { box-shadow: inset 2px 2px 4px #d4d0cb, inset -2px -2px 4px #ffffff; transform: scale(0.97); }
+
+        /* Micro-interactions */
+        button:active { transform: scale(0.97); }
+        a[class*="vm-btn"]:active { transform: scale(0.97); }
+
         /* Responsive */
+        @media (max-width: 1024px) {
+          .vm-cat-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          .vm-featured-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+        }
         @media (max-width: 768px) {
-          .vm-grid-2col { grid-template-columns: 1fr !important; }
-          .vm-grid-products { grid-template-columns: repeat(2, 1fr) !important; }
-          .vm-grid-metrics { grid-template-columns: repeat(2, 1fr) !important; }
+          .vm-cat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .vm-coll-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .vm-cat-grid { grid-template-columns: 1fr 1fr !important; }
         }
       `}</style>
     </MinimalLayout>

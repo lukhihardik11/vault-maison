@@ -1,8 +1,8 @@
 'use client'
 
-import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Gem, Ruler, Eye, Sparkles } from 'lucide-react'
+import MinimalHeroSection from '../ui/MinimalHeroSection'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -16,14 +16,14 @@ const techniques = [
 export function MinimalCraftsmanship() {
   return (
     <MinimalLayout>
-      {/* Hero */}
-      <section style={{ position: 'relative', height: '50vh', minHeight: '360px', backgroundColor: '#1A1A1A', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-        <Image src="/images/products/classic-pendant.jpg" alt="Craftsmanship" fill style={{ objectFit: 'cover', opacity: 0.35 }} priority unoptimized />
-        <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '600px' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Our Craft</p>
-          <h1 style={{ fontFamily: font, fontSize: '44px', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.1 }}>The Art Behind Every Piece</h1>
-        </div>
-      </section>
+      {/* Hero (MinimalHeroSection - KokonutUI) */}
+      <MinimalHeroSection
+        eyebrow="Our Craft"
+        title="The Art Behind Every Piece"
+        subtitle="Where generations of mastery meet modern precision"
+        image="/images/products/classic-pendant.jpg"
+        overlay="dark"
+      />
 
       {/* Intro */}
       <section style={{ padding: '80px 5vw', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>

@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { type Product } from '@/data/products'
 
 interface MinimalProductCardProps {
@@ -22,15 +21,15 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
           backgroundColor: '#F5F5F5',
         }}
       >
-        <Image
+        <img
           src={product.images[0]}
           alt={product.name}
-          fill
           style={{
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
             transition: 'opacity 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           }}
-          sizes="(max-width: 768px) 50vw, 33vw"
           className="minimal-product-img"
         />
       </div>
