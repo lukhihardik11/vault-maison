@@ -10,6 +10,7 @@ import { formatPrice } from '@/data/products'
 import { ConceptLayout, PageHeader, FeaturedProducts } from '@/components/shared'
 import { getBestsellers } from '@/data/products'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalCart } from '@/components/concepts/minimal/pages'
 
 export default function CartPage() {
   const params = useParams()
@@ -17,6 +18,8 @@ export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal } = useCartStore()
 
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalCart />
 
   return (
     <ConceptLayout concept={concept}>

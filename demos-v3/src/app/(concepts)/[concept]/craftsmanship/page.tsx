@@ -6,11 +6,14 @@ import { motion } from 'framer-motion'
 import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, SplitSection, CTABanner } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalCraftsmanship } from '@/components/concepts/minimal/pages'
 
 export default function CraftsmanshipPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalCraftsmanship />
 
   const techniques = [
     { title: 'Hand Setting', desc: 'Each stone is individually set by our master setters, ensuring perfect alignment and maximum brilliance. A single pavé ring may require 6-8 hours of meticulous work.' },

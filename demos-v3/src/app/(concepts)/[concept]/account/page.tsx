@@ -4,11 +4,14 @@ import { useParams } from 'next/navigation'
 import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalAccount } from '@/components/concepts/minimal/pages'
 
 export default function AccountPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalAccount />
 
   return (
     <ConceptLayout concept={concept}>

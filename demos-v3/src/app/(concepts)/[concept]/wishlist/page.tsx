@@ -7,6 +7,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, ProductCard, CTABanner } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { useWishlistStore } from '@/store/wishlist'
+import { MinimalWishlist } from '@/components/concepts/minimal/pages'
 
 export default function WishlistPage() {
   const params = useParams()
@@ -14,6 +15,8 @@ export default function WishlistPage() {
   const { items, removeItem, clearWishlist } = useWishlistStore()
 
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalWishlist />
 
   return (
     <ConceptLayout concept={concept}>
