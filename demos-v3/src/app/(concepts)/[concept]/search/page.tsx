@@ -8,6 +8,7 @@ import { products } from '@/data/products'
 import { ConceptLayout, PageHeader, ProductCard } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalSearch } from '@/components/concepts/minimal/pages'
+import { VaultSearch } from '@/components/concepts/vault/pages'
 
 const priceRanges = [
   { label: 'Under $5,000', min: 0, max: 5000 },
@@ -51,6 +52,7 @@ export default function SearchPage() {
   if (!concept) return null
 
   if (concept.id === 'minimal') return <MinimalSearch />
+  if (concept.id === 'vault') return <VaultSearch />
 
   return (
     <ConceptLayout concept={concept}>

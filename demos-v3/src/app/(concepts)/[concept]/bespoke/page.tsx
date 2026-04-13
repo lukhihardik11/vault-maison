@@ -7,6 +7,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, SplitSection, Testimonial } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalBespoke } from '@/components/concepts/minimal/pages'
+import { VaultBespoke } from '@/components/concepts/vault/pages'
 
 export default function BespokePage() {
   const params = useParams()
@@ -16,6 +17,7 @@ export default function BespokePage() {
   if (!concept) return null
 
   if (concept.id === 'minimal') return <MinimalBespoke />
+  if (concept.id === 'vault') return <VaultBespoke />
 
   const steps = [
     { title: 'Consultation', desc: 'Share your vision with our design team. We listen to your desires, lifestyle, and aesthetic preferences to understand exactly what you seek.' },

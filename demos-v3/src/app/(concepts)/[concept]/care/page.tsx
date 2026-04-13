@@ -4,6 +4,7 @@ import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCare } from '@/components/concepts/minimal/pages'
+import { VaultCare } from '@/components/concepts/vault/pages'
 
 export default function CarePage() {
   const params = useParams()
@@ -11,6 +12,7 @@ export default function CarePage() {
   if (!concept) return null
 
   if (concept.id === 'minimal') return <MinimalCare />
+  if (concept.id === 'vault') return <VaultCare />
   return (
     <InfoPage
       concept={concept}

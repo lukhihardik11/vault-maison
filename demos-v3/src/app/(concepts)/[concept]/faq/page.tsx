@@ -7,6 +7,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, CTABanner } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalFAQ } from '@/components/concepts/minimal/pages'
+import { VaultFAQ } from '@/components/concepts/vault/pages'
 
 const faqs = [
   { q: 'Are your diamonds certified?', a: 'Yes, every diamond above 0.30 carats comes with a certificate from GIA, AGS, or an equivalent independent grading laboratory. Our melee diamonds are batch-certified to ensure consistent quality.' },
@@ -26,6 +27,7 @@ export default function FAQPage() {
   if (!concept) return null
 
   if (concept.id === 'minimal') return <MinimalFAQ />
+  if (concept.id === 'vault') return <VaultFAQ />
   return (
     <ConceptLayout concept={concept}>
       <PageHeader

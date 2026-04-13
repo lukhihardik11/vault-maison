@@ -5,6 +5,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalAccount } from '@/components/concepts/minimal/pages'
+import { VaultAccount } from '@/components/concepts/vault/pages'
 
 export default function AccountPage() {
   const params = useParams()
@@ -12,6 +13,7 @@ export default function AccountPage() {
   if (!concept) return null
 
   if (concept.id === 'minimal') return <MinimalAccount />
+  if (concept.id === 'vault') return <VaultAccount />
 
   return (
     <ConceptLayout concept={concept}>

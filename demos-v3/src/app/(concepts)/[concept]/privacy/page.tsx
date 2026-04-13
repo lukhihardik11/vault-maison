@@ -4,6 +4,7 @@ import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalPrivacy } from '@/components/concepts/minimal/pages'
+import { VaultPrivacy } from '@/components/concepts/vault/pages'
 
 export default function PrivacyPage() {
   const params = useParams()
@@ -11,6 +12,7 @@ export default function PrivacyPage() {
   if (!concept) return null
 
   if (concept.id === 'minimal') return <MinimalPrivacy />
+  if (concept.id === 'vault') return <VaultPrivacy />
   return (
     <InfoPage
       concept={concept}
