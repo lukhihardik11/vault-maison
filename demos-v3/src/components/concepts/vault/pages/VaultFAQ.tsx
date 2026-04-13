@@ -1,11 +1,10 @@
 'use client'
 import { useState } from 'react'
 import { VaultLayout } from '../VaultLayout'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { DarkNeumorphicInput } from '../ui/DarkNeumorphicInput'
 
 const GOLD = '#D4AF37'
-const MUTED = '#333333'
 const TEXT = '#EAEAEA'
 
 const faqs = [
@@ -21,26 +20,70 @@ const faqs = [
 
 export function VaultFAQ() {
   const [open, setOpen] = useState<number | null>(0)
+  const [search, setSearch] = useState('')
+
+  const filtered = search
+    ? faqs.filter(f => f.q.toLowerCase().includes(search.toLowerCase()) || f.a.toLowerCase().includes(search.toLowerCase()))
+    : faqs
 
   return (
     <VaultLayout>
-      <div style={{ maxWidth: 800, margin: '0 auto', padding: '120px 24px 80px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 60 }}>
-          <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase' }}>Help Center</span>
-          <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 42, fontWeight: 400, color: TEXT, marginTop: 12 }}>Frequently Asked Questions</h1>
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '120px 24px 100px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase', fontWeight: 500 }}>Help Center</span>
+          <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 400, color: TEXT, marginTop: 12 }}>Frequently Asked Questions</h1>
+          <div style={{ width: 50, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)`, margin: '20px auto 0' }} />
         </div>
+
+        <div style={{ maxWidth: 500, margin: '0 auto 48px' }}>
+          <DarkNeumorphicInput
+            placeholder="Search questions..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
         <div>
-          {faqs.map((faq, i) => (
-            <div key={i} style={{ borderBottom: `1px solid ${MUTED}` }}>
+          {filtered.map((faq, i) => (
+            <div key={i} style={{
+              borderBottom: '1px solid rgba(212,175,55,0.08)',
+              transition: 'background-color 0.3s ease',
+            }}>
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                style={{ width: '100%', padding: '20px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', color: TEXT, fontSize: 15, fontWeight: 500, textAlign: 'left' }}
+                style={{
+                  width: '100%', padding: '22px 0',
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  color: open === i ? TEXT : 'rgba(234,234,234,0.7)',
+                  fontSize: 15, fontWeight: 500, textAlign: 'left',
+                  fontFamily: 'Inter, sans-serif',
+                  transition: 'color 0.3s ease',
+                }}
               >
                 {faq.q}
-                {open === i ? <ChevronUp size={16} color="rgba(234,234,234,0.4)" /> : <ChevronDown size={16} color="rgba(234,234,234,0.4)" />}
+                <ChevronDown
+                  size={16}
+                  color={open === i ? GOLD : 'rgba(234,234,234,0.3)'}
+                  style={{
+                    transition: 'transform 0.3s ease, color 0.3s ease',
+                    transform: open === i ? 'rotate(180deg)' : 'rotate(0deg)',
+                    flexShrink: 0, marginLeft: 16,
+                  }}
+                />
               </button>
-              <div style={{ maxHeight: open === i ? 200 : 0, overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
-                <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(234,234,234,0.6)', paddingBottom: 20 }}>{faq.a}</p>
+              <div style={{
+                maxHeight: open === i ? 300 : 0,
+                overflow: 'hidden',
+                transition: 'max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}>
+                <p style={{
+                  fontSize: 14, lineHeight: 1.8,
+                  color: 'rgba(234,234,234,0.5)',
+                  paddingBottom: 22, paddingLeft: 0,
+                }}>
+                  {faq.a}
+                </p>
               </div>
             </div>
           ))}

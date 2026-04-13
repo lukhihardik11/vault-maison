@@ -79,7 +79,7 @@ export function SparkleGlowButton({ children, onClick, href, className }: Sparkl
           z-index: 2;
         }
         .vault-sparkle-btn:is(:hover, :focus-visible) { --active: 1; }
-        .vault-sparkle-btn:active { transform: scale(1); }
+        .vault-sparkle-btn:active { transform: scale(0.97); }
         .vault-sparkle-dots {
           overflow: hidden;
           position: absolute;

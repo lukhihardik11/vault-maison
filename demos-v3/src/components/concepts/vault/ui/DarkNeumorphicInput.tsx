@@ -5,6 +5,7 @@ import React from 'react';
 interface DarkNeumorphicInputProps {
   placeholder?: string;
   value?: string;
+  defaultValue?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   className?: string;
@@ -14,6 +15,7 @@ interface DarkNeumorphicInputProps {
 export function DarkNeumorphicInput({
   placeholder = 'Search...',
   value,
+  defaultValue,
   onChange,
   type = 'text',
   className,
@@ -26,6 +28,7 @@ export function DarkNeumorphicInput({
         name={name}
         placeholder={placeholder}
         value={value}
+        defaultValue={defaultValue}
         onChange={onChange}
         className={`vault-neu-input ${className || ''}`}
       />

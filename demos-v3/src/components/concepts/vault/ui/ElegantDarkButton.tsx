@@ -57,6 +57,9 @@ export function ElegantDarkButton({ children, onClick, href, className }: Elegan
           background: #1A1A1A;
           color: #D4AF37;
         }
+        .vault-elegant-btn:active {
+          transform: scale(0.97);
+        }
       `}</style>
     </>
   );
