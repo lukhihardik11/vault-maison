@@ -11,6 +11,7 @@ import { ConceptLayout, PageHeader, FeaturedProducts } from '@/components/shared
 import { getBestsellers } from '@/data/products'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCart } from '@/components/concepts/minimal/pages'
+import { VaultCart } from '@/components/concepts/vault/pages'
 
 export default function CartPage() {
   const params = useParams()
@@ -20,6 +21,7 @@ export default function CartPage() {
   if (!concept) return null
 
   if (concept.id === 'minimal') return <MinimalCart />
+  if (concept.id === 'vault') return <VaultCart />
 
   return (
     <ConceptLayout concept={concept}>

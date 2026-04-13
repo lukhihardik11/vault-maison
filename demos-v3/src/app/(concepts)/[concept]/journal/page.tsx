@@ -8,6 +8,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalJournal } from '@/components/concepts/minimal/pages'
+import { VaultJournal } from '@/components/concepts/vault/pages'
 
 const articles = [
   {
@@ -72,6 +73,7 @@ export default function JournalPage() {
   if (!concept) return null
 
   if (concept.id === 'minimal') return <MinimalJournal />
+  if (concept.id === 'vault') return <VaultJournal />
 
   return (
     <ConceptLayout concept={concept}>
