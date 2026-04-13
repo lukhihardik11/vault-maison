@@ -124,7 +124,7 @@ const MatrixText = ({
           <motion.span
             key={`${index}-${letter.char}`}
             animate={letter.isMatrix ? 'matrix' : 'normal'}
-            className="inline-block w-[1ch] text-center"
+            className="inline-block"
             style={{
               fontVariantNumeric: 'tabular-nums',
             }}
