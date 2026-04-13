@@ -6,6 +6,7 @@ import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalShipping } from '@/components/concepts/minimal/pages'
 import { VaultShipping } from '@/components/concepts/vault/pages'
 import { GalleryShipping } from '@/components/concepts/gallery/pages'
+import { SalonShipping } from '@/components/concepts/salon/pages'
 
 export default function ShippingPage() {
   const params = useParams()
@@ -15,6 +16,7 @@ export default function ShippingPage() {
   if (concept.id === 'minimal') return <MinimalShipping />
   if (concept.id === 'vault') return <VaultShipping />
   if (concept.id === 'gallery') return <GalleryShipping />
+  if (concept.id === 'salon') return <SalonShipping />
   return (
     <InfoPage
       concept={concept}

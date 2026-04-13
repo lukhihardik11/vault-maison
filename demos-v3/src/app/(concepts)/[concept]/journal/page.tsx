@@ -10,6 +10,7 @@ import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalJournal } from '@/components/concepts/minimal/pages'
 import { VaultJournal } from '@/components/concepts/vault/pages'
 import { GalleryJournal } from '@/components/concepts/gallery/pages'
+import { SalonJournal } from '@/components/concepts/salon/pages'
 
 const articles = [
   {
@@ -76,6 +77,7 @@ export default function JournalPage() {
   if (concept.id === 'minimal') return <MinimalJournal />
   if (concept.id === 'vault') return <VaultJournal />
   if (concept.id === 'gallery') return <GalleryJournal />
+  if (concept.id === 'salon') return <SalonJournal />
 
   return (
     <ConceptLayout concept={concept}>
