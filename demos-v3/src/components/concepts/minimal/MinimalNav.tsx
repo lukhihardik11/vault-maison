@@ -28,8 +28,9 @@ export function MinimalNav() {
   }, [])
 
   const links = [
-    { label: 'Collections', href: '/minimal/collections' },
-    { label: 'Journal', href: '/minimal/journal' },
+    { label: 'Diamonds', href: '/minimal/collections' },
+    { label: 'Gold', href: '/minimal/category/gold-rings' },
+    { label: 'New Arrivals', href: '/minimal/category/diamond-necklaces' },
     { label: 'Bespoke', href: '/minimal/bespoke' },
     { label: 'About', href: '/minimal/about' },
   ]

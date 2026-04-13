@@ -1,29 +1,14 @@
 'use client'
 
-import { motion } from 'motion/react'
+import { useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Diamond, Shield, Gem, Clock } from 'lucide-react'
 import { MinimalLayout } from './minimal/MinimalLayout'
 import { products } from '@/data/products'
-import { categoryLabels } from '@/data/concepts'
 import type { ConceptConfig } from '@/data/concepts'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
-
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-50px' },
-  transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const },
-}
-
-const stagger = (i: number) => ({
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-30px' },
-  transition: { duration: 0.6, delay: i * 0.1 },
-})
 
 const bestsellers = products.filter((p) => p.isBestseller).slice(0, 4)
 const newArrivals = products.filter((p) => p.isNew).slice(0, 4)
@@ -40,13 +25,38 @@ const categories = [
   { slug: 'loose-diamonds', label: 'Loose Diamonds', image: '/images/minimal-loose-diamond.jpg' },
 ]
 
+/* ── Fade-in on scroll hook ── */
+function useFadeIn() {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add('vm-visible'); observer.unobserve(el) } },
+      { threshold: 0.1, rootMargin: '-30px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+  return ref
+}
+
+function FadeIn({ children, className = '', delay = 0, style = {} }: { children: React.ReactNode; className?: string; delay?: number; style?: React.CSSProperties }) {
+  const ref = useFadeIn()
+  return (
+    <div ref={ref} className={`vm-fade ${className}`} style={{ ...style, transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  )
+}
+
 /* ── Product Card ── */
 function ProductCard({ product, index }: { product: typeof products[0]; index: number }) {
   return (
-    <motion.div {...stagger(index)}>
+    <FadeIn delay={index * 100}>
       <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
         <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '16px', overflow: 'hidden' }}>
-          <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} unoptimized />
+          <img src={product.images[0]} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} />
           {product.isNew && (
             <span style={{ position: 'absolute', top: '12px', left: '12px', fontFamily: font, fontSize: '9px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', backgroundColor: 'rgba(250,250,248,0.92)', padding: '4px 10px', backdropFilter: 'blur(4px)' }}>New</span>
           )}
@@ -58,20 +68,20 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{product.subtitle}</p>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{product.priceDisplay}</p>
       </Link>
-    </motion.div>
+    </FadeIn>
   )
 }
 
 /* ── Section Heading ── */
 function SectionHeading({ label, title, align = 'left', right }: { label: string; title: string; align?: 'left' | 'center'; right?: React.ReactNode }) {
   return (
-    <motion.div {...fadeUp} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', textAlign: align }}>
+    <FadeIn style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', textAlign: align }}>
       <div style={{ flex: 1 }}>
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>{label}</p>
         <h2 style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#1A1A1A', letterSpacing: '-0.01em' }}>{title}</h2>
       </div>
       {right}
-    </motion.div>
+    </FadeIn>
   )
 }
 
@@ -79,53 +89,45 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   return (
     <MinimalLayout>
       {/* ═══ 1. HERO ═══ */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2 }}
-        style={{ position: 'relative', height: '90vh', minHeight: '600px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}
-      >
+      <section className="vm-hero-animate" style={{ position: 'relative', height: '90vh', minHeight: '600px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0 }}>
-          <Image src="/images/diamond-velvet-1.jpg" alt="Vault Maison" fill style={{ objectFit: 'cover' }} priority unoptimized />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(26,26,26,0.75) 0%, rgba(26,26,26,0.35) 50%, transparent 100%)' }} />
+          <img src="/images/moody-jewelry-1.jpg" alt="Vault Maison" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(26,26,26,0.78) 0%, rgba(26,26,26,0.4) 50%, transparent 100%)' }} />
         </div>
         <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
-            style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '20px' }}>
+          <p className="vm-hero-text" style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '20px', animationDelay: '0.3s' }}>
             The Minimal Machine
-          </motion.p>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5 }}
-            style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.1, marginBottom: '24px', maxWidth: '600px' }}>
+          </p>
+          <h1 className="vm-hero-text" style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.1, marginBottom: '24px', maxWidth: '600px', animationDelay: '0.5s' }}>
             Precision-Cut<br /><span style={{ color: '#C4A265' }}>Diamonds</span>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }}
-            style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '420px', marginBottom: '40px', lineHeight: 1.7 }}>
+          </h1>
+          <p className="vm-hero-text" style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '420px', marginBottom: '40px', lineHeight: 1.7, animationDelay: '0.7s' }}>
             Every stone is hand-selected by third-generation gemologists. GIA certified. Crafted to last generations.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.9 }} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+          </p>
+          <div className="vm-hero-text" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', animationDelay: '0.9s' }}>
             <Link href="/minimal/collections" className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '14px 32px', textDecoration: 'none' }}>
               Shop Collection <ArrowRight size={14} />
             </Link>
             <Link href="/minimal/bespoke" className="vm-btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.4)', padding: '14px 32px', textDecoration: 'none' }}>
               Bespoke Design
             </Link>
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* ═══ 2. SHOP BY CATEGORY ═══ */}
       <section style={{ padding: '100px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
         <SectionHeading label="Explore" title="Shop by Category" align="center" />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '32px' }}>
           {categories.map((cat, i) => (
-            <motion.div key={cat.slug} {...stagger(i)}>
+            <FadeIn key={cat.slug} delay={i * 80}>
               <Link href={`/minimal/category/${cat.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block', textAlign: 'center' }}>
                 <div className="vm-card-img" style={{ width: '100%', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', marginBottom: '14px', backgroundColor: '#F5F4F0' }}>
-                  <Image src={cat.image} alt={cat.label} width={200} height={200} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} unoptimized />
+                  <img src={cat.image} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)' }} />
                 </div>
                 <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#1A1A1A', letterSpacing: '0.05em' }}>{cat.label}</p>
               </Link>
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
       </section>
@@ -133,12 +135,12 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ═══ 3. FEATURED PRODUCT ═══ */}
       <section style={{ backgroundColor: '#F5F4F0' }}>
         <div className="vm-grid-2col" style={{ maxWidth: '1400px', margin: '0 auto', padding: '100px 5vw', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
-          <motion.div {...fadeUp}>
+          <FadeIn>
             <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden' }}>
-              <Image src={heroProduct.images[0]} alt={heroProduct.name} fill style={{ objectFit: 'cover' }} unoptimized />
+              <img src={heroProduct.images[0]} alt={heroProduct.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
-          </motion.div>
-          <motion.div {...fadeUp} transition={{ duration: 0.8, delay: 0.2 }}>
+          </FadeIn>
+          <FadeIn delay={150}>
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Featured Piece</p>
             <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>{heroProduct.name}</h2>
             <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '24px' }}>{heroProduct.subtitle}</p>
@@ -157,7 +159,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <Link href={`/minimal/product/${heroProduct.slug}`} className="vm-btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '14px 32px', textDecoration: 'none' }}>
               View Details <ArrowRight size={14} />
             </Link>
-          </motion.div>
+          </FadeIn>
         </div>
       </section>
 
@@ -173,40 +175,40 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
 
       {/* ═══ 5. BRAND MANIFESTO ═══ */}
       <section style={{ padding: '120px 5vw', backgroundColor: '#1A1A1A', textAlign: 'center' }}>
-        <motion.div {...fadeUp} style={{ maxWidth: '700px', margin: '0 auto' }}>
+        <FadeIn style={{ maxWidth: '700px', margin: '0 auto' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '32px' }}>Our Philosophy</p>
           <p style={{ fontFamily: font, fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.6, marginBottom: '32px' }}>
             &ldquo;We believe in the quiet power of precision. Every facet, every angle, every proportion is calculated to maximize brilliance while minimizing everything else.&rdquo;
           </p>
           <div style={{ width: '40px', height: '1px', backgroundColor: '#C4A265', margin: '0 auto 24px' }} />
           <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590', letterSpacing: '0.1em' }}>— Vault Maison, Est. 1974</p>
-        </motion.div>
+        </FadeIn>
       </section>
 
       {/* ═══ 6. EDITORIAL CAMPAIGN ═══ */}
       <section style={{ maxWidth: '1400px', margin: '0 auto', padding: '100px 5vw' }}>
         <SectionHeading label="Editorial" title="The Campaign" />
         <div className="vm-grid-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <motion.div {...fadeUp}>
+          <FadeIn>
             <Link href="/minimal/category/diamond-necklaces" style={{ display: 'block', position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
-              <Image src="/images/fine-jewelry-necklace.jpg" alt="Necklace editorial" fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} className="vm-editorial-img" unoptimized />
+              <img src="/images/moody-jewelry-2.jpg" alt="Necklace editorial" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} className="vm-editorial-img" />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%)' }} />
               <div style={{ position: 'absolute', bottom: '32px', left: '32px' }}>
                 <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Collection</p>
                 <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 200, color: '#FFFFFF' }}>Diamond Necklaces</p>
               </div>
             </Link>
-          </motion.div>
-          <motion.div {...fadeUp} transition={{ duration: 0.8, delay: 0.15 }}>
+          </FadeIn>
+          <FadeIn delay={120}>
             <Link href="/minimal/category/gold-rings" style={{ display: 'block', position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
-              <Image src="/images/gold-diamond-jewelry.jpg" alt="Gold editorial" fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} className="vm-editorial-img" unoptimized />
+              <img src="/images/gold-jewelry-collection.jpg" alt="Gold editorial" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} className="vm-editorial-img" />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%)' }} />
               <div style={{ position: 'absolute', bottom: '32px', left: '32px' }}>
                 <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Collection</p>
                 <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 200, color: '#FFFFFF' }}>Gold Collection</p>
               </div>
             </Link>
-          </motion.div>
+          </FadeIn>
         </div>
       </section>
 
@@ -229,18 +231,18 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             { icon: Gem, value: '50+', label: 'Years of Expertise' },
             { icon: Clock, value: 'Lifetime', label: 'Warranty Included' },
           ].map((m, i) => (
-            <motion.div key={i} {...stagger(i)}>
+            <FadeIn key={i} delay={i * 100}>
               <m.icon size={28} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '12px', display: 'inline-block' }} />
               <p style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#1A1A1A', marginBottom: '4px' }}>{m.value}</p>
               <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590' }}>{m.label}</p>
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
       </section>
 
       {/* ═══ 9. NEWSLETTER ═══ */}
       <section style={{ padding: '100px 5vw', textAlign: 'center' }}>
-        <motion.div {...fadeUp} style={{ maxWidth: '500px', margin: '0 auto' }}>
+        <FadeIn style={{ maxWidth: '500px', margin: '0 auto' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Stay Connected</p>
           <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Join the Vault</h2>
           <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '32px' }}>Receive early access to new collections, private events, and expert insights.</p>
@@ -248,16 +250,47 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <input type="email" placeholder="Your email address" style={{ flex: 1, fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '14px 16px', border: '1px solid #E8E5E0', borderRight: 'none', backgroundColor: 'transparent', color: '#1A1A1A', outline: 'none' }} />
             <button className="vm-btn-gold" style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '14px 24px', backgroundColor: '#C4A265', color: '#FFFFFF', border: '1px solid #C4A265', cursor: 'pointer' }}>Subscribe</button>
           </div>
-        </motion.div>
+        </FadeIn>
       </section>
 
-      {/* ── Hover CSS ── */}
+      {/* ── CSS Animations ── */}
       <style>{`
+        /* Fade-in on scroll */
+        .vm-fade {
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .vm-fade.vm-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Hero entrance */
+        .vm-hero-animate {
+          animation: vmHeroFade 1.2s ease forwards;
+        }
+        @keyframes vmHeroFade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .vm-hero-text {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: vmHeroText 0.8s ease forwards;
+        }
+        @keyframes vmHeroText {
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hover effects */
         .vm-card-img:hover img { transform: scale(1.04) !important; }
         .vm-card-img:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
         .vm-editorial-img:hover { transform: scale(1.03) !important; }
         .vm-btn-gold:hover { background-color: #B3924F !important; }
         .vm-btn-outline:hover { border-color: #C4A265 !important; color: #C4A265 !important; }
+
+        /* Responsive */
         @media (max-width: 768px) {
           .vm-grid-2col { grid-template-columns: 1fr !important; }
           .vm-grid-products { grid-template-columns: repeat(2, 1fr) !important; }

@@ -1,9 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'motion/react'
 import { MinimalLayout } from '../MinimalLayout'
 import { type Product, getRelatedProducts } from '@/data/products'
 import { useCartStore } from '@/store/cart'
@@ -25,13 +23,9 @@ function Accordion({ title, children, defaultOpen = false }: { title: string; ch
         <span style={{ fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A' }}>{title}</span>
         <ChevronDown size={16} style={{ color: '#9B9590', transition: 'transform 300ms ease', transform: open ? 'rotate(180deg)' : 'rotate(0)' }} />
       </button>
-      <AnimatePresence>
-        {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} style={{ overflow: 'hidden' }}>
-            <div style={{ paddingBottom: '20px' }}>{children}</div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div style={{ maxHeight: open ? '500px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease', opacity: open ? 1 : 0 }}>
+        <div style={{ paddingBottom: '20px' }}>{children}</div>
+      </div>
     </div>
   )
 }
@@ -72,25 +66,11 @@ export function MinimalProductDetail({ product }: Props) {
             onClick={() => setZoomed(!zoomed)}
             style={{ position: 'relative', width: '100%', aspectRatio: '1', backgroundColor: '#F5F4F0', overflow: 'hidden', cursor: 'zoom-in', marginBottom: '12px' }}
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={selectedImage}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                style={{ position: 'absolute', inset: 0 }}
-              >
-                <Image
-                  src={product.images[selectedImage] || product.images[0]}
-                  alt={product.name}
-                  fill
-                  style={{ objectFit: 'cover', transform: zoomed ? 'scale(1.5)' : 'scale(1)', transition: 'transform 400ms ease' }}
-                  priority
-                  unoptimized
-                />
-              </motion.div>
-            </AnimatePresence>
+            <img
+              src={product.images[selectedImage] || product.images[0]}
+              alt={product.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', transform: zoomed ? 'scale(1.5)' : 'scale(1)', transition: 'transform 400ms ease, opacity 300ms ease' }}
+            />
             {product.isNew && (
               <span style={{ position: 'absolute', top: '16px', left: '16px', fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', backgroundColor: 'rgba(250,250,248,0.92)', padding: '6px 14px', backdropFilter: 'blur(4px)', zIndex: 2 }}>New</span>
             )}
@@ -104,7 +84,7 @@ export function MinimalProductDetail({ product }: Props) {
                   onClick={() => setSelectedImage(i)}
                   style={{ position: 'relative', width: '72px', height: '72px', backgroundColor: '#F5F4F0', border: selectedImage === i ? '2px solid #C4A265' : '1px solid #E8E5E0', cursor: 'pointer', overflow: 'hidden', padding: 0, transition: 'border-color 300ms ease' }}
                 >
-                  <Image src={img} alt={`View ${i + 1}`} fill style={{ objectFit: 'cover' }} unoptimized />
+                  <img src={img} alt={`View ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </button>
               ))}
             </div>
@@ -267,7 +247,7 @@ export function MinimalProductDetail({ product }: Props) {
             {related.map((p) => (
               <Link key={p.id} href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div className="vm-card-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '12px', overflow: 'hidden' }}>
-                  <Image src={p.images[0]} alt={p.name} fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} unoptimized />
+                  <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} />
                 </div>
                 <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{p.name}</p>
                 <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{p.priceDisplay}</p>
