@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { GalleryLayout, G } from '../GalleryLayout'
 import { MuseumCaption } from '../ui/MuseumCaption'
+import { GalleryMasonryWall } from '../ui/GalleryMasonryWall'
 
 const articles = [
   { title: 'The Art of the Solitaire', subtitle: 'How a single stone can command an entire room', date: 'March 2025', image: '/images/products/diamond-solitaire-ring.jpg', category: 'Exhibition Notes' },
@@ -70,6 +71,30 @@ export function GalleryJournal() {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* Masonry Visual Gallery */}
+      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '0 32px 140px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <MuseumCaption align="center">Visual Archive</MuseumCaption>
+          <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)', fontWeight: 400, color: G.text, margin: '12px 0 0' }}>
+            From the Studio
+          </h2>
+        </div>
+        <GalleryMasonryWall
+          columns={3}
+          images={[
+            { src: '/images/products/diamond-solitaire-ring.jpg', alt: 'Diamond Solitaire', caption: 'Solitaire Study', ratio: 3/4 },
+            { src: '/images/products/gold-chain-necklace.jpg', alt: 'Gold Chain', caption: 'Chain Detail', ratio: 4/3 },
+            { src: '/images/products/diamond-stud-earrings.jpg', alt: 'Diamond Studs', caption: 'Stud Pair', ratio: 1 },
+            { src: '/images/products/gold-bangle-bracelet.jpg', alt: 'Gold Bangle', caption: 'Bangle Form', ratio: 4/3 },
+            { src: '/images/products/loose-round-diamond.jpg', alt: 'Loose Diamond', caption: 'Brilliant Cut', ratio: 3/4 },
+            { src: '/images/products/diamond-tennis-bracelet.jpg', alt: 'Tennis Bracelet', caption: 'Tennis Line', ratio: 4/3 },
+            { src: '/images/products/diamond-eternity-band.jpg', alt: 'Eternity Band', caption: 'Eternity Circle', ratio: 1 },
+            { src: '/images/products/gold-hoop-earrings.jpg', alt: 'Gold Hoops', caption: 'Hoop Study', ratio: 3/4 },
+            { src: '/images/products/diamond-pendant-necklace.jpg', alt: 'Pendant', caption: 'Pendant Drop', ratio: 4/3 },
+          ]}
+        />
       </section>
 
       <style>{`
