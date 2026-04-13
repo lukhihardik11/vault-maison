@@ -2,7 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { MinimalPage } from '../MinimalPage'
+import { motion } from 'motion/react'
+import { MinimalLayout } from '../MinimalLayout'
+
+const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
 const articles = [
   {
@@ -62,98 +65,218 @@ const articles = [
 ]
 
 export function MinimalJournal() {
-  return (
-    <MinimalPage title="Journal" subtitle="Notes on craft, material, and design.">
-      <div style={{ maxWidth: '800px' }}>
-        {/* Featured Article */}
-        <Link
-          href="#"
-          style={{
-            display: 'block',
-            marginBottom: '60px',
-            textDecoration: 'none',
-            color: '#050505',
-          }}
-        >
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '16 / 9',
-              overflow: 'hidden',
-              backgroundColor: '#F5F5F5',
-              marginBottom: '20px',
-            }}
-          >
-            <Image
-              src={articles[0].image}
-              alt={articles[0].title}
-              fill
-              style={{ objectFit: 'cover' }}
-              sizes="(max-width: 768px) 100vw, 800px"
-            />
-          </div>
-          <p style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', opacity: 0.4, marginBottom: '8px' }}>
-            {articles[0].category} &middot; {articles[0].readTime}
-          </p>
-          <h2 style={{ fontSize: '22px', fontWeight: 300, marginBottom: '8px' }}>
-            {articles[0].title}
-          </h2>
-          <p style={{ fontSize: '13px', fontWeight: 300, lineHeight: 1.7, opacity: 0.6 }}>
-            {articles[0].excerpt}
-          </p>
-        </Link>
+  const featured = articles[0]
+  const rest = articles.slice(1)
 
-        {/* Article List */}
-        <div style={{ borderTop: '1px solid #E5E5E5' }}>
-          {articles.slice(1).map((article) => (
-            <Link
-              key={article.slug}
-              href="#"
-              style={{
-                display: 'flex',
-                gap: '24px',
-                padding: '24px 0',
-                borderBottom: '1px solid #E5E5E5',
-                textDecoration: 'none',
-                color: '#050505',
-                alignItems: 'flex-start',
-              }}
-              className="minimal-journal-item"
-            >
-              <div
-                style={{
-                  position: 'relative',
-                  width: '120px',
-                  height: '80px',
-                  flexShrink: 0,
-                  backgroundColor: '#F5F5F5',
-                  overflow: 'hidden',
-                }}
-              >
+  return (
+    <MinimalLayout>
+      {/* Header */}
+      <section style={{ padding: '100px 5vw 0' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <p style={{
+            fontFamily: font,
+            fontSize: '11px',
+            fontWeight: 400,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: '#050505',
+            opacity: 0.4,
+            marginBottom: '8px',
+          }}>
+            Journal
+          </p>
+          <h1 style={{
+            fontFamily: font,
+            fontSize: '32px',
+            fontWeight: 200,
+            letterSpacing: '0.02em',
+            color: '#050505',
+            marginBottom: '16px',
+          }}>
+            Notes on Craft
+          </h1>
+          <p style={{
+            fontFamily: font,
+            fontSize: '13px',
+            fontWeight: 300,
+            color: '#050505',
+            opacity: 0.5,
+            maxWidth: '500px',
+          }}>
+            Observations on material, design, and the pursuit of precision.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Featured Article — Full Width */}
+      <section style={{ padding: '60px 5vw 0' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <Link
+            href="#"
+            style={{ textDecoration: 'none', color: '#050505', display: 'block' }}
+            className="minimal-journal-featured"
+          >
+            <div className="minimal-journal-featured-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '40px', alignItems: 'center' }}>
+              <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
                 <Image
-                  src={article.image}
-                  alt={article.title}
+                  src={featured.image}
+                  alt={featured.title}
                   fill
-                  style={{ objectFit: 'cover' }}
-                  sizes="120px"
+                  style={{ objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}
+                  unoptimized
+                  className="minimal-journal-featured-img"
                 />
               </div>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', opacity: 0.3, marginBottom: '4px' }}>
-                  {article.category} &middot; {article.readTime}
+              <div>
+                <p style={{
+                  fontFamily: font,
+                  fontSize: '10px',
+                  fontWeight: 400,
+                  letterSpacing: '0.25em',
+                  textTransform: 'uppercase',
+                  color: '#050505',
+                  opacity: 0.35,
+                  marginBottom: '12px',
+                }}>
+                  {featured.category} &middot; {featured.readTime}
                 </p>
-                <h3 style={{ fontSize: '15px', fontWeight: 300, marginBottom: '4px' }}>
-                  {article.title}
-                </h3>
-                <p style={{ fontSize: '13px', fontWeight: 300, lineHeight: 1.6, opacity: 0.5 }}>
-                  {article.excerpt}
+                <h2 style={{
+                  fontFamily: font,
+                  fontSize: '26px',
+                  fontWeight: 200,
+                  letterSpacing: '0.01em',
+                  color: '#050505',
+                  lineHeight: 1.3,
+                  marginBottom: '16px',
+                }}>
+                  {featured.title}
+                </h2>
+                <p style={{
+                  fontFamily: font,
+                  fontSize: '13px',
+                  fontWeight: 300,
+                  lineHeight: 1.8,
+                  color: '#050505',
+                  opacity: 0.6,
+                  marginBottom: '24px',
+                }}>
+                  {featured.excerpt}
                 </p>
+                <span style={{
+                  fontFamily: font,
+                  fontSize: '11px',
+                  fontWeight: 400,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#050505',
+                  opacity: 0.5,
+                }}>
+                  Read Article &rarr;
+                </span>
               </div>
-            </Link>
-          ))}
+            </div>
+          </Link>
+        </motion.div>
+      </section>
+
+      {/* Article Grid — 3 columns */}
+      <section style={{ padding: '80px 5vw 120px' }}>
+        <div style={{ borderTop: '1px solid #E5E5E5', paddingTop: '48px' }}>
+          <div className="minimal-journal-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+            {rest.map((article, i) => (
+              <motion.div
+                key={article.slug}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                <Link
+                  href="#"
+                  style={{ textDecoration: 'none', color: '#050505', display: 'block' }}
+                  className="minimal-journal-card"
+                >
+                  <div style={{ position: 'relative', aspectRatio: '3/2', overflow: 'hidden', backgroundColor: '#F5F5F5', marginBottom: '16px' }}>
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      style={{ objectFit: 'cover', transition: 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}
+                      unoptimized
+                      className="minimal-journal-card-img"
+                    />
+                  </div>
+                  <p style={{
+                    fontFamily: font,
+                    fontSize: '10px',
+                    fontWeight: 400,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: '#050505',
+                    opacity: 0.35,
+                    marginBottom: '8px',
+                  }}>
+                    {article.category} &middot; {article.readTime}
+                  </p>
+                  <h3 style={{
+                    fontFamily: font,
+                    fontSize: '16px',
+                    fontWeight: 300,
+                    letterSpacing: '0.01em',
+                    color: '#050505',
+                    lineHeight: 1.3,
+                    marginBottom: '8px',
+                  }}>
+                    {article.title}
+                  </h3>
+                  <p style={{
+                    fontFamily: font,
+                    fontSize: '12px',
+                    fontWeight: 300,
+                    lineHeight: 1.7,
+                    color: '#050505',
+                    opacity: 0.5,
+                  }}>
+                    {article.excerpt}
+                  </p>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
-    </MinimalPage>
+      </section>
+
+      <style>{`
+        .minimal-journal-featured:hover .minimal-journal-featured-img {
+          transform: scale(1.03);
+        }
+        .minimal-journal-card:hover .minimal-journal-card-img {
+          transform: scale(1.03);
+        }
+        @media (max-width: 768px) {
+          .minimal-journal-featured-grid {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          .minimal-journal-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .minimal-journal-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+      `}</style>
+    </MinimalLayout>
   )
 }

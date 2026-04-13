@@ -1,6 +1,9 @@
 'use client'
 
-import { MinimalPage } from '../MinimalPage'
+import { motion } from 'motion/react'
+import { MinimalLayout } from '../MinimalLayout'
+
+const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
 const sections = [
   {
@@ -31,18 +34,98 @@ const sections = [
 
 export function MinimalPrivacy() {
   return (
-    <MinimalPage title="Privacy" subtitle="How we handle your data.">
-      <div style={{ maxWidth: '600px' }}>
-        <p style={{ fontSize: '11px', fontWeight: 300, opacity: 0.4, marginBottom: '48px' }}>
-          Last updated: March 2024
-        </p>
+    <MinimalLayout>
+      {/* Header */}
+      <section style={{ padding: '100px 5vw 0' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <p style={{
+            fontFamily: font,
+            fontSize: '11px',
+            fontWeight: 400,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: '#050505',
+            opacity: 0.4,
+            marginBottom: '8px',
+          }}>
+            Legal
+          </p>
+          <h1 style={{
+            fontFamily: font,
+            fontSize: '32px',
+            fontWeight: 200,
+            letterSpacing: '0.02em',
+            color: '#050505',
+            marginBottom: '16px',
+          }}>
+            Privacy Policy
+          </h1>
+          <p style={{
+            fontFamily: font,
+            fontSize: '11px',
+            fontWeight: 300,
+            color: '#050505',
+            opacity: 0.35,
+          }}>
+            Last updated: March 2024
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Sections */}
+      <section style={{ padding: '60px 5vw 120px', maxWidth: '700px' }}>
         {sections.map((section, i) => (
-          <div key={i} style={{ marginBottom: '48px' }}>
-            <h2 style={{ fontSize: '15px', fontWeight: 400, marginBottom: '12px' }}>{section.title}</h2>
-            <p style={{ fontSize: '13px', fontWeight: 300, lineHeight: 1.8, opacity: 0.7 }}>{section.content}</p>
-          </div>
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, delay: i * 0.05 }}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '40px 1fr',
+              gap: '16px',
+              padding: '32px 0',
+              borderBottom: '1px solid #E5E5E5',
+            }}
+          >
+            <span style={{
+              fontFamily: font,
+              fontSize: '11px',
+              fontWeight: 400,
+              color: '#050505',
+              opacity: 0.2,
+            }}>
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h2 style={{
+                fontFamily: font,
+                fontSize: '15px',
+                fontWeight: 400,
+                color: '#050505',
+                marginBottom: '8px',
+              }}>
+                {section.title}
+              </h2>
+              <p style={{
+                fontFamily: font,
+                fontSize: '13px',
+                fontWeight: 300,
+                lineHeight: 1.8,
+                color: '#050505',
+                opacity: 0.6,
+              }}>
+                {section.content}
+              </p>
+            </div>
+          </motion.div>
         ))}
-      </div>
-    </MinimalPage>
+      </section>
+    </MinimalLayout>
   )
 }
