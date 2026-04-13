@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { allCategories, categoryLabels, categoryDescriptions } from '@/data/concepts'
 import { VaultLayout } from '../VaultLayout'
 import { ArrowRight } from 'lucide-react'
+import { ElegantDarkButton } from '../ui/ElegantDarkButton'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'

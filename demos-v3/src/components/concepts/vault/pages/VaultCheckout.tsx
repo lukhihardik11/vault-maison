@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useCartStore } from '@/store/cart'
 import { VaultLayout } from '../VaultLayout'
 import { Shield, Lock, Check } from 'lucide-react'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -61,9 +62,7 @@ export function VaultCheckout() {
                   <div><label style={{ fontSize: 12, color: 'rgba(234,234,234,0.4)', display: 'block', marginBottom: 6 }}>State</label><input style={inputStyle} placeholder="State" /></div>
                   <div><label style={{ fontSize: 12, color: 'rgba(234,234,234,0.4)', display: 'block', marginBottom: 6 }}>Zip</label><input style={inputStyle} placeholder="Zip code" /></div>
                 </div>
-                <button onClick={() => setStep(2)} style={{ marginTop: 32, padding: '16px 40px', backgroundColor: GOLD, color: BG, border: 'none', borderRadius: 4, fontSize: 13, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}>
-                  Continue to Payment
-                </button>
+                <div style={{ marginTop: 32 }}><SparkleGlowButton onClick={() => setStep(2)}>Continue to Payment</SparkleGlowButton></div>
               </div>
             )}
             {step === 2 && (
@@ -80,7 +79,7 @@ export function VaultCheckout() {
                 </div>
                 <div style={{ display: 'flex', gap: 16 }}>
                   <button onClick={() => setStep(1)} style={{ padding: '16px 32px', backgroundColor: 'transparent', border: `1px solid ${MUTED}`, borderRadius: 4, color: TEXT, fontSize: 13, cursor: 'pointer' }}>Back</button>
-                  <button onClick={() => setStep(3)} style={{ padding: '16px 40px', backgroundColor: GOLD, color: BG, border: 'none', borderRadius: 4, fontSize: 13, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}>Review Order</button>
+                  <SparkleGlowButton onClick={() => setStep(3)}>Review Order</SparkleGlowButton>
                 </div>
               </div>
             )}
@@ -101,7 +100,7 @@ export function VaultCheckout() {
                 ))}
                 <div style={{ display: 'flex', gap: 16, marginTop: 32 }}>
                   <button onClick={() => setStep(2)} style={{ padding: '16px 32px', backgroundColor: 'transparent', border: `1px solid ${MUTED}`, borderRadius: 4, color: TEXT, fontSize: 13, cursor: 'pointer' }}>Back</button>
-                  <button style={{ padding: '16px 40px', backgroundColor: GOLD, color: BG, border: 'none', borderRadius: 4, fontSize: 13, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}>Place Order</button>
+                  <SparkleGlowButton>Place Order</SparkleGlowButton>
                 </div>
               </div>
             )}

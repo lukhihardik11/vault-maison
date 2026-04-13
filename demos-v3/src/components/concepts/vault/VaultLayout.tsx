@@ -1,7 +1,8 @@
 'use client'
 import { type ReactNode } from 'react'
-import { VaultNav } from './VaultNav'
-import { VaultFooter } from './VaultFooter'
+import { ScrollAwareHeader } from './ui/ScrollAwareHeader'
+import { CinematicFooter } from './ui/CinematicFooter'
+import { FloatingNavbar } from './ui/FloatingNavbar'
 
 interface VaultLayoutProps {
   children: ReactNode
@@ -12,9 +13,10 @@ interface VaultLayoutProps {
 export function VaultLayout({ children, hideNav = false, hideFooter = false }: VaultLayoutProps) {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#0A0A0A', color: '#EAEAEA', fontFamily: 'Inter, sans-serif' }}>
-      {!hideNav && <VaultNav />}
+      {!hideNav && <ScrollAwareHeader />}
       <main>{children}</main>
-      {!hideFooter && <VaultFooter />}
+      {!hideFooter && <CinematicFooter />}
+      <FloatingNavbar />
     </div>
   )
 }

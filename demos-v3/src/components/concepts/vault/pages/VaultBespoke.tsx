@@ -1,6 +1,8 @@
 'use client'
 import { VaultLayout } from '../VaultLayout'
 import { Diamond, Palette, Gem, Award } from 'lucide-react'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
+import { DarkNeumorphicInput } from '../ui/DarkNeumorphicInput'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -84,9 +86,7 @@ export function VaultBespoke() {
           <div style={{ marginTop: 16 }}><label style={{ fontSize: 12, color: 'rgba(234,234,234,0.4)', display: 'block', marginBottom: 6 }}>Describe Your Vision</label>
             <textarea style={{ ...inputStyle, minHeight: 120, resize: 'vertical' }} placeholder="Tell us about the piece you envision..." />
           </div>
-          <button style={{ marginTop: 24, width: '100%', padding: '16px', backgroundColor: GOLD, color: BG, border: 'none', borderRadius: 4, fontSize: 13, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}>
-            Request Consultation
-          </button>
+          <div style={{ marginTop: 24 }}><SparkleGlowButton>Request Consultation</SparkleGlowButton></div>
         </div>
       </section>
     </VaultLayout>

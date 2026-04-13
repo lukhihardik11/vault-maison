@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { products } from '@/data/products'
 import { VaultLayout } from '../VaultLayout'
 import { Search, X } from 'lucide-react'
+import { DarkNeumorphicInput } from '../ui/DarkNeumorphicInput'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
 
 const GOLD = '#D4AF37'
 const SURFACE = '#141414'
@@ -28,15 +30,12 @@ export function VaultSearch() {
       <div style={{ maxWidth: 1440, margin: '0 auto', padding: '120px 24px 80px' }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 42, fontWeight: 400, color: TEXT, marginBottom: 24 }}>Search</h1>
-          <div style={{ maxWidth: 600, margin: '0 auto', position: 'relative' }}>
-            <Search size={18} color="rgba(234,234,234,0.3)" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)' }} />
-            <input
+          <div style={{ maxWidth: 600, margin: '0 auto' }}>
+            <DarkNeumorphicInput
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search diamonds, rings, necklaces..."
-              style={{ width: '100%', padding: '16px 48px', backgroundColor: SURFACE, border: `1px solid ${MUTED}`, borderRadius: 8, color: TEXT, fontSize: 16, outline: 'none' }}
             />
-            {query && <button onClick={() => setQuery('')} style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(234,234,234,0.3)' }}><X size={18} /></button>}
           </div>
         </div>
 

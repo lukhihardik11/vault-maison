@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { VaultLayout } from '../VaultLayout'
 import { ArrowRight } from 'lucide-react'
+import { ElegantDarkButton } from '../ui/ElegantDarkButton'
 
 const GOLD = '#D4AF37'
 const SURFACE = '#141414'

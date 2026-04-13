@@ -5,7 +5,10 @@ import { type ProductCategory, categoryLabels, categoryDescriptions } from '@/da
 import { getProductsByCategory, type Product } from '@/data/products'
 import { useWishlistStore } from '@/store/wishlist'
 import { VaultLayout } from '../VaultLayout'
-import { Heart, SlidersHorizontal, Grid, List, ChevronDown } from 'lucide-react'
+import { Heart, SlidersHorizontal, Grid, List, ChevronDown, Search } from 'lucide-react'
+import { DarkNeumorphicInput } from '../ui/DarkNeumorphicInput'
+import { ElegantDarkButton } from '../ui/ElegantDarkButton'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -36,11 +39,13 @@ export function VaultCategory({ category }: { category: string }) {
   const [priceFilter, setPriceFilter] = useState<string>('all')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const { items: wishlist, addItem: addWish, removeItem: removeWish } = useWishlistStore()
 
   const filtered = useMemo(() => {
     let result = [...products]
+    if (searchQuery) result = result.filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.subtitle.toLowerCase().includes(searchQuery.toLowerCase()))
     if (materialFilter !== 'all') result = result.filter((p) => p.material === materialFilter)
     if (priceFilter === 'under5k') result = result.filter((p) => p.price < 5000)
     else if (priceFilter === '5k-10k') result = result.filter((p) => p.price >= 5000 && p.price <= 10000)
@@ -49,7 +54,7 @@ export function VaultCategory({ category }: { category: string }) {
     else if (sort === 'price-desc') result.sort((a, b) => b.price - a.price)
     else if (sort === 'newest') result.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0))
     return result
-  }, [products, sort, materialFilter, priceFilter])
+  }, [products, sort, materialFilter, priceFilter, searchQuery])
 
   return (
     <VaultLayout>
@@ -71,6 +76,15 @@ export function VaultCategory({ category }: { category: string }) {
           {desc && <p style={{ fontSize: 15, color: 'rgba(234,234,234,0.5)', marginTop: 8, maxWidth: 600 }}>{desc}</p>}
         </div>
       </section>
+
+      {/* Search */}
+      <div style={{ maxWidth: 1440, margin: '0 auto', padding: '24px 24px 0' }}>
+        <DarkNeumorphicInput
+          placeholder="Search this collection..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
 
       {/* Toolbar */}
       <div style={{ maxWidth: 1440, margin: '0 auto', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${MUTED}` }}>
@@ -200,9 +214,11 @@ export function VaultCategory({ category }: { category: string }) {
         {filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
             <p style={{ fontSize: 16, color: 'rgba(234,234,234,0.5)' }}>No pieces match your current filters.</p>
-            <button onClick={() => { setMaterialFilter('all'); setPriceFilter('all') }} style={{ marginTop: 16, padding: '12px 24px', backgroundColor: GOLD, color: BG, border: 'none', borderRadius: 4, fontSize: 13, cursor: 'pointer' }}>
-              Clear Filters
-            </button>
+            <div style={{ marginTop: 16 }}>
+              <SparkleGlowButton onClick={() => { setMaterialFilter('all'); setPriceFilter('all'); setSearchQuery('') }}>
+                Clear All Filters
+              </SparkleGlowButton>
+            </div>
           </div>
         )}
       </div>

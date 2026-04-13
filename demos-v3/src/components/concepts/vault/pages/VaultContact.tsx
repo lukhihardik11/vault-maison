@@ -1,6 +1,8 @@
 'use client'
 import { VaultLayout } from '../VaultLayout'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
+import { DarkNeumorphicInput } from '../ui/DarkNeumorphicInput'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -67,9 +69,7 @@ export function VaultContact() {
             <div style={{ marginTop: 16 }}><label style={{ fontSize: 12, color: 'rgba(234,234,234,0.4)', display: 'block', marginBottom: 6 }}>Message</label>
               <textarea style={{ ...inputStyle, minHeight: 120, resize: 'vertical' }} placeholder="How can we help you?" />
             </div>
-            <button style={{ marginTop: 24, width: '100%', padding: '16px', backgroundColor: GOLD, color: BG, border: 'none', borderRadius: 4, fontSize: 13, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}>
-              Send Message
-            </button>
+            <div style={{ marginTop: 24 }}><SparkleGlowButton>Send Message</SparkleGlowButton></div>
           </div>
         </div>
       </div>

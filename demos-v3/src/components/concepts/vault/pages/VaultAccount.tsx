@@ -2,6 +2,8 @@
 import { useState } from 'react'
 import { VaultLayout } from '../VaultLayout'
 import { User, Package, Heart, Settings, LogOut } from 'lucide-react'
+import { DarkNeumorphicInput } from '../ui/DarkNeumorphicInput'
+import { SparkleGlowButton } from '../ui/SparkleGlowButton'
 
 const GOLD = '#D4AF37'
 const SURFACE = '#141414'
@@ -57,7 +59,7 @@ export function VaultAccount() {
                   <div><label style={{ fontSize: 12, color: 'rgba(234,234,234,0.4)', display: 'block', marginBottom: 6 }}>Last Name</label><input defaultValue="Chen" style={{ width: '100%', padding: '12px 16px', backgroundColor: 'rgba(255,255,255,0.03)', border: `1px solid ${MUTED}`, borderRadius: 4, color: TEXT, fontSize: 14 }} /></div>
                 </div>
                 <div style={{ marginTop: 16 }}><label style={{ fontSize: 12, color: 'rgba(234,234,234,0.4)', display: 'block', marginBottom: 6 }}>Email</label><input defaultValue="victoria@example.com" style={{ width: '100%', padding: '12px 16px', backgroundColor: 'rgba(255,255,255,0.03)', border: `1px solid ${MUTED}`, borderRadius: 4, color: TEXT, fontSize: 14 }} /></div>
-                <button style={{ marginTop: 24, padding: '14px 32px', backgroundColor: GOLD, color: '#0A0A0A', border: 'none', borderRadius: 4, fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer' }}>Save Changes</button>
+                <div style={{ marginTop: 24 }}><SparkleGlowButton>Save Changes</SparkleGlowButton></div>
               </div>
             )}
             {activeTab === 'orders' && (
