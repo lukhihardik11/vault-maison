@@ -3,8 +3,7 @@ import Link from 'next/link'
 import { allCategories, categoryLabels, categoryDescriptions } from '@/data/concepts'
 import { VaultLayout } from '../VaultLayout'
 import { ArrowRight } from 'lucide-react'
-import { ElegantDarkButton } from '../ui/ElegantDarkButton'
-import { SparkleGlowButton } from '../ui/SparkleGlowButton'
+import { VaultHoverPeek } from '../ui/VaultHoverPeek'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -23,47 +22,56 @@ const categoryImages: Record<string, string> = {
 export function VaultCollections() {
   return (
     <VaultLayout>
+      <style jsx global>{`
+        .vault-collection-card { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease; }
+        .vault-collection-card:hover { transform: translateY(-6px); box-shadow: 0 24px 80px rgba(212,175,55,0.1); }
+        .vault-collection-card:hover img { transform: scale(1.06); filter: brightness(0.55) !important; }
+        .vault-collection-card:hover .vault-explore-arrow { transform: translateX(4px); }
+      `}</style>
+
       {/* Hero */}
-      <section style={{ position: 'relative', height: 400, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <section style={{ position: 'relative', height: 440, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ position: 'absolute', inset: 0 }}>
-          <img src="/images/vault/diamond-macro-dark.jpg" alt="Collections" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.25)' }} />
+          <img src="/images/vault/diamond-macro-dark.jpg" alt="Collections" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.2)' }} />
         </div>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.06) 0%, transparent 60%)' }} />
         <div style={{ position: 'relative', zIndex: 5, textAlign: 'center' }}>
-          <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase' }}>The Vault</span>
+          <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase', fontWeight: 500 }}>The Vault</span>
           <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 400, color: TEXT, marginTop: 12 }}>Our Collections</h1>
-          <p style={{ fontSize: 15, color: 'rgba(234,234,234,0.5)', marginTop: 12, maxWidth: 500, margin: '12px auto 0' }}>
+          <div style={{ width: 50, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)`, margin: '20px auto 0' }} />
+          <p style={{ fontSize: 15, color: 'rgba(234,234,234,0.45)', marginTop: 16, maxWidth: 500, margin: '16px auto 0', lineHeight: 1.8 }}>
             Explore our curated categories of extraordinary jewelry
           </p>
         </div>
       </section>
 
       {/* Categories Grid */}
-      <section style={{ maxWidth: 1440, margin: '0 auto', padding: '80px 24px' }}>
+      <section style={{ maxWidth: 1440, margin: '0 auto', padding: '80px 24px 120px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
           {allCategories.map((cat) => (
-            <Link key={cat} href={`/vault/category/${cat}`} style={{ textDecoration: 'none' }}>
-              <div style={{
-                position: 'relative', borderRadius: 8, overflow: 'hidden',
-                aspectRatio: '4/3', backgroundColor: SURFACE,
-                border: '1px solid rgba(212,175,55,0.15)',
-                transition: 'transform 0.4s ease, box-shadow 0.4s ease',
-              }}>
-                <img
-                  src={categoryImages[cat] || '/images/vault/diamond-macro-dark.jpg'}
-                  alt={categoryLabels[cat]}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.5)', transition: 'transform 0.6s ease, filter 0.4s ease' }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)' }} />
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 28 }}>
-                  <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 22, color: TEXT, fontWeight: 400, marginBottom: 8 }}>{categoryLabels[cat]}</h3>
-                  <p style={{ fontSize: 13, color: 'rgba(234,234,234,0.5)', marginBottom: 16, lineHeight: 1.5 }}>{categoryDescriptions[cat]?.slice(0, 80)}...</p>
-                  <span style={{ fontSize: 12, color: GOLD, letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: 6 }}>
-                    Explore <ArrowRight size={14} />
-                  </span>
+            <VaultHoverPeek key={cat} imageSrc={categoryImages[cat] || '/images/vault/diamond-macro-dark.jpg'} label={categoryLabels[cat]}>
+              <Link href={`/vault/category/${cat}`} style={{ textDecoration: 'none', display: 'block' }}>
+                <div className="vault-collection-card" style={{
+                  position: 'relative', borderRadius: 10, overflow: 'hidden',
+                  aspectRatio: '4/3', backgroundColor: SURFACE,
+                  border: '1px solid rgba(212,175,55,0.1)',
+                }}>
+                  <img
+                    src={categoryImages[cat] || '/images/vault/diamond-macro-dark.jpg'}
+                    alt={categoryLabels[cat]}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.45)', transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease' }}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, transparent 100%)' }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 28 }}>
+                    <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 22, color: TEXT, fontWeight: 400, marginBottom: 8 }}>{categoryLabels[cat]}</h3>
+                    <p style={{ fontSize: 13, color: 'rgba(234,234,234,0.45)', marginBottom: 16, lineHeight: 1.6 }}>{categoryDescriptions[cat]?.slice(0, 80)}...</p>
+                    <span className="vault-explore-arrow" style={{ fontSize: 12, color: GOLD, letterSpacing: '0.12em', display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'transform 0.3s ease' }}>
+                      Explore <ArrowRight size={14} />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </VaultHoverPeek>
           ))}
         </div>
       </section>

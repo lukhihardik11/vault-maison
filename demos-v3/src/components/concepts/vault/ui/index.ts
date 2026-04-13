@@ -8,3 +8,6 @@ export { SparkleGlowButton } from './SparkleGlowButton';
 export { ElegantDarkButton } from './ElegantDarkButton';
 export { DarkNeumorphicInput } from './DarkNeumorphicInput';
 export { FloatingNavbar } from './FloatingNavbar';
+export { VaultProductRevealCard } from './VaultProductRevealCard';
+export { VaultHoverPeek } from './VaultHoverPeek';
+export { VaultFeatureBucket } from './VaultFeatureBucket';
