@@ -1,15 +1,15 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import { Search as SearchIcon } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
-import { MinimalProductCard } from '../MinimalProductCard'
 import { products } from '@/data/products'
+import { Search, X, TrendingUp } from 'lucide-react'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
-const suggestedSearches = ['Diamond Ring', 'Gold Necklace', 'Tennis Bracelet', 'Earrings', 'Solitaire', 'Wedding']
+const popularSearches = ['Diamond Ring', 'Gold Chain', 'Tennis Bracelet', 'Engagement Ring', 'Pearl Earrings', 'Solitaire']
 
 export function MinimalSearch() {
   const [query, setQuery] = useState('')
@@ -17,193 +17,89 @@ export function MinimalSearch() {
   const results = useMemo(() => {
     if (!query.trim()) return []
     const q = query.toLowerCase()
-    return products.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.subtitle.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q) ||
-        p.material.toLowerCase().includes(q)
+    return products.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.subtitle.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      p.material.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q)
     )
   }, [query])
 
   return (
     <MinimalLayout>
-      <section style={{ padding: '100px 5vw 120px' }} className="minimal-search">
-        <div style={{ maxWidth: '1000px' }}>
-          {/* Search Header */}
-          <div
-          >
-            <p style={{
-              fontFamily: font,
-              fontSize: '11px',
-              fontWeight: 400,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#050505',
-              opacity: 0.4,
-              marginBottom: '24px',
-            }}>
-              Search
-            </p>
-          </div>
-
-          {/* Search Input */}
-          <div
-            style={{ position: 'relative', marginBottom: '48px' }}
-          >
-            <SearchIcon
-              size={18}
-              strokeWidth={1.2}
-              style={{
-                position: 'absolute',
-                left: 0,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: '#050505',
-                opacity: 0.3,
-              }}
-            />
+      <section style={{ padding: '80px 5vw 100px', maxWidth: '1000px', margin: '0 auto', minHeight: '80vh' }}>
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <h1 style={{ fontFamily: font, fontSize: '36px', fontWeight: 200, color: '#1A1A1A', marginBottom: '24px' }}>Search</h1>
+          <div style={{ position: 'relative', maxWidth: '600px', margin: '0 auto' }}>
+            <Search size={18} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: '#9B9590' }} />
             <input
               type="text"
+              placeholder="Search for rings, necklaces, diamonds..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="What are you looking for?"
               autoFocus
-              style={{
-                width: '100%',
-                padding: '16px 0 16px 32px',
-                border: 'none',
-                borderBottom: '1px solid #050505',
-                fontSize: '28px',
-                fontWeight: 200,
-                fontFamily: font,
-                color: '#050505',
-                backgroundColor: 'transparent',
-                outline: 'none',
-                letterSpacing: '0.01em',
-              }}
+              style={{ width: '100%', padding: '18px 48px 18px 52px', border: '1px solid #E8E5E0', fontSize: '15px', fontWeight: 300, fontFamily: font, color: '#1A1A1A', backgroundColor: '#FFFFFF', outline: 'none', transition: 'border-color 200ms ease' }}
+              onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'}
+              onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'}
             />
+            {query && (
+              <button onClick={() => setQuery('')} style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer' }}>
+                <X size={16} color="#9B9590" />
+              </button>
+            )}
           </div>
-
-          {/* Suggested Searches (when empty) */}
-          <AnimatePresence>
-            {!query.trim() && (
-              <div
-              >
-                <p style={{
-                  fontFamily: font,
-                  fontSize: '10px',
-                  fontWeight: 400,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: '#050505',
-                  opacity: 0.35,
-                  marginBottom: '16px',
-                }}>
-                  Suggested
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {suggestedSearches.map((s, i) => (
-                    <button
-                      key={s}
-                      onClick={() => setQuery(s)}
-                      style={{
-                        padding: '8px 16px',
-                        border: '1px solid #E5E5E5',
-                        backgroundColor: 'transparent',
-                        color: '#050505',
-                        fontSize: '12px',
-                        fontWeight: 300,
-                        fontFamily: font,
-                        cursor: 'pointer',
-                        transition: 'all 300ms ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = '#050505'
-                        e.currentTarget.style.backgroundColor = '#050505'
-                        e.currentTarget.style.color = '#FFFFFF'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = '#E5E5E5'
-                        e.currentTarget.style.backgroundColor = 'transparent'
-                        e.currentTarget.style.color = '#050505'
-                      }}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </AnimatePresence>
-
-          {/* Results */}
-          <AnimatePresence mode="wait">
-            {query.trim() && (
-              <div
-                key="results"
-              >
-                <p style={{
-                  fontFamily: font,
-                  fontSize: '11px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.2em',
-                  color: '#050505',
-                  opacity: 0.4,
-                  marginBottom: '32px',
-                }}>
-                  {results.length} {results.length === 1 ? 'result' : 'results'}
-                </p>
-                {results.length > 0 ? (
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(3, 1fr)',
-                      gap: '24px',
-                    }}
-                    className="minimal-search-grid"
-                  >
-                    {results.map((p, i) => (
-                      <div
-                        key={p.id}
-                      >
-                        <MinimalProductCard product={p} />
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div style={{ textAlign: 'center', padding: '60px 0' }}>
-                    <p style={{
-                      fontFamily: font,
-                      fontSize: '16px',
-                      fontWeight: 200,
-                      color: '#050505',
-                      marginBottom: '8px',
-                    }}>
-                      No results found
-                    </p>
-                    <p style={{
-                      fontFamily: font,
-                      fontSize: '13px',
-                      fontWeight: 300,
-                      color: '#050505',
-                      opacity: 0.5,
-                    }}>
-                      Try a different search term or browse our collections.
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-          </AnimatePresence>
         </div>
+
+        {!query ? (
+          /* Popular Searches */
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '16px' }}>
+              <TrendingUp size={14} color="#C4A265" />
+              <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9590' }}>Popular Searches</p>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+              {popularSearches.map(s => (
+                <button key={s} onClick={() => setQuery(s)} style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '10px 20px', border: '1px solid #E8E5E0', backgroundColor: 'transparent', color: '#1A1A1A', cursor: 'pointer', transition: 'all 200ms ease' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#C4A265'; e.currentTarget.style.color = '#C4A265' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#E8E5E0'; e.currentTarget.style.color = '#1A1A1A' }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : results.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 0' }}>
+            <p style={{ fontFamily: font, fontSize: '16px', fontWeight: 300, color: '#1A1A1A', marginBottom: '8px' }}>No results for &ldquo;{query}&rdquo;</p>
+            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590' }}>Try a different search term or browse our collections.</p>
+          </div>
+        ) : (
+          <div>
+            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '24px' }}>
+              {results.length} result{results.length !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;
+            </p>
+            <div className="vm-search-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+              {results.map(p => (
+                <Link key={p.id} href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div className="vm-search-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '12px', overflow: 'hidden' }}>
+                    <Image src={p.images[0]} alt={p.name} fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} unoptimized />
+                  </div>
+                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '2px' }}>{p.name}</p>
+                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{p.material}</p>
+                  <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{p.priceDisplay}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       <style>{`
-        @media (max-width: 768px) {
-          .minimal-search { padding: 60px 20px 80px !important; }
-          .minimal-search-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
+        .vm-search-img:hover img { transform: scale(1.04) !important; }
+        .vm-search-img:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
+        @media (max-width: 1024px) { .vm-search-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 768px) { .vm-search-grid { grid-template-columns: repeat(2, 1fr) !important; } }
       `}</style>
     </MinimalLayout>
   )

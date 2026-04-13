@@ -1,36 +1,21 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
 import { MinimalLayout } from '../MinimalLayout'
-import { SlideTextButton } from '../ui'
+import { MapPin, Phone, Mail, Clock, MessageSquare, Send } from 'lucide-react'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
 const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '12px 0',
-  border: 'none',
-  borderBottom: '1px solid #E5E5E5',
-  fontSize: '13px',
-  fontWeight: 300,
-  fontFamily: font,
-  color: '#050505',
-  backgroundColor: 'transparent',
-  outline: 'none',
-  transition: 'border-color 300ms ease',
+  width: '100%', padding: '14px 16px', border: '1px solid #E8E5E0',
+  fontSize: '13px', fontWeight: 300, fontFamily: font, color: '#1A1A1A',
+  backgroundColor: '#FFFFFF', outline: 'none', transition: 'border-color 200ms ease',
 }
 
 const labelStyle: React.CSSProperties = {
-  fontFamily: font,
-  fontSize: '10px',
-  textTransform: 'uppercase',
-  letterSpacing: '0.2em',
-  fontWeight: 400,
-  color: '#050505',
-  opacity: 0.35,
-  display: 'block',
-  marginBottom: '4px',
+  fontFamily: font, fontSize: '11px', textTransform: 'uppercase',
+  letterSpacing: '0.15em', fontWeight: 500, color: '#9B9590',
+  display: 'block', marginBottom: '6px',
 }
 
 export function MinimalContact() {
@@ -39,174 +24,93 @@ export function MinimalContact() {
   return (
     <MinimalLayout>
       {/* Header */}
-      <section style={{ padding: '100px 5vw 0' }}>
-        <div
-        >
-          <p style={{
-            fontFamily: font,
-            fontSize: '11px',
-            fontWeight: 400,
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: '#050505',
-            opacity: 0.4,
-            marginBottom: '8px',
-          }}>
-            Contact
-          </p>
-          <h1 style={{
-            fontFamily: font,
-            fontSize: '32px',
-            fontWeight: 200,
-            letterSpacing: '0.02em',
-            color: '#050505',
-            marginBottom: '16px',
-          }}>
-            Get in Touch
-          </h1>
-          <p style={{
-            fontFamily: font,
-            fontSize: '13px',
-            fontWeight: 300,
-            color: '#050505',
-            opacity: 0.5,
-            maxWidth: '500px',
-          }}>
-            We respond within 24 hours. Every interaction is personal, unhurried, and entirely on your terms.
-          </p>
-        </div>
+      <section style={{ padding: '80px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Get in Touch</p>
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Contact Us</h1>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', maxWidth: '500px', margin: '0 auto' }}>
+          Our client advisors are available to assist you with any inquiry — from product questions to bespoke consultations.
+        </p>
       </section>
 
-      {/* Main Content: Info + Form side by side */}
-      <section style={{ padding: '60px 5vw 120px' }}>
-        <AnimatePresence mode="wait">
-          {submitted ? (
-            <div
-              key="success"
-              style={{ maxWidth: '500px', textAlign: 'center', margin: '0 auto', padding: '80px 0' }}
-            >
-              <h2 style={{
-                fontFamily: font,
-                fontSize: '24px',
-                fontWeight: 200,
-                color: '#050505',
-                marginBottom: '16px',
-              }}>
-                Message Received
-              </h2>
-              <p style={{
-                fontFamily: font,
-                fontSize: '13px',
-                fontWeight: 300,
-                lineHeight: 1.8,
-                color: '#050505',
-                opacity: 0.6,
-                marginBottom: '32px',
-              }}>
-                Thank you for reaching out. A member of our team will respond within 24 hours. For urgent inquiries, please call us directly.
-              </p>
-              <SlideTextButton
-                text="Back to Home"
-                hoverText="Continue"
-                href="/minimal"
-              />
+      {/* Contact Grid */}
+      <section style={{ padding: '60px 5vw 100px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '80px' }} className="vm-contact-grid">
+          {/* Left: Info */}
+          <div>
+            <div style={{ marginBottom: '48px' }}>
+              <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '24px' }}>Visit Our Atelier</h2>
+              {[
+                { icon: MapPin, label: 'Address', value: '127 Prince Street, SoHo\nNew York, NY 10012' },
+                { icon: Phone, label: 'Phone', value: '+1 (212) 555-0187' },
+                { icon: Mail, label: 'Email', value: 'concierge@vaultmaison.com' },
+                { icon: Clock, label: 'Hours', value: 'Mon–Sat: 10am – 7pm\nSunday: By Appointment' },
+              ].map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+                  <item.icon size={18} strokeWidth={1.5} style={{ color: '#C4A265', flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590', marginBottom: '4px' }}>{item.label}</p>
+                    <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#1A1A1A', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{item.value}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ) : (
-            <div
-              key="form"
-              className="minimal-contact-layout"
-              style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '80px' }}
-            >
-              {/* Left: Contact Info */}
-              <div
-              >
-                <div style={{ marginBottom: '40px' }}>
-                  <p style={labelStyle}>Visit</p>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#050505' }}>
-                    742 Fifth Avenue<br />New York, NY 10019
-                  </p>
-                </div>
-                <div style={{ marginBottom: '40px' }}>
-                  <p style={labelStyle}>Hours</p>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#050505' }}>
-                    Mon – Sat: 10am – 7pm<br />Sun: By Appointment
-                  </p>
-                </div>
-                <div style={{ marginBottom: '40px' }}>
-                  <p style={labelStyle}>Phone</p>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505' }}>+1 (212) 555-0100</p>
-                </div>
-                <div>
-                  <p style={labelStyle}>Email</p>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505' }}>contact@vaultmaison.com</p>
-                </div>
-              </div>
 
-              {/* Right: Form */}
-              <div
-              >
-                <form
-                  onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }}
-                  style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
-                >
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }} className="minimal-contact-form-row">
-                    <div>
-                      <label style={labelStyle}>First Name</label>
-                      <input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                    </div>
-                    <div>
-                      <label style={labelStyle}>Last Name</label>
-                      <input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                    </div>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Email</label>
-                    <input type="email" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Subject</label>
-                    <select required style={{ ...inputStyle, appearance: 'none', cursor: 'pointer' }}>
-                      <option value="">Select</option>
-                      <option value="general">General Inquiry</option>
-                      <option value="product">Product Question</option>
-                      <option value="order">Order Status</option>
-                      <option value="bespoke">Bespoke Commission</option>
-                      <option value="appointment">Private Appointment</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Message</label>
-                    <textarea required rows={5} style={{ ...inputStyle, resize: 'none' }} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                  </div>
-                  <button
-                    type="submit"
-                    style={{
-                      alignSelf: 'flex-start',
-                      padding: '14px 48px',
-                      border: '1px solid #050505',
-                      backgroundColor: '#050505',
-                      color: '#FFFFFF',
-                      fontSize: '11px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.2em',
-                      fontWeight: 400,
-                      cursor: 'pointer',
-                      fontFamily: font,
-                    }}
-                  >
-                    Send Message
-                  </button>
-                </form>
+            <div style={{ padding: '28px', backgroundColor: '#F5F4F0' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+                <MessageSquare size={18} strokeWidth={1.5} style={{ color: '#C4A265' }} />
+                <h3 style={{ fontFamily: font, fontSize: '15px', fontWeight: 500, color: '#1A1A1A' }}>Private Consultation</h3>
               </div>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590', marginBottom: '16px' }}>
+                Schedule a one-on-one session with our gemologist for personalized guidance on engagement rings, bespoke pieces, or investment stones.
+              </p>
+              <a href="/minimal/bespoke" style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+                Book Now
+              </a>
             </div>
-          )}
-        </AnimatePresence>
+          </div>
+
+          {/* Right: Form */}
+          <div>
+            {submitted ? (
+              <div style={{ padding: '80px 40px', textAlign: 'center', backgroundColor: '#F5F4F0' }}>
+                <Send size={32} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '16px' }} />
+                <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '8px' }}>Message Sent</h3>
+                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', lineHeight: 1.7 }}>
+                  Thank you for reaching out. Our team will respond within 24 hours.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '4px' }}>Send a Message</h2>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div><label style={labelStyle}>First Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'} onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'} /></div>
+                  <div><label style={labelStyle}>Last Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'} onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'} /></div>
+                </div>
+                <div><label style={labelStyle}>Email</label><input type="email" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'} onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'} /></div>
+                <div><label style={labelStyle}>Phone (Optional)</label><input type="tel" style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'} onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'} /></div>
+                <div>
+                  <label style={labelStyle}>Subject</label>
+                  <select style={{ ...inputStyle, cursor: 'pointer' }} onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'} onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'}>
+                    <option>General Inquiry</option>
+                    <option>Product Question</option>
+                    <option>Bespoke Request</option>
+                    <option>Order Support</option>
+                    <option>Press & Media</option>
+                  </select>
+                </div>
+                <div><label style={labelStyle}>Message</label><textarea required rows={5} style={{ ...inputStyle, resize: 'vertical' }} onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'} onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'} /></div>
+                <button type="submit" style={{ alignSelf: 'flex-start', padding: '16px 48px', backgroundColor: '#C4A265', color: '#FFFFFF', border: 'none', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}>
+                  Send Message
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
       </section>
 
       <style>{`
         @media (max-width: 768px) {
-          .minimal-contact-layout { grid-template-columns: 1fr !important; gap: 48px !important; }
-          .minimal-contact-form-row { grid-template-columns: 1fr !important; }
+          .vm-contact-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
         }
       `}</style>
     </MinimalLayout>

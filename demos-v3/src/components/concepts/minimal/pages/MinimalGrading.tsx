@@ -1,141 +1,86 @@
 'use client'
 
-import { Scissors, Palette, Eye, Scale } from 'lucide-react'
+import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
-import { SpotlightCards, SlideTextButton } from '../ui'
-import type { SpotlightItem } from '../ui/SpotlightCards'
+import { Diamond, ArrowRight } from 'lucide-react'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
-const fourCs: SpotlightItem[] = [
-  { icon: Scissors, title: 'Cut', description: 'The precision of facets determines light return. We stock only Excellent and Ideal cut grades.' },
-  { icon: Palette, title: 'Color', description: 'Measured D–Z, with D being colorless. Our collection ranges from D to H, ensuring exceptional whiteness.' },
-  { icon: Eye, title: 'Clarity', description: 'Rated Flawless to Included. We select stones graded VS2 and above — eye-clean under all conditions.' },
-  { icon: Scale, title: 'Carat', description: 'A measure of weight, not size. Our gemologists maximize face-up appearance relative to carat weight.' },
+const fourCs = [
+  {
+    letter: 'C', title: 'Carat',
+    desc: 'Carat refers to the weight of a diamond, not its size. One carat equals 200 milligrams. While larger diamonds are rarer and more valuable, carat weight alone does not determine a diamond\'s beauty — cut quality has the greatest impact on brilliance.',
+    scale: ['0.25ct', '0.50ct', '0.75ct', '1.00ct', '1.50ct', '2.00ct', '3.00ct'],
+  },
+  {
+    letter: 'C', title: 'Cut',
+    desc: 'Cut is the most important factor in a diamond\'s beauty. It determines how well light enters, reflects, and exits the stone. A well-cut diamond will exhibit exceptional brilliance, fire, and scintillation regardless of its other characteristics.',
+    scale: ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent', 'Ideal'],
+  },
+  {
+    letter: 'C', title: 'Color',
+    desc: 'Diamond color is graded on a scale from D (colorless) to Z (light yellow). The most valuable diamonds are completely colorless, allowing maximum light to pass through. At Vault Maison, we primarily offer diamonds in the D-H range.',
+    scale: ['D', 'E', 'F', 'G', 'H', 'I', 'J'],
+  },
+  {
+    letter: 'C', title: 'Clarity',
+    desc: 'Clarity measures the presence of internal inclusions and external blemishes. Most diamonds have tiny natural imperfections. Grades range from Flawless (FL) to Included (I). Diamonds graded VS2 and above are considered "eye-clean."',
+    scale: ['I1', 'SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL'],
+  },
 ]
 
 export function MinimalGrading() {
   return (
     <MinimalLayout>
       {/* Header */}
-      <section style={{ padding: '100px 5vw 0' }}>
-        <div
-        >
-          <p style={{
-            fontFamily: font,
-            fontSize: '11px',
-            fontWeight: 400,
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: '#050505',
-            opacity: 0.4,
-            marginBottom: '8px',
-          }}>
-            Certification
-          </p>
-          <h1 style={{
-            fontFamily: font,
-            fontSize: '32px',
-            fontWeight: 200,
-            letterSpacing: '0.02em',
-            color: '#050505',
-            marginBottom: '16px',
-          }}>
-            Every Stone, Verified
-          </h1>
-          <p style={{
-            fontFamily: font,
-            fontSize: '13px',
-            fontWeight: 300,
-            color: '#050505',
-            opacity: 0.5,
-            maxWidth: '540px',
-            lineHeight: 1.8,
-          }}>
-            Every diamond in our collection above 0.30 carats is independently certified by the Gemological Institute of America (GIA) or the International Gemological Institute (IGI). These certificates provide an objective assessment of each stone&apos;s quality characteristics.
-          </p>
-        </div>
+      <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+        <Diamond size={32} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '16px' }} />
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Diamond Grading Guide</h1>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', maxWidth: '550px', margin: '0 auto' }}>
+          Understanding the 4Cs — Carat, Cut, Color, and Clarity — is essential to choosing the perfect diamond. This guide explains each factor and how they influence a diamond&apos;s beauty and value.
+        </p>
       </section>
 
-      {/* 4Cs SpotlightCards */}
-      <section style={{ padding: '80px 5vw' }}>
-        <SpotlightCards
-          items={fourCs}
-          eyebrow="The Standard"
-          heading="The 4Cs of Diamond Quality"
-        />
-      </section>
-
-      {/* Documentation */}
-      <section style={{ padding: '80px 5vw 120px', borderTop: '1px solid #E5E5E5' }}>
-        <div className="minimal-grading-docs" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', maxWidth: '900px' }}>
-          <div
-          >
-            <p style={{
-              fontFamily: font,
-              fontSize: '10px',
-              fontWeight: 400,
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: '#050505',
-              opacity: 0.35,
-              marginBottom: '16px',
-            }}>
-              Documentation
-            </p>
-            <h2 style={{
-              fontFamily: font,
-              fontSize: '20px',
-              fontWeight: 200,
-              color: '#050505',
-              marginBottom: '16px',
-            }}>
-              Complete Provenance
-            </h2>
-            <p style={{
-              fontFamily: font,
-              fontSize: '13px',
-              fontWeight: 300,
-              lineHeight: 1.8,
-              color: '#050505',
-              opacity: 0.6,
-            }}>
-              Every purchase includes the original grading certificate, a Vault Maison certificate of authenticity, and a detailed appraisal for insurance purposes. Digital copies are available through your account.
-            </p>
-          </div>
-          <div
-          >
-            <p style={{
-              fontFamily: font,
-              fontSize: '10px',
-              fontWeight: 400,
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: '#050505',
-              opacity: 0.35,
-              marginBottom: '16px',
-            }}>
-              Included with Every Purchase
-            </p>
-            <div>
-              {['GIA or IGI Certificate', 'Vault Maison Authenticity Certificate', 'Insurance Appraisal Document', 'Digital Archive Access'].map((item, i) => (
-                <div key={i} style={{ padding: '12px 0', borderBottom: '1px solid #E5E5E5' }}>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505' }}>{item}</p>
+      {/* 4Cs */}
+      <section style={{ padding: '60px 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
+        {fourCs.map((c, i) => (
+          <div key={i} style={{ padding: '40px 0', borderBottom: i < fourCs.length - 1 ? '1px solid #E8E5E0' : 'none' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '24px' }} className="vm-grade-row">
+              <div style={{ width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F5F4F0', flexShrink: 0 }}>
+                <span style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#C4A265' }}>{c.letter}</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 300, color: '#1A1A1A', marginBottom: '12px' }}>{c.title}</h2>
+                <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#555', marginBottom: '20px' }}>{c.desc}</p>
+                <div style={{ display: 'flex', gap: '0', overflow: 'auto' }}>
+                  {c.scale.map((s, j) => (
+                    <div key={j} style={{ flex: 1, minWidth: '60px', padding: '10px 8px', textAlign: 'center', backgroundColor: j >= c.scale.length - 2 ? '#C4A265' : '#F5F4F0', borderRight: j < c.scale.length - 1 ? '1px solid #FFFFFF' : 'none' }}>
+                      <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, color: j >= c.scale.length - 2 ? '#FFFFFF' : '#1A1A1A' }}>{s}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <div style={{ marginTop: '32px' }}>
-              <SlideTextButton text="View Collections" hoverText="Browse" href="/minimal/collections" />
+                {i === 0 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginTop: '8px' }}>← Smaller · Larger →</p>}
+                {i === 1 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginTop: '8px' }}>← Less Brilliant · More Brilliant →</p>}
+                {i === 2 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginTop: '8px' }}>← Colorless · Near Colorless →</p>}
+                {i === 3 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginTop: '8px' }}>← More Inclusions · Flawless →</p>}
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </section>
 
-      <style>{`
-        @media (max-width: 768px) {
-          .minimal-grading-docs { grid-template-columns: 1fr !important; gap: 40px !important; }
-        }
-      `}</style>
+      {/* CTA */}
+      <section style={{ padding: '60px 5vw 100px', maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ padding: '40px', backgroundColor: '#1A1A1A', textAlign: 'center' }}>
+          <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#FFFFFF', marginBottom: '12px' }}>Need Expert Guidance?</h3>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: 'rgba(255,255,255,0.5)', marginBottom: '24px', maxWidth: '400px', margin: '0 auto 24px' }}>
+            Our GIA-certified gemologists are available for complimentary consultations to help you find the perfect diamond.
+          </p>
+          <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', border: '1px solid #C4A265', color: '#C4A265', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>
+            Speak to a Gemologist <ArrowRight size={14} />
+          </Link>
+        </div>
+      </section>
     </MinimalLayout>
   )
 }

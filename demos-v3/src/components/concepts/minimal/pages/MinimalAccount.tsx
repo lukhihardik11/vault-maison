@@ -1,174 +1,110 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
+import { User, Package, Heart, Settings, LogOut, ChevronRight } from 'lucide-react'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '12px 0',
-  border: 'none',
-  borderBottom: '1px solid #E5E5E5',
-  fontSize: '13px',
-  fontWeight: 300,
-  fontFamily: font,
-  color: '#050505',
-  backgroundColor: 'transparent',
-  outline: 'none',
-  transition: 'border-color 300ms ease',
-}
+const tabs = [
+  { id: 'orders', label: 'Orders', icon: Package },
+  { id: 'wishlist', label: 'Wishlist', icon: Heart },
+  { id: 'settings', label: 'Settings', icon: Settings },
+]
 
-const labelStyle: React.CSSProperties = {
-  fontFamily: font,
-  fontSize: '10px',
-  textTransform: 'uppercase',
-  letterSpacing: '0.2em',
-  fontWeight: 400,
-  color: '#050505',
-  opacity: 0.35,
-  display: 'block',
-  marginBottom: '4px',
-}
+const mockOrders = [
+  { id: 'VM-2K5F8A', date: 'March 15, 2025', status: 'Delivered', items: 'Celestial Solitaire', total: '$12,500' },
+  { id: 'VM-1R3D7B', date: 'February 2, 2025', status: 'Shipped', items: 'Lumière Tennis Bracelet', total: '$8,900' },
+  { id: 'VM-0P9C2E', date: 'January 18, 2025', status: 'Processing', items: 'Étoile Pendant', total: '$4,200' },
+]
 
 export function MinimalAccount() {
-  const [mode, setMode] = useState<'signin' | 'register'>('signin')
+  const [activeTab, setActiveTab] = useState('orders')
 
   return (
     <MinimalLayout>
-      <section style={{ padding: '120px 5vw', display: 'flex', justifyContent: 'center' }}>
-        <div
-          style={{ width: '100%', maxWidth: '400px' }}
-        >
-          {/* Mode Toggle */}
-          <div style={{ display: 'flex', gap: '24px', marginBottom: '48px' }}>
-            {(['signin', 'register'] as const).map((m) => (
-              <button
-                key={m}
-                onClick={() => setMode(m)}
-                style={{
-                  fontFamily: font,
-                  fontSize: '11px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.2em',
-                  fontWeight: mode === m ? 400 : 300,
-                  color: '#050505',
-                  opacity: mode === m ? 1 : 0.3,
-                  border: 'none',
-                  backgroundColor: 'transparent',
-                  cursor: 'pointer',
-                  padding: '0 0 8px',
-                  borderBottom: mode === m ? '1px solid #050505' : '1px solid transparent',
-                  transition: 'all 300ms ease',
-                }}
-              >
-                {m === 'signin' ? 'Sign In' : 'Create Account'}
+      <section style={{ padding: '60px 5vw 100px', maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px' }}>
+          <div>
+            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>My Account</p>
+            <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A' }}>Welcome Back</h1>
+          </div>
+          <button style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#9B9590', background: 'none', border: 'none', cursor: 'pointer' }}>
+            <LogOut size={14} /> Sign Out
+          </button>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '48px' }} className="vm-account-grid">
+          {/* Sidebar */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px', padding: '20px', backgroundColor: '#F5F4F0' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#C4A265', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <User size={18} color="#FFFFFF" />
+              </div>
+              <div>
+                <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>Jane Doe</p>
+                <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>jane@example.com</p>
+              </div>
+            </div>
+            {tabs.map(tab => (
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '14px 16px', fontFamily: font, fontSize: '13px', fontWeight: activeTab === tab.id ? 500 : 300, color: activeTab === tab.id ? '#1A1A1A' : '#9B9590', backgroundColor: activeTab === tab.id ? '#F5F4F0' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'all 200ms ease' }}>
+                <tab.icon size={16} strokeWidth={1.5} style={{ color: activeTab === tab.id ? '#C4A265' : '#9B9590' }} />
+                {tab.label}
               </button>
             ))}
           </div>
 
-          <AnimatePresence mode="wait">
-            {mode === 'signin' ? (
-              <form
-                key="signin"
-                onSubmit={(e) => e.preventDefault()}
-                style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
-              >
-                <div>
-                  <label style={labelStyle}>Email</label>
-                  <input type="email" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                </div>
-                <div>
-                  <label style={labelStyle}>Password</label>
-                  <input type="password" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <button
-                    type="submit"
-                    style={{
-                      padding: '14px 48px',
-                      border: '1px solid #050505',
-                      backgroundColor: '#050505',
-                      color: '#FFFFFF',
-                      fontFamily: font,
-                      fontSize: '11px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.2em',
-                      fontWeight: 400,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    type="button"
-                    style={{
-                      fontFamily: font,
-                      fontSize: '11px',
-                      color: '#050505',
-                      opacity: 0.4,
-                      border: 'none',
-                      backgroundColor: 'transparent',
-                      cursor: 'pointer',
-                      textDecoration: 'underline',
-                    }}
-                  >
-                    Forgot password?
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <form
-                key="register"
-                onSubmit={(e) => e.preventDefault()}
-                style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}
-              >
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                  <div>
-                    <label style={labelStyle}>First Name</label>
-                    <input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
+          {/* Content */}
+          <div>
+            {activeTab === 'orders' && (
+              <div>
+                <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '24px' }}>Order History</h2>
+                {mockOrders.map(order => (
+                  <div key={order.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', borderBottom: '1px solid #E8E5E0' }}>
+                    <div>
+                      <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{order.items}</p>
+                      <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590' }}>Order {order.id} · {order.date}</p>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A', marginBottom: '4px' }}>{order.total}</p>
+                      <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: order.status === 'Delivered' ? '#4CAF50' : order.status === 'Shipped' ? '#C4A265' : '#9B9590', padding: '3px 8px', border: `1px solid ${order.status === 'Delivered' ? '#4CAF50' : order.status === 'Shipped' ? '#C4A265' : '#E8E5E0'}` }}>{order.status}</span>
+                    </div>
                   </div>
-                  <div>
-                    <label style={labelStyle}>Last Name</label>
-                    <input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                  </div>
-                </div>
-                <div>
-                  <label style={labelStyle}>Email</label>
-                  <input type="email" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                </div>
-                <div>
-                  <label style={labelStyle}>Password</label>
-                  <input type="password" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                </div>
-                <div>
-                  <label style={labelStyle}>Confirm Password</label>
-                  <input type="password" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} />
-                </div>
-                <button
-                  type="submit"
-                  style={{
-                    alignSelf: 'flex-start',
-                    padding: '14px 48px',
-                    border: '1px solid #050505',
-                    backgroundColor: '#050505',
-                    color: '#FFFFFF',
-                    fontFamily: font,
-                    fontSize: '11px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.2em',
-                    fontWeight: 400,
-                    cursor: 'pointer',
-                  }}
-                >
-                  Create Account
-                </button>
-              </form>
+                ))}
+              </div>
             )}
-          </AnimatePresence>
+
+            {activeTab === 'wishlist' && (
+              <div>
+                <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '12px' }}>Saved Pieces</h2>
+                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '24px' }}>
+                  Items you have saved will appear here. <Link href="/minimal/wishlist" style={{ color: '#C4A265', textDecoration: 'underline', textUnderlineOffset: '3px' }}>View full wishlist</Link>
+                </p>
+              </div>
+            )}
+
+            {activeTab === 'settings' && (
+              <div>
+                <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '24px' }}>Account Settings</h2>
+                {['Personal Information', 'Shipping Addresses', 'Payment Methods', 'Notification Preferences'].map((item, i) => (
+                  <button key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '20px 0', borderBottom: '1px solid #E8E5E0', background: 'none', border: 'none', borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: '#E8E5E0', cursor: 'pointer', textAlign: 'left' }}>
+                    <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A' }}>{item}</span>
+                    <ChevronRight size={16} color="#9B9590" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </section>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .vm-account-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+        }
+      `}</style>
     </MinimalLayout>
   )
 }

@@ -1,117 +1,69 @@
 'use client'
 
-import { Heart } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
-import { MinimalProductCard } from '../MinimalProductCard'
-import { SlideTextButton } from '../ui'
 import { useWishlistStore } from '@/store/wishlist'
+import { useCartStore } from '@/store/cart'
+import { Heart, ShoppingBag, X, ArrowRight } from 'lucide-react'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
 export function MinimalWishlist() {
-  const { items } = useWishlistStore()
+  const { items, toggleItem } = useWishlistStore()
+  const { addItem } = useCartStore()
 
   return (
     <MinimalLayout>
-      {/* Header */}
-      <section style={{ padding: '100px 5vw 0' }}>
-        <div
-        >
-          <p style={{
-            fontFamily: font,
-            fontSize: '11px',
-            fontWeight: 400,
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: '#050505',
-            opacity: 0.4,
-            marginBottom: '8px',
-          }}>
-            Wishlist
-          </p>
-          <h1 style={{
-            fontFamily: font,
-            fontSize: '32px',
-            fontWeight: 200,
-            letterSpacing: '0.02em',
-            color: '#050505',
-          }}>
-            Saved Pieces
-          </h1>
+      <section style={{ padding: '60px 5vw 100px', maxWidth: '1200px', margin: '0 auto', minHeight: '70vh' }}>
+        <div style={{ marginBottom: '48px' }}>
+          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>Saved Pieces</p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A' }}>Wishlist</h1>
+            {items.length > 0 && <p style={{ fontFamily: font, fontSize: '12px', color: '#9B9590' }}>{items.length} {items.length === 1 ? 'piece' : 'pieces'}</p>}
+          </div>
         </div>
-      </section>
 
-      <section style={{ padding: '40px 5vw 120px' }}>
         {items.length === 0 ? (
-          <div
-            style={{ textAlign: 'center', padding: '80px 0' }}
-          >
-            <Heart size={32} strokeWidth={0.8} style={{ color: '#050505', opacity: 0.15, marginBottom: '16px' }} />
-            <p style={{
-              fontFamily: font,
-              fontSize: '16px',
-              fontWeight: 200,
-              color: '#050505',
-              marginBottom: '12px',
-            }}>
-              No saved items
-            </p>
-            <p style={{
-              fontFamily: font,
-              fontSize: '13px',
-              fontWeight: 300,
-              color: '#050505',
-              opacity: 0.5,
-              marginBottom: '32px',
-            }}>
-              Browse our collections and save pieces you love.
-            </p>
-            <SlideTextButton
-              text="Browse Collections"
-              hoverText="View All"
-              href="/minimal/collections"
-            />
+          <div style={{ textAlign: 'center', padding: '80px 0' }}>
+            <Heart size={48} strokeWidth={1} style={{ color: '#E8E5E0', marginBottom: '24px' }} />
+            <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 200, color: '#1A1A1A', marginBottom: '8px' }}>Your wishlist is empty</h2>
+            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '32px' }}>Save pieces you love by clicking the heart icon.</p>
+            <Link href="/minimal/collections" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', backgroundColor: '#C4A265', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>
+              Browse Collections <ArrowRight size={14} />
+            </Link>
           </div>
         ) : (
-          <>
-            <p
-              style={{
-                fontFamily: font,
-                fontSize: '11px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                color: '#050505',
-                opacity: 0.3,
-                marginBottom: '32px',
-              }}
-            >
-              {items.length} {items.length === 1 ? 'piece' : 'pieces'} saved
-            </p>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '24px',
-                maxWidth: '1000px',
-              }}
-              className="minimal-wishlist-grid"
-            >
-              {items.map((product, i) => (
-                <div
-                  key={product.id}
-                >
-                  <MinimalProductCard product={product} />
+          <div className="vm-wish-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+            {items.map((product) => (
+              <div key={product.id} style={{ position: 'relative' }}>
+                <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div className="vm-wish-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '12px', overflow: 'hidden' }}>
+                    <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} unoptimized />
+                  </div>
+                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '2px' }}>{product.name}</p>
+                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{product.subtitle}</p>
+                  <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>{product.priceDisplay}</p>
+                </Link>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                  <button onClick={() => { addItem(product) }} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px', backgroundColor: '#C4A265', color: '#FFFFFF', border: 'none', fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer' }}>
+                    <ShoppingBag size={12} /> Add to Cart
+                  </button>
+                  <button onClick={() => toggleItem(product)} style={{ width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E8E5E0', backgroundColor: 'transparent', cursor: 'pointer' }}>
+                    <X size={14} color="#9B9590" />
+                  </button>
                 </div>
-              ))}
-            </div>
-          </>
+              </div>
+            ))}
+          </div>
         )}
       </section>
 
       <style>{`
-        @media (max-width: 768px) {
-          .minimal-wishlist-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
+        .vm-wish-img:hover img { transform: scale(1.04) !important; }
+        .vm-wish-img:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
+        @media (max-width: 1024px) { .vm-wish-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 768px) { .vm-wish-grid { grid-template-columns: repeat(2, 1fr) !important; } }
       `}</style>
     </MinimalLayout>
   )
