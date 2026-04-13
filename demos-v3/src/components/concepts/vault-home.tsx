@@ -11,6 +11,10 @@ import { DarkNeumorphicInput } from './vault/ui/DarkNeumorphicInput'
 import { VaultProductRevealCard } from './vault/ui/VaultProductRevealCard'
 import { VaultHoverPeek } from './vault/ui/VaultHoverPeek'
 import { VaultFeatureBucket } from './vault/ui/VaultFeatureBucket'
+import { VaultAccordionGallery } from './vault/ui/VaultAccordionGallery'
+import { VaultLuminaSlider } from './vault/ui/VaultLuminaSlider'
+import { VaultLimelightNav } from './vault/ui/VaultLimelightNav'
+import { VaultCarousel, VaultCarouselContent, VaultCarouselItem, VaultCarouselNav } from './vault/ui/VaultCarousel'
 import { ArrowRight, Diamond, Shield, Award, Clock, Star, ChevronRight, Sparkles } from 'lucide-react'
 
 const GOLD = '#D4AF37'
@@ -155,6 +159,28 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
             </VaultHoverPeek>
           ))}
         </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          ACCORDION GALLERY — hover-expand collection strips
+      ═══════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '0 24px 100px', maxWidth: 1440, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <span style={{ fontSize: 11, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase' }}>Visual Journey</span>
+          <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(24px, 3vw, 34px)', fontWeight: 400, color: TEXT, marginTop: 12 }}>Our Latest Creations</h2>
+          <div className="vault-section-divider" style={{ marginTop: 20 }} />
+        </div>
+        <VaultAccordionGallery
+          items={[
+            { image: '/images/vault/diamond-ring-dark-1.jpg', label: 'Diamond Solitaires', subtitle: 'Timeless Brilliance' },
+            { image: '/images/vault/gold-flatlay-dark.jpg', label: 'Gold Collection', subtitle: 'Pure Radiance' },
+            { image: '/images/vault/gold-necklace-dark-1.jpg', label: 'Statement Necklaces', subtitle: 'Elegant Presence' },
+            { image: '/images/vault/diamond-earring-dark-1.jpg', label: 'Diamond Earrings', subtitle: 'Captivating Light' },
+            { image: '/images/vault/gold-bracelets-dark-3.jpg', label: 'Luxury Bracelets', subtitle: 'Refined Grace' },
+            { image: '/images/vault/diamond-macro-dark.jpg', label: 'Rare Gems', subtitle: 'Extraordinary Finds' },
+          ]}
+          height={440}
+        />
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════
@@ -327,6 +353,8 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
           </p>
         </div>
       </section>
+      {/* Mobile Bottom Navigation */}
+      <VaultLimelightNav />
     </VaultLayout>
   )
 }

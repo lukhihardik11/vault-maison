@@ -11,3 +11,8 @@ export { FloatingNavbar } from './FloatingNavbar';
 export { VaultProductRevealCard } from './VaultProductRevealCard';
 export { VaultHoverPeek } from './VaultHoverPeek';
 export { VaultFeatureBucket } from './VaultFeatureBucket';
+export { VaultAccordionGallery } from './VaultAccordionGallery';
+export { VaultLuminaSlider } from './VaultLuminaSlider';
+export { VaultLimelightNav } from './VaultLimelightNav';
+export { VaultCarousel, VaultCarouselContent, VaultCarouselItem, VaultCarouselNav } from './VaultCarousel';
+export { VaultAboutSection } from './VaultAboutSection';

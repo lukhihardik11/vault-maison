@@ -3,6 +3,7 @@ import { VaultLayout } from '../VaultLayout'
 import { Diamond, Shield, Award, Clock, Users, Globe } from 'lucide-react'
 import { PhotoGallery } from '../ui/PhotoGallery'
 import { VaultFeatureBucket } from '../ui/VaultFeatureBucket'
+import { VaultAboutSection } from '../ui/VaultAboutSection'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -12,6 +13,9 @@ const TEXT = '#EAEAEA'
 export function VaultAbout() {
   return (
     <VaultLayout>
+      {/* About Section with Parallax, Services, Stats */}
+      <VaultAboutSection />
+
       {/* Hero */}
       <section style={{ position: 'relative', height: 520, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ position: 'absolute', inset: 0 }}>

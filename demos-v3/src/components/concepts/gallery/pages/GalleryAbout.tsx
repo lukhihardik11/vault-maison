@@ -4,6 +4,7 @@ import React from 'react'
 import { GalleryLayout, G } from '../GalleryLayout'
 import { MuseumCaption } from '../ui/MuseumCaption'
 import { GalleryButton } from '../ui/GalleryButton'
+import { GalleryAboutSection } from '../ui/GalleryAboutSection'
 
 const values = [
   { title: 'Curation', desc: 'Every piece is hand-selected by our gemologists, chosen not only for quality but for artistic merit and emotional resonance.' },
@@ -15,6 +16,9 @@ const values = [
 export function GalleryAbout() {
   return (
     <GalleryLayout>
+      {/* About Section with Parallax, Services Grid, Animated Stats */}
+      <GalleryAboutSection />
+
       <section style={{ padding: '160px 32px 100px', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
         <MuseumCaption align="center">About the Gallery</MuseumCaption>
         <h1 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 400, color: G.text, margin: '16px 0 24px', lineHeight: 1.2 }}>

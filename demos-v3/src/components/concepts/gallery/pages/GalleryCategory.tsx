@@ -8,6 +8,7 @@ import { MuseumCaption } from '../ui/MuseumCaption'
 import { getProductsByCategory } from '@/data/products'
 import { categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { SlidersHorizontal, Grid2X2, LayoutList } from 'lucide-react'
+import { GalleryViewToggle } from '../ui/GalleryViewToggle'
 
 const ROMAN_MAP: Record<string, string> = {
   'diamond-rings': 'I', 'diamond-necklaces': 'II', 'diamond-earrings': 'III',

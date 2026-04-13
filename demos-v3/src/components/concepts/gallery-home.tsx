@@ -6,6 +6,7 @@ import { GalleryLayout, G } from './gallery/GalleryLayout'
 import { GalleryLabel } from './gallery/ui/GalleryLabel'
 import { MuseumCaption } from './gallery/ui/MuseumCaption'
 import { getBestsellers } from '@/data/products'
+import { GalleryCircularShowcase, type ShowcaseItem } from './gallery/ui/GalleryCircularShowcase'
 import { ArrowRight } from 'lucide-react'
 
 const rooms = [
@@ -171,6 +172,30 @@ export function GalleryHome({ concept }: { concept: any }) {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ═══ CIRCULAR SHOWCASE — 3D rotating exhibition display ═══ */}
+      <section style={{ padding: '120px 32px', borderTop: `1px solid ${G.border}` }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <MuseumCaption align="center">Exhibition Showcase</MuseumCaption>
+            <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', fontWeight: 400, color: G.text, margin: '16px 0 0' }}>
+              Rotating Display
+            </h2>
+          </div>
+          <GalleryCircularShowcase
+            items={[
+              { title: 'Celestial Solitaire', subtitle: 'Diamond Ring, 2025', image: '/images/products/diamond-solitaire-ring.jpg' },
+              { title: 'Aurora Chain', subtitle: 'Gold Necklace, 2025', image: '/images/products/gold-chain-necklace.jpg' },
+              { title: 'Lumière Studs', subtitle: 'Diamond Earrings, 2025', image: '/images/products/diamond-stud-earrings.jpg' },
+              { title: 'Heritage Bangle', subtitle: 'Gold Bracelet, 2025', image: '/images/products/gold-bangle-bracelet.jpg' },
+              { title: 'Brilliant Round', subtitle: 'Loose Diamond, 2025', image: '/images/products/loose-round-diamond.jpg' },
+              { title: 'Eternity Band', subtitle: 'Diamond Ring, 2025', image: '/images/products/diamond-eternity-band.jpg' },
+            ]}
+            radius={480}
+            autoRotateSpeed={0.012}
+          />
         </div>
       </section>
 
