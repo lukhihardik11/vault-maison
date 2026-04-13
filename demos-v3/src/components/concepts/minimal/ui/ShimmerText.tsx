@@ -2,14 +2,15 @@
 
 import { cn } from '@/lib/utils'
 
-interface ShimmerTextProps {
+export interface ShimmerTextProps {
   text: string
   className?: string
+  style?: React.CSSProperties
 }
 
-export default function ShimmerText({ text, className }: ShimmerTextProps) {
+export default function ShimmerText({ text, className, style }: ShimmerTextProps) {
   return (
-    <span className={cn('relative inline-block overflow-hidden', className)}>
+    <span className={cn('relative inline-block overflow-hidden', className)} style={style}>
       <span className="shimmer-text-inner relative">
         {text}
       </span>
@@ -17,11 +18,11 @@ export default function ShimmerText({ text, className }: ShimmerTextProps) {
         .shimmer-text-inner {
           background: linear-gradient(
             90deg,
-            #050505 0%,
-            #050505 40%,
-            #999999 50%,
-            #050505 60%,
-            #050505 100%
+            #C4A265 0%,
+            #C4A265 40%,
+            #E8D5A8 50%,
+            #C4A265 60%,
+            #C4A265 100%
           );
           background-size: 200% 100%;
           -webkit-background-clip: text;

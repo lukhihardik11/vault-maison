@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { useWishlistStore } from '@/store/wishlist'
@@ -39,7 +38,7 @@ export function MinimalWishlist() {
               <div key={product.id} style={{ position: 'relative' }}>
                 <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                   <div className="vm-wish-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '12px', overflow: 'hidden' }}>
-                    <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} unoptimized />
+                    <img src={product.images[0]} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', transition: 'transform 600ms ease'  }} />
                   </div>
                   <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '2px' }}>{product.name}</p>
                   <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{product.subtitle}</p>

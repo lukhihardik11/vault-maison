@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { products } from '@/data/products'
@@ -60,7 +59,7 @@ export function MinimalSearch() {
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
               {popularSearches.map(s => (
-                <button key={s} onClick={() => setQuery(s)} style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '10px 20px', border: '1px solid #E8E5E0', backgroundColor: 'transparent', color: '#1A1A1A', cursor: 'pointer', transition: 'all 200ms ease' }}
+                <button key={s} onClick={() => setQuery(s)} style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, padding: '10px 20px', border: '1px solid #E8E5E0', backgroundColor: 'transparent', color: '#1A1A1A', cursor: 'pointer', transition: 'all 300ms ease' }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#C4A265'; e.currentTarget.style.color = '#C4A265' }}
                   onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#E8E5E0'; e.currentTarget.style.color = '#1A1A1A' }}
                 >
@@ -83,7 +82,7 @@ export function MinimalSearch() {
               {results.map(p => (
                 <Link key={p.id} href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                   <div className="vm-search-img" style={{ position: 'relative', aspectRatio: '1', backgroundColor: '#F5F4F0', marginBottom: '12px', overflow: 'hidden' }}>
-                    <Image src={p.images[0]} alt={p.name} fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} unoptimized />
+                    <img src={p.images[0]} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', transition: 'transform 600ms ease'  }} />
                   </div>
                   <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A', marginBottom: '2px' }}>{p.name}</p>
                   <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590', marginBottom: '6px' }}>{p.material}</p>

@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { ArrowRight } from 'lucide-react'
@@ -36,7 +35,7 @@ export function MinimalJournal() {
         <section style={{ padding: '60px 5vw 0', maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '48px', alignItems: 'center' }} className="vm-journal-feat">
             <div className="vm-journal-feat-img" style={{ position: 'relative', aspectRatio: '16/10', backgroundColor: '#F5F4F0', overflow: 'hidden' }}>
-              <Image src={featured.image} alt={featured.title} fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} unoptimized />
+              <img src={featured.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', transition: 'transform 600ms ease'  }} />
             </div>
             <div>
               <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
@@ -59,7 +58,7 @@ export function MinimalJournal() {
           {rest.map((article) => (
             <div key={article.slug} className="vm-journal-card">
               <div className="vm-journal-card-img" style={{ position: 'relative', aspectRatio: '16/10', backgroundColor: '#F5F4F0', marginBottom: '16px', overflow: 'hidden' }}>
-                <Image src={article.image} alt={article.title} fill style={{ objectFit: 'cover', transition: 'transform 600ms ease' }} unoptimized />
+                <img src={article.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', transition: 'transform 600ms ease'  }} />
               </div>
               <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '12px' }}>
                 <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4A265' }}>{article.category}</span>

@@ -1,11 +1,11 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
 import { ArrowRight } from 'lucide-react'
+import MinimalHeroSection from '../ui/MinimalHeroSection'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -38,17 +38,14 @@ const categoryFeatures: Record<string, string[]> = {
 export function MinimalCollections() {
   return (
     <MinimalLayout>
-      {/* Hero */}
-      <section style={{ position: 'relative', height: '50vh', minHeight: '360px', backgroundColor: '#1A1A1A', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-        <Image src="/images/products/editorial-model-jewelry.jpg" alt="Collections" fill style={{ objectFit: 'cover', opacity: 0.4 }} priority unoptimized />
-        <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Vault Maison</p>
-          <h1 style={{ fontFamily: font, fontSize: '48px', fontWeight: 200, color: '#FFFFFF', marginBottom: '12px' }}>Collections</h1>
-          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: 'rgba(255,255,255,0.6)', maxWidth: '480px', margin: '0 auto' }}>
-            Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless elegance.
-          </p>
-        </div>
-      </section>
+      {/* Hero (MinimalHeroSection - KokonutUI) */}
+      <MinimalHeroSection
+        eyebrow="Vault Maison"
+        title="Collections"
+        subtitle="Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless elegance."
+        image="/images/products/editorial-model-jewelry.jpg"
+        overlay="gradient"
+      />
 
       {/* Category Grid */}
       <section style={{ padding: '80px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
@@ -60,14 +57,7 @@ export function MinimalCollections() {
               <Link key={cat} href={`/minimal/category/${cat}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div className="vm-coll-card" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F5F4F0' }}>
                   <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden' }}>
-                    <Image
-                      src={categoryImages[cat] || '/images/products/diamond-solitaire-ring.jpg'}
-                      alt={categoryLabels[cat]}
-                      fill
-                      style={{ objectFit: 'cover', transition: 'transform 600ms ease' }}
-                      className="vm-coll-img"
-                      unoptimized
-                    />
+                    <img src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'} alt={categoryLabels[cat]} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} />
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.5) 0%, transparent 50%)' }} />
                     <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
                       <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '6px' }}>{count} {count === 1 ? 'Piece' : 'Pieces'}</p>

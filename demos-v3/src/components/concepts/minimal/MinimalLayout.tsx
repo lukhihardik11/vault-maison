@@ -3,6 +3,7 @@
 import { type ReactNode, useEffect, useState } from 'react'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
+import Toolbar from './ui/Toolbar'
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -58,6 +59,8 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         {!hideNav && <MinimalNav />}
         <main>{children}</main>
         {!hideFooter && <MinimalFooter />}
+        {/* Mobile Bottom Navigation (KokonutUI Toolbar) */}
+        {!hideNav && <Toolbar />}
       </div>
     </>
   )

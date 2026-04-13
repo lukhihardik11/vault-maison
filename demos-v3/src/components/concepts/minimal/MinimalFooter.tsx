@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { AnimatedSocialIcons } from './ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -101,6 +102,7 @@ export function MinimalFooter() {
           <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>
             &copy; {new Date().getFullYear()} Vault Maison. All rights reserved.
           </span>
+          <AnimatedSocialIcons size={36} />
           <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>
             GIA Certified &middot; Ethically Sourced &middot; Lifetime Warranty
           </span>

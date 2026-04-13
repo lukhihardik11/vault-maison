@@ -7,6 +7,7 @@
  * Uses lucide-react icons.
  */
 
+import { Diamond } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { useRef, useState } from 'react'
@@ -17,9 +18,11 @@ const TILT_SPRING = { stiffness: 300, damping: 28 } as const
 const GLOW_SPRING = { stiffness: 180, damping: 22 } as const
 
 export interface SpotlightItem {
-  icon: LucideIcon
+  icon?: LucideIcon
   title: string
   description: string
+  image?: string
+  href?: string
 }
 
 interface CardProps {
@@ -30,7 +33,7 @@ interface CardProps {
 }
 
 function Card({ item, dimmed, onHoverStart, onHoverEnd }: CardProps) {
-  const Icon = item.icon
+  const Icon = item.icon || Diamond
   const cardRef = useRef<HTMLDivElement>(null)
 
   const normX = useMotionValue(0.5)

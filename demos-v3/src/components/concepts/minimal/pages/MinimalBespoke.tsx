@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Pencil, Gem, Hammer, Gift, Check } from 'lucide-react'
+import { BlobGlassCard } from '../ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -33,7 +33,7 @@ export function MinimalBespoke() {
     <MinimalLayout>
       {/* Hero */}
       <section style={{ position: 'relative', height: '50vh', minHeight: '360px', backgroundColor: '#1A1A1A', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-        <Image src="/images/products/classic-gold-ring.jpg" alt="Bespoke" fill style={{ objectFit: 'cover', opacity: 0.35 }} priority unoptimized />
+        <img src="/images/products/classic-gold-ring.jpg" alt="Bespoke" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', opacity: 0.35  }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '600px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Bespoke Service</p>
           <h1 style={{ fontFamily: font, fontSize: '44px', fontWeight: 200, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.1 }}>Your Vision, Our Craft</h1>
@@ -60,6 +60,15 @@ export function MinimalBespoke() {
               <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590' }}>{s.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Why Bespoke - BlobGlassCard */}
+      <section style={{ padding: '80px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }} className="vm-bespoke-steps">
+          <BlobGlassCard title="Unique Design" description="No two pieces are alike. Your jewelry is designed from scratch to reflect your personal story." />
+          <BlobGlassCard title="Expert Guidance" description="Work directly with our master gemologists and designers throughout the entire creation process." />
+          <BlobGlassCard title="Lifetime Value" description="Bespoke pieces appreciate over time. Each comes with full GIA certification and lifetime warranty." />
         </div>
       </section>
 

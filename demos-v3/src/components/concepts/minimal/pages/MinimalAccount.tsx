@@ -3,7 +3,10 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
-import { User, Package, Heart, Settings, LogOut, ChevronRight } from 'lucide-react'
+import { Package, Heart, Settings, LogOut, ChevronRight } from 'lucide-react'
+import AvatarPicker from '../ui/AvatarPicker'
+import SwitchButton from '../ui/SwitchButton'
+import { DarkLoginForm } from '../ui'
 
 const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
@@ -21,6 +24,17 @@ const mockOrders = [
 
 export function MinimalAccount() {
   const [activeTab, setActiveTab] = useState('orders')
+  const [loggedIn, setLoggedIn] = useState(true)
+
+  if (!loggedIn) {
+    return (
+      <MinimalLayout>
+        <section style={{ padding: '80px 5vw 100px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+          <DarkLoginForm onLogin={() => setLoggedIn(true)} />
+        </section>
+      </MinimalLayout>
+    )
+  }
 
   return (
     <MinimalLayout>
@@ -31,7 +45,7 @@ export function MinimalAccount() {
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '8px' }}>My Account</p>
             <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#1A1A1A' }}>Welcome Back</h1>
           </div>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#9B9590', background: 'none', border: 'none', cursor: 'pointer' }}>
+          <button onClick={() => setLoggedIn(false)} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', color: '#9B9590', background: 'none', border: 'none', cursor: 'pointer' }}>
             <LogOut size={14} /> Sign Out
           </button>
         </div>
@@ -39,17 +53,16 @@ export function MinimalAccount() {
         <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '48px' }} className="vm-account-grid">
           {/* Sidebar */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px', padding: '20px', backgroundColor: '#F5F4F0' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#C4A265', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <User size={18} color="#FFFFFF" />
-              </div>
-              <div>
+            {/* AvatarPicker (KokonutUI) */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', marginBottom: '32px', padding: '24px 20px', backgroundColor: '#F5F4F0', borderRadius: '8px' }}>
+              <AvatarPicker initials="JD" />
+              <div style={{ textAlign: 'center' }}>
                 <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A' }}>Jane Doe</p>
                 <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>jane@example.com</p>
               </div>
             </div>
             {tabs.map(tab => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '14px 16px', fontFamily: font, fontSize: '13px', fontWeight: activeTab === tab.id ? 500 : 300, color: activeTab === tab.id ? '#1A1A1A' : '#9B9590', backgroundColor: activeTab === tab.id ? '#F5F4F0' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'all 200ms ease' }}>
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '14px 16px', fontFamily: font, fontSize: '13px', fontWeight: activeTab === tab.id ? 500 : 300, color: activeTab === tab.id ? '#1A1A1A' : '#9B9590', backgroundColor: activeTab === tab.id ? '#F5F4F0' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'all 300ms ease', borderRadius: '8px' }}>
                 <tab.icon size={16} strokeWidth={1.5} style={{ color: activeTab === tab.id ? '#C4A265' : '#9B9590' }} />
                 {tab.label}
               </button>
@@ -88,12 +101,23 @@ export function MinimalAccount() {
             {activeTab === 'settings' && (
               <div>
                 <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A', marginBottom: '24px' }}>Account Settings</h2>
-                {['Personal Information', 'Shipping Addresses', 'Payment Methods', 'Notification Preferences'].map((item, i) => (
+                {['Personal Information', 'Shipping Addresses', 'Payment Methods'].map((item, i) => (
                   <button key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '20px 0', borderBottom: '1px solid #E8E5E0', background: 'none', border: 'none', borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: '#E8E5E0', cursor: 'pointer', textAlign: 'left' }}>
                     <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A' }}>{item}</span>
                     <ChevronRight size={16} color="#9B9590" />
                   </button>
                 ))}
+
+                {/* Notification Preferences with SwitchButton (KokonutUI) */}
+                <div style={{ marginTop: '36px' }}>
+                  <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, color: '#1A1A1A', marginBottom: '20px' }}>Notification Preferences</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <SwitchButton label="Email notifications for new collections" defaultChecked={true} />
+                    <SwitchButton label="SMS alerts for order updates" defaultChecked={true} />
+                    <SwitchButton label="Marketing communications" defaultChecked={false} />
+                    <SwitchButton label="Price drop alerts for wishlist items" defaultChecked={true} />
+                  </div>
+                </div>
               </div>
             )}
           </div>

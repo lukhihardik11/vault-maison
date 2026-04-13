@@ -10,6 +10,7 @@ interface AttractButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   text?: string
   hoverText?: string
   icon?: React.ReactNode
+  href?: string
 }
 
 interface Particle {
@@ -26,6 +27,7 @@ export default function AttractButton({
   text = 'Add to Cart',
   hoverText = 'Adding...',
   icon = <ShoppingBag className="h-4 w-4" />,
+  href,
   ...props
 }: AttractButtonProps) {
   const [isAttracting, setIsAttracting] = useState(false)
@@ -63,15 +65,16 @@ export default function AttractButton({
     <button
       className={cn(
         'relative min-w-[200px] touch-none',
-        'bg-[#050505] hover:bg-[#1a1a1a]',
+        'bg-[#C4A265] hover:bg-[#b3934f]',
         'text-white',
-        'border border-[#050505]',
+        'border border-[#C4A265]',
         'px-8 py-3.5',
         'transition-all duration-300',
         'overflow-hidden',
         className
       )}
       style={{ fontFamily: font }}
+      onClick={() => { if (href) window.location.href = href }}
       onMouseEnter={handleInteractionStart}
       onMouseLeave={handleInteractionEnd}
       onTouchStart={handleInteractionStart}

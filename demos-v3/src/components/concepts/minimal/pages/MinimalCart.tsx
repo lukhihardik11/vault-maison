@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { useCartStore } from '@/store/cart'
@@ -54,7 +53,7 @@ export function MinimalCart() {
                 <div key={item.product.id} style={{ display: 'flex', gap: '20px', padding: '20px 0', borderBottom: '1px solid #F5F4F0', alignItems: 'flex-start' }}>
                   <Link href={`/minimal/product/${item.product.slug}`} style={{ flexShrink: 0 }}>
                     <div style={{ position: 'relative', width: '100px', height: '100px', backgroundColor: '#F5F4F0', overflow: 'hidden' }}>
-                      <Image src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} unoptimized />
+                      <img src={item.product.images[0]} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover'  }} />
                     </div>
                   </Link>
                   <div style={{ flex: 1 }}>
