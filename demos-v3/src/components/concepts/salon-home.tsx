@@ -1,258 +1,250 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { type ConceptConfig } from '@/data/concepts'
+import { SalonLayout, S } from './salon/SalonLayout'
+import { SalonCard } from './salon/ui/SalonCard'
+import { SalonRevealCard } from './salon/ui/SalonRevealCard'
+import { AdvisorCard } from './salon/ui/AdvisorCard'
+import { SalonButton } from './salon/ui/SalonButton'
 import { getBestsellers } from '@/data/products'
-import { ConceptLayout, FeaturedProducts, SplitSection, CTABanner, CategoryGrid } from '@/components/shared'
-import { buildConceptUrl } from '@/lib/concept-utils'
-import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards'
+import { Video, Home, PenTool, Gift, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 
-interface Message {
-  role: 'concierge' | 'user'
-  text: string
-}
-
-const salonTestimonials = [
-  { quote: 'The Salon concierge understood exactly what I wanted before I could even articulate it.', name: 'Elena Vasquez', title: 'Client, New York' },
-  { quote: 'Within minutes, they presented three options — and one was absolutely perfect for our anniversary.', name: 'David Park', title: 'Client, Seoul' },
-  { quote: 'A truly bespoke experience. The concierge made me feel like the only client in the world.', name: 'Sophia Laurent', title: 'Client, Paris' },
-  { quote: 'The level of personal attention is unmatched. They remembered every detail from our first conversation.', name: 'Aisha Khan', title: 'Client, Dubai' },
+const advisors = [
+  { name: 'Sophie Laurent', specialty: 'Engagement & Bridal', experience: '12 years in fine jewelry', initials: 'SL', avatar: '' },
+  { name: 'James Chen', specialty: 'Investment Diamonds', experience: '15 years as certified gemologist', initials: 'JC', avatar: '' },
+  { name: 'Aria Patel', specialty: 'Bespoke & Custom Design', experience: '10 years in luxury design', initials: 'AP', avatar: '' },
 ]
 
-function ConciergeChat({ concept }: { concept: ConceptConfig }) {
-  const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState('')
-  const [typing, setTyping] = useState(false)
-  const chatRef = useRef<HTMLDivElement>(null)
+const services = [
+  { icon: <Video size={24} />, title: 'Virtual Appointment', desc: 'Connect face-to-face with a gemologist from the comfort of your home. We\'ll guide you through our collection via video call.' },
+  { icon: <Home size={24} />, title: 'Home Try-On', desc: 'Select up to 5 pieces delivered to your door. Try them in your own light, at your own pace, with no obligation.' },
+  { icon: <PenTool size={24} />, title: 'Custom Design', desc: 'From initial sketch to final setting, we\'ll bring your vision to life. A truly one-of-a-kind creation.' },
+  { icon: <Gift size={24} />, title: 'Gift Concierge', desc: 'Tell us about the recipient and occasion. We handle everything — selection, wrapping, and delivery.' },
+]
 
-  const conciergeResponses = [
-    "Welcome to the Salon. I'm your personal concierge. How may I assist you today?",
-    "I'd be delighted to help. Are you looking for something specific, or shall I guide you through our collection?",
-    "Excellent taste. Let me curate a selection that matches your preferences. May I ask about the occasion?",
-    "We have several exquisite pieces that would be perfect. Shall I arrange a private viewing?",
-  ]
+const testimonials = [
+  { quote: 'Sophie helped us find the perfect engagement ring. The process felt like having a friend in the jewelry world.', name: 'Sarah M.', occasion: 'Engagement Ring' },
+  { quote: 'The home try-on service was incredible. I could see how each piece looked in natural light before deciding.', name: 'David R.', occasion: 'Anniversary Gift' },
+  { quote: 'James guided me through the investment diamond process with such patience and expertise. I felt completely confident.', name: 'Elena K.', occasion: 'Investment Diamond' },
+]
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessages([{ role: 'concierge', text: conciergeResponses[0] }])
-    }, 1500)
-    return () => clearTimeout(timer)
-  }, [])
+const advisorNotes = [
+  'Sophie loves this for evening wear',
+  'James recommends for a milestone gift',
+  'Aria\'s pick for everyday elegance',
+  'Sophie says: a timeless classic',
+]
 
-  useEffect(() => {
-    chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' })
-  }, [messages])
-
-  const handleSend = () => {
-    if (!input.trim()) return
-    const userMsg = input.trim()
-    setInput('')
-    setMessages((prev) => [...prev, { role: 'user', text: userMsg }])
-    setTyping(true)
-    const responseIdx = Math.min(messages.filter((m) => m.role === 'concierge').length, conciergeResponses.length - 1)
-    setTimeout(() => {
-      setTyping(false)
-      setMessages((prev) => [...prev, { role: 'concierge', text: conciergeResponses[responseIdx] }])
-    }, 1500 + Math.random() * 1000)
-  }
+export function SalonHome() {
+  const featured = getBestsellers().slice(0, 4)
+  const [testimonialIdx, setTestimonialIdx] = useState(0)
+  const [email, setEmail] = useState('')
 
   return (
-    <div
-      className="flex flex-col h-[420px]"
-      style={{ backgroundColor: concept.palette.surface, border: `1px solid ${concept.palette.muted}` }}
-    >
-      <div className="px-5 py-4 flex items-center gap-3" style={{ borderBottom: `1px solid ${concept.palette.muted}` }}>
-        <div className="w-2 h-2 rounded-full bg-green-500" />
-        <span className={`text-[10px] uppercase tracking-[0.15em] ${concept.fonts.bodyClass}`} style={{ color: concept.palette.text, opacity: 0.6 }}>
-          Concierge Online
-        </span>
-      </div>
-      <div ref={chatRef} className="flex-1 overflow-y-auto p-5 space-y-3">
-        <AnimatePresence>
-          {messages.map((msg, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-[80%] px-4 py-3 text-xs font-light leading-relaxed ${concept.fonts.bodyClass}`}
-                style={{
-                  backgroundColor: msg.role === 'user' ? concept.palette.accent : 'transparent',
-                  color: msg.role === 'user' ? '#fff' : concept.palette.text,
-                  border: msg.role === 'concierge' ? `1px solid ${concept.palette.muted}` : 'none',
-                  opacity: msg.role === 'concierge' ? 0.8 : 1,
-                }}
-              >
-                {msg.text}
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-        {typing && (
-          <div className="flex gap-1 px-4 py-3">
-            {[0, 1, 2].map((i) => (
-              <motion.span
-                key={i}
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ backgroundColor: concept.palette.accent }}
-                animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{ duration: 1, delay: i * 0.2, repeat: Infinity }}
-              />
+    <SalonLayout>
+      {/* ═══ SECTION 1: WARM WELCOME ═══ */}
+      <section style={{
+        minHeight: '85vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '100px 32px 80px', position: 'relative', overflow: 'hidden',
+        background: `linear-gradient(180deg, ${S.bg} 0%, #FAF0E6 50%, ${S.bg} 100%)`,
+      }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23B8860B\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 700, textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.6rem', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: S.accent, margin: '0 0 24px' }}>
+            Welcome to The Salon
+          </p>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', serif", fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', fontWeight: 400, color: S.text, margin: '0 0 24px', lineHeight: 1.2 }}>
+            Your Personal<br />Jewelry Experience
+          </h1>
+          <p style={{ fontFamily: "'Lora', serif", fontSize: '1rem', color: S.textSecondary, lineHeight: 1.8, maxWidth: 500, margin: '0 auto 40px' }}>
+            Since 2025, we&apos;ve helped thousands find their perfect piece. Let us help you too.
+          </p>
+          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <SalonButton href="/salon/collections">Explore Collection</SalonButton>
+            <SalonButton variant="secondary" href="/salon/contact">Talk to an Advisor</SalonButton>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SECTION 2: MEET YOUR ADVISORS ═══ */}
+      <section style={{ padding: '100px 32px', background: S.surface }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: S.accent, margin: '0 0 12px' }}>
+              Your Personal Team
+            </p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 400, color: S.text, margin: '0 0 12px' }}>
+              Meet Your Advisors
+            </h2>
+            <p style={{ fontFamily: "'Lora', serif", fontSize: '0.9rem', color: S.textSecondary, maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
+              Each of our advisors brings years of expertise and a genuine passion for helping you find something extraordinary.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
+            {advisors.map((advisor) => (
+              <AdvisorCard key={advisor.name} {...advisor} />
             ))}
           </div>
-        )}
-      </div>
-      <div className="p-4" style={{ borderTop: `1px solid ${concept.palette.muted}` }}>
-        <div className="flex gap-2">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Type your message..."
-            className={`flex-1 bg-transparent text-xs px-3 py-2 focus:outline-none ${concept.fonts.bodyClass}`}
-            style={{ color: concept.palette.text }}
-          />
-          <button
-            onClick={handleSend}
-            className="px-5 py-2 text-[9px] uppercase tracking-[0.15em] transition-opacity hover:opacity-80"
-            style={{ backgroundColor: concept.palette.accent, color: '#fff' }}
-          >
-            Send
-          </button>
         </div>
-      </div>
-    </div>
-  )
-}
+      </section>
 
-export function SalonHome({ concept }: { concept: ConceptConfig }) {
-  const featured = getBestsellers().slice(0, 4)
+      {/* ═══ SECTION 3: HANDPICKED FOR YOU ═══ */}
+      <section style={{ padding: '100px 32px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: S.accent, margin: '0 0 12px' }}>
+              Curated with Care
+            </p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 400, color: S.text, margin: 0 }}>
+              Our Advisors&apos; Picks This Week
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+            {featured.map((product, i) => (
+              <div key={product.id} style={{ transform: i % 2 === 1 ? 'translateY(24px)' : 'none' }}>
+                <SalonRevealCard
+                  name={product.name}
+                  slug={product.slug}
+                  price={product.priceDisplay}
+                  image={product.images[0]}
+                  category={product.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  advisorNote={advisorNotes[i]}
+                  isNew={i === 0}
+                />
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 48 }}>
+            <SalonButton variant="secondary" href="/salon/collections">View Full Collection</SalonButton>
+          </div>
+        </div>
+      </section>
 
-  return (
-    <ConceptLayout concept={concept}>
-      {/* Chat-first hero with boutique imagery */}
-      <section className="min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16 py-32 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p
-                className={`text-[10px] uppercase tracking-[0.35em] mb-8 font-light ${concept.fonts.bodyClass}`}
-                style={{ color: concept.palette.accent }}
-              >
-                The Salon Experience
-              </p>
-              <h1
-                className={`text-4xl md:text-5xl lg:text-[3.5rem] font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}
-                style={{ color: concept.palette.text }}
-              >
-                Your Personal<br />
-                <span style={{ color: concept.palette.accent }}>Jeweler</span>
-              </h1>
-              <p
-                className={`text-sm font-light mb-10 leading-relaxed max-w-md ${concept.fonts.bodyClass}`}
-                style={{ color: concept.palette.text, opacity: 0.5 }}
-              >
-                The Salon reimagines luxury shopping as a conversation. No browsing, no searching —
-                simply tell us what you desire and our concierge will curate the perfect selection for you.
-              </p>
-              <div className="flex gap-4">
-                <Link
-                  href={buildConceptUrl('salon', 'appointments')}
-                  className="inline-block px-10 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
-                  style={{ backgroundColor: concept.palette.accent, color: '#fff' }}
-                >
-                  Book Appointment
-                </Link>
-                <Link
-                  href={buildConceptUrl('salon', 'collections')}
-                  className="inline-block px-10 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
-                  style={{ borderColor: concept.palette.muted, color: concept.palette.text }}
-                >
-                  Browse Independently →
+      {/* ═══ SECTION 4: THE SALON EXPERIENCE ═══ */}
+      <section style={{ padding: '100px 32px', background: S.warmPanel }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: S.accent, margin: '0 0 12px' }}>
+              At Your Service
+            </p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 400, color: S.text, margin: 0 }}>
+              The Salon Experience
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+            {services.map((service) => (
+              <div key={service.title}
+                className="salon-service-card"
+                style={{
+                  background: S.surface, borderRadius: S.radiusLg,
+                  padding: '32px 24px', border: `1px solid ${S.border}`,
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}>
+                <div style={{
+                  width: 52, height: 52, borderRadius: S.radius,
+                  background: S.accentSoft, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: S.accent, marginBottom: 20,
+                }}>
+                  {service.icon}
+                </div>
+                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.2rem', fontWeight: 400, color: S.text, margin: '0 0 10px' }}>
+                  {service.title}
+                </h3>
+                <p style={{ fontFamily: "'Lora', serif", fontSize: '0.82rem', color: S.textSecondary, lineHeight: 1.7, margin: '0 0 16px' }}>
+                  {service.desc}
+                </p>
+                <Link href="/salon/bespoke" className="salon-nav-link"
+                  style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: S.accent, textDecoration: 'none', fontWeight: 500 }}>
+                  Learn more →
                 </Link>
               </div>
-            </div>
-            <div>
-              <ConciergeChat concept={concept} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SECTION 5: CLIENT STORIES ═══ */}
+      <section style={{ padding: '100px 32px' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: S.accent, margin: '0 0 12px' }}>
+            Client Stories
+          </p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 400, color: S.text, margin: '0 0 48px' }}>
+            What Our Clients Say
+          </h2>
+          <div style={{ position: 'relative' }}>
+            <Quote size={32} color={S.accent} style={{ opacity: 0.2, marginBottom: 16 }} />
+            <blockquote style={{ fontFamily: "'Lora', serif", fontSize: 'clamp(1rem, 2vw, 1.2rem)', fontStyle: 'italic', color: S.text, lineHeight: 1.8, margin: '0 0 24px', minHeight: 80 }}>
+              &ldquo;{testimonials[testimonialIdx].quote}&rdquo;
+            </blockquote>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 400, color: S.text, margin: '0 0 4px' }}>
+              — {testimonials[testimonialIdx].name}
+            </p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: S.accent }}>
+              {testimonials[testimonialIdx].occasion}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 32 }}>
+              <button onClick={() => setTestimonialIdx(Math.max(0, testimonialIdx - 1))}
+                style={{ background: 'none', border: `1px solid ${S.border}`, borderRadius: '50%', width: 36, height: 36, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: S.textSecondary, transition: 'all 0.3s' }}>
+                <ChevronLeft size={16} />
+              </button>
+              {testimonials.map((_, i) => (
+                <button key={i} onClick={() => setTestimonialIdx(i)}
+                  style={{ width: 8, height: 8, borderRadius: '50%', border: 'none', cursor: 'pointer', background: i === testimonialIdx ? S.accent : S.border, transition: 'all 0.3s' }} />
+              ))}
+              <button onClick={() => setTestimonialIdx(Math.min(testimonials.length - 1, testimonialIdx + 1))}
+                style={{ background: 'none', border: `1px solid ${S.border}`, borderRadius: '50%', width: 36, height: 36, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: S.textSecondary, transition: 'all 0.3s' }}>
+                <ChevronRight size={16} />
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Boutique image strip */}
-      <section className="relative h-[300px]">
-        <Image
-          src="/images/jewelry-boutique.jpg"
-          alt="Luxury jewelry boutique"
-          fill
-          className="object-cover"
-        />
-        <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, ${concept.palette.bg}, transparent 30%, transparent 70%, ${concept.palette.bg})` }} />
-      </section>
-
-      <FeaturedProducts
-        concept={concept}
-        products={featured}
-        title="Concierge Picks"
-        subtitle="Curated by our team for discerning collectors"
-      />
-
-      <SplitSection
-        concept={concept}
-        title="The Art of Service"
-        description="Our concierge team consists of certified gemologists and luxury consultants with decades of combined experience. They don't just sell jewelry — they listen, advise, and guide you to the piece that perfectly matches your story, your style, and your budget."
-        image="/images/gold-jewelry-collection.jpg"
-        ctaLabel="Meet the Team"
-        ctaHref={buildConceptUrl('salon', 'about')}
-      />
-
-      <div className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p className={`text-[10px] tracking-[0.3em] uppercase mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
-            Explore
-          </p>
-          <h2
-            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            Browse Categories
+      {/* ═══ SECTION 6: NEWSLETTER ═══ */}
+      <section style={{ padding: '80px 32px', background: S.warmPanel }}>
+        <div style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', fontWeight: 400, color: S.text, margin: '0 0 12px' }}>
+            Stay in Touch
           </h2>
-          <CategoryGrid concept={concept} />
-        </div>
-      </div>
-
-      {/* Testimonials with InfiniteMovingCards */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.surface }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p className={`text-[10px] tracking-[0.3em] uppercase mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
-            Testimonials
+          <p style={{ fontFamily: "'Lora', serif", fontSize: '0.85rem', color: S.textSecondary, lineHeight: 1.7, marginBottom: 28 }}>
+            Receive personal recommendations, new arrival previews, and exclusive invitations from your advisor.
           </p>
-          <h2
-            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            Client Experiences
-          </h2>
-          <InfiniteMovingCards
-            items={salonTestimonials}
-            speed="slow"
-            className="py-4"
-          />
+          <div style={{ display: 'flex', gap: 0 }}>
+            <input type="email" placeholder="Your email address" value={email} onChange={(e) => setEmail(e.target.value)}
+              style={{
+                flex: 1, padding: '14px 18px', fontFamily: "'Lora', serif", fontSize: '0.85rem',
+                color: S.text, background: S.surface, border: `1.5px solid ${S.border}`,
+                borderRight: 'none', borderRadius: `${S.radius} 0 0 ${S.radius}`, outline: 'none',
+                transition: 'border-color 0.3s',
+              }} />
+            <button style={{
+              padding: '14px 24px', fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', fontWeight: 500,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              background: S.accent, color: '#fff', border: 'none',
+              borderRadius: `0 ${S.radius} ${S.radius} 0`, cursor: 'pointer',
+              transition: 'background 0.3s',
+            }}
+              onMouseEnter={(e) => { (e.target as HTMLElement).style.background = S.accentHover }}
+              onMouseLeave={(e) => { (e.target as HTMLElement).style.background = S.accent }}>
+              Join Our Circle
+            </button>
+          </div>
         </div>
       </section>
 
-      <CTABanner
-        concept={concept}
-        title="Start a Conversation"
-        description="Our concierge is available 24/7 to assist you."
-        ctaLabel={concept.ctaText.contact}
-        ctaHref={buildConceptUrl('salon', 'contact')}
-      />
-    </ConceptLayout>
+      <style>{`
+        .salon-service-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 40px ${S.shadow};
+          border-color: ${S.accent}20;
+        }
+        @media (max-width: 768px) {
+          section > div > div[style*="grid-template-columns: repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
+          section > div > div[style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </SalonLayout>
   )
 }

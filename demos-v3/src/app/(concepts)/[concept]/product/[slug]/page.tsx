@@ -7,6 +7,7 @@ import { ConceptLayout, ProductDetail } from '@/components/shared'
 import { MinimalProductDetail } from '@/components/concepts/minimal/pages'
 import { VaultProductDetail } from '@/components/concepts/vault/pages'
 import { GalleryProductDetail } from '@/components/concepts/gallery/pages'
+import { SalonProductDetail } from '@/components/concepts/salon/pages'
 
 export default function ProductPage() {
   const params = useParams()
@@ -18,6 +19,7 @@ export default function ProductPage() {
   if (concept.id === 'minimal') return <MinimalProductDetail product={product} />
   if (concept.id === 'vault') return <VaultProductDetail product={product} />
   if (concept.id === 'gallery') return <GalleryProductDetail product={product} />
+  if (concept.id === 'salon') return <SalonProductDetail />
 
   return (
     <ConceptLayout concept={concept}>
