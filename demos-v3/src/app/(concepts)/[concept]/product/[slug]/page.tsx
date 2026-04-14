@@ -9,6 +9,7 @@ import { VaultProductDetail } from '@/components/concepts/vault/pages'
 import { GalleryProductDetail } from '@/components/concepts/gallery/pages'
 import { SalonProductDetail } from '@/components/concepts/salon/pages'
 import { AtelierProductDetail } from '@/components/concepts/atelier/pages'
+import { ArchiveProductDetail } from '@/components/concepts/archive/pages'
 
 export default function ProductPage() {
   const params = useParams()
@@ -22,6 +23,7 @@ export default function ProductPage() {
   if (concept.id === 'gallery') return <GalleryProductDetail product={product} />
   if (concept.id === 'salon') return <SalonProductDetail />
   if (concept.id === 'atelier') return <AtelierProductDetail />
+  if (concept.id === 'archive') return <ArchiveProductDetail />
 
   return (
     <ConceptLayout concept={concept}>

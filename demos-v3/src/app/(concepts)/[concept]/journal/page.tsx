@@ -12,6 +12,7 @@ import { VaultJournal } from '@/components/concepts/vault/pages'
 import { GalleryJournal } from '@/components/concepts/gallery/pages'
 import { SalonJournal } from '@/components/concepts/salon/pages'
 import { AtelierJournal } from '@/components/concepts/atelier/pages'
+import { ArchiveJournal } from '@/components/concepts/archive/pages'
 
 const articles = [
   {
@@ -80,6 +81,7 @@ export default function JournalPage() {
   if (concept.id === 'gallery') return <GalleryJournal />
   if (concept.id === 'salon') return <SalonJournal />
   if (concept.id === 'atelier') return <AtelierJournal />
+  if (concept.id === 'archive') return <ArchiveJournal />
 
   return (
     <ConceptLayout concept={concept}>

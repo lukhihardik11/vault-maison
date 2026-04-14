@@ -12,6 +12,7 @@ import { VaultSearch } from '@/components/concepts/vault/pages'
 import { GallerySearch } from '@/components/concepts/gallery/pages'
 import { SalonSearch } from '@/components/concepts/salon/pages'
 import { AtelierSearch } from '@/components/concepts/atelier/pages'
+import { ArchiveSearch } from '@/components/concepts/archive/pages'
 
 const priceRanges = [
   { label: 'Under $5,000', min: 0, max: 5000 },
@@ -59,6 +60,7 @@ export default function SearchPage() {
   if (concept.id === 'gallery') return <GallerySearch />
   if (concept.id === 'salon') return <SalonSearch />
   if (concept.id === 'atelier') return <AtelierSearch />
+  if (concept.id === 'archive') return <ArchiveSearch />
 
   return (
     <ConceptLayout concept={concept}>

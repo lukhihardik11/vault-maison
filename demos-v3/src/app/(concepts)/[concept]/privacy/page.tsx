@@ -8,6 +8,7 @@ import { VaultPrivacy } from '@/components/concepts/vault/pages'
 import { GalleryPrivacy } from '@/components/concepts/gallery/pages'
 import { SalonPrivacy } from '@/components/concepts/salon/pages'
 import { AtelierPrivacy } from '@/components/concepts/atelier/pages'
+import { ArchivePrivacy } from '@/components/concepts/archive/pages'
 
 export default function PrivacyPage() {
   const params = useParams()
@@ -19,6 +20,7 @@ export default function PrivacyPage() {
   if (concept.id === 'gallery') return <GalleryPrivacy />
   if (concept.id === 'salon') return <SalonPrivacy />
   if (concept.id === 'atelier') return <AtelierPrivacy />
+  if (concept.id === 'archive') return <ArchivePrivacy />
   return (
     <InfoPage
       concept={concept}

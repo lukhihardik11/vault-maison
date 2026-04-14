@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Lora:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Bodoni+Moda:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Lora:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Bodoni+Moda:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
@@ -347,4 +347,77 @@ select:focus {
 /* Inner shadow for craft cards */
 .atelier-inner-shadow {
   box-shadow: inset 0 1px 2px rgba(60, 50, 40, 0.06);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ARCHIVE CONCEPT — Dark Mahogany Scholarly Catalog Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+.font-crimson { font-family: 'Crimson Text', 'Georgia', serif; }
+
+/* Scroll reveal — fade up on scroll */
+.archive-scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.archive-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger children */
+.archive-stagger-0 { transition-delay: 0ms; }
+.archive-stagger-1 { transition-delay: 100ms; }
+.archive-stagger-2 { transition-delay: 200ms; }
+.archive-stagger-3 { transition-delay: 300ms; }
+.archive-stagger-4 { transition-delay: 400ms; }
+.archive-stagger-5 { transition-delay: 500ms; }
+.archive-stagger-6 { transition-delay: 600ms; }
+/* Document card hover */
+.archive-doc-hover {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.archive-doc-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+/* Hero fade-in animation */
+@keyframes archive-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.archive-hero-fade {
+  animation: archive-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.archive-hero-fade-delay-1 {
+  animation: archive-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  opacity: 0;
+}
+.archive-hero-fade-delay-2 {
+  animation: archive-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  opacity: 0;
+}
+.archive-hero-fade-delay-3 {
+  animation: archive-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+  opacity: 0;
+}
+/* Scroll bounce indicator */
+@keyframes archive-scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+.archive-scroll-bounce {
+  animation: archive-scroll-bounce 2s ease-in-out infinite;
+}
+/* Button press */
+.archive-btn-press {
+  transition: transform 0.15s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.archive-btn-press:active {
+  transform: scale(0.97);
+}
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .archive-mobile-menu-btn { display: block !important; }
+  .archive-desktop-nav { display: none !important; }
 }
