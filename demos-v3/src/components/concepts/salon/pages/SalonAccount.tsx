@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { SalonLayout, S } from '../SalonLayout'
 import { SalonInput } from '../ui/SalonInput'
 import { SalonButton } from '../ui/SalonButton'
+import { SalonLoyaltyProgress } from '../ui/SalonLoyaltyProgress'
+import { SalonPulseIndicator } from '../ui/SalonPulseIndicator'
 import { User, Package, Heart, Settings } from 'lucide-react'
 
 const tabs = [
@@ -19,7 +21,13 @@ export function SalonAccount() {
   return (
     <SalonLayout>
       <section style={{ maxWidth: 1000, margin: '0 auto', padding: '60px 32px 100px' }}>
-        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.2rem', fontWeight: 400, color: S.text, margin: '0 0 40px', textAlign: 'center' }}>My Account</h1>
+        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.2rem', fontWeight: 400, color: S.text, margin: '0 0 20px', textAlign: 'center' }}>My Account</h1>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+          <SalonPulseIndicator label="Your advisor Sophie is online" />
+        </div>
+        <div style={{ maxWidth: 400, margin: '0 auto 40px' }}>
+          <SalonLoyaltyProgress currentPoints={780} tier="silver" name="Jane" />
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: 40 }}>
           {/* Sidebar */}
           <div>

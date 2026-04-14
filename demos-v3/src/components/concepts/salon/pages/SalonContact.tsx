@@ -4,6 +4,7 @@ import React from 'react'
 import { SalonLayout, S } from '../SalonLayout'
 import { SalonInput } from '../ui/SalonInput'
 import { SalonButton } from '../ui/SalonButton'
+import { SalonAppointmentPicker } from '../ui/SalonAppointmentPicker'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 
 export function SalonContact() {
@@ -64,6 +65,18 @@ export function SalonContact() {
               <p style={{ fontFamily: "'Lora', serif", fontSize: '0.82rem', color: S.textSecondary, lineHeight: 1.6, margin: '0 0 12px' }}>Click the chat bubble in the corner to speak with Sophie, your personal concierge.</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Appointment Booking */}
+      <section style={{ padding: '60px 32px 100px', background: S.warmPanel }}>
+        <div style={{ maxWidth: 500, margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: S.accent, margin: '0 0 12px' }}>Book a Session</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', fontWeight: 400, color: S.text, margin: '0 0 12px' }}>Schedule a Private Appointment</h2>
+          <p style={{ fontFamily: "'Lora', serif", fontSize: '0.85rem', color: S.textSecondary, lineHeight: 1.7, marginBottom: 32 }}>Choose a date and time that works for you. Your advisor will confirm within the hour.</p>
+          <SalonAppointmentPicker
+            onSelect={(date, time) => console.log('Appointment:', date, time)}
+          />
         </div>
       </section>
     </SalonLayout>

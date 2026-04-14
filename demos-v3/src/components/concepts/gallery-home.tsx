@@ -7,6 +7,8 @@ import { GalleryLabel } from './gallery/ui/GalleryLabel'
 import { MuseumCaption } from './gallery/ui/MuseumCaption'
 import { getBestsellers } from '@/data/products'
 import { GalleryCircularShowcase, type ShowcaseItem } from './gallery/ui/GalleryCircularShowcase'
+import { GalleryTypewriter } from './gallery/ui/GalleryTypewriter'
+import { GalleryTimeline } from './gallery/ui/GalleryTimeline'
 import { ArrowRight } from 'lucide-react'
 
 const rooms = [
@@ -211,6 +213,25 @@ export function GalleryHome({ concept }: { concept: any }) {
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', fontWeight: 300, color: 'rgba(253,251,247,0.5)', lineHeight: 1.8, maxWidth: 520, margin: '0 auto' }}>
             At Vault Maison, we believe jewelry is not merely worn — it is exhibited on the body. Each piece in our collection has been selected for its ability to transcend the ordinary, to become a conversation between artisan and wearer that endures across generations.
           </p>
+        </div>
+      </section>
+
+      {/* ═══ BRAND TIMELINE ═══ */}
+      <section style={{ padding: '100px 32px', background: G.bg }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
+          <MuseumCaption align="center">Our Heritage</MuseumCaption>
+          <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)', fontWeight: 400, color: G.text, margin: '16px 0 60px' }}>
+            <GalleryTypewriter texts={['A Legacy of Extraordinary Craft']} />
+          </h2>
+          <GalleryTimeline
+            events={[
+              { year: '1987', title: 'The Beginning', description: 'Founded in a small London atelier with a vision to create jewelry as art.' },
+              { year: '1995', title: 'First Exhibition', description: 'Debuted at the Victoria & Albert Museum, establishing our gallery approach.' },
+              { year: '2008', title: 'Maison Expansion', description: 'Opened our flagship salon on New Bond Street, London.' },
+              { year: '2019', title: 'Digital Gallery', description: 'Launched our online exhibition space, bringing the gallery experience worldwide.' },
+              { year: '2024', title: 'The Vault Collection', description: 'Introduced our most exclusive line of one-of-a-kind masterpieces.' },
+            ]}
+          />
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import { Diamond, Shield, Award, Clock, Users, Globe } from 'lucide-react'
 import { PhotoGallery } from '../ui/PhotoGallery'
 import { VaultFeatureBucket } from '../ui/VaultFeatureBucket'
 import { VaultAboutSection } from '../ui/VaultAboutSection'
+import { VaultScrollProgress } from '../ui/VaultScrollProgress'
 
 const GOLD = '#D4AF37'
 const BG = '#0A0A0A'
@@ -13,6 +14,7 @@ const TEXT = '#EAEAEA'
 export function VaultAbout() {
   return (
     <VaultLayout>
+      <VaultScrollProgress />
       {/* About Section with Parallax, Services, Stats */}
       <VaultAboutSection />
 
