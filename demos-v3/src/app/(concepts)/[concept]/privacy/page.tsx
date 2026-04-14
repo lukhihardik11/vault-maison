@@ -7,6 +7,7 @@ import { MinimalPrivacy } from '@/components/concepts/minimal/pages'
 import { VaultPrivacy } from '@/components/concepts/vault/pages'
 import { GalleryPrivacy } from '@/components/concepts/gallery/pages'
 import { SalonPrivacy } from '@/components/concepts/salon/pages'
+import { AtelierPrivacy } from '@/components/concepts/atelier/pages'
 
 export default function PrivacyPage() {
   const params = useParams()
@@ -17,6 +18,7 @@ export default function PrivacyPage() {
   if (concept.id === 'vault') return <VaultPrivacy />
   if (concept.id === 'gallery') return <GalleryPrivacy />
   if (concept.id === 'salon') return <SalonPrivacy />
+  if (concept.id === 'atelier') return <AtelierPrivacy />
   return (
     <InfoPage
       concept={concept}

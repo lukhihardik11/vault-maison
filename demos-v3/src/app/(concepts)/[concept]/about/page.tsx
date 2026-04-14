@@ -8,6 +8,7 @@ import { MinimalAbout } from '@/components/concepts/minimal/pages'
 import { VaultAbout } from '@/components/concepts/vault/pages'
 import { GalleryAbout } from '@/components/concepts/gallery/pages'
 import { SalonAbout } from '@/components/concepts/salon/pages'
+import { AtelierAbout } from '@/components/concepts/atelier/pages'
 
 export default function AboutPage() {
   const params = useParams()
@@ -18,6 +19,7 @@ export default function AboutPage() {
   if (concept.id === 'vault') return <VaultAbout />
   if (concept.id === 'gallery') return <GalleryAbout />
   if (concept.id === 'salon') return <SalonAbout />
+  if (concept.id === 'atelier') return <AtelierAbout />
 
   return (
     <ConceptLayout concept={concept}>

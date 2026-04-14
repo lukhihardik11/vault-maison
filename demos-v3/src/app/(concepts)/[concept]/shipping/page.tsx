@@ -7,6 +7,7 @@ import { MinimalShipping } from '@/components/concepts/minimal/pages'
 import { VaultShipping } from '@/components/concepts/vault/pages'
 import { GalleryShipping } from '@/components/concepts/gallery/pages'
 import { SalonShipping } from '@/components/concepts/salon/pages'
+import { AtelierShipping } from '@/components/concepts/atelier/pages'
 
 export default function ShippingPage() {
   const params = useParams()
@@ -17,6 +18,7 @@ export default function ShippingPage() {
   if (concept.id === 'vault') return <VaultShipping />
   if (concept.id === 'gallery') return <GalleryShipping />
   if (concept.id === 'salon') return <SalonShipping />
+  if (concept.id === 'atelier') return <AtelierShipping />
   return (
     <InfoPage
       concept={concept}

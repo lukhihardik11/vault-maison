@@ -7,6 +7,7 @@ import { MinimalCare } from '@/components/concepts/minimal/pages'
 import { VaultCare } from '@/components/concepts/vault/pages'
 import { GalleryCare } from '@/components/concepts/gallery/pages'
 import { SalonCare } from '@/components/concepts/salon/pages'
+import { AtelierCare } from '@/components/concepts/atelier/pages'
 
 export default function CarePage() {
   const params = useParams()
@@ -17,6 +18,7 @@ export default function CarePage() {
   if (concept.id === 'vault') return <VaultCare />
   if (concept.id === 'gallery') return <GalleryCare />
   if (concept.id === 'salon') return <SalonCare />
+  if (concept.id === 'atelier') return <AtelierCare />
   return (
     <InfoPage
       concept={concept}
