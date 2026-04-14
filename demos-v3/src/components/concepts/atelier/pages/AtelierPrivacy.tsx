@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { AtelierLayout, A } from '../AtelierLayout'
+import { AtelierLayout, A, AtelierSection, RevealSection, WarmDivider } from '../AtelierLayout'
 
 const sections = [
   { title: 'Information We Collect', content: 'We collect personal information you provide directly, including name, email, shipping address, and payment details. For bespoke commissions, we may also collect design preferences and reference images you share with us.' },
@@ -14,23 +14,37 @@ const sections = [
 export function AtelierPrivacy() {
   return (
     <AtelierLayout>
-      <section style={{ padding: '80px 32px 60px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-          <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: A.accent, marginBottom: 16 }}>Legal</div>
-          <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 32, fontWeight: 400, color: A.ink, margin: '0 0 16px' }}>Privacy Policy</h1>
-          <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 14, color: A.textSoft }}>Last updated: March 2024</p>
-        </div>
-      </section>
-      <section style={{ padding: '0 32px 100px' }}>
+      <AtelierSection style={{ padding: '80px 32px 60px', textAlign: 'center' }}>
+        <RevealSection>
+          <div style={{ maxWidth: 600, margin: '0 auto' }}>
+            <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: A.accent, marginBottom: 16 }}>Legal</div>
+            <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 400, color: A.ink, margin: '0 0 12px' }}>Privacy Policy</h1>
+            <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 14, color: A.textSoft }}>Last updated: March 2024</p>
+          </div>
+        </RevealSection>
+      </AtelierSection>
+
+      <AtelierSection alt style={{ padding: '48px 32px 100px' }}>
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           {sections.map((s, i) => (
-            <div key={i} style={{ marginBottom: 36 }}>
-              <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 20, fontWeight: 500, color: A.ink, marginBottom: 8 }}>{s.title}</h3>
-              <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 14, color: A.textSoft, lineHeight: 1.8 }}>{s.content}</p>
-            </div>
+            <RevealSection key={i} delay={i * 60}>
+              <div style={{
+                marginBottom: 24, padding: '24px 28px',
+                background: A.surface, border: `1px dashed ${A.sketch}`, borderRadius: 2,
+                boxShadow: `inset 0 1px 2px ${A.shadow}`,
+              }}>
+                <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12 }}>
+                  <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 24, fontWeight: 300, color: `${A.accent}30` }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 20, fontWeight: 500, color: A.ink, margin: 0 }}>{s.title}</h3>
+                </div>
+                <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 14, color: A.textSoft, lineHeight: 1.8 }}>{s.content}</p>
+              </div>
+            </RevealSection>
           ))}
         </div>
-      </section>
+      </AtelierSection>
     </AtelierLayout>
   )
 }

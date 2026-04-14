@@ -1,8 +1,10 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { AtelierLayout, A } from '../AtelierLayout'
+import { AtelierLayout, A, AtelierSection, RevealSection, StaggerItem, WarmDivider } from '../AtelierLayout'
+import { AtelierButton } from '../ui/AtelierButton'
 import { allCategories, categoryLabels, categoryDescriptions } from '@/data/concepts'
+import { getProductsByCategory } from '@/data/products'
 
 const craftNotes: Record<string, string> = {
   'engagement-rings': 'Each setting is hand-carved from a single block of wax before casting',
@@ -22,62 +24,127 @@ const craftNotes: Record<string, string> = {
 export function AtelierCollections() {
   return (
     <AtelierLayout>
-      {/* Header */}
-      <section style={{ padding: '80px 32px 60px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-          <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: A.accent, marginBottom: 16 }}>
+      {/* ═══ HERO ═══ */}
+      <section style={{
+        position: 'relative', minHeight: '45vh',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(/images/atelier/jewelry-making-hands.jpg)',
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          filter: 'brightness(0.3)',
+        }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(44,38,32,0.4)' }} />
+        <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, padding: '100px 32px 60px' }}>
+          <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: A.gold, marginBottom: 16 }}>
             The Workshop
           </div>
-          <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 400, color: A.ink, margin: '0 0 16px' }}>
+          <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 300, color: '#FEFCF8', margin: '0 0 16px' }}>
             Browse by Craft
           </h1>
-          <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 15, color: A.textSoft, lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 16, color: 'rgba(232,226,216,0.8)', lineHeight: 1.7 }}>
             Each category represents a distinct discipline of our workshop. Every piece is made by hand.
           </p>
         </div>
       </section>
 
-      {/* Grid */}
-      <section style={{ padding: '0 32px 100px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }}>
+      {/* ═══ CATEGORY GRID ═══ */}
+      <AtelierSection style={{ padding: '80px 32px 100px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24 }}>
             {allCategories.map((catSlug, i) => {
               const label = categoryLabels[catSlug] || catSlug.replace(/-/g, ' ')
               const desc = categoryDescriptions[catSlug] || ''
               const craft = craftNotes[catSlug] || 'Handcrafted with care in our London workshop'
+              const products = getProductsByCategory(catSlug as any)
+              const heroImage = products[0]?.images?.[0]
+
               return (
-                <Link key={catSlug} href={`/atelier/category/${catSlug}`} style={{ textDecoration: 'none', display: 'block' }}>
-                  <div style={{
-                    background: A.surface, border: `1px solid ${A.border}`, borderRadius: 2,
-                    padding: '32px 28px', transition: 'all 0.3s', cursor: 'pointer',
-                    minHeight: 200, display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = A.accent }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = A.border }}
-                  >
-                    <div>
-                      <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 40, fontWeight: 300, color: A.accent, opacity: 0.25, marginBottom: 8 }}>
-                        {String(i + 1).padStart(2, '0')}
-                      </div>
-                      <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 22, fontWeight: 500, color: A.ink, marginBottom: 8, textTransform: 'capitalize' }}>
-                        {label}
-                      </h3>
-                      <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 14, color: A.textSoft, lineHeight: 1.6, marginBottom: 16 }}>
-                        {desc}
-                      </p>
-                    </div>
+                <StaggerItem key={catSlug} index={i}>
+                  <Link href={`/atelier/category/${catSlug}`} style={{ textDecoration: 'none', display: 'block' }}>
                     <div style={{
-                      fontFamily: 'Caveat, cursive', fontSize: 14, color: A.sketch,
-                      borderTop: `1px solid ${A.border}`, paddingTop: 12,
-                    }}>
-                      ✦ {craft}
+                      background: A.surface, border: `1px dashed ${A.sketch}`, borderRadius: 2,
+                      overflow: 'hidden',
+                      boxShadow: `inset 0 1px 2px ${A.shadow}`,
+                      transition: 'border-color 0.3s, box-shadow 0.3s, transform 0.3s',
+                      cursor: 'pointer',
+                    }}
+                    onMouseEnter={e => {
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.borderColor = A.accent
+                      el.style.boxShadow = `0 8px 24px ${A.shadowMd}`
+                      el.style.transform = 'translateY(-4px)'
+                    }}
+                    onMouseLeave={e => {
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.borderColor = A.sketch
+                      el.style.boxShadow = `inset 0 1px 2px ${A.shadow}`
+                      el.style.transform = 'translateY(0)'
+                    }}
+                    >
+                      {/* Category image */}
+                      {heroImage && (
+                        <div style={{
+                          height: 180,
+                          backgroundImage: `url(${heroImage})`,
+                          backgroundSize: 'cover', backgroundPosition: 'center',
+                          borderBottom: `1px dashed ${A.sketch}`,
+                        }} />
+                      )}
+                      <div style={{ padding: '24px 28px 28px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                          <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 32, fontWeight: 300, color: `${A.accent}30` }}>
+                            {String(i + 1).padStart(2, '0')}
+                          </div>
+                          <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, color: A.sketch }}>
+                            {products.length} piece{products.length !== 1 ? 's' : ''}
+                          </div>
+                        </div>
+                        <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 24, fontWeight: 500, color: A.ink, marginBottom: 8, textTransform: 'capitalize' }}>
+                          {label}
+                        </h3>
+                        <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 14, color: A.textSoft, lineHeight: 1.6, marginBottom: 16 }}>
+                          {desc}
+                        </p>
+                        <div style={{
+                          fontFamily: 'Caveat, cursive', fontSize: 14, color: A.gold,
+                          borderTop: `1px dashed ${A.sketch}`, paddingTop: 12,
+                        }}>
+                          ✦ {craft}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </StaggerItem>
               )
             })}
           </div>
         </div>
+      </AtelierSection>
+
+      {/* ═══ CTA ═══ */}
+      <section style={{ position: 'relative', padding: '80px 32px', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(/images/atelier/goldsmith-crafting.jpg)',
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          filter: 'brightness(0.2)',
+        }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(44,38,32,0.5)' }} />
+        <RevealSection>
+          <div style={{ maxWidth: 500, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+            <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 28, fontWeight: 300, color: '#FEFCF8', marginBottom: 16 }}>
+              Can&apos;t Find What You&apos;re Looking For?
+            </h2>
+            <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 15, color: 'rgba(232,226,216,0.7)', lineHeight: 1.7, marginBottom: 28 }}>
+              Commission a bespoke piece, designed and crafted exclusively for you.
+            </p>
+            <AtelierButton href="/atelier/bespoke" style={{ background: A.gold, color: A.ink }}>
+              Begin a Commission
+            </AtelierButton>
+          </div>
+        </RevealSection>
       </section>
     </AtelierLayout>
   )

@@ -1,7 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { AtelierLayout, A } from '../AtelierLayout'
+import { AtelierLayout, A, AtelierSection, RevealSection, WarmDivider } from '../AtelierLayout'
+import { AtelierButton } from '../ui/AtelierButton'
 
 const faqs = [
   { q: 'How long does a bespoke commission take?', a: 'Most commissions take 4–12 weeks from initial consultation to final unveiling. Complex pieces with rare stones may take longer. We\'ll give you a detailed timeline during your first meeting.' },
@@ -19,52 +20,85 @@ export function AtelierFAQ() {
 
   return (
     <AtelierLayout>
-      <section style={{ padding: '80px 32px 100px' }}>
-        <div style={{ maxWidth: 700, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: A.accent, marginBottom: 16 }}>
-              Questions
-            </div>
-            <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 32, fontWeight: 400, color: A.ink, margin: 0 }}>
-              Frequently Asked
-            </h1>
+      <AtelierSection style={{ padding: '80px 32px 60px' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: A.accent, marginBottom: 16 }}>
+            Questions
           </div>
+          <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 400, color: A.ink, margin: '0 0 12px' }}>
+            Frequently Asked
+          </h1>
+          <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 15, color: A.textSoft, lineHeight: 1.7 }}>
+            Everything you need to know about our workshop, commissions, and craft.
+          </p>
+        </div>
+      </AtelierSection>
 
+      <AtelierSection alt style={{ padding: '48px 32px 80px' }}>
+        <div style={{ maxWidth: 750, margin: '0 auto' }}>
           {faqs.map((faq, i) => (
-            <div key={i} style={{ borderBottom: `1px solid ${A.border}` }}>
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                style={{
-                  width: '100%', padding: '20px 0', background: 'none', border: 'none',
-                  cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'left',
-                }}
-              >
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 18, fontWeight: 500, color: A.ink, paddingRight: 16 }}>
-                  {faq.q}
-                </span>
-                <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 20, color: A.textSoft, transition: 'transform 0.3s', transform: open === i ? 'rotate(45deg)' : 'rotate(0deg)', flexShrink: 0 }}>
-                  +
-                </span>
-              </button>
-              <AnimatePresence>
-                {open === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
+            <RevealSection key={i} delay={i * 50}>
+              <div style={{
+                borderBottom: `1px dashed ${A.sketch}`,
+                background: open === i ? A.surface : 'transparent',
+                transition: 'background 0.3s',
+              }}>
+                <button
+                  onClick={() => setOpen(open === i ? null : i)}
+                  style={{
+                    width: '100%', padding: '20px 16px', background: 'none', border: 'none',
+                    cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'left',
+                  }}
+                >
+                  <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 18, fontWeight: 500, color: A.ink, paddingRight: 16 }}>
+                    {faq.q}
+                  </span>
+                  <motion.span
+                    animate={{ rotate: open === i ? 45 : 0 }}
                     transition={{ duration: 0.3 }}
-                    style={{ overflow: 'hidden' }}
+                    style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 22, color: A.accent, flexShrink: 0 }}
                   >
-                    <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 14, color: A.textSoft, lineHeight: 1.7, paddingBottom: 20 }}>
-                      {faq.a}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                    +
+                  </motion.span>
+                </button>
+                <AnimatePresence>
+                  {open === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 15, color: A.textSoft, lineHeight: 1.8, padding: '0 16px 20px' }}>
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </RevealSection>
           ))}
         </div>
-      </section>
+      </AtelierSection>
+
+      {/* CTA */}
+      <AtelierSection style={{ padding: '72px 32px' }}>
+        <RevealSection>
+          <div style={{ maxWidth: 500, margin: '0 auto', textAlign: 'center' }}>
+            <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 26, fontWeight: 400, color: A.ink, marginBottom: 12 }}>
+              Still Have Questions?
+            </h2>
+            <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 14, color: A.textSoft, lineHeight: 1.7, marginBottom: 28 }}>
+              We&apos;re always happy to chat. Reach out by email, phone, or visit us in person.
+            </p>
+            <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
+              <AtelierButton href="/atelier/contact">Contact Us</AtelierButton>
+              <AtelierButton variant="secondary" href="/atelier/bespoke">Begin a Commission</AtelierButton>
+            </div>
+          </div>
+        </RevealSection>
+      </AtelierSection>
     </AtelierLayout>
   )
 }
