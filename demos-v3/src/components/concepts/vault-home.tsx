@@ -15,6 +15,11 @@ import { VaultAccordionGallery } from './vault/ui/VaultAccordionGallery'
 import { VaultLuminaSlider } from './vault/ui/VaultLuminaSlider'
 import { VaultLimelightNav } from './vault/ui/VaultLimelightNav'
 import { VaultCarousel, VaultCarouselContent, VaultCarouselItem, VaultCarouselNav } from './vault/ui/VaultCarousel'
+import { VaultScrollProgress } from './vault/ui/VaultScrollProgress'
+import { VaultAnimatedCounter } from './vault/ui/VaultAnimatedCounter'
+import { VaultTextReveal } from './vault/ui/VaultTextReveal'
+import { VaultTestimonialCarousel } from './vault/ui/VaultTestimonialCarousel'
+import { VaultMagneticButton } from './vault/ui/VaultMagneticButton'
 import { ArrowRight, Diamond, Shield, Award, Clock, Star, ChevronRight, Sparkles } from 'lucide-react'
 
 const GOLD = '#D4AF37'
@@ -66,6 +71,7 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
 
   return (
     <VaultLayout>
+      <VaultScrollProgress />
       <style jsx global>{`
         @keyframes vaultGateFallback { 0%,80% { opacity: 1; } 100% { opacity: 0; pointer-events: none; } }
         .vault-gate-overlay { animation: vaultGateFallback 2.5s ease forwards; }
@@ -314,6 +320,42 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
               />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          TEXT REVEAL + STATS
+      ═══════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '100px 24px', backgroundColor: BG, textAlign: 'center' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto 60px' }}>
+          <VaultTextReveal
+            text="Every piece in the Vault tells a story of extraordinary craftsmanship, rare materials, and timeless beauty that transcends generations."
+          />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 60, flexWrap: 'wrap' }}>
+          <VaultAnimatedCounter end={150} suffix="+" label="Curated Pieces" />
+          <VaultAnimatedCounter end={45} label="Years of Heritage" />
+          <VaultAnimatedCounter end={12} label="Master Artisans" />
+          <VaultAnimatedCounter end={99} suffix="%" label="Client Satisfaction" />
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          TESTIMONIALS
+      ═══════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '100px 24px', backgroundColor: SURFACE }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>Client Testimonials</p>
+          <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 400, color: TEXT, marginBottom: 16 }}>Voices of the Vault</h2>
+          <div className="vault-section-divider" />
+          <VaultTestimonialCarousel
+            testimonials={[
+              { name: 'Alexandra M.', title: 'Private Collector', text: 'The Celestial Diamond Ring exceeded every expectation. The craftsmanship is simply unparalleled — a true masterpiece.', rating: 5 },
+              { name: 'James W.', title: 'Anniversary Gift', text: 'From the moment I entered the Vault, I knew this was different. The attention to detail in every piece is extraordinary.', rating: 5 },
+              { name: 'Sophia L.', title: 'Engagement Ring', text: 'My fiancé was speechless. The Aurora ring captures light in a way I have never seen before. Worth every moment of the wait.', rating: 5 },
+              { name: 'Richard K.', title: 'Bespoke Commission', text: 'The bespoke process was intimate and personal. They understood my vision perfectly and created something truly unique.', rating: 5 },
+            ]}
+          />
         </div>
       </section>
 

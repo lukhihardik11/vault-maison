@@ -4,6 +4,7 @@ import React from 'react'
 import { GalleryLayout, G } from '../GalleryLayout'
 import { MuseumCaption } from '../ui/MuseumCaption'
 import { GalleryButton } from '../ui/GalleryButton'
+import { GalleryImageCompare } from '../ui/GalleryImageCompare'
 
 const processes = [
   { num: '01', title: 'Stone Selection', desc: 'Our master gemologists examine thousands of diamonds to find the rare few that meet our exacting standards for brilliance, fire, and scintillation.' },
@@ -39,6 +40,22 @@ export function GalleryCraftsmanship() {
         ))}
         <div style={{ textAlign: 'center', marginTop: 60 }}>
           <GalleryButton href="/gallery/bespoke">Commission a Piece</GalleryButton>
+        </div>
+      </section>
+
+      {/* Before & After Comparison */}
+      <section style={{ padding: '80px 32px', background: G.surface }}>
+        <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
+          <MuseumCaption align="center">The Transformation</MuseumCaption>
+          <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(1.2rem, 2vw, 1.6rem)', fontWeight: 400, color: G.text, margin: '16px 0 40px' }}>
+            From Raw Stone to Masterpiece
+          </h2>
+          <GalleryImageCompare
+            beforeImage="/images/products/loose-round-diamond.jpg"
+            afterImage="/images/products/diamond-solitaire-ring.jpg"
+            beforeLabel="Raw Diamond"
+            afterLabel="Finished Ring"
+          />
         </div>
       </section>
     </GalleryLayout>

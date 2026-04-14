@@ -5,6 +5,7 @@ import { GalleryLayout, G } from '../GalleryLayout'
 import { MuseumCaption } from '../ui/MuseumCaption'
 import { GalleryButton } from '../ui/GalleryButton'
 import { GalleryAboutSection } from '../ui/GalleryAboutSection'
+import { GalleryTimeline } from '../ui/GalleryTimeline'
 
 const values = [
   { title: 'Curation', desc: 'Every piece is hand-selected by our gemologists, chosen not only for quality but for artistic merit and emotional resonance.' },
@@ -70,6 +71,25 @@ export function GalleryAbout() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Brand Timeline */}
+      <section style={{ padding: '80px 32px', background: G.surface }}>
+        <div style={{ maxWidth: 650, margin: '0 auto', textAlign: 'center' }}>
+          <MuseumCaption align="center">Our Heritage</MuseumCaption>
+          <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)', fontWeight: 400, color: G.text, margin: '16px 0 60px' }}>
+            A Legacy of Extraordinary Craft
+          </h2>
+          <GalleryTimeline
+            events={[
+              { year: '1987', title: 'The Beginning', description: 'Founded in a small London atelier with a vision to create jewelry as art.' },
+              { year: '1995', title: 'First Exhibition', description: 'Debuted at the Victoria & Albert Museum, establishing our gallery approach.' },
+              { year: '2008', title: 'Maison Expansion', description: 'Opened our flagship salon on New Bond Street, London.' },
+              { year: '2019', title: 'Digital Gallery', description: 'Launched our online exhibition space, bringing the gallery experience worldwide.' },
+              { year: '2024', title: 'The Vault Collection', description: 'Introduced our most exclusive line of one-of-a-kind masterpieces.' },
+            ]}
+          />
         </div>
       </section>
 

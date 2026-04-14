@@ -16,3 +16,8 @@ export { VaultLuminaSlider } from './VaultLuminaSlider';
 export { VaultLimelightNav } from './VaultLimelightNav';
 export { VaultCarousel, VaultCarouselContent, VaultCarouselItem, VaultCarouselNav } from './VaultCarousel';
 export { VaultAboutSection } from './VaultAboutSection';
+export { VaultScrollProgress } from './VaultScrollProgress';
+export { VaultAnimatedCounter } from './VaultAnimatedCounter';
+export { VaultTextReveal } from './VaultTextReveal';
+export { VaultTestimonialCarousel } from './VaultTestimonialCarousel';
+export { VaultMagneticButton } from './VaultMagneticButton';

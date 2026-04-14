@@ -7,6 +7,9 @@ import { SalonCard } from './salon/ui/SalonCard'
 import { SalonRevealCard } from './salon/ui/SalonRevealCard'
 import { AdvisorCard } from './salon/ui/AdvisorCard'
 import { SalonButton } from './salon/ui/SalonButton'
+import { SalonToast } from './salon/ui/SalonToast'
+import { SalonTestimonialWall } from './salon/ui/SalonTestimonialWall'
+import { SalonPulseIndicator } from './salon/ui/SalonPulseIndicator'
 import { getBestsellers } from '@/data/products'
 import { Video, Home, PenTool, Gift, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 
@@ -202,6 +205,26 @@ export function SalonHome() {
         </div>
       </section>
 
+      {/* ═══ TESTIMONIAL WALL ═══ */}
+      <section style={{ padding: '80px 32px', background: S.bg }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.6rem', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: S.accent, marginBottom: 12 }}>What Our Clients Say</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', fontWeight: 400, color: S.text, margin: '0 0 40px' }}>
+            Stories from Our Salon
+          </h2>
+          <SalonTestimonialWall
+            testimonials={[
+              { name: 'Emma Richardson', title: 'Bride-to-be', text: 'Sophie helped me find the perfect engagement ring. Her patience and expertise made the experience truly special.', rating: 5, advisor: 'Sophie Laurent' },
+              { name: 'Michael Torres', title: 'Anniversary Gift', text: 'James guided me through the diamond selection with incredible knowledge. My wife was absolutely thrilled.', rating: 5, advisor: 'James Chen' },
+              { name: 'Priya Sharma', title: 'Custom Design', text: 'Aria brought my grandmother\'s brooch back to life as a modern pendant. The craftsmanship is breathtaking.', rating: 5, advisor: 'Aria Patel' },
+              { name: 'David Kim', title: 'Investment Collector', text: 'The team\'s knowledge of rare stones is unmatched. Every purchase has been a wise investment and a joy to own.', rating: 5 },
+              { name: 'Sarah Mitchell', title: 'Repeat Client', text: 'I\'ve been coming here for 5 years. They remember my preferences and always surprise me with perfect suggestions.', rating: 5, advisor: 'Sophie Laurent' },
+              { name: 'Robert Chen', title: 'Wedding Bands', text: 'The matching wedding bands they designed for us are absolutely perfect. Every detail was considered.', rating: 5, advisor: 'Aria Patel' },
+            ]}
+          />
+        </div>
+      </section>
+
       {/* ═══ SECTION 6: NEWSLETTER ═══ */}
       <section style={{ padding: '80px 32px', background: S.warmPanel }}>
         <div style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center' }}>
@@ -233,6 +256,19 @@ export function SalonHome() {
           </div>
         </div>
       </section>
+
+      {/* Social Proof Toast Notifications */}
+      <SalonToast
+        messages={[
+          { icon: 'bag', text: 'A client in London just acquired the Celestial Diamond Ring' },
+          { icon: 'heart', text: 'The Aurora Cocktail Ring was added to 12 wishlists today' },
+          { icon: 'chat', text: 'Sophie is currently helping a client find their perfect piece' },
+          { icon: 'bag', text: 'A bespoke commission was just completed in our atelier' },
+          { icon: 'heart', text: 'The Eternal Solitaire is trending this week' },
+        ]}
+        interval={15000}
+        initialDelay={8000}
+      />
 
       <style>{`
         .salon-service-card:hover {
