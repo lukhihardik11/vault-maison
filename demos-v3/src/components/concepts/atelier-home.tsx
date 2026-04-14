@@ -124,7 +124,7 @@ export function AtelierHome() {
           pointerEvents: 'none',
         }} />
 
-        <div style={{ maxWidth: 760, textAlign: 'center', position: 'relative', zIndex: 1, padding: '120px 32px 80px' }}>
+        <div style={{ maxWidth: 760, textAlign: 'center', position: 'relative', zIndex: 1, padding: '80px 32px 60px' }}>
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -200,7 +200,7 @@ export function AtelierHome() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 2: PHILOSOPHY — Split image + text
       ═══════════════════════════════════════════════════════════ */}
-      <AtelierSection style={{ padding: '100px 32px' }}>
+      <AtelierSection style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <RevealSection>
             <div style={{
@@ -278,7 +278,7 @@ export function AtelierHome() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 3: PROCESS TIMELINE — with images
       ═══════════════════════════════════════════════════════════ */}
-      <AtelierSection alt style={{ padding: '100px 32px' }}>
+      <AtelierSection alt style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <RevealSection>
             <ProcessTimeline steps={steps} title="From Sketch to Masterpiece" subtitle="The Making Process" />
@@ -289,7 +289,7 @@ export function AtelierHome() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 4: FEATURED PIECES — Large cards with artisan credits
       ═══════════════════════════════════════════════════════════ */}
-      <AtelierSection style={{ padding: '100px 32px' }}>
+      <AtelierSection style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <RevealSection>
             <div style={{ textAlign: 'center', marginBottom: 48 }}>
@@ -358,7 +358,7 @@ export function AtelierHome() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 6: SKETCH TOGGLE SHOWCASE — with workshop photo
       ═══════════════════════════════════════════════════════════ */}
-      <AtelierSection alt style={{ padding: '100px 32px' }}>
+      <AtelierSection alt style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <RevealSection>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
@@ -392,7 +392,7 @@ export function AtelierHome() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 7: ARTISANS — with portrait photos
       ═══════════════════════════════════════════════════════════ */}
-      <AtelierSection style={{ padding: '100px 32px' }}>
+      <AtelierSection style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <RevealSection>
             <div style={{ textAlign: 'center', marginBottom: 48 }}>
@@ -421,7 +421,7 @@ export function AtelierHome() {
           SECTION 8: QUOTE — with workshop backdrop
       ═══════════════════════════════════════════════════════════ */}
       <section style={{
-        position: 'relative', padding: '100px 32px', overflow: 'hidden',
+        position: 'relative', padding: '72px 32px', overflow: 'hidden',
       }}>
         <div style={{
           position: 'absolute', inset: 0,
@@ -457,7 +457,7 @@ export function AtelierHome() {
       {/* ═══════════════════════════════════════════════════════════
           SECTION 9: WORKBENCH JOURNAL — with images
       ═══════════════════════════════════════════════════════════ */}
-      <AtelierSection style={{ padding: '100px 32px' }}>
+      <AtelierSection style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <RevealSection>
             <div style={{ textAlign: 'center', marginBottom: 48 }}>
@@ -530,7 +530,7 @@ export function AtelierHome() {
           SECTION 10: COMMISSION CTA — with workshop backdrop
       ═══════════════════════════════════════════════════════════ */}
       <section style={{
-        position: 'relative', padding: '100px 32px', overflow: 'hidden',
+        position: 'relative', padding: '72px 32px', overflow: 'hidden',
       }}>
         <div style={{
           position: 'absolute', inset: 0,

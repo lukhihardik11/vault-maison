@@ -31,30 +31,54 @@ export function useScrollReveal(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   useEffect(() => {
+    const el = ref.current
+    if (!el) return
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true) },
+      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.disconnect() } },
       { threshold }
     )
-    if (ref.current) observer.observe(ref.current)
+    observer.observe(el)
     return () => observer.disconnect()
   }, [threshold])
   return { ref, isVisible }
 }
 
-/* ─── Animated Section Wrapper ─── */
+/* ─── Animated Section Wrapper ───
+ * SSR-SAFE: Renders fully visible on the server (no opacity:0).
+ * After hydration, adds the CSS class for scroll-reveal animation.
+ * Uses globals.css classes: .atelier-scroll-reveal + .is-visible
+ */
 export function RevealSection({ children, delay = 0, className = '', style = {} }: {
   children: React.ReactNode; delay?: number; className?: string; style?: React.CSSProperties
 }) {
-  const { ref, isVisible } = useScrollReveal()
+  const ref = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.disconnect() } },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // Before mount: fully visible (SSR). After mount: use CSS animation classes.
+  const revealClass = mounted
+    ? `atelier-scroll-reveal ${isVisible ? 'is-visible' : ''}`
+    : ''
+
   return (
     <div
       ref={ref}
-      className={className}
+      className={`${revealClass} ${className}`}
       style={{
         ...style,
-        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(32px)',
+        ...(mounted && delay > 0 ? { transitionDelay: `${delay}ms` } : {}),
       }}
     >
       {children}
@@ -66,15 +90,33 @@ export function RevealSection({ children, delay = 0, className = '', style = {} 
 export function StaggerItem({ children, index = 0, style = {} }: {
   children: React.ReactNode; index?: number; style?: React.CSSProperties
 }) {
-  const { ref, isVisible } = useScrollReveal(0.1)
+  const ref = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.disconnect() } },
+      { threshold: 0.05 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const revealClass = mounted
+    ? `atelier-scroll-reveal ${isVisible ? 'is-visible' : ''}`
+    : ''
+
   return (
     <div
       ref={ref}
+      className={revealClass}
       style={{
         ...style,
-        transition: `opacity 0.6s ease ${index * 100}ms, transform 0.6s ease ${index * 100}ms`,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
+        ...(mounted ? { transitionDelay: `${index * 100}ms` } : {}),
       }}
     >
       {children}
@@ -85,9 +127,7 @@ export function StaggerItem({ children, index = 0, style = {} }: {
 /* ─── Warm Gradient Divider ─── */
 export function WarmDivider({ style = {} }: { style?: React.CSSProperties }) {
   return (
-    <div style={{
-      height: 1,
-      background: `linear-gradient(90deg, transparent, ${A.border}, transparent)`,
+    <div className="atelier-warm-divider" style={{
       margin: '0 auto',
       maxWidth: 600,
       ...style,
@@ -99,14 +139,14 @@ export function WarmDivider({ style = {} }: { style?: React.CSSProperties }) {
 export function AtelierSection({ children, alt = false, dark = false, style = {} }: {
   children: React.ReactNode; alt?: boolean; dark?: boolean; style?: React.CSSProperties
 }) {
-  const bg = dark ? A.ink : alt ? A.bgAlt : A.bg
+  const sectionClass = dark
+    ? 'atelier-section-dark'
+    : alt
+    ? 'atelier-section-alt atelier-paper-bg'
+    : 'atelier-section-default atelier-paper-bg'
+
   return (
-    <section style={{
-      background: bg,
-      backgroundImage: dark ? 'none' : PAPER_TEXTURE,
-      position: 'relative',
-      ...style,
-    }}>
+    <section className={sectionClass} style={{ position: 'relative', ...style }}>
       {children}
     </section>
   )
@@ -224,8 +264,9 @@ function AtelierHeader() {
             exit={{ opacity: 0, y: -20 }}
             style={{
               position: 'fixed', top: 72, left: 0, right: 0, bottom: 0, zIndex: 99,
-              background: A.bg, backgroundImage: PAPER_TEXTURE, padding: '32px',
+              background: A.bg, padding: '32px',
             }}
+            className="atelier-paper-bg"
           >
             {navLinks.map((l, i) => (
               <Link
@@ -247,8 +288,6 @@ function AtelierHeader() {
       </AnimatePresence>
 
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Caveat:wght@400;500;600&display=swap');
-
         .atelier-nav-link::after {
           content: '';
           position: absolute;
@@ -268,21 +307,6 @@ function AtelierHeader() {
         }
         .atelier-icon-link:hover {
           color: ${A.accent} !important;
-        }
-
-        /* Sketch border utility */
-        .sketch-border {
-          border: 1px dashed ${A.sketch};
-          border-radius: 2px;
-        }
-
-        /* Card hover lift */
-        .atelier-lift {
-          transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-        .atelier-lift:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 32px ${A.shadow}, 0 4px 12px ${A.shadow};
         }
 
         @media (max-width: 768px) {
@@ -328,10 +352,10 @@ function AtelierFooter() {
               { label: 'Diamond Grading', href: '/atelier/grading' },
               { label: 'Care Guide', href: '/atelier/care' },
             ].map(l => (
-              <Link key={l.href} href={l.href} className="atelier-nav-link" style={{
+              <Link key={l.href} href={l.href} style={{
                 display: 'block', marginBottom: 12,
                 fontFamily: 'Source Serif 4, serif', fontSize: 14, color: 'rgba(232,226,216,0.6)',
-                textDecoration: 'none', transition: 'color 0.3s', position: 'relative',
+                textDecoration: 'none', transition: 'color 0.3s',
               }}>
                 {l.label}
               </Link>
@@ -350,10 +374,10 @@ function AtelierFooter() {
               { label: 'FAQ', href: '/atelier/faq' },
               { label: 'Shipping', href: '/atelier/shipping' },
             ].map(l => (
-              <Link key={l.href} href={l.href} className="atelier-nav-link" style={{
+              <Link key={l.href} href={l.href} style={{
                 display: 'block', marginBottom: 12,
                 fontFamily: 'Source Serif 4, serif', fontSize: 14, color: 'rgba(232,226,216,0.6)',
-                textDecoration: 'none', transition: 'color 0.3s', position: 'relative',
+                textDecoration: 'none', transition: 'color 0.3s',
               }}>
                 {l.label}
               </Link>
@@ -407,9 +431,7 @@ function AtelierFooter() {
 /* ─── Layout Wrapper ─── */
 export function AtelierLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{
-      background: A.bg,
-      backgroundImage: PAPER_TEXTURE,
+    <div className="atelier-paper-bg" style={{
       color: A.text,
       minHeight: '100vh',
       fontFamily: 'Source Serif 4, serif',

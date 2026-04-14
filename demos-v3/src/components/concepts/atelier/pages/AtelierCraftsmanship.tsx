@@ -38,7 +38,7 @@ export function AtelierCraftsmanship() {
           filter: 'brightness(0.3)',
         }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(44,38,32,0.4)' }} />
-        <div style={{ maxWidth: 650, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, padding: '100px 32px 80px' }}>
+        <div style={{ maxWidth: 650, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, padding: '72px 32px 80px' }}>
           <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: A.gold, marginBottom: 16 }}>
             Our Craft
           </div>
@@ -101,7 +101,7 @@ export function AtelierCraftsmanship() {
       </AtelierSection>
 
       {/* ═══ PROCESS TIMELINE ═══ */}
-      <AtelierSection alt style={{ padding: '100px 32px' }}>
+      <AtelierSection alt style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <RevealSection>
             <ProcessTimeline steps={steps} title="The Commission Journey" subtitle="From Vision to Masterpiece" />

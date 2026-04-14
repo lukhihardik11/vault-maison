@@ -35,7 +35,7 @@ export function AtelierJournal() {
           filter: 'brightness(0.25)',
         }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(44,38,32,0.4)' }} />
-        <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, padding: '100px 32px 60px' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, padding: '72px 32px 60px' }}>
           <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: A.gold, marginBottom: 16 }}>
             From the Bench
           </div>

@@ -30,7 +30,7 @@ export function AtelierProductDetail() {
   if (!product) {
     return (
       <AtelierLayout>
-        <div style={{ padding: '120px 32px', textAlign: 'center' }}>
+        <div style={{ padding: '80px 32px', textAlign: 'center' }}>
           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 28, color: A.ink }}>Piece Not Found</h1>
           <p style={{ fontFamily: 'Source Serif 4, serif', color: A.textSoft, marginTop: 12 }}>This piece may have found its forever home.</p>
           <AtelierButton href="/atelier/collections" style={{ marginTop: 24 }}>Browse Workshop</AtelierButton>

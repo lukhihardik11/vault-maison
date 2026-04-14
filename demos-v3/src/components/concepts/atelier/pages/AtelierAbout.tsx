@@ -44,7 +44,7 @@ export function AtelierAbout() {
           filter: 'brightness(0.3)',
         }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(44,38,32,0.4)' }} />
-        <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, padding: '100px 32px 80px' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, padding: '72px 32px 80px' }}>
           <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: A.gold, marginBottom: 16 }}>
             Est. 1987 — Hatton Garden
           </div>
@@ -58,7 +58,7 @@ export function AtelierAbout() {
       </section>
 
       {/* ═══ STORY — split image + text ═══ */}
-      <AtelierSection style={{ padding: '100px 32px' }}>
+      <AtelierSection style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <RevealSection>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
@@ -141,7 +141,7 @@ export function AtelierAbout() {
       </AtelierSection>
 
       {/* ═══ PROCESS TIMELINE ═══ */}
-      <AtelierSection style={{ padding: '100px 32px' }}>
+      <AtelierSection style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <RevealSection>
             <ProcessTimeline steps={steps} title="From Vision to Masterpiece" subtitle="The Making Process" />
@@ -150,7 +150,7 @@ export function AtelierAbout() {
       </AtelierSection>
 
       {/* ═══ ARTISANS with portraits ═══ */}
-      <AtelierSection alt style={{ padding: '100px 32px' }}>
+      <AtelierSection alt style={{ padding: '72px 32px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <RevealSection>
             <div style={{ textAlign: 'center', marginBottom: 48 }}>
@@ -176,7 +176,7 @@ export function AtelierAbout() {
       </AtelierSection>
 
       {/* ═══ QUOTE with backdrop ═══ */}
-      <section style={{ position: 'relative', padding: '100px 32px', overflow: 'hidden' }}>
+      <section style={{ position: 'relative', padding: '72px 32px', overflow: 'hidden' }}>
         <div style={{
           position: 'absolute', inset: 0,
           backgroundImage: 'url(/images/atelier/workshop-interior.jpg)',
