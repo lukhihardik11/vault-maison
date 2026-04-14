@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { SalonLayout, S } from './salon/SalonLayout'
 import { SalonCard } from './salon/ui/SalonCard'
+import { SalonRevealCard } from './salon/ui/SalonRevealCard'
 import { AdvisorCard } from './salon/ui/AdvisorCard'
 import { SalonButton } from './salon/ui/SalonButton'
 import { getBestsellers } from '@/data/products'
@@ -99,17 +100,16 @@ export function SalonHome() {
               Our Advisors&apos; Picks This Week
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
             {featured.map((product, i) => (
               <div key={product.id} style={{ transform: i % 2 === 1 ? 'translateY(24px)' : 'none' }}>
-                <SalonCard
+                <SalonRevealCard
                   name={product.name}
-                  subtitle={product.subtitle}
+                  slug={product.slug}
                   price={product.priceDisplay}
                   image={product.images[0]}
-                  href={`/salon/product/${product.slug}`}
+                  category={product.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                   advisorNote={advisorNotes[i]}
-                  advisorName={advisors[i % 3].name.split(' ')[0]}
                   isNew={i === 0}
                 />
               </div>

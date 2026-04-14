@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { SalonLayout, S } from '../SalonLayout'
 import { SalonCard } from '../ui/SalonCard'
+import { SalonRevealCard } from '../ui/SalonRevealCard'
 import { SalonButton } from '../ui/SalonButton'
 import { getProductsByCategory } from '@/data/products'
 import { allCategories, categoryLabels, type ProductCategory } from '@/data/concepts'
@@ -135,16 +136,29 @@ export function SalonCategory() {
           gap: viewMode === 'grid' ? 24 : 16,
         }}>
           {sortedProducts.map((product, i) => (
-            <SalonCard
-              key={product.id}
-              name={product.name}
-              subtitle={product.subtitle}
-              price={product.priceDisplay}
-              image={product.images[0]}
-              href={`/salon/product/${product.slug}`}
-              advisorNote={advisorNotes[i % advisorNotes.length]}
-              advisorName={['Sophie', 'James', 'Aria'][i % 3]}
-            />
+            viewMode === 'grid' ? (
+              <SalonRevealCard
+                key={product.id}
+                name={product.name}
+                slug={product.slug}
+                price={product.priceDisplay}
+                image={product.images[0]}
+                category={product.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                advisorNote={advisorNotes[i % advisorNotes.length]}
+                isNew={i < 2}
+              />
+            ) : (
+              <SalonCard
+                key={product.id}
+                name={product.name}
+                subtitle={product.subtitle}
+                price={product.priceDisplay}
+                image={product.images[0]}
+                href={`/salon/product/${product.slug}`}
+                advisorNote={advisorNotes[i % advisorNotes.length]}
+                advisorName={['Sophie', 'James', 'Aria'][i % 3]}
+              />
+            )
           ))}
         </div>
         {sortedProducts.length === 0 && (

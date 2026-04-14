@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { SalonLayout, S } from '../SalonLayout'
 import { SalonCard } from '../ui/SalonCard'
+import { SalonRevealCard } from '../ui/SalonRevealCard'
 import { SalonButton } from '../ui/SalonButton'
 import { getProduct, getBestsellers } from '@/data/products'
 import { useCartStore } from '@/store/cart'
@@ -209,9 +210,16 @@ export function SalonProductDetail() {
               Sophie&apos;s Suggestions
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
             {related.map((p, i) => (
-              <SalonCard key={p.id} name={p.name} subtitle={p.subtitle} price={p.priceDisplay} image={p.images[0]} href={`/salon/product/${p.slug}`} />
+              <SalonRevealCard
+                key={p.id}
+                name={p.name}
+                slug={p.slug}
+                price={p.priceDisplay}
+                image={p.images[0]}
+                category={p.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+              />
             ))}
           </div>
         </div>
