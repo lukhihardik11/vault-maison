@@ -1,200 +1,206 @@
 'use client'
-
+import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { type ConceptConfig } from '@/data/concepts'
+import { motion } from 'framer-motion'
+import { AtelierLayout, A } from './atelier/AtelierLayout'
+import { AtelierButton } from './atelier/ui/AtelierButton'
+import { AtelierCard } from './atelier/ui/AtelierCard'
+import { ArtisanCard } from './atelier/ui/ArtisanCard'
+import { ProcessTimeline } from './atelier/ui/ProcessTimeline'
+import { SketchToggle } from './atelier/ui/SketchToggle'
 import { getBestsellers } from '@/data/products'
-import { ConceptLayout, FeaturedProducts, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
-import { buildConceptUrl } from '@/lib/concept-utils'
-import { SpotlightCard } from '@/components/ui/spotlight-card'
 
-export function AtelierHome({ concept }: { concept: ConceptConfig }) {
+const artisans = [
+  { name: 'Elena Marchetti', title: 'Master Stone Setter', specialty: 'Specializes in invisible settings and micro-pavé. 22 years at the bench.', years: 22, signature: 'E. Marchetti' },
+  { name: 'Thomas Ashworth', title: 'Master Engraver', specialty: 'Hand-engraving specialist. Third-generation craftsman from Sheffield.', years: 18, signature: 'T. Ashworth' },
+  { name: 'Yuki Tanaka', title: 'Sculptural Designer', specialty: 'Trained in Tokyo and Florence. Known for bold, architectural forms.', years: 15, signature: 'Y. Tanaka' },
+]
+
+const steps = [
+  { number: '01', title: 'Consultation', description: 'Share your vision over tea. We listen, sketch, and dream together.', duration: '1–2 hours' },
+  { number: '02', title: 'Design', description: 'Detailed renderings and wax models bring your concept to life.', duration: '1–2 weeks' },
+  { number: '03', title: 'Sourcing', description: 'We hand-select the finest stones and metals for your piece.', duration: '1–3 weeks' },
+  { number: '04', title: 'Crafting', description: 'Master artisans bring the design to life with focused handwork.', duration: '4–8 weeks' },
+  { number: '05', title: 'Finishing', description: 'Final polishing, setting, and quality inspection.', duration: '1 week' },
+  { number: '06', title: 'Unveiling', description: 'Your finished piece is presented in a private ceremony.', duration: 'Your moment' },
+]
+
+const journalEntries = [
+  { title: 'The Art of Lost-Wax Casting', tag: 'Technique', date: 'March 2024' },
+  { title: 'Sourcing Burmese Rubies', tag: 'Sourcing', date: 'February 2024' },
+  { title: 'Meet Elena: 22 Years at the Bench', tag: 'Artisan', date: 'January 2024' },
+]
+
+export function AtelierHome() {
   const featured = getBestsellers().slice(0, 4)
+  const artisanNames = ['Elena M.', 'Thomas A.', 'Yuki T.', 'Marie D.']
 
   return (
-    <ConceptLayout concept={concept}>
-      {/* Warm, craft-focused hero with split layout */}
-      <section className="relative min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="absolute inset-0 grid grid-cols-2">
-          <div className="relative">
-            <Image
-              src="/images/jewelry-boutique.jpg"
-              alt="Atelier workshop"
-              fill
-              className="object-cover"
-              style={{ opacity: 0.65 }}
-              priority
-            />
+    <AtelierLayout>
+      {/* ═══ HERO ═══ */}
+      <section style={{
+        minHeight: '85vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '100px 32px 80px', position: 'relative', overflow: 'hidden',
+        background: `linear-gradient(180deg, ${A.bg} 0%, ${A.workshop} 50%, ${A.bg} 100%)`,
+      }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.04, backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M20 0L20 40M0 20L40 20\' stroke=\'%238B6914\' stroke-width=\'0.5\' fill=\'none\'/%3E%3C/svg%3E")', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 700, textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: A.accent, marginBottom: 24 }}>
+            Welcome to The Atelier
           </div>
-          <div />
+          <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', fontWeight: 400, color: A.ink, margin: '0 0 24px', lineHeight: 1.15 }}>
+            Where Every Piece<br />Begins as a Conversation
+          </h1>
+          <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 16, color: A.textSoft, lineHeight: 1.8, maxWidth: 520, margin: '0 auto 40px' }}>
+            Since 1987, our Hatton Garden workshop has been a place where extraordinary jewelry is born from extraordinary conversations. Every piece is handcrafted, every detail considered.
+          </p>
+          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <AtelierButton href="/atelier/collections">Explore the Workshop</AtelierButton>
+            <AtelierButton variant="secondary" href="/atelier/bespoke">Begin a Commission</AtelierButton>
+          </div>
         </div>
-        <div className="relative z-10 mx-auto max-w-[1440px] px-8 lg:px-16 w-full">
-          <div className="ml-auto max-w-lg lg:max-w-xl">
-            <p
-              className={`text-[10px] uppercase tracking-[0.35em] mb-8 ${concept.fonts.bodyClass}`}
-              style={{ color: concept.palette.accent }}
-            >
-              L&apos;Atelier &middot; Est. 2024
-            </p>
-            <h1
-              className={`text-4xl md:text-5xl lg:text-[3.5rem] font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}
-              style={{ color: concept.palette.text }}
-            >
-              Where Craft<br />
-              Meets <span style={{ color: concept.palette.accent }}>Soul</span>
-            </h1>
-            <p
-              className={`text-sm font-light mb-10 leading-relaxed ${concept.fonts.bodyClass}`}
-              style={{ color: concept.palette.text, opacity: 0.5 }}
-            >
-              In our atelier, every piece begins as a conversation. We listen to your story,
-              understand your vision, and translate it into jewelry that speaks your language.
-              This is bespoke luxury at its most personal.
-            </p>
-            <div className="flex gap-4">
-              <Link
-                href={buildConceptUrl('atelier', 'bespoke')}
-                className="inline-block px-10 py-4 text-[10px] uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
-                style={{ backgroundColor: concept.palette.accent, color: '#fff' }}
-              >
-                {concept.ctaText.bespoke}
-              </Link>
-              <Link
-                href={buildConceptUrl('atelier', 'collections')}
-                className="inline-block px-10 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
-                style={{ borderColor: concept.palette.muted, color: concept.palette.text }}
-              >
-                {concept.ctaText.browse}
-              </Link>
+      </section>
+
+      {/* ═══ PROCESS TIMELINE ═══ */}
+      <section style={{ padding: '100px 32px', background: A.surface }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <ProcessTimeline steps={steps} title="From Sketch to Masterpiece" subtitle="The Making Process" />
+        </div>
+      </section>
+
+      {/* ═══ FEATURED PIECES ═══ */}
+      <section style={{ padding: '100px 32px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: A.accent, marginBottom: 12 }}>
+              From the Bench
             </div>
+            <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 32, fontWeight: 400, color: A.ink, margin: 0 }}>
+              Workshop Favourites
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 24 }}>
+            {featured.map((p, i) => (
+              <AtelierCard
+                key={p.slug}
+                title={p.name}
+                subtitle={p.category.replace(/-/g, ' ')}
+                price={`£${p.price.toLocaleString()}`}
+                image={p.images?.[0]}
+                href={`/atelier/product/${p.slug}`}
+                artisan={artisanNames[i % artisanNames.length]}
+                badge={p.isNew ? 'New from the bench' : p.isBestseller ? 'Workshop favourite' : undefined}
+              />
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <AtelierButton variant="secondary" href="/atelier/collections">View All Pieces</AtelierButton>
           </div>
         </div>
       </section>
 
-      {/* Atelier stats */}
-      <section className="py-14" style={{ backgroundColor: concept.palette.surface }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            {[
-              { value: '40+', label: 'Hours per Piece' },
-              { value: '12', label: 'Master Artisans' },
-              { value: '500+', label: 'Bespoke Commissions' },
-              { value: '100%', label: 'Handcrafted' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className={`text-3xl lg:text-4xl font-light ${concept.fonts.headingClass}`} style={{ color: concept.palette.accent }}>
-                  {stat.value}
-                </p>
-                <p className={`text-[10px] uppercase tracking-[0.2em] mt-2 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.text, opacity: 0.4 }}>
-                  {stat.label}
-                </p>
-              </div>
+      {/* ═══ SKETCH TOGGLE SHOWCASE ═══ */}
+      <section style={{ padding: '80px 32px', background: A.surface }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+          <SketchToggle title="Celestial Solitaire" style={{ maxWidth: 400 }} />
+          <div>
+            <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: A.accent, marginBottom: 12 }}>
+              Design to Reality
+            </div>
+            <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 28, fontWeight: 400, color: A.ink, margin: '0 0 16px' }}>
+              See the Journey
+            </h2>
+            <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 15, color: A.textSoft, lineHeight: 1.8, marginBottom: 24 }}>
+              Toggle between the original design sketch and the finished piece. Every creation in our workshop begins as a hand-drawn concept before becoming reality.
+            </p>
+            <AtelierButton variant="ghost" href="/atelier/craftsmanship">
+              Learn About Our Process →
+            </AtelierButton>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ ARTISANS ═══ */}
+      <section style={{ padding: '100px 32px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: A.accent, marginBottom: 12 }}>
+              The Makers
+            </div>
+            <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 32, fontWeight: 400, color: A.ink, margin: 0 }}>
+              Meet Our Artisans
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+            {artisans.map((a, i) => (
+              <ArtisanCard key={i} {...a} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Process showcase with SpotlightCards */}
-      <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p className={`text-[10px] uppercase tracking-[0.3em] mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
-            Our Process
+      {/* ═══ QUOTE ═══ */}
+      <section style={{ padding: '80px 32px', background: A.surface }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ width: 40, height: 1, background: A.accent, margin: '0 auto 32px', opacity: 0.4 }} />
+          <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(1.4rem, 3vw, 2rem)', fontWeight: 400, color: A.ink, lineHeight: 1.6, fontStyle: 'italic' }}>
+            &ldquo;Every piece that leaves our atelier bears the invisible signature of the artisan who created it. We celebrate the human touch — the warmth of handwork, the soul that no machine can replicate.&rdquo;
           </p>
-          <h2
-            className={`text-2xl font-light tracking-[0.04em] mb-16 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            From Sketch to Masterpiece
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { step: '01', title: 'Consultation', desc: 'Share your vision over tea in our private salon. We listen, sketch, and dream together.' },
-              { step: '02', title: 'Design', desc: 'Our designers create detailed renderings. You refine until every line is perfect.' },
-              { step: '03', title: 'Creation', desc: 'Master artisans bring your design to life with 40-80 hours of handwork.' },
-              { step: '04', title: 'Unveiling', desc: 'Your finished piece is presented in a private ceremony, a moment to treasure.' },
-            ].map((item) => (
-              <SpotlightCard
-                key={item.step}
-                className="p-8"
-                spotlightColor={`${concept.palette.accent}20`}
-              >
-                <p className="text-3xl font-light mb-4" style={{ color: concept.palette.accent, opacity: 0.3 }}>
-                  {item.step}
-                </p>
-                <h3
-                  className={`text-sm uppercase tracking-[0.15em] font-medium mb-3 ${concept.fonts.headingClass}`}
-                  style={{ color: concept.palette.text }}
+          <div style={{ width: 40, height: 1, background: A.accent, margin: '32px auto 0', opacity: 0.4 }} />
+        </div>
+      </section>
+
+      {/* ═══ WORKBENCH JOURNAL ═══ */}
+      <section style={{ padding: '100px 32px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: A.accent, marginBottom: 12 }}>
+              From the Bench
+            </div>
+            <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 32, fontWeight: 400, color: A.ink, margin: 0 }}>
+              Workbench Journal
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 24 }}>
+            {journalEntries.map((entry, i) => (
+              <Link key={i} href="/atelier/journal" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: A.surface, border: `1px solid ${A.border}`, borderRadius: 2,
+                  padding: 28, transition: 'border-color 0.3s', cursor: 'pointer',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = A.accent }}
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = A.border }}
                 >
-                  {item.title}
-                </h3>
-                <p className={`text-xs font-light leading-relaxed ${concept.fonts.bodyClass}`} style={{ color: concept.palette.text, opacity: 0.6 }}>
-                  {item.desc}
-                </p>
-              </SpotlightCard>
+                  <div style={{ fontFamily: 'Caveat, cursive', fontSize: 13, color: A.accent, marginBottom: 8 }}>{entry.tag}</div>
+                  <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 20, fontWeight: 500, color: A.ink, margin: '0 0 8px' }}>{entry.title}</h3>
+                  <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 12, color: A.sketch }}>{entry.date}</div>
+                </div>
+              </Link>
             ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 32 }}>
+            <AtelierButton variant="ghost" href="/atelier/journal">Read All Entries →</AtelierButton>
           </div>
         </div>
       </section>
 
-      {/* Quote section */}
-      <section className="py-28 lg:py-36" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-4xl px-8 lg:px-12 text-center">
-          <div className="w-8 h-px mx-auto mb-10" style={{ backgroundColor: concept.palette.muted }} />
-          <p
-            className={`text-2xl md:text-3xl lg:text-[2.5rem] font-light leading-relaxed ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            &ldquo;Every piece that leaves our atelier bears the invisible signature of the artisan who created it. We celebrate the human touch, the warmth of handwork, the soul that no machine can replicate.&rdquo;
+      {/* ═══ COMMISSION CTA ═══ */}
+      <section style={{ padding: '80px 32px', background: A.ink, textAlign: 'center' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <div style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: A.gold, marginBottom: 16 }}>
+            Bespoke
+          </div>
+          <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 400, color: A.workshop, margin: '0 0 16px', lineHeight: 1.3 }}>
+            Begin Your Commission
+          </h2>
+          <p style={{ fontFamily: 'Source Serif 4, serif', fontSize: 15, color: 'rgba(232,226,216,0.7)', lineHeight: 1.7, marginBottom: 32 }}>
+            Every masterpiece starts with a conversation. Our 6-step commission process guides you from inspiration to unveiling.
           </p>
-          <div className="w-8 h-px mx-auto mt-10" style={{ backgroundColor: concept.palette.muted }} />
+          <AtelierButton href="/atelier/bespoke" style={{ background: A.gold, color: A.ink }}>
+            Start Your Journey
+          </AtelierButton>
         </div>
       </section>
-
-      <FeaturedProducts
-        concept={concept}
-        products={featured}
-        title="Atelier Favorites"
-        subtitle="Pieces our artisans are most proud of"
-      />
-
-      <SplitSection
-        concept={concept}
-        title="The Artisan's Hand"
-        description="Every piece that leaves our atelier bears the invisible signature of the artisan who created it. We celebrate the human touch — the slight variations, the warmth of handwork, the soul that no machine can replicate. This is what makes each Vault Maison piece truly one of a kind."
-        image="/images/gold-diamond-jewelry.jpg"
-        ctaLabel="Meet Our Artisans"
-        ctaHref={buildConceptUrl('atelier', 'craftsmanship')}
-      />
-
-      <div className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p className={`text-[10px] tracking-[0.3em] uppercase mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
-            Explore
-          </p>
-          <h2
-            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            Browse Collections
-          </h2>
-          <CategoryGrid concept={concept} />
-        </div>
-      </div>
-
-      <Testimonial
-        concept={concept}
-        quote="The Atelier experience was deeply personal. They didn't just make me a ring — they understood my story and translated it into something I'll treasure forever."
-        author="Sophia Laurent"
-        title="Bespoke Client, Paris"
-      />
-
-      <CTABanner
-        concept={concept}
-        title="Begin Your Bespoke Journey"
-        description="Every masterpiece starts with a conversation."
-        ctaLabel={concept.ctaText.bespoke}
-        ctaHref={buildConceptUrl('atelier', 'bespoke')}
-      />
-    </ConceptLayout>
+    </AtelierLayout>
   )
 }

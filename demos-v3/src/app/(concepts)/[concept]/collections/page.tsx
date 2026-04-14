@@ -8,6 +8,7 @@ import { MinimalCollections } from '@/components/concepts/minimal/pages'
 import { VaultCollections } from '@/components/concepts/vault/pages'
 import { GalleryCollections } from '@/components/concepts/gallery/pages'
 import { SalonCollections } from '@/components/concepts/salon/pages'
+import { AtelierCollections } from '@/components/concepts/atelier/pages'
 
 export default function CollectionsPage() {
   const params = useParams()
@@ -18,6 +19,7 @@ export default function CollectionsPage() {
   if (concept.id === 'vault') return <VaultCollections />
   if (concept.id === 'gallery') return <GalleryCollections />
   if (concept.id === 'salon') return <SalonCollections />
+  if (concept.id === 'atelier') return <AtelierCollections />
 
   return (
     <ConceptLayout concept={concept}>
