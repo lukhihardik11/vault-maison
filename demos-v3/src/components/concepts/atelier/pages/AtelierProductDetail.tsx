@@ -8,6 +8,12 @@ import { AtelierButton } from '../ui/AtelierButton'
 import { AtelierCard } from '../ui/AtelierCard'
 import { SketchToggle } from '../ui/SketchToggle'
 import { getProduct, getRelatedProducts } from '@/data/products'
+import { useCartStore } from '@/store/cart'
+import { useWishlistStore } from '@/store/wishlist'
+import { Heart, Check } from 'lucide-react'
+
+const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9']
+const metals = ['White Gold', 'Yellow Gold', 'Rose Gold', 'Platinum']
 
 const makingSteps = [
   { title: 'Design & Wax Model', desc: 'The design is refined in consultation, then carved in wax to create a precise 3D model of the final piece. Every proportion is considered, every angle reviewed.', image: '/images/atelier/wax-carving.jpg' },
@@ -26,6 +32,14 @@ export function AtelierProductDetail() {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null)
   const [qty, setQty] = useState(1)
   const [activeTab, setActiveTab] = useState<'details' | 'specs' | 'care'>('details')
+  const [selectedSize, setSelectedSize] = useState('7')
+  const [selectedMetal, setSelectedMetal] = useState(() => {
+    if (!product) return metals[0]
+    return product.goldColor ? `${product.goldColor} Gold` : metals[0]
+  })
+  const [addedToCart, setAddedToCart] = useState(false)
+  const addItem = useCartStore(s => s.addItem)
+  const { toggleItem, isInWishlist } = useWishlistStore()
 
   if (!product) {
     return (
@@ -261,6 +275,41 @@ export function AtelierProductDetail() {
 
               <WarmDivider style={{ maxWidth: '100%', margin: '24px 0' }} />
 
+              {/* Size Selector */}
+              <div style={{ marginBottom: 16 }}>
+                <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: A.textSoft, display: 'block', marginBottom: 8 }}>Size: <span style={{ color: A.accent }}>{selectedSize}</span></span>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  {sizes.map(s => (
+                    <button key={s} onClick={() => setSelectedSize(s)} style={{
+                      width: 42, height: 34, fontFamily: 'DM Sans, sans-serif', fontSize: 12,
+                      border: selectedSize === s ? `2px solid ${A.accent}` : `1px dashed ${A.sketch}`,
+                      background: selectedSize === s ? `${A.accent}10` : 'transparent',
+                      color: selectedSize === s ? A.accent : A.textSoft, cursor: 'pointer', borderRadius: 2,
+                    }}>{s}</button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Metal Selector */}
+              <div style={{ marginBottom: 20 }}>
+                <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: A.textSoft, display: 'block', marginBottom: 8 }}>Metal: <span style={{ color: A.accent }}>{selectedMetal}</span></span>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {metals.map(m => {
+                    const colors: Record<string, string> = { 'White Gold': '#E8E8E8', 'Yellow Gold': '#FFD700', 'Rose Gold': '#B76E79', 'Platinum': '#C0C0C0' }
+                    return (
+                      <button key={m} onClick={() => setSelectedMetal(m)} style={{
+                        display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', borderRadius: 2,
+                        border: selectedMetal === m ? `2px solid ${A.accent}` : `1px dashed ${A.sketch}`,
+                        background: selectedMetal === m ? `${A.accent}08` : 'transparent', cursor: 'pointer',
+                      }}>
+                        <div style={{ width: 14, height: 14, borderRadius: '50%', background: colors[m], border: `1px solid ${A.sketch}` }} />
+                        <span style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 11, color: selectedMetal === m ? A.accent : A.textSoft }}>{m}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
               {/* Quantity + Add to Cart */}
               <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
                 <div style={{
@@ -271,12 +320,30 @@ export function AtelierProductDetail() {
                   <span style={{ padding: '10px 18px', fontFamily: 'DM Sans, sans-serif', fontSize: 14, color: A.ink, borderLeft: `1px dashed ${A.sketch}`, borderRight: `1px dashed ${A.sketch}` }}>{qty}</span>
                   <button onClick={() => setQty(qty + 1)} style={{ padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'DM Sans, sans-serif', fontSize: 16, color: A.textSoft }}>+</button>
                 </div>
-                <AtelierButton style={{ flex: 1 }}>Add to Workshop Bag</AtelierButton>
+                <button onClick={() => { for (let i = 0; i < qty; i++) addItem(product, selectedSize, selectedMetal); setAddedToCart(true); setTimeout(() => setAddedToCart(false), 2500) }} style={{
+                  flex: 1, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  background: addedToCart ? '#5A7A5A' : A.accent, color: '#fff', borderRadius: 2,
+                  fontFamily: 'DM Sans, sans-serif', fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
+                  border: 'none', cursor: 'pointer', transition: 'all 0.3s',
+                }}>
+                  {addedToCart ? <><Check size={14} /> Added</> : <>Add to Workshop Bag &mdash; ${(product.price * qty).toLocaleString()}</>}
+                </button>
               </div>
 
-              <AtelierButton variant="secondary" fullWidth href="/atelier/bespoke">
-                Commission a Custom Version
-              </AtelierButton>
+              <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+                <button onClick={() => product && toggleItem(product)} style={{
+                  flex: 1, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  background: 'transparent', border: `1px dashed ${product && isInWishlist(product.id) ? A.accent : A.sketch}`,
+                  color: product && isInWishlist(product.id) ? A.accent : A.textSoft, cursor: 'pointer', borderRadius: 2,
+                  fontFamily: 'DM Sans, sans-serif', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase',
+                }}>
+                  <Heart size={14} fill={product && isInWishlist(product.id) ? A.accent : 'none'} />
+                  {product && isInWishlist(product.id) ? 'In Wishlist' : 'Add to Wishlist'}
+                </button>
+                <AtelierButton variant="secondary" style={{ flex: 1 }} href="/atelier/bespoke">
+                  Commission Custom
+                </AtelierButton>
+              </div>
             </div>
           </div>
         </div>

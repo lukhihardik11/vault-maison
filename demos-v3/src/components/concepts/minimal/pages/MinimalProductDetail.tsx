@@ -64,7 +64,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
   const [sizeGuide, setSizeGuide] = useState(false)
 
   const handleAdd = () => {
-    for (let i = 0; i < qty; i++) addItem(product, size)
+    for (let i = 0; i < qty; i++) addItem(product, size, metal)
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
   }

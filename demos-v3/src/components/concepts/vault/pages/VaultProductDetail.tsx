@@ -222,7 +222,7 @@ export function VaultProductDetail({ product }: { product: Product }) {
           {/* Add to Cart + Wishlist */}
           <div style={{ display: 'flex', gap: 12, marginBottom: 28, alignItems: 'center' }}>
             <div style={{ flex: 1 }}>
-              <SparkleGlowButton onClick={() => addItem(product, selectedSize)}>
+              <SparkleGlowButton onClick={() => addItem(product, selectedSize, selectedMetal)}>
                 <ShoppingBag size={16} style={{ marginRight: 8 }} /> Add to Cart — {product.priceDisplay}
               </SparkleGlowButton>
             </div>

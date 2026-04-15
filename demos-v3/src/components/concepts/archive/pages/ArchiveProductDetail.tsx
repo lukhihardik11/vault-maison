@@ -6,7 +6,12 @@ import { AR, ArchiveSection, RevealSection, GoldRule } from '../ArchiveLayout'
 import { ArchiveButton, ProvenanceTimeline, AuthenticationStamp, CatalogBadge, type ProvenanceEntry } from '../ui'
 import { getProduct, getRelatedProducts, formatPrice } from '@/data/products'
 import { DocumentCard } from '../ui'
-import { ShoppingBag, Heart, FileText, ChevronDown, ChevronUp } from 'lucide-react'
+import { useCartStore } from '@/store/cart'
+import { useWishlistStore } from '@/store/wishlist'
+import { ShoppingBag, Heart, FileText, ChevronDown, ChevronUp, Check, Minus, Plus } from 'lucide-react'
+
+const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9']
+const metals = ['White Gold', 'Yellow Gold', 'Rose Gold', 'Platinum']
 
 export function ArchiveProductDetail() {
   const params = useParams()
@@ -15,6 +20,15 @@ export function ArchiveProductDetail() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [showSpecs, setShowSpecs] = useState(true)
   const [showProvenance, setShowProvenance] = useState(true)
+  const [selectedSize, setSelectedSize] = useState('7')
+  const [selectedMetal, setSelectedMetal] = useState(() => {
+    if (!product) return metals[0]
+    return product.goldColor ? `${product.goldColor} Gold` : metals[0]
+  })
+  const [qty, setQty] = useState(1)
+  const [addedToCart, setAddedToCart] = useState(false)
+  const addItem = useCartStore(s => s.addItem)
+  const { toggleItem, isInWishlist } = useWishlistStore()
 
   if (!product) {
     return (
@@ -130,14 +144,68 @@ export function ArchiveProductDetail() {
               </div>
             </div>
 
+            {/* Size Selector */}
+            <div style={{ marginBottom: 16 }}>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem', letterSpacing: '0.1em', color: AR.textSecondary, textTransform: 'uppercase', display: 'block', marginBottom: 8 }}>Size: <span style={{ color: AR.accent }}>{selectedSize}</span></span>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {sizes.map(s => (
+                  <button key={s} onClick={() => setSelectedSize(s)} style={{
+                    width: 42, height: 34, fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.7rem',
+                    border: selectedSize === s ? `2px solid ${AR.accent}` : `1px solid ${AR.border}`,
+                    background: selectedSize === s ? `${AR.accent}15` : 'transparent',
+                    color: selectedSize === s ? AR.accent : AR.textSecondary, cursor: 'pointer',
+                  }}>{s}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Metal Selector */}
+            <div style={{ marginBottom: 20 }}>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem', letterSpacing: '0.1em', color: AR.textSecondary, textTransform: 'uppercase', display: 'block', marginBottom: 8 }}>Metal: <span style={{ color: AR.accent }}>{selectedMetal}</span></span>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {metals.map(m => {
+                  const colors: Record<string, string> = { 'White Gold': '#E8E8E8', 'Yellow Gold': '#FFD700', 'Rose Gold': '#B76E79', 'Platinum': '#C0C0C0' }
+                  return (
+                    <button key={m} onClick={() => setSelectedMetal(m)} style={{
+                      display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px',
+                      border: selectedMetal === m ? `2px solid ${AR.accent}` : `1px solid ${AR.border}`,
+                      background: selectedMetal === m ? `${AR.accent}10` : 'transparent', cursor: 'pointer',
+                    }}>
+                      <div style={{ width: 14, height: 14, borderRadius: '50%', background: colors[m], border: `1px solid ${AR.border}` }} />
+                      <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem', color: selectedMetal === m ? AR.accent : AR.textSecondary }}>{m}</span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Quantity */}
+            <div style={{ marginBottom: 20 }}>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem', letterSpacing: '0.1em', color: AR.textSecondary, textTransform: 'uppercase', display: 'block', marginBottom: 8 }}>Quantity</span>
+              <div style={{ display: 'flex', alignItems: 'center', border: `1px solid ${AR.border}`, width: 'fit-content' }}>
+                <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', color: AR.textSecondary, cursor: 'pointer' }}><Minus size={12} /></button>
+                <div style={{ width: 40, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.8rem', color: AR.text, borderLeft: `1px solid ${AR.border}`, borderRight: `1px solid ${AR.border}` }}>{qty}</div>
+                <button onClick={() => setQty(Math.min(10, qty + 1))} style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', color: AR.textSecondary, cursor: 'pointer' }}><Plus size={12} /></button>
+              </div>
+            </div>
+
             {/* Actions */}
             <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-              <ArchiveButton size="lg" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                <ShoppingBag size={16} /> Acquire
-              </ArchiveButton>
-              <ArchiveButton variant="secondary" style={{ padding: '16px' }}>
-                <Heart size={18} />
-              </ArchiveButton>
+              <button onClick={() => { if (!product) return; for (let i = 0; i < qty; i++) addItem(product, selectedSize, selectedMetal); setAddedToCart(true); setTimeout(() => setAddedToCart(false), 2500) }} style={{
+                flex: 1, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                background: addedToCart ? '#5A7A5A' : AR.accent, color: addedToCart ? '#fff' : AR.bg,
+                fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
+                border: 'none', cursor: 'pointer', transition: 'all 0.3s',
+              }}>
+                {addedToCart ? <><Check size={14} /> Acquired</> : <><ShoppingBag size={14} /> Acquire &mdash; {formatPrice(product.price * qty)}</>}
+              </button>
+              <button onClick={() => product && toggleItem(product)} style={{
+                width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'transparent', border: `1px solid ${product && isInWishlist(product.id) ? AR.accent : AR.border}`,
+                color: product && isInWishlist(product.id) ? AR.accent : AR.textSecondary, cursor: 'pointer',
+              }}>
+                <Heart size={18} fill={product && isInWishlist(product.id) ? AR.accent : 'none'} />
+              </button>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: AR.textSecondary }}>

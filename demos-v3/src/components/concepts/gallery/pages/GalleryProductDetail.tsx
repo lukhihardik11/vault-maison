@@ -8,15 +8,25 @@ import { MuseumCaption } from '../ui/MuseumCaption'
 import { GalleryButton } from '../ui/GalleryButton'
 import { type Product, getRelatedProducts } from '@/data/products'
 import { useCartStore } from '@/store/cart'
-import { ChevronDown, ChevronUp, Minus, Plus, Heart } from 'lucide-react'
+import { useWishlistStore } from '@/store/wishlist'
+import { ChevronDown, ChevronUp, Minus, Plus, Heart, Check } from 'lucide-react'
+
+const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9']
+const metals = ['White Gold', 'Yellow Gold', 'Rose Gold', 'Platinum']
 
 export function GalleryProductDetail({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [isZoomed, setIsZoomed] = useState(false)
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
   const [qty, setQty] = useState(1)
-  const [wishlist, setWishlist] = useState(false)
   const [openAccordion, setOpenAccordion] = useState<string | null>('details')
+  const [selectedSize, setSelectedSize] = useState('7')
+  const [selectedMetal, setSelectedMetal] = useState(() => {
+    return product.goldColor ? `${product.goldColor} Gold` : metals[0]
+  })
+  const [addedToCart, setAddedToCart] = useState(false)
+  const { toggleItem, isInWishlist } = useWishlistStore()
+  const wishlisted = isInWishlist(product.id)
   const imageRef = useRef<HTMLDivElement>(null)
   const related = getRelatedProducts(product.id, 4)
   const addItem = useCartStore((s) => s.addItem)
@@ -31,7 +41,9 @@ export function GalleryProductDetail({ product }: { product: Product }) {
   }
 
   const handleAddToCart = () => {
-    addItem(product)
+    for (let i = 0; i < qty; i++) addItem(product, selectedSize, selectedMetal)
+    setAddedToCart(true)
+    setTimeout(() => setAddedToCart(false), 2500)
   }
 
   const toggleAccordion = (key: string) => {
@@ -161,7 +173,42 @@ export function GalleryProductDetail({ product }: { product: Product }) {
             </p>
 
             {/* Divider */}
-            <div style={{ height: 1, background: G.border, marginBottom: 32 }} />
+            <div style={{ height: 1, background: G.border, marginBottom: 24 }} />
+
+            {/* Size Selector */}
+            <div style={{ marginBottom: 20 }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', color: G.textSecondary, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: 10 }}>Size: <span style={{ color: G.accent }}>{selectedSize}</span></span>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {sizes.map(s => (
+                  <button key={s} onClick={() => setSelectedSize(s)} style={{
+                    width: 42, height: 34, fontFamily: 'Inter, sans-serif', fontSize: '0.7rem',
+                    border: selectedSize === s ? `2px solid ${G.accent}` : `1px solid ${G.border}`,
+                    background: selectedSize === s ? `${G.accent}10` : 'transparent',
+                    color: selectedSize === s ? G.accent : G.textSecondary, cursor: 'pointer',
+                  }}>{s}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Metal Selector */}
+            <div style={{ marginBottom: 24 }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', color: G.textSecondary, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: 10 }}>Metal: <span style={{ color: G.accent }}>{selectedMetal}</span></span>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {metals.map(m => {
+                  const colors: Record<string, string> = { 'White Gold': '#E8E8E8', 'Yellow Gold': '#FFD700', 'Rose Gold': '#B76E79', 'Platinum': '#C0C0C0' }
+                  return (
+                    <button key={m} onClick={() => setSelectedMetal(m)} style={{
+                      display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px',
+                      border: selectedMetal === m ? `2px solid ${G.accent}` : `1px solid ${G.border}`,
+                      background: selectedMetal === m ? `${G.accent}08` : 'transparent', cursor: 'pointer',
+                    }}>
+                      <div style={{ width: 14, height: 14, borderRadius: '50%', background: colors[m], border: `1px solid ${G.border}` }} />
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.6rem', color: selectedMetal === m ? G.accent : G.textSecondary }}>{m}</span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
 
             {/* Quantity + Add to cart */}
             <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
@@ -180,29 +227,28 @@ export function GalleryProductDetail({ product }: { product: Product }) {
               </div>
               <button onClick={handleAddToCart}
                 style={{
-                  flex: 1, padding: '14px 24px', background: G.accent, color: '#fff',
+                  flex: 1, padding: '14px 24px', background: addedToCart ? '#5A7A5A' : G.accent, color: '#fff',
                   fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 500,
                   letterSpacing: '0.14em', textTransform: 'uppercase',
-                  border: 'none', cursor: 'pointer', transition: 'background 0.3s',
-                }}
-                onMouseEnter={(e) => { (e.target as HTMLElement).style.background = G.accentHover }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.background = G.accent }}>
-                Acquire This Piece
+                  border: 'none', cursor: 'pointer', transition: 'all 0.3s',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                }}>
+                {addedToCart ? <><Check size={14} /> Acquired</> : <>Acquire &mdash; ${(product.price * qty).toLocaleString()}</>}
               </button>
             </div>
 
             {/* Wishlist */}
-            <button onClick={() => setWishlist(!wishlist)}
+            <button onClick={() => toggleItem(product)}
               style={{
                 width: '100%', padding: '14px', background: 'transparent',
-                border: `1px solid ${G.border}`, cursor: 'pointer',
+                border: `1px solid ${wishlisted ? G.accent : G.border}`, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                 fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em',
-                textTransform: 'uppercase', color: wishlist ? G.accent : G.text,
+                textTransform: 'uppercase', color: wishlisted ? G.accent : G.text,
                 transition: 'all 0.3s',
               }}>
-              <Heart size={14} fill={wishlist ? G.accent : 'none'} />
-              {wishlist ? 'In Your Collection' : 'Add to Collection'}
+              <Heart size={14} fill={wishlisted ? G.accent : 'none'} />
+              {wishlisted ? 'In Your Collection' : 'Add to Collection'}
             </button>
 
             {/* Divider */}
