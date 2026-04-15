@@ -1,151 +1,243 @@
 # Vault Maison
 
-> A digital-only, ultra-luxury jewelry maison designed to feel like a **digital vault** — not a store.
-> **Built on exhaustive analysis of 1,000+ unique sources across 671 domains.**
+> **10 world-class jewelry website themes. One production-ready codebase.**
+>
+> A multi-tenant luxury jewelry e-commerce platform built with Next.js 15, React 19, Supabase, Stripe, and GemHub 360° integration.
 
-## Overview
+---
 
-**Vault Maison** is a comprehensive strategic research and development platform for building the next generation of ultra-luxury digital jewelry commerce. This repository contains market intelligence, competitive analysis, brand strategy, design systems, technical specifications, and operational frameworks required to launch and scale a digital-first luxury jewelry house.
+## Quick Start
 
-## Research Scale
+```bash
+# Clone and install
+git clone https://github.com/lukhihardik11/vault-maison.git
+cd vault-maison
+npm install
 
-| Metric | Count |
-| :--- | :--- |
-| **Parallel Research Tasks Executed** | 200 |
-| **Unique Research Findings** | 2,779 |
-| **Unique Source URLs** | 1,010 |
-| **Unique Source Domains** | 671 |
-| **Total Document Citations** | 865+ |
-| **Research Documents Produced** | 11 |
-| **Total Words** | 55,000+ |
+# Copy environment template
+cp .env.local.example .env.local
+
+# Run development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to see the showcase landing page.
+
+---
+
+## Architecture Overview
+
+Vault Maison is a **multi-tenant template system** — one codebase that powers both a portfolio showcase (all 10 themes) and individual customer storefronts (single theme locked via environment variable).
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    SHOWCASE MODE                     │
+│  NEXT_PUBLIC_CONCEPT_ID=  (empty)                   │
+│  → Root page shows all 10 themes                    │
+│  → Each theme accessible at /vault, /minimal, etc.  │
+├─────────────────────────────────────────────────────┤
+│                  SINGLE-THEME MODE                   │
+│  NEXT_PUBLIC_CONCEPT_ID=minimal                     │
+│  → Root page shows the chosen theme's home          │
+│  → Only that theme's routes are active              │
+└─────────────────────────────────────────────────────┘
+```
+
+### The 10 Concepts
+
+| # | Concept | Route | DNA | Ideal For |
+|---|---------|-------|-----|-----------|
+| 01 | **The Vault** | `/vault` | Gated, Monolithic, Intimate | High-end jewelers, private collections |
+| 02 | **The Observatory** | `/observatory` | Analytical, Transparent, Authoritative | Diamond dealers, gemologists |
+| 03 | **The Gallery** | `/gallery` | Curated, Editorial, Museum-quality | Designer jewelry, art jewelry |
+| 04 | **The Atelier** | `/atelier` | Warm, Craft-focused, Artisanal | Handcrafted jewelry, bespoke designers |
+| 05 | **The Salon** | `/salon` | Soft, Intimate, Personal | Bridal jewelry, styling services |
+| 06 | **The Archive** | `/archive` | Systematic, Catalog-driven | Large inventories, estate jewelry |
+| 07 | **The Minimal Machine** | `/minimal` | Swiss-precision, Whitespace | Modern jewelry brands, minimalist |
+| 08 | **The Immersive Theater** | `/theater` | Cinematic, Full-screen, Dramatic | Statement pieces, luxury launches |
+| 09 | **The Marketplace** | `/marketplace` | Multi-vendor, Discovery | Multi-brand retailers, rare gems |
+| 10 | **The Modern Maison** | `/maison` | Classic French luxury, Timeless | Heritage brands, established jewelers |
+
+---
+
+## Technology Stack
+
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| **Framework** | Next.js 15 (App Router) | SSR, SSG, API routes, middleware |
+| **UI** | React 19 + TypeScript | Component architecture |
+| **Styling** | Tailwind CSS 4 | Utility-first responsive design |
+| **Animation** | Framer Motion + GSAP | Luxury micro-interactions |
+| **State** | Zustand (persisted) | Cart, wishlist, auth, recently viewed |
+| **Search** | Fuse.js | Client-side fuzzy search with weighted relevance |
+| **Database** | Supabase (PostgreSQL) | Auth, RLS, real-time subscriptions |
+| **Payments** | Stripe Elements | PCI-compliant checkout, 3DS, webhooks |
+| **360° Viewer** | GemHub (GemLightBox) | Iframe-based 360° product views |
+| **Deployment** | Vercel | Edge functions, image optimization |
+
+---
 
 ## Repository Structure
 
 ```
 vault-maison/
+├── src/
+│   ├── app/                          # Next.js App Router
+│   │   ├── page.tsx                  # Showcase landing page
+│   │   ├── (concepts)/[concept]/     # Dynamic concept routing
+│   │   │   ├── page.tsx              # Concept home
+│   │   │   ├── collection/           # Product listing
+│   │   │   ├── product/[slug]/       # Product detail
+│   │   │   ├── cart/                 # Shopping cart
+│   │   │   ├── checkout/             # Checkout flow
+│   │   │   └── checkout/confirmation # Order confirmation
+│   │   └── api/                      # API routes
+│   │       ├── products/             # GET /api/products
+│   │       ├── cart/                 # CRUD /api/cart
+│   │       ├── wishlist/             # CRUD /api/wishlist
+│   │       ├── orders/               # GET/POST /api/orders
+│   │       ├── checkout/             # POST /api/checkout
+│   │       ├── auth/                 # signin, signup, signout, profile
+│   │       ├── addresses/            # CRUD /api/addresses
+│   │       ├── reviews/              # GET/POST /api/reviews
+│   │       └── webhooks/stripe/      # Stripe webhook handler
+│   ├── components/
+│   │   ├── shared/                   # Cross-concept components
+│   │   │   ├── checkout-page.tsx     # Stripe-integrated checkout
+│   │   │   ├── auth-modal.tsx        # Sign in / sign up modal
+│   │   │   ├── gemhub-viewer.tsx     # 360° product viewer
+│   │   │   ├── search-overlay.tsx    # Fuse.js search overlay
+│   │   │   ├── toast-notifications   # Success/error/info toasts
+│   │   │   └── ...                   # 20+ shared components
+│   │   ├── concepts/                 # Concept-specific layouts
+│   │   └── ui/                       # Base UI primitives
+│   ├── config/
+│   │   ├── site.ts                   # Multi-tenant site config
+│   │   └── concepts.ts              # Concept theme definitions
+│   ├── data/                         # Static product & concept data
+│   ├── lib/
+│   │   ├── api.ts                    # API abstraction (server + fallback)
+│   │   ├── search.ts                 # Fuse.js search engine
+│   │   ├── format.ts                 # Price/date formatting
+│   │   ├── supabase/                 # Supabase client/server/middleware
+│   │   ├── stripe/                   # Stripe client/server setup
+│   │   └── security/                 # Headers, rate limiting, validation
+│   ├── store/                        # Zustand stores (cart, wishlist, auth)
+│   └── types/                        # TypeScript type definitions
 ├── docs/
-│   ├── 00-research/
-│   │   ├── market-intelligence/
-│   │   │   ├── 20260410-research-category-map-v1.md          # Market sizing & growth
-│   │   │   └── 20260410-research-trend-synthesis-v1.md       # Sustainability & trends
-│   │   ├── competitive-analysis/
-│   │   │   └── 20260410-research-competitive-matrix-v1.md    # 30+ brand evaluation
-│   │   └── consumer-insights/
-│   │       └── 20260410-research-hnwi-barriers-v1.md         # HNWI psychology & barriers
-│   ├── 01-strategy/
-│   │   ├── brand-positioning/
-│   │   │   └── 20260410-strategy-executive-thesis-v1.md      # Core positioning
-│   │   └── business-model/
-│   │       └── 20260410-strategy-revenue-model-v1.md         # Unit economics
-│   ├── 02-design-system/
-│   │   └── interaction-patterns/
-│   │       └── 20260410-design-ux-forensics-v1.md            # UX specifications
-│   ├── 03-technical-specs/
-│   │   └── architecture/
-│   │       └── 20260410-technical-innovation-audit-v1.md     # Technology stack
-│   ├── 04-operations/
-│   │   ├── fulfillment/
-│   │   │   └── 20260410-operations-strategy-v1.md            # Fulfillment architecture
-│   │   └── risk-management/
-│   │       └── 20260410-operations-risk-v1.md                # Risk framework
-│   └── 05-implementation/
-│       └── roadmap/
-│           └── 20260410-implementation-roadmap-v1.md         # 12-month launch plan
-├── research-data/
-│   ├── ai-training/
-│   │   ├── master-research-findings.jsonl                    # 2,779 structured findings
-│   │   └── vault-maison-insights.jsonl                       # Curated insights
-│   ├── raw-data/
-│   │   ├── master-sources.txt                                # 1,010 unique URLs
-│   │   ├── unique-domains.txt                                # 671 unique domains
-│   │   ├── research-statistics.json                          # Consolidation stats
-│   │   └── research-notes.md                                 # Raw research notes
-│   └── schemas/
-│       ├── market-intelligence.json                          # Market data schema
-│       └── research-insight.schema.json                      # Finding schema
+│   ├── architecture/                 # System architecture, backend options, security
+│   ├── integration/                  # GemHub integration docs
+│   ├── standards/                    # Quality standards, deployment guide
+│   ├── research/                     # Market intelligence, competitive analysis
+│   ├── concepts/                     # Individual concept design docs
+│   ├── strategy/                     # Brand positioning, revenue model
+│   └── operations/                   # Fulfillment, risk management
+├── supabase/migrations/              # Database schema (SQL)
 ├── scripts/
-│   └── documentation-generation/
-│       └── validate-doc.py                                   # Quality validation
-├── templates/
-│   └── research-document-template.md                         # Document template
-├── .github/
-│   ├── CODEOWNERS
-│   ├── ISSUE_TEMPLATE/
-│   │   └── research-request.md
-│   └── PULL_REQUEST_TEMPLATE/
-│       └── default.md
-├── CONTRIBUTING.md
-├── ROADMAP.md
-├── CHANGELOG.md
-└── README.md
+│   ├── deploy.sh                     # Vercel deployment script
+│   └── seed-products.ts              # Product data seeder
+├── public/images/                    # Product & hero images
+├── vercel.json                       # Vercel deployment config
+├── .env.local.example                # Environment variable template
+└── middleware.ts                      # Supabase auth middleware
 ```
 
-## Research Categories
+---
 
-The 2,779 unique findings span the following categories:
+## Deployment Modes
 
-| Category | Findings | Coverage |
-| :--- | :--- | :--- |
-| **Competitive Analysis** | 595 | Brand strategies, digital presence, revenue performance, market positioning |
-| **Technology** | 495 | AR/VR, blockchain, AI, headless commerce, video commerce, 3D configuration |
-| **Consumer Insights** | 479 | HNWI behavior, generational shifts, purchase psychology, brand loyalty |
-| **Market Intelligence** | 460 | Market sizing, growth rates, regional trends, segment analysis |
-| **UX Design** | 170 | White space, typography, micro-interactions, accessibility, mobile-first |
-| **Sustainability** | 117 | Ethical sourcing, lab-grown diamonds, circular economy, ESG reporting |
-| **Academic Research** | 85 | Veblen goods theory, digital luxury, sensory marketing, trust models |
-| **Operations** | 71 | Fulfillment, logistics, concierge models, supply chain |
-| **Risk Management** | 34 | Cybersecurity, fraud prevention, AML/KYC, brand reputation |
+### Showcase Mode (Default)
 
-## Key Deliverables
-
-1. **Executive Thesis** — Core strategic positioning for the "Digital Vault" concept
-2. **Category Map** — Market size ($54B+), growth rates (8.7% CAGR), whitespace quantification ($5-8B)
-3. **Competitive Intelligence Matrix** — 30+ brand analysis across 12 dimensions
-4. **"Invisible Prestige" UX Forensics** — 50+ micro-interaction specifications
-5. **HNWI Purchase Barrier Analysis** — 10+ friction points with vault-grade solutions
-6. **New Luxury Trend Synthesis** — Sustainability, provenance, circular economy, modern heirloom psychology
-7. **Technical Innovation Audit** — AR/VR, AI, blockchain, headless commerce assessment
-8. **Revenue Model & Unit Economics** — Four-tier pricing, 37.5:1 LTV:CAC projection
-9. **Operations Strategy** — Tiered fulfillment, digital concierge model, secure logistics
-10. **Risk Management Framework** — Cybersecurity, fraud prevention, AML/KYC compliance
-11. **Implementation Roadmap** — 12-month, three-phase launch strategy
-
-## Documentation Standards
-
-All documents follow a dual-format approach optimized for both **AI parseability** and **human readability**:
-
-- YAML frontmatter with structured metadata, confidence levels, and dependency tracking
-- AI-Structured JSON blocks with machine-readable findings and recommendations
-- Narrative analysis with inline numeric citations for human consumption
-- Complete evidence sections with source URLs, dates, and authors
-
-### File Naming Convention
-
-```
-YYYYMMDD-[category]-[specific-topic]-[version].md
-```
-
-## AI Integration
-
-Every document includes AI Prompt Integration blocks with reusable prompt fragments for downstream AI agents. The `master-research-findings.jsonl` file contains all 2,779 findings in a structured format suitable for fine-tuning, RAG pipelines, or direct AI agent consumption.
-
-## Validation
-
-Run the documentation quality validator:
+All 10 themes are accessible. The root page (`/`) shows the portfolio landing page.
 
 ```bash
-python3 scripts/documentation-generation/validate-doc.py --all docs/
+# No NEXT_PUBLIC_CONCEPT_ID set
+npm run build && npm start
 ```
 
-## Brand Parameters
+### Single-Theme Mode
 
-- **Positioning:** A digital vault for ultra-luxury jewelry — where exclusivity meets digital-first commerce
-- **Price Architecture:** Entry ($2K-$5K, 15%), Core ($5K-$25K, 50%), Statement ($25K-$100K, 25%), Ultra-Rare ($100K+, 10%)
-- **Category Focus:** Fine jewelry (60%), High jewelry (30%), Experimental/Art jewelry (10%)
-- **Materials Philosophy:** Ethically sourced natural stones with full traceability; lab-grown for select contemporary lines
-- **Geographic Priority:** Primary: US, UK, UAE; Secondary: EU, Japan, Singapore
-- **Brand Personality:** Restrained, Architectural, Timeless, Intimate, Uncompromising
-- **Anti-Words:** Trendy, Affordable, Mass, Flashy, Discount
+Lock to one theme for a customer's production site.
+
+```bash
+# In .env.local:
+NEXT_PUBLIC_CONCEPT_ID=minimal
+NEXT_PUBLIC_BUSINESS_NAME="Lumière Jewels"
+NEXT_PUBLIC_TAGLINE="Precision in Every Facet"
+```
+
+### Deploy to Vercel
+
+```bash
+# Showcase mode
+./scripts/deploy.sh
+
+# Single theme (preview)
+./scripts/deploy.sh minimal
+
+# Single theme (production)
+./scripts/deploy.sh vault prod
+```
+
+---
+
+## Feature Flags
+
+All features are controlled via environment variables:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `NEXT_PUBLIC_FEATURE_GEMHUB` | `false` | Enable GemHub 360° viewer |
+| `NEXT_PUBLIC_FEATURE_REVIEWS` | `true` | Product reviews |
+| `NEXT_PUBLIC_FEATURE_WISHLIST` | `true` | Wishlist functionality |
+| `NEXT_PUBLIC_FEATURE_BESPOKE` | `true` | Bespoke/custom order forms |
+| `NEXT_PUBLIC_FEATURE_CHAT` | `false` | Live chat widget |
+| `NEXT_PUBLIC_FEATURE_SEARCH` | `true` | Search overlay |
+| `NEXT_PUBLIC_FEATURE_RECENTLY_VIEWED` | `true` | Recently viewed products |
+| `NEXT_PUBLIC_FEATURE_ANALYTICS` | `false` | Analytics event tracking |
+
+---
+
+## Backend Integration
+
+The platform operates in two modes:
+
+**Demo Mode** (no Supabase configured): Uses local product data from `src/data/products.ts`. Cart, wishlist, and auth work client-side only via Zustand persisted stores. Checkout shows a simulated flow.
+
+**Production Mode** (Supabase + Stripe configured): Full server-side API routes with PostgreSQL, Row-Level Security, Stripe PaymentIntents, webhook-driven order management, and real authentication.
+
+### Database Schema
+
+8 tables with RLS policies: `profiles`, `addresses`, `products`, `orders`, `order_items`, `wishlists`, `reviews`, `carts`, and `audit_log`. See `supabase/migrations/001_initial_schema.sql`.
+
+---
+
+## Design Philosophy
+
+Vault Maison follows five core principles:
+
+1. **Restraint over decoration** — Every element earns its place. White space is a design tool, not empty space.
+2. **Material honesty** — Typography, color, and interaction patterns reflect the physical qualities of fine jewelry.
+3. **Progressive disclosure** — Information reveals itself through intentional interaction, never overwhelming.
+4. **Concept integrity** — Each theme is a complete design language, not a skin swap. Palette, typography, animation timing, and copy voice all change together.
+5. **Graceful degradation** — Every feature works without its backend. No Supabase? Local data. No Stripe? Demo checkout. No GemHub? Static images with 360° badge.
+
+---
+
+## For AI Agents
+
+This repository is structured for AI agent consumption:
+
+- **`AGENTS.md`** and **`CLAUDE.md`** contain agent-specific instructions
+- All documentation uses YAML frontmatter and structured sections
+- The `src/config/site.ts` file is the single source of truth for deployment configuration
+- The `src/data/concepts.ts` file defines all 10 theme configurations
+- API routes follow RESTful conventions with consistent error handling
+- TypeScript types in `src/types/index.ts` define all data structures
+
+**Current stable branch: `main`** — All changes must go through feature branches and pull requests. Do not merge directly to main.
+
+---
 
 ## License
 
