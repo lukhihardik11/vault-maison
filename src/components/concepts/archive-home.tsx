@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArchiveLayout, AR, ArchiveSection, RevealSection, StaggerItem, GoldRule, CatalogNumber } from './archive/ArchiveLayout'
@@ -8,32 +8,9 @@ import { getBestsellers, formatPrice, getProductsByCategory } from '@/data/produ
 import { allCategories, categoryLabels, type ProductCategory } from '@/data/concepts'
 import { Shield, BookOpen, Search, FileText, Eye, ChevronRight } from 'lucide-react'
 
-/* ─── Animated Counter ─── */
-function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(target)
-  const ref = useRef<HTMLDivElement>(null)
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => { setMounted(true); setCount(0) }, [])
-  useEffect(() => {
-    if (!mounted) return
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        let start = 0
-        const duration = 1800
-        const step = (ts: number) => {
-          if (!start) start = ts
-          const p = Math.min((ts - start) / duration, 1)
-          setCount(Math.floor(p * target))
-          if (p < 1) requestAnimationFrame(step)
-        }
-        requestAnimationFrame(step)
-        obs.disconnect()
-      }
-    }, { threshold: 0.3 })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [mounted, target])
-  return <div ref={ref} style={{ fontFamily: "'Playfair Display', serif", fontSize: '2.8rem', fontWeight: 600, color: AR.accent }}>{count}{suffix}</div>
+/* ─── Static Counter (no animation dependency) ─── */
+function StaticCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
+  return <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '2.8rem', fontWeight: 600, color: AR.accent }}>{target}{suffix}</div>
 }
 
 export function ArchiveHome() {
@@ -298,7 +275,7 @@ export function ArchiveHome() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 32, textAlign: 'center' }}>
             {stats.map((s, i) => (
               <div key={i}>
-                <AnimatedCounter target={s.value} suffix={s.suffix} />
+                <StaticCounter target={s.value} suffix={s.suffix} />
                 <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: AR.textSecondary, marginTop: 8 }}>
                   {s.label}
                 </p>

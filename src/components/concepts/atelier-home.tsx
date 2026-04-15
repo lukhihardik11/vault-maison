@@ -1,8 +1,8 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { AtelierLayout, A, AtelierSection, RevealSection, StaggerItem, WarmDivider, useScrollReveal } from './atelier/AtelierLayout'
+import { AtelierLayout, A, AtelierSection, RevealSection, StaggerItem, WarmDivider } from './atelier/AtelierLayout'
 import { AtelierButton } from './atelier/ui/AtelierButton'
 import { AtelierCard } from './atelier/ui/AtelierCard'
 import { ArtisanCard } from './atelier/ui/ArtisanCard'
@@ -57,35 +57,11 @@ const stats = [
   { value: 98, suffix: '%', label: 'Bespoke Commissions', prefix: '' },
 ]
 
-/* ─── Animated Counter ─── */
-function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number; suffix?: string; prefix?: string }) {
-  const [count, setCount] = useState(0)
-  const { ref, isVisible } = useScrollReveal(0.3)
-  const hasAnimated = useRef(false)
-
-  useEffect(() => {
-    if (isVisible && !hasAnimated.current) {
-      hasAnimated.current = true
-      const duration = 2000
-      const steps = 60
-      const increment = target / steps
-      let current = 0
-      const timer = setInterval(() => {
-        current += increment
-        if (current >= target) {
-          setCount(target)
-          clearInterval(timer)
-        } else {
-          setCount(Math.floor(current))
-        }
-      }, duration / steps)
-      return () => clearInterval(timer)
-    }
-  }, [isVisible, target])
-
+/* ─── Static Counter (no animation dependency) ─── */
+function StaticCounter({ target, suffix = '', prefix = '' }: { target: number; suffix?: string; prefix?: string }) {
   return (
-    <span ref={ref}>
-      {prefix}{count.toLocaleString()}{suffix}
+    <span>
+      {prefix}{target.toLocaleString()}{suffix}
     </span>
   )
 }
@@ -340,7 +316,7 @@ export function AtelierHome() {
                   fontFamily: 'Cormorant Garamond, serif', fontSize: 48, fontWeight: 300,
                   color: A.gold, lineHeight: 1.1, marginBottom: 8,
                 }}>
-                  <AnimatedCounter target={s.value} suffix={s.suffix} prefix={s.prefix} />
+                  <StaticCounter target={s.value} suffix={s.suffix} prefix={s.prefix} />
                 </div>
                 <div style={{
                   fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600,

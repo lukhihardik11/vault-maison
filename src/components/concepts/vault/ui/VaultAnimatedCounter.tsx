@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 
 interface VaultAnimatedCounterProps {
   end: number
@@ -13,41 +13,13 @@ interface VaultAnimatedCounterProps {
 
 export function VaultAnimatedCounter({
   end,
-  duration = 2000,
   suffix = '',
   prefix = '',
   label,
   decimals = 0,
 }: VaultAnimatedCounterProps) {
-  const [count, setCount] = useState(0)
-  const [hasAnimated, setHasAnimated] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true)
-          const startTime = performance.now()
-          const animate = (currentTime: number) => {
-            const elapsed = currentTime - startTime
-            const progress = Math.min(elapsed / duration, 1)
-            // Ease out cubic
-            const eased = 1 - Math.pow(1 - progress, 3)
-            setCount(eased * end)
-            if (progress < 1) requestAnimationFrame(animate)
-          }
-          requestAnimationFrame(animate)
-        }
-      },
-      { threshold: 0.3 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [end, duration, hasAnimated])
-
   return (
-    <div ref={ref} style={{ textAlign: 'center' }}>
+    <div style={{ textAlign: 'center' }}>
       <div style={{
         fontFamily: "'Cinzel', serif",
         fontSize: '2.8rem',
@@ -56,7 +28,7 @@ export function VaultAnimatedCounter({
         lineHeight: 1.1,
         letterSpacing: '-0.02em',
       }}>
-        {prefix}{count.toFixed(decimals)}{suffix}
+        {prefix}{end.toFixed(decimals)}{suffix}
       </div>
       <div style={{
         fontFamily: 'Inter, sans-serif',
