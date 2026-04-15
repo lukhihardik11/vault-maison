@@ -14,9 +14,9 @@ import { getBestsellers } from '@/data/products'
 import { Video, Home, PenTool, Gift, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 
 const advisors = [
-  { name: 'Sophie Laurent', specialty: 'Engagement & Bridal', experience: '12 years in fine jewelry', initials: 'SL', avatar: '/images/atelier/artisan-portrait-1.jpg' },
-  { name: 'James Chen', specialty: 'Investment Diamonds', experience: '15 years as certified gemologist', initials: 'JC', avatar: '/images/atelier/artisan-portrait-2.jpg' },
-  { name: 'Aria Patel', specialty: 'Bespoke & Custom Design', experience: '10 years in luxury design', initials: 'AP', avatar: '/images/atelier/artisan-portrait-3.jpg' },
+  { name: 'Sophie Laurent', specialty: 'Engagement & Bridal', experience: '12 years in fine jewelry', initials: 'SL', avatar: '/images/atelier/female-jeweler.jpg' },
+  { name: 'James Chen', specialty: 'Investment Diamonds', experience: '15 years as certified gemologist', initials: 'JC', avatar: '/images/atelier/artisan-portrait-1.jpg' },
+  { name: 'Aria Patel', specialty: 'Bespoke & Custom Design', experience: '10 years in luxury design', initials: 'AP', avatar: '/images/atelier/artisan-portrait-2.jpg' },
 ]
 
 const services = [
