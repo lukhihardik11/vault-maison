@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { X, Check } from 'lucide-react'
+import { X, Check, AlertCircle, Info } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
 import { type ConceptConfig } from '@/data/concepts'
 
@@ -35,9 +35,19 @@ export function ToastNotifications({ concept }: ToastNotificationsProps) {
         >
           <div
             className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ backgroundColor: concept.palette.accent }}
+            style={{
+              backgroundColor: toast.type === 'error' ? '#EF4444'
+                : toast.type === 'info' ? concept.palette.muted
+                : concept.palette.accent,
+            }}
           >
-            <Check size={12} style={{ color: concept.palette.bg }} />
+            {toast.type === 'error' ? (
+              <AlertCircle size={12} style={{ color: '#FFF' }} />
+            ) : toast.type === 'info' ? (
+              <Info size={12} style={{ color: concept.palette.text }} />
+            ) : (
+              <Check size={12} style={{ color: concept.palette.bg }} />
+            )}
           </div>
           <p className="text-xs tracking-wide flex-1">{toast.message}</p>
           <button

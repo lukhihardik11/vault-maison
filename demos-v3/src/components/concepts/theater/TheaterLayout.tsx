@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Menu, X, Heart, ShoppingBag, Search } from 'lucide-react'
@@ -138,6 +141,8 @@ export function TheaterLayout({ children }: { children: React.ReactNode }) {
       fontFamily: "'Cormorant Garamond', 'Georgia', serif",
     }}>
       <TheaterHeader />
+      <AuthModal concept={getConcept('theater')!} />
+      <ToastNotifications concept={getConcept('theater')!} />
       <main>{children}</main>
       <TheaterFooter />
     </div>

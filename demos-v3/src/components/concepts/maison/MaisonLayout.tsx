@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
@@ -127,6 +130,8 @@ export function MaisonLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main */}
+      <AuthModal concept={getConcept('maison')!} />
+      <ToastNotifications concept={getConcept('maison')!} />
       <main>{children}</main>
 
       {/* Footer */}

@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -437,6 +440,8 @@ export function AtelierLayout({ children }: { children: React.ReactNode }) {
       fontFamily: 'Source Serif 4, serif',
     }}>
       <AtelierHeader />
+      <AuthModal concept={getConcept('atelier')!} />
+      <ToastNotifications concept={getConcept('atelier')!} />
       <main style={{ paddingTop: 72 }}>
         {children}
       </main>

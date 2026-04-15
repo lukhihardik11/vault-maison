@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 
 import { type ReactNode, useEffect, useState } from 'react'
 import { MinimalNav } from './MinimalNav'
@@ -57,6 +60,8 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         }}
       >
         {!hideNav && <MinimalNav />}
+        <AuthModal concept={getConcept('minimal')!} />
+        <ToastNotifications concept={getConcept('minimal')!} />
         <main>{children}</main>
         {!hideFooter && <MinimalFooter />}
         {/* Mobile Bottom Navigation (KokonutUI Toolbar) */}

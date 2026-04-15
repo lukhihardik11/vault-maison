@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -334,6 +337,8 @@ export function ArchiveLayout({ children }: { children: React.ReactNode }) {
       fontFamily: "'Crimson Text', 'Georgia', serif",
     }}>
       <ArchiveHeader />
+      <AuthModal concept={getConcept('archive')!} />
+      <ToastNotifications concept={getConcept('archive')!} />
       <main>{children}</main>
       <ArchiveFooter />
     </div>
