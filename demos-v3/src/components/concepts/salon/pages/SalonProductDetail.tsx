@@ -9,7 +9,11 @@ import { SalonRevealCard } from '../ui/SalonRevealCard'
 import { SalonButton } from '../ui/SalonButton'
 import { getProduct, getBestsellers } from '@/data/products'
 import { useCartStore } from '@/store/cart'
-import { Heart, Share2, Shield, Truck, RotateCcw, ChevronDown } from 'lucide-react'
+import { useWishlistStore } from '@/store/wishlist'
+import { Heart, Share2, Shield, Truck, RotateCcw, ChevronDown, Minus, Plus, Check, Ruler, Gift } from 'lucide-react'
+
+const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9']
+const metals = ['White Gold', 'Yellow Gold', 'Rose Gold', 'Platinum']
 
 const advisorInsights = [
   { name: 'Sophie', note: 'This piece catches the light beautifully in the evening. One of my personal favorites for special occasions.' },
@@ -28,6 +32,14 @@ export function SalonProductDetail() {
   const [isZoomed, setIsZoomed] = useState(false)
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 })
   const [openAccordion, setOpenAccordion] = useState<string | null>('details')
+  const [selectedSize, setSelectedSize] = useState('7')
+  const [selectedMetal, setSelectedMetal] = useState(() => {
+    if (!product) return metals[0]
+    return product.goldColor ? `${product.goldColor} Gold` : metals[0]
+  })
+  const [quantity, setQuantity] = useState(1)
+  const [addedToCart, setAddedToCart] = useState(false)
+  const { toggleItem, isInWishlist } = useWishlistStore()
 
   if (!product) {
     return (
@@ -132,17 +144,69 @@ export function SalonProductDetail() {
               </p>
             </div>
 
+            {/* Size Selector */}
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: S.textSecondary, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Size: <span style={{ color: S.accent }}>{selectedSize}</span></span>
+              </div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {sizes.map(s => (
+                  <button key={s} onClick={() => setSelectedSize(s)} style={{
+                    width: 44, height: 36, fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', borderRadius: S.radius,
+                    border: selectedSize === s ? `2px solid ${S.accent}` : `1px solid ${S.border}`,
+                    background: selectedSize === s ? `${S.accent}10` : 'transparent',
+                    color: selectedSize === s ? S.accent : S.textSecondary, cursor: 'pointer',
+                  }}>{s}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Metal Selector */}
+            <div style={{ marginBottom: 20 }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: S.textSecondary, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: 10 }}>Metal: <span style={{ color: S.accent }}>{selectedMetal}</span></span>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {metals.map(m => {
+                  const colors: Record<string, string> = { 'White Gold': '#E8E8E8', 'Yellow Gold': '#FFD700', 'Rose Gold': '#B76E79', 'Platinum': '#C0C0C0' }
+                  return (
+                    <button key={m} onClick={() => setSelectedMetal(m)} style={{
+                      display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px', borderRadius: S.radius,
+                      border: selectedMetal === m ? `2px solid ${S.accent}` : `1px solid ${S.border}`,
+                      background: selectedMetal === m ? `${S.accent}08` : 'transparent', cursor: 'pointer',
+                    }}>
+                      <div style={{ width: 16, height: 16, borderRadius: '50%', background: colors[m], border: `1px solid ${S.border}` }} />
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', color: selectedMetal === m ? S.accent : S.textSecondary }}>{m}</span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Quantity */}
+            <div style={{ marginBottom: 24 }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: S.textSecondary, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: 10 }}>Quantity</span>
+              <div style={{ display: 'flex', alignItems: 'center', border: `1px solid ${S.border}`, width: 'fit-content', borderRadius: S.radius }}>
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1} style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', color: quantity <= 1 ? S.border : S.textSecondary, cursor: quantity <= 1 ? 'not-allowed' : 'pointer' }}><Minus size={14} /></button>
+                <div style={{ width: 48, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: S.text, borderLeft: `1px solid ${S.border}`, borderRight: `1px solid ${S.border}` }}>{quantity}</div>
+                <button onClick={() => setQuantity(Math.min(10, quantity + 1))} disabled={quantity >= 10} style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', color: quantity >= 10 ? S.border : S.textSecondary, cursor: quantity >= 10 ? 'not-allowed' : 'pointer' }}><Plus size={14} /></button>
+              </div>
+            </div>
+
             {/* Actions */}
             <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-              <SalonButton fullWidth onClick={() => addItem(product)}>
-                Add to Bag
-              </SalonButton>
-              <button style={{
-                width: 48, height: 48, borderRadius: S.radius, border: `1.5px solid ${S.border}`,
-                background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: S.textSecondary, transition: 'all 0.3s', flexShrink: 0,
+              <button onClick={() => { for (let i = 0; i < quantity; i++) addItem(product, selectedSize, selectedMetal); setAddedToCart(true); setTimeout(() => setAddedToCart(false), 2500) }} style={{
+                flex: 1, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                background: addedToCart ? '#5A7A5A' : S.accent, color: '#fff', borderRadius: S.radius,
+                fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 600,
+                letterSpacing: '0.1em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', transition: 'all 0.3s',
               }}>
-                <Heart size={18} />
+                {addedToCart ? <><Check size={16} /> Added to Bag</> : <>Add to Bag &mdash; ${(product.price * quantity).toLocaleString()}</>}
+              </button>
+              <button onClick={() => toggleItem(product)} style={{
+                width: 48, height: 48, borderRadius: S.radius, border: `1.5px solid ${(product && isInWishlist(product.id)) ? S.accent : S.border}`,
+                background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: (product && isInWishlist(product.id)) ? S.accent : S.textSecondary, transition: 'all 0.3s', flexShrink: 0,
+              }}>
+                <Heart size={18} fill={(product && isInWishlist(product.id)) ? S.accent : 'none'} />
               </button>
               <button style={{
                 width: 48, height: 48, borderRadius: S.radius, border: `1.5px solid ${S.border}`,
