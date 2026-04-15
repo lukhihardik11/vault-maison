@@ -876,3 +876,80 @@ html {
     padding-bottom: 80px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   SAFETY NET — Ensure all scroll-reveal content is ALWAYS visible
+   The IntersectionObserver adds .is-visible / .revealed, but if
+   JS is slow, blocked, or the observer doesn't fire, content
+   must still be readable. This auto-reveals after 1.5s.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ═══ NUCLEAR SAFETY NET ═══
+   Problem: All scroll-reveal classes start at opacity:0 and depend on
+   IntersectionObserver + JS to become visible. If JS is slow, blocked,
+   or the observer never fires, content stays invisible forever.
+   
+   Solution: Force everything visible after 0.3s via CSS animation.
+   The IntersectionObserver can still add .is-visible for a nicer
+   transition, but content WILL appear regardless.
+*/
+@keyframes forceReveal {
+  to { opacity: 1 !important; transform: translateY(0) !important; }
+}
+
+.vault-scroll-reveal,
+.archive-scroll-reveal,
+.atelier-scroll-reveal,
+.observatory-scroll-reveal,
+.theater-scroll-reveal,
+.marketplace-scroll-reveal,
+.maison-scroll-reveal,
+.scroll-reveal,
+.stagger-item {
+  animation: forceReveal 0.4s ease-out 0.3s forwards !important;
+}
+
+/* Hero fades — ensure they always complete within 1.5s */
+.archive-hero-fade-delay-1,
+.archive-hero-fade-delay-2,
+.archive-hero-fade-delay-3,
+.atelier-hero-fade-delay-1,
+.atelier-hero-fade-delay-2,
+.atelier-hero-fade-delay-3,
+.observatory-hero-fade-delay-1,
+.observatory-hero-fade-delay-2,
+.observatory-hero-fade-delay-3,
+.theater-hero-fade-delay-1,
+.theater-hero-fade-delay-2,
+.theater-hero-fade-delay-3,
+.marketplace-hero-fade-1,
+.marketplace-hero-fade-2,
+.marketplace-hero-fade-3,
+.maison-hero-fade-1,
+.maison-hero-fade-2,
+.maison-hero-fade-3,
+.vm-hero-el,
+.vm-fade {
+  animation-fill-mode: forwards !important;
+}
+
+/* Reduced motion — skip all animations, show everything immediately */
+@media (prefers-reduced-motion: reduce) {
+  .vault-scroll-reveal,
+  .archive-scroll-reveal,
+  .atelier-scroll-reveal,
+  .observatory-scroll-reveal,
+  .theater-scroll-reveal,
+  .marketplace-scroll-reveal,
+  .maison-scroll-reveal,
+  .scroll-reveal,
+  .stagger-item,
+  .vm-fade,
+  .vm-hero-el,
+  [class*="hero-fade"] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
