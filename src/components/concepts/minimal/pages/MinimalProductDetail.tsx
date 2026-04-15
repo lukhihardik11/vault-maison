@@ -273,7 +273,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
       </SmoothDrawer>
 
       <style>{`
-        .pdp-fade { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .pdp-fade { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s ease; }
         .pdp-fade.pdp-vis { opacity: 1; transform: translateY(0); }
         .pdp-add-btn:hover { filter: brightness(1.05); }
         .pdp-add-btn:active { transform: scale(0.97); }
