@@ -12,6 +12,7 @@ import { AtelierPrivacy } from '@/components/concepts/atelier/pages'
 import { ArchivePrivacy } from '@/components/concepts/archive/pages'
 import { ObservatoryPrivacy } from '@/components/concepts/observatory/pages'
 import { MarketplacePrivacy } from '@/components/concepts/marketplace/pages'
+import { MaisonPrivacy } from '@/components/concepts/maison/pages'
 
 export default function PrivacyPage() {
   const params = useParams()
@@ -27,6 +28,7 @@ export default function PrivacyPage() {
   if (concept.id === 'observatory') return <ObservatoryPrivacy />
   if (concept.id === 'theater') return <TheaterPrivacy />
   if (concept.id === 'marketplace') return <MarketplacePrivacy />
+  if (concept.id === 'maison') return <MaisonPrivacy />
   return (
     <InfoPage
       concept={concept}

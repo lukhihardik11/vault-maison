@@ -15,6 +15,7 @@ import { AtelierCraftsmanship } from '@/components/concepts/atelier/pages'
 import { ArchiveCraftsmanship } from '@/components/concepts/archive/pages'
 import { ObservatoryCraftsmanship } from '@/components/concepts/observatory/pages'
 import { MarketplaceCraftsmanship } from '@/components/concepts/marketplace/pages'
+import { MaisonCraftsmanship } from '@/components/concepts/maison/pages'
 
 export default function CraftsmanshipPage() {
   const params = useParams()
@@ -30,6 +31,7 @@ export default function CraftsmanshipPage() {
   if (concept.id === 'observatory') return <ObservatoryCraftsmanship />
   if (concept.id === 'theater') return <TheaterCraftsmanship />
   if (concept.id === 'marketplace') return <MarketplaceCraftsmanship />
+  if (concept.id === 'maison') return <MaisonCraftsmanship />
 
   const techniques = [
     { title: 'Hand Setting', desc: 'Each stone is individually set by our master setters, ensuring perfect alignment and maximum brilliance. A single pavé ring may require 6-8 hours of meticulous work.' },

@@ -13,6 +13,7 @@ import { AtelierAccount } from '@/components/concepts/atelier/pages'
 import { ArchiveAccount } from '@/components/concepts/archive/pages'
 import { ObservatoryAccount } from '@/components/concepts/observatory/pages'
 import { MarketplaceAccount } from '@/components/concepts/marketplace/pages'
+import { MaisonAccount } from '@/components/concepts/maison/pages'
 
 export default function AccountPage() {
   const params = useParams()
@@ -28,6 +29,7 @@ export default function AccountPage() {
   if (concept.id === 'observatory') return <ObservatoryAccount />
   if (concept.id === 'theater') return <TheaterAccount />
   if (concept.id === 'marketplace') return <MarketplaceAccount />
+  if (concept.id === 'maison') return <MaisonAccount />
 
   return (
     <ConceptLayout concept={concept}>

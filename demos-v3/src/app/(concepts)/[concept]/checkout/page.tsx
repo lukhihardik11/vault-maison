@@ -12,6 +12,7 @@ import { AtelierCheckout } from '@/components/concepts/atelier/pages'
 import { ArchiveCheckout } from '@/components/concepts/archive/pages'
 import { ObservatoryCheckout } from '@/components/concepts/observatory/pages'
 import { MarketplaceCheckout } from '@/components/concepts/marketplace/pages'
+import { MaisonCheckout } from '@/components/concepts/maison/pages'
 
 export default function CheckoutPage() {
   const params = useParams()
@@ -27,6 +28,7 @@ export default function CheckoutPage() {
   if (concept.id === 'observatory') return <ObservatoryCheckout />
   if (concept.id === 'theater') return <TheaterCheckout />
   if (concept.id === 'marketplace') return <MarketplaceCheckout />
+  if (concept.id === 'maison') return <MaisonCheckout />
 
   return (
     <ConceptLayout concept={concept} hideFooter>

@@ -620,3 +620,55 @@ select:focus {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ═══ MAISON CONCEPT CSS ═══ */
+.maison-scroll-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.maison-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.maison-stagger-0 { transition-delay: 0ms; }
+.maison-stagger-1 { transition-delay: 100ms; }
+.maison-stagger-2 { transition-delay: 200ms; }
+.maison-stagger-3 { transition-delay: 300ms; }
+.maison-stagger-4 { transition-delay: 400ms; }
+.maison-stagger-5 { transition-delay: 500ms; }
+.maison-stagger-6 { transition-delay: 600ms; }
+
+.maison-card-hover {
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.maison-card-hover:hover {
+  border-color: #B8924A30 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(184, 146, 74, 0.08);
+}
+
+.maison-btn-hover {
+  transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.3s ease;
+}
+.maison-btn-hover:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 16px rgba(184, 146, 74, 0.15);
+}
+.maison-btn-hover:active {
+  transform: scale(0.98);
+}
+
+.maison-hero-fade-1 {
+  animation: msFadeUp 0.8s ease-out 0.3s both;
+}
+.maison-hero-fade-2 {
+  animation: msFadeUp 0.8s ease-out 0.5s both;
+}
+.maison-hero-fade-3 {
+  animation: msFadeUp 0.8s ease-out 0.7s both;
+}
+@keyframes msFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

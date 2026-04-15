@@ -16,6 +16,7 @@ import { AtelierSearch } from '@/components/concepts/atelier/pages'
 import { ArchiveSearch } from '@/components/concepts/archive/pages'
 import { ObservatorySearch } from '@/components/concepts/observatory/pages'
 import { MarketplaceSearch } from '@/components/concepts/marketplace/pages'
+import { MaisonSearch } from '@/components/concepts/maison/pages'
 
 const priceRanges = [
   { label: 'Under $5,000', min: 0, max: 5000 },
@@ -67,6 +68,7 @@ export default function SearchPage() {
   if (concept.id === 'observatory') return <ObservatorySearch />
   if (concept.id === 'theater') return <TheaterSearch />
   if (concept.id === 'marketplace') return <MarketplaceSearch />
+  if (concept.id === 'maison') return <MaisonSearch />
 
   return (
     <ConceptLayout concept={concept}>
