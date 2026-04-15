@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { GalleryLayout, G } from './gallery/GalleryLayout'
 import { GalleryLabel } from './gallery/ui/GalleryLabel'
 import { MuseumCaption } from './gallery/ui/MuseumCaption'
-import { getBestsellers } from '@/data/products'
+import { getBestsellers, getNewArrivals, formatPrice } from '@/data/products'
 import { GalleryCircularShowcase, type ShowcaseItem } from './gallery/ui/GalleryCircularShowcase'
 import { GalleryTypewriter } from './gallery/ui/GalleryTypewriter'
 import { GalleryTimeline } from './gallery/ui/GalleryTimeline'
@@ -21,6 +21,7 @@ const rooms = [
 
 export function GalleryHome({ concept }: { concept: any }) {
   const featured = getBestsellers().slice(0, 3)
+  const newArrivals = getNewArrivals().slice(0, 4)
   const [parallaxY, setParallaxY] = useState(0)
   const [hoveredRoom, setHoveredRoom] = useState<number | null>(null)
   const [email, setEmail] = useState('')
@@ -141,6 +142,48 @@ export function GalleryHome({ concept }: { concept: any }) {
         )}
       </section>
 
+      {/* ═══ NEW ARRIVALS — 4-column product grid ═══ */}
+      <section style={{ padding: '120px 32px', borderTop: `1px solid ${G.border}` }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <MuseumCaption align="center">Just Arrived</MuseumCaption>
+            <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', fontWeight: 400, color: G.text, margin: '16px 0 0' }}>
+              New Arrivals
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+            {newArrivals.map((p) => (
+              <Link key={p.id} href={`/gallery/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div style={{ border: `1px solid ${G.border}`, background: G.surface, transition: 'border-color 0.4s' }}
+                  className="gallery-arrival-card">
+                  <div style={{ aspectRatio: '1/1', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F8F6F2', overflow: 'hidden' }}>
+                    <img src={p.images[0]} alt={p.name}
+                      style={{ width: '75%', height: '75%', objectFit: 'contain', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                      className="gallery-arrival-img" />
+                  </div>
+                  <div style={{ padding: '20px 16px' }}>
+                    <p style={{ fontFamily: "'Libre Baskerville', serif", fontSize: '0.85rem', fontWeight: 400, color: G.text, margin: '0 0 4px' }}>
+                      {p.name}
+                    </p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: G.textSecondary, margin: '0 0 8px', letterSpacing: '0.05em' }}>
+                      {p.subtitle}
+                    </p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500, color: G.text, margin: 0 }}>
+                      {formatPrice(p.price)}
+                    </p>
+                    <div style={{ marginTop: 8 }}>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.55rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: G.accent, background: `${G.accent}12`, padding: '3px 8px' }}>
+                        New
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ═══ SECTION 3: EXHIBITION ROOMS ═══ */}
       <section style={{ padding: '140px 32px', borderTop: `1px solid ${G.border}` }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
@@ -257,8 +300,38 @@ export function GalleryHome({ concept }: { concept: any }) {
         </div>
       </section>
 
+      {/* ═══ CTA: Every piece deserves its own wall ═══ */}
+      <section style={{ padding: '120px 32px', borderTop: `1px solid ${G.border}`, textAlign: 'center' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', fontWeight: 400, color: G.text, margin: '0 0 16px', lineHeight: 1.3 }}>
+            Every piece deserves its own wall.
+          </h2>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: G.textSecondary, lineHeight: 1.7, marginBottom: 40 }}>
+            Whether you are beginning your collection or adding to a legacy, our curators are here to guide your journey through the world of fine jewelry.
+          </p>
+          <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
+            <Link href="/gallery/collections" style={{
+              padding: '14px 32px', fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 500,
+              letterSpacing: '0.12em', textTransform: 'uppercase', background: G.accent, color: '#fff',
+              textDecoration: 'none', transition: 'background 0.3s',
+            }}>
+              View Collection
+            </Link>
+            <Link href="/gallery/bespoke" style={{
+              padding: '14px 32px', fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 500,
+              letterSpacing: '0.12em', textTransform: 'uppercase', background: 'transparent',
+              color: G.text, border: `1px solid ${G.border}`, textDecoration: 'none', transition: 'border-color 0.3s',
+            }}>
+              Private Viewing
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <style>{`
         .gallery-editorial-row:hover .gallery-editorial-img { transform: scale(1.03); }
+        .gallery-arrival-card:hover { border-color: ${G.accent} !important; }
+        .gallery-arrival-card:hover .gallery-arrival-img { transform: scale(1.05); }
         @media (max-width: 768px) {
           .gallery-editorial-row { grid-template-columns: 1fr !important; }
         }
