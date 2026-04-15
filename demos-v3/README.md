@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vault Maison
+
+Vault Maison is an ultra-luxury diamond and fine jewelry e-commerce platform featuring 10 distinct UI concept directions. Each concept explores a unique design philosophy, from minimalist restraint to cinematic immersion, all powered by a robust shared infrastructure.
+
+## The 10 Concepts
+
+1. **Vault**: The Dark Luxury Experience
+2. **Observatory**: The Analytical & Technical Approach
+3. **Gallery**: The Art Exhibition Aesthetic
+4. **Atelier**: The Craftsmanship Focus
+5. **Salon**: The Intimate Consultation
+6. **Archive**: The Historical & Provenance Angle
+7. **Minimal**: The Restrained & Precise Design
+8. **Theater**: The Cinematic & Emotional Journey
+9. **Marketplace**: The Auction & Rarity Platform
+10. **Maison**: The Timeless & Balanced Elegance
+
+## Architecture & Shared Infrastructure
+
+The project is built on Next.js App Router and leverages a powerful shared infrastructure to ensure consistency and maintainability across all 10 concepts:
+
+- **State Management**: Zustand stores for Cart, Wishlist, and Recently Viewed items.
+- **E-commerce Features**: Fully functional product details, category filters, 3-step checkout, and account dashboards.
+- **UI Components**: Mega-menus, search overlays, quick view modals, size guides, and toast notifications.
+- **Animations**: Custom `useScrollReveal` hook and CSS keyframes for smooth, performant scroll animations.
+- **SEO**: Comprehensive metadata, Open Graph tags, Schema.org JSON-LD, dynamic sitemaps, and robots.txt.
+
+## Documentation
+
+Detailed documentation can be found in the `docs/` directory:
+- `ECOMMERCE-AUDIT.md`: Analysis of 5 leading jewelry e-commerce sites.
+- `GEMHUB-DEEP-RESEARCH.md`: Integration plan for GemLightBox Hub.
+- `IMAGE-PROCESSING-PLAN.md`: Strategy for CSS image background matching.
+- `API-CONTRACT.md`: Backend-ready API abstraction layer details.
+- `DEPLOYMENT-GUIDE.md`: Instructions for deploying to Vercel.
+- `FEATURE-CHECKLIST.md`: Implementation status of all features.
+
+## Development Guidelines for AI Agents
+
+For future AI agents working on this repository:
+- **Branching Strategy**: Always create a new feature branch from `main`. Never commit directly to `main`.
+- **Pull Requests**: Raise a PR for manual review and merging.
+- **Documentation**: Keep all documentation in the `docs/` directory up to date with any architectural changes.
+- **Shared Components**: When adding new features, prioritize building shared components in `src/components/shared/` rather than concept-specific implementations.
+- **Design Philosophy**: Ensure any new additions align with the specific design tokens and aesthetic of the target concept.
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone the repository.
+2. Navigate to the `demos-v3` directory.
+3. Install dependencies: `pnpm install`
+4. Run the development server: `pnpm dev`
+5. Open `http://localhost:3000` in your browser.

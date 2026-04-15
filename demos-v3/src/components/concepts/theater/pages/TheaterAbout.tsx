@@ -80,6 +80,33 @@ export function TheaterAbout() {
         </div>
       </TheaterSection>
 
+      {/* Lifestyle Gallery */}
+      <TheaterSection alt>
+        <RevealSection>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <ActLabel label="Behind the Curtain" style={{ marginBottom: 16, justifyContent: 'center' }} />
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.8rem', fontWeight: 500, color: TH.text }}>Scenes from the Atelier</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, height: 360 }}>
+            <StaggerItem index={0}>
+              <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+                <Image src="/images/lifestyle/artisan-hands.jpg" alt="Artisan at work" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </StaggerItem>
+            <StaggerItem index={1}>
+              <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+                <Image src="/images/lifestyle/diamond-closeup.jpg" alt="Diamond closeup" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </StaggerItem>
+            <StaggerItem index={2}>
+              <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+                <Image src="/images/lifestyle/velvet-display.jpg" alt="Velvet display" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </StaggerItem>
+          </div>
+        </RevealSection>
+      </TheaterSection>
+
       <section style={{ background: TH.bgAlt, padding: '80px 0', textAlign: 'center' }}>
         <RevealSection>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2rem', fontWeight: 500, color: TH.text, margin: '0 0 16px' }}>Experience the Performance</h2>
