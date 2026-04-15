@@ -12,6 +12,7 @@ import { AtelierShipping } from '@/components/concepts/atelier/pages'
 import { ArchiveShipping } from '@/components/concepts/archive/pages'
 import { ObservatoryShipping } from '@/components/concepts/observatory/pages'
 import { MarketplaceShipping } from '@/components/concepts/marketplace/pages'
+import { MaisonShipping } from '@/components/concepts/maison/pages'
 
 export default function ShippingPage() {
   const params = useParams()
@@ -27,6 +28,7 @@ export default function ShippingPage() {
   if (concept.id === 'observatory') return <ObservatoryShipping />
   if (concept.id === 'theater') return <TheaterShipping />
   if (concept.id === 'marketplace') return <MarketplaceShipping />
+  if (concept.id === 'maison') return <MaisonShipping />
   return (
     <InfoPage
       concept={concept}

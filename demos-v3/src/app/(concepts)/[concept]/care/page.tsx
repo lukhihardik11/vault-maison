@@ -12,6 +12,7 @@ import { AtelierCare } from '@/components/concepts/atelier/pages'
 import { ArchiveCare } from '@/components/concepts/archive/pages'
 import { ObservatoryCare } from '@/components/concepts/observatory/pages'
 import { MarketplaceCare } from '@/components/concepts/marketplace/pages'
+import { MaisonCare } from '@/components/concepts/maison/pages'
 
 export default function CarePage() {
   const params = useParams()
@@ -27,6 +28,7 @@ export default function CarePage() {
   if (concept.id === 'observatory') return <ObservatoryCare />
   if (concept.id === 'theater') return <TheaterCare />
   if (concept.id === 'marketplace') return <MarketplaceCare />
+  if (concept.id === 'maison') return <MaisonCare />
   return (
     <InfoPage
       concept={concept}

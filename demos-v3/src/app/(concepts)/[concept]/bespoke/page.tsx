@@ -15,6 +15,7 @@ import { AtelierBespoke } from '@/components/concepts/atelier/pages'
 import { ArchiveBespoke } from '@/components/concepts/archive/pages'
 import { ObservatoryBespoke } from '@/components/concepts/observatory/pages'
 import { MarketplaceBespoke } from '@/components/concepts/marketplace/pages'
+import { MaisonBespoke } from '@/components/concepts/maison/pages'
 
 export default function BespokePage() {
   const params = useParams()
@@ -32,6 +33,7 @@ export default function BespokePage() {
   if (concept.id === 'observatory') return <ObservatoryBespoke />
   if (concept.id === 'theater') return <TheaterBespoke />
   if (concept.id === 'marketplace') return <MarketplaceBespoke />
+  if (concept.id === 'maison') return <MaisonBespoke />
 
   const steps = [
     { title: 'Consultation', desc: 'Share your vision with our design team. We listen to your desires, lifestyle, and aesthetic preferences to understand exactly what you seek.' },
