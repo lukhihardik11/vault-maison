@@ -1,93 +1,150 @@
-# Vault Maison: GemHub Technical Integration Plan
+# Vault Maison: Comprehensive GemHub Technical Integration Plan
 
-This document details the technical strategy for integrating the GemHub (Picup Media) platform into the Vault Maison e-commerce architecture. It outlines the integration phases, data synchronization methods, and frontend implementation patterns required to leverage GemHub's media management and AR try-on capabilities within a custom Next.js environment.
+## 1. Executive Summary
 
-## 1. Integration Overview & Constraints
+GemHub (by Picup Media) is the industry standard for jewelry media management, providing 360° videos, high-resolution imagery, and Augmented Reality (AR) try-on capabilities. Integrating GemHub into Vault Maison's custom Next.js + Medusa.js architecture is critical for delivering the immersive luxury experience required by the 10 design concepts.
 
-GemHub is a powerful SaaS platform for jewelry media management, but its integration capabilities present specific constraints for custom-built (non-Shopify) architectures.
+However, GemHub's architecture presents a significant technical challenge: **it does not currently offer a public REST or GraphQL API for programmatic media retrieval.** Its native integrations are strictly limited to Shopify and WooCommerce via proprietary plugins.
 
-### 1.1. The API Constraint
+This document outlines a robust, three-phase technical strategy to overcome this limitation, detailing the exact data flows, frontend implementation patterns, and backend synchronization scripts required to seamlessly integrate GemHub's capabilities into Vault Maison's headless architecture.
 
-As of the current research, GemHub **does not offer a public REST API or SDK** for programmatic access to product data or media assets [1]. The platform's native integration is exclusively built for Shopify, which utilizes a one-way sync from GemHub to Shopify draft products [2].
+---
 
-### 1.2. Available Integration Methods
+## 2. Integration Constraints & Analysis
 
-For a custom Next.js architecture like Vault Maison, the available integration methods are:
+Before detailing the solution, it is vital to understand the constraints of the GemHub platform.
 
-1.  **Share Links (Iframes):** Embedding GemHub's customizable public share links directly into the frontend.
-2.  **HTML Embed Codes:** Utilizing GemHub-generated HTML snippets for specific features like AR Try-On.
-3.  **Manual CSV Export/Import:** Exporting product data from GemHub and importing it into the Vault Maison database.
+### 2.1 The API Limitation
 
-## 2. Phased Integration Strategy
+Extensive research into GemHub's developer documentation and support portals confirms the absence of a public API [1]. 
+- **No Direct Media Fetching**: We cannot make an HTTP request like `GET api.gemhub.com/v1/products/{sku}/media` to retrieve raw MP4 or JPG URLs.
+- **No Webhooks**: GemHub does not support outbound webhooks to notify our backend when a new 360° video has finished processing.
 
-To mitigate the lack of a public API while delivering immediate value, Vault Maison will adopt a three-phase integration strategy.
+### 2.2 Native Integration Mechanics
 
-### Phase 1: Frontend Embedding (Immediate)
+GemHub's native Shopify integration works via a one-way push mechanism [2]:
+1. A user clicks "Sync to Shopify" inside the GemHub dashboard.
+2. GemHub's internal servers use the Shopify Admin API to create a Draft Product.
+3. GemHub pushes the media assets directly into Shopify's CDN.
 
-The initial phase focuses on delivering high-quality media and AR experiences without requiring complex backend synchronization.
+Because Vault Maison uses Medusa.js, we cannot utilize this native push mechanism directly.
 
-*   **Mechanism:** Iframe embedding of GemHub Share Links.
-*   **Implementation:**
-    1.  Merchandisers generate unique "Product Share Links" within the GemHub dashboard.
-    2.  These unique URLs are stored in the Vault Maison database (e.g., in a `gemhub_share_url` column on the `Product` table).
-    3.  The Next.js frontend renders an iframe pointing to this URL within the Product Detail Page (PDP).
-*   **Customization:** The GemHub Share Settings must be configured to match Vault Maison's branding (logo, colors) and to hide redundant information (e.g., hiding the GemHub price/description if the Vault Maison PDP already displays it) [3].
+### 2.3 Available Integration Vectors
 
-### Phase 2: Asynchronous Data Synchronization (Short-Term)
+For a custom headless architecture, we are limited to three integration vectors:
+1. **Public Share Links (Iframes)**: GemHub allows users to generate public, customizable URLs (e.g., `https://gemhub.picupmedia.com/share/xyz123`) that host a 360° viewer [3].
+2. **HTML Embed Codes**: GemHub generates specific `<iframe>` or `<script>` tags for embedding AR Try-On experiences.
+3. **CSV Export**: GemHub allows bulk exporting of product data, which includes the public Share Link URLs, via CSV.
 
-This phase automates the transfer of product data and media URLs from GemHub to the Vault Maison backend (Medusa.js).
+---
 
-*   **Mechanism:** Automated CSV processing.
-*   **Implementation:**
-    1.  A scheduled task (cron job) or manual trigger initiates an export of the product catalog from GemHub in CSV format.
-    2.  A custom Node.js microservice (the "GemHub Sync Service") ingests this CSV file.
-    3.  The service parses the CSV, mapping GemHub fields (SKU, Title, Media URLs) to the Medusa.js database schema.
-    4.  The service updates existing products or creates new draft products in Medusa.js via its Admin API.
-*   **Benefit:** This allows Vault Maison to host the high-resolution images directly (or via its own CDN) rather than relying solely on iframes, improving page load performance and SEO.
+## 3. Phased Integration Strategy
 
-### Phase 3: Middleware API Integration (Long-Term/Alternative)
+To deliver immediate value while building toward a fully automated system, Vault Maison will implement a three-phase integration strategy.
 
-If a direct GemHub API remains unavailable, a middleware approach utilizing Shopify can be employed to achieve programmatic access.
+### Phase 1: The Iframe & Manual Entry Approach (Launch Phase)
 
-*   **Mechanism:** GemHub → Shopify (Headless) → Vault Maison.
-*   **Implementation:**
-    1.  Utilize the native GemHub-to-Shopify integration to sync data to a "headless" Shopify Plus instance [2].
-    2.  Vault Maison's backend (or BFF) queries the Shopify Storefront API (GraphQL) to retrieve the synchronized product data and media assets.
-*   **Benefit:** Provides robust, programmatic access to GemHub data.
-*   **Drawback:** Introduces significant architectural complexity and the recurring cost of a Shopify Plus subscription solely for use as a data conduit.
+This phase requires no backend engineering and relies on the Next.js frontend to render GemHub's hosted viewers.
 
-## 3. Frontend Implementation Details (Phase 1)
+**Workflow:**
+1. **Media Capture**: The jeweler captures the item using the GemLightbox and uploads it to the GemHub app.
+2. **Link Generation**: In the GemHub dashboard, the merchandiser generates a "Product Share Link".
+3. **Data Entry**: The merchandiser logs into the Medusa.js Admin dashboard, creates the product, and pastes the GemHub Share Link into a custom metadata field (e.g., `metadata.gemhub_share_url`).
+4. **Frontend Rendering**: The Next.js frontend fetches the product from Medusa.js. If `metadata.gemhub_share_url` exists, it renders the `<GemHubViewer />` component (an iframe).
 
-The following details the implementation of the Phase 1 iframe embedding strategy within the Next.js App Router.
+**Pros**: Immediate time-to-market; zero backend complexity.
+**Cons**: Manual data entry is prone to human error; iframes can impact Core Web Vitals (specifically Cumulative Layout Shift if not sized correctly); Vault Maison does not host the raw media assets.
 
-### 3.1. The `GemHubViewer` Component
+### Phase 2: Asynchronous CSV Synchronization (Mid-Term)
 
-A dedicated React component manages the iframe lifecycle and styling.
+This phase automates the data entry process, eliminating human error and allowing for bulk updates.
+
+**Workflow:**
+1. **Scheduled Export**: A merchandiser exports the "All Products" CSV from GemHub daily.
+2. **Automated Ingestion**: The CSV is uploaded to a secure AWS S3 bucket.
+3. **Sync Microservice**: An AWS Lambda function (or Medusa.js scheduled job) detects the new CSV.
+4. **Data Mapping**: The script parses the CSV, matching the GemHub `SKU` column to the Medusa.js `variant.sku`.
+5. **Database Update**: The script updates the Medusa.js database, automatically populating the `metadata.gemhub_share_url` and `metadata.gemhub_ar_url` fields for thousands of SKUs simultaneously.
+
+**Pros**: Eliminates manual data entry; highly scalable for large catalogs.
+**Cons**: Data is only as fresh as the last CSV export (not real-time); still relies on iframes for frontend rendering.
+
+### Phase 3: The Shopify Middleware Proxy (Long-Term / Enterprise)
+
+If Vault Maison requires raw access to the MP4/JPG files (e.g., to build a completely custom 360° viewer using WebGL instead of an iframe), we must employ a middleware proxy.
+
+**Workflow:**
+1. **Headless Shopify Instance**: Vault Maison maintains a basic Shopify Plus (or Advanced) instance used *strictly* as a data conduit, not a storefront.
+2. **Native Sync**: GemHub's native Shopify app is installed on this instance. Merchandisers use the "Sync to Shopify" button in GemHub.
+3. **Webhook Trigger**: When GemHub creates the product in Shopify, Shopify fires a `products/create` webhook to the Vault Maison Medusa.js backend.
+4. **Asset Extraction**: The Medusa.js backend receives the webhook, extracts the raw media URLs from the Shopify payload, downloads the assets, and uploads them to Vault Maison's own Vercel Blob or AWS S3 storage.
+5. **Native Rendering**: The Next.js frontend renders the raw MP4/JPGs using native HTML5 `<video>` and `<image>` tags, completely eliminating iframes.
+
+**Pros**: Ultimate control over the frontend experience; perfect Core Web Vitals; Vault Maison owns the raw assets.
+**Cons**: High architectural complexity; introduces the recurring cost of a Shopify subscription solely for API access.
+
+---
+
+## 4. Frontend Implementation Details (Phase 1 & 2)
+
+The following details the exact implementation of the iframe embedding strategy within the Next.js App Router.
+
+### 4.1 The `GemHubViewer` Component
+
+A dedicated React component manages the iframe lifecycle, loading states, and responsive sizing to prevent Cumulative Layout Shift (CLS).
 
 ```tsx
-// src/components/shared/gemhub-viewer.tsx
+// src/components/shared/GemHubViewer.tsx
+'use client';
+
 import React, { useState } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface GemHubViewerProps {
   shareUrl: string;
   title: string;
+  aspectRatio?: 'square' | 'video' | 'portrait';
 }
 
-export const GemHubViewer: React.FC<GemHubViewerProps> = ({ shareUrl, title }) => {
+export const GemHubViewer: React.FC<GemHubViewerProps> = ({ 
+  shareUrl, 
+  title,
+  aspectRatio = 'square' 
+}) => {
   const [isLoading, setIsLoading] = useState(true);
 
+  // Map aspect ratio prop to Tailwind classes
+  const aspectClass = {
+    square: 'aspect-square',
+    video: 'aspect-video',
+    portrait: 'aspect-[3/4]'
+  }[aspectRatio];
+
+  // Security: Ensure the URL is actually a GemHub URL before rendering
+  const isTrustedUrl = shareUrl.startsWith('https://gemhub.picupmedia.com/');
+  
+  if (!isTrustedUrl) {
+    console.error('Untrusted iframe URL provided to GemHubViewer');
+    return null;
+  }
+
   return (
-    <div className="relative w-full aspect-square bg-neutral-100 rounded-lg overflow-hidden">
+    <div className={`relative w-full ${aspectClass} bg-neutral-50 rounded-lg overflow-hidden`}>
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="animate-pulse text-neutral-400">Loading 360° View...</span>
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-neutral-100">
+          <Skeleton className="w-full h-full" />
+          <span className="absolute text-sm text-neutral-400 font-medium animate-pulse">
+            Loading 360° View...
+          </span>
         </div>
       )}
+      
       <iframe
         src={shareUrl}
-        title={`360 degree view of ${title}`}
-        className="w-full h-full border-0"
+        title={`360 degree interactive view of ${title}`}
+        className={`w-full h-full border-0 transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         onLoad={() => setIsLoading(false)}
+        loading="lazy"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; xr-spatial-tracking"
         allowFullScreen
       />
@@ -96,24 +153,94 @@ export const GemHubViewer: React.FC<GemHubViewerProps> = ({ shareUrl, title }) =
 };
 ```
 
-### 3.2. AR Try-On Integration
+### 4.2 AR Try-On Integration
 
-GemHub provides specific HTML embed codes for AR Try-On functionality. These snippets must be safely injected into the React component tree.
+GemHub provides specific HTML embed codes for AR Try-On functionality (e.g., virtual ring try-on via smartphone camera).
 
-*   **Security Consideration:** Ensure the embed code is sanitized before rendering using `dangerouslySetInnerHTML` to prevent Cross-Site Scripting (XSS) vulnerabilities, although the source (GemHub) is trusted.
+**Implementation Strategy:**
+1. The AR Try-On URL is stored in Medusa.js as `metadata.gemhub_ar_url`.
+2. On the Next.js PDP, a "Virtual Try-On" button is rendered.
+3. Clicking the button opens a full-screen modal or dialog containing an iframe pointing to the AR URL.
+4. **Crucial**: The iframe must include the `allow="camera"` attribute, or the AR experience will fail.
 
-## 4. Operational Workflow
+```tsx
+// Example AR Modal Iframe
+<iframe
+  src={product.metadata.gemhub_ar_url}
+  allow="camera; gyroscope; accelerometer; magnetometer"
+  className="w-full h-[80vh] border-0 rounded-xl"
+/>
+```
 
-To maintain data integrity between GemHub and Vault Maison, the merchandising team must adhere to a strict workflow:
+### 4.3 GemHub Share Settings Configuration
 
-1.  **Photography & Upload:** Jewelry is photographed using the GemLightbox and uploaded to GemHub.
-2.  **Data Entry (GemHub):** The SKU (mandatory) and basic attributes are entered into GemHub.
-3.  **Link Generation:** The Product Share Link is generated in GemHub.
-4.  **Data Entry (Vault Maison):** The product is created in the Vault Maison backend (Medusa.js), ensuring the SKU matches exactly. The GemHub Share Link is pasted into the designated field.
-5.  **Publishing:** The product is published on the Vault Maison storefront.
+To ensure the iframe blends seamlessly into the Vault Maison design concepts, the GemHub Share Settings must be strictly configured within the GemHub dashboard [3]:
 
-## References
+- **Branding**: Upload the Vault Maison logo (SVG format, transparent background).
+- **Colors**: Set the viewer background color to match the specific concept's background (e.g., `#FFFFFF` for Minimal, `#0A0A0A` for Vault).
+- **UI Elements**: Disable the GemHub "Price", "Description", and "Add to Cart" buttons within the viewer. The Vault Maison Next.js frontend handles these elements. The iframe should *only* display the interactive media.
 
+---
+
+## 5. Data Synchronization Script (Phase 2 Detail)
+
+Below is the architectural logic for the Node.js microservice responsible for parsing the GemHub CSV and updating the Medusa.js database.
+
+```typescript
+// Pseudo-code for GemHub CSV Sync Service
+import { parse } from 'csv-parse';
+import { MedusaClient } from '@medusajs/medusa-js';
+
+const medusa = new MedusaClient({ baseUrl: process.env.MEDUSA_BACKEND_URL, maxRetries: 3 });
+
+async function syncGemHubData(csvFilePath: string) {
+  const records = await parseCSV(csvFilePath);
+  
+  for (const record of records) {
+    const sku = record['SKU'];
+    const shareUrl = record['Share Link'];
+    const arUrl = record['AR Link'];
+
+    if (!sku || !shareUrl) continue;
+
+    try {
+      // 1. Find the variant in Medusa by SKU
+      const { variants } = await medusa.admin.variants.list({ sku });
+      
+      if (variants.length === 0) {
+        console.warn(`SKU ${sku} found in GemHub CSV but not in Medusa. Skipping.`);
+        continue;
+      }
+
+      const variant = variants[0];
+      const productId = variant.product_id;
+
+      // 2. Update the Product Metadata in Medusa
+      // Note: We update the Product, not the Variant, as the 360 view usually applies to the base product
+      await medusa.admin.products.update(productId, {
+        metadata: {
+          gemhub_share_url: shareUrl,
+          gemhub_ar_url: arUrl || null,
+          last_gemhub_sync: new Date().toISOString()
+        }
+      });
+
+      console.log(`Successfully synced GemHub data for SKU: ${sku}`);
+      
+    } catch (error) {
+      console.error(`Failed to sync SKU ${sku}:`, error);
+    }
+  }
+}
+```
+
+## 6. Conclusion
+
+While the lack of a public API presents a hurdle, the phased integration strategy outlined above ensures Vault Maison can immediately leverage GemHub's powerful media capabilities via secure, optimized iframes (Phase 1). As the platform scales, the architecture supports automated CSV synchronization (Phase 2) and, if necessary, a robust middleware proxy (Phase 3) to achieve total control over the media assets and frontend rendering experience.
+
+---
+
+### References
 [1] Picup Media Support. "Integrating with Woocommerce." https://support.picupmedia.com/integrating-with-woocommerce
 [2] Picup Media Support. "Integrating with Shopify." https://support.picupmedia.com/integrating-with-shopify
 [3] Picup Media Support. "Managing and Customizing Share Settings in GemHub." https://support.picupmedia.com/managing-and-customizing-share-link
