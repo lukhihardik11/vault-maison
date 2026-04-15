@@ -62,6 +62,54 @@ export function MaisonAbout() {
           </div>
         </RevealSection>
       </MaisonSection>
+
+      {/* Lifestyle Gallery Section */}
+      <MaisonSection>
+        <RevealSection>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <SectionLabel label="The Experience" style={{ marginBottom: 16, justifyContent: 'center' }} />
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', fontWeight: 600, color: MS.text }}>Life with Maison</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 16, height: 400 }}>
+            <StaggerItem index={0}>
+              <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+                <Image src="/images/lifestyle/elegant-hand.jpg" alt="Elegant jewelry styling" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </StaggerItem>
+            <div style={{ display: 'grid', gap: 16 }}>
+              <StaggerItem index={1}>
+                <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+                  <Image src="/images/lifestyle/jewelry-display.jpg" alt="Jewelry display" fill style={{ objectFit: 'cover' }} />
+                </div>
+              </StaggerItem>
+              <StaggerItem index={2}>
+                <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+                  <Image src="/images/lifestyle/ring-box.jpg" alt="Ring presentation" fill style={{ objectFit: 'cover' }} />
+                </div>
+              </StaggerItem>
+            </div>
+            <StaggerItem index={3}>
+              <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
+                <Image src="/images/lifestyle/store-interior.jpg" alt="Boutique interior" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </StaggerItem>
+          </div>
+        </RevealSection>
+      </MaisonSection>
+
+      {/* Craftsmanship Section */}
+      <section style={{ background: `linear-gradient(rgba(44,36,24,0.7), rgba(44,36,24,0.85)), url('/images/lifestyle/workshop-tools.jpg') center/cover`, padding: '80px 32px' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
+          <SectionLabel label="Craftsmanship" style={{ marginBottom: 16, justifyContent: 'center' }} />
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2rem', fontWeight: 600, color: '#FAF8F5', margin: '0 0 16px' }}>Handcrafted with Purpose</h2>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: '#FAF8F5cc', lineHeight: 1.8, maxWidth: 600, margin: '0 auto 24px' }}>
+            Every piece in our collection passes through the hands of master artisans who bring decades of expertise to their craft. From initial sketch to final polish, the journey of creation is one of patience, precision, and passion.
+          </p>
+          <MaisonButton href="/maison/craftsmanship">
+            Explore Our Process <ArrowRight size={14} />
+          </MaisonButton>
+        </div>
+      </section>
     </>
   )
 }

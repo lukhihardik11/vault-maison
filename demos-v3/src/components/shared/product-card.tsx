@@ -8,6 +8,7 @@ import { type Product } from '@/data/products'
 import { type ConceptConfig } from '@/data/concepts'
 import { useWishlistStore } from '@/store/wishlist'
 import { buildProductUrl } from '@/lib/concept-utils'
+import { getImageContainerStyle, getImageStyle } from '@/lib/image-blend'
 
 interface ProductCardProps {
   product: Product
@@ -31,7 +32,7 @@ export function ProductCard({ product, concept, index = 0 }: ProductCardProps) {
         href={buildProductUrl(concept.id, product.slug)}
         className="group block"
       >
-        <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
+        <div className="relative overflow-hidden" style={{ aspectRatio: '3/4', ...getImageContainerStyle(concept.id) }}>
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -39,6 +40,7 @@ export function ProductCard({ product, concept, index = 0 }: ProductCardProps) {
             className="object-cover transition-all"
             style={{
               transitionDuration: isMinimal ? '0ms' : '800ms',
+              ...getImageStyle(concept.id),
             }}
             sizes="(max-width: 768px) 50vw, 25vw"
           />

@@ -76,6 +76,44 @@ export function MarketplaceAbout() {
           </div>
         </RevealSection>
       </MarketplaceSection>
+
+      {/* Lifestyle Gallery */}
+      <MarketplaceSection alt>
+        <RevealSection>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <SectionLabel label="The World of Rarity" style={{ marginBottom: 16, justifyContent: 'center' }} />
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.8rem', fontWeight: 700, color: MK.text }}>Where Treasures Change Hands</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 12, height: 380 }}>
+            <StaggerItem index={0}>
+              <div style={{ position: 'relative', height: '100%', overflow: 'hidden', borderRadius: 4 }}>
+                <Image src="/images/lifestyle/gemstone-collection.jpg" alt="Gemstone collection" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </StaggerItem>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <StaggerItem index={1}>
+                <div style={{ position: 'relative', height: '100%', overflow: 'hidden', borderRadius: 4 }}>
+                  <Image src="/images/lifestyle/luxury-interior.jpg" alt="Luxury interior" fill style={{ objectFit: 'cover' }} />
+                </div>
+              </StaggerItem>
+              <StaggerItem index={2}>
+                <div style={{ position: 'relative', height: '100%', overflow: 'hidden', borderRadius: 4 }}>
+                  <Image src="/images/lifestyle/watch-jewelry.jpg" alt="Fine timepieces" fill style={{ objectFit: 'cover' }} />
+                </div>
+              </StaggerItem>
+            </div>
+          </div>
+        </RevealSection>
+      </MarketplaceSection>
+
+      {/* CTA */}
+      <section style={{ background: `linear-gradient(135deg, ${MK.accent}20, ${MK.bg})`, padding: '80px 32px', textAlign: 'center' }}>
+        <RevealSection>
+          <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '2rem', fontWeight: 700, color: MK.text, margin: '0 0 12px' }}>Ready to Discover?</h2>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: MK.textSecondary, marginBottom: 32 }}>Join thousands of collectors who trust the Marketplace of Rarity.</p>
+          <MarketplaceButton href="/marketplace/collections" size="lg">Explore Current Lots <ArrowRight size={14} /></MarketplaceButton>
+        </RevealSection>
+      </section>
     </>
   )
 }
