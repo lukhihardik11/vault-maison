@@ -9,6 +9,7 @@ import { VaultAbout } from '@/components/concepts/vault/pages'
 import { GalleryAbout } from '@/components/concepts/gallery/pages'
 import { SalonAbout } from '@/components/concepts/salon/pages'
 import { AtelierAbout } from '@/components/concepts/atelier/pages'
+import { ArchiveAbout } from '@/components/concepts/archive/pages'
 
 export default function AboutPage() {
   const params = useParams()
@@ -20,6 +21,7 @@ export default function AboutPage() {
   if (concept.id === 'gallery') return <GalleryAbout />
   if (concept.id === 'salon') return <SalonAbout />
   if (concept.id === 'atelier') return <AtelierAbout />
+  if (concept.id === 'archive') return <ArchiveAbout />
 
   return (
     <ConceptLayout concept={concept}>

@@ -10,6 +10,7 @@ import { VaultCategory } from '@/components/concepts/vault/pages'
 import { GalleryCategory } from '@/components/concepts/gallery/pages'
 import { SalonCategory } from '@/components/concepts/salon/pages'
 import { AtelierCategory } from '@/components/concepts/atelier/pages'
+import { ArchiveCategory } from '@/components/concepts/archive/pages'
 
 export default function CategoryPage() {
   const params = useParams()
@@ -23,6 +24,7 @@ export default function CategoryPage() {
   if (concept.id === 'gallery') return <GalleryCategory category={category} />
   if (concept.id === 'salon') return <SalonCategory />
   if (concept.id === 'atelier') return <AtelierCategory />
+  if (concept.id === 'archive') return <ArchiveCategory />
 
   const categoryProducts = getProductsByCategory(category)
   const label = categoryLabels[category] || category.replace(/-/g, ' ')

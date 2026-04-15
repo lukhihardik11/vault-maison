@@ -9,6 +9,7 @@ import { VaultAccount } from '@/components/concepts/vault/pages'
 import { GalleryAccount } from '@/components/concepts/gallery/pages'
 import { SalonAccount } from '@/components/concepts/salon/pages'
 import { AtelierAccount } from '@/components/concepts/atelier/pages'
+import { ArchiveAccount } from '@/components/concepts/archive/pages'
 
 export default function AccountPage() {
   const params = useParams()
@@ -20,6 +21,7 @@ export default function AccountPage() {
   if (concept.id === 'gallery') return <GalleryAccount />
   if (concept.id === 'salon') return <SalonAccount />
   if (concept.id === 'atelier') return <AtelierAccount />
+  if (concept.id === 'archive') return <ArchiveAccount />
 
   return (
     <ConceptLayout concept={concept}>
