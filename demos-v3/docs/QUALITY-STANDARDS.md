@@ -1,74 +1,133 @@
-# Vault Maison: Quality Standards & Checklists
+# Vault Maison: Comprehensive Quality & Performance Standards
 
-This document defines the rigorous quality standards required for the Vault Maison luxury e-commerce platform. It provides actionable checklists for visual polish, content integrity, and performance optimization to ensure a flawless user experience across all 10 design concepts.
+## 1. Executive Summary
 
-## 1. Visual Polish & UI/UX Standards
+Vault Maison is not merely an e-commerce store; it is a digital flagship for luxury jewelry. The platform's quality must reflect the craftsmanship of the products it sells. A single misaligned pixel, a sluggish animation, or a confusing checkout step shatters the illusion of luxury and directly impacts conversion rates for high-value items.
 
-The visual presentation of Vault Maison must reflect the luxury nature of the products. Every interaction should feel deliberate, smooth, and refined.
+This document defines the uncompromising quality standards for the Vault Maison Next.js architecture. It establishes strict performance budgets, accessibility (WCAG 2.1 AA) requirements, and detailed component-level checklists that must be met before any code is merged into the `main` branch.
 
-### 1.1. Typography & Layout
+---
 
-*   **Typography Hierarchy:** Ensure strict adherence to the defined typography scales (H1-H6, body, caption) for each concept. Avoid ad-hoc font sizing.
-*   **Whitespace & Rhythm:** Maintain consistent vertical and horizontal rhythm using Tailwind's spacing scale (e.g., `gap-8`, `py-16`). Luxury design relies heavily on generous, deliberate whitespace.
-*   **Alignment:** Ensure perfect alignment of elements within grids and flex containers. Misaligned elements immediately degrade the perceived quality.
-*   **Contrast:** Verify that all text meets WCAG AA contrast ratios against its background, especially critical for the darker concepts (e.g., Observatory, Theater).
+## 2. Performance Budgets & Core Web Vitals
 
-### 1.2. Interactions & Animations
+Luxury e-commerce demands instantaneous response times. High-net-worth clients expect digital experiences to be as frictionless as a white-glove in-store consultation. We enforce strict performance budgets monitored via Vercel Analytics and Lighthouse CI.
 
-*   **Hover States:** All interactive elements (buttons, links, product cards) must have subtle, elegant hover states (e.g., slight opacity change, smooth color transition, or a delicate underline). Avoid jarring or overly fast animations.
-*   **Focus States:** Ensure clear, accessible focus rings for keyboard navigation, styled to match the concept's aesthetic rather than relying on default browser styles.
-*   **Scroll Reveal:** Utilize the `useScrollReveal` hook consistently to fade in content as the user scrolls. The animation should be smooth (e.g., `duration-700 ease-out`) and not distract from the content.
-*   **Loading States:** Implement skeleton loaders (using the shared `Skeletons` component) for all asynchronous data fetching to prevent layout shift and provide immediate visual feedback.
+### 2.1 Core Web Vitals Targets (P75)
 
-### 1.3. Imagery & Media
+Vault Maison must consistently achieve "Good" scores across all Core Web Vitals metrics at the 75th percentile of real user traffic.
 
-*   **Image Quality:** All product and lifestyle images must be high-resolution, professionally retouched, and free of artifacts.
-*   **Aspect Ratios:** Enforce consistent aspect ratios for product grids (e.g., 1:1 or 4:5) to maintain a clean, organized layout. Use `object-cover` or `object-contain` appropriately.
-*   **Background Blending:** Utilize the `image-blend.ts` utility to seamlessly integrate product images with non-white backgrounds (e.g., using `mix-blend-multiply` on light backgrounds).
+| Metric | Target (Desktop) | Target (Mobile 3G) | Mitigation Strategy |
+| :--- | :--- | :--- | :--- |
+| **LCP (Largest Contentful Paint)** | < 1.2s | < 2.5s | Preload hero images; use `priority` on LCP elements; serve AVIF via Vercel Image Optimization. |
+| **INP (Interaction to Next Paint)** | < 50ms | < 200ms | Offload heavy calculations to Web Workers; strictly limit React re-renders using `useMemo` and `useCallback`. |
+| **CLS (Cumulative Layout Shift)** | < 0.01 | < 0.05 | Explicit `width` and `height` on all `next/image` tags; reserve space for dynamic content (e.g., GemHub iframes) using aspect-ratio boxes. |
+| **TTFB (Time to First Byte)** | < 100ms | < 200ms | Edge caching via Vercel; Next.js Route Handlers with Redis caching for API responses. |
 
-## 2. Content Integrity Standards
+### 2.2 Asset Weight Budgets
 
-The written content and product data must be accurate, compelling, and free of errors.
+To maintain the LCP and INP targets, the following hard limits are enforced per page route:
 
-### 2.1. Product Data
+- **Initial JavaScript Payload**: < 150 KB (gzipped).
+- **Total Image Weight (Initial Load)**: < 1.5 MB.
+- **Custom Fonts**: < 100 KB (Subset fonts to only include required glyphs; use `next/font` for automatic self-hosting and zero layout shift).
+- **Third-Party Scripts**: Must be loaded asynchronously using Next.js `next/script` with `strategy="worker"` (via Partytown) or `strategy="lazyOnload"`.
 
-*   **Accuracy:** Verify that all product titles, descriptions, prices, and specifications (metal type, carat weight) are 100% accurate.
-*   **Completeness:** Ensure every product has at least three high-quality images, a detailed description, and complete specifications.
-*   **Consistency:** Maintain a consistent tone of voice across all product descriptions, reflecting the brand's luxury positioning.
+---
 
-### 2.2. Copywriting & Microcopy
+## 3. Accessibility (WCAG 2.1 AA) Standards
 
-*   **Tone of Voice:** The copy should be sophisticated, authoritative, and evocative. Avoid overly casual or colloquial language.
-*   **Microcopy:** Ensure all button labels, error messages, and tooltips are clear, concise, and helpful. (e.g., use "Add to Shopping Bag" instead of just "Add").
-*   **Proofreading:** All copy must be rigorously proofread for spelling, grammar, and punctuation errors. A single typo can severely damage brand trust.
+Luxury must be inclusive. Vault Maison adheres strictly to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA.
 
-## 3. Performance & Core Web Vitals
+### 3.1 Visual Accessibility
 
-A luxury experience demands exceptional performance. Slow load times directly correlate with increased bounce rates and lost revenue.
+- **Contrast Ratios**: All text must maintain a minimum contrast ratio of 4.5:1 against its background (3:1 for large text). This is particularly challenging but mandatory for the darker concepts (e.g., *The Observatory*, *Immersive Theater*).
+- **Color Independence**: Information must never be conveyed by color alone. For example, an error state on a checkout input must include an icon and descriptive text, not just a red border.
+- **Focus Indicators**: Every interactive element (links, buttons, form fields) must have a highly visible focus state for keyboard navigation. `outline-none` is strictly prohibited unless replaced by a custom, high-contrast `ring` utility.
 
-### 3.1. Core Web Vitals Targets
+### 3.2 Semantic HTML & Screen Readers
 
-Vault Maison must consistently achieve "Good" scores across all Core Web Vitals metrics on both mobile and desktop.
+- **ARIA Attributes**: Use ARIA attributes (`aria-expanded`, `aria-hidden`, `aria-label`) correctly to describe the state of complex UI components (e.g., the MegaMenu, custom Select dropdowns).
+- **Heading Hierarchy**: Every page must have exactly one `<h1>`. Headings (`<h2>` through `<h6>`) must follow a strict, unbroken logical order.
+- **Alt Text**: Every product image must have descriptive `alt` text detailing the jewelry piece (e.g., "18k Yellow Gold Solitaire Ring with 2 Carat Round Cut Diamond"). Decorative images (e.g., abstract background textures) must use `alt=""`.
 
-*   **Largest Contentful Paint (LCP):** < 2.5 seconds. Optimize the hero image or primary product image (use `priority` in Next.js `next/image`).
-*   **First Input Delay (FID) / Interaction to Next Paint (INP):** < 100 milliseconds. Minimize main thread blocking JavaScript.
-*   **Cumulative Layout Shift (CLS):** < 0.1. Ensure all images and dynamic content areas have explicit dimensions or aspect ratios defined to prevent content jumping during load.
+---
 
-### 3.2. Optimization Strategies
+## 4. Component-Level Quality Checklists
 
-*   **Image Optimization:** Leverage Next.js `next/image` for automatic format selection (WebP/AVIF), resizing, and lazy loading.
-*   **Code Splitting:** Utilize dynamic imports (`next/dynamic`) for heavy components (e.g., the GemHub AR viewer, complex modals) that are not immediately visible on the initial page load.
-*   **Caching:** Implement aggressive caching strategies at the CDN level (Vercel Edge) and API level (Redis) for static assets and frequently accessed product data.
-*   **Third-Party Scripts:** Defer the loading of non-essential third-party scripts (analytics, marketing tags) until after the main content has loaded, or manage them via Google Tag Manager with strict firing rules.
+The following checklists apply to specific areas of the Vault Maison architecture.
 
-## 4. Pre-Deployment Checklist
+### 4.1 Product Detail Page (PDP) Checklist
 
-Before any code is merged into the `main` branch or deployed to production, the following checklist must be completed:
+The PDP is the most critical conversion engine. It must be flawless.
 
-- [ ] **Visual QA:** The UI has been reviewed across all 10 concepts on desktop, tablet, and mobile breakpoints.
-- [ ] **Functional Testing:** The critical path (browse -> add to cart -> checkout) has been tested and verified.
-- [ ] **Accessibility (a11y):** Automated accessibility audits (e.g., Lighthouse, axe) pass with a score of 90+.
-- [ ] **Performance Audit:** Lighthouse performance score is 90+ on desktop and 80+ on mobile.
-- [ ] **Security Scan:** Dependencies have been audited for known vulnerabilities (`npm audit`).
-- [ ] **Content Review:** All placeholder text (Lorem Ipsum) has been replaced with final copy.
-- [ ] **SEO Verification:** Meta tags, Open Graph data, and Schema.org JSON-LD are correctly populated.
+- [ ] **Image Gallery**: Swiping/clicking through the gallery is 60fps smooth. High-res zoom activates instantly without layout shift.
+- [ ] **Variant Selection**: Changing a variant (e.g., Metal or Size) updates the URL query parameters (for shareability) and instantly updates the price and main image without a full page reload.
+- [ ] **GemHub Integration**: The 360° viewer iframe loads lazily and does not block the main thread. It has a skeleton loader matching its exact aspect ratio.
+- [ ] **Sticky Add-to-Cart**: On mobile, the "Add to Cart" button remains sticky at the bottom of the viewport once the user scrolls past the primary button.
+- [ ] **Dynamic Pricing**: Prices format correctly based on the user's locale (e.g., `$10,500.00` vs `10.500,00 €`).
+
+### 4.2 Cart & Checkout Checklist
+
+Friction in the checkout process for a $10,000 item results in immediate abandonment.
+
+- [ ] **Cart Drawer**: Opens smoothly via CSS transforms (`translate-x`), not layout properties (`left`/`right`), to ensure 60fps animation.
+- [ ] **Input Validation**: Form fields validate *on blur* (when the user leaves the field), not *on change* (which is annoying while typing).
+- [ ] **Autofill Support**: All checkout inputs have correct autocomplete attributes (e.g., `autoComplete="shipping address-line1"`).
+- [ ] **Stripe Elements**: The Stripe iframe loads seamlessly and matches the typography and border-radius of the surrounding Vault Maison inputs.
+- [ ] **Loading States**: Clicking "Place Order" immediately disables the button and shows a clear loading spinner to prevent duplicate submissions.
+
+### 4.3 Typography & Layout Checklist
+
+- [ ] **Fluid Typography**: Font sizes scale fluidly between mobile and desktop breakpoints using `clamp()` or Tailwind's responsive prefixes, preventing awkward text wrapping.
+- [ ] **Orphan Prevention**: Headings and short paragraphs use `text-balance` or `&nbsp;` to prevent single words from wrapping to their own line.
+- [ ] **Grid Alignment**: Product grids maintain perfect alignment regardless of varying product title lengths (achieved via CSS Grid and `flex-grow` on text containers).
+
+---
+
+## 5. Animation & Motion Standards
+
+Animations in luxury design should be subtle, deliberate, and performant. "Janky" animations feel cheap.
+
+- **CSS over JS**: Prefer CSS transitions and keyframes over JavaScript animation libraries (like Framer Motion) for simple state changes (hover, focus, drawer open) to minimize bundle size.
+- **Hardware Acceleration**: Only animate properties that do not trigger layout recalculations or repaints: `transform` (translate, scale, rotate) and `opacity`.
+- **Easing Curves**: Avoid linear animations. Use custom cubic-bezier curves (e.g., `cubic-bezier(0.4, 0, 0.2, 1)`) to create natural, "ease-out" motion that feels premium.
+- **Reduced Motion**: Respect the user's OS-level accessibility settings. Wrap all animations in a `prefers-reduced-motion` media query to disable or simplify motion for users who request it.
+
+```css
+/* Example of a compliant, hardware-accelerated hover state */
+.luxury-button {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.3s ease;
+}
+.luxury-button:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luxury-button {
+    transition: none;
+    transform: none;
+  }
+}
+```
+
+---
+
+## 6. Quality Assurance (QA) Workflow
+
+Before any Pull Request is merged into the `main` branch, it must pass the following automated and manual gates:
+
+1. **Automated CI/CD (GitHub Actions)**:
+   - `npm run lint`: Zero ESLint warnings.
+   - `npm run type-check`: Zero TypeScript errors.
+   - `npm run test`: All Jest/Vitest unit tests pass.
+   - **Lighthouse CI**: Fails the build if performance drops below 90 or accessibility drops below 100.
+
+2. **Manual Device Testing**:
+   - **iOS Safari**: Tested on a physical iPhone (not just an emulator) to verify bottom-bar UI quirks and touch targets.
+   - **Android Chrome**: Tested on a mid-tier Android device to verify JavaScript execution performance.
+   - **Desktop Safari/Chrome/Firefox**: Cross-browser layout verification.
+
+3. **Peer Review**:
+   - Code review by a senior engineer focusing on React performance (unnecessary re-renders) and security (input sanitization).
+   - Visual review by a designer to ensure pixel-perfect adherence to the Figma concepts.
