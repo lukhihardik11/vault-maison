@@ -278,6 +278,41 @@ export function GalleryHome({ concept }: { concept: any }) {
         </div>
       </section>
 
+      {/* ═══ NEW ARRIVALS ═══ */}
+      <section style={{ padding: '120px 32px', borderTop: `1px solid ${G.border}` }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 80 }}>
+            <MuseumCaption align="center">Recently Acquired</MuseumCaption>
+            <h2 style={{ fontFamily: "'Libre Baskerville', serif", fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', fontWeight: 400, color: G.text, margin: '16px 0 0' }}>
+              New to the Collection
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+            {newArrivals.map((product) => (
+              <Link key={product.id} href={`/gallery/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div style={{ border: `1px solid ${G.border}`, background: G.surface, transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                  <div style={{ aspectRatio: '1/1', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F8F6F2' }}>
+                    <img src={product.images[0]} alt={product.name}
+                      style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
+                  </div>
+                  <div style={{ padding: '20px 16px' }}>
+                    <p style={{ fontFamily: "'Libre Baskerville', serif", fontSize: '0.9rem', fontWeight: 400, color: G.text, margin: '0 0 4px' }}>
+                      {product.name}
+                    </p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: G.caption, margin: '0 0 8px', letterSpacing: '0.05em' }}>
+                      {product.subtitle}
+                    </p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500, color: G.accent, margin: 0 }}>
+                      {product.priceDisplay}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ═══ SECTION 5: GUEST BOOK (newsletter) ═══ */}
       <section style={{ padding: '140px 32px', background: G.bg }}>
         <div style={{ maxWidth: 520, margin: '0 auto', textAlign: 'center' }}>
