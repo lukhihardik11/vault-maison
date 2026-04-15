@@ -183,7 +183,7 @@ export function MinimalCategory({ category }: { category?: string }) {
       </SmoothDrawer>
 
       <style>{`
-        .cat-fade { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .cat-fade { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; }
         .cat-fade.cat-vis { opacity: 1; transform: translateY(0); }
         .cat-card:hover img { transform: scale(1.05) !important; }
         .cat-card:hover { box-shadow: 0 8px 30px rgba(180,170,160,0.15); }
