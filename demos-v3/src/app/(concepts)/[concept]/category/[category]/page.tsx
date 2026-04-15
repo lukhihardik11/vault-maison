@@ -13,6 +13,7 @@ import { SalonCategory } from '@/components/concepts/salon/pages'
 import { AtelierCategory } from '@/components/concepts/atelier/pages'
 import { ArchiveCategory } from '@/components/concepts/archive/pages'
 import { ObservatoryCategory } from '@/components/concepts/observatory/pages'
+import { MarketplaceCategory } from '@/components/concepts/marketplace/pages'
 
 export default function CategoryPage() {
   const params = useParams()
@@ -29,6 +30,7 @@ export default function CategoryPage() {
   if (concept.id === 'archive') return <ArchiveCategory />
   if (concept.id === 'observatory') return <ObservatoryCategory />
   if (concept.id === 'theater') return <TheaterCategory />
+  if (concept.id === 'marketplace') return <MarketplaceCategory />
 
   const categoryProducts = getProductsByCategory(category)
   const label = categoryLabels[category] || category.replace(/-/g, ' ')

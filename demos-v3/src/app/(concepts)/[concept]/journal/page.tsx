@@ -15,6 +15,7 @@ import { SalonJournal } from '@/components/concepts/salon/pages'
 import { AtelierJournal } from '@/components/concepts/atelier/pages'
 import { ArchiveJournal } from '@/components/concepts/archive/pages'
 import { ObservatoryJournal } from '@/components/concepts/observatory/pages'
+import { MarketplaceJournal } from '@/components/concepts/marketplace/pages'
 
 const articles = [
   {
@@ -86,6 +87,7 @@ export default function JournalPage() {
   if (concept.id === 'archive') return <ArchiveJournal />
   if (concept.id === 'observatory') return <ObservatoryJournal />
   if (concept.id === 'theater') return <TheaterJournal />
+  if (concept.id === 'marketplace') return <MarketplaceJournal />
 
   return (
     <ConceptLayout concept={concept}>

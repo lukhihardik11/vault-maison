@@ -1,262 +1,302 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { type ConceptConfig } from '@/data/concepts'
-import { getBestsellers, products } from '@/data/products'
-import { ConceptLayout, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
-import { buildConceptUrl } from '@/lib/concept-utils'
-import { GlowingBorder } from '@/components/ui/glowing-border'
-
-function CountdownTimer({ concept }: { concept: ConceptConfig }) {
-  const [time, setTime] = useState({ h: 23, m: 45, s: 12 })
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime((prev) => {
-        let { h, m, s } = prev
-        s--
-        if (s < 0) { s = 59; m-- }
-        if (m < 0) { m = 59; h-- }
-        if (h < 0) { h = 23; m = 59; s = 59 }
-        return { h, m, s }
-      })
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
-
-  return (
-    <div className="flex gap-3">
-      {[
-        { label: 'Hours', value: time.h },
-        { label: 'Minutes', value: time.m },
-        { label: 'Seconds', value: time.s },
-      ].map((unit) => (
-        <div key={unit.label} className="text-center">
-          <div
-            className="text-3xl md:text-4xl font-light tabular-nums px-5 py-3"
-            style={{ backgroundColor: concept.palette.surface, color: concept.palette.accent }}
-          >
-            {String(unit.value).padStart(2, '0')}
-          </div>
-          <p className="text-[8px] uppercase tracking-[0.15em] mt-2" style={{ color: concept.palette.text, opacity: 0.4 }}>{unit.label}</p>
-        </div>
-      ))}
-    </div>
-  )
-}
+import { getBestsellers, getNewArrivals } from '@/data/products'
+import { allCategories, categoryLabels } from '@/data/concepts'
+import { MarketplaceLayout, MK, RevealSection, StaggerItem, MarketplaceSection, SectionLabel, LotDivider, UrgencyBadge } from './marketplace/MarketplaceLayout'
+import { MarketplaceButton, LotCard, CountdownTimer, StatCard } from './marketplace/ui'
+import { ArrowRight, Shield, Truck, RotateCcw, Gavel, TrendingUp, Globe, Users, Award, Bell } from 'lucide-react'
 
 export function MarketplaceHome({ concept }: { concept: ConceptConfig }) {
-  const featured = getBestsellers().slice(0, 4)
-  const trending = products.filter((p) => p.isNew).slice(0, 3)
+  const featured = getBestsellers().slice(0, 6)
+  const newArrivals = getNewArrivals().slice(0, 4)
 
   return (
-    <ConceptLayout concept={concept}>
-      {/* Auction-style hero */}
-      <section className="min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16 py-32 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div
-                className="inline-flex items-center gap-2 px-3 py-1.5 mb-8"
-                style={{ backgroundColor: concept.palette.accent }}
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                <span className={`text-[9px] uppercase tracking-[0.2em] font-medium ${concept.fonts.bodyClass}`} style={{ color: '#fff' }}>
-                  Live Auction
-                </span>
-              </div>
-              <h1
-                className={`text-4xl md:text-5xl lg:text-[3.5rem] font-light tracking-[0.02em] leading-[1.1] mb-6 ${concept.fonts.headingClass}`}
-                style={{ color: concept.palette.text }}
-              >
-                The Jewelry<br />
-                <span style={{ color: concept.palette.accent }}>Marketplace</span>
-              </h1>
-              <p
-                className={`text-sm font-light mb-10 leading-relaxed max-w-md ${concept.fonts.bodyClass}`}
-                style={{ color: concept.palette.text, opacity: 0.5 }}
-              >
-                Exclusive access to rare and exceptional jewelry. Bid on one-of-a-kind pieces,
-                explore curated lots, and acquire extraordinary items at market-driven prices.
-              </p>
-              <div className="mb-10">
-                <p className={`text-[10px] uppercase tracking-[0.2em] mb-4 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.text, opacity: 0.4 }}>
-                  Current Auction Ends In
-                </p>
-                <CountdownTimer concept={concept} />
-              </div>
-              <div className="flex gap-4">
-                <Link
-                  href={buildConceptUrl('marketplace', 'collections')}
-                  className="inline-block px-10 py-4 text-[10px] uppercase tracking-[0.2em] transition-all duration-300 hover:opacity-80"
-                  style={{ backgroundColor: concept.palette.accent, color: '#fff' }}
-                >
-                  Browse Lots
-                </Link>
-                <Link
-                  href={buildConceptUrl('marketplace', 'account')}
-                  className="inline-block px-10 py-4 text-[10px] uppercase tracking-[0.2em] border transition-opacity hover:opacity-80"
-                  style={{ borderColor: concept.palette.muted, color: concept.palette.text }}
-                >
-                  Register to Bid
-                </Link>
-              </div>
-            </div>
+    <MarketplaceLayout>
+      {/* ═══ SECTION 1: HERO ═══ */}
+      <section style={{
+        position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center',
+        background: `linear-gradient(135deg, ${MK.bg} 0%, ${MK.bgAlt} 50%, ${MK.bg} 100%)`,
+        overflow: 'hidden',
+      }}>
+        <div style={{ position: 'absolute', inset: 0 }}>
+          <Image src="/images/marketplace/dark-luxury.jpg" alt="Marketplace" fill style={{ objectFit: 'cover', opacity: 0.15 }} priority />
+          <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 30% 40%, ${MK.glow} 0%, transparent 50%)` }} />
+        </div>
 
-            {/* Featured lot with glowing border */}
-            <div>
-              {featured[0] && (
-                <Link href={buildConceptUrl('marketplace', `product/${featured[0].slug}`)} className="group block">
-                  <GlowingBorder glowColor={concept.palette.accent}>
-                    <div className="relative overflow-hidden" style={{ aspectRatio: '1/1' }}>
-                      <Image
-                        src={featured[0].images[0]}
-                        alt={featured[0].name}
-                        fill
-                        className="object-cover transition-transform group-hover:scale-105"
-                        style={{ transitionDuration: '800ms' }}
-                        sizes="50vw"
-                      />
-                      <div
-                        className="absolute top-4 left-4 px-3 py-1.5 flex items-center gap-2"
-                        style={{ backgroundColor: '#dc2626' }}
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                        <span className="text-[9px] uppercase tracking-[0.15em] text-white font-medium">Live</span>
-                      </div>
-                    </div>
-                  </GlowingBorder>
-                  <div className="mt-5 flex items-center justify-between">
-                    <div>
-                      <h3 className={`text-lg font-light ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
-                        {featured[0].name}
-                      </h3>
-                      <p className="text-xs mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>Lot #{featured[0].id}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[9px] uppercase tracking-[0.15em]" style={{ color: concept.palette.text, opacity: 0.4 }}>Current Bid</p>
-                      <p className="text-xl font-light" style={{ color: concept.palette.accent }}>
-                        {featured[0].priceDisplay}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              )}
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 1280, margin: '0 auto', padding: '0 32px', width: '100%' }}>
+          <div style={{ maxWidth: 640 }}>
+            <div className="marketplace-hero-fade-1" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
+              <SectionLabel label="The Marketplace of Rarity" />
+              <UrgencyBadge text="Live Auction" />
+            </div>
+            <h1 className="marketplace-hero-fade-1" style={{
+              fontFamily: "'DM Sans', sans-serif", fontSize: '3.5rem', fontWeight: 800,
+              color: MK.text, margin: '0 0 20px', lineHeight: 1.1, letterSpacing: '-0.02em',
+            }}>
+              Where Rarity<br />Finds Its Next<br />Custodian
+            </h1>
+            <p className="marketplace-hero-fade-2" style={{
+              fontFamily: "'DM Sans', sans-serif", fontSize: '1rem',
+              color: MK.textSecondary, lineHeight: 1.7, marginBottom: 32, maxWidth: 480,
+            }}>
+              The premier marketplace for authenticated, exceptional jewelry. Bid with confidence. Collect with passion. Every piece verified, every transaction protected.
+            </p>
+            <div className="marketplace-hero-fade-3" style={{ display: 'flex', gap: 12 }}>
+              <MarketplaceButton href="/marketplace/collections" size="lg">
+                <Gavel size={14} /> Browse Current Lots
+              </MarketplaceButton>
+              <MarketplaceButton href="/marketplace/bespoke" variant="secondary" size="lg">
+                Consign a Piece
+              </MarketplaceButton>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Market stats */}
-      <section className="py-12" style={{ backgroundColor: concept.palette.surface }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            {[
-              { value: '2,450', label: 'Active Lots' },
-              { value: '18%', label: 'Average Savings' },
-              { value: '12,000+', label: 'Registered Bidders' },
-              { value: '340', label: 'Lots Sold This Week' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className={`text-2xl lg:text-3xl font-light ${concept.fonts.headingClass}`} style={{ color: concept.palette.accent }}>
-                  {stat.value}
-                </p>
-                <p className={`text-[10px] uppercase tracking-[0.15em] mt-1 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.text, opacity: 0.4 }}>
-                  {stat.label}
-                </p>
-              </div>
-            ))}
+      {/* ═══ SECTION 2: LIVE AUCTION BANNER ═══ */}
+      <section style={{ background: MK.surface, borderBottom: `1px solid ${MK.border}`, padding: '28px 0' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: MK.success, animation: 'marketplace-pulse 2s infinite' }} />
+              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: MK.success }}>LIVE</span>
+            </div>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', fontWeight: 600, color: MK.text }}>Rare Colored Diamonds — 42 lots</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+            <CountdownTimer days={2} hours={14} minutes={32} seconds={17} />
+            <MarketplaceButton href="/marketplace/craftsmanship" size="sm"><Gavel size={12} /> Join Auction</MarketplaceButton>
           </div>
         </div>
       </section>
 
-      {/* Active lots grid */}
-      <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <div className="flex items-center justify-between mb-14">
+      {/* ═══ SECTION 3: STATS ═══ */}
+      <MarketplaceSection>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+            <StatCard value="$2.4B" label="Total Sales Volume" icon={<TrendingUp size={20} />} trend="+18% YoY" />
+            <StatCard value="47K+" label="Registered Collectors" icon={<Users size={20} />} trend="+2.4K this month" />
+            <StatCard value="99.8%" label="Authentication Rate" icon={<Shield size={20} />} />
+            <StatCard value="142" label="Countries Served" icon={<Globe size={20} />} />
+          </div>
+        </RevealSection>
+      </MarketplaceSection>
+
+      {/* ═══ SECTION 4: FEATURED LOTS ═══ */}
+      <MarketplaceSection alt>
+        <RevealSection>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
             <div>
-              <p className={`text-[10px] uppercase tracking-[0.25em] mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
-                Active Lots
-              </p>
-              <h2 className={`text-2xl font-light tracking-[0.04em] ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
-                Open for Bidding
+              <SectionLabel label="Featured Lots" style={{ marginBottom: 12 }} />
+              <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.8rem', fontWeight: 700, color: MK.text, margin: 0 }}>
+                Trending Now
               </h2>
             </div>
-            <Link
-              href={buildConceptUrl('marketplace', 'collections')}
-              className="text-[10px] uppercase tracking-[0.15em] transition-opacity hover:opacity-60"
-              style={{ color: concept.palette.accent }}
-            >
-              View All Lots →
-            </Link>
+            <MarketplaceButton href="/marketplace/collections" variant="ghost" size="sm">
+              View All <ArrowRight size={12} />
+            </MarketplaceButton>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featured.map((p, i) => (
-              <Link key={p.id} href={buildConceptUrl('marketplace', `product/${p.slug}`)} className="group block">
-                <div className="relative overflow-hidden mb-3" style={{ aspectRatio: '1/1' }}>
-                  <Image
-                    src={p.images[0]}
-                    alt={p.name}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                    style={{ transitionDuration: '800ms' }}
-                    sizes="25vw"
-                  />
-                  <div
-                    className="absolute bottom-3 right-3 px-2 py-1 text-[8px] uppercase tracking-[0.1em]"
-                    style={{ backgroundColor: concept.palette.accent, color: '#fff' }}
-                  >
-                    {3 + i * 2} bids
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+          {featured.map((product, i) => (
+            <StaggerItem key={product.slug} index={i}>
+              <LotCard
+                image={product.images[0]}
+                title={product.name}
+                subtitle={product.subtitle}
+                price={product.price}
+                href={`/marketplace/product/${product.slug}`}
+                lotNumber={String(100 + i)}
+                bids={Math.floor(Math.random() * 20) + 5}
+                endingSoon={i < 2}
+              />
+            </StaggerItem>
+          ))}
+        </div>
+      </MarketplaceSection>
+
+      {/* ═══ SECTION 5: AUTHENTICATION SPLIT ═══ */}
+      <MarketplaceSection>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <div>
+              <SectionLabel label="Trust & Verification" style={{ marginBottom: 20 }} />
+              <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '2rem', fontWeight: 700, color: MK.text, margin: '0 0 16px', lineHeight: 1.2 }}>
+                47-Point Authentication
+              </h2>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: MK.textSecondary, lineHeight: 1.8, marginBottom: 24 }}>
+                Every piece that enters our marketplace undergoes the most rigorous authentication process in the industry. Our team of GIA-certified gemologists, provenance researchers, and materials scientists ensure absolute confidence in every acquisition.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 28 }}>
+                {[
+                  { val: '47', label: 'Verification Points' },
+                  { val: '99.8%', label: 'Accuracy Rate' },
+                  { val: '24hr', label: 'Turnaround' },
+                ].map((stat, i) => (
+                  <div key={i} style={{ borderLeft: `2px solid ${MK.accent}40`, paddingLeft: 12 }}>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.3rem', fontWeight: 700, color: MK.accent }}>{stat.val}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.55rem', fontWeight: 500, color: MK.textSecondary, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              <MarketplaceButton href="/marketplace/grading" variant="secondary">
+                Learn More <ArrowRight size={12} />
+              </MarketplaceButton>
+            </div>
+            <div style={{ position: 'relative', height: 480, borderRadius: 4, overflow: 'hidden' }}>
+              <Image src="/images/marketplace/rare-emerald.jpg" alt="Authentication" fill style={{ objectFit: 'cover' }} />
+            </div>
+          </div>
+        </RevealSection>
+      </MarketplaceSection>
+
+      {/* ═══ SECTION 6: CATEGORIES ═══ */}
+      <MarketplaceSection alt>
+        <RevealSection>
+          <div style={{ textAlign: 'center', marginBottom: 36 }}>
+            <SectionLabel label="Browse" style={{ marginBottom: 12, justifyContent: 'center' }} />
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.8rem', fontWeight: 700, color: MK.text }}>
+              Shop by Category
+            </h2>
+          </div>
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12 }}>
+          {allCategories.map((cat, i) => (
+            <StaggerItem key={cat} index={i % 5}>
+              <Link href={`/marketplace/category/${cat}`} style={{ textDecoration: 'none' }}>
+                <div className="marketplace-card-hover" style={{
+                  background: MK.card, border: `1px solid ${MK.border}`, borderRadius: 4,
+                  padding: 16, textAlign: 'center', cursor: 'pointer',
+                }}>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.8rem', fontWeight: 600, color: MK.text }}>
+                    {categoryLabels[cat]}
                   </div>
                 </div>
-                <p className="text-[9px] uppercase tracking-[0.1em] mb-1" style={{ color: concept.palette.text, opacity: 0.4 }}>
-                  Lot #{p.id}
-                </p>
-                <h3 className="text-xs font-light mb-1" style={{ color: concept.palette.text }}>{p.name}</h3>
-                <p className="text-sm" style={{ color: concept.palette.accent }}>{p.priceDisplay}</p>
               </Link>
+            </StaggerItem>
+          ))}
+        </div>
+      </MarketplaceSection>
+
+      {/* ═══ SECTION 7: NEW ARRIVALS ═══ */}
+      <MarketplaceSection>
+        <RevealSection>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
+            <div>
+              <SectionLabel label="Just Listed" style={{ marginBottom: 12 }} />
+              <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.8rem', fontWeight: 700, color: MK.text, margin: 0 }}>
+                New Arrivals
+              </h2>
+            </div>
+          </div>
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+          {newArrivals.map((product, i) => (
+            <StaggerItem key={product.slug} index={i}>
+              <Link href={`/marketplace/product/${product.slug}`} style={{ textDecoration: 'none' }}>
+                <div className="marketplace-card-hover" style={{ background: MK.card, border: `1px solid ${MK.border}`, borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', height: 200 }}>
+                    <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: 'cover' }} />
+                    <div style={{ position: 'absolute', top: 8, right: 8, background: `${MK.accent}e0`, padding: '3px 8px', borderRadius: 2 }}>
+                      <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.5rem', fontWeight: 700, color: MK.text, letterSpacing: '0.08em', textTransform: 'uppercase' }}>NEW</span>
+                    </div>
+                  </div>
+                  <div style={{ padding: 14 }}>
+                    <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', fontWeight: 600, color: MK.text, margin: '0 0 4px' }}>{product.name}</h3>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1rem', fontWeight: 700, color: MK.accent }}>${product.price.toLocaleString()}</div>
+                  </div>
+                </div>
+              </Link>
+            </StaggerItem>
+          ))}
+        </div>
+      </MarketplaceSection>
+
+      {/* ═══ SECTION 8: CONSIGNMENT CTA ═══ */}
+      <MarketplaceSection alt>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <div style={{ position: 'relative', height: 400, borderRadius: 4, overflow: 'hidden' }}>
+              <Image src="/images/marketplace/heritage-piece.jpg" alt="Consignment" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div>
+              <SectionLabel label="Sell With Us" style={{ marginBottom: 20 }} />
+              <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '2rem', fontWeight: 700, color: MK.text, margin: '0 0 16px' }}>
+                Consign Your Pieces
+              </h2>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: MK.textSecondary, lineHeight: 1.8, marginBottom: 24 }}>
+                Reach 47,000+ verified collectors worldwide. Our expert team handles authentication, photography, cataloging, and secure delivery — so you can focus on what matters.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, marginBottom: 24 }}>
+                {[
+                  { val: '10%', label: 'Starting Commission' },
+                  { val: '7 Days', label: 'Payment After Sale' },
+                ].map((stat, i) => (
+                  <div key={i} style={{ background: MK.card, border: `1px solid ${MK.border}`, borderRadius: 4, padding: 14 }}>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '1.2rem', fontWeight: 700, color: MK.accent }}>{stat.val}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.6rem', color: MK.textSecondary }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              <MarketplaceButton href="/marketplace/bespoke">
+                Start Consignment <ArrowRight size={12} />
+              </MarketplaceButton>
+            </div>
+          </div>
+        </RevealSection>
+      </MarketplaceSection>
+
+      {/* ═══ SECTION 9: GUARANTEES ═══ */}
+      <MarketplaceSection>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+            {[
+              { icon: <Shield size={24} />, title: 'Authenticated', desc: 'Every piece verified through our 47-point process with GIA/AGS certification.' },
+              { icon: <Truck size={24} />, title: 'Insured Delivery', desc: 'Fully insured, GPS-tracked shipping with signature requirement worldwide.' },
+              { icon: <RotateCcw size={24} />, title: 'Buyer Protection', desc: 'Full refund if item differs materially from description. 14-day guarantee.' },
+              { icon: <Award size={24} />, title: 'Expert Support', desc: 'Dedicated specialists available 7 days a week for acquisition guidance.' },
+            ].map((item, i) => (
+              <StaggerItem key={i} index={i}>
+                <div style={{ textAlign: 'center', padding: 20 }}>
+                  <div style={{ color: MK.accent, marginBottom: 12, display: 'flex', justifyContent: 'center' }}>{item.icon}</div>
+                  <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.9rem', fontWeight: 600, color: MK.text, margin: '0 0 6px' }}>{item.title}</h3>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.7rem', color: MK.textSecondary, lineHeight: 1.6, margin: 0 }}>{item.desc}</p>
+                </div>
+              </StaggerItem>
             ))}
           </div>
-        </div>
+        </RevealSection>
+      </MarketplaceSection>
+
+      {/* ═══ SECTION 10: CTA ═══ */}
+      <section style={{
+        position: 'relative', padding: '80px 0',
+        background: `linear-gradient(rgba(13,17,23,0.9), rgba(13,17,23,0.95)), url('/images/marketplace/vault-door.jpg') center/cover`,
+        textAlign: 'center',
+      }}>
+        <RevealSection>
+          <div style={{ maxWidth: 560, margin: '0 auto', padding: '0 32px' }}>
+            <Bell size={24} color={MK.accent} style={{ margin: '0 auto 12px' }} />
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '2rem', fontWeight: 700, color: MK.text, margin: '0 0 12px' }}>
+              Never Miss a Rare Find
+            </h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.85rem', color: MK.textSecondary, lineHeight: 1.7, marginBottom: 28 }}>
+              Register for auction alerts and be the first to know when exceptional pieces become available.
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+              <MarketplaceButton href="/marketplace/account" size="lg">
+                Create Account
+              </MarketplaceButton>
+              <MarketplaceButton href="/marketplace/contact" variant="secondary" size="lg">
+                Contact Specialists
+              </MarketplaceButton>
+            </div>
+          </div>
+        </RevealSection>
       </section>
-
-      <SplitSection
-        concept={concept}
-        title="Transparent Pricing"
-        description="The Marketplace brings transparency to the jewelry market. Every lot starts at a fair opening price based on independent appraisal. Bidding is open and competitive, ensuring you pay exactly what the market determines — no markups, no mystery."
-        image="/images/gold-diamond-jewelry.jpg"
-        ctaLabel="How Bidding Works"
-        ctaHref={buildConceptUrl('marketplace', 'faq')}
-      />
-
-      <div className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p className={`text-[10px] tracking-[0.3em] uppercase mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
-            Explore
-          </p>
-          <h2 className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`} style={{ color: concept.palette.text }}>
-            Browse Categories
-          </h2>
-          <CategoryGrid concept={concept} />
-        </div>
-      </div>
-
-      <Testimonial
-        concept={concept}
-        quote="The Marketplace model is brilliant. I acquired a stunning 2-carat diamond ring at 15% below retail. The transparency and competitive bidding give me confidence in every purchase."
-        author="Richard Tan"
-        title="Jewelry Investor, Singapore"
-      />
-
-      <CTABanner
-        concept={concept}
-        title="Register for the Next Auction"
-        description="Get early access to upcoming lots and exclusive previews."
-        ctaLabel="Create Account"
-        ctaHref={buildConceptUrl('marketplace', 'account')}
-      />
-    </ConceptLayout>
+    </MarketplaceLayout>
   )
 }

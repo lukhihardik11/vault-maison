@@ -12,6 +12,7 @@ import { SalonProductDetail } from '@/components/concepts/salon/pages'
 import { AtelierProductDetail } from '@/components/concepts/atelier/pages'
 import { ArchiveProductDetail } from '@/components/concepts/archive/pages'
 import { ObservatoryProductDetail } from '@/components/concepts/observatory/pages'
+import { MarketplaceProductDetail } from '@/components/concepts/marketplace/pages'
 
 export default function ProductPage() {
   const params = useParams()
@@ -28,6 +29,7 @@ export default function ProductPage() {
   if (concept.id === 'archive') return <ArchiveProductDetail />
   if (concept.id === 'observatory') return <ObservatoryProductDetail />
   if (concept.id === 'theater') return <TheaterProductDetail />
+  if (concept.id === 'marketplace') return <MarketplaceProductDetail />
 
   return (
     <ConceptLayout concept={concept}>

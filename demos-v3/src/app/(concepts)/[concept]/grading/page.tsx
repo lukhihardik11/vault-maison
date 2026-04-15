@@ -11,6 +11,7 @@ import { SalonGrading } from '@/components/concepts/salon/pages'
 import { AtelierGrading } from '@/components/concepts/atelier/pages'
 import { ArchiveGrading } from '@/components/concepts/archive/pages'
 import { ObservatoryGrading } from '@/components/concepts/observatory/pages'
+import { MarketplaceGrading } from '@/components/concepts/marketplace/pages'
 
 export default function GradingPage() {
   const params = useParams()
@@ -25,6 +26,7 @@ export default function GradingPage() {
   if (concept.id === 'archive') return <ArchiveGrading />
   if (concept.id === 'observatory') return <ObservatoryGrading />
   if (concept.id === 'theater') return <TheaterGrading />
+  if (concept.id === 'marketplace') return <MarketplaceGrading />
   return (
     <InfoPage
       concept={concept}
