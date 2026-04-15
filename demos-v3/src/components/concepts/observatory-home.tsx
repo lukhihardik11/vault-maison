@@ -4,251 +4,325 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { type ConceptConfig } from '@/data/concepts'
-import { getBestsellers, products } from '@/data/products'
-import { ConceptLayout, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
-import { buildConceptUrl } from '@/lib/concept-utils'
-import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid'
-import { Spotlight } from '@/components/ui/spotlight-new'
-
-function DataTicker({ items }: { items: { label: string; value: string }[] }) {
-  const [idx, setIdx] = useState(0)
-  useEffect(() => {
-    const interval = setInterval(() => setIdx((i) => (i + 1) % items.length), 3000)
-    return () => clearInterval(interval)
-  }, [items.length])
-
-  return (
-    <div className="font-ibm-plex text-[10px] tracking-[0.15em] uppercase" style={{ opacity: 0.6 }}>
-      <span>{items[idx].label}: {items[idx].value}</span>
-    </div>
-  )
-}
+import { getBestsellers, getNewArrivals, products } from '@/data/products'
+import { allCategories, categoryLabels } from '@/data/concepts'
+import { ObservatoryLayout, OB, RevealSection, StaggerItem, ObservatorySection, ScanLine, CyanRule } from './observatory/ObservatoryLayout'
+import { ObservatoryButton, GemDataCard, DataTicker, SpectrumChart, PrecisionMeter, CertificationBadge } from './observatory/ui'
+import { Crosshair, ArrowRight, Shield, Truck, RotateCcw, Diamond, BarChart3, Eye, Microscope, Zap } from 'lucide-react'
 
 export function ObservatoryHome({ concept }: { concept: ConceptConfig }) {
   const featured = getBestsellers().slice(0, 6)
+  const newArrivals = getNewArrivals().slice(0, 4)
+
+  const tickerData = [
+    { label: 'Market Cap', value: '$2.4B' },
+    { label: 'Stones Analyzed', value: '12,847' },
+    { label: 'Avg. Cut Grade', value: 'Excellent' },
+    { label: 'Certification Rate', value: '99.7%' },
+    { label: 'Active Collectors', value: '3,200+' },
+  ]
 
   return (
-    <ConceptLayout concept={concept}>
-      {/* Hero with data overlay and Spotlight */}
-      <section className="relative min-h-screen flex items-center" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="absolute inset-0">
-          <Image
-            src="/images/diamond-display.jpg"
-            alt="Diamond observatory display"
-            fill
-            className="object-cover"
-            style={{ opacity: 0.15 }}
-            priority
-          />
+    <ObservatoryLayout>
+      {/* ═══ SECTION 1: HERO ═══ */}
+      <section style={{
+        position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center',
+        background: `linear-gradient(135deg, ${OB.bg} 0%, ${OB.bgAlt} 50%, ${OB.bg} 100%)`,
+        overflow: 'hidden',
+      }}>
+        <div style={{ position: 'absolute', inset: 0 }}>
+          <Image src="/images/observatory/starfield.jpg" alt="Starfield" fill style={{ objectFit: 'cover', opacity: 0.15 }} priority />
+          <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 30% 50%, ${OB.glow} 0%, transparent 60%)` }} />
         </div>
 
-        <Spotlight
-          gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(187, 100%, 50%, .08) 0, hsla(187, 100%, 50%, .02) 50%, transparent 80%)"
-          gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(187, 100%, 50%, .05) 0, transparent 80%)"
-          gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(187, 100%, 50%, .03) 0, transparent 80%)"
-          duration={7}
-        />
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 1280, margin: '0 auto', padding: '0 32px', width: '100%' }}>
+          <div style={{ maxWidth: 700 }}>
+            <div className="observatory-hero-fade" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
+              <Crosshair size={16} color={OB.accent} />
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: OB.accent }}>
+                PRECISION GEMOLOGY
+              </span>
+            </div>
+            <h1 className="observatory-hero-fade-delay-1" style={{
+              fontFamily: "'Space Grotesk', sans-serif", fontSize: '4rem', fontWeight: 700,
+              color: OB.text, margin: '0 0 24px', lineHeight: 1.1,
+              background: `linear-gradient(135deg, ${OB.text} 0%, ${OB.accent} 100%)`,
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            }}>
+              Observe.<br />Analyze.<br />Acquire.
+            </h1>
+            <p className="observatory-hero-fade-delay-2" style={{
+              fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.9rem',
+              color: OB.textSecondary, lineHeight: 1.8, marginBottom: 32, maxWidth: 500,
+            }}>
+              Every gemstone in our collection has been subjected to rigorous 47-point spectroscopic analysis. Data-driven curation for the discerning collector.
+            </p>
+            <div className="observatory-hero-fade-delay-3" style={{ display: 'flex', gap: 16 }}>
+              <ObservatoryButton href="/observatory/collections" size="lg">
+                Explore Collection <ArrowRight size={14} />
+              </ObservatoryButton>
+              <ObservatoryButton href="/observatory/grading" variant="secondary" size="lg">
+                View Analysis
+              </ObservatoryButton>
+            </div>
+          </div>
+        </div>
 
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: 0.03,
-            backgroundImage: `linear-gradient(${concept.palette.accent}40 1px, transparent 1px), linear-gradient(90deg, ${concept.palette.accent}40 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
+        <div style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', textAlign: 'center' }}>
+          <div className="observatory-pulse" style={{ width: 1, height: 40, background: `linear-gradient(${OB.accent}, transparent)`, margin: '0 auto 8px' }} />
+          <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.5rem', letterSpacing: '0.2em', color: OB.textSecondary }}>SCROLL TO EXPLORE</span>
+        </div>
+      </section>
 
-        <div className="relative z-10 mx-auto max-w-[1440px] px-8 lg:px-16 py-32 w-full">
-          <p className="font-ibm-plex text-[10px] tracking-[0.35em] uppercase mb-8" style={{ color: concept.palette.accent }}>
-            Observatory // Data-Driven Luxury
-          </p>
-          <h1
-            className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[0.02em] leading-[1.1] mb-8 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            Every Jewel<br />Has a Story<br />
-            <span style={{ color: concept.palette.accent }}>in Data</span>
-          </h1>
-          <p
-            className="font-ibm-plex text-xs max-w-md mb-12 leading-relaxed"
-            style={{ color: concept.palette.text, opacity: 0.5 }}
-          >
-            We believe in radical transparency. Every piece in our collection is documented,
-            measured, and analyzed with scientific precision. No mystery, no ambiguity — just data.
-          </p>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            {[
-              { label: 'Pieces in Collection', value: products.length.toString() },
-              { label: 'Total Carats Curated', value: '2,450+' },
-              { label: 'Countries Sourced', value: '12' },
-              { label: 'Master Gemologists', value: '8' },
-            ].map((stat) => (
-              <div key={stat.label} className="p-4" style={{ borderLeft: `2px solid ${concept.palette.accent}33` }}>
-                <p className="font-ibm-plex text-2xl font-light" style={{ color: concept.palette.accent }}>
-                  {stat.value}
-                </p>
-                <p className="font-ibm-plex text-[9px] uppercase tracking-[0.15em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>
-                  {stat.label}
-                </p>
+      {/* ═══ SECTION 2: DATA TICKER BAR ═══ */}
+      <section style={{ background: OB.surface, borderTop: `1px solid ${OB.border}`, borderBottom: `1px solid ${OB.border}`, padding: '16px 0' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 32 }}>
+            {tickerData.slice(0, 4).map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: OB.success }} />
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.55rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: OB.textSecondary }}>{item.label}:</span>
+                <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.8rem', color: OB.accent, fontWeight: 500 }}>{item.value}</span>
               </div>
             ))}
           </div>
-
-          <Link
-            href={buildConceptUrl('observatory', 'collections')}
-            className="inline-block font-ibm-plex px-10 py-4 text-[10px] uppercase tracking-[0.2em] border transition-all duration-300 hover:bg-[#00E5FF] hover:text-[#0D1B2A]"
-            style={{ borderColor: concept.palette.accent, color: concept.palette.accent }}
-          >
-            Explore Dataset →
-          </Link>
+          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.5rem', color: OB.textSecondary }}>LIVE DATA</div>
         </div>
       </section>
 
-      {/* Bento Grid data dashboard */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.surface }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p className="font-ibm-plex text-[10px] tracking-[0.3em] uppercase mb-3" style={{ color: concept.palette.accent, opacity: 0.5 }}>
-            Analytics
-          </p>
-          <h2
-            className={`text-2xl font-light tracking-[0.04em] mb-10 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            Collection Dashboard
-          </h2>
-          <BentoGrid className="lg:grid-cols-4 gap-4">
-            <BentoGridItem
-              className="col-span-2"
-              title="Average Metrics"
-              header={
-                <div className="grid grid-cols-3 gap-4 p-4">
-                  {[
-                    { label: 'Avg. Carat', value: '1.42ct' },
-                    { label: 'Clarity', value: 'VVS1-IF' },
-                    { label: 'Color', value: 'D-F' },
-                  ].map((m) => (
-                    <div key={m.label}>
-                      <p className="text-xl font-light" style={{ color: concept.palette.accent }}>{m.value}</p>
-                      <p className="font-ibm-plex text-[8px] uppercase tracking-[0.1em] mt-1" style={{ color: concept.palette.text, opacity: 0.4 }}>{m.label}</p>
-                    </div>
-                  ))}
-                </div>
-              }
-            />
-            <BentoGridItem
-              title="Certification"
-              description="GIA Certified"
-              header={<div className="p-4"><p className="text-3xl font-light" style={{ color: concept.palette.accent }}>100%</p></div>}
-            />
-            <BentoGridItem
-              title="Ethical Score"
-              description="Sustainability Rating"
-              header={<div className="p-4"><p className="text-3xl font-light" style={{ color: concept.palette.accent }}>98/100</p></div>}
-            />
-          </BentoGrid>
-        </div>
-      </section>
-
-      {/* Featured with data cards */}
-      <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <div className="flex items-center justify-between mb-14">
+      {/* ═══ SECTION 3: FEATURED ANALYSIS ═══ */}
+      <ObservatorySection>
+        <RevealSection>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40 }}>
             <div>
-              <p className="font-ibm-plex text-[10px] tracking-[0.25em] uppercase mb-3" style={{ color: concept.palette.accent, opacity: 0.5 }}>
-                Collection Analysis
-              </p>
-              <h2
-                className={`text-2xl font-light tracking-[0.04em] ${concept.fonts.headingClass}`}
-                style={{ color: concept.palette.text }}
-              >
-                Top Performing Specimens
+              <ScanLine label="Featured Pieces" style={{ marginBottom: 16, maxWidth: 300 }} />
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '2rem', fontWeight: 600, color: OB.text, margin: 0 }}>
+                Verified Collection
               </h2>
             </div>
-            <DataTicker
-              items={[
-                { label: 'Avg. Carat', value: '1.42ct' },
-                { label: 'Clarity Range', value: 'VVS1-IF' },
-                { label: 'Color Range', value: 'D-F' },
-              ]}
-            />
+            <ObservatoryButton href="/observatory/collections" variant="ghost" size="sm">
+              View All <ArrowRight size={12} />
+            </ObservatoryButton>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-            {featured.map((p) => (
-              <Link key={p.id} href={buildConceptUrl('observatory', `product/${p.slug}`)} className="group block">
-                <div className="relative overflow-hidden mb-3" style={{ aspectRatio: '1/1' }}>
-                  <Image
-                    src={p.images[0]}
-                    alt={p.name}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                    style={{ transitionDuration: '800ms' }}
-                    sizes="(max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div
-                    className="absolute top-3 left-3 font-ibm-plex text-[9px] tracking-[0.1em] px-2 py-1"
-                    style={{ backgroundColor: concept.palette.accent, color: concept.palette.bg }}
-                  >
-                    {p.id.slice(0, 8).toUpperCase()}
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          {featured.map((product, i) => (
+            <StaggerItem key={product.slug} index={i}>
+              <GemDataCard
+                image={product.images[0]}
+                title={product.name}
+                subtitle={product.subtitle}
+                badge="Verified"
+                href={`/observatory/product/${product.slug}`}
+                metrics={[
+                  { label: 'Cut', value: 'Excellent' },
+                  { label: 'Clarity', value: 'VS1' },
+                  { label: 'Price', value: `$${(product.price / 1000).toFixed(1)}K` },
+                ]}
+              />
+            </StaggerItem>
+          ))}
+        </div>
+      </ObservatorySection>
+
+      {/* ═══ SECTION 4: ANALYSIS SHOWCASE ═══ */}
+      <ObservatorySection alt>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <div>
+              <ScanLine label="Our Methodology" style={{ marginBottom: 24 }} />
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '2.2rem', fontWeight: 600, color: OB.text, margin: '0 0 20px', lineHeight: 1.2 }}>
+                47-Point Spectroscopic Analysis
+              </h2>
+              <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.8rem', color: OB.textSecondary, lineHeight: 1.8, marginBottom: 24 }}>
+                Every stone in our collection undergoes the most comprehensive analysis in the industry. From Raman spectroscopy to advanced photoluminescence testing, we leave nothing to chance.
+              </p>
+              <div style={{ display: 'flex', gap: 32, marginBottom: 32 }}>
+                <PrecisionMeter label="Accuracy" value={99.7} unit="%" size="md" />
+                <PrecisionMeter label="Precision" value={99.9} unit="%" size="md" />
+                <PrecisionMeter label="Coverage" value={100} unit="%" size="md" />
+              </div>
+              <ObservatoryButton href="/observatory/grading" variant="secondary">
+                <BarChart3 size={14} /> Learn About Our Grading
+              </ObservatoryButton>
+            </div>
+            <div style={{ position: 'relative', height: 500, overflow: 'hidden' }}>
+              <Image src="/images/observatory/lab-microscope.jpg" alt="Gemological analysis" fill style={{ objectFit: 'cover' }} />
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px 20px', background: 'linear-gradient(transparent, rgba(10,14,26,0.95))' }}>
+                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.55rem', letterSpacing: '0.1em', color: OB.accent }}>
+                  OBSERVATORY GEMOLOGICAL LAB — NEW YORK
+                </div>
+              </div>
+            </div>
+          </div>
+        </RevealSection>
+      </ObservatorySection>
+
+      {/* ═══ SECTION 5: CATEGORIES ═══ */}
+      <ObservatorySection>
+        <RevealSection>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <ScanLine label="Browse by Category" style={{ marginBottom: 16 }} />
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '2rem', fontWeight: 600, color: OB.text }}>
+              Curated Categories
+            </h2>
+          </div>
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
+          {allCategories.map((cat, i) => (
+            <StaggerItem key={cat} index={i % 5}>
+              <Link href={`/observatory/category/${cat}`} style={{ textDecoration: 'none' }}>
+                <div className="observatory-card-hover" style={{
+                  background: OB.card, border: `1px solid ${OB.border}`,
+                  padding: 20, textAlign: 'center', cursor: 'pointer',
+                }}>
+                  <Diamond size={20} color={OB.accent} style={{ margin: '0 auto 12px' }} />
+                  <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.8rem', color: OB.text, fontWeight: 500 }}>
+                    {categoryLabels[cat]}
                   </div>
                 </div>
-                <div className="p-3">
-                  <h3 className="text-xs font-light mb-1" style={{ color: concept.palette.text }}>{p.name}</h3>
-                  {p.diamondSpecs && (
-                    <p className="font-ibm-plex text-[9px] mb-1" style={{ color: concept.palette.text, opacity: 0.4 }}>
-                      {p.diamondSpecs.carat}ct &middot; {p.diamondSpecs.clarity} &middot; {p.diamondSpecs.color}
-                    </p>
-                  )}
-                  <p className="font-ibm-plex text-xs" style={{ color: concept.palette.accent }}>
-                    {p.priceDisplay}
-                  </p>
+              </Link>
+            </StaggerItem>
+          ))}
+        </div>
+      </ObservatorySection>
+
+      {/* ═══ SECTION 6: SPLIT — CRAFTSMANSHIP ═══ */}
+      <ObservatorySection alt>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <div style={{ position: 'relative', height: 450, overflow: 'hidden' }}>
+              <Image src="/images/observatory/precision-tools.jpg" alt="Precision craftsmanship" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div>
+              <ScanLine label="Craftsmanship" style={{ marginBottom: 24 }} />
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '2rem', fontWeight: 600, color: OB.text, margin: '0 0 16px' }}>
+                Where Data Meets Artistry
+              </h2>
+              <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.8rem', color: OB.textSecondary, lineHeight: 1.8, marginBottom: 24 }}>
+                Our master artisans work alongside data scientists, using precision measurements to guide every cut, every setting, every finish. The result is jewelry that is both scientifically optimized and breathtakingly beautiful.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>
+                {[
+                  { val: '120+', label: 'Hours per Piece' },
+                  { val: '0.01mm', label: 'Setting Tolerance' },
+                  { val: '47pt', label: 'Analysis Points' },
+                ].map((stat, i) => (
+                  <div key={i} style={{ borderLeft: `2px solid ${OB.accent}20`, paddingLeft: 12 }}>
+                    <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', fontWeight: 600, color: OB.accent }}>{stat.val}</div>
+                    <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.5rem', letterSpacing: '0.1em', color: OB.textSecondary, textTransform: 'uppercase' }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              <ObservatoryButton href="/observatory/craftsmanship" variant="secondary">
+                Explore Our Process <ArrowRight size={12} />
+              </ObservatoryButton>
+            </div>
+          </div>
+        </RevealSection>
+      </ObservatorySection>
+
+      {/* ═══ SECTION 7: NEW ARRIVALS ═══ */}
+      <ObservatorySection>
+        <RevealSection>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40 }}>
+            <div>
+              <ScanLine label="Recently Analyzed" style={{ marginBottom: 16, maxWidth: 300 }} />
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '2rem', fontWeight: 600, color: OB.text, margin: 0 }}>
+                New Arrivals
+              </h2>
+            </div>
+          </div>
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+          {newArrivals.map((product, i) => (
+            <StaggerItem key={product.slug} index={i}>
+              <Link href={`/observatory/product/${product.slug}`} style={{ textDecoration: 'none' }}>
+                <div className="observatory-card-hover" style={{ background: OB.card, border: `1px solid ${OB.border}`, overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', height: 200 }}>
+                    <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: 'cover' }} />
+                    <div style={{ position: 'absolute', top: 8, right: 8, background: OB.accent, padding: '3px 8px' }}>
+                      <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.5rem', color: OB.bg, fontWeight: 600 }}>NEW</span>
+                    </div>
+                  </div>
+                  <div style={{ padding: 16 }}>
+                    <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.85rem', fontWeight: 500, color: OB.text, margin: '0 0 4px' }}>{product.name}</h3>
+                    <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1rem', fontWeight: 600, color: OB.accent }}>${product.price.toLocaleString()}</div>
+                  </div>
                 </div>
               </Link>
-            ))}
-          </div>
+            </StaggerItem>
+          ))}
         </div>
+      </ObservatorySection>
+
+      {/* ═══ SECTION 8: TESTIMONIAL ═══ */}
+      <section style={{ background: OB.bgAlt, padding: '80px 0' }}>
+        <RevealSection>
+          <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 32px', textAlign: 'center' }}>
+            <CyanRule style={{ marginBottom: 32 }} />
+            <blockquote style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.4rem', fontWeight: 400, color: OB.text, lineHeight: 1.6, margin: '0 0 24px', fontStyle: 'italic' }}>
+              &ldquo;The Observatory&apos;s analytical approach transformed how I collect. Their 47-point reports give me complete confidence in every acquisition. It&apos;s like having a world-class gemologist in your pocket.&rdquo;
+            </blockquote>
+            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.7rem', color: OB.accent, marginBottom: 4 }}>
+              DR. SARAH CHEN
+            </div>
+            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.6rem', color: OB.textSecondary }}>
+              Private Collector &amp; Gemologist, Singapore
+            </div>
+            <CyanRule style={{ marginTop: 32 }} />
+          </div>
+        </RevealSection>
       </section>
 
-      <SplitSection
-        concept={concept}
-        title="Scientific Precision"
-        description="Our gemologists use advanced spectroscopy, 3D scanning, and AI-assisted analysis to evaluate every piece. Each stone's light performance is mapped across 17 parameters, giving you unprecedented insight into what makes your jewelry exceptional."
-        image="/images/diamond-facets-1.jpg"
-        ctaLabel="View Grading Process"
-        ctaHref={buildConceptUrl('observatory', 'grading')}
-      />
+      {/* ═══ SECTION 9: GUARANTEES ═══ */}
+      <ObservatorySection>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+            {[
+              { icon: <Shield size={24} />, title: 'Certified Authentic', desc: 'Every piece comes with GIA/AGS certification plus our Observatory verification report.' },
+              { icon: <Truck size={24} />, title: 'Insured Delivery', desc: 'Fully insured, temperature-controlled shipping with real-time GPS tracking.' },
+              { icon: <RotateCcw size={24} />, title: '30-Day Returns', desc: 'Full refund within 30 days. No questions asked, no restocking fees.' },
+              { icon: <Eye size={24} />, title: 'Lifetime Analysis', desc: 'Free re-analysis and condition reports for any piece purchased from The Observatory.' },
+            ].map((item, i) => (
+              <StaggerItem key={i} index={i}>
+                <div style={{ textAlign: 'center', padding: 24 }}>
+                  <div style={{ color: OB.accent, marginBottom: 16, display: 'flex', justifyContent: 'center' }}>{item.icon}</div>
+                  <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.95rem', fontWeight: 500, color: OB.text, margin: '0 0 8px' }}>{item.title}</h3>
+                  <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.65rem', color: OB.textSecondary, lineHeight: 1.6, margin: 0 }}>{item.desc}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </div>
+        </RevealSection>
+      </ObservatorySection>
 
-      <div className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p className="font-ibm-plex text-[10px] tracking-[0.3em] uppercase mb-3" style={{ color: concept.palette.accent, opacity: 0.5 }}>
-            Explore
-          </p>
-          <h2
-            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            Browse Categories
-          </h2>
-          <CategoryGrid concept={concept} />
-        </div>
-      </div>
-
-      <Testimonial
-        concept={concept}
-        quote="Finally, a jeweler that speaks my language. The level of data and transparency at Observatory is exactly what the industry needs. I knew exactly what I was buying."
-        author="Dr. Marcus Webb"
-        title="Materials Scientist & Collector"
-      />
-
-      <CTABanner
-        concept={concept}
-        title="Access the Full Dataset"
-        description="Schedule a data-driven consultation with our gemologists."
-        ctaLabel={concept.ctaText.contact}
-        ctaHref={buildConceptUrl('observatory', 'contact')}
-      />
-    </ConceptLayout>
+      {/* ═══ SECTION 10: CTA ═══ */}
+      <section style={{
+        position: 'relative', padding: '100px 0',
+        background: `linear-gradient(rgba(10,14,26,0.85), rgba(10,14,26,0.95)), url('/images/observatory/nebula.jpg') center/cover`,
+        textAlign: 'center',
+      }}>
+        <RevealSection>
+          <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 32px' }}>
+            <Crosshair size={24} color={OB.accent} style={{ margin: '0 auto 16px' }} />
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '2.5rem', fontWeight: 600, color: OB.text, margin: '0 0 16px', lineHeight: 1.2 }}>
+              Begin Your Analysis
+            </h2>
+            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.85rem', color: OB.textSecondary, lineHeight: 1.7, marginBottom: 32 }}>
+              Schedule a private consultation with our senior gemologists. Experience the precision of data-driven luxury.
+            </p>
+            <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
+              <ObservatoryButton href="/observatory/contact" size="lg">
+                Request Consultation
+              </ObservatoryButton>
+              <ObservatoryButton href="/observatory/bespoke" variant="secondary" size="lg">
+                Bespoke Commission
+              </ObservatoryButton>
+            </div>
+          </div>
+        </RevealSection>
+      </section>
+    </ObservatoryLayout>
   )
 }

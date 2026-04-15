@@ -9,6 +9,7 @@ import { GalleryCheckout } from '@/components/concepts/gallery/pages'
 import { SalonCheckout } from '@/components/concepts/salon/pages'
 import { AtelierCheckout } from '@/components/concepts/atelier/pages'
 import { ArchiveCheckout } from '@/components/concepts/archive/pages'
+import { ObservatoryCheckout } from '@/components/concepts/observatory/pages'
 
 export default function CheckoutPage() {
   const params = useParams()
@@ -21,6 +22,7 @@ export default function CheckoutPage() {
   if (concept.id === 'salon') return <SalonCheckout />
   if (concept.id === 'atelier') return <AtelierCheckout />
   if (concept.id === 'archive') return <ArchiveCheckout />
+  if (concept.id === 'observatory') return <ObservatoryCheckout />
 
   return (
     <ConceptLayout concept={concept} hideFooter>

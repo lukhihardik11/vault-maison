@@ -12,6 +12,7 @@ import { GalleryContact } from '@/components/concepts/gallery/pages'
 import { SalonContact } from '@/components/concepts/salon/pages'
 import { AtelierContact } from '@/components/concepts/atelier/pages'
 import { ArchiveContact } from '@/components/concepts/archive/pages'
+import { ObservatoryContact } from '@/components/concepts/observatory/pages'
 
 export default function ContactPage() {
   const params = useParams()
@@ -24,6 +25,7 @@ export default function ContactPage() {
   if (concept.id === 'salon') return <SalonContact />
   if (concept.id === 'atelier') return <AtelierContact />
   if (concept.id === 'archive') return <ArchiveContact />
+  if (concept.id === 'observatory') return <ObservatoryContact />
 
   const contactInfo = [
     { icon: MapPin, label: 'Visit Us', value: '47 Hatton Garden, London EC1N 8YS' },
