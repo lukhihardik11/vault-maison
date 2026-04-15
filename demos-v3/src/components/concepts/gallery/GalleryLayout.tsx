@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 
 import { type ReactNode, useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
@@ -261,6 +264,8 @@ export function GalleryLayout({ children, hideNav = false, hideFooter = false }:
   return (
     <div className="min-h-screen" style={{ backgroundColor: G.bg, color: G.text, fontFamily: 'Inter, sans-serif' }}>
       {!hideNav && <GalleryHeader />}
+      <AuthModal concept={getConcept('gallery')!} />
+      <ToastNotifications concept={getConcept('gallery')!} />
       <main>{children}</main>
       {!hideFooter && <GalleryFooter />}
 

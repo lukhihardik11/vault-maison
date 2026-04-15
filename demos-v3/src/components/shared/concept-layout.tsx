@@ -5,6 +5,8 @@ import { type ConceptConfig } from '@/data/concepts'
 import { LuxuryNav } from './luxury-nav'
 import { LuxuryFooter } from './luxury-footer'
 import { CartDrawer } from './cart-drawer'
+import { AuthModal } from './auth-modal'
+import { ToastNotifications } from './toast-notifications'
 
 interface ConceptLayoutProps {
   concept: ConceptConfig
@@ -25,6 +27,8 @@ export function ConceptLayout({ concept, children, hideNav = false, hideFooter =
     >
       {!hideNav && <LuxuryNav concept={concept} />}
       <CartDrawer concept={concept} />
+      <AuthModal concept={concept} />
+      <ToastNotifications concept={concept} />
       <main>{children}</main>
       {!hideFooter && <LuxuryFooter concept={concept} />}
     </div>

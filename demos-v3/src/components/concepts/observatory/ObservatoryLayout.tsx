@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -297,6 +300,8 @@ export function ObservatoryLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ minHeight: '100vh', background: OB.bg, color: OB.text }}>
       <ObservatoryNav />
+      <AuthModal concept={getConcept('observatory')!} />
+      <ToastNotifications concept={getConcept('observatory')!} />
       <main style={{ paddingTop: 64 }}>
         {children}
       </main>

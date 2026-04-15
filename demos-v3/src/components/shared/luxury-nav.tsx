@@ -8,6 +8,7 @@ import { ShoppingBag, Heart, Menu, X, Search, User } from 'lucide-react'
 import { type ConceptConfig } from '@/data/concepts'
 import { useCartStore } from '@/store/cart'
 import { useWishlistStore } from '@/store/wishlist'
+import { useAuthStore } from '@/store/auth'
 import { buildConceptUrl } from '@/lib/concept-utils'
 
 interface LuxuryNavProps {
@@ -19,6 +20,7 @@ export function LuxuryNav({ concept }: LuxuryNavProps) {
   const pathname = usePathname()
   const cartCount = useCartStore((s) => s.getItemCount())
   const wishlistCount = useWishlistStore((s) => s.items.length)
+  const { user, openAuthModal } = useAuthStore()
 
   const navLinks = [
     { label: 'Collections', href: buildConceptUrl(concept.id, 'collections') },
@@ -91,14 +93,25 @@ export function LuxuryNav({ concept }: LuxuryNavProps) {
               >
                 <Search size={isMinimal ? 16 : 18} strokeWidth={1.5} />
               </Link>
-              <Link
-                href={buildConceptUrl(concept.id, 'account')}
-                className="transition-opacity hover:opacity-60 hidden lg:block"
-                style={{ transitionDuration: '600ms' }}
-                aria-label="Account"
-              >
-                <User size={isMinimal ? 16 : 18} strokeWidth={1.5} />
-              </Link>
+              {user ? (
+                <Link
+                  href={buildConceptUrl(concept.id, 'account')}
+                  className="transition-opacity hover:opacity-60 hidden lg:block"
+                  style={{ transitionDuration: '600ms' }}
+                  aria-label="Account"
+                >
+                  <User size={isMinimal ? 16 : 18} strokeWidth={1.5} />
+                </Link>
+              ) : (
+                <button
+                  onClick={openAuthModal}
+                  className="transition-opacity hover:opacity-60 hidden lg:block"
+                  style={{ transitionDuration: '600ms' }}
+                  aria-label="Sign In"
+                >
+                  <User size={isMinimal ? 16 : 18} strokeWidth={1.5} />
+                </button>
+              )}
               <Link
                 href={buildConceptUrl(concept.id, 'wishlist')}
                 className="relative transition-opacity hover:opacity-60"

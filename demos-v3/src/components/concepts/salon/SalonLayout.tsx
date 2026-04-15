@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 
 import React, { useState } from 'react'
 import Link from 'next/link'
@@ -142,6 +145,8 @@ export function SalonLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* ═══ MAIN CONTENT ═══ */}
+      <AuthModal concept={getConcept('salon')!} />
+      <ToastNotifications concept={getConcept('salon')!} />
       <main>{children}</main>
 
       {/* ═══ FOOTER ═══ */}

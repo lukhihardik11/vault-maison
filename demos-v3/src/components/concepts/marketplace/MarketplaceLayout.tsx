@@ -1,4 +1,7 @@
 'use client'
+import { AuthModal } from '@/components/shared/auth-modal'
+import { ToastNotifications } from '@/components/shared/toast-notifications'
+import { getConcept } from '@/data/concepts'
 import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Menu, X, Heart, ShoppingBag, Search, Bell } from 'lucide-react'
@@ -124,6 +127,8 @@ export function MarketplaceLayout({ children }: { children: React.ReactNode }) {
       fontFamily: "'DM Sans', sans-serif",
     }}>
       <MarketplaceHeader />
+      <AuthModal concept={getConcept('marketplace')!} />
+      <ToastNotifications concept={getConcept('marketplace')!} />
       <main>{children}</main>
       <MarketplaceFooter />
     </div>

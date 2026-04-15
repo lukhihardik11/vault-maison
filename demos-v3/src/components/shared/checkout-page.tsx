@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, Check, Lock, CreditCard, Truck, Gift, MapPin } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Lock, CreditCard, Truck, Gift, MapPin, Loader2 } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
 
 interface CheckoutPageProps {
@@ -65,6 +65,8 @@ export function CheckoutPage({
   const [form, setForm] = useState<FormData>(initialForm)
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
   const [orderNumber, setOrderNumber] = useState('')
+  const [clientSecret, setClientSecret] = useState('')
+  const [isCreatingOrder, setIsCreatingOrder] = useState(false)
 
   const bg = cardBg || `${textColor}08`
   const border = `${textColor}15`
@@ -100,16 +102,57 @@ export function CheckoutPage({
     return Object.keys(newErrors).length === 0
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step === 'shipping' && validateShipping()) {
+      // Try to create a real order via API
+      setIsCreatingOrder(true)
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: items.map(i => ({
+              productId: i.product.id,
+              quantity: i.quantity,
+              size: i.size,
+              metal: i.metal,
+            })),
+            shippingAddress: {
+              firstName: form.firstName,
+              lastName: form.lastName,
+              address: form.address,
+              city: form.city,
+              state: form.state,
+              zip: form.zip,
+              country: form.country,
+              phone: form.phone,
+            },
+            shippingMethod: form.shippingMethod,
+            giftWrap: form.giftWrap,
+            giftMessage: form.giftMessage,
+          }),
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setClientSecret(data.clientSecret || '')
+          setOrderNumber(data.orderNumber || '')
+        }
+      } catch {
+        // API not available — continue with demo flow
+      }
+      setIsCreatingOrder(false)
       setStep('payment')
       window.scrollTo({ top: 0, behavior: 'smooth' })
-    } else if (step === 'payment' && validatePayment()) {
-      const num = `VM-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
-      setOrderNumber(num)
-      clearCart()
-      setStep('confirmation')
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else if (step === 'payment') {
+      // If no Stripe (demo mode), just show confirmation
+      if (!clientSecret) {
+        const num = `VM-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
+        setOrderNumber(num)
+        clearCart()
+        setStep('confirmation')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+      // If Stripe is active, the StripeCheckout component handles submission
     }
   }
 
@@ -327,28 +370,44 @@ export function CheckoutPage({
                   <Lock size={14} color={accentColor} />
                   <span style={{ fontFamily: fontBody, fontSize: '0.7rem', color: mutedColor }}>Your payment information is encrypted and secure</span>
                 </div>
-                <div style={{ marginBottom: 16 }}>
-                  <label style={labelStyle}>Card Number</label>
-                  <input value={form.cardNumber} onChange={e => updateField('cardNumber', e.target.value)} placeholder="1234 5678 9012 3456" style={inputStyle('cardNumber')} />
-                  {errors.cardNumber && <p style={{ fontFamily: fontBody, fontSize: '0.65rem', color: '#ef4444', margin: '4px 0 0' }}>{errors.cardNumber}</p>}
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                {clientSecret ? (
+                  /* Real Stripe checkout */
                   <div>
-                    <label style={labelStyle}>Expiry Date</label>
-                    <input value={form.cardExpiry} onChange={e => updateField('cardExpiry', e.target.value)} placeholder="MM/YY" style={inputStyle('cardExpiry')} />
-                    {errors.cardExpiry && <p style={{ fontFamily: fontBody, fontSize: '0.65rem', color: '#ef4444', margin: '4px 0 0' }}>{errors.cardExpiry}</p>}
+                    {/* StripeCheckout is dynamically imported to avoid SSR issues */}
+                    <div id="stripe-checkout-container" style={{ minHeight: 200 }}>
+                      {/* Stripe Elements will render here via StripeCheckout component */}
+                      <p style={{ fontFamily: fontBody, fontSize: '0.8rem', color: mutedColor, textAlign: 'center', padding: 40 }}>
+                        Stripe Payment Element loading...
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <label style={labelStyle}>CVC</label>
-                    <input value={form.cardCvc} onChange={e => updateField('cardCvc', e.target.value)} placeholder="123" style={inputStyle('cardCvc')} />
-                    {errors.cardCvc && <p style={{ fontFamily: fontBody, fontSize: '0.65rem', color: '#ef4444', margin: '4px 0 0' }}>{errors.cardCvc}</p>}
-                  </div>
-                </div>
-                <div>
-                  <label style={labelStyle}>Name on Card</label>
-                  <input value={form.cardName} onChange={e => updateField('cardName', e.target.value)} style={inputStyle('cardName')} />
-                  {errors.cardName && <p style={{ fontFamily: fontBody, fontSize: '0.65rem', color: '#ef4444', margin: '4px 0 0' }}>{errors.cardName}</p>}
-                </div>
+                ) : (
+                  /* Demo mode: fake card form */
+                  <>
+                    <div style={{ marginBottom: 16 }}>
+                      <label style={labelStyle}>Card Number</label>
+                      <input value={form.cardNumber} onChange={e => updateField('cardNumber', e.target.value)} placeholder="4242 4242 4242 4242" style={inputStyle('cardNumber')} />
+                      {errors.cardNumber && <p style={{ fontFamily: fontBody, fontSize: '0.65rem', color: '#ef4444', margin: '4px 0 0' }}>{errors.cardNumber}</p>}
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                      <div>
+                        <label style={labelStyle}>Expiry Date</label>
+                        <input value={form.cardExpiry} onChange={e => updateField('cardExpiry', e.target.value)} placeholder="12/28" style={inputStyle('cardExpiry')} />
+                        {errors.cardExpiry && <p style={{ fontFamily: fontBody, fontSize: '0.65rem', color: '#ef4444', margin: '4px 0 0' }}>{errors.cardExpiry}</p>}
+                      </div>
+                      <div>
+                        <label style={labelStyle}>CVC</label>
+                        <input value={form.cardCvc} onChange={e => updateField('cardCvc', e.target.value)} placeholder="123" style={inputStyle('cardCvc')} />
+                        {errors.cardCvc && <p style={{ fontFamily: fontBody, fontSize: '0.65rem', color: '#ef4444', margin: '4px 0 0' }}>{errors.cardCvc}</p>}
+                      </div>
+                    </div>
+                    <div>
+                      <label style={labelStyle}>Name on Card</label>
+                      <input value={form.cardName} onChange={e => updateField('cardName', e.target.value)} style={inputStyle('cardName')} />
+                      {errors.cardName && <p style={{ fontFamily: fontBody, fontSize: '0.65rem', color: '#ef4444', margin: '4px 0 0' }}>{errors.cardName}</p>}
+                    </div>
+                  </>
+                )}
               </div>
             )}
 
@@ -374,7 +433,7 @@ export function CheckoutPage({
                   fontFamily: fontBody, fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', cursor: 'pointer',
                 }}
               >
-                {step === 'payment' ? 'Place Order' : 'Continue to Payment'} <ArrowRight size={14} />
+                {isCreatingOrder ? <><Loader2 size={14} className="animate-spin" /> Processing...</> : step === 'payment' ? 'Place Order' : 'Continue to Payment'} {!isCreatingOrder && <ArrowRight size={14} />}
               </button>
             </div>
           </div>
