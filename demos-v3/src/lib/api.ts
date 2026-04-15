@@ -1,11 +1,13 @@
 /**
  * Vault Maison — API Abstraction Layer
  * 
- * This module provides a backend-ready API interface. Currently, all methods
- * resolve against local data (products.ts, mock data). When a real backend
- * is implemented, only this file needs to change — all consumers remain untouched.
+ * This module provides a backend-ready API interface. It first attempts
+ * to fetch from the real API routes (/api/*). If the API is unavailable
+ * (e.g., Supabase not configured), it falls back to local data.
  * 
- * Future backend: Replace local imports with fetch() calls to your REST/GraphQL API.
+ * This dual-mode approach ensures the frontend works both:
+ * - In demo/development mode (no Supabase) → local data
+ * - In production mode (Supabase configured) → real API routes
  */
 
 import { products, type Product } from '@/data/products'
@@ -16,7 +18,22 @@ import type { SearchFilters, ApiResponse, Order, UserProfile, ProductReview } fr
 // ═══════════════════════════════════════════════════════════════
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || ''
-const USE_MOCK = !API_BASE // When no API URL is set, use local data
+const USE_MOCK = !process.env.NEXT_PUBLIC_SUPABASE_URL
+
+/**
+ * Safe fetch wrapper that falls back to local data on failure.
+ * This ensures the frontend never breaks even if the backend is down.
+ */
+async function safeFetch<T>(url: string, fallback: T, options?: RequestInit): Promise<T> {
+  if (USE_MOCK) return fallback
+  try {
+    const res = await fetch(url, { ...options, cache: 'no-store' })
+    if (!res.ok) return fallback
+    return await res.json()
+  } catch {
+    return fallback
+  }
+}
 
 // ═══════════════════════════════════════════════════════════════
 // PRODUCT API
@@ -25,7 +42,8 @@ const USE_MOCK = !API_BASE // When no API URL is set, use local data
 export const productApi = {
   /** Fetch all products with optional filters */
   async getProducts(filters?: SearchFilters): Promise<ApiResponse<Product[]>> {
-    if (USE_MOCK) {
+    // Local data fallback
+    const mockResult = (): ApiResponse<Product[]> => {
       let filtered = [...products]
 
       if (filters?.category) {
@@ -80,24 +98,51 @@ export const productApi = {
       }
     }
 
-    const params = new URLSearchParams()
-    if (filters) {
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined) params.set(key, String(value))
-      })
+    if (USE_MOCK) return mockResult()
+
+    try {
+      const params = new URLSearchParams()
+      if (filters) {
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value !== undefined) params.set(key, String(value))
+        })
+      }
+      const res = await fetch(`${API_BASE}/api/products?${params}`)
+      if (!res.ok) return mockResult()
+      const data = await res.json()
+      // Map API response to expected format
+      return {
+        data: data.products || [],
+        success: true,
+        pagination: data.pagination ? {
+          page: data.pagination.page,
+          pageSize: data.pagination.limit,
+          totalItems: data.pagination.total,
+          totalPages: data.pagination.totalPages,
+        } : undefined,
+      }
+    } catch {
+      return mockResult()
     }
-    const res = await fetch(`${API_BASE}/api/products?${params}`)
-    return res.json()
   },
 
   /** Fetch a single product by slug */
   async getProduct(slug: string): Promise<ApiResponse<Product | null>> {
-    if (USE_MOCK) {
+    const mockResult = (): ApiResponse<Product | null> => {
       const product = products.find(p => p.slug === slug) || null
       return { data: product, success: !!product }
     }
-    const res = await fetch(`${API_BASE}/api/products/${slug}`)
-    return res.json()
+
+    if (USE_MOCK) return mockResult()
+
+    try {
+      const res = await fetch(`${API_BASE}/api/products/${slug}`)
+      if (!res.ok) return mockResult()
+      const data = await res.json()
+      return { data: data.product || null, success: !!data.product }
+    } catch {
+      return mockResult()
+    }
   },
 
   /** Fetch related products (same category, excluding current) */
@@ -173,14 +218,20 @@ export const searchApi = {
       }
     }
 
-    const params = new URLSearchParams({ q: query })
-    if (filters) {
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined) params.set(key, String(value))
-      })
+    try {
+      const params = new URLSearchParams({ q: query })
+      if (filters) {
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value !== undefined) params.set(key, String(value))
+        })
+      }
+      const res = await fetch(`${API_BASE}/api/products/search?${params}`)
+      if (!res.ok) return { data: [], success: false }
+      const data = await res.json()
+      return { data: data.products || [], success: true }
+    } catch {
+      return { data: [], success: false }
     }
-    const res = await fetch(`${API_BASE}/api/search?${params}`)
-    return res.json()
   },
 
   /** Get search suggestions (autocomplete) */
@@ -227,37 +278,59 @@ export const searchApi = {
 export const orderApi = {
   /** Place a new order */
   async placeOrder(/* orderData: CheckoutFormData, items: CartItem[] */): Promise<ApiResponse<Order>> {
-    // Mock: generate a fake order
-    const order: Order = {
-      id: `ord_${Date.now()}`,
-      orderNumber: `VM-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
-      date: new Date().toISOString(),
-      status: 'confirmed',
-      items: [],
-      shippingAddress: {} as Order['shippingAddress'],
-      billingAddress: {} as Order['billingAddress'],
-      shippingMethod: 'standard',
-      subtotal: 0,
-      shippingCost: 0,
-      tax: 0,
-      discount: 0,
-      total: 0,
-      estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-      giftWrap: false,
+    if (USE_MOCK) {
+      // Mock: generate a fake order
+      const order: Order = {
+        id: `ord_${Date.now()}`,
+        orderNumber: `VM-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        date: new Date().toISOString(),
+        status: 'confirmed',
+        items: [],
+        shippingAddress: {} as Order['shippingAddress'],
+        billingAddress: {} as Order['billingAddress'],
+        shippingMethod: 'standard',
+        subtotal: 0,
+        shippingCost: 0,
+        tax: 0,
+        discount: 0,
+        total: 0,
+        estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        giftWrap: false,
+      }
+      return { data: order, success: true, message: 'Order placed successfully' }
     }
-    return { data: order, success: true, message: 'Order placed successfully' }
+
+    // Real API: use /api/checkout which creates order + PaymentIntent
+    return safeFetch(`${API_BASE}/api/orders`, {
+      data: {} as Order,
+      success: false,
+      message: 'Order creation failed',
+    }, { method: 'POST' })
   },
 
   /** Get order by ID */
   async getOrder(orderId: string): Promise<ApiResponse<Order | null>> {
-    // Mock: return null (no orders in mock mode)
-    return { data: null, success: false, message: `Order ${orderId} not found` }
+    if (USE_MOCK) {
+      return { data: null, success: false, message: `Order ${orderId} not found` }
+    }
+
+    return safeFetch(`${API_BASE}/api/orders/${orderId}`, {
+      data: null,
+      success: false,
+      message: 'Order not found',
+    })
   },
 
   /** Get all orders for current user */
   async getOrders(): Promise<ApiResponse<Order[]>> {
-    // Mock: return sample orders
-    return { data: [], success: true }
+    if (USE_MOCK) {
+      return { data: [], success: true }
+    }
+
+    return safeFetch(`${API_BASE}/api/orders`, {
+      data: [],
+      success: true,
+    })
   },
 }
 
@@ -268,13 +341,32 @@ export const orderApi = {
 export const userApi = {
   /** Get current user profile */
   async getProfile(): Promise<ApiResponse<UserProfile | null>> {
-    // Mock: return null (not logged in)
-    return { data: null, success: false, message: 'Not authenticated' }
+    if (USE_MOCK) {
+      return { data: null, success: false, message: 'Not authenticated' }
+    }
+
+    return safeFetch(`${API_BASE}/api/auth/profile`, {
+      data: null,
+      success: false,
+      message: 'Not authenticated',
+    })
   },
 
   /** Update user profile */
   async updateProfile(data: Partial<UserProfile>): Promise<ApiResponse<UserProfile>> {
-    return { data: data as UserProfile, success: true, message: 'Profile updated' }
+    if (USE_MOCK) {
+      return { data: data as UserProfile, success: true, message: 'Profile updated' }
+    }
+
+    return safeFetch(`${API_BASE}/api/auth/profile`, {
+      data: data as UserProfile,
+      success: false,
+      message: 'Update failed',
+    }, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
   },
 }
 
@@ -333,18 +425,41 @@ export const reviewApi = {
       const reviews = mockReviews.map(r => ({ ...r, productId }))
       return { data: reviews, success: true }
     }
-    const res = await fetch(`${API_BASE}/api/products/${productId}/reviews`)
-    return res.json()
+
+    try {
+      const res = await fetch(`${API_BASE}/api/reviews?productId=${productId}`)
+      if (!res.ok) {
+        const reviews = mockReviews.map(r => ({ ...r, productId }))
+        return { data: reviews, success: true }
+      }
+      const data = await res.json()
+      return { data: data.reviews || [], success: true }
+    } catch {
+      const reviews = mockReviews.map(r => ({ ...r, productId }))
+      return { data: reviews, success: true }
+    }
   },
 
   /** Submit a review */
   async submitReview(review: Omit<ProductReview, 'id' | 'date' | 'helpfulCount'>): Promise<ApiResponse<ProductReview>> {
-    const newReview: ProductReview = {
-      ...review,
-      id: `rev_${Date.now()}`,
-      date: new Date().toISOString(),
-      helpfulCount: 0,
+    if (USE_MOCK) {
+      const newReview: ProductReview = {
+        ...review,
+        id: `rev_${Date.now()}`,
+        date: new Date().toISOString(),
+        helpfulCount: 0,
+      }
+      return { data: newReview, success: true, message: 'Review submitted' }
     }
-    return { data: newReview, success: true, message: 'Review submitted' }
+
+    return safeFetch(`${API_BASE}/api/reviews`, {
+      data: { ...review, id: '', date: '', helpfulCount: 0 } as ProductReview,
+      success: false,
+      message: 'Review submission failed',
+    }, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(review),
+    })
   },
 }
