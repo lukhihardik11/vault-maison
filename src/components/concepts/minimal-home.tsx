@@ -366,10 +366,12 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         /* Fade-in on scroll */
         .vm-fade { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
         .vm-fade.vm-visible { opacity: 1; transform: translateY(0); }
+        @media (prefers-reduced-motion: reduce) { .vm-fade { opacity: 1 !important; transform: none !important; transition: none !important; } }
 
         /* Hero entrance */
         .vm-hero-el { opacity: 0; transform: translateY(24px); }
         .vm-hero-el.vm-hero-in { animation: vmHeroIn 0.9s ease forwards; }
+        @media (prefers-reduced-motion: reduce) { .vm-hero-el { opacity: 1 !important; transform: none !important; animation: none !important; } }
         @keyframes vmHeroIn { to { opacity: 1; transform: translateY(0); } }
 
         /* Bounce arrow */
