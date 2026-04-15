@@ -7,6 +7,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, SplitSection, Testimonial } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalBespoke } from '@/components/concepts/minimal/pages'
+import { TheaterBespoke } from '@/components/concepts/theater/pages'
 import { VaultBespoke } from '@/components/concepts/vault/pages'
 import { GalleryBespoke } from '@/components/concepts/gallery/pages'
 import { SalonBespoke } from '@/components/concepts/salon/pages'
@@ -28,6 +29,7 @@ export default function BespokePage() {
   if (concept.id === 'atelier') return <AtelierBespoke />
   if (concept.id === 'archive') return <ArchiveBespoke />
   if (concept.id === 'observatory') return <ObservatoryBespoke />
+  if (concept.id === 'theater') return <TheaterBespoke />
 
   const steps = [
     { title: 'Consultation', desc: 'Share your vision with our design team. We listen to your desires, lifestyle, and aesthetic preferences to understand exactly what you seek.' },

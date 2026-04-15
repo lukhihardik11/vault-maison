@@ -5,6 +5,7 @@ import { getConcept } from '@/data/concepts'
 import { getProduct } from '@/data/products'
 import { ConceptLayout, ProductDetail } from '@/components/shared'
 import { MinimalProductDetail } from '@/components/concepts/minimal/pages'
+import { TheaterProductDetail } from '@/components/concepts/theater/pages'
 import { VaultProductDetail } from '@/components/concepts/vault/pages'
 import { GalleryProductDetail } from '@/components/concepts/gallery/pages'
 import { SalonProductDetail } from '@/components/concepts/salon/pages'
@@ -26,6 +27,7 @@ export default function ProductPage() {
   if (concept.id === 'atelier') return <AtelierProductDetail />
   if (concept.id === 'archive') return <ArchiveProductDetail />
   if (concept.id === 'observatory') return <ObservatoryProductDetail />
+  if (concept.id === 'theater') return <TheaterProductDetail />
 
   return (
     <ConceptLayout concept={concept}>

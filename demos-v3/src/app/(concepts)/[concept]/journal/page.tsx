@@ -8,6 +8,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalJournal } from '@/components/concepts/minimal/pages'
+import { TheaterJournal } from '@/components/concepts/theater/pages'
 import { VaultJournal } from '@/components/concepts/vault/pages'
 import { GalleryJournal } from '@/components/concepts/gallery/pages'
 import { SalonJournal } from '@/components/concepts/salon/pages'
@@ -84,6 +85,7 @@ export default function JournalPage() {
   if (concept.id === 'atelier') return <AtelierJournal />
   if (concept.id === 'archive') return <ArchiveJournal />
   if (concept.id === 'observatory') return <ObservatoryJournal />
+  if (concept.id === 'theater') return <TheaterJournal />
 
   return (
     <ConceptLayout concept={concept}>

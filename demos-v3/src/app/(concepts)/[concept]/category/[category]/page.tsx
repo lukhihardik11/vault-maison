@@ -6,6 +6,7 @@ import { getProductsByCategory } from '@/data/products'
 import { ConceptLayout, ProductGrid, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCategory } from '@/components/concepts/minimal/pages'
+import { TheaterCategory } from '@/components/concepts/theater/pages'
 import { VaultCategory } from '@/components/concepts/vault/pages'
 import { GalleryCategory } from '@/components/concepts/gallery/pages'
 import { SalonCategory } from '@/components/concepts/salon/pages'
@@ -27,6 +28,7 @@ export default function CategoryPage() {
   if (concept.id === 'atelier') return <AtelierCategory />
   if (concept.id === 'archive') return <ArchiveCategory />
   if (concept.id === 'observatory') return <ObservatoryCategory />
+  if (concept.id === 'theater') return <TheaterCategory />
 
   const categoryProducts = getProductsByCategory(category)
   const label = categoryLabels[category] || category.replace(/-/g, ' ')

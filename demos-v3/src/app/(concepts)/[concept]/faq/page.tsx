@@ -7,6 +7,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, CTABanner } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalFAQ } from '@/components/concepts/minimal/pages'
+import { TheaterFAQ } from '@/components/concepts/theater/pages'
 import { VaultFAQ } from '@/components/concepts/vault/pages'
 import { GalleryFAQ } from '@/components/concepts/gallery/pages'
 import { SalonFAQ } from '@/components/concepts/salon/pages'
@@ -38,6 +39,7 @@ export default function FAQPage() {
   if (concept.id === 'atelier') return <AtelierFAQ />
   if (concept.id === 'archive') return <ArchiveFAQ />
   if (concept.id === 'observatory') return <ObservatoryFAQ />
+  if (concept.id === 'theater') return <TheaterFAQ />
   return (
     <ConceptLayout concept={concept}>
       <PageHeader

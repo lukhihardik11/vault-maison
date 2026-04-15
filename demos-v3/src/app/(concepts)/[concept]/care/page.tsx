@@ -4,6 +4,7 @@ import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCare } from '@/components/concepts/minimal/pages'
+import { TheaterCare } from '@/components/concepts/theater/pages'
 import { VaultCare } from '@/components/concepts/vault/pages'
 import { GalleryCare } from '@/components/concepts/gallery/pages'
 import { SalonCare } from '@/components/concepts/salon/pages'
@@ -23,6 +24,7 @@ export default function CarePage() {
   if (concept.id === 'atelier') return <AtelierCare />
   if (concept.id === 'archive') return <ArchiveCare />
   if (concept.id === 'observatory') return <ObservatoryCare />
+  if (concept.id === 'theater') return <TheaterCare />
   return (
     <InfoPage
       concept={concept}

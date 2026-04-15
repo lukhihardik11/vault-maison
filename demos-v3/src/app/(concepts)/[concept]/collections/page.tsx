@@ -5,6 +5,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, CategoryGrid, CTABanner } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCollections } from '@/components/concepts/minimal/pages'
+import { TheaterCollections } from '@/components/concepts/theater/pages'
 import { VaultCollections } from '@/components/concepts/vault/pages'
 import { GalleryCollections } from '@/components/concepts/gallery/pages'
 import { SalonCollections } from '@/components/concepts/salon/pages'
@@ -24,6 +25,7 @@ export default function CollectionsPage() {
   if (concept.id === 'atelier') return <AtelierCollections />
   if (concept.id === 'archive') return <ArchiveCollections />
   if (concept.id === 'observatory') return <ObservatoryCollections />
+  if (concept.id === 'theater') return <TheaterCollections />
 
   return (
     <ConceptLayout concept={concept}>

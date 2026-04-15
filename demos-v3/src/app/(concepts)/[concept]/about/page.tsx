@@ -5,6 +5,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, SplitSection, Testimonial, CTABanner } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalAbout } from '@/components/concepts/minimal/pages'
+import { TheaterAbout } from '@/components/concepts/theater/pages'
 import { VaultAbout } from '@/components/concepts/vault/pages'
 import { GalleryAbout } from '@/components/concepts/gallery/pages'
 import { SalonAbout } from '@/components/concepts/salon/pages'
@@ -24,6 +25,7 @@ export default function AboutPage() {
   if (concept.id === 'atelier') return <AtelierAbout />
   if (concept.id === 'archive') return <ArchiveAbout />
   if (concept.id === 'observatory') return <ObservatoryAbout />
+  if (concept.id === 'theater') return <TheaterAbout />
 
   return (
     <ConceptLayout concept={concept}>

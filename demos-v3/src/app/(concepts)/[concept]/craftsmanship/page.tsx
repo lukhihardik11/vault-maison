@@ -7,6 +7,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, SplitSection, CTABanner } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCraftsmanship } from '@/components/concepts/minimal/pages'
+import { TheaterCraftsmanship } from '@/components/concepts/theater/pages'
 import { VaultCraftsmanship } from '@/components/concepts/vault/pages'
 import { GalleryCraftsmanship } from '@/components/concepts/gallery/pages'
 import { SalonCraftsmanship } from '@/components/concepts/salon/pages'
@@ -26,6 +27,7 @@ export default function CraftsmanshipPage() {
   if (concept.id === 'atelier') return <AtelierCraftsmanship />
   if (concept.id === 'archive') return <ArchiveCraftsmanship />
   if (concept.id === 'observatory') return <ObservatoryCraftsmanship />
+  if (concept.id === 'theater') return <TheaterCraftsmanship />
 
   const techniques = [
     { title: 'Hand Setting', desc: 'Each stone is individually set by our master setters, ensuring perfect alignment and maximum brilliance. A single pavé ring may require 6-8 hours of meticulous work.' },

@@ -4,6 +4,7 @@ import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalPrivacy } from '@/components/concepts/minimal/pages'
+import { TheaterPrivacy } from '@/components/concepts/theater/pages'
 import { VaultPrivacy } from '@/components/concepts/vault/pages'
 import { GalleryPrivacy } from '@/components/concepts/gallery/pages'
 import { SalonPrivacy } from '@/components/concepts/salon/pages'
@@ -23,6 +24,7 @@ export default function PrivacyPage() {
   if (concept.id === 'atelier') return <AtelierPrivacy />
   if (concept.id === 'archive') return <ArchivePrivacy />
   if (concept.id === 'observatory') return <ObservatoryPrivacy />
+  if (concept.id === 'theater') return <TheaterPrivacy />
   return (
     <InfoPage
       concept={concept}

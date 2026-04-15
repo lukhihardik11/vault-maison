@@ -4,6 +4,7 @@ import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalShipping } from '@/components/concepts/minimal/pages'
+import { TheaterShipping } from '@/components/concepts/theater/pages'
 import { VaultShipping } from '@/components/concepts/vault/pages'
 import { GalleryShipping } from '@/components/concepts/gallery/pages'
 import { SalonShipping } from '@/components/concepts/salon/pages'
@@ -23,6 +24,7 @@ export default function ShippingPage() {
   if (concept.id === 'atelier') return <AtelierShipping />
   if (concept.id === 'archive') return <ArchiveShipping />
   if (concept.id === 'observatory') return <ObservatoryShipping />
+  if (concept.id === 'theater') return <TheaterShipping />
   return (
     <InfoPage
       concept={concept}

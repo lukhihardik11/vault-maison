@@ -4,6 +4,7 @@ import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalGrading } from '@/components/concepts/minimal/pages'
+import { TheaterGrading } from '@/components/concepts/theater/pages'
 import { VaultGrading } from '@/components/concepts/vault/pages'
 import { GalleryGrading } from '@/components/concepts/gallery/pages'
 import { SalonGrading } from '@/components/concepts/salon/pages'
@@ -23,6 +24,7 @@ export default function GradingPage() {
   if (concept.id === 'atelier') return <AtelierGrading />
   if (concept.id === 'archive') return <ArchiveGrading />
   if (concept.id === 'observatory') return <ObservatoryGrading />
+  if (concept.id === 'theater') return <TheaterGrading />
   return (
     <InfoPage
       concept={concept}

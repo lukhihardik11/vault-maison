@@ -5,6 +5,7 @@ import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalAccount } from '@/components/concepts/minimal/pages'
+import { TheaterAccount } from '@/components/concepts/theater/pages'
 import { VaultAccount } from '@/components/concepts/vault/pages'
 import { GalleryAccount } from '@/components/concepts/gallery/pages'
 import { SalonAccount } from '@/components/concepts/salon/pages'
@@ -24,6 +25,7 @@ export default function AccountPage() {
   if (concept.id === 'atelier') return <AtelierAccount />
   if (concept.id === 'archive') return <ArchiveAccount />
   if (concept.id === 'observatory') return <ObservatoryAccount />
+  if (concept.id === 'theater') return <TheaterAccount />
 
   return (
     <ConceptLayout concept={concept}>
