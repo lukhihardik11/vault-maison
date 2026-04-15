@@ -47,3 +47,39 @@ Based on this audit, several key features emerge as essential for a modern luxur
 5.  **Omnichannel Integration**: Offering virtual appointments and easy booking for in-store services (Catbird, VRAI) connects the digital and physical retail experiences.
 
 By integrating these elements, Vault Maison can deliver a premium, competitive e-commerce experience across all its concepts.
+
+## 6. Security & Trust Signals Audit
+
+In addition to UX and features, a critical component of luxury e-commerce is the establishment of trust through visible security measures and compliance indicators. This section audits how the leading brands handle security signaling.
+
+### 6.1. Payment Security Visibility
+
+Luxury consumers are hyper-aware of payment security when making high-value purchases.
+
+*   **Mejuri:** Utilizes a clean, minimalist checkout but prominently displays recognized payment method icons (Visa, Mastercard, PayPal, Apple Pay) and a subtle padlock icon near the credit card input field. They do not overly clutter the checkout with third-party security badges (e.g., Norton Secured), relying instead on brand trust.
+*   **Brilliant Earth:** Employs a more traditional approach, explicitly stating "Secure Checkout" and displaying SSL/encryption badges alongside payment options. This caters to a demographic making potentially their largest online purchase (engagement rings).
+*   **Blue Nile:** Similar to Brilliant Earth, Blue Nile heavily emphasizes security with prominent "VeriSign Secured" or similar trust marks throughout the checkout flow, reinforcing their legacy status.
+
+### 6.2. Data Privacy & Consent
+
+Compliance with GDPR and CCPA is handled differently across the audited sites.
+
+*   **VRAI:** Implements a strict, explicit cookie consent banner upon first visit, requiring the user to accept or manage preferences before interacting with the site. This is the most compliant approach for European markets.
+*   **Catbird:** Uses a more subtle, implicit consent banner (e.g., "By continuing to use this site, you agree...") which is common in the US but may fall short of strict GDPR requirements.
+*   **Mejuri:** Provides clear links to Privacy Policy and Terms of Service in the footer and during the account creation process, ensuring users are informed of data usage.
+
+### 6.3. Fraud Prevention Friction
+
+Balancing fraud prevention with a frictionless user experience is a key challenge.
+
+*   **All Audited Sites:** Require CVV and perform Address Verification System (AVS) checks during checkout.
+*   **High-Value Transactions:** Sites like Brilliant Earth and Blue Nile often introduce intentional friction for very high-value orders, such as requiring a phone call confirmation or utilizing 3D Secure (3DS) challenges to verify identity before processing the payment.
+
+### 6.4. Recommendations for Vault Maison
+
+Based on this audit, Vault Maison should adopt a hybrid approach to security signaling:
+
+1.  **Minimalist Trust Marks:** Avoid cluttered, outdated security badges. Instead, use clean, modern iconography (e.g., a simple padlock) and recognized payment logos within the checkout flow.
+2.  **Explicit Consent:** Implement a robust, explicit cookie consent manager (like the one built in Phase 2) to ensure global compliance (GDPR/CCPA) from day one.
+3.  **Transparent Policies:** Ensure Privacy Policy, Terms of Service, and Return Policies are easily accessible from the footer and clearly linked during checkout.
+4.  **Silent Security:** Rely on backend technologies (Stripe Elements, 3DS2) to handle the heavy lifting of security and fraud prevention silently, only introducing friction (challenges) when the risk score demands it.
