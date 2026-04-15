@@ -563,3 +563,60 @@ select:focus {
   from { clip-path: inset(100% 0 0 0); }
   to { clip-path: inset(0 0 0 0); }
 }
+
+/* ═══ MARKETPLACE CONCEPT CSS ═══ */
+.marketplace-scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.marketplace-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.marketplace-stagger-0 { transition-delay: 0ms; }
+.marketplace-stagger-1 { transition-delay: 80ms; }
+.marketplace-stagger-2 { transition-delay: 160ms; }
+.marketplace-stagger-3 { transition-delay: 240ms; }
+.marketplace-stagger-4 { transition-delay: 320ms; }
+.marketplace-stagger-5 { transition-delay: 400ms; }
+.marketplace-stagger-6 { transition-delay: 480ms; }
+
+.marketplace-card-hover {
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.marketplace-card-hover:hover {
+  border-color: #2D6A4F40 !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(45, 106, 79, 0.1);
+}
+
+.marketplace-btn-hover {
+  transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.3s ease;
+}
+.marketplace-btn-hover:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 16px rgba(45, 106, 79, 0.2);
+}
+.marketplace-btn-hover:active {
+  transform: scale(0.98);
+}
+
+@keyframes marketplace-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.marketplace-hero-fade-1 {
+  animation: mkFadeUp 0.7s ease-out 0.2s both;
+}
+.marketplace-hero-fade-2 {
+  animation: mkFadeUp 0.7s ease-out 0.4s both;
+}
+.marketplace-hero-fade-3 {
+  animation: mkFadeUp 0.7s ease-out 0.6s both;
+}
+@keyframes mkFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}

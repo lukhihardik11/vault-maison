@@ -12,6 +12,7 @@ import { SalonCollections } from '@/components/concepts/salon/pages'
 import { AtelierCollections } from '@/components/concepts/atelier/pages'
 import { ArchiveCollections } from '@/components/concepts/archive/pages'
 import { ObservatoryCollections } from '@/components/concepts/observatory/pages'
+import { MarketplaceCollections } from '@/components/concepts/marketplace/pages'
 
 export default function CollectionsPage() {
   const params = useParams()
@@ -26,6 +27,7 @@ export default function CollectionsPage() {
   if (concept.id === 'archive') return <ArchiveCollections />
   if (concept.id === 'observatory') return <ObservatoryCollections />
   if (concept.id === 'theater') return <TheaterCollections />
+  if (concept.id === 'marketplace') return <MarketplaceCollections />
 
   return (
     <ConceptLayout concept={concept}>

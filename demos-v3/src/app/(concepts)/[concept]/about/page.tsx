@@ -12,6 +12,7 @@ import { SalonAbout } from '@/components/concepts/salon/pages'
 import { AtelierAbout } from '@/components/concepts/atelier/pages'
 import { ArchiveAbout } from '@/components/concepts/archive/pages'
 import { ObservatoryAbout } from '@/components/concepts/observatory/pages'
+import { MarketplaceAbout } from '@/components/concepts/marketplace/pages'
 
 export default function AboutPage() {
   const params = useParams()
@@ -26,6 +27,7 @@ export default function AboutPage() {
   if (concept.id === 'archive') return <ArchiveAbout />
   if (concept.id === 'observatory') return <ObservatoryAbout />
   if (concept.id === 'theater') return <TheaterAbout />
+  if (concept.id === 'marketplace') return <MarketplaceAbout />
 
   return (
     <ConceptLayout concept={concept}>

@@ -18,6 +18,7 @@ import { SalonCart } from '@/components/concepts/salon/pages'
 import { AtelierCart } from '@/components/concepts/atelier/pages'
 import { ArchiveCart } from '@/components/concepts/archive/pages'
 import { ObservatoryCart } from '@/components/concepts/observatory/pages'
+import { MarketplaceCart } from '@/components/concepts/marketplace/pages'
 
 export default function CartPage() {
   const params = useParams()
@@ -34,6 +35,7 @@ export default function CartPage() {
   if (concept.id === 'archive') return <ArchiveCart />
   if (concept.id === 'observatory') return <ObservatoryCart />
   if (concept.id === 'theater') return <TheaterCart />
+  if (concept.id === 'marketplace') return <MarketplaceCart />
 
   return (
     <ConceptLayout concept={concept}>
