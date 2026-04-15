@@ -77,6 +77,7 @@ export function VaultHome({ concept }: { concept: ConceptConfig }) {
         .vault-gate-overlay { animation: vaultGateFallback 2.5s ease forwards; }
         .vault-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
         .vault-reveal.visible { opacity: 1; transform: translateY(0); }
+        @media (prefers-reduced-motion: reduce) { .vault-reveal { opacity: 1 !important; transform: none !important; transition: none !important; } .vault-gate-overlay { animation: none !important; opacity: 0 !important; pointer-events: none !important; } }
         .vault-card { position: relative; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .vault-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 30px rgba(212,175,55,0.1); }
         .vault-card .vault-card-shine-inner { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; z-index: 5; background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212,175,55,0.1), transparent 40%); }
