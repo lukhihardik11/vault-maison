@@ -884,19 +884,24 @@ html {
    must still be readable. This auto-reveals after 1.5s.
    ═══════════════════════════════════════════════════════════════ */
 
-/* ═══ NUCLEAR SAFETY NET ═══
+/* ═══ NUCLEAR SAFETY NET v2 ═══
    Problem: All scroll-reveal classes start at opacity:0 and depend on
    IntersectionObserver + JS to become visible. If JS is slow, blocked,
    or the observer never fires, content stays invisible forever.
    
-   Solution: Force everything visible after 0.3s via CSS animation.
-   The IntersectionObserver can still add .is-visible for a nicer
-   transition, but content WILL appear regardless.
+   Previous approach (v1) used @keyframes forceReveal with !important
+   inside keyframes — but !important is IGNORED inside @keyframes per
+   CSS spec. The animation ran but couldn't override opacity:0.
+   
+   Solution v2: Directly override opacity and transform on the scroll-
+   reveal selectors. The IntersectionObserver JS still adds .is-visible
+   for a smooth transition, but if it never fires, content is visible
+   immediately because we remove the initial opacity:0.
 */
-@keyframes forceReveal {
-  to { opacity: 1 !important; transform: translateY(0) !important; }
-}
 
+/* Override: Force all scroll-reveal elements to be visible by default.
+   The .is-visible class from IntersectionObserver is no longer needed
+   for visibility — it only provides the nice transition effect. */
 .vault-scroll-reveal,
 .archive-scroll-reveal,
 .atelier-scroll-reveal,
@@ -906,10 +911,11 @@ html {
 .maison-scroll-reveal,
 .scroll-reveal,
 .stagger-item {
-  animation: forceReveal 0.4s ease-out 0.3s forwards !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
-/* Hero fades — ensure they always complete within 1.5s */
+/* Hero fades — ensure they always complete */
 .archive-hero-fade-delay-1,
 .archive-hero-fade-delay-2,
 .archive-hero-fade-delay-3,
@@ -930,7 +936,8 @@ html {
 .maison-hero-fade-3,
 .vm-hero-el,
 .vm-fade {
-  animation-fill-mode: forwards !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 /* Reduced motion — skip all animations, show everything immediately */

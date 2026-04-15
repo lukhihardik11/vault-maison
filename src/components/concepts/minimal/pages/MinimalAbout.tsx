@@ -172,7 +172,7 @@ export function MinimalAbout() {
       </section>
 
       <style>{`
-        .abt-fade { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .abt-fade { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s ease; }
         .abt-fade.abt-vis { opacity: 1; transform: translateY(0); }
         .abt-value-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 12px #d4d0cb, -6px -6px 12px #ffffff !important; }
         .abt-cta-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
