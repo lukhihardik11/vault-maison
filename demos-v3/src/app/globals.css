@@ -421,3 +421,85 @@ select:focus {
   .archive-mobile-menu-btn { display: block !important; }
   .archive-desktop-nav { display: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   CONCEPT 07 — THE OBSERVATORY
+   Analytical / tech / deep space navy
+   ═══════════════════════════════════════════════════════════ */
+
+/* Scroll reveal — fade up on scroll */
+.observatory-scroll-reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.observatory-scroll-reveal.is-visible {
+  opacity: 1; transform: translateY(0);
+}
+.observatory-stagger-0 { transition-delay: 0ms; }
+.observatory-stagger-1 { transition-delay: 100ms; }
+.observatory-stagger-2 { transition-delay: 200ms; }
+.observatory-stagger-3 { transition-delay: 300ms; }
+.observatory-stagger-4 { transition-delay: 400ms; }
+.observatory-stagger-5 { transition-delay: 500ms; }
+.observatory-stagger-6 { transition-delay: 600ms; }
+
+.observatory-card-hover {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.observatory-card-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 212, 255, 0.3) !important;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+}
+
+@keyframes observatory-fade-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.observatory-hero-fade {
+  animation: observatory-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.observatory-hero-fade-delay-1 {
+  animation: observatory-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  opacity: 0;
+}
+.observatory-hero-fade-delay-2 {
+  animation: observatory-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  opacity: 0;
+}
+.observatory-hero-fade-delay-3 {
+  animation: observatory-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+  opacity: 0;
+}
+
+@keyframes observatory-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.observatory-pulse {
+  animation: observatory-pulse 2s ease-in-out infinite;
+}
+
+@keyframes observatory-scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.observatory-scan-line {
+  animation: observatory-scan 3s linear infinite;
+}
+
+.observatory-btn-press {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.observatory-btn-press:hover {
+  box-shadow: 0 0 24px rgba(0, 212, 255, 0.2);
+}
+.observatory-btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .observatory-mobile-menu-btn { display: block !important; }
+  .observatory-desktop-nav { display: none !important; }
+}

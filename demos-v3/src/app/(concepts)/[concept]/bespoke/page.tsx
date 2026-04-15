@@ -12,6 +12,7 @@ import { GalleryBespoke } from '@/components/concepts/gallery/pages'
 import { SalonBespoke } from '@/components/concepts/salon/pages'
 import { AtelierBespoke } from '@/components/concepts/atelier/pages'
 import { ArchiveBespoke } from '@/components/concepts/archive/pages'
+import { ObservatoryBespoke } from '@/components/concepts/observatory/pages'
 
 export default function BespokePage() {
   const params = useParams()
@@ -26,6 +27,7 @@ export default function BespokePage() {
   if (concept.id === 'salon') return <SalonBespoke />
   if (concept.id === 'atelier') return <AtelierBespoke />
   if (concept.id === 'archive') return <ArchiveBespoke />
+  if (concept.id === 'observatory') return <ObservatoryBespoke />
 
   const steps = [
     { title: 'Consultation', desc: 'Share your vision with our design team. We listen to your desires, lifestyle, and aesthetic preferences to understand exactly what you seek.' },

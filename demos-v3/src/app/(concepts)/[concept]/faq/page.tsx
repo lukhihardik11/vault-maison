@@ -12,6 +12,7 @@ import { GalleryFAQ } from '@/components/concepts/gallery/pages'
 import { SalonFAQ } from '@/components/concepts/salon/pages'
 import { AtelierFAQ } from '@/components/concepts/atelier/pages'
 import { ArchiveFAQ } from '@/components/concepts/archive/pages'
+import { ObservatoryFAQ } from '@/components/concepts/observatory/pages'
 
 const faqs = [
   { q: 'Are your diamonds certified?', a: 'Yes, every diamond above 0.30 carats comes with a certificate from GIA, AGS, or an equivalent independent grading laboratory. Our melee diamonds are batch-certified to ensure consistent quality.' },
@@ -36,6 +37,7 @@ export default function FAQPage() {
   if (concept.id === 'salon') return <SalonFAQ />
   if (concept.id === 'atelier') return <AtelierFAQ />
   if (concept.id === 'archive') return <ArchiveFAQ />
+  if (concept.id === 'observatory') return <ObservatoryFAQ />
   return (
     <ConceptLayout concept={concept}>
       <PageHeader

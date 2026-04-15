@@ -13,6 +13,7 @@ import { GalleryWishlist } from '@/components/concepts/gallery/pages'
 import { SalonWishlist } from '@/components/concepts/salon/pages'
 import { AtelierWishlist } from '@/components/concepts/atelier/pages'
 import { ArchiveWishlist } from '@/components/concepts/archive/pages'
+import { ObservatoryWishlist } from '@/components/concepts/observatory/pages'
 
 export default function WishlistPage() {
   const params = useParams()
@@ -27,6 +28,7 @@ export default function WishlistPage() {
   if (concept.id === 'salon') return <SalonWishlist />
   if (concept.id === 'atelier') return <AtelierWishlist />
   if (concept.id === 'archive') return <ArchiveWishlist />
+  if (concept.id === 'observatory') return <ObservatoryWishlist />
 
   return (
     <ConceptLayout concept={concept}>

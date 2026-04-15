@@ -9,6 +9,7 @@ import { GalleryGrading } from '@/components/concepts/gallery/pages'
 import { SalonGrading } from '@/components/concepts/salon/pages'
 import { AtelierGrading } from '@/components/concepts/atelier/pages'
 import { ArchiveGrading } from '@/components/concepts/archive/pages'
+import { ObservatoryGrading } from '@/components/concepts/observatory/pages'
 
 export default function GradingPage() {
   const params = useParams()
@@ -21,6 +22,7 @@ export default function GradingPage() {
   if (concept.id === 'salon') return <SalonGrading />
   if (concept.id === 'atelier') return <AtelierGrading />
   if (concept.id === 'archive') return <ArchiveGrading />
+  if (concept.id === 'observatory') return <ObservatoryGrading />
   return (
     <InfoPage
       concept={concept}
