@@ -11,6 +11,7 @@ import { ConceptLayout, PageHeader, FeaturedProducts } from '@/components/shared
 import { getBestsellers } from '@/data/products'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalCart } from '@/components/concepts/minimal/pages'
+import { TheaterCart } from '@/components/concepts/theater/pages'
 import { VaultCart } from '@/components/concepts/vault/pages'
 import { GalleryCart } from '@/components/concepts/gallery/pages'
 import { SalonCart } from '@/components/concepts/salon/pages'
@@ -32,6 +33,7 @@ export default function CartPage() {
   if (concept.id === 'atelier') return <AtelierCart />
   if (concept.id === 'archive') return <ArchiveCart />
   if (concept.id === 'observatory') return <ObservatoryCart />
+  if (concept.id === 'theater') return <TheaterCart />
 
   return (
     <ConceptLayout concept={concept}>

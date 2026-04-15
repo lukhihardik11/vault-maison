@@ -8,6 +8,7 @@ import { products } from '@/data/products'
 import { ConceptLayout, PageHeader, ProductCard } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { MinimalSearch } from '@/components/concepts/minimal/pages'
+import { TheaterSearch } from '@/components/concepts/theater/pages'
 import { VaultSearch } from '@/components/concepts/vault/pages'
 import { GallerySearch } from '@/components/concepts/gallery/pages'
 import { SalonSearch } from '@/components/concepts/salon/pages'
@@ -63,6 +64,7 @@ export default function SearchPage() {
   if (concept.id === 'atelier') return <AtelierSearch />
   if (concept.id === 'archive') return <ArchiveSearch />
   if (concept.id === 'observatory') return <ObservatorySearch />
+  if (concept.id === 'theater') return <TheaterSearch />
 
   return (
     <ConceptLayout concept={concept}>

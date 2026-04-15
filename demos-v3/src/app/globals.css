@@ -503,3 +503,63 @@ select:focus {
   .observatory-mobile-menu-btn { display: block !important; }
   .observatory-desktop-nav { display: none !important; }
 }
+
+/* ═══ THEATER CONCEPT CSS ═══ */
+.theater-scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.theater-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.theater-stagger-0 { transition-delay: 0ms; }
+.theater-stagger-1 { transition-delay: 100ms; }
+.theater-stagger-2 { transition-delay: 200ms; }
+.theater-stagger-3 { transition-delay: 300ms; }
+.theater-stagger-4 { transition-delay: 400ms; }
+.theater-stagger-5 { transition-delay: 500ms; }
+.theater-stagger-6 { transition-delay: 600ms; }
+
+.theater-hero-fade-delay-1 {
+  animation: theaterFadeUp 0.8s ease-out 0.3s both;
+}
+.theater-hero-fade-delay-2 {
+  animation: theaterFadeUp 0.8s ease-out 0.5s both;
+}
+.theater-hero-fade-delay-3 {
+  animation: theaterFadeUp 0.8s ease-out 0.7s both;
+}
+@keyframes theaterFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.theater-card-hover {
+  transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+}
+.theater-card-hover:hover {
+  border-color: #8B691440 !important;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(200, 16, 46, 0.08);
+}
+
+.theater-btn-press {
+  transition: transform 0.15s ease, box-shadow 0.3s ease;
+}
+.theater-btn-press:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(200, 16, 46, 0.2);
+}
+.theater-btn-press:active {
+  transform: translateY(1px);
+}
+
+.theater-curtain-rise {
+  animation: curtainRise 1.2s ease-out both;
+}
+@keyframes curtainRise {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}

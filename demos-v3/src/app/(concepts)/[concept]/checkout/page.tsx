@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation'
 import { getConcept } from '@/data/concepts'
 import { ConceptLayout, CheckoutFlow } from '@/components/shared'
 import { MinimalCheckout } from '@/components/concepts/minimal/pages'
+import { TheaterCheckout } from '@/components/concepts/theater/pages'
 import { VaultCheckout } from '@/components/concepts/vault/pages'
 import { GalleryCheckout } from '@/components/concepts/gallery/pages'
 import { SalonCheckout } from '@/components/concepts/salon/pages'
@@ -23,6 +24,7 @@ export default function CheckoutPage() {
   if (concept.id === 'atelier') return <AtelierCheckout />
   if (concept.id === 'archive') return <ArchiveCheckout />
   if (concept.id === 'observatory') return <ObservatoryCheckout />
+  if (concept.id === 'theater') return <TheaterCheckout />
 
   return (
     <ConceptLayout concept={concept} hideFooter>

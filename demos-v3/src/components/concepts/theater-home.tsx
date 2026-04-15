@@ -4,178 +4,285 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { type ConceptConfig } from '@/data/concepts'
-import { getBestsellers } from '@/data/products'
-import { ConceptLayout, SplitSection, Testimonial, CTABanner, CategoryGrid } from '@/components/shared'
-import { buildConceptUrl } from '@/lib/concept-utils'
-import { Marquee } from '@/components/ui/marquee'
-
-const heroSlides = [
-  { image: '/images/jewelry-set-elegant.jpg', title: 'Act I', subtitle: 'The Discovery', desc: 'Deep within the earth, precious metals and gemstones await their transformation into art.' },
-  { image: '/images/diamond-facets-1.jpg', title: 'Act II', subtitle: 'The Craft', desc: 'Master artisans reveal the fire within, facet by facet, in a performance of precision and artistry.' },
-  { image: '/images/gold-jewelry-collection.jpg', title: 'Act III', subtitle: 'The Reveal', desc: 'The final masterpiece emerges — a symphony of light and metal, ready for its starring role.' },
-]
+import { getBestsellers, getNewArrivals, products } from '@/data/products'
+import { allCategories, categoryLabels } from '@/data/concepts'
+import { TheaterLayout, TH, RevealSection, StaggerItem, TheaterSection, GoldRule, ActLabel, Curtain } from './theater/TheaterLayout'
+import { TheaterButton, SceneCard, DramaticQuote, ActCounter } from './theater/ui'
+import { ArrowRight, Shield, Truck, RotateCcw, Heart, Sparkles, Star, Crown } from 'lucide-react'
 
 export function TheaterHome({ concept }: { concept: ConceptConfig }) {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const featured = getBestsellers().slice(0, 4)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
-    }, 6000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const slide = heroSlides[currentSlide]
+  const featured = getBestsellers().slice(0, 6)
+  const newArrivals = getNewArrivals().slice(0, 4)
 
   return (
-    <ConceptLayout concept={concept}>
-      {/* Cinematic hero - no framer-motion opacity, always visible */}
-      <section className="relative h-screen overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
-        {/* Background image - always visible */}
-        <div className="absolute inset-0">
-          <Image
-            src={slide.image}
-            alt={slide.subtitle}
-            fill
-            className="object-cover transition-opacity duration-1000"
-            style={{ opacity: 0.45 }}
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+    <TheaterLayout>
+      {/* ═══ SECTION 1: HERO ═══ */}
+      <section style={{
+        position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center',
+        background: `linear-gradient(135deg, ${TH.bg} 0%, ${TH.bgAlt} 50%, ${TH.bg} 100%)`,
+        overflow: 'hidden',
+      }}>
+        <div style={{ position: 'absolute', inset: 0 }}>
+          <Image src="/images/theater/velvet-curtain.jpg" alt="Velvet curtain" fill style={{ objectFit: 'cover', opacity: 0.2 }} priority />
+          <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 30%, ${TH.glow} 0%, transparent 60%)` }} />
         </div>
 
-        <div className="relative z-10 h-full flex flex-col justify-end pb-20 lg:pb-32">
-          <div className="mx-auto max-w-[1440px] px-8 lg:px-16 w-full">
-            <p
-              className={`text-[10px] uppercase tracking-[0.35em] mb-4 ${concept.fonts.bodyClass}`}
-              style={{ color: concept.palette.accent }}
-            >
-              {slide.title}
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 1280, margin: '0 auto', padding: '0 32px', width: '100%', textAlign: 'center' }}>
+          <div style={{ maxWidth: 700, margin: '0 auto' }}>
+            <ActLabel label="The Immersive Theater" style={{ marginBottom: 32, justifyContent: 'center' }} />
+            <h1 className="theater-hero-fade-delay-1" style={{
+              fontFamily: "'Playfair Display', serif", fontSize: '4.5rem', fontWeight: 400,
+              color: TH.text, margin: '0 0 24px', lineHeight: 1.1,
+            }}>
+              Every Jewel<br />Tells a Story
+            </h1>
+            <p className="theater-hero-fade-delay-2" style={{
+              fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem',
+              color: TH.textSecondary, lineHeight: 1.7, marginBottom: 40, maxWidth: 500, margin: '0 auto 40px',
+            }}>
+              Step into a world where luxury is a performance — dramatic, emotional, and utterly unforgettable. Each piece is a scene in your personal narrative.
             </p>
-            <h2
-              className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[0.02em] mb-4 ${concept.fonts.headingClass}`}
-              style={{ color: concept.palette.accent }}
-            >
-              {slide.subtitle}
-            </h2>
-            <p className={`text-sm font-light max-w-md text-white/50 leading-relaxed ${concept.fonts.bodyClass}`}>
-              {slide.desc}
-            </p>
-
-            {/* Slide indicators */}
-            <div className="flex gap-4 mt-12">
-              {heroSlides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentSlide(i)}
-                  className="h-[2px] w-16 transition-colors duration-300"
-                  style={{
-                    backgroundColor: currentSlide === i ? concept.palette.accent : 'rgba(255,255,255,0.2)',
-                  }}
-                />
-              ))}
+            <div className="theater-hero-fade-delay-3" style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
+              <TheaterButton href="/theater/collections" size="lg">
+                Enter the Theater <ArrowRight size={14} />
+              </TheaterButton>
+              <TheaterButton href="/theater/bespoke" variant="secondary" size="lg">
+                Commission a Piece
+              </TheaterButton>
             </div>
           </div>
         </div>
+
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+          <Curtain />
+        </div>
       </section>
 
-      {/* Cinematic marquee */}
-      <section className="py-5" style={{ backgroundColor: '#0a0a0a', borderBottom: `1px solid ${concept.palette.muted}` }}>
-        <Marquee className="[--duration:25s] [--gap:2rem]">
-          {['Now Showing', 'The Jewelry Theater', 'Act I: Discovery', 'Act II: The Craft', 'Act III: The Reveal', 'Private Screenings Available'].map((text) => (
-            <span
-              key={text}
-              className="text-[10px] uppercase tracking-[0.3em] mx-8 text-white/20"
-            >
-              {text}
-            </span>
+      {/* ═══ SECTION 2: ACT COUNTER ═══ */}
+      <section style={{ background: TH.surface, borderBottom: `1px solid ${TH.border}`, padding: '40px 0' }}>
+        <RevealSection>
+          <ActCounter items={[
+            { value: '47', label: 'Master Artisans' },
+            { value: '12K+', label: 'Pieces Created' },
+            { value: '28', label: 'Years of Craft' },
+            { value: '100%', label: 'Ethically Sourced' },
+          ]} />
+        </RevealSection>
+      </section>
+
+      {/* ═══ SECTION 3: FEATURED SCENES ═══ */}
+      <TheaterSection>
+        <RevealSection>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40 }}>
+            <div>
+              <ActLabel label="Featured Scenes" style={{ marginBottom: 16 }} />
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2rem', fontWeight: 500, color: TH.text, margin: 0 }}>
+                Center Stage
+              </h2>
+            </div>
+            <TheaterButton href="/theater/collections" variant="ghost" size="sm">
+              View All <ArrowRight size={12} />
+            </TheaterButton>
+          </div>
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          {featured.map((product, i) => (
+            <StaggerItem key={product.slug} index={i}>
+              <SceneCard
+                image={product.images[0]}
+                title={product.name}
+                subtitle={product.subtitle}
+                price={product.price}
+                href={`/theater/product/${product.slug}`}
+                act={`Scene ${i + 1}`}
+              />
+            </StaggerItem>
           ))}
-        </Marquee>
-      </section>
+        </div>
+      </TheaterSection>
 
-      {/* Dramatic product showcase */}
-      <section className="py-24 lg:py-32" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p
-            className={`text-[10px] uppercase tracking-[0.3em] mb-3 ${concept.fonts.bodyClass}`}
-            style={{ color: concept.palette.accent, opacity: 0.5 }}
-          >
-            Now Showing
-          </p>
-          <h2
-            className={`text-2xl font-light tracking-[0.04em] mb-16 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            The Main Stage
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
-            {featured.map((p) => (
-              <Link key={p.id} href={buildConceptUrl('theater', `product/${p.slug}`)} className="group block relative overflow-hidden">
-                <div className="relative" style={{ aspectRatio: '16/9' }}>
-                  <Image
-                    src={p.images[0]}
-                    alt={p.name}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                    style={{ transitionDuration: '1200ms' }}
-                    sizes="50vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <p className="text-[9px] uppercase tracking-[0.2em] mb-2" style={{ color: concept.palette.accent }}>
-                      {p.category}
-                    </p>
-                    <h3 className={`text-lg text-white font-light ${concept.fonts.headingClass}`}>
-                      {p.name}
-                    </h3>
-                    <p className="text-xs text-white/50 mt-1">{p.priceDisplay}</p>
+      {/* ═══ SECTION 4: DRAMATIC SPLIT ═══ */}
+      <TheaterSection alt>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <div>
+              <ActLabel label="The Craft" style={{ marginBottom: 24 }} />
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2.2rem', fontWeight: 500, color: TH.text, margin: '0 0 20px', lineHeight: 1.2 }}>
+                Where Passion Meets Precision
+              </h2>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.95rem', color: TH.textSecondary, lineHeight: 1.8, marginBottom: 24 }}>
+                Behind every masterpiece is a performance of its own — master artisans working with centuries-old techniques, guided by an unwavering commitment to perfection. Each piece requires over 120 hours of meticulous handwork.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 32 }}>
+                {[
+                  { val: '120+', label: 'Hours per Piece' },
+                  { val: '47', label: 'Master Artisans' },
+                  { val: '0.01mm', label: 'Precision' },
+                ].map((stat, i) => (
+                  <div key={i} style={{ borderLeft: `2px solid ${TH.accent}40`, paddingLeft: 12 }}>
+                    <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.4rem', fontWeight: 400, color: TH.gold }}>{stat.val}</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.55rem', letterSpacing: '0.15em', color: TH.textSecondary, textTransform: 'uppercase' }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              <TheaterButton href="/theater/craftsmanship" variant="secondary">
+                Behind the Curtain <ArrowRight size={12} />
+              </TheaterButton>
+            </div>
+            <div style={{ position: 'relative', height: 500, overflow: 'hidden' }}>
+              <Image src="/images/theater/artisan-hands.jpg" alt="Master artisan" fill style={{ objectFit: 'cover' }} />
+              <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle at 50% 30%, ${TH.accent}10 0%, transparent 60%)` }} />
+            </div>
+          </div>
+        </RevealSection>
+      </TheaterSection>
+
+      {/* ═══ SECTION 5: CATEGORIES ═══ */}
+      <TheaterSection>
+        <RevealSection>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <ActLabel label="The Repertoire" style={{ marginBottom: 16, justifyContent: 'center' }} />
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2rem', fontWeight: 500, color: TH.text }}>
+              Browse by Act
+            </h2>
+          </div>
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
+          {allCategories.map((cat, i) => (
+            <StaggerItem key={cat} index={i % 5}>
+              <Link href={`/theater/category/${cat}`} style={{ textDecoration: 'none' }}>
+                <div className="theater-card-hover" style={{
+                  background: TH.card, border: `1px solid ${TH.border}`,
+                  padding: 20, textAlign: 'center', cursor: 'pointer',
+                }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.5rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: TH.accent, marginBottom: 8 }}>ACT {String(i + 1).padStart(2, '0')}</div>
+                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.85rem', color: TH.text, fontWeight: 500 }}>
+                    {categoryLabels[cat]}
                   </div>
                 </div>
               </Link>
-            ))}
-          </div>
+            </StaggerItem>
+          ))}
         </div>
+      </TheaterSection>
+
+      {/* ═══ SECTION 6: SPOTLIGHT ═══ */}
+      <TheaterSection alt>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <div style={{ position: 'relative', height: 450, overflow: 'hidden' }}>
+              <Image src="/images/theater/spotlight.jpg" alt="Spotlight moment" fill style={{ objectFit: 'cover' }} />
+            </div>
+            <div>
+              <ActLabel label="The Experience" style={{ marginBottom: 24 }} />
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2rem', fontWeight: 500, color: TH.text, margin: '0 0 16px' }}>
+                A Private Performance
+              </h2>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.95rem', color: TH.textSecondary, lineHeight: 1.8, marginBottom: 24 }}>
+                Every visit to The Immersive Theater is a curated experience. From the moment you enter our showroom, you&apos;re enveloped in an atmosphere of dramatic beauty — velvet seating, theatrical lighting, and the undivided attention of our expert consultants.
+              </p>
+              <TheaterButton href="/theater/contact" variant="secondary">
+                Reserve Your Seat <ArrowRight size={12} />
+              </TheaterButton>
+            </div>
+          </div>
+        </RevealSection>
+      </TheaterSection>
+
+      {/* ═══ SECTION 7: NEW ARRIVALS ═══ */}
+      <TheaterSection>
+        <RevealSection>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40 }}>
+            <div>
+              <ActLabel label="New Scenes" style={{ marginBottom: 16 }} />
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2rem', fontWeight: 500, color: TH.text, margin: 0 }}>
+                Latest Arrivals
+              </h2>
+            </div>
+          </div>
+        </RevealSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+          {newArrivals.map((product, i) => (
+            <StaggerItem key={product.slug} index={i}>
+              <Link href={`/theater/product/${product.slug}`} style={{ textDecoration: 'none' }}>
+                <div className="theater-card-hover" style={{ background: TH.card, border: `1px solid ${TH.border}`, overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', height: 200 }}>
+                    <Image src={product.images[0]} alt={product.name} fill style={{ objectFit: 'cover' }} />
+                    <div style={{ position: 'absolute', top: 8, right: 8, background: TH.accent, padding: '3px 8px' }}>
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.5rem', color: TH.text, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>PREMIERE</span>
+                    </div>
+                  </div>
+                  <div style={{ padding: 16 }}>
+                    <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.85rem', fontWeight: 500, color: TH.text, margin: '0 0 4px' }}>{product.name}</h3>
+                    <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1rem', fontWeight: 500, color: TH.gold }}>${product.price.toLocaleString()}</div>
+                  </div>
+                </div>
+              </Link>
+            </StaggerItem>
+          ))}
+        </div>
+      </TheaterSection>
+
+      {/* ═══ SECTION 8: TESTIMONIAL ═══ */}
+      <section style={{ background: TH.bgAlt, padding: '80px 0' }}>
+        <RevealSection>
+          <DramaticQuote
+            quote="Walking into The Immersive Theater is like stepping onto a stage where you are the star. The way they present each piece — the lighting, the narrative, the emotion — transforms a purchase into a memory that lasts forever."
+            author="Isabella Rossi"
+            title="Private Collector, Milan"
+          />
+        </RevealSection>
       </section>
 
-      <SplitSection
-        concept={concept}
-        title="The Drama of Light"
-        description="Every gemstone is a theater of light. Watch as photons enter the crown, dance between facets, and burst forth in a dazzling display of brilliance and fire. Our master artisans are the directors of this performance, shaping each piece to maximize the drama."
-        image="/images/diamond-bokeh-1.jpg"
-        ctaLabel="Behind the Scenes"
-        ctaHref={buildConceptUrl('theater', 'craftsmanship')}
-      />
+      {/* ═══ SECTION 9: GUARANTEES ═══ */}
+      <TheaterSection>
+        <RevealSection>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+            {[
+              { icon: <Shield size={24} />, title: 'Authenticated', desc: 'Every piece carries GIA/AGS certification plus our Theater Authentication Report.' },
+              { icon: <Truck size={24} />, title: 'Insured Delivery', desc: 'Fully insured, temperature-controlled shipping with signature requirement.' },
+              { icon: <RotateCcw size={24} />, title: '30-Day Returns', desc: 'Full refund within 30 days. No questions asked, no restocking fees.' },
+              { icon: <Heart size={24} />, title: 'Lifetime Care', desc: 'Complimentary cleaning, inspection, and minor repairs for life.' },
+            ].map((item, i) => (
+              <StaggerItem key={i} index={i}>
+                <div style={{ textAlign: 'center', padding: 24 }}>
+                  <div style={{ color: TH.gold, marginBottom: 16, display: 'flex', justifyContent: 'center' }}>{item.icon}</div>
+                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.95rem', fontWeight: 500, color: TH.text, margin: '0 0 8px' }}>{item.title}</h3>
+                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.7rem', color: TH.textSecondary, lineHeight: 1.6, margin: 0 }}>{item.desc}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </div>
+        </RevealSection>
+      </TheaterSection>
 
-      <div className="py-20 lg:py-28" style={{ backgroundColor: concept.palette.bg }}>
-        <div className="mx-auto max-w-[1440px] px-8 lg:px-16">
-          <p className={`text-[10px] tracking-[0.3em] uppercase mb-3 ${concept.fonts.bodyClass}`} style={{ color: concept.palette.accent, opacity: 0.5 }}>
-            Explore
-          </p>
-          <h2
-            className={`text-2xl font-light tracking-[0.04em] mb-12 ${concept.fonts.headingClass}`}
-            style={{ color: concept.palette.text }}
-          >
-            Browse Scenes
-          </h2>
-          <CategoryGrid concept={concept} />
-        </div>
-      </div>
-
-      <Testimonial
-        concept={concept}
-        quote="The Theater experience is pure cinema. From the moment you arrive, you are immersed in a world where every piece of jewelry is the star of its own story."
-        author="François Delacroix"
-        title="Film Director & Collector"
-      />
-
-      <CTABanner
-        concept={concept}
-        title="Reserve Your Seat"
-        description="Experience the Theater in our private screening room."
-        ctaLabel={concept.ctaText.contact}
-        ctaHref={buildConceptUrl('theater', 'contact')}
-      />
-    </ConceptLayout>
+      {/* ═══ SECTION 10: CTA ═══ */}
+      <section style={{
+        position: 'relative', padding: '100px 0',
+        background: `linear-gradient(rgba(12,10,13,0.85), rgba(12,10,13,0.95)), url('/images/theater/opera-house.jpg') center/cover`,
+        textAlign: 'center',
+      }}>
+        <Curtain style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
+        <RevealSection>
+          <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 32px' }}>
+            <Crown size={28} color={TH.gold} style={{ margin: '0 auto 16px' }} />
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '2.5rem', fontWeight: 400, color: TH.text, margin: '0 0 16px', lineHeight: 1.2 }}>
+              The Stage Awaits
+            </h2>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem', color: TH.textSecondary, lineHeight: 1.7, marginBottom: 32 }}>
+              Book a private showing and experience luxury as it was meant to be — dramatic, personal, and unforgettable.
+            </p>
+            <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
+              <TheaterButton href="/theater/contact" size="lg">
+                Reserve Your Seat
+              </TheaterButton>
+              <TheaterButton href="/theater/bespoke" variant="secondary" size="lg">
+                Bespoke Commission
+              </TheaterButton>
+            </div>
+          </div>
+        </RevealSection>
+      </section>
+    </TheaterLayout>
   )
 }

@@ -8,6 +8,7 @@ import { ConceptLayout, PageHeader, ProductCard, CTABanner } from '@/components/
 import { buildConceptUrl } from '@/lib/concept-utils'
 import { useWishlistStore } from '@/store/wishlist'
 import { MinimalWishlist } from '@/components/concepts/minimal/pages'
+import { TheaterWishlist } from '@/components/concepts/theater/pages'
 import { VaultWishlist } from '@/components/concepts/vault/pages'
 import { GalleryWishlist } from '@/components/concepts/gallery/pages'
 import { SalonWishlist } from '@/components/concepts/salon/pages'
@@ -29,6 +30,7 @@ export default function WishlistPage() {
   if (concept.id === 'atelier') return <AtelierWishlist />
   if (concept.id === 'archive') return <ArchiveWishlist />
   if (concept.id === 'observatory') return <ObservatoryWishlist />
+  if (concept.id === 'theater') return <TheaterWishlist />
 
   return (
     <ConceptLayout concept={concept}>
