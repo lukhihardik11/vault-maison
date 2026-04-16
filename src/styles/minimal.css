@@ -1,0 +1,113 @@
+/* ═══════════════════════════════════════════════════════════════
+   MINIMAL MACHINE — Global Styles
+   Brutalist monochrome design language.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Selection: inverted brutalist ── */
+.mn-page ::selection {
+  background: #050505;
+  color: #FFFFFF;
+}
+.mn-page ::-moz-selection {
+  background: #050505;
+  color: #FFFFFF;
+}
+
+/* ── Custom cursor on product images ── */
+.mn-product-image {
+  cursor: crosshair;
+}
+
+/* ── Scroll-reveal animation ── */
+.mn-scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.mn-scroll-reveal.mn-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Skeleton shimmer ── */
+.mn-skeleton {
+  animation: mn-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.mn-skeleton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  animation: mn-shimmer 2s infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+}
+
+@keyframes mn-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes mn-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* ── Animated underline (slides in from left) ── */
+.mn-underline-hover {
+  position: relative;
+  display: inline-block;
+}
+.mn-underline-hover::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background: #050505;
+  transition: width 0.3s ease-out;
+}
+.mn-underline-hover:hover::after,
+.group:hover .mn-underline-hover::after {
+  width: 100%;
+}
+
+/* ── Image lazy-load fade ── */
+.mn-img-lazy {
+  opacity: 0;
+  transition: opacity 0.7s ease-out;
+}
+.mn-img-lazy.mn-img-loaded {
+  opacity: 1;
+}
+
+/* ── Button hover: slight lift ── */
+.mn-btn-lift {
+  transition: transform 0.3s ease-out;
+}
+.mn-btn-lift:hover {
+  transform: translateY(-1px);
+}
+
+/* ── Page transition fade ── */
+.mn-page-enter {
+  animation: mn-fade-in 0.3s ease-out;
+}
+
+@keyframes mn-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Responsive nav helpers ── */
+@media (max-width: 768px) {
+  .mn-desktop-only { display: none !important; }
+  .mn-mobile-only { display: block !important; }
+}
+@media (min-width: 769px) {
+  .mn-mobile-only { display: none !important; }
+}

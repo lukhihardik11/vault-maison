@@ -3,6 +3,9 @@
 import { useState, useMemo } from 'react'
 import { type Product } from '@/data/products'
 import { MinimalProductCard } from './MinimalProductCard'
+import { MINIMAL } from './design-tokens'
+
+const { colors } = MINIMAL
 
 interface MinimalProductGridProps {
   products: Product[]
@@ -46,7 +49,7 @@ export function MinimalProductGrid({ products, showSort = false }: MinimalProduc
             gap: '24px',
             marginBottom: '40px',
             paddingBottom: '16px',
-            borderBottom: '1px solid #E8E5E0',
+            borderBottom: `1px solid ${colors.border}`,
           }}
         >
           {sortOptions.map((opt) => (
@@ -61,7 +64,7 @@ export function MinimalProductGrid({ products, showSort = false }: MinimalProduc
                 textTransform: 'uppercase',
                 letterSpacing: '0.2em',
                 fontWeight: 400,
-                color: '#050505',
+                color: colors.text,
                 opacity: sort === opt.value ? 1 : 0.4,
                 transition: 'opacity 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                 padding: 0,

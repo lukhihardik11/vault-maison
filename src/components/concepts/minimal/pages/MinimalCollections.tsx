@@ -5,9 +5,10 @@ import { MinimalLayout } from '../MinimalLayout'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
 import { ArrowRight } from 'lucide-react'
-import MinimalHeroSection from '../ui/MinimalHeroSection'
+import { MINIMAL } from '../design-tokens'
+import { ScrollReveal } from '../ScrollReveal'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const { colors, font } = MINIMAL
 
 const categoryImages: Record<string, string> = {
   'diamond-rings': '/images/products/diamond-solitaire-ring.jpg',
@@ -38,58 +39,75 @@ const categoryFeatures: Record<string, string[]> = {
 export function MinimalCollections() {
   return (
     <MinimalLayout>
-      {/* Hero (MinimalHeroSection - KokonutUI) */}
-      <MinimalHeroSection
-        eyebrow="Vault Maison"
-        title="Collections"
-        subtitle="Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless elegance."
-        image="/images/products/editorial-model-jewelry.jpg"
-        overlay="gradient"
-      />
+      {/* Minimal header — no hero image, just typography */}
+      <section style={{ padding: '60px 5vw 40px', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.textSecondary, display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '32px' }}>
+          <Link href="/minimal" style={{ color: colors.textSecondary, textDecoration: 'none' }} className="mn-underline-hover">Home</Link>
+          <span>/</span>
+          <span style={{ color: colors.text }}>Collections</span>
+        </div>
+        <ScrollReveal>
+          <h1 style={{ fontFamily: font, fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 200, color: colors.text, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '16px' }}>
+            Collections
+          </h1>
+          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: colors.textSecondary, maxWidth: '520px', lineHeight: 1.7 }}>
+            Ten curated categories spanning diamonds, gold, and bridal. Each piece crafted for timeless precision.
+          </p>
+        </ScrollReveal>
+      </section>
 
-      {/* Category Grid */}
-      <section style={{ padding: '80px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
-        <div className="vm-coll-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px' }}>
-          {allCategories.map((cat: ProductCategory) => {
+      {/* Category Grid — 2 col on tablet, 3 on desktop */}
+      <section style={{ padding: '0 5vw 80px', maxWidth: '1400px', margin: '0 auto' }}>
+        <div className="mn-coll-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+          {allCategories.map((cat: ProductCategory, idx: number) => {
             const count = getProductsByCategory(cat).length
             const features = categoryFeatures[cat] || []
             return (
-              <Link key={cat} href={`/minimal/category/${cat}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div className="vm-coll-card" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F5F4F0' }}>
-                  <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden' }}>
-                    <img src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'} alt={categoryLabels[cat]} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.5) 0%, transparent 50%)' }} />
-                    <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
-                      <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '6px' }}>{count} {count === 1 ? 'Piece' : 'Pieces'}</p>
-                      <h3 style={{ fontFamily: font, fontSize: '22px', fontWeight: 300, color: '#FFFFFF' }}>{categoryLabels[cat]}</h3>
+              <ScrollReveal key={cat} delay={Math.min(idx * 60, 300)}>
+                <Link href={`/minimal/category/${cat}`} className="group" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                  <div style={{ position: 'relative', overflow: 'hidden' }}>
+                    {/* Image — no overlay, no gradient */}
+                    <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden', backgroundColor: colors.hover }}>
+                      <img
+                        src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'}
+                        alt={categoryLabels[cat]}
+                        className="group-hover:scale-[1.03]"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease-out' }}
+                      />
+                    </div>
+                    {/* Info */}
+                    <div style={{ padding: '16px 0' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
+                        <h3 className="mn-underline-hover" style={{ fontFamily: font, fontSize: '18px', fontWeight: 500, color: colors.text, letterSpacing: '-0.01em' }}>
+                          {categoryLabels[cat]}
+                        </h3>
+                        <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: colors.textSecondary, fontVariantNumeric: 'tabular-nums' }}>
+                          {count} {count === 1 ? 'piece' : 'pieces'}
+                        </span>
+                      </div>
+                      <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, lineHeight: 1.6, color: colors.textSecondary, marginBottom: '12px' }}>
+                        {categoryDescriptions[cat]}
+                      </p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '12px' }}>
+                        {features.map((f) => (
+                          <span key={f} style={{ fontFamily: font, fontSize: '9px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: colors.textSecondary, padding: '3px 8px', border: `1px solid ${colors.border}` }}>{f}</span>
+                        ))}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.text }}>
+                        Explore <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform duration-300" />
+                      </div>
                     </div>
                   </div>
-                  <div style={{ padding: '20px' }}>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.6, color: '#9B9590', marginBottom: '16px' }}>
-                      {categoryDescriptions[cat]}
-                    </p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
-                      {features.map((f) => (
-                        <span key={f} style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590', padding: '4px 10px', border: '1px solid #E8E5E0' }}>{f}</span>
-                      ))}
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265' }}>
-                      Explore <ArrowRight size={12} />
-                    </div>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              </ScrollReveal>
             )
           })}
         </div>
       </section>
 
       <style>{`
-        .vm-coll-card:hover .vm-coll-img { transform: scale(1.04) !important; }
-        .vm-coll-card:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
-        @media (min-width: 769px) { .vm-coll-grid { grid-template-columns: repeat(3, 1fr) !important; } }
-        @media (min-width: 1200px) { .vm-coll-grid { grid-template-columns: repeat(4, 1fr) !important; } }
-        @media (max-width: 768px) { .vm-coll-grid { grid-template-columns: 1fr !important; } }
+        @media (min-width: 1024px) { .mn-coll-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 640px) { .mn-coll-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </MinimalLayout>
   )

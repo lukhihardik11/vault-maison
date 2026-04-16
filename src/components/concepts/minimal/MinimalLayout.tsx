@@ -1,12 +1,14 @@
 'use client'
+
 import { AuthModal } from '@/components/shared/auth-modal'
 import { ToastNotifications } from '@/components/shared/toast-notifications'
 import { getConcept } from '@/data/concepts'
-
 import { type ReactNode, useEffect, useState } from 'react'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
+import { MINIMAL } from './design-tokens'
 import Toolbar from './ui/Toolbar'
+import '@/styles/minimal.css'
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -31,11 +33,11 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
     <>
       <style>{`
         html, body {
-          background: #FAFAF8 !important;
-          color: #1A1A1A !important;
+          background: ${MINIMAL.colors.bg} !important;
+          color: ${MINIMAL.colors.text} !important;
         }
       `}</style>
-      {/* Scroll progress bar */}
+      {/* Scroll progress bar — monochrome black */}
       <div
         style={{
           position: 'fixed',
@@ -43,16 +45,17 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           left: 0,
           height: '2px',
           width: `${scrollProgress}%`,
-          backgroundColor: '#C4A265',
+          backgroundColor: MINIMAL.colors.text,
           zIndex: 9999,
           transition: 'width 100ms linear',
         }}
       />
       <div
+        className="mn-page mn-page-enter"
         style={{
-          backgroundColor: '#FAFAF8',
-          color: '#1A1A1A',
-          fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+          backgroundColor: MINIMAL.colors.bg,
+          color: MINIMAL.colors.text,
+          fontFamily: MINIMAL.font,
           fontSize: '13px',
           fontWeight: 300,
           lineHeight: 1.7,
@@ -64,7 +67,6 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         <ToastNotifications concept={getConcept('minimal')!} />
         <main>{children}</main>
         {!hideFooter && <MinimalFooter />}
-        {/* Mobile Bottom Navigation (KokonutUI Toolbar) */}
         {!hideNav && <Toolbar />}
       </div>
     </>

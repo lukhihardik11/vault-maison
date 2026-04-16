@@ -1,15 +1,18 @@
 'use client'
 
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { ChevronRight, SlidersHorizontal, X, Heart, Grid, List } from 'lucide-react'
+import { SlidersHorizontal, X, ChevronDown } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
+import { MinimalProductCard } from '../MinimalProductCard'
 import { products } from '@/data/products'
-import { allCategories, categoryLabels, type ProductCategory } from '@/data/concepts'
-import { SmoothDrawer, NeuProductCard } from '../ui'
+import { categoryLabels, type ProductCategory } from '@/data/concepts'
+import { SmoothDrawer } from '../ui'
+import { MINIMAL } from '../design-tokens'
+import { ScrollReveal } from '../ScrollReveal'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const { colors, font } = MINIMAL
 
 const categoryImages: Record<string, string> = {
   'diamond-rings': '/images/minimal-engagement-ring.jpg',
@@ -28,33 +31,14 @@ const materialFilters = ['All', 'Diamond', 'Gold', 'Diamond & Gold', 'Platinum']
 const priceFilters = ['All', 'Under $5,000', '$5,000-$10,000', '$10,000-$20,000', 'Over $20,000']
 const sortOptions = ['Newest', 'Price: Low to High', 'Price: High to Low', 'Name A-Z']
 
-function useFadeIn() {
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add('cat-vis'); obs.unobserve(el) } }, { threshold: 0.05 })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-  return ref
-}
-
-function FadeIn({ children, delay = 0, style = {} }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties }) {
-  const ref = useFadeIn()
-  return <div ref={ref} className="cat-fade" style={{ ...style, transitionDelay: `${delay}ms` }}>{children}</div>
-}
-
 export function MinimalCategory({ category }: { category?: string }) {
   const params = useParams()
   const slug = category || (params?.category as string)
   const catName = (slug && categoryLabels[slug as ProductCategory]) ? categoryLabels[slug as ProductCategory] : slug?.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) || 'All'
-  const heroImg = categoryImages[slug] || '/images/moody-jewelry-1.jpg'
 
   const [material, setMaterial] = useState('All')
   const [price, setPrice] = useState('All')
   const [sort, setSort] = useState('Newest')
-  const [view, setView] = useState<'grid' | 'list'>('grid')
   const [filterOpen, setFilterOpen] = useState(false)
 
   const filtered = useMemo(() => {
@@ -72,124 +56,135 @@ export function MinimalCategory({ category }: { category?: string }) {
     return items
   }, [slug, material, price, sort])
 
-  const heroRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const handleScroll = () => {
-      if (heroRef.current) heroRef.current.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  const hasActiveFilters = material !== 'All' || price !== 'All'
 
   return (
     <MinimalLayout>
-      <section style={{ position: 'relative', height: '50vh', minHeight: '300px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div ref={heroRef} style={{ position: 'absolute', inset: '-10%', willChange: 'transform' }}>
-          <img src={heroImg} alt={catName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      {/* Minimal category header — no hero image, just typography */}
+      <section style={{ padding: '60px 5vw 40px', maxWidth: '1400px', margin: '0 auto' }}>
+        {/* Breadcrumb */}
+        <div style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.textSecondary, display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '32px' }}>
+          <Link href="/minimal" style={{ color: colors.textSecondary, textDecoration: 'none' }} className="mn-underline-hover">Home</Link>
+          <span>/</span>
+          <Link href="/minimal/collections" style={{ color: colors.textSecondary, textDecoration: 'none' }} className="mn-underline-hover">Collections</Link>
+          <span>/</span>
+          <span style={{ color: colors.text }}>{catName}</span>
         </div>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,26,26,0.6), rgba(26,26,26,0.4))' }} />
-        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>Collection</p>
-          <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 200, color: '#FFFFFF', letterSpacing: '0.05em' }}>{catName}</h1>
-        </div>
+
+        <ScrollReveal>
+          <h1 style={{ fontFamily: font, fontSize: 'clamp(32px, 5vw, 64px)', fontWeight: 200, color: colors.text, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '16px' }}>
+            {catName}
+          </h1>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: colors.textSecondary, maxWidth: '480px' }}>
+            {filtered.length} {filtered.length === 1 ? 'piece' : 'pieces'}
+          </p>
+        </ScrollReveal>
       </section>
 
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '24px 5vw' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '11px', color: '#9B9590' }}>
-            <Link href="/minimal" style={{ color: '#9B9590', textDecoration: 'none' }}>Home</Link>
-            <ChevronRight size={12} />
-            <Link href="/minimal/collections" style={{ color: '#9B9590', textDecoration: 'none' }}>Collections</Link>
-            <ChevronRight size={12} />
-            <span style={{ color: '#1A1A1A' }}>{catName}</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>Showing {filtered.length} pieces</span>
-            <button onClick={() => setFilterOpen(true)} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A', background: '#F5F3F0', border: '1px solid #E8E5E0', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', boxShadow: '2px 2px 4px #d4d0cb, -2px -2px 4px #ffffff' }}>
+      {/* Filter / Sort bar */}
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 5vw 24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', borderBottom: `1px solid ${colors.border}`, paddingBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button onClick={() => setFilterOpen(true)} style={{
+              display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '10px', fontWeight: 500,
+              letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.text,
+              background: 'none', border: `1px solid ${colors.border}`, padding: '8px 16px', cursor: 'pointer',
+              transition: 'all 200ms ease',
+            }}>
               <SlidersHorizontal size={14} /> Filters
             </button>
-            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#1A1A1A', background: '#F5F3F0', border: '1px solid #E8E5E0', padding: '8px 12px', borderRadius: '8px', cursor: 'pointer' }}>
+            {hasActiveFilters && (
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {material !== 'All' && (
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '10px', fontWeight: 400, color: colors.text, padding: '4px 10px', border: `1px solid ${colors.border}` }}>
+                    {material}
+                    <button onClick={() => setMaterial('All')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: colors.text, display: 'flex' }}><X size={10} /></button>
+                  </span>
+                )}
+                {price !== 'All' && (
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '10px', fontWeight: 400, color: colors.text, padding: '4px 10px', border: `1px solid ${colors.border}` }}>
+                    {price}
+                    <button onClick={() => setPrice('All')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: colors.text, display: 'flex' }}><X size={10} /></button>
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: colors.textSecondary }}>Sort by</span>
+            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{
+              fontFamily: font, fontSize: '11px', fontWeight: 400, color: colors.text,
+              background: 'none', border: `1px solid ${colors.border}`, padding: '8px 12px', cursor: 'pointer',
+              appearance: 'none', paddingRight: '28px',
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23050505' stroke-width='1.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right 8px center',
+            }}>
               {sortOptions.map((o) => <option key={o} value={o}>{o}</option>)}
             </select>
-            <div style={{ display: 'flex', gap: '4px' }}>
-              <button onClick={() => setView('grid')} style={{ padding: '6px', background: view === 'grid' ? '#1A1A1A' : '#F5F3F0', color: view === 'grid' ? '#FFFFFF' : '#9B9590', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><Grid size={16} /></button>
-              <button onClick={() => setView('list')} style={{ padding: '6px', background: view === 'list' ? '#1A1A1A' : '#F5F3F0', color: view === 'list' ? '#FFFFFF' : '#9B9590', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><List size={16} /></button>
-            </div>
           </div>
         </div>
-        {(material !== 'All' || price !== 'All') && (
-          <div style={{ display: 'flex', gap: '8px', marginTop: '16px', flexWrap: 'wrap' }}>
-            {material !== 'All' && <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '10px', fontWeight: 400, color: '#C4A265', padding: '6px 12px', background: 'rgba(196,162,101,0.08)', borderRadius: '20px', border: '1px solid rgba(196,162,101,0.2)' }}>{material} <button onClick={() => setMaterial('All')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#C4A265' }}><X size={12} /></button></span>}
-            {price !== 'All' && <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '10px', fontWeight: 400, color: '#C4A265', padding: '6px 12px', background: 'rgba(196,162,101,0.08)', borderRadius: '20px', border: '1px solid rgba(196,162,101,0.2)' }}>{price} <button onClick={() => setPrice('All')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#C4A265' }}><X size={12} /></button></span>}
-          </div>
-        )}
       </div>
 
+      {/* Product Grid — 3 columns */}
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 5vw 80px' }}>
-        {view === 'grid' ? (
-          <div className="cat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+        {filtered.length > 0 ? (
+          <div className="cat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
             {filtered.map((p, i) => (
-              <FadeIn key={p.id} delay={i * 80}>
-                <NeuProductCard
-                  name={p.name}
-                  price={p.price}
-                  image={p.images[0]}
-                  href={`/minimal/product/${p.slug}`}
-                  material={p.material || p.subtitle}
-                  carat={p.diamondSpecs?.carat ? `${p.diamondSpecs.carat}ct` : undefined}
-                  certification={p.diamondSpecs?.certification}
-                  isNew={p.isNew}
-                />
-              </FadeIn>
+              <ScrollReveal key={p.id} delay={Math.min(i * 60, 300)}>
+                <MinimalProductCard product={p} />
+              </ScrollReveal>
             ))}
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {filtered.map((p, i) => (
-              <FadeIn key={p.id} delay={i * 60}>
-                <Link href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: '24px', padding: '16px', borderBottom: '1px solid #E8E5E0', alignItems: 'center' }}>
-                  <div style={{ width: '100px', height: '100px', flexShrink: 0, backgroundColor: '#F5F4F0', borderRadius: '8px', overflow: 'hidden' }}><img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
-                  <div style={{ flex: 1 }}><p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A', marginBottom: '4px' }}>{p.name}</p><p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590' }}>{p.subtitle}</p></div>
-                  <p style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A' }}>{p.priceDisplay}</p>
-                </Link>
-              </FadeIn>
-            ))}
-          </div>
-        )}
-        {filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
-            <p style={{ fontFamily: font, fontSize: '16px', fontWeight: 300, color: '#9B9590' }}>No pieces match your filters.</p>
-            <button onClick={() => { setMaterial('All'); setPrice('All') }} style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#C4A265', background: 'none', border: 'none', cursor: 'pointer', marginTop: '12px', textDecoration: 'underline' }}>Clear all filters</button>
+            <p style={{ fontFamily: font, fontSize: '16px', fontWeight: 300, color: colors.textSecondary }}>No pieces match your filters.</p>
+            <button onClick={() => { setMaterial('All'); setPrice('All') }} className="mn-underline-hover" style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: colors.text, background: 'none', border: 'none', cursor: 'pointer', marginTop: '12px' }}>Clear all filters</button>
           </div>
         )}
       </div>
 
+      {/* Filter Drawer */}
       <SmoothDrawer isOpen={filterOpen} onClose={() => setFilterOpen(false)} title="Filters" side="right">
         <div style={{ fontFamily: font }}>
           <div style={{ marginBottom: '32px' }}>
-            <p style={{ fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1A1A1A', marginBottom: '12px' }}>Material</p>
+            <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.text, marginBottom: '12px' }}>Material</p>
             {materialFilters.map((m) => (
-              <button key={m} onClick={() => setMaterial(m)} style={{ display: 'block', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: material === m ? 500 : 300, color: material === m ? '#C4A265' : '#1A1A1A', background: material === m ? 'rgba(196,162,101,0.08)' : 'transparent', border: 'none', padding: '10px 12px', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', transition: 'all 300ms ease', marginBottom: '4px' }}>{m}</button>
+              <button key={m} onClick={() => setMaterial(m)} style={{
+                display: 'block', width: '100%', fontFamily: font, fontSize: '12px',
+                fontWeight: material === m ? 500 : 300,
+                color: material === m ? colors.text : colors.textSecondary,
+                background: material === m ? colors.hover : 'transparent',
+                border: 'none', padding: '10px 12px', cursor: 'pointer', textAlign: 'left',
+                transition: 'all 200ms ease', marginBottom: '2px',
+              }}>{m}</button>
             ))}
           </div>
           <div style={{ marginBottom: '32px' }}>
-            <p style={{ fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1A1A1A', marginBottom: '12px' }}>Price Range</p>
+            <p style={{ fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: colors.text, marginBottom: '12px' }}>Price Range</p>
             {priceFilters.map((p) => (
-              <button key={p} onClick={() => setPrice(p)} style={{ display: 'block', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: price === p ? 500 : 300, color: price === p ? '#C4A265' : '#1A1A1A', background: price === p ? 'rgba(196,162,101,0.08)' : 'transparent', border: 'none', padding: '10px 12px', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', transition: 'all 300ms ease', marginBottom: '4px' }}>{p}</button>
+              <button key={p} onClick={() => setPrice(p)} style={{
+                display: 'block', width: '100%', fontFamily: font, fontSize: '12px',
+                fontWeight: price === p ? 500 : 300,
+                color: price === p ? colors.text : colors.textSecondary,
+                background: price === p ? colors.hover : 'transparent',
+                border: 'none', padding: '10px 12px', cursor: 'pointer', textAlign: 'left',
+                transition: 'all 200ms ease', marginBottom: '2px',
+              }}>{p}</button>
             ))}
           </div>
-          <button onClick={() => setFilterOpen(false)} style={{ width: '100%', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '16px', backgroundColor: '#C4A265', color: '#FFFFFF', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Apply Filters</button>
+          <button onClick={() => setFilterOpen(false)} style={{
+            width: '100%', fontFamily: font, fontSize: '11px', fontWeight: 500,
+            letterSpacing: '0.2em', textTransform: 'uppercase', padding: '16px',
+            backgroundColor: colors.text, color: colors.bg, border: 'none', cursor: 'pointer',
+            transition: 'opacity 200ms',
+          }}>Apply Filters</button>
         </div>
       </SmoothDrawer>
 
       <style>{`
-        .cat-fade { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .cat-fade.cat-vis { opacity: 1; transform: translateY(0); }
-        .cat-card:hover img { transform: scale(1.05) !important; }
-        .cat-card:hover { box-shadow: 0 8px 30px rgba(180,170,160,0.15); }
-        .cat-card:hover .cat-wish { opacity: 1 !important; }
-        @media (max-width: 1024px) { .cat-grid { grid-template-columns: repeat(3, 1fr) !important; } }
-        @media (max-width: 768px) { .cat-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 1024px) { .cat-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 640px) { .cat-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </MinimalLayout>
   )
