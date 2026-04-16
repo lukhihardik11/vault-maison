@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, X, ChevronDown, ZoomIn } from 'lucide-react'
+import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, X, ChevronDown } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductCard } from '../MinimalProductCard'
 import { ScrollReveal } from '../ScrollReveal'
@@ -13,53 +13,33 @@ import { useCartStore } from '@/store/cart'
 
 const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8']
 
-/* ── Zoom Image: hover to magnify, click to open lightbox ── */
-function ZoomImage({ src, alt, onOpenLightbox }: { src: string; alt: string; onOpenLightbox: () => void }) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [isZoomed, setIsZoomed] = useState(false)
-  const [position, setPosition] = useState({ x: 50, y: 50 })
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    setPosition({ x, y })
-  }, [])
-
+function ZoomImage({ src, alt }: { src: string; alt: string }) {
+  const cRef = useRef<HTMLDivElement>(null)
+  const [zoom, setZoom] = useState(false)
+  const [pos, setPos] = useState({ x: 50, y: 50 })
+  const handleMove = (e: React.MouseEvent) => {
+    if (!cRef.current) return
+    const r = cRef.current.getBoundingClientRect()
+    setPos({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 })
+  }
   return (
     <div
-      ref={containerRef}
-      onMouseEnter={() => setIsZoomed(true)}
-      onMouseLeave={() => setIsZoomed(false)}
-      onMouseMove={handleMouseMove}
+      ref={cRef}
+      onMouseEnter={() => setZoom(true)}
+      onMouseLeave={() => setZoom(false)}
+      onMouseMove={handleMove}
       className="relative w-full h-full overflow-hidden cursor-crosshair"
-      style={{ position: 'relative' }}
     >
       <img
         src={src}
         alt={alt}
         className="w-full h-full object-cover"
-        draggable={false}
         style={{
-          transform: isZoomed ? 'scale(2.5)' : 'scale(1)',
-          transformOrigin: `${position.x}% ${position.y}%`,
-          transition: isZoomed ? 'none' : 'transform 400ms ease',
-          willChange: 'transform',
+          transform: zoom ? 'scale(2)' : 'scale(1)',
+          transformOrigin: `${pos.x}% ${pos.y}%`,
+          transition: zoom ? 'none' : 'transform 400ms ease',
         }}
       />
-      {/* Zoom icon hint in top-right corner */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation()
-          onOpenLightbox()
-        }}
-        className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white border-none cursor-pointer transition-all"
-        style={{ borderRadius: 0, zIndex: 2, opacity: isZoomed ? 0 : 0.7 }}
-        aria-label="Open fullscreen view"
-      >
-        <ZoomIn size={16} color="#050505" />
-      </button>
     </div>
   )
 }
@@ -107,45 +87,33 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
 
       {/* Product Grid */}
       <div className={`${minimal.cn.container} pb-20 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16`}>
-        {/* Image Side — NO ScrollReveal wrapper so interactions are never blocked */}
-        <div className="md:sticky md:top-24 md:self-start">
-          {/* Main Image with Zoom */}
-          <div className="relative aspect-square overflow-hidden bg-[#FAFAFA]">
-            <ZoomImage
-              src={product.images[mainImg]}
-              alt={product.name}
-              onOpenLightbox={() => setLightbox(true)}
-            />
+        {/* Image Side */}
+        <ScrollReveal className="md:sticky md:top-24 md:self-start">
+          <div
+            onClick={() => setLightbox(true)}
+            className="relative aspect-square overflow-hidden bg-[#FAFAFA] cursor-crosshair"
+          >
+            <ZoomImage src={product.images[mainImg]} alt={product.name} />
           </div>
-
-          {/* Thumbnail Gallery — always visible, always clickable */}
-          <div className="flex gap-3 mt-4" style={{ position: 'relative', zIndex: 5 }}>
+          <div className="flex gap-2 mt-3">
             {product.images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setMainImg(i)}
-                className="overflow-hidden p-0 transition-all duration-200"
+                className="w-16 h-16 overflow-hidden p-0 transition-all duration-200"
                 style={{
-                  width: '72px',
-                  height: '72px',
-                  border: mainImg === i ? '2px solid #050505' : '1px solid #E0E0E0',
-                  opacity: mainImg === i ? 1 : 0.6,
+                  border: mainImg === i ? '1px solid #050505' : '1px solid #E5E5E5',
+                  opacity: mainImg === i ? 1 : 0.5,
                   background: '#FAFAFA',
                   borderRadius: 0,
                   cursor: 'pointer',
-                  flexShrink: 0,
                 }}
               >
-                <img
-                  src={img}
-                  alt={`${product.name} view ${i + 1}`}
-                  className="w-full h-full object-cover"
-                  draggable={false}
-                />
+                <img src={img} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
               </button>
             ))}
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Info Side */}
         <div className="pt-8 md:pt-0">
@@ -287,7 +255,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
                 <ScrollReveal key={spec.label} delay={i * 80}>
                   <div className="py-8 text-center border border-[#E5E5E5]">
                     <p className={minimal.cn.label}>{spec.label}</p>
-                    <p className="text-3xl font-extralight mt-2 text-[#050505]">{spec.value}</p>
+                    <p className="text-3xl font-light text-[#050505] mt-2 tabular-nums">{spec.value}</p>
                   </div>
                 </ScrollReveal>
               ))}
