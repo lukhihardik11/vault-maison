@@ -1,112 +1,90 @@
 'use client'
 
 import Link from 'next/link'
-import { AnimatedSocialIcons } from './ui'
-import { MINIMAL } from './design-tokens'
 
-const { colors, font } = MINIMAL
+const shopLinks = [
+  { label: 'All Pieces', href: '/minimal/collections' },
+  { label: 'Rings', href: '/minimal/category/diamond-rings' },
+  { label: 'Necklaces', href: '/minimal/category/diamond-necklaces' },
+  { label: 'Bracelets', href: '/minimal/category/diamond-bracelets' },
+  { label: 'Earrings', href: '/minimal/category/diamond-earrings' },
+]
+
+const infoLinks = [
+  { label: 'About', href: '/minimal/about' },
+  { label: 'Shipping', href: '/minimal/shipping' },
+  { label: 'Returns', href: '/minimal/care' },
+  { label: 'Contact', href: '/minimal/contact' },
+  { label: 'FAQ', href: '/minimal/faq' },
+]
 
 export function MinimalFooter() {
-  const shopLinks = [
-    { label: 'Diamond Rings', href: '/minimal/category/diamond-rings' },
-    { label: 'Necklaces', href: '/minimal/category/diamond-necklaces' },
-    { label: 'Earrings', href: '/minimal/category/diamond-earrings' },
-    { label: 'Bracelets', href: '/minimal/category/diamond-bracelets' },
-    { label: 'Gold Collection', href: '/minimal/category/gold-rings' },
-  ]
-
-  const aboutLinks = [
-    { label: 'Our Story', href: '/minimal/about' },
-    { label: 'Craftsmanship', href: '/minimal/craftsmanship' },
-    { label: 'Journal', href: '/minimal/journal' },
-    { label: 'Bespoke', href: '/minimal/bespoke' },
-    { label: 'Certification', href: '/minimal/certification' },
-  ]
-
-  const helpLinks = [
-    { label: 'Contact', href: '/minimal/contact' },
-    { label: 'FAQ', href: '/minimal/faq' },
-    { label: 'Shipping', href: '/minimal/shipping' },
-    { label: 'Care Guide', href: '/minimal/care' },
-    { label: 'Privacy', href: '/minimal/privacy' },
-  ]
-
-  const linkStyle: React.CSSProperties = {
-    fontFamily: font,
-    fontSize: '12px',
-    fontWeight: 300,
-    color: colors.textSecondary,
-    textDecoration: 'none',
-    transition: 'color 300ms ease',
-    display: 'block',
-    padding: '4px 0',
-  }
-
-  const headingStyle: React.CSSProperties = {
-    fontFamily: font,
-    fontSize: '11px',
-    fontWeight: 500,
-    letterSpacing: '0.15em',
-    textTransform: 'uppercase',
-    color: colors.text,
-    marginBottom: '16px',
-  }
-
   return (
-    <footer style={{ borderTop: `1px solid ${colors.border}`, backgroundColor: colors.bg }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '60px 5vw 40px' }}>
-        {/* Top: 4 columns */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '40px', marginBottom: '60px' }}>
+    <footer className="border-t border-[#E5E5E5] bg-white">
+      <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-24">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
           {/* Brand */}
-          <div>
-            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: colors.text, marginBottom: '12px' }}>
-              VAULT MAISON
-            </p>
-            <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: colors.textSecondary, lineHeight: 1.7 }}>
-              Precision-cut diamonds and fine gold jewelry. Every piece is GIA certified and crafted to last generations.
+          <div className="md:col-span-1 space-y-4">
+            <h4 className="text-[15px] font-medium tracking-[0.08em] uppercase text-[#050505]">
+              Minimal Machine
+            </h4>
+            <p className="text-sm text-[#6B6B6B] leading-relaxed max-w-xs">
+              Brutalist luxury jewelry. Each piece engineered with precision.
             </p>
           </div>
+
           {/* Shop */}
-          <div>
-            <p style={headingStyle}>Shop</p>
-            {shopLinks.map((link) => (
-              <Link key={link.href} href={link.href} style={linkStyle}
-                onMouseEnter={(e) => { e.currentTarget.style.color = colors.text }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = colors.textSecondary }}
-              >{link.label}</Link>
-            ))}
+          <div className="space-y-4">
+            <h5 className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B]">Shop</h5>
+            <ul className="space-y-2 list-none p-0 m-0">
+              {shopLinks.map(item => (
+                <li key={item.label}>
+                  <Link href={item.href} className="text-sm text-[#6B6B6B] hover:text-[#050505] transition-colors duration-300 no-underline">{item.label}</Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          {/* About */}
-          <div>
-            <p style={headingStyle}>About</p>
-            {aboutLinks.map((link) => (
-              <Link key={link.href} href={link.href} style={linkStyle}
-                onMouseEnter={(e) => { e.currentTarget.style.color = colors.text }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = colors.textSecondary }}
-              >{link.label}</Link>
-            ))}
+
+          {/* Info */}
+          <div className="space-y-4">
+            <h5 className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B]">Info</h5>
+            <ul className="space-y-2 list-none p-0 m-0">
+              {infoLinks.map(item => (
+                <li key={item.label}>
+                  <Link href={item.href} className="text-sm text-[#6B6B6B] hover:text-[#050505] transition-colors duration-300 no-underline">{item.label}</Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          {/* Help */}
-          <div>
-            <p style={headingStyle}>Help</p>
-            {helpLinks.map((link) => (
-              <Link key={link.href} href={link.href} style={linkStyle}
-                onMouseEnter={(e) => { e.currentTarget.style.color = colors.text }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = colors.textSecondary }}
-              >{link.label}</Link>
-            ))}
+
+          {/* Newsletter */}
+          <div className="space-y-4">
+            <h5 className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B]">Newsletter</h5>
+            <p className="text-sm text-[#6B6B6B]">Receive updates on new collections.</p>
+            <div className="flex">
+              <input
+                type="email"
+                placeholder="Email"
+                className="flex-1 h-12 px-4 border border-[#E5E5E5] border-r-0 bg-transparent text-sm text-[#050505] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#050505] transition-colors"
+                style={{ borderRadius: 0 }}
+              />
+              <button className="h-12 px-6 bg-[#050505] text-white text-[11px] uppercase tracking-[0.15em] hover:bg-[#1a1a1a] transition-colors border-none cursor-pointer" style={{ borderRadius: 0 }}>
+                Join
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div style={{ borderTop: `1px solid ${colors.border}`, paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-          <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: colors.textSecondary }}>
-            &copy; {new Date().getFullYear()} Vault Maison. All rights reserved.
-          </span>
-          <AnimatedSocialIcons size={36} />
-          <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: colors.textSecondary }}>
-            GIA Certified &middot; Ethically Sourced &middot; Lifetime Warranty
-          </span>
+        <div className="mt-16 pt-8 border-t border-[#E5E5E5] flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[11px] text-[#9B9B9B] tracking-wide">
+            &copy; {new Date().getFullYear()} Minimal Machine. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            {['Privacy', 'Terms', 'Cookies'].map(item => (
+              <a key={item} href="#" className="text-[11px] text-[#9B9B9B] hover:text-[#050505] transition-colors tracking-wide no-underline">{item}</a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
