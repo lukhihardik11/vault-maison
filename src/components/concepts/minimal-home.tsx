@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowDown, Diamond, Shield, Gem, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { MinimalLayout } from './minimal/MinimalLayout'
 import { products } from '@/data/products'
-import { GlassmorphismMetrics, DynamicText, CardFlip, SpotlightCards, AttractButton, ShimmerText, ProductBounceCard, AnimatedSendButton, AnimatedSocialIcons, ExploreButton } from './minimal/ui'
+import { GlassmorphismMetrics, CardFlip, SpotlightCards, ProductBounceCard, AnimatedSendButton, AnimatedSocialIcons, ExploreButton } from './minimal/ui'
 import type { ConceptConfig } from '@/data/concepts'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
@@ -128,8 +128,6 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
 }
 
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
-  const [heroLoaded, setHeroLoaded] = useState(false)
-
   // Embla carousel for new arrivals
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: 'start', slidesToScroll: 1 },
@@ -138,49 +136,34 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
 
-  // Hero parallax
-  const heroImgRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    setHeroLoaded(true)
-    const handleScroll = () => {
-      if (heroImgRef.current) {
-        heroImgRef.current.style.transform = `translateY(${window.scrollY * 0.35}px) scale(1.1)`
-      }
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <MinimalLayout>
-      {/* ═══ SECTION 1: HERO (100vh, parallax) ═══ */}
-      <section style={{ position: 'relative', height: '100vh', minHeight: '600px', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-        <div ref={heroImgRef} style={{ position: 'absolute', inset: '-10%', willChange: 'transform' }}>
-          <img src="/images/moody-jewelry-1.jpg" alt="Vault Maison" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(26,26,26,0.82) 0%, rgba(26,26,26,0.45) 50%, rgba(26,26,26,0.2) 100%)' }} />
-        <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-          <p className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '24px', animationDelay: '0.3s' }}>
-            <ShimmerText text="The Minimal Machine" style={{ color: '#C4A265' }} />
-          </p>
-          <h1 className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.05, marginBottom: '24px', maxWidth: '650px', letterSpacing: '-0.02em', animationDelay: '0.5s' }}>
-            <DynamicText text="Where Precision" effect="glow" style={{ fontSize: 'inherit', fontWeight: 'inherit', color: 'inherit' }} />
-            <br />
-            <span style={{ color: '#C4A265' }}>Meets Desire</span>
-          </h1>
-          <p className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: 'rgba(255,255,255,0.65)', maxWidth: '440px', marginBottom: '48px', lineHeight: 1.8, animationDelay: '0.7s' }}>
-            Every stone hand-selected by third-generation gemologists. GIA certified. Crafted to last generations.
-          </p>
-          <div className={`vm-hero-el ${heroLoaded ? 'vm-hero-in' : ''}`} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', animationDelay: '0.9s' }}>
-            <AttractButton href="/minimal/collections" text="Shop Collection" />
-            <Link href="/minimal/bespoke" className="vm-btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.35)', padding: '16px 36px', textDecoration: 'none', borderRadius: '2px' }}>
-              Bespoke Design
-            </Link>
+      {/* ═══ SECTION 1: HERO (brutalist split-screen) ═══ */}
+      <section className="vm-hero-split" style={{ position: 'relative', height: '100vh', minHeight: '600px', display: 'flex', flexDirection: 'row', overflow: 'hidden' }}>
+        {/* Left panel — text content */}
+        <div className="vm-hero-left" style={{ width: '55%', backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center', padding: '0 5vw' }}>
+          <div style={{ maxWidth: '600px' }}>
+            <h1 style={{ fontFamily: font, fontSize: 'clamp(48px, 8vw, 120px)', fontWeight: 200, color: '#050505', lineHeight: 0.95, letterSpacing: '-0.04em', margin: 0, textAlign: 'left' }}>
+              PRECISION.<br />NOTHING MORE.
+            </h1>
+            <div style={{ display: 'flex', gap: '32px', marginTop: '48px', flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505' }}>01 — GIA CERTIFIED</span>
+              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505' }}>02 — FLAWLESS CLARITY</span>
+              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505' }}>03 — EXACTING CUT</span>
+            </div>
+            <div style={{ display: 'flex', gap: '16px', marginTop: '48px', flexWrap: 'wrap' }}>
+              <Link href="/minimal/collections" className="vm-hero-btn-primary" style={{ display: 'inline-block', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#050505', padding: '18px 48px', textDecoration: 'none', border: '1px solid #050505', borderRadius: 0 }}>
+                SHOP COLLECTION
+              </Link>
+              <Link href="/minimal/bespoke" className="vm-hero-btn-secondary" style={{ display: 'inline-block', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', backgroundColor: 'transparent', padding: '18px 48px', textDecoration: 'none', border: '1px solid #050505', borderRadius: 0 }}>
+                BESPOKE
+              </Link>
+            </div>
           </div>
         </div>
-        {/* Scroll indicator */}
-        <div className="vm-bounce" style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
-          <ArrowDown size={20} color="rgba(255,255,255,0.4)" />
+        {/* Right panel — product image */}
+        <div className="vm-hero-right" style={{ width: '45%', position: 'relative' }}>
+          <img src="/images/minimal-diamond-stone.jpg" alt="Precision diamond" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         </div>
       </section>
 
@@ -368,15 +351,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         .vm-fade.vm-visible { opacity: 1; transform: translateY(0); }
         @media (prefers-reduced-motion: reduce) { .vm-fade { opacity: 1 !important; transform: none !important; transition: none !important; } }
 
-        /* Hero entrance */
-        .vm-hero-el { opacity: 0; transform: translateY(24px); }
-        .vm-hero-el.vm-hero-in { animation: vmHeroIn 0.9s ease forwards; }
-        @media (prefers-reduced-motion: reduce) { .vm-hero-el { opacity: 1 !important; transform: none !important; animation: none !important; } }
-        @keyframes vmHeroIn { to { opacity: 1; transform: translateY(0); } }
-
-        /* Bounce arrow */
-        .vm-bounce { animation: vmBounce 2s ease infinite; }
-        @keyframes vmBounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+        /* Hero button hovers — instant, no transition */
+        .vm-hero-btn-primary:hover { background-color: #FFFFFF !important; color: #050505 !important; border: 1px solid #050505 !important; }
+        .vm-hero-btn-secondary:hover { background-color: #050505 !important; color: #FFFFFF !important; }
 
         /* Brand story text */
         .vm-brand-text { font-family: ${font}; font-size: clamp(22px, 3vw, 32px); font-weight: 200; color: #FFFFFF; line-height: 1.7; }
@@ -394,7 +371,6 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         .vm-card-img:hover { box-shadow: 0 8px 30px rgba(180,170,160,0.15) !important; }
         .vm-coll-card:hover img { transform: scale(1.05) !important; }
         .vm-btn-gold:hover { background-color: #B3924F !important; }
-        .vm-btn-outline:hover { border-color: #C4A265 !important; color: #C4A265 !important; }
 
         /* Carousel buttons */
         .vm-carousel-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid #E8E5E0; background: #F5F3F0; border-radius: 50%; cursor: pointer; color: #1A1A1A; box-shadow: 3px 3px 6px #d4d0cb, -3px -3px 6px #ffffff; transition: all 200ms ease; }
@@ -413,6 +389,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         @media (max-width: 768px) {
           .vm-cat-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .vm-coll-grid { grid-template-columns: 1fr 1fr !important; }
+          .vm-hero-split { flex-direction: column !important; height: auto !important; }
+          .vm-hero-right { width: 100% !important; height: 40vh !important; order: -1; }
+          .vm-hero-left { width: 100% !important; padding: 48px 5vw !important; }
         }
         @media (max-width: 480px) {
           .vm-cat-grid { grid-template-columns: 1fr 1fr !important; }
