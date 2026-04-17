@@ -2,12 +2,11 @@
 
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
+import { ScrollReveal } from '../ScrollReveal'
+import { minimal } from '../design-system'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
 import { ArrowRight } from 'lucide-react'
-import MinimalHeroSection from '../ui/MinimalHeroSection'
-
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
 
 const categoryImages: Record<string, string> = {
   'diamond-rings': '/images/products/diamond-solitaire-ring.jpg',
@@ -22,75 +21,61 @@ const categoryImages: Record<string, string> = {
   'wedding-bridal': '/images/products/classic-engagement-ring.jpg',
 }
 
-const categoryFeatures: Record<string, string[]> = {
-  'diamond-rings': ['Solitaires', 'Halo Settings', 'Eternity Bands', 'Cocktail Rings'],
-  'diamond-necklaces': ['Pendants', 'Chokers', 'Chains', 'Layered Designs'],
-  'diamond-earrings': ['Studs', 'Drops', 'Hoops', 'Chandelier'],
-  'diamond-bracelets': ['Tennis', 'Bangles', 'Cuffs', 'Chain Link'],
-  'gold-rings': ['Signet', 'Bands', 'Statement', 'Stackable'],
-  'gold-necklaces': ['Curb Chain', 'Layered', 'Pendant', 'Choker'],
-  'gold-earrings': ['Hoops', 'Studs', 'Drops', 'Huggie'],
-  'gold-bracelets': ['Bangles', 'Cuffs', 'Chain', 'Tennis'],
-  'loose-diamonds': ['Round Brilliant', 'Oval', 'Emerald', 'Pear'],
-  'wedding-bridal': ['Engagement', 'Wedding Bands', 'Bridal Sets', 'Anniversary'],
-}
-
 export function MinimalCollections() {
   return (
     <MinimalLayout>
-      {/* Hero (MinimalHeroSection - KokonutUI) */}
-      <MinimalHeroSection
-        eyebrow="Vault Maison"
-        title="Collections"
-        subtitle="Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless elegance."
-        image="/images/products/editorial-model-jewelry.jpg"
-        overlay="gradient"
-      />
-
-      {/* Category Grid */}
-      <section style={{ padding: '80px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
-        <div className="vm-coll-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px' }}>
-          {allCategories.map((cat: ProductCategory) => {
-            const count = getProductsByCategory(cat).length
-            const features = categoryFeatures[cat] || []
-            return (
-              <Link key={cat} href={`/minimal/category/${cat}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div className="vm-coll-card" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F5F4F0' }}>
-                  <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden' }}>
-                    <img src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'} alt={categoryLabels[cat]} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.5) 0%, transparent 50%)' }} />
-                    <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
-                      <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '6px' }}>{count} {count === 1 ? 'Piece' : 'Pieces'}</p>
-                      <h3 style={{ fontFamily: font, fontSize: '22px', fontWeight: 300, color: '#FFFFFF' }}>{categoryLabels[cat]}</h3>
-                    </div>
-                  </div>
-                  <div style={{ padding: '20px' }}>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.6, color: '#9B9590', marginBottom: '16px' }}>
-                      {categoryDescriptions[cat]}
-                    </p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
-                      {features.map((f) => (
-                        <span key={f} style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590', padding: '4px 10px', border: '1px solid #E8E5E0' }}>{f}</span>
-                      ))}
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265' }}>
-                      Explore <ArrowRight size={12} />
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            )
-          })}
+      {/* Header */}
+      <section className={minimal.cn.section}>
+        <div className={minimal.cn.container}>
+          <ScrollReveal>
+            <span className={minimal.cn.label}>Vault Maison</span>
+            <h1 className={`${minimal.cn.sectionHeadline} mt-3`}>Collections</h1>
+            <p className={`${minimal.cn.body} mt-4 max-w-xl`}>
+              Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
+            </p>
+          </ScrollReveal>
         </div>
       </section>
 
-      <style>{`
-        .vm-coll-card:hover .vm-coll-img { transform: scale(1.04) !important; }
-        .vm-coll-card:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
-        @media (min-width: 769px) { .vm-coll-grid { grid-template-columns: repeat(3, 1fr) !important; } }
-        @media (min-width: 1200px) { .vm-coll-grid { grid-template-columns: repeat(4, 1fr) !important; } }
-        @media (max-width: 768px) { .vm-coll-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
+      <div className={minimal.cn.divider} />
+
+      {/* Category Grid */}
+      <section className={minimal.cn.section}>
+        <div className={minimal.cn.container}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {allCategories.map((cat: ProductCategory, i: number) => {
+              const count = getProductsByCategory(cat).length
+              return (
+                <ScrollReveal key={cat} delay={i * 60}>
+                  <Link href={`/minimal/category/${cat}`} className="group block no-underline" style={{ color: '#050505' }}>
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#FAFAFA]">
+                      <img
+                        src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'}
+                        alt={categoryLabels[cat]}
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      />
+                    </div>
+                    <div className="pt-4">
+                      <div className="flex justify-between items-baseline mb-1">
+                        <h3 className="text-lg font-medium tracking-tight text-[#050505]">
+                          {categoryLabels[cat]}
+                        </h3>
+                        <span className={minimal.cn.label}>{count} pieces</span>
+                      </div>
+                      <p className="text-sm text-[#6B6B6B] leading-relaxed line-clamp-2 mb-3">
+                        {categoryDescriptions[cat]}
+                      </p>
+                      <span className="text-[11px] uppercase tracking-[0.15em] text-[#050505] font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
+                        Explore <ArrowRight size={12} />
+                      </span>
+                    </div>
+                  </Link>
+                </ScrollReveal>
+              )
+            })}
+          </div>
+        </div>
+      </section>
     </MinimalLayout>
   )
 }
