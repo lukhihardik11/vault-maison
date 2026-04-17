@@ -1,42 +1,102 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, X, ChevronDown } from 'lucide-react'
+import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, ChevronDown } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductCard } from '../MinimalProductCard'
-import { ScrollReveal } from '../ScrollReveal'
 import { minimal } from '../design-system'
 import { products, type Product } from '@/data/products'
 import { useCartStore } from '@/store/cart'
 
 const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8']
 
-/* ─── Product Image Gallery ─── */
-function ProductImageGallery({ images, name }: { images: string[]; name: string }) {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [isZoomed, setIsZoomed] = useState(false)
-  const [zoomOrigin, setZoomOrigin] = useState('50% 50%')
-  const imageContainerRef = useRef<HTMLDivElement>(null)
+/* ─── Standalone Image Gallery using useRef + useEffect for DOM events ─── */
+function ImageGallery({ images, productName }: { images: string[]; productName: string }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const mainImgRef = useRef<HTMLImageElement>(null)
+  const thumbsRef = useRef<HTMLDivElement>(null)
+  const selectedRef = useRef(0)
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    setZoomOrigin(`${x}% ${y}%`)
-  }, [])
+  useEffect(() => {
+    const container = containerRef.current
+    const mainImg = mainImgRef.current
+    const thumbsContainer = thumbsRef.current
+    if (!container || !mainImg || !thumbsContainer) return
 
-  const currentSrc = images[selectedIndex] || images[0]
+    let isZoomed = false
+
+    // --- Zoom handlers ---
+    const handleMouseEnter = () => {
+      isZoomed = true
+      mainImg.style.transform = 'scale(2.5)'
+    }
+
+    const handleMouseLeave = () => {
+      isZoomed = false
+      mainImg.style.transform = 'scale(1)'
+      mainImg.style.transition = 'transform 0.3s ease'
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isZoomed) return
+      const rect = container.getBoundingClientRect()
+      const x = ((e.clientX - rect.left) / rect.width) * 100
+      const y = ((e.clientY - rect.top) / rect.height) * 100
+      mainImg.style.transformOrigin = `${x}% ${y}%`
+      mainImg.style.transition = 'none'
+    }
+
+    container.addEventListener('mouseenter', handleMouseEnter)
+    container.addEventListener('mouseleave', handleMouseLeave)
+    container.addEventListener('mousemove', handleMouseMove)
+
+    // --- Thumbnail click handlers ---
+    const thumbButtons = thumbsContainer.querySelectorAll('[data-thumb-index]')
+    const updateSelection = (index: number) => {
+      selectedRef.current = index
+      mainImg.src = images[index]
+      mainImg.alt = `${productName} view ${index + 1}`
+      // Update thumbnail styles
+      thumbButtons.forEach((btn, i) => {
+        const el = btn as HTMLElement
+        if (i === index) {
+          el.style.border = '2px solid #050505'
+          el.style.opacity = '1'
+        } else {
+          el.style.border = '1px solid #E5E5E5'
+          el.style.opacity = '0.6'
+        }
+      })
+    }
+
+    const clickHandlers: Array<(e: Event) => void> = []
+    thumbButtons.forEach((btn, i) => {
+      const handler = (e: Event) => {
+        e.preventDefault()
+        e.stopPropagation()
+        updateSelection(i)
+      }
+      clickHandlers.push(handler)
+      btn.addEventListener('click', handler)
+    })
+
+    return () => {
+      container.removeEventListener('mouseenter', handleMouseEnter)
+      container.removeEventListener('mouseleave', handleMouseLeave)
+      container.removeEventListener('mousemove', handleMouseMove)
+      thumbButtons.forEach((btn, i) => {
+        btn.removeEventListener('click', clickHandlers[i])
+      })
+    }
+  }, [images, productName])
 
   return (
-    <div>
+    <div className="md:sticky md:top-24 md:self-start">
       {/* Main Image with Zoom */}
       <div
-        ref={imageContainerRef}
-        onMouseEnter={() => setIsZoomed(true)}
-        onMouseLeave={() => setIsZoomed(false)}
-        onMouseMove={handleMouseMove}
+        ref={containerRef}
         style={{
           width: '100%',
           aspectRatio: '1 / 1',
@@ -47,62 +107,62 @@ function ProductImageGallery({ images, name }: { images: string[]; name: string 
         }}
       >
         <img
-          src={currentSrc}
-          alt={name}
+          ref={mainImgRef}
+          src={images[0]}
+          alt={`${productName} view 1`}
           draggable={false}
-          loading="eager"
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
             display: 'block',
             pointerEvents: 'none',
-            transform: isZoomed ? 'scale(2.5)' : 'scale(1)',
-            transformOrigin: zoomOrigin,
-            transition: isZoomed ? 'none' : 'transform 0.4s ease',
+            transform: 'scale(1)',
+            transformOrigin: '50% 50%',
+            transition: 'transform 0.3s ease',
           }}
         />
       </div>
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
-          {images.map((imgSrc, i) => {
-            const isActive = selectedIndex === i
-            return (
-              <div
-                key={i}
-                onClick={() => setSelectedIndex(i)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter') setSelectedIndex(i) }}
+        <div ref={thumbsRef} style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+          {images.map((imgSrc, i) => (
+            <div
+              key={`thumb-${i}`}
+              data-thumb-index={i}
+              role="button"
+              tabIndex={0}
+              style={{
+                width: '72px',
+                height: '72px',
+                overflow: 'hidden',
+                border: i === 0 ? '2px solid #050505' : '1px solid #E5E5E5',
+                opacity: i === 0 ? 1 : 0.6,
+                backgroundColor: '#FAFAFA',
+                cursor: 'pointer',
+                transition: 'border 0.2s, opacity 0.2s',
+                flexShrink: 0,
+                padding: 0,
+                margin: 0,
+                borderRadius: 0,
+                display: 'block',
+              }}
+            >
+              <img
+                src={imgSrc}
+                alt={`${productName} view ${i + 1}`}
+                draggable={false}
                 style={{
-                  width: '64px',
-                  height: '64px',
-                  overflow: 'hidden',
-                  border: isActive ? '2px solid #050505' : '1px solid #E5E5E5',
-                  opacity: isActive ? 1 : 0.5,
-                  backgroundColor: '#FAFAFA',
-                  cursor: 'pointer',
-                  transition: 'border 0.2s, opacity 0.2s',
-                  flexShrink: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                  pointerEvents: 'none',
                 }}
-              >
-                <img
-                  src={imgSrc}
-                  alt={`${name} view ${i + 1}`}
-                  loading="eager"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    display: 'block',
-                    pointerEvents: 'none',
-                  }}
-                />
-              </div>
-            )
-          })}
+              />
+            </div>
+          ))}
         </div>
       )}
     </div>
@@ -151,106 +211,99 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
 
       {/* Product Grid */}
       <div className={`${minimal.cn.container} pb-20 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16`}>
-        {/* Image Side — self-contained gallery component */}
-        <div className="md:sticky md:top-24 md:self-start">
-          <ProductImageGallery images={product.images} name={product.name} />
-        </div>
 
-        {/* Info Side */}
+        {/* ═══ LEFT: Image Gallery (useRef + useEffect DOM events) ═══ */}
+        <ImageGallery images={product.images} productName={product.name} />
+
+        {/* ═══ RIGHT: Product Info ═══ */}
         <div className="pt-8 md:pt-0">
-          <ScrollReveal>
+          {/* Title & Price */}
+          <div>
             <span className={minimal.cn.label}>{product.category.replace(/-/g, ' ')}</span>
             <h1 className={`${minimal.cn.subsectionHead} mt-2 mb-2`}>{product.name}</h1>
             <p className="text-sm text-[#6B6B6B] mb-6">{product.subtitle}</p>
             <p className="text-2xl font-light tabular-nums text-[#050505] mb-8">{product.priceDisplay}</p>
-          </ScrollReveal>
+          </div>
 
-          <ScrollReveal delay={80}>
+          {/* Description */}
+          <div>
             <p className={`${minimal.cn.body} mb-8`}>{product.description}</p>
-          </ScrollReveal>
+          </div>
 
           {/* Size Selector */}
-          <ScrollReveal delay={120}>
-            <div className="mb-8">
-              <p className="text-[11px] uppercase tracking-[0.15em] text-[#050505] font-medium mb-3">
-                Size: <span className="text-[#9B9B9B] font-normal">{size}</span>
-              </p>
-              <div className="flex gap-2 flex-wrap">
-                {sizes.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setSize(s)}
-                    className="w-11 h-11 flex items-center justify-center text-[13px] transition-colors duration-200"
-                    style={{
-                      backgroundColor: size === s ? '#050505' : 'transparent',
-                      color: size === s ? '#FFFFFF' : '#050505',
-                      border: size === s ? '1px solid #050505' : '1px solid #E5E5E5',
-                      borderRadius: 0,
-                      cursor: 'pointer',
-                      fontWeight: size === s ? 500 : 300,
-                    }}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-
-          {/* Quantity */}
-          <ScrollReveal delay={160}>
-            <div className="mb-8">
-              <p className="text-[11px] uppercase tracking-[0.15em] text-[#050505] font-medium mb-3">Quantity</p>
-              <div className="inline-flex items-center border border-[#E5E5E5]">
-                <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-11 h-11 flex items-center justify-center bg-transparent border-none cursor-pointer text-[#050505] hover:bg-[#FAFAFA] transition-colors"><Minus size={14} /></button>
-                <span className="w-12 text-center text-sm font-medium tabular-nums text-[#050505]">{qty}</span>
-                <button onClick={() => setQty(qty + 1)} className="w-11 h-11 flex items-center justify-center bg-transparent border-none cursor-pointer text-[#050505] hover:bg-[#FAFAFA] transition-colors"><Plus size={14} /></button>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          {/* Add to Bag + Wishlist */}
-          <ScrollReveal delay={200}>
-            <div className="flex gap-3 mb-8">
-              <button
-                onClick={handleAdd}
-                className={`${minimal.cn.btnPrimary} flex-1`}
-                style={{ height: '56px' }}
-              >
-                {added ? (
-                  <span>Added</span>
-                ) : (
-                  <><ShoppingBag size={16} className="mr-2" /> Add to Bag &mdash; {product.priceDisplay}</>
-                )}
-              </button>
-              <button
-                onClick={() => setWish(!wish)}
-                className="w-14 h-14 flex items-center justify-center border border-[#E5E5E5] bg-transparent cursor-pointer hover:border-[#050505] transition-colors"
-                style={{ borderRadius: 0 }}
-              >
-                <Heart size={18} fill={wish ? '#050505' : 'none'} color="#050505" />
-              </button>
-            </div>
-          </ScrollReveal>
-
-          {/* Trust bar */}
-          <ScrollReveal delay={240}>
-            <div className={`flex gap-6 py-5 ${minimal.cn.divider} mb-6`} style={{ borderBottom: '1px solid #E5E5E5' }}>
-              {[
-                { icon: Truck, label: 'Free Shipping' },
-                { icon: Shield, label: 'GIA Certified' },
-                { icon: RotateCcw, label: '30-Day Returns' },
-              ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-2">
-                  <Icon size={14} color="#9B9B9B" />
-                  <span className="text-[11px] text-[#9B9B9B] tracking-wide">{label}</span>
-                </div>
+          <div className="mb-8">
+            <p className="text-[11px] uppercase tracking-[0.15em] text-[#050505] font-medium mb-3">
+              Size: <span className="text-[#9B9B9B] font-normal">{size}</span>
+            </p>
+            <div className="flex gap-2 flex-wrap">
+              {sizes.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setSize(s)}
+                  className="w-11 h-11 flex items-center justify-center text-[13px] transition-colors duration-200"
+                  style={{
+                    backgroundColor: size === s ? '#050505' : 'transparent',
+                    color: size === s ? '#FFFFFF' : '#050505',
+                    border: size === s ? '1px solid #050505' : '1px solid #E5E5E5',
+                    borderRadius: 0,
+                    cursor: 'pointer',
+                    fontWeight: size === s ? 500 : 300,
+                  }}
+                >
+                  {s}
+                </button>
               ))}
             </div>
-          </ScrollReveal>
+          </div>
+
+          {/* Quantity */}
+          <div className="mb-8">
+            <p className="text-[11px] uppercase tracking-[0.15em] text-[#050505] font-medium mb-3">Quantity</p>
+            <div className="inline-flex items-center border border-[#E5E5E5]">
+              <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-11 h-11 flex items-center justify-center bg-transparent border-none cursor-pointer text-[#050505] hover:bg-[#FAFAFA] transition-colors"><Minus size={14} /></button>
+              <span className="w-12 text-center text-sm font-medium tabular-nums text-[#050505]">{qty}</span>
+              <button onClick={() => setQty(qty + 1)} className="w-11 h-11 flex items-center justify-center bg-transparent border-none cursor-pointer text-[#050505] hover:bg-[#FAFAFA] transition-colors"><Plus size={14} /></button>
+            </div>
+          </div>
+
+          {/* Add to Bag + Wishlist */}
+          <div className="flex gap-3 mb-8">
+            <button
+              onClick={handleAdd}
+              className={`${minimal.cn.btnPrimary} flex-1`}
+              style={{ height: '56px' }}
+            >
+              {added ? (
+                <span>Added</span>
+              ) : (
+                <><ShoppingBag size={16} className="mr-2" /> Add to Bag &mdash; {product.priceDisplay}</>
+              )}
+            </button>
+            <button
+              onClick={() => setWish(!wish)}
+              className="w-14 h-14 flex items-center justify-center border border-[#E5E5E5] bg-transparent cursor-pointer hover:border-[#050505] transition-colors"
+              style={{ borderRadius: 0 }}
+            >
+              <Heart size={18} fill={wish ? '#050505' : 'none'} color="#050505" />
+            </button>
+          </div>
+
+          {/* Trust bar */}
+          <div className="flex gap-6 py-5 mb-6" style={{ borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5' }}>
+            {[
+              { icon: Truck, label: 'Free Shipping' },
+              { icon: Shield, label: 'GIA Certified' },
+              { icon: RotateCcw, label: '30-Day Returns' },
+            ].map(({ icon: Icon, label }) => (
+              <div key={label} className="flex items-center gap-2">
+                <Icon size={14} color="#9B9B9B" />
+                <span className="text-[11px] text-[#9B9B9B] tracking-wide">{label}</span>
+              </div>
+            ))}
+          </div>
 
           {/* Accordion */}
-          <ScrollReveal delay={280}>
+          <div>
             {accItems.map((item, i) => (
               <div key={i} style={{ borderBottom: '1px solid #E5E5E5' }}>
                 <button
@@ -269,12 +322,16 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
                     }}
                   />
                 </button>
-                <div style={{ maxHeight: accordion === i ? '300px' : '0', overflow: 'hidden', transition: 'max-height 400ms ease' }}>
+                <div style={{
+                  maxHeight: accordion === i ? '300px' : '0',
+                  overflow: 'hidden',
+                  transition: 'max-height 300ms ease',
+                }}>
                   <p className={`${minimal.cn.body} pb-5`}>{item.content}</p>
                 </div>
               </div>
             ))}
-          </ScrollReveal>
+          </div>
         </div>
       </div>
 
@@ -282,23 +339,21 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
       {product.diamondSpecs && (
         <section className={`${minimal.cn.section} bg-[#FAFAFA]`}>
           <div className={minimal.cn.container}>
-            <ScrollReveal className="mb-12">
+            <div className="mb-12">
               <span className={minimal.cn.label}>Specifications</span>
               <h2 className={`${minimal.cn.sectionHeadline} mt-3`}>The 4Cs</h2>
-            </ScrollReveal>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {[
                 { label: 'Carat', value: product.diamondSpecs.carat },
                 { label: 'Cut', value: product.diamondSpecs.cut },
                 { label: 'Color', value: product.diamondSpecs.color },
                 { label: 'Clarity', value: product.diamondSpecs.clarity },
-              ].map((spec, i) => (
-                <ScrollReveal key={spec.label} delay={i * 80}>
-                  <div className="py-8 text-center border border-[#E5E5E5]">
-                    <p className={minimal.cn.label}>{spec.label}</p>
-                    <p className="text-3xl font-light text-[#050505] mt-2 tabular-nums">{spec.value}</p>
-                  </div>
-                </ScrollReveal>
+              ].map((spec) => (
+                <div key={spec.label} className="py-8 text-center border border-[#E5E5E5]">
+                  <p className={minimal.cn.label}>{spec.label}</p>
+                  <p className="text-3xl font-light text-[#050505] mt-2 tabular-nums">{spec.value}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -309,7 +364,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
       {related.length > 0 && (
         <section className={minimal.cn.section}>
           <div className={minimal.cn.container}>
-            <ScrollReveal className="flex justify-between items-end mb-12">
+            <div className="flex justify-between items-end mb-12">
               <div>
                 <span className={minimal.cn.label}>You May Also Like</span>
                 <h2 className={`${minimal.cn.sectionHeadline} mt-3`}>Related Pieces</h2>
@@ -317,7 +372,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               <Link href={`/minimal/category/${product.category}`} className={`${minimal.cn.btnSecondary} no-underline`}>
                 View All
               </Link>
-            </ScrollReveal>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {related.map((p) => (
                 <div key={p.id}>
