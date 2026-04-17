@@ -14,29 +14,34 @@ import { useCartStore } from '@/store/cart'
 const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8']
 
 function ZoomImage({ src, alt }: { src: string; alt: string }) {
-  const cRef = useRef<HTMLDivElement>(null)
-  const [zoom, setZoom] = useState(false)
-  const [pos, setPos] = useState({ x: 50, y: 50 })
-  const handleMove = (e: React.MouseEvent) => {
-    if (!cRef.current) return
-    const r = cRef.current.getBoundingClientRect()
-    setPos({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 })
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isZoomed, setIsZoomed] = useState(false)
+  const [origin, setOrigin] = useState('50% 50%')
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    setOrigin(`${x}% ${y}%`)
   }
+
   return (
     <div
-      ref={cRef}
-      onMouseEnter={() => setZoom(true)}
-      onMouseLeave={() => setZoom(false)}
-      onMouseMove={handleMove}
+      ref={containerRef}
+      onMouseEnter={() => setIsZoomed(true)}
+      onMouseLeave={() => setIsZoomed(false)}
+      onMouseMove={handleMouseMove}
       style={{
-        position: 'relative',
         width: '100%',
-        height: '100%',
+        aspectRatio: '1 / 1',
         overflow: 'hidden',
         cursor: 'crosshair',
+        backgroundColor: '#FAFAFA',
+        position: 'relative',
       }}
     >
       <img
+        key={src}
         src={src}
         alt={alt}
         draggable={false}
@@ -46,10 +51,10 @@ function ZoomImage({ src, alt }: { src: string; alt: string }) {
           objectFit: 'cover',
           display: 'block',
           pointerEvents: 'none',
-          transform: zoom ? 'scale(2.5)' : 'scale(1)',
-          transformOrigin: `${pos.x}% ${pos.y}%`,
-          transition: zoom ? 'none' : 'transform 400ms ease',
-          willChange: 'transform',
+          transform: isZoomed ? 'scale(2.5)' : 'scale(1)',
+          transformOrigin: origin,
+          transition: isZoomed ? 'transform-origin 0s' : 'transform 0.4s ease',
+          willChange: 'transform, transform-origin',
         }}
       />
     </div>
@@ -99,28 +104,33 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
 
       {/* Product Grid */}
       <div className={`${minimal.cn.container} pb-20 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16`}>
-        {/* Image Side — no ScrollReveal wrapper to avoid blocking mouse events and state updates */}
+        {/* Image Side */}
         <div className="md:sticky md:top-24 md:self-start">
-          <div
-            className="relative aspect-square overflow-hidden bg-[#FAFAFA]"
-          >
-            <ZoomImage src={product.images[mainImg]} alt={product.name} />
-          </div>
-          <div className="flex gap-2 mt-3">
+          <ZoomImage key={mainImg} src={product.images[mainImg]} alt={product.name} />
+          <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
             {product.images.map((img, i) => (
               <button
                 key={i}
-                onClick={(e) => { e.stopPropagation(); setMainImg(i); }}
-                className="w-16 h-16 overflow-hidden p-0 transition-all duration-200"
+                type="button"
+                onClick={() => setMainImg(i)}
                 style={{
-                  border: mainImg === i ? '1px solid #050505' : '1px solid #E5E5E5',
+                  width: '64px',
+                  height: '64px',
+                  padding: 0,
+                  overflow: 'hidden',
+                  border: mainImg === i ? '2px solid #050505' : '1px solid #E5E5E5',
                   opacity: mainImg === i ? 1 : 0.5,
                   background: '#FAFAFA',
                   borderRadius: 0,
                   cursor: 'pointer',
+                  transition: 'border 0.2s, opacity 0.2s',
                 }}
               >
-                <img src={img} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
+                <img
+                  src={img}
+                  alt={`${product.name} view ${i + 1}`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
               </button>
             ))}
           </div>
