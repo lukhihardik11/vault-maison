@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  // Disable the Next.js dev indicator ("N" icon in bottom-left corner)
+  devIndicators: false,
   // Security headers (also in vercel.json for edge)
   async headers() {
     return [

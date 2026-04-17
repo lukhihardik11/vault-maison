@@ -28,16 +28,28 @@ function ZoomImage({ src, alt }: { src: string; alt: string }) {
       onMouseEnter={() => setZoom(true)}
       onMouseLeave={() => setZoom(false)}
       onMouseMove={handleMove}
-      className="relative w-full h-full overflow-hidden cursor-crosshair"
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        cursor: 'crosshair',
+      }}
     >
       <img
         src={src}
         alt={alt}
-        className="w-full h-full object-cover"
+        draggable={false}
         style={{
-          transform: zoom ? 'scale(2)' : 'scale(1)',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          display: 'block',
+          pointerEvents: 'none',
+          transform: zoom ? 'scale(2.5)' : 'scale(1)',
           transformOrigin: `${pos.x}% ${pos.y}%`,
           transition: zoom ? 'none' : 'transform 400ms ease',
+          willChange: 'transform',
         }}
       />
     </div>
@@ -87,11 +99,10 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
 
       {/* Product Grid */}
       <div className={`${minimal.cn.container} pb-20 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16`}>
-        {/* Image Side */}
-        <ScrollReveal className="md:sticky md:top-24 md:self-start">
+        {/* Image Side — no ScrollReveal wrapper to avoid blocking mouse events and state updates */}
+        <div className="md:sticky md:top-24 md:self-start">
           <div
-            onClick={() => setLightbox(true)}
-            className="relative aspect-square overflow-hidden bg-[#FAFAFA] cursor-crosshair"
+            className="relative aspect-square overflow-hidden bg-[#FAFAFA]"
           >
             <ZoomImage src={product.images[mainImg]} alt={product.name} />
           </div>
@@ -99,7 +110,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
             {product.images.map((img, i) => (
               <button
                 key={i}
-                onClick={() => setMainImg(i)}
+                onClick={(e) => { e.stopPropagation(); setMainImg(i); }}
                 className="w-16 h-16 overflow-hidden p-0 transition-all duration-200"
                 style={{
                   border: mainImg === i ? '1px solid #050505' : '1px solid #E5E5E5',
@@ -113,7 +124,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               </button>
             ))}
           </div>
-        </ScrollReveal>
+        </div>
 
         {/* Info Side */}
         <div className="pt-8 md:pt-0">
