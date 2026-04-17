@@ -3,18 +3,19 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, ChevronDown } from 'lucide-react'
+import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, ChevronDown, Share2, Check, Star } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductCard } from '../MinimalProductCard'
 import { minimal } from '../design-system'
 import { products, type Product } from '@/data/products'
 import { useCartStore } from '@/store/cart'
 
-const font = minimal.font.primary
-const mono = minimal.font.mono
+const F = "'Inter', 'Helvetica Neue', sans-serif"
+const M = "'SF Mono', 'Fira Code', monospace"
+const R = 10
 const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8']
 
-/* ─── Image Gallery — DOM event listeners via useEffect ─── */
+/* ─── Image Gallery — native DOM events for hydration safety ─── */
 function ImageGallery({ images, productName }: { images: string[]; productName: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mainImgRef = useRef<HTMLImageElement>(null)
@@ -36,7 +37,7 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
     const handleMouseLeave = () => {
       isZoomed = false
       mainImg.style.transform = 'scale(1)'
-      mainImg.style.transition = 'transform 0.3s ease'
+      mainImg.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
     }
     const handleMouseMove = (e: MouseEvent) => {
       if (!isZoomed) return
@@ -58,8 +59,9 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
       mainImg.alt = `${productName} view ${index + 1}`
       thumbButtons.forEach((btn, i) => {
         const el = btn as HTMLElement
-        el.style.border = i === index ? '2px solid #050505' : '1px solid #E8E8E8'
-        el.style.opacity = i === index ? '1' : '0.5'
+        el.style.border = i === index ? '2px solid #1A1A1A' : '1.5px solid #E8E8E8'
+        el.style.opacity = i === index ? '1' : '0.6'
+        el.style.transform = i === index ? 'scale(1.05)' : 'scale(1)'
       })
     }
 
@@ -85,16 +87,17 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
   }, [images, productName])
 
   return (
-    <div className="md:sticky md:top-20 md:self-start">
+    <div className="md:sticky md:top-24 md:self-start">
       {/* Main Image */}
       <div
         ref={containerRef}
         style={{
           width: '100%',
-          aspectRatio: '1 / 1',
+          aspectRatio: '4 / 5',
           overflow: 'hidden',
           cursor: 'crosshair',
-          backgroundColor: '#FAFAFA',
+          backgroundColor: '#F7F7F7',
+          borderRadius: 16,
           position: 'relative',
         }}
       >
@@ -111,14 +114,24 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
             pointerEvents: 'none',
             transform: 'scale(1)',
             transformOrigin: '50% 50%',
-            transition: 'transform 0.3s ease',
+            transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           }}
         />
+        {/* Zoom hint */}
+        <div style={{
+          position: 'absolute', bottom: 16, right: 16,
+          background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)',
+          borderRadius: 20, padding: '6px 14px',
+          fontFamily: F, fontSize: 11, color: '#888', letterSpacing: '0.02em',
+          pointerEvents: 'none',
+        }}>
+          Hover to zoom
+        </div>
       </div>
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div ref={thumbsRef} style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+        <div ref={thumbsRef} style={{ display: 'flex', gap: 10, marginTop: 14 }}>
           {images.map((imgSrc, i) => (
             <div
               key={`thumb-${i}`}
@@ -126,15 +139,18 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
               role="button"
               tabIndex={0}
               style={{
-                width: '72px',
-                height: '72px',
+                width: 76,
+                height: 76,
                 overflow: 'hidden',
-                border: i === 0 ? '2px solid #050505' : '1px solid #E8E8E8',
-                opacity: i === 0 ? 1 : 0.5,
-                backgroundColor: '#FAFAFA',
+                border: i === 0 ? '2px solid #1A1A1A' : '1.5px solid #E8E8E8',
+                opacity: i === 0 ? 1 : 0.6,
+                backgroundColor: '#F7F7F7',
                 cursor: 'pointer',
                 flexShrink: 0,
                 padding: 0,
+                borderRadius: R,
+                transition: 'all 0.25s ease',
+                transform: i === 0 ? 'scale(1.05)' : 'scale(1)',
               }}
             >
               <img
@@ -169,11 +185,24 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
   const [accordion, setAccordion] = useState(0)
   const [added, setAdded] = useState(false)
   const [wish, setWish] = useState(false)
+  const [shared, setShared] = useState(false)
 
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) addItem(product, size)
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
+  }
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: product.name, url: window.location.href })
+      } else {
+        await navigator.clipboard.writeText(window.location.href)
+        setShared(true)
+        setTimeout(() => setShared(false), 2000)
+      }
+    } catch { /* user cancelled */ }
   }
 
   const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4)
@@ -186,81 +215,111 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
         ? `${product.diamondSpecs.carat}ct ${product.diamondSpecs.shape} · ${product.diamondSpecs.cut} Cut · ${product.diamondSpecs.color} Color · ${product.diamondSpecs.clarity} Clarity · ${product.diamondSpecs.origin} · ${product.diamondSpecs.certification}`
         : 'Contact us for detailed specifications.',
     },
-    { title: 'Shipping & Returns', content: 'Complimentary insured shipping on all orders. 30-day returns with full refund. Each piece arrives in our signature presentation box.' },
+    { title: 'Shipping & Returns', content: 'Complimentary insured shipping on all orders. 30-day returns with full refund. Each piece arrives in our signature presentation box with certificate of authenticity.' },
+    { title: 'Care Instructions', content: 'Store your piece in the provided jewelry box when not wearing. Clean gently with a soft lint-free cloth. Avoid contact with perfumes, lotions, and harsh chemicals. Professional cleaning recommended annually.' },
   ]
 
   return (
     <MinimalLayout>
       {/* Breadcrumb */}
-      <div className={minimal.cn.container} style={{ paddingTop: '24px', paddingBottom: '24px' }}>
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <Link href="/minimal" style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none' }} className="hover:!text-[#050505]">Home</Link>
-          <span style={{ fontFamily: mono, fontSize: '10px', color: '#ABABAB' }}>/</span>
-          <Link href="/minimal/collections" style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none' }} className="hover:!text-[#050505]">Collections</Link>
-          <span style={{ fontFamily: mono, fontSize: '10px', color: '#ABABAB' }}>/</span>
-          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', fontWeight: 500 }}>{product.name}</span>
+      <div className={minimal.cn.container} style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          {[
+            { label: 'Home', href: '/minimal' },
+            { label: 'Collections', href: '/minimal/collections' },
+            { label: product.category.replace(/-/g, ' '), href: `/minimal/category/${product.category}` },
+          ].map((crumb, i) => (
+            <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Link href={crumb.href} className="pdp-crumb" style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#AAA', textDecoration: 'none' }}>
+                {crumb.label}
+              </Link>
+              <span style={{ fontFamily: M, fontSize: 10, color: '#DDD' }}>/</span>
+            </span>
+          ))}
+          <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#1A1A1A', fontWeight: 500 }}>{product.name}</span>
         </div>
       </div>
 
       {/* Product Grid */}
-      <div className={`${minimal.cn.container} grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16`} style={{ paddingBottom: 'clamp(64px, 10vh, 120px)' }}>
+      <div className={`${minimal.cn.container} grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20`} style={{ paddingBottom: 'clamp(64px, 10vh, 120px)' }}>
 
         {/* LEFT: Image Gallery */}
         <ImageGallery images={product.images} productName={product.name} />
 
         {/* RIGHT: Product Info */}
-        <div style={{ paddingTop: '0' }}>
-          {/* Category */}
-          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', display: 'block', marginBottom: '12px' }}>
-            {product.category.replace(/-/g, ' ')}
-          </span>
+        <div style={{ paddingTop: 0 }}>
+          {/* Category + Stock */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+            <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#AAA' }}>
+              {product.category.replace(/-/g, ' ')}
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#2E7D32', display: 'inline-block' }} />
+              <span style={{ fontFamily: F, fontSize: 12, color: '#2E7D32', fontWeight: 500 }}>In Stock</span>
+            </span>
+          </div>
 
           {/* Title */}
-          <h1 style={{ fontFamily: font, fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 200, letterSpacing: '-0.02em', lineHeight: 1.15, color: '#050505', margin: '0 0 8px' }}>
+          <h1 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 42px)', fontWeight: 200, letterSpacing: '-0.025em', lineHeight: 1.1, color: '#1A1A1A', margin: '0 0 6px' }}>
             {product.name}
           </h1>
 
           {/* Subtitle */}
           {product.subtitle && (
-            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#8A8A8A', margin: '0 0 24px' }}>
+            <p style={{ fontFamily: F, fontSize: 15, fontWeight: 300, color: '#999', margin: '0 0 20px' }}>
               {product.subtitle}
             </p>
           )}
 
-          {/* Price */}
-          <p style={{ fontFamily: font, fontSize: 'clamp(22px, 2vw, 30px)', fontWeight: 200, color: '#050505', fontVariantNumeric: 'tabular-nums', margin: '0 0 32px' }}>
-            {product.priceDisplay}
-          </p>
+          {/* Price + Rating */}
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 20, marginBottom: 28 }}>
+            <p style={{ fontFamily: F, fontSize: 'clamp(24px, 2.2vw, 34px)', fontWeight: 300, color: '#1A1A1A', fontVariantNumeric: 'tabular-nums', margin: 0 }}>
+              {product.priceDisplay}
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              {[1,2,3,4,5].map(s => <Star key={s} size={13} fill={s <= 4 ? '#1A1A1A' : 'none'} color="#1A1A1A" strokeWidth={1.5} />)}
+              <span style={{ fontFamily: F, fontSize: 12, color: '#999', marginLeft: 4 }}>(24)</span>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div style={{ height: 1, background: '#F0F0F0', marginBottom: 28 }} />
 
           {/* Description */}
-          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', lineHeight: 1.8, margin: '0 0 32px', maxWidth: '480px' }}>
+          <p style={{ fontFamily: F, fontSize: 15, fontWeight: 300, color: '#666', lineHeight: 1.8, margin: '0 0 32px', maxWidth: 500 }}>
             {product.description}
           </p>
 
           {/* Size Selector */}
-          <div style={{ marginBottom: '28px' }}>
-            <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', fontWeight: 500, marginBottom: '12px' }}>
-              Size: <span style={{ color: '#8A8A8A', fontWeight: 400 }}>{size}</span>
-            </p>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <p style={{ fontFamily: F, fontSize: 13, letterSpacing: '0.05em', textTransform: 'uppercase', color: '#1A1A1A', fontWeight: 500, margin: 0 }}>
+                Ring Size: <span style={{ color: '#999', fontWeight: 400 }}>{size}</span>
+              </p>
+              <button style={{ fontFamily: F, fontSize: 12, color: '#999', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                Size Guide
+              </button>
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {sizes.map((s) => (
                 <button
                   key={s}
                   onClick={() => setSize(s)}
                   style={{
-                    width: '44px',
-                    height: '44px',
+                    width: 48,
+                    height: 48,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontFamily: font,
-                    fontSize: '13px',
+                    fontFamily: F,
+                    fontSize: 13,
                     fontWeight: size === s ? 500 : 300,
-                    backgroundColor: size === s ? '#050505' : 'transparent',
-                    color: size === s ? '#FFFFFF' : '#050505',
-                    border: size === s ? '1px solid #050505' : '1px solid #E8E8E8',
+                    backgroundColor: size === s ? '#1A1A1A' : '#FFF',
+                    color: size === s ? '#FFF' : '#1A1A1A',
+                    border: size === s ? '1.5px solid #1A1A1A' : '1.5px solid #E5E5E5',
                     cursor: 'pointer',
-                    borderRadius: 0,
+                    borderRadius: R,
+                    transition: 'all 0.2s ease',
                   }}
                 >
                   {s}
@@ -270,89 +329,117 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
           </div>
 
           {/* Quantity */}
-          <div style={{ marginBottom: '28px' }}>
-            <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', fontWeight: 500, marginBottom: '12px' }}>
+          <div style={{ marginBottom: 28 }}>
+            <p style={{ fontFamily: F, fontSize: 13, letterSpacing: '0.05em', textTransform: 'uppercase', color: '#1A1A1A', fontWeight: 500, marginBottom: 12 }}>
               Quantity
             </p>
-            <div style={{ display: 'inline-flex', alignItems: 'center', border: '1px solid #E8E8E8' }}>
-              <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', border: 'none', cursor: 'pointer', color: '#050505' }}>
-                <Minus size={14} strokeWidth={1.5} />
+            <div style={{ display: 'inline-flex', alignItems: 'center', border: '1.5px solid #E5E5E5', borderRadius: R, overflow: 'hidden' }}>
+              <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', border: 'none', cursor: 'pointer', color: '#1A1A1A', transition: 'background 0.2s' }}>
+                <Minus size={15} strokeWidth={1.5} />
               </button>
-              <span style={{ width: '48px', textAlign: 'center', fontFamily: font, fontSize: '14px', fontWeight: 400, fontVariantNumeric: 'tabular-nums', color: '#050505' }}>{qty}</span>
-              <button onClick={() => setQty(qty + 1)} style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', border: 'none', cursor: 'pointer', color: '#050505' }}>
-                <Plus size={14} strokeWidth={1.5} />
+              <span style={{ width: 52, textAlign: 'center', fontFamily: F, fontSize: 15, fontWeight: 500, fontVariantNumeric: 'tabular-nums', color: '#1A1A1A', borderLeft: '1.5px solid #E5E5E5', borderRight: '1.5px solid #E5E5E5', lineHeight: '48px' }}>{qty}</span>
+              <button onClick={() => setQty(qty + 1)} style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', border: 'none', cursor: 'pointer', color: '#1A1A1A', transition: 'background 0.2s' }}>
+                <Plus size={15} strokeWidth={1.5} />
               </button>
             </div>
           </div>
 
-          {/* Add to Bag + Wishlist */}
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '32px' }}>
+          {/* Add to Bag + Wishlist + Share */}
+          <div style={{ display: 'flex', gap: 10, marginBottom: 32 }}>
             <button
               onClick={handleAdd}
+              className="pdp-add-btn"
               style={{
                 flex: 1,
-                height: '56px',
+                height: 56,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '10px',
-                fontFamily: font,
-                fontSize: '11px',
+                gap: 10,
+                fontFamily: F,
+                fontSize: 13,
                 fontWeight: 500,
-                letterSpacing: '0.2em',
+                letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                backgroundColor: '#050505',
-                color: '#FFFFFF',
-                border: '1px solid #050505',
+                backgroundColor: added ? '#2E7D32' : '#1A1A1A',
+                color: '#FFF',
+                border: 'none',
                 cursor: 'pointer',
+                borderRadius: R,
+                transition: 'all 0.3s ease',
               }}
-              className="vm-btn-primary"
             >
               {added ? (
-                <span>Added to Bag</span>
+                <><Check size={16} strokeWidth={2} /> Added to Bag</>
               ) : (
-                <>
-                  <ShoppingBag size={16} strokeWidth={1.5} />
-                  Add to Bag — {product.priceDisplay}
-                </>
+                <><ShoppingBag size={16} strokeWidth={1.5} /> Add to Bag — {product.priceDisplay}</>
               )}
             </button>
             <button
               onClick={() => setWish(!wish)}
+              className="pdp-icon-btn"
               style={{
-                width: '56px',
-                height: '56px',
+                width: 56,
+                height: 56,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: 'transparent',
-                border: '1px solid #E8E8E8',
+                backgroundColor: wish ? '#FFF5F5' : '#FFF',
+                border: '1.5px solid #E5E5E5',
                 cursor: 'pointer',
+                borderRadius: R,
+                transition: 'all 0.2s ease',
               }}
               aria-label="Add to wishlist"
             >
-              <Heart size={18} strokeWidth={1.5} fill={wish ? '#050505' : 'none'} color="#050505" />
+              <Heart size={18} strokeWidth={1.5} fill={wish ? '#E53935' : 'none'} color={wish ? '#E53935' : '#1A1A1A'} />
+            </button>
+            <button
+              onClick={handleShare}
+              className="pdp-icon-btn"
+              style={{
+                width: 56,
+                height: 56,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: shared ? '#F0FFF0' : '#FFF',
+                border: '1.5px solid #E5E5E5',
+                cursor: 'pointer',
+                borderRadius: R,
+                transition: 'all 0.2s ease',
+              }}
+              aria-label="Share"
+            >
+              {shared ? <Check size={18} strokeWidth={1.5} color="#2E7D32" /> : <Share2 size={18} strokeWidth={1.5} color="#1A1A1A" />}
             </button>
           </div>
 
           {/* Trust Bar */}
-          <div style={{ display: 'flex', gap: '24px', padding: '20px 0', borderTop: '1px solid #E8E8E8', borderBottom: '1px solid #E8E8E8', marginBottom: '24px' }}>
+          <div style={{
+            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12,
+            padding: '20px 0', marginBottom: 28,
+          }}>
             {[
-              { icon: Truck, label: 'Free Shipping' },
-              { icon: Shield, label: 'GIA Certified' },
-              { icon: RotateCcw, label: '30-Day Returns' },
-            ].map(({ icon: Icon, label }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Icon size={14} strokeWidth={1.5} color="#8A8A8A" />
-                <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.15em', color: '#8A8A8A' }}>{label}</span>
+              { icon: Truck, label: 'Free Shipping', sub: 'Insured delivery' },
+              { icon: Shield, label: 'GIA Certified', sub: 'Authenticated' },
+              { icon: RotateCcw, label: '30-Day Returns', sub: 'Full refund' },
+            ].map(({ icon: Icon, label, sub }) => (
+              <div key={label} style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                gap: 6, padding: '16px 8px', background: '#FAFAFA', borderRadius: R,
+              }}>
+                <Icon size={18} strokeWidth={1.5} color="#1A1A1A" />
+                <span style={{ fontFamily: F, fontSize: 11, fontWeight: 500, color: '#1A1A1A', letterSpacing: '0.02em' }}>{label}</span>
+                <span style={{ fontFamily: F, fontSize: 10, color: '#BBB' }}>{sub}</span>
               </div>
             ))}
           </div>
 
           {/* Accordion */}
-          <div>
+          <div style={{ borderTop: '1px solid #F0F0F0' }}>
             {accItems.map((item, i) => (
-              <div key={i} style={{ borderBottom: '1px solid #E8E8E8' }}>
+              <div key={i} style={{ borderBottom: '1px solid #F0F0F0' }}>
                 <button
                   onClick={() => setAccordion(accordion === i ? -1 : i)}
                   style={{
@@ -367,13 +454,13 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
                     textAlign: 'left',
                   }}
                 >
-                  <span style={{ fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: accordion === i ? '#050505' : '#8A8A8A' }}>
+                  <span style={{ fontFamily: F, fontSize: 13, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: accordion === i ? '#1A1A1A' : '#999', transition: 'color 0.2s' }}>
                     {item.title}
                   </span>
                   <ChevronDown
                     size={16}
                     strokeWidth={1.5}
-                    color="#8A8A8A"
+                    color="#999"
                     style={{
                       transform: accordion === i ? 'rotate(180deg)' : 'rotate(0)',
                       transition: 'transform 300ms ease',
@@ -381,7 +468,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
                   />
                 </button>
                 <div style={{ maxHeight: accordion === i ? '300px' : '0', overflow: 'hidden', transition: 'max-height 300ms ease' }}>
-                  <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', lineHeight: 1.8, paddingBottom: '20px', margin: 0 }}>
+                  <p style={{ fontFamily: F, fontSize: 14, fontWeight: 300, color: '#666', lineHeight: 1.85, paddingBottom: 20, margin: 0 }}>
                     {item.content}
                   </p>
                 </div>
@@ -395,20 +482,25 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
       {product.diamondSpecs && (
         <section style={{ backgroundColor: '#FAFAFA', padding: 'clamp(64px, 10vh, 120px) 0' }}>
           <div className={minimal.cn.container}>
-            <div style={{ marginBottom: '48px' }}>
-              <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', display: 'block', marginBottom: '12px' }}>Specifications</span>
-              <h2 style={{ fontFamily: font, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 200, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>The 4Cs</h2>
+            <div style={{ textAlign: 'center', marginBottom: 56 }}>
+              <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#AAA', display: 'block', marginBottom: 12 }}>Diamond Certification</span>
+              <h2 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 200, letterSpacing: '-0.03em', color: '#1A1A1A', margin: 0 }}>The 4Cs</h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px" style={{ backgroundColor: '#E8E8E8' }}>
+            <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: 16 }}>
               {[
-                { label: 'Carat', value: product.diamondSpecs.carat },
-                { label: 'Cut', value: product.diamondSpecs.cut },
-                { label: 'Color', value: product.diamondSpecs.color },
-                { label: 'Clarity', value: product.diamondSpecs.clarity },
+                { label: 'Carat', value: product.diamondSpecs.carat, desc: 'Weight' },
+                { label: 'Cut', value: product.diamondSpecs.cut, desc: 'Brilliance' },
+                { label: 'Color', value: product.diamondSpecs.color, desc: 'Grade' },
+                { label: 'Clarity', value: product.diamondSpecs.clarity, desc: 'Purity' },
               ].map((spec) => (
-                <div key={spec.label} style={{ backgroundColor: '#FAFAFA', padding: 'clamp(24px, 3vw, 40px)', textAlign: 'center' }}>
-                  <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', margin: '0 0 12px' }}>{spec.label}</p>
-                  <p style={{ fontFamily: font, fontSize: 'clamp(24px, 2.5vw, 40px)', fontWeight: 100, color: '#050505', fontVariantNumeric: 'tabular-nums', margin: 0 }}>{spec.value}</p>
+                <div key={spec.label} style={{
+                  backgroundColor: '#FFF', padding: 'clamp(24px, 3vw, 40px)',
+                  textAlign: 'center', borderRadius: 16,
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+                }}>
+                  <p style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#AAA', margin: '0 0 14px' }}>{spec.label}</p>
+                  <p style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 100, color: '#1A1A1A', fontVariantNumeric: 'tabular-nums', margin: '0 0 6px' }}>{spec.value}</p>
+                  <p style={{ fontFamily: F, fontSize: 11, color: '#CCC', margin: 0 }}>{spec.desc}</p>
                 </div>
               ))}
             </div>
@@ -416,16 +508,56 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
         </section>
       )}
 
+      {/* Complete the Look */}
+      <section style={{ padding: 'clamp(48px, 8vh, 80px) 0', borderTop: '1px solid #F0F0F0' }}>
+        <div className={minimal.cn.container}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center' }}>
+            <div>
+              <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#AAA', display: 'block', marginBottom: 12 }}>Styling</span>
+              <h2 style={{ fontFamily: F, fontSize: 'clamp(24px, 2.5vw, 38px)', fontWeight: 200, letterSpacing: '-0.02em', color: '#1A1A1A', margin: '0 0 16px' }}>Complete the Look</h2>
+              <p style={{ fontFamily: F, fontSize: 15, fontWeight: 300, color: '#888', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 420 }}>
+                Pair this piece with complementary items from our collection for an effortlessly curated ensemble.
+              </p>
+              <Link href="/minimal/collections" style={{
+                fontFamily: F, fontSize: 12, fontWeight: 500, letterSpacing: '0.12em',
+                textTransform: 'uppercase', color: '#1A1A1A', textDecoration: 'none',
+                borderBottom: '1.5px solid #1A1A1A', paddingBottom: 4,
+              }}>
+                Explore Collections
+              </Link>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              {related.slice(0, 2).map((p) => (
+                <Link key={p.id} href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none' }}>
+                  <div style={{ borderRadius: 12, overflow: 'hidden', background: '#F7F7F7', aspectRatio: '3/4' }}>
+                    <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  </div>
+                  <p style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: '#1A1A1A', margin: '10px 0 2px' }}>{p.name}</p>
+                  <p style={{ fontFamily: F, fontSize: 13, fontWeight: 300, color: '#999', margin: 0 }}>{p.priceDisplay}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Related Products */}
       {related.length > 0 && (
-        <section style={{ padding: 'clamp(64px, 10vh, 120px) 0' }}>
+        <section style={{ padding: 'clamp(64px, 10vh, 120px) 0', background: '#FAFAFA' }}>
           <div className={minimal.cn.container}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48 }}>
               <div>
-                <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', display: 'block', marginBottom: '12px' }}>You May Also Like</span>
-                <h2 style={{ fontFamily: font, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 200, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>Related Pieces</h2>
+                <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#AAA', display: 'block', marginBottom: 12 }}>You May Also Like</span>
+                <h2 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 200, letterSpacing: '-0.03em', color: '#1A1A1A', margin: 0 }}>Related Pieces</h2>
               </div>
-              <Link href={`/minimal/category/${product.category}`} className={`${minimal.cn.btnGhost} no-underline`}>View All</Link>
+              <Link href={`/minimal/category/${product.category}`} style={{
+                fontFamily: F, fontSize: 12, fontWeight: 500, letterSpacing: '0.1em',
+                textTransform: 'uppercase', color: '#1A1A1A', textDecoration: 'none',
+                border: '1.5px solid #1A1A1A', padding: '10px 24px', borderRadius: R,
+                transition: 'all 0.2s',
+              }} className="pdp-view-all">
+                View All
+              </Link>
             </div>
             <div className={minimal.cn.gridProduct}>
               {related.map((p) => (
@@ -439,9 +571,19 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
       )}
 
       <style>{`
-        .vm-btn-primary:hover {
-          background-color: #FFFFFF !important;
-          color: #050505 !important;
+        .pdp-add-btn:hover {
+          opacity: 0.9;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        .pdp-icon-btn:hover {
+          border-color: #1A1A1A !important;
+          transform: translateY(-1px);
+        }
+        .pdp-crumb:hover { color: #1A1A1A !important; }
+        .pdp-view-all:hover {
+          background: #1A1A1A !important;
+          color: #FFF !important;
         }
       `}</style>
     </MinimalLayout>
