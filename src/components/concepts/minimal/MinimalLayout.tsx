@@ -15,9 +15,13 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
+
         html, body {
           background: #FFFFFF !important;
           color: #050505 !important;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         /* Brutalist text selection */
@@ -27,11 +31,10 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           color: #FFFFFF;
         }
 
-        /* Custom cursor on product images */
-        .product-image { cursor: crosshair; }
-
         /* Smooth image loading */
-        img { transition: opacity 0.5s ease-out; }
+        .minimal-concept img {
+          transition: opacity 0.5s ease-out;
+        }
 
         /* Hide scrollbar on filter bar */
         .minimal-filter-scroll {
@@ -41,7 +44,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         .minimal-filter-scroll::-webkit-scrollbar { display: none; }
 
         /* Animated underline for links */
-        .minimal-link-underline { position: relative; }
+        .minimal-link-underline { position: relative; display: inline-block; }
         .minimal-link-underline::after {
           content: '';
           position: absolute;
@@ -50,20 +53,37 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           width: 0;
           height: 1px;
           background: #050505;
-          transition: width 0.3s ease-out;
+          transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .minimal-link-underline:hover::after { width: 100%; }
+
+        /* Button hover inversion */
+        .vm-btn-primary {
+          transition: background-color 0.25s ease, color 0.25s ease !important;
+        }
+        .vm-btn-primary:hover {
+          background-color: #FFFFFF !important;
+          color: #050505 !important;
+        }
+        .vm-btn-ghost {
+          transition: background-color 0.25s ease, color 0.25s ease !important;
+        }
+        .vm-btn-ghost:hover {
+          background-color: #050505 !important;
+          color: #FFFFFF !important;
+        }
       `}</style>
       <div
         className="minimal-concept"
         style={{
           backgroundColor: '#FFFFFF',
           color: '#050505',
-          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+          fontFamily: "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
           fontSize: '14px',
-          fontWeight: 400,
+          fontWeight: 300,
           lineHeight: 1.6,
           minHeight: '100vh',
+          letterSpacing: '-0.01em',
         }}
       >
         {!hideNav && <MinimalNav />}

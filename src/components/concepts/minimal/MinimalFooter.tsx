@@ -1,6 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import { minimal } from './design-system'
+
+const font = minimal.font.primary
+const mono = minimal.font.mono
 
 const shopLinks = [
   { label: 'All Pieces', href: '/minimal/collections' },
@@ -8,81 +12,245 @@ const shopLinks = [
   { label: 'Necklaces', href: '/minimal/category/diamond-necklaces' },
   { label: 'Bracelets', href: '/minimal/category/diamond-bracelets' },
   { label: 'Earrings', href: '/minimal/category/diamond-earrings' },
+  { label: 'Loose Diamonds', href: '/minimal/category/loose-diamonds' },
 ]
 
 const infoLinks = [
   { label: 'About', href: '/minimal/about' },
-  { label: 'Shipping', href: '/minimal/shipping' },
-  { label: 'Returns', href: '/minimal/care' },
+  { label: 'Bespoke', href: '/minimal/bespoke' },
+  { label: 'Shipping & Returns', href: '/minimal/shipping' },
+  { label: 'Diamond Grading', href: '/minimal/grading' },
   { label: 'Contact', href: '/minimal/contact' },
   { label: 'FAQ', href: '/minimal/faq' },
 ]
 
 export function MinimalFooter() {
   return (
-    <footer className="border-t border-[#E5E5E5] bg-white">
-      <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
-          {/* Brand */}
-          <div className="md:col-span-1 space-y-4">
-            <h4 className="text-[15px] font-medium tracking-[0.08em] uppercase text-[#050505]">
-              Minimal Machine
-            </h4>
-            <p className="text-sm text-[#6B6B6B] leading-relaxed max-w-xs">
-              Brutalist luxury jewelry. Each piece engineered with precision.
-            </p>
-          </div>
+    <footer style={{ borderTop: '1px solid #E8E8E8', backgroundColor: '#FFFFFF' }}>
+      <div
+        style={{
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: 'clamp(48px, 8vh, 80px) clamp(24px, 3vw, 64px)',
+        }}
+      >
+        {/* Top section — Brand statement */}
+        <div style={{ marginBottom: 'clamp(48px, 6vh, 72px)' }}>
+          <h4
+            style={{
+              fontFamily: font,
+              fontSize: 'clamp(24px, 3vw, 40px)',
+              fontWeight: 200,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.2,
+              color: '#050505',
+              maxWidth: '500px',
+              margin: 0,
+            }}
+          >
+            Precision in every facet.
+            <br />
+            Nothing more.
+          </h4>
+        </div>
 
+        {/* Links Grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: 'clamp(32px, 4vw, 48px)',
+            paddingBottom: 'clamp(48px, 6vh, 72px)',
+          }}
+        >
           {/* Shop */}
-          <div className="space-y-4">
-            <h5 className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B]">Shop</h5>
-            <ul className="space-y-2 list-none p-0 m-0">
-              {shopLinks.map(item => (
+          <div>
+            <h5
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: '#8A8A8A',
+                marginBottom: '20px',
+              }}
+            >
+              Shop
+            </h5>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {shopLinks.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-sm text-[#6B6B6B] hover:text-[#050505] transition-colors duration-300 no-underline">{item.label}</Link>
+                  <Link
+                    href={item.href}
+                    style={{
+                      fontFamily: font,
+                      fontSize: '13px',
+                      fontWeight: 300,
+                      color: '#555555',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s ease',
+                    }}
+                    className="hover:!text-[#050505]"
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Info */}
-          <div className="space-y-4">
-            <h5 className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B]">Info</h5>
-            <ul className="space-y-2 list-none p-0 m-0">
-              {infoLinks.map(item => (
+          {/* Information */}
+          <div>
+            <h5
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: '#8A8A8A',
+                marginBottom: '20px',
+              }}
+            >
+              Information
+            </h5>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {infoLinks.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-sm text-[#6B6B6B] hover:text-[#050505] transition-colors duration-300 no-underline">{item.label}</Link>
+                  <Link
+                    href={item.href}
+                    style={{
+                      fontFamily: font,
+                      fontSize: '13px',
+                      fontWeight: 300,
+                      color: '#555555',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s ease',
+                    }}
+                    className="hover:!text-[#050505]"
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Newsletter */}
-          <div className="space-y-4">
-            <h5 className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B]">Newsletter</h5>
-            <p className="text-sm text-[#6B6B6B]">Receive updates on new collections.</p>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Email"
-                className="flex-1 h-12 px-4 border border-[#E5E5E5] border-r-0 bg-transparent text-sm text-[#050505] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#050505] transition-colors"
-                style={{ borderRadius: 0 }}
-              />
-              <button className="h-12 px-6 bg-[#050505] text-white text-[11px] uppercase tracking-[0.15em] hover:bg-[#1a1a1a] transition-colors border-none cursor-pointer" style={{ borderRadius: 0 }}>
-                Join
-              </button>
+          {/* Services */}
+          <div>
+            <h5
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: '#8A8A8A',
+                marginBottom: '20px',
+              }}
+            >
+              Services
+            </h5>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {[
+                { label: 'Ring Sizing', href: '/minimal/care' },
+                { label: 'Engraving', href: '/minimal/bespoke' },
+                { label: 'Cleaning & Care', href: '/minimal/care' },
+                { label: 'Insurance', href: '/minimal/faq' },
+                { label: 'Gift Cards', href: '/minimal/collections' },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    style={{
+                      fontFamily: font,
+                      fontSize: '13px',
+                      fontWeight: 300,
+                      color: '#555555',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s ease',
+                    }}
+                    className="hover:!text-[#050505]"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h5
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: '#8A8A8A',
+                marginBottom: '20px',
+              }}
+            >
+              Contact
+            </h5>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#555555', margin: 0 }}>
+                +1 (212) 555-0174
+              </p>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#555555', margin: 0 }}>
+                concierge@minimalmachine.com
+              </p>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#555555', margin: 0, lineHeight: 1.6 }}>
+                712 Fifth Avenue
+                <br />
+                New York, NY 10019
+              </p>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-[#E5E5E5] flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[11px] text-[#9B9B9B] tracking-wide">
+        <div
+          style={{
+            borderTop: '1px solid #E8E8E8',
+            paddingTop: '24px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '16px',
+          }}
+        >
+          <p
+            style={{
+              fontFamily: mono,
+              fontSize: '10px',
+              letterSpacing: '0.15em',
+              color: '#ABABAB',
+              margin: 0,
+            }}
+          >
             &copy; {new Date().getFullYear()} Minimal Machine. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            {['Privacy', 'Terms', 'Cookies'].map(item => (
-              <a key={item} href="#" className="text-[11px] text-[#9B9B9B] hover:text-[#050505] transition-colors tracking-wide no-underline">{item}</a>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            {[
+              { label: 'Privacy', href: '/minimal/privacy' },
+              { label: 'Terms', href: '/minimal/privacy' },
+              { label: 'Cookies', href: '/minimal/privacy' },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                style={{
+                  fontFamily: mono,
+                  fontSize: '10px',
+                  letterSpacing: '0.15em',
+                  color: '#ABABAB',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease',
+                }}
+                className="hover:!text-[#050505]"
+              >
+                {item.label}
+              </Link>
             ))}
           </div>
         </div>

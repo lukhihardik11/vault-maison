@@ -8,6 +8,10 @@ import { useCartStore } from '@/store/cart'
 import { useWishlistStore } from '@/store/wishlist'
 import ActionSearchBar from './ui/ActionSearchBar'
 import ProfileDropdown from './ui/ProfileDropdown'
+import { minimal } from './design-system'
+
+const font = minimal.font.primary
+const mono = minimal.font.mono
 
 const navLinks = [
   { label: 'Collection', href: '/minimal/collections', mega: 'diamonds' as const },
@@ -62,56 +66,147 @@ export function MinimalNav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#E5E5E5] h-16" style={{ backgroundColor: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.98)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', transition: 'background-color 300ms ease' }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 h-full flex items-center justify-between">
+      <nav
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          height: '64px',
+          borderBottom: '1px solid #E8E8E8',
+          backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.98)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          transition: 'background-color 300ms ease',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '0 clamp(24px, 3vw, 64px)',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           {/* Logo */}
-          <Link href="/minimal" className="text-[15px] font-medium tracking-[0.08em] uppercase text-[#050505] no-underline">
+          <Link
+            href="/minimal"
+            style={{
+              fontFamily: font,
+              fontSize: '14px',
+              fontWeight: 500,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: '#050505',
+              textDecoration: 'none',
+            }}
+          >
             Minimal Machine
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center" style={{ gap: '36px' }}>
             {navLinks.map((link) => (
               <div
                 key={link.href}
                 onMouseEnter={() => link.mega ? openMega(link.mega) : setMegaMenu(null)}
                 onMouseLeave={closeMega}
-                className="relative"
+                style={{ position: 'relative' }}
               >
                 <Link
                   href={link.href}
-                  className="text-[13px] uppercase tracking-[0.1em] no-underline transition-colors duration-300 relative group flex items-center gap-1"
-                  style={{ color: isActive(link.href) ? '#050505' : '#6B6B6B' }}
+                  className="group flex items-center"
+                  style={{
+                    fontFamily: font,
+                    fontSize: '11px',
+                    fontWeight: isActive(link.href) ? 500 : 400,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    color: isActive(link.href) ? '#050505' : '#8A8A8A',
+                    transition: 'color 0.2s ease',
+                    gap: '4px',
+                  }}
                 >
-                  {link.label}
-                  {link.mega && <ChevronDown size={12} style={{ opacity: 0.5, transition: 'transform 200ms', transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)' }} />}
-                  <span
-                    className="absolute left-0 -bottom-1 h-px bg-[#050505] transition-all duration-300"
-                    style={{ width: isActive(link.href) ? '100%' : '0' }}
-                  />
+                  <span className="hover:text-[#050505]">{link.label}</span>
+                  {link.mega && (
+                    <ChevronDown
+                      size={10}
+                      strokeWidth={1.5}
+                      style={{
+                        opacity: 0.4,
+                        transition: 'transform 200ms',
+                        transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)',
+                      }}
+                    />
+                  )}
                 </Link>
               </div>
             ))}
           </div>
 
           {/* Icons */}
-          <div className="flex items-center gap-5">
-            <button onClick={() => setSearchOpen(true)} className="hidden md:block bg-transparent border-none cursor-pointer p-0 text-[#6B6B6B] hover:text-[#050505] transition-colors" aria-label="Search">
-              <Search size={18} strokeWidth={1.5} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="hidden md:block"
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                color: '#8A8A8A',
+                transition: 'color 0.2s ease',
+              }}
+              aria-label="Search"
+            >
+              <Search size={17} strokeWidth={1.5} />
             </button>
-            <Link href="/minimal/wishlist" className="hidden md:block text-[#6B6B6B] hover:text-[#050505] transition-colors relative">
-              <Heart size={18} strokeWidth={1.5} />
-              {wishlistCount > 0 && <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#050505] rounded-full" />}
+            <Link
+              href="/minimal/wishlist"
+              className="hidden md:block"
+              style={{ color: '#8A8A8A', transition: 'color 0.2s ease', position: 'relative' }}
+            >
+              <Heart size={17} strokeWidth={1.5} />
+              {wishlistCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-3px', right: '-3px',
+                  width: '6px', height: '6px', backgroundColor: '#050505', borderRadius: '50%',
+                }} />
+              )}
             </Link>
-            <Link href="/minimal/cart" className="text-[#6B6B6B] hover:text-[#050505] transition-colors relative">
-              <ShoppingBag size={18} strokeWidth={1.5} />
-              {cartCount > 0 && <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#050505] rounded-full" />}
+            <Link
+              href="/minimal/cart"
+              style={{ color: '#8A8A8A', transition: 'color 0.2s ease', position: 'relative' }}
+            >
+              <ShoppingBag size={17} strokeWidth={1.5} />
+              {cartCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-3px', right: '-3px',
+                  width: '6px', height: '6px', backgroundColor: '#050505', borderRadius: '50%',
+                }} />
+              )}
             </Link>
             <div className="hidden md:block">
               <ProfileDropdown />
             </div>
-            <button onClick={() => setMenuOpen(true)} className="md:hidden bg-transparent border-none cursor-pointer p-1 text-[#050505]" aria-label="Menu">
-              <Menu size={22} strokeWidth={1.5} />
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="md:hidden"
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '4px',
+                color: '#050505',
+              }}
+              aria-label="Menu"
+            >
+              <Menu size={20} strokeWidth={1.5} />
             </button>
           </div>
         </div>
@@ -124,40 +219,113 @@ export function MinimalNav() {
         <div
           onMouseEnter={() => openMega('diamonds')}
           onMouseLeave={closeMega}
-          className="fixed top-16 left-0 right-0 z-49 bg-white border-b border-[#E5E5E5]"
-          style={{ animation: 'megaSlide 200ms ease' }}
+          style={{
+            position: 'fixed',
+            top: '64px',
+            left: 0,
+            right: 0,
+            zIndex: 49,
+            backgroundColor: '#FFFFFF',
+            borderBottom: '1px solid #E8E8E8',
+            animation: 'megaSlide 200ms ease',
+          }}
         >
-          <div className="max-w-7xl mx-auto px-5 md:px-8 py-10 grid grid-cols-3 gap-10">
+          <div
+            style={{
+              maxWidth: '1400px',
+              margin: '0 auto',
+              padding: '48px clamp(24px, 3vw, 64px)',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr 1fr',
+              gap: '48px',
+            }}
+          >
             <div>
-              <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B] mb-4">Diamonds</p>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: '20px' }}>
+                Diamonds
+              </p>
               {diamondLinks.map((l) => (
-                <Link key={l.href} href={l.href} className="block text-sm text-[#6B6B6B] no-underline py-2 hover:text-[#050505] transition-colors duration-300">{l.label}</Link>
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  style={{
+                    display: 'block',
+                    fontFamily: font,
+                    fontSize: '14px',
+                    fontWeight: 300,
+                    color: '#555555',
+                    textDecoration: 'none',
+                    padding: '8px 0',
+                    transition: 'color 0.2s ease',
+                  }}
+                  className="hover:!text-[#050505]"
+                >
+                  {l.label}
+                </Link>
               ))}
             </div>
             <div>
-              <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B] mb-4">Gold</p>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: '20px' }}>
+                Gold
+              </p>
               {goldLinks.map((l) => (
-                <Link key={l.href} href={l.href} className="block text-sm text-[#6B6B6B] no-underline py-2 hover:text-[#050505] transition-colors duration-300">{l.label}</Link>
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  style={{
+                    display: 'block',
+                    fontFamily: font,
+                    fontSize: '14px',
+                    fontWeight: 300,
+                    color: '#555555',
+                    textDecoration: 'none',
+                    padding: '8px 0',
+                    transition: 'color 0.2s ease',
+                  }}
+                  className="hover:!text-[#050505]"
+                >
+                  {l.label}
+                </Link>
               ))}
             </div>
             <div>
-              <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B] mb-4">Featured</p>
-              <Link href="/minimal/category/wedding-bridal" className="block text-sm text-[#6B6B6B] no-underline py-2 hover:text-[#050505] transition-colors">Wedding & Bridal</Link>
-              <Link href="/minimal/bespoke" className="block text-sm text-[#6B6B6B] no-underline py-2 hover:text-[#050505] transition-colors">Bespoke Creations</Link>
-              <Link href="/minimal/collections" className="block text-sm text-[#6B6B6B] no-underline py-2 hover:text-[#050505] transition-colors">View All Collections</Link>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: '20px' }}>
+                Featured
+              </p>
+              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Wedding & Bridal</Link>
+              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Bespoke Creations</Link>
+              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">View All Collections</Link>
             </div>
           </div>
         </div>
       )}
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — Full Screen Takeover */}
       {menuOpen && (
-        <div className="fixed inset-0 bg-white z-[100] flex flex-col px-5 pt-5">
-          <div className="flex justify-between items-center h-16">
-            <span className="text-[15px] font-medium tracking-[0.08em] uppercase text-[#050505]">Minimal Machine</span>
-            <button onClick={() => setMenuOpen(false)} className="bg-transparent border-none cursor-pointer p-2 text-[#050505]" aria-label="Close"><X size={22} strokeWidth={1.5} /></button>
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: '#FFFFFF',
+            zIndex: 100,
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '0 24px',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
+            <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#050505' }}>
+              Minimal Machine
+            </span>
+            <button
+              onClick={() => setMenuOpen(false)}
+              style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer', padding: '8px', color: '#050505' }}
+              aria-label="Close"
+            >
+              <X size={20} strokeWidth={1.5} />
+            </button>
           </div>
-          <div className="flex flex-col mt-8">
+          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '40px' }}>
             {[
               ...navLinks,
               { label: 'Search', href: '/minimal/search', mega: null },
@@ -169,11 +337,17 @@ export function MinimalNav() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm uppercase tracking-[0.1em] no-underline py-4 transition-colors duration-300"
                 style={{
-                  color: isActive(link.href) ? '#050505' : '#6B6B6B',
-                  borderBottom: '1px solid #E5E5E5',
-                  fontWeight: isActive(link.href) ? 500 : 400,
+                  fontFamily: font,
+                  fontSize: '13px',
+                  fontWeight: isActive(link.href) ? 500 : 300,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  color: isActive(link.href) ? '#050505' : '#8A8A8A',
+                  padding: '16px 0',
+                  borderBottom: '1px solid #F0F0F0',
+                  transition: 'color 0.2s ease',
                 }}
               >
                 {link.label}

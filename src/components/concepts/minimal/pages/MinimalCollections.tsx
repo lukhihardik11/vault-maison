@@ -7,6 +7,9 @@ import { allCategories, categoryLabels, categoryDescriptions, type ProductCatego
 import { getProductsByCategory } from '@/data/products'
 import { ArrowRight } from 'lucide-react'
 
+const font = minimal.font.primary
+const mono = minimal.font.mono
+
 const categoryImages: Record<string, string> = {
   'diamond-rings': '/images/products/diamond-solitaire-ring.jpg',
   'diamond-necklaces': '/images/products/diamond-pendant-necklace.jpg',
@@ -24,65 +27,84 @@ export function MinimalCollections() {
   return (
     <MinimalLayout>
       {/* Header */}
-      <section className={minimal.cn.section}>
+      <div style={{ padding: 'clamp(64px, 10vh, 120px) 0 clamp(32px, 4vh, 48px)' }}>
         <div className={minimal.cn.container}>
-          <div>
-            <span className={minimal.cn.label}>Vault Maison</span>
-            <h1 className={`${minimal.cn.sectionHeadline} mt-3`}>Collections</h1>
-            <p className={`${minimal.cn.body} mt-4 max-w-xl`}>
-              Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
-            </p>
-          </div>
+          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', display: 'block', marginBottom: '16px' }}>
+            Vault Maison
+          </span>
+          <h1 style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 200, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#050505', margin: '0 0 16px' }}>
+            Collections
+          </h1>
+          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: '#555555', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
+            Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
+          </p>
         </div>
-      </section>
+      </div>
 
-      <div className={minimal.cn.divider} />
+      <div className={minimal.cn.container}><div className={minimal.cn.divider} /></div>
 
-      {/* Category Grid — no ScrollReveal to ensure images load reliably */}
-      <section className={minimal.cn.section}>
+      {/* Category Grid */}
+      <div style={{ padding: 'clamp(48px, 8vh, 96px) 0 clamp(64px, 10vh, 120px)' }}>
         <div className={minimal.cn.container}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {allCategories.map((cat: ProductCategory) => {
               const count = getProductsByCategory(cat).length
               return (
-                <div key={cat}>
-                  <Link href={`/minimal/category/${cat}`} className="group block no-underline" style={{ color: '#050505' }}>
-                    <div className="relative aspect-[4/3] overflow-hidden bg-[#FAFAFA]">
-                      <img
-                        src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'}
-                        alt={categoryLabels[cat]}
-                        loading="eager"
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: 'block',
-                          transition: 'transform 0.7s ease-out',
-                        }}
-                        className="group-hover:scale-[1.03]"
-                      />
-                    </div>
-                    <div className="pt-4">
-                      <div className="flex justify-between items-baseline mb-1">
-                        <h3 className="text-lg font-medium tracking-tight text-[#050505]">
-                          {categoryLabels[cat]}
-                        </h3>
-                        <span className={minimal.cn.label}>{count} pieces</span>
-                      </div>
-                      <p className="text-sm text-[#6B6B6B] leading-relaxed line-clamp-2 mb-3">
-                        {categoryDescriptions[cat]}
-                      </p>
-                      <span className="text-[11px] uppercase tracking-[0.15em] text-[#050505] font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
-                        Explore <ArrowRight size={12} />
+                <Link
+                  key={cat}
+                  href={`/minimal/category/${cat}`}
+                  className="group block"
+                  style={{ textDecoration: 'none', color: '#050505' }}
+                >
+                  <div style={{ position: 'relative', aspectRatio: '4 / 3', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+                    <img
+                      src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'}
+                      alt={categoryLabels[cat]}
+                      loading="eager"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
+                      className="group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  <div style={{ paddingTop: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
+                      <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, letterSpacing: '-0.01em', color: '#050505', margin: 0 }}>
+                        {categoryLabels[cat]}
+                      </h3>
+                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#8A8A8A' }}>
+                        {count} pieces
                       </span>
                     </div>
-                  </Link>
-                </div>
+                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8A8A8A', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {categoryDescriptions[cat]}
+                    </p>
+                    <span
+                      style={{
+                        fontFamily: font,
+                        fontSize: '11px',
+                        fontWeight: 500,
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: '#050505',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      Explore <ArrowRight size={12} strokeWidth={1.5} className="group-hover:translate-x-1 transition-transform duration-300" />
+                    </span>
+                  </div>
+                </Link>
               )
             })}
           </div>
         </div>
-      </section>
+      </div>
     </MinimalLayout>
   )
 }

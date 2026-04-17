@@ -9,7 +9,15 @@ import { minimal } from '../design-system'
 import { products } from '@/data/products'
 import { categoryLabels, type ProductCategory } from '@/data/concepts'
 
-const sortOptions = ['Newest', 'Price: Low to High', 'Price: High to Low', 'Name A-Z']
+const font = minimal.font.primary
+const mono = minimal.font.mono
+
+const sortOptions = [
+  { value: 'newest', label: 'Newest' },
+  { value: 'price-asc', label: 'Price: Low to High' },
+  { value: 'price-desc', label: 'Price: High to Low' },
+  { value: 'name', label: 'Name A-Z' },
+]
 
 export function MinimalCategory({ category }: { category?: string }) {
   const params = useParams()
@@ -18,14 +26,14 @@ export function MinimalCategory({ category }: { category?: string }) {
     ? categoryLabels[slug as ProductCategory]
     : slug?.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) || 'All'
 
-  const [sort, setSort] = useState('Newest')
+  const [sort, setSort] = useState('newest')
   const [showCount, setShowCount] = useState(12)
 
   const filtered = useMemo(() => {
     let items = slug ? products.filter((p) => p.category === slug) : products
-    if (sort === 'Price: Low to High') items = [...items].sort((a, b) => a.price - b.price)
-    else if (sort === 'Price: High to Low') items = [...items].sort((a, b) => b.price - a.price)
-    else if (sort === 'Name A-Z') items = [...items].sort((a, b) => a.name.localeCompare(b.name))
+    if (sort === 'price-asc') items = [...items].sort((a, b) => a.price - b.price)
+    else if (sort === 'price-desc') items = [...items].sort((a, b) => b.price - a.price)
+    else if (sort === 'name') items = [...items].sort((a, b) => a.name.localeCompare(b.name))
     return items
   }, [slug, sort])
 
@@ -35,82 +43,173 @@ export function MinimalCategory({ category }: { category?: string }) {
   return (
     <MinimalLayout>
       {/* Header */}
-      <section className={`${minimal.cn.section} pb-0`}>
+      <div style={{ padding: 'clamp(48px, 8vh, 96px) 0 clamp(32px, 4vh, 48px)' }}>
         <div className={minimal.cn.container}>
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 mb-12">
-            <Link href="/minimal" className={`${minimal.cn.label} no-underline hover:text-[#050505] transition-colors`}>Home</Link>
-            <span className={minimal.cn.label}>/</span>
-            <Link href="/minimal/collections" className={`${minimal.cn.label} no-underline hover:text-[#050505] transition-colors`}>Collections</Link>
-            <span className={minimal.cn.label}>/</span>
-            <span className="text-[11px] uppercase tracking-[0.15em] text-[#050505]">{catName}</span>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '32px' }}>
+            <Link
+              href="/minimal"
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: '#8A8A8A',
+                textDecoration: 'none',
+              }}
+              className="hover:!text-[#050505]"
+            >
+              Home
+            </Link>
+            <span style={{ fontFamily: mono, fontSize: '10px', color: '#ABABAB' }}>/</span>
+            <Link
+              href="/minimal/collections"
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: '#8A8A8A',
+                textDecoration: 'none',
+              }}
+              className="hover:!text-[#050505]"
+            >
+              Collections
+            </Link>
+            <span style={{ fontFamily: mono, fontSize: '10px', color: '#ABABAB' }}>/</span>
+            <span
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: '#050505',
+                fontWeight: 500,
+              }}
+            >
+              {catName}
+            </span>
           </div>
 
-          <div>
-            <h1 className={minimal.cn.sectionHeadline}>{catName}</h1>
-            <p className={`${minimal.cn.label} mt-3`}>{filtered.length} pieces</p>
-          </div>
+          <h1
+            style={{
+              fontFamily: font,
+              fontSize: 'clamp(32px, 4vw, 56px)',
+              fontWeight: 200,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+              color: '#050505',
+              margin: 0,
+            }}
+          >
+            {catName}
+          </h1>
+          <p
+            style={{
+              fontFamily: mono,
+              fontSize: '11px',
+              letterSpacing: '0.2em',
+              color: '#8A8A8A',
+              marginTop: '12px',
+            }}
+          >
+            {filtered.length} {filtered.length === 1 ? 'Piece' : 'Pieces'}
+          </p>
         </div>
-      </section>
+      </div>
 
-      {/* Filter/Sort Bar */}
-      <section className="py-8">
-        <div className={`${minimal.cn.container} flex justify-between items-center ${minimal.cn.divider} pb-6`} style={{ borderBottom: '1px solid #E5E5E5' }}>
-          <div className="flex gap-6 overflow-x-auto minimal-filter-scroll">
+      {/* Sort Bar */}
+      <div className={minimal.cn.container}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderTop: '1px solid #E8E8E8',
+            borderBottom: '1px solid #E8E8E8',
+            padding: '16px 0',
+            marginBottom: 'clamp(32px, 4vh, 48px)',
+          }}
+        >
+          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
             {sortOptions.map((opt) => (
               <button
-                key={opt}
-                onClick={() => setSort(opt)}
-                className="shrink-0 bg-transparent border-none cursor-pointer text-[11px] uppercase tracking-[0.15em] transition-all duration-300 whitespace-nowrap"
+                key={opt.value}
+                onClick={() => setSort(opt.value)}
                 style={{
-                  color: sort === opt ? '#050505' : '#9B9B9B',
-                  fontWeight: sort === opt ? 500 : 400,
-                  borderBottom: sort === opt ? '1px solid #050505' : '1px solid transparent',
-                  paddingBottom: '4px',
-                  padding: 0,
+                  fontFamily: mono,
+                  fontSize: '10px',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '4px 0',
+                  color: sort === opt.value ? '#050505' : '#8A8A8A',
+                  fontWeight: sort === opt.value ? 500 : 400,
+                  borderBottom: sort === opt.value ? '1px solid #050505' : '1px solid transparent',
                 }}
               >
-                {opt}
+                {opt.label}
               </button>
             ))}
           </div>
-          <span className={minimal.cn.label}>{filtered.length} results</span>
+          <span
+            style={{
+              fontFamily: mono,
+              fontSize: '10px',
+              letterSpacing: '0.2em',
+              color: '#8A8A8A',
+            }}
+          >
+            {filtered.length} Results
+          </span>
         </div>
-      </section>
+      </div>
 
-      {/* Product Grid — NO ScrollReveal to avoid opacity/lazy-load conflicts */}
-      <section className="pb-20 md:pb-32">
-        <div className={minimal.cn.container}>
-          {visible.length > 0 ? (
-            <>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                {visible.map((p) => (
-                  <div key={p.id}>
-                    <MinimalProductCard product={p} />
-                  </div>
-                ))}
-              </div>
-              {hasMore && (
-                <div className="flex justify-center mt-16">
-                  <button
-                    onClick={() => setShowCount((c) => c + 12)}
-                    className={minimal.cn.btnSecondary}
-                  >
-                    Load More
-                  </button>
+      {/* Product Grid */}
+      <div className={minimal.cn.container} style={{ paddingBottom: 'clamp(64px, 10vh, 120px)' }}>
+        {visible.length > 0 ? (
+          <>
+            <div className={minimal.cn.gridProduct}>
+              {visible.map((p) => (
+                <div key={p.id}>
+                  <MinimalProductCard product={p} />
                 </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-20">
-              <p className={minimal.cn.body}>No pieces found in this collection.</p>
-              <Link href="/minimal/collections" className={`${minimal.cn.btnSecondary} mt-6 no-underline inline-flex`}>
-                Browse All
-              </Link>
+              ))}
             </div>
-          )}
-        </div>
-      </section>
+            {hasMore && (
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '64px' }}>
+                <button
+                  onClick={() => setShowCount((c) => c + 12)}
+                  className={minimal.cn.btnSecondary}
+                >
+                  Load More
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '120px 0' }}>
+            <p
+              style={{
+                fontFamily: font,
+                fontSize: '18px',
+                fontWeight: 300,
+                color: '#8A8A8A',
+              }}
+            >
+              No pieces found in this collection.
+            </p>
+            <Link
+              href="/minimal/collections"
+              className={`${minimal.cn.btnPrimary} no-underline mt-8 inline-flex`}
+            >
+              Browse Collections
+            </Link>
+          </div>
+        )}
+      </div>
     </MinimalLayout>
   )
 }

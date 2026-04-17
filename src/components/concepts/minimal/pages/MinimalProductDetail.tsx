@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, ChevronDown } from 'lucide-react'
@@ -10,9 +10,11 @@ import { minimal } from '../design-system'
 import { products, type Product } from '@/data/products'
 import { useCartStore } from '@/store/cart'
 
+const font = minimal.font.primary
+const mono = minimal.font.mono
 const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8']
 
-/* ─── Standalone Image Gallery using useRef + useEffect for DOM events ─── */
+/* ─── Image Gallery — DOM event listeners via useEffect ─── */
 function ImageGallery({ images, productName }: { images: string[]; productName: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mainImgRef = useRef<HTMLImageElement>(null)
@@ -27,18 +29,15 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
 
     let isZoomed = false
 
-    // --- Zoom handlers ---
     const handleMouseEnter = () => {
       isZoomed = true
       mainImg.style.transform = 'scale(2.5)'
     }
-
     const handleMouseLeave = () => {
       isZoomed = false
       mainImg.style.transform = 'scale(1)'
       mainImg.style.transition = 'transform 0.3s ease'
     }
-
     const handleMouseMove = (e: MouseEvent) => {
       if (!isZoomed) return
       const rect = container.getBoundingClientRect()
@@ -52,22 +51,15 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
     container.addEventListener('mouseleave', handleMouseLeave)
     container.addEventListener('mousemove', handleMouseMove)
 
-    // --- Thumbnail click handlers ---
     const thumbButtons = thumbsContainer.querySelectorAll('[data-thumb-index]')
     const updateSelection = (index: number) => {
       selectedRef.current = index
       mainImg.src = images[index]
       mainImg.alt = `${productName} view ${index + 1}`
-      // Update thumbnail styles
       thumbButtons.forEach((btn, i) => {
         const el = btn as HTMLElement
-        if (i === index) {
-          el.style.border = '2px solid #050505'
-          el.style.opacity = '1'
-        } else {
-          el.style.border = '1px solid #E5E5E5'
-          el.style.opacity = '0.6'
-        }
+        el.style.border = i === index ? '2px solid #050505' : '1px solid #E8E8E8'
+        el.style.opacity = i === index ? '1' : '0.5'
       })
     }
 
@@ -93,8 +85,8 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
   }, [images, productName])
 
   return (
-    <div className="md:sticky md:top-24 md:self-start">
-      {/* Main Image with Zoom */}
+    <div className="md:sticky md:top-20 md:self-start">
+      {/* Main Image */}
       <div
         ref={containerRef}
         style={{
@@ -137,16 +129,12 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
                 width: '72px',
                 height: '72px',
                 overflow: 'hidden',
-                border: i === 0 ? '2px solid #050505' : '1px solid #E5E5E5',
-                opacity: i === 0 ? 1 : 0.6,
+                border: i === 0 ? '2px solid #050505' : '1px solid #E8E8E8',
+                opacity: i === 0 ? 1 : 0.5,
                 backgroundColor: '#FAFAFA',
                 cursor: 'pointer',
-                transition: 'border 0.2s, opacity 0.2s',
                 flexShrink: 0,
                 padding: 0,
-                margin: 0,
-                borderRadius: 0,
-                display: 'block',
               }}
             >
               <img
@@ -192,62 +180,87 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
 
   const accItems = [
     { title: 'Description', content: product.description },
-    { title: 'Specifications', content: product.diamondSpecs ? `${product.diamondSpecs.carat}ct ${product.diamondSpecs.shape} · ${product.diamondSpecs.cut} Cut · ${product.diamondSpecs.color} Color · ${product.diamondSpecs.clarity} Clarity · ${product.diamondSpecs.origin} · ${product.diamondSpecs.certification}` : 'Contact us for detailed specifications.' },
+    {
+      title: 'Specifications',
+      content: product.diamondSpecs
+        ? `${product.diamondSpecs.carat}ct ${product.diamondSpecs.shape} · ${product.diamondSpecs.cut} Cut · ${product.diamondSpecs.color} Color · ${product.diamondSpecs.clarity} Clarity · ${product.diamondSpecs.origin} · ${product.diamondSpecs.certification}`
+        : 'Contact us for detailed specifications.',
+    },
     { title: 'Shipping & Returns', content: 'Complimentary insured shipping on all orders. 30-day returns with full refund. Each piece arrives in our signature presentation box.' },
   ]
 
   return (
     <MinimalLayout>
       {/* Breadcrumb */}
-      <div className={minimal.cn.container} style={{ paddingTop: '20px', paddingBottom: '20px' }}>
-        <div className="flex items-center gap-2">
-          <Link href="/minimal" className={`${minimal.cn.label} no-underline hover:text-[#050505] transition-colors`}>Home</Link>
-          <span className={minimal.cn.label}>/</span>
-          <Link href="/minimal/collections" className={`${minimal.cn.label} no-underline hover:text-[#050505] transition-colors`}>Collections</Link>
-          <span className={minimal.cn.label}>/</span>
-          <span className="text-[11px] uppercase tracking-[0.15em] text-[#050505]">{product.name}</span>
+      <div className={minimal.cn.container} style={{ paddingTop: '24px', paddingBottom: '24px' }}>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <Link href="/minimal" style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none' }} className="hover:!text-[#050505]">Home</Link>
+          <span style={{ fontFamily: mono, fontSize: '10px', color: '#ABABAB' }}>/</span>
+          <Link href="/minimal/collections" style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8A8A', textDecoration: 'none' }} className="hover:!text-[#050505]">Collections</Link>
+          <span style={{ fontFamily: mono, fontSize: '10px', color: '#ABABAB' }}>/</span>
+          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', fontWeight: 500 }}>{product.name}</span>
         </div>
       </div>
 
       {/* Product Grid */}
-      <div className={`${minimal.cn.container} pb-20 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16`}>
+      <div className={`${minimal.cn.container} grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16`} style={{ paddingBottom: 'clamp(64px, 10vh, 120px)' }}>
 
-        {/* ═══ LEFT: Image Gallery (useRef + useEffect DOM events) ═══ */}
+        {/* LEFT: Image Gallery */}
         <ImageGallery images={product.images} productName={product.name} />
 
-        {/* ═══ RIGHT: Product Info ═══ */}
-        <div className="pt-8 md:pt-0">
-          {/* Title & Price */}
-          <div>
-            <span className={minimal.cn.label}>{product.category.replace(/-/g, ' ')}</span>
-            <h1 className={`${minimal.cn.subsectionHead} mt-2 mb-2`}>{product.name}</h1>
-            <p className="text-sm text-[#6B6B6B] mb-6">{product.subtitle}</p>
-            <p className="text-2xl font-light tabular-nums text-[#050505] mb-8">{product.priceDisplay}</p>
-          </div>
+        {/* RIGHT: Product Info */}
+        <div style={{ paddingTop: '0' }}>
+          {/* Category */}
+          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', display: 'block', marginBottom: '12px' }}>
+            {product.category.replace(/-/g, ' ')}
+          </span>
+
+          {/* Title */}
+          <h1 style={{ fontFamily: font, fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 200, letterSpacing: '-0.02em', lineHeight: 1.15, color: '#050505', margin: '0 0 8px' }}>
+            {product.name}
+          </h1>
+
+          {/* Subtitle */}
+          {product.subtitle && (
+            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#8A8A8A', margin: '0 0 24px' }}>
+              {product.subtitle}
+            </p>
+          )}
+
+          {/* Price */}
+          <p style={{ fontFamily: font, fontSize: 'clamp(22px, 2vw, 30px)', fontWeight: 200, color: '#050505', fontVariantNumeric: 'tabular-nums', margin: '0 0 32px' }}>
+            {product.priceDisplay}
+          </p>
 
           {/* Description */}
-          <div>
-            <p className={`${minimal.cn.body} mb-8`}>{product.description}</p>
-          </div>
+          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', lineHeight: 1.8, margin: '0 0 32px', maxWidth: '480px' }}>
+            {product.description}
+          </p>
 
           {/* Size Selector */}
-          <div className="mb-8">
-            <p className="text-[11px] uppercase tracking-[0.15em] text-[#050505] font-medium mb-3">
-              Size: <span className="text-[#9B9B9B] font-normal">{size}</span>
+          <div style={{ marginBottom: '28px' }}>
+            <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', fontWeight: 500, marginBottom: '12px' }}>
+              Size: <span style={{ color: '#8A8A8A', fontWeight: 400 }}>{size}</span>
             </p>
-            <div className="flex gap-2 flex-wrap">
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {sizes.map((s) => (
                 <button
                   key={s}
                   onClick={() => setSize(s)}
-                  className="w-11 h-11 flex items-center justify-center text-[13px] transition-colors duration-200"
                   style={{
+                    width: '44px',
+                    height: '44px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: font,
+                    fontSize: '13px',
+                    fontWeight: size === s ? 500 : 300,
                     backgroundColor: size === s ? '#050505' : 'transparent',
                     color: size === s ? '#FFFFFF' : '#050505',
-                    border: size === s ? '1px solid #050505' : '1px solid #E5E5E5',
-                    borderRadius: 0,
+                    border: size === s ? '1px solid #050505' : '1px solid #E8E8E8',
                     cursor: 'pointer',
-                    fontWeight: size === s ? 500 : 300,
+                    borderRadius: 0,
                   }}
                 >
                   {s}
@@ -257,47 +270,81 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
           </div>
 
           {/* Quantity */}
-          <div className="mb-8">
-            <p className="text-[11px] uppercase tracking-[0.15em] text-[#050505] font-medium mb-3">Quantity</p>
-            <div className="inline-flex items-center border border-[#E5E5E5]">
-              <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-11 h-11 flex items-center justify-center bg-transparent border-none cursor-pointer text-[#050505] hover:bg-[#FAFAFA] transition-colors"><Minus size={14} /></button>
-              <span className="w-12 text-center text-sm font-medium tabular-nums text-[#050505]">{qty}</span>
-              <button onClick={() => setQty(qty + 1)} className="w-11 h-11 flex items-center justify-center bg-transparent border-none cursor-pointer text-[#050505] hover:bg-[#FAFAFA] transition-colors"><Plus size={14} /></button>
+          <div style={{ marginBottom: '28px' }}>
+            <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', fontWeight: 500, marginBottom: '12px' }}>
+              Quantity
+            </p>
+            <div style={{ display: 'inline-flex', alignItems: 'center', border: '1px solid #E8E8E8' }}>
+              <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', border: 'none', cursor: 'pointer', color: '#050505' }}>
+                <Minus size={14} strokeWidth={1.5} />
+              </button>
+              <span style={{ width: '48px', textAlign: 'center', fontFamily: font, fontSize: '14px', fontWeight: 400, fontVariantNumeric: 'tabular-nums', color: '#050505' }}>{qty}</span>
+              <button onClick={() => setQty(qty + 1)} style={{ width: '44px', height: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', border: 'none', cursor: 'pointer', color: '#050505' }}>
+                <Plus size={14} strokeWidth={1.5} />
+              </button>
             </div>
           </div>
 
           {/* Add to Bag + Wishlist */}
-          <div className="flex gap-3 mb-8">
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '32px' }}>
             <button
               onClick={handleAdd}
-              className={`${minimal.cn.btnPrimary} flex-1`}
-              style={{ height: '56px' }}
+              style={{
+                flex: 1,
+                height: '56px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                fontFamily: font,
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                backgroundColor: '#050505',
+                color: '#FFFFFF',
+                border: '1px solid #050505',
+                cursor: 'pointer',
+              }}
+              className="vm-btn-primary"
             >
               {added ? (
-                <span>Added</span>
+                <span>Added to Bag</span>
               ) : (
-                <><ShoppingBag size={16} className="mr-2" /> Add to Bag &mdash; {product.priceDisplay}</>
+                <>
+                  <ShoppingBag size={16} strokeWidth={1.5} />
+                  Add to Bag — {product.priceDisplay}
+                </>
               )}
             </button>
             <button
               onClick={() => setWish(!wish)}
-              className="w-14 h-14 flex items-center justify-center border border-[#E5E5E5] bg-transparent cursor-pointer hover:border-[#050505] transition-colors"
-              style={{ borderRadius: 0 }}
+              style={{
+                width: '56px',
+                height: '56px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                border: '1px solid #E8E8E8',
+                cursor: 'pointer',
+              }}
+              aria-label="Add to wishlist"
             >
-              <Heart size={18} fill={wish ? '#050505' : 'none'} color="#050505" />
+              <Heart size={18} strokeWidth={1.5} fill={wish ? '#050505' : 'none'} color="#050505" />
             </button>
           </div>
 
-          {/* Trust bar */}
-          <div className="flex gap-6 py-5 mb-6" style={{ borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5' }}>
+          {/* Trust Bar */}
+          <div style={{ display: 'flex', gap: '24px', padding: '20px 0', borderTop: '1px solid #E8E8E8', borderBottom: '1px solid #E8E8E8', marginBottom: '24px' }}>
             {[
               { icon: Truck, label: 'Free Shipping' },
               { icon: Shield, label: 'GIA Certified' },
               { icon: RotateCcw, label: '30-Day Returns' },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-2">
-                <Icon size={14} color="#9B9B9B" />
-                <span className="text-[11px] text-[#9B9B9B] tracking-wide">{label}</span>
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Icon size={14} strokeWidth={1.5} color="#8A8A8A" />
+                <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.15em', color: '#8A8A8A' }}>{label}</span>
               </div>
             ))}
           </div>
@@ -305,29 +352,38 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
           {/* Accordion */}
           <div>
             {accItems.map((item, i) => (
-              <div key={i} style={{ borderBottom: '1px solid #E5E5E5' }}>
+              <div key={i} style={{ borderBottom: '1px solid #E8E8E8' }}>
                 <button
                   onClick={() => setAccordion(accordion === i ? -1 : i)}
-                  className="w-full flex justify-between items-center py-5 bg-transparent border-none cursor-pointer text-left"
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '20px 0',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
                 >
-                  <span className="text-[13px] uppercase tracking-[0.1em] font-medium" style={{ color: accordion === i ? '#050505' : '#9B9B9B' }}>
+                  <span style={{ fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: accordion === i ? '#050505' : '#8A8A8A' }}>
                     {item.title}
                   </span>
                   <ChevronDown
                     size={16}
-                    color="#9B9B9B"
+                    strokeWidth={1.5}
+                    color="#8A8A8A"
                     style={{
                       transform: accordion === i ? 'rotate(180deg)' : 'rotate(0)',
                       transition: 'transform 300ms ease',
                     }}
                   />
                 </button>
-                <div style={{
-                  maxHeight: accordion === i ? '300px' : '0',
-                  overflow: 'hidden',
-                  transition: 'max-height 300ms ease',
-                }}>
-                  <p className={`${minimal.cn.body} pb-5`}>{item.content}</p>
+                <div style={{ maxHeight: accordion === i ? '300px' : '0', overflow: 'hidden', transition: 'max-height 300ms ease' }}>
+                  <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', lineHeight: 1.8, paddingBottom: '20px', margin: 0 }}>
+                    {item.content}
+                  </p>
                 </div>
               </div>
             ))}
@@ -335,24 +391,24 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
         </div>
       </div>
 
-      {/* Diamond Specs */}
+      {/* 4Cs Specs */}
       {product.diamondSpecs && (
-        <section className={`${minimal.cn.section} bg-[#FAFAFA]`}>
+        <section style={{ backgroundColor: '#FAFAFA', padding: 'clamp(64px, 10vh, 120px) 0' }}>
           <div className={minimal.cn.container}>
-            <div className="mb-12">
-              <span className={minimal.cn.label}>Specifications</span>
-              <h2 className={`${minimal.cn.sectionHeadline} mt-3`}>The 4Cs</h2>
+            <div style={{ marginBottom: '48px' }}>
+              <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', display: 'block', marginBottom: '12px' }}>Specifications</span>
+              <h2 style={{ fontFamily: font, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 200, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>The 4Cs</h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px" style={{ backgroundColor: '#E8E8E8' }}>
               {[
                 { label: 'Carat', value: product.diamondSpecs.carat },
                 { label: 'Cut', value: product.diamondSpecs.cut },
                 { label: 'Color', value: product.diamondSpecs.color },
                 { label: 'Clarity', value: product.diamondSpecs.clarity },
               ].map((spec) => (
-                <div key={spec.label} className="py-8 text-center border border-[#E5E5E5]">
-                  <p className={minimal.cn.label}>{spec.label}</p>
-                  <p className="text-3xl font-light text-[#050505] mt-2 tabular-nums">{spec.value}</p>
+                <div key={spec.label} style={{ backgroundColor: '#FAFAFA', padding: 'clamp(24px, 3vw, 40px)', textAlign: 'center' }}>
+                  <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', margin: '0 0 12px' }}>{spec.label}</p>
+                  <p style={{ fontFamily: font, fontSize: 'clamp(24px, 2.5vw, 40px)', fontWeight: 100, color: '#050505', fontVariantNumeric: 'tabular-nums', margin: 0 }}>{spec.value}</p>
                 </div>
               ))}
             </div>
@@ -360,20 +416,18 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
         </section>
       )}
 
-      {/* Related */}
+      {/* Related Products */}
       {related.length > 0 && (
-        <section className={minimal.cn.section}>
+        <section style={{ padding: 'clamp(64px, 10vh, 120px) 0' }}>
           <div className={minimal.cn.container}>
-            <div className="flex justify-between items-end mb-12">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px' }}>
               <div>
-                <span className={minimal.cn.label}>You May Also Like</span>
-                <h2 className={`${minimal.cn.sectionHeadline} mt-3`}>Related Pieces</h2>
+                <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', display: 'block', marginBottom: '12px' }}>You May Also Like</span>
+                <h2 style={{ fontFamily: font, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 200, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>Related Pieces</h2>
               </div>
-              <Link href={`/minimal/category/${product.category}`} className={`${minimal.cn.btnSecondary} no-underline`}>
-                View All
-              </Link>
+              <Link href={`/minimal/category/${product.category}`} className={`${minimal.cn.btnGhost} no-underline`}>View All</Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div className={minimal.cn.gridProduct}>
               {related.map((p) => (
                 <div key={p.id}>
                   <MinimalProductCard product={p} />
@@ -383,6 +437,13 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
           </div>
         </section>
       )}
+
+      <style>{`
+        .vm-btn-primary:hover {
+          background-color: #FFFFFF !important;
+          color: #050505 !important;
+        }
+      `}</style>
     </MinimalLayout>
   )
 }
