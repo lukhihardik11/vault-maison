@@ -1,0 +1,199 @@
+/* ═══ LUXURY FOUNDATION CSS ═══ */
+/* Every demo MUST import this file */
+
+/* RESET + BASE */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { 
+  font-size: 16px; 
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* TYPOGRAPHY SCALE — Luxury uses FEWER sizes, not more */
+:root {
+  /* Only 5 font sizes allowed across entire site */
+  --fs-display: clamp(3rem, 6vw, 5.5rem);    /* Hero headlines only */
+  --fs-heading: clamp(1.5rem, 3vw, 2.5rem);  /* Section headings */
+  --fs-subhead: clamp(1rem, 1.5vw, 1.25rem); /* Subheadings */
+  --fs-body: clamp(0.875rem, 1vw, 1rem);     /* Body text */
+  --fs-caption: clamp(0.6875rem, 0.8vw, 0.8125rem); /* Captions, metadata */
+
+  /* Letter-spacing: THE secret of luxury typography */
+  --ls-display: 0.15em;    /* Wide tracking for display text */
+  --ls-heading: 0.08em;    /* Moderate tracking for headings */
+  --ls-nav: 0.2em;         /* Widest tracking for navigation */
+  --ls-body: 0.01em;       /* Barely perceptible for body */
+  --ls-caption: 0.12em;    /* Moderate for small text */
+
+  /* Line heights */
+  --lh-display: 1.1;   /* Tight for big headlines */
+  --lh-heading: 1.3;   /* Comfortable for headings */
+  --lh-body: 1.7;      /* Luxuriously open for reading */
+
+  /* SPACING — "Double your margins. Then double them again." */
+  --space-xs: 0.5rem;     /* 8px */
+  --space-sm: 1rem;       /* 16px */
+  --space-md: 2rem;       /* 32px */
+  --space-lg: 4rem;       /* 64px */
+  --space-xl: 8rem;       /* 128px — section gaps */
+  --space-2xl: 12rem;     /* 192px — hero padding */
+  --space-3xl: 16rem;     /* 256px — maximum breathing room */
+
+  /* ANIMATION — Luxury = SLOW */
+  --ease-luxury: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-dramatic: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 400ms;      /* Hover states */
+  --dur-medium: 800ms;    /* Element transitions */
+  --dur-slow: 1200ms;     /* Page-level reveals */
+  --dur-cinematic: 2000ms; /* Hero animations */
+
+  /* LAYOUT */
+  --max-text-width: 42ch;  /* Optimal reading width */
+  --max-content-width: 1200px;
+  --grid-gap: 2rem;
+  --nav-height: 72px;
+  --section-padding: 10vh;  /* Vertical breathing room */
+}
+
+/* NAVIGATION — Always: thin, spaced, uppercase, quiet */
+.luxury-nav {
+  height: var(--nav-height);
+  padding: 0 var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: background var(--dur-medium) var(--ease-luxury);
+}
+.luxury-nav a {
+  text-decoration: none;
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-nav);
+  text-transform: uppercase;
+  font-weight: 400;
+  opacity: 0.6;
+  transition: opacity var(--dur-fast) var(--ease-luxury);
+}
+.luxury-nav a:hover { opacity: 1; }
+
+/* HERO — Always: full-height, minimal elements, massive type */
+.luxury-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* SECTIONS — Always: generous vertical padding */
+.luxury-section {
+  padding: var(--section-padding) var(--space-lg);
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+}
+
+/* TEXT — Always: constrained width, generous line-height */
+.luxury-text {
+  max-width: var(--max-text-width);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  font-weight: 300;  /* Light weight = luxury */
+}
+
+/* IMAGES — Always: full-quality, no border-radius, subtle reveal */
+.luxury-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--dur-slow) var(--ease-reveal),
+              transform var(--dur-slow) var(--ease-reveal);
+}
+.luxury-image.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* BUTTONS — Always: understated, thin border, wide letter-spacing */
+.luxury-btn {
+  display: inline-block;
+  padding: 1rem 3rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-nav);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-luxury);
+}
+.luxury-btn:hover {
+  background: currentColor;
+}
+
+/* PRODUCT CARDS — Always: no border-radius, generous padding, subtle hover */
+.luxury-card {
+  padding: var(--space-md);
+  transition: transform var(--dur-medium) var(--ease-luxury),
+              box-shadow var(--dur-medium) var(--ease-luxury);
+}
+.luxury-card:hover {
+  transform: translateY(-4px);
+}
+
+/* REVEAL ANIMATIONS (use with IntersectionObserver or GSAP) */
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal.active {
+  opacity: 1; transform: translateY(0);
+  transition: opacity var(--dur-slow) var(--ease-reveal),
+              transform var(--dur-slow) var(--ease-reveal);
+}
+
+/* SCROLL PROGRESS INDICATOR */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  z-index: 9999;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: none;
+  width: 100%;
+  opacity: 0.4;
+}
+
+/* NOISE TEXTURE OVERLAY */
+.noise-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  :root {
+    --space-lg: 2rem;
+    --space-xl: 4rem;
+    --space-2xl: 6rem;
+    --nav-height: 60px;
+    --section-padding: 6vh;
+  }
+}

@@ -1,0 +1,84 @@
+/* ═══ THE IMMERSIVE THEATER — Concept 08 ═══ */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400&display=swap');
+
+:root {
+  --thr-indigo: #1A1A24;
+  --thr-ivory: #F0E6D3;
+  --thr-violet: #7B68EE;
+  --thr-muted: rgba(240, 230, 211, 0.4);
+  --thr-border: rgba(240, 230, 211, 0.08);
+  --thr-glow: rgba(123, 104, 238, 0.15);
+}
+
+body { background: var(--thr-indigo); color: var(--thr-ivory); font-family: 'Inter', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+.luxury-nav { background: rgba(26, 26, 36, 0.4); border-bottom: 1px solid var(--thr-border); }
+.luxury-nav.scrolled { background: rgba(26, 26, 36, 0.95); }
+.luxury-nav a { color: var(--thr-muted); }
+.nav-logo { font-family: 'Bodoni Moda', serif; font-size: var(--fs-caption); letter-spacing: var(--ls-heading); text-transform: uppercase; color: var(--thr-ivory); opacity: 1; text-decoration: none; font-weight: 400; }
+.nav-links { display: flex; gap: var(--space-lg); align-items: center; }
+.scroll-progress { background: var(--thr-violet); opacity: 0.5; }
+
+/* HERO — Cinematic */
+.theater-hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-3xl) var(--space-lg); position: relative; overflow: hidden; }
+.hero-starfield { position: absolute; inset: 0; background: radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.3), transparent), radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.2), transparent), radial-gradient(1px 1px at 60% 20%, rgba(255,255,255,0.15), transparent), radial-gradient(1px 1px at 80% 50%, rgba(255,255,255,0.25), transparent), radial-gradient(2px 2px at 10% 80%, rgba(123,104,238,0.3), transparent), radial-gradient(2px 2px at 90% 10%, rgba(123,104,238,0.2), transparent); animation: starDrift 60s linear infinite; }
+@keyframes starDrift { from { transform: translateY(0); } to { transform: translateY(-100px); } }
+.hero-content { position: relative; z-index: 1; }
+.hero-overline { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--thr-violet); margin-bottom: var(--space-lg); }
+.hero-title { font-family: 'Bodoni Moda', serif; font-size: clamp(48px, 8vw, 100px); line-height: 1.05; font-weight: 400; color: var(--thr-ivory); margin-bottom: var(--space-lg); }
+.hero-title span { display: inline-block; opacity: 0; transform: translateY(20px); }
+.hero-subtitle { font-size: var(--fs-body); font-weight: 200; line-height: var(--lh-body); color: var(--thr-muted); max-width: 36ch; margin: 0 auto var(--space-xl); }
+.hero-cta { display: inline-block; padding: 1rem 3rem; border: 1px solid var(--thr-violet); background: transparent; color: var(--thr-violet); font-size: var(--fs-caption); letter-spacing: var(--ls-nav); text-transform: uppercase; text-decoration: none; font-weight: 400; transition: all 600ms var(--ease-luxury); }
+.hero-cta:hover { background: var(--thr-violet); color: var(--thr-indigo); box-shadow: 0 0 40px var(--thr-glow); }
+
+/* CINEMATIC SECTIONS */
+.scene-section { padding: 20vh var(--space-lg); position: relative; }
+.scene-inner { max-width: var(--max-content-width); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: center; }
+.scene-image-wrap { position: relative; }
+.scene-image { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; }
+.scene-glow { position: absolute; inset: -20px; background: radial-gradient(circle at center, var(--thr-glow), transparent 70%); z-index: -1; opacity: 0; transition: opacity 1.2s var(--ease-luxury); }
+.scene-image-wrap:hover .scene-glow { opacity: 1; }
+.scene-content {}
+.scene-number { font-size: 10px; letter-spacing: 0.3em; color: var(--thr-violet); margin-bottom: var(--space-md); }
+.scene-title { font-family: 'Bodoni Moda', serif; font-size: var(--fs-heading); font-weight: 400; margin-bottom: var(--space-md); }
+.scene-desc { font-size: var(--fs-body); font-weight: 200; line-height: var(--lh-body); color: var(--thr-muted); max-width: var(--max-text-width); margin-bottom: var(--space-lg); }
+.scene-link { font-size: var(--fs-caption); letter-spacing: var(--ls-nav); text-transform: uppercase; color: var(--thr-violet); text-decoration: none; transition: opacity 400ms; }
+.scene-link:hover { opacity: 0.6; }
+
+/* LISTING */
+.listing-hero { min-height: 40vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-3xl) var(--space-lg) var(--space-xl); }
+.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: var(--max-content-width); margin: 0 auto; padding: var(--space-xl) var(--space-lg); }
+.product-card { text-decoration: none; color: inherit; overflow: hidden; border: 1px solid var(--thr-border); transition: all 600ms var(--ease-luxury); position: relative; }
+.product-card:hover { border-color: var(--thr-violet); box-shadow: 0 0 30px var(--thr-glow); }
+.product-card-image { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: transform 1.2s var(--ease-luxury); }
+.product-card:hover .product-card-image { transform: scale(1.03); }
+.product-card-info { padding: var(--space-md); }
+.product-card-name { font-family: 'Bodoni Moda', serif; font-size: var(--fs-subhead); font-weight: 400; margin-bottom: 4px; }
+.product-card-meta { font-size: var(--fs-caption); color: var(--thr-muted); }
+.product-card-price { font-size: var(--fs-body); font-weight: 200; margin-top: var(--space-xs); }
+
+/* DETAIL */
+.detail-layout { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; padding-top: var(--nav-height); }
+.detail-image-col { position: sticky; top: var(--nav-height); height: calc(100vh - var(--nav-height)); display: flex; align-items: center; justify-content: center; padding: var(--space-xl); background: #12121A; position: relative; }
+.detail-image-glow { position: absolute; inset: 0; background: radial-gradient(circle at center, var(--thr-glow), transparent 60%); }
+.detail-main-image { max-width: 80%; max-height: 80%; object-fit: contain; position: relative; z-index: 1; }
+.detail-info-col { padding: var(--space-xl); display: flex; flex-direction: column; justify-content: center; }
+.detail-breadcrumb { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--thr-muted); margin-bottom: var(--space-lg); }
+.detail-breadcrumb a { color: var(--thr-muted); text-decoration: none; }
+.detail-breadcrumb a:hover { color: var(--thr-violet); }
+.detail-title { font-family: 'Bodoni Moda', serif; font-size: var(--fs-heading); font-weight: 400; margin-bottom: var(--space-sm); }
+.detail-subtitle { font-size: var(--fs-body); color: var(--thr-muted); font-weight: 200; margin-bottom: var(--space-lg); }
+.detail-price { font-size: var(--fs-body); font-weight: 200; margin-bottom: var(--space-xl); padding-bottom: var(--space-md); border-bottom: 1px solid var(--thr-border); }
+.detail-description { font-size: var(--fs-body); font-weight: 200; line-height: var(--lh-body); color: var(--thr-muted); max-width: var(--max-text-width); margin-bottom: var(--space-xl); }
+.detail-specs { margin-bottom: var(--space-xl); }
+.spec-row { display: flex; justify-content: space-between; padding: var(--space-sm) 0; border-bottom: 1px solid var(--thr-border); }
+.spec-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--thr-muted); }
+.spec-value { font-size: var(--fs-body); font-weight: 200; }
+.detail-cta { display: inline-block; padding: 1rem 3rem; border: 1px solid var(--thr-violet); background: transparent; color: var(--thr-violet); font-size: var(--fs-caption); letter-spacing: var(--ls-nav); text-transform: uppercase; text-decoration: none; font-weight: 400; transition: all 600ms var(--ease-luxury); align-self: flex-start; }
+.detail-cta:hover { background: var(--thr-violet); color: var(--thr-indigo); box-shadow: 0 0 40px var(--thr-glow); }
+
+.thr-footer { padding: var(--space-xl) var(--space-lg); border-top: 1px solid var(--thr-border); text-align: center; }
+.footer-text { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--thr-muted); opacity: 0.4; }
+
+@media (max-width: 1024px) { .scene-inner { grid-template-columns: 1fr; } .product-grid { grid-template-columns: repeat(2, 1fr); } .detail-layout { grid-template-columns: 1fr; } .detail-image-col { position: relative; height: 60vh; top: 0; } }
+@media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } .nav-links { display: none; } }

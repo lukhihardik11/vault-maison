@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Specimen Detail — The Observatory</title>
+  <link rel="stylesheet" href="../shared/css/luxury-foundation.css">
+  <link rel="stylesheet" href="css/observatory.css">
+</head>
+<body>
+  <div class="noise-overlay"></div>
+  <div class="scroll-progress"></div>
+  <nav class="luxury-nav">
+    <a href="index.html" class="nav-logo">Observatory</a>
+    <div class="nav-links">
+      <a href="listing.html">Analysis</a>
+      <a href="#">Research</a>
+      <a href="#">Methodology</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+  <div class="detail-layout">
+    <div class="detail-image-col">
+      <img id="detailImage" class="detail-main-image" src="" alt="Specimen">
+    </div>
+    <div class="detail-info-col">
+      <div class="detail-breadcrumb"><a href="index.html">Observatory</a> / <a href="listing.html">Index</a> / <span id="detailBreadcrumb">Specimen</span></div>
+      <h1 class="detail-title" id="detailTitle"></h1>
+      <p class="detail-subtitle" id="detailSubtitle"></p>
+      <p class="detail-price" id="detailPrice"></p>
+      <p class="detail-description" id="detailDesc"></p>
+      <div class="detail-specs" id="detailSpecs"></div>
+      <a href="#" class="detail-cta" onclick="alert('Analysis report requested. You will receive the full spectral dossier within 48 hours.'); return false;">Request Full Analysis</a>
+    </div>
+  </div>
+  <footer class="obs-footer"><p class="footer-text">The Observatory &mdash; Vault Maison</p></footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="../shared/js/luxury-animations.js"></script>
+  <script src="js/observatory.js"></script>
+</body>
+</html>

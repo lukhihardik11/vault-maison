@@ -139,31 +139,121 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   return (
     <MinimalLayout>
       {/* ═══ SECTION 1: HERO (brutalist split-screen) ═══ */}
-      <section className="vm-hero-split" style={{ position: 'relative', height: '100vh', minHeight: '600px', display: 'flex', flexDirection: 'row', overflow: 'hidden' }}>
+      <section
+        className="vm-hero-split"
+        style={{
+          position: 'relative',
+          height: '100vh',
+          minHeight: '600px',
+          display: 'flex',
+          flexDirection: 'row',
+          overflow: 'hidden',
+        }}
+      >
         {/* Left panel — text content */}
-        <div className="vm-hero-left" style={{ width: '55%', backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center', padding: '0 5vw' }}>
+        <div
+          className="vm-hero-left"
+          style={{
+            width: '55%',
+            backgroundColor: '#FFFFFF',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0 5vw',
+          }}
+        >
           <div style={{ maxWidth: '600px' }}>
-            <h1 style={{ fontFamily: font, fontSize: 'clamp(48px, 8vw, 120px)', fontWeight: 200, color: '#050505', lineHeight: 0.95, letterSpacing: '-0.04em', margin: 0, textAlign: 'left' }}>
+            <h1
+              style={{
+                fontFamily: font,
+                fontSize: 'clamp(48px, 8vw, 120px)',
+                fontWeight: 200,
+                color: '#050505',
+                lineHeight: 0.95,
+                letterSpacing: '-0.04em',
+                margin: 0,
+                textAlign: 'left',
+              }}
+            >
               PRECISION.<br />NOTHING MORE.
             </h1>
+
+            {/* Data points row */}
             <div style={{ display: 'flex', gap: '32px', marginTop: '48px', flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505' }}>01 — GIA CERTIFIED</span>
-              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505' }}>02 — FLAWLESS CLARITY</span>
-              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505' }}>03 — EXACTING CUT</span>
+              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#050505' }}>
+                01 — GIA CERTIFIED
+              </span>
+              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#050505' }}>
+                02 — FLAWLESS CLARITY
+              </span>
+              <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#050505' }}>
+                03 — EXACTING CUT
+              </span>
             </div>
+
+            {/* CTA Buttons */}
             <div style={{ display: 'flex', gap: '16px', marginTop: '48px', flexWrap: 'wrap' }}>
-              <Link href="/minimal/collections" className="vm-hero-btn-primary" style={{ display: 'inline-block', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#050505', padding: '18px 48px', textDecoration: 'none', border: '1px solid #050505', borderRadius: 0 }}>
+              <Link
+                href="/minimal/collections"
+                className="vm-hero-btn-primary"
+                style={{
+                  display: 'inline-block',
+                  fontFamily: font,
+                  fontSize: '11px',
+                  fontWeight: 400,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase' as const,
+                  color: '#FFFFFF',
+                  backgroundColor: '#050505',
+                  padding: '18px 48px',
+                  textDecoration: 'none',
+                  border: '1px solid #050505',
+                  borderRadius: 0,
+                }}
+              >
                 SHOP COLLECTION
               </Link>
-              <Link href="/minimal/bespoke" className="vm-hero-btn-secondary" style={{ display: 'inline-block', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', backgroundColor: 'transparent', padding: '18px 48px', textDecoration: 'none', border: '1px solid #050505', borderRadius: 0 }}>
+              <Link
+                href="/minimal/bespoke"
+                className="vm-hero-btn-secondary"
+                style={{
+                  display: 'inline-block',
+                  fontFamily: font,
+                  fontSize: '11px',
+                  fontWeight: 400,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase' as const,
+                  color: '#050505',
+                  backgroundColor: 'transparent',
+                  padding: '18px 48px',
+                  textDecoration: 'none',
+                  border: '1px solid #050505',
+                  borderRadius: 0,
+                }}
+              >
                 BESPOKE
               </Link>
             </div>
           </div>
         </div>
-        {/* Right panel — product image */}
-        <div className="vm-hero-right" style={{ width: '45%', position: 'relative' }}>
-          <img src="/images/minimal-diamond-stone.jpg" alt="Precision diamond" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+
+        {/* Right panel — product image, edge-to-edge, no overlay */}
+        <div
+          className="vm-hero-right"
+          style={{
+            width: '45%',
+            position: 'relative',
+          }}
+        >
+          <img
+            src="/images/minimal-diamond-stone.jpg"
+            alt="Precision diamond"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
         </div>
       </section>
 

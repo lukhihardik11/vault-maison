@@ -1,0 +1,87 @@
+/* ═══ THE GALLERY — Concept 03 ═══ */
+/* DNA: Editorial · Curated · Spacious */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&display=swap');
+
+:root {
+  --gal-cream: #FDFBF7;
+  --gal-ink: #1A1A1A;
+  --gal-warm: #8B7355;
+  --gal-muted: rgba(26, 26, 26, 0.4);
+  --gal-border: rgba(26, 26, 26, 0.08);
+  --gal-dim: rgba(253, 251, 247, 0.92);
+}
+
+body { background: var(--gal-cream); color: var(--gal-ink); font-family: 'Inter', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+/* NAV */
+.luxury-nav { background: rgba(253, 251, 247, 0.4); border-bottom: 1px solid var(--gal-border); }
+.luxury-nav.scrolled { background: rgba(253, 251, 247, 0.95); }
+.luxury-nav a { color: var(--gal-muted); }
+.nav-logo { font-family: 'Libre Baskerville', serif; font-size: var(--fs-caption); letter-spacing: var(--ls-nav); text-transform: uppercase; color: var(--gal-ink); opacity: 1; text-decoration: none; font-weight: 400; }
+.nav-links { display: flex; gap: var(--space-lg); align-items: center; }
+.scroll-progress { background: var(--gal-warm); opacity: 0.3; }
+
+/* HERO — Museum entrance */
+.gallery-hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-3xl) var(--space-lg); position: relative; }
+.hero-exhibition { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gal-muted); margin-bottom: var(--space-xl); }
+.hero-title { font-family: 'Libre Baskerville', serif; font-size: var(--fs-display); line-height: var(--lh-display); font-weight: 400; color: var(--gal-ink); margin-bottom: var(--space-lg); letter-spacing: -0.01em; }
+.hero-subtitle { font-size: var(--fs-body); font-weight: 300; line-height: var(--lh-body); color: var(--gal-muted); max-width: 36ch; margin: 0 auto var(--space-xl); }
+.hero-cta { display: inline-block; padding: 1rem 3rem; border: 1px solid var(--gal-ink); background: transparent; color: var(--gal-ink); font-size: var(--fs-caption); letter-spacing: var(--ls-nav); text-transform: uppercase; text-decoration: none; font-family: 'Inter', sans-serif; font-weight: 400; transition: all 600ms var(--ease-luxury); }
+.hero-cta:hover { background: var(--gal-ink); color: var(--gal-cream); }
+
+/* EXHIBITION ROWS */
+.exhibition-section { padding: 16vh var(--space-lg); border-top: 1px solid var(--gal-border); }
+.exhibition-inner { max-width: 1400px; margin: 0 auto; }
+.exhibit-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: center; margin-bottom: 16vh; }
+.exhibit-row:nth-child(even) { direction: rtl; }
+.exhibit-row:nth-child(even) > * { direction: ltr; }
+.exhibit-image-wrap { padding: 0 10vw; position: relative; overflow: hidden; }
+.exhibit-image { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; opacity: 0; transform: translateY(40px); transition: opacity 1.2s var(--ease-reveal), transform 1.2s var(--ease-reveal); }
+.exhibit-image.visible { opacity: 1; transform: translateY(0); }
+.exhibit-image-wrap:hover .exhibit-image { transform: scale(1.02); transition: transform 2s var(--ease-luxury); }
+.exhibit-content { padding: var(--space-xl); }
+.exhibit-number { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gal-muted); margin-bottom: var(--space-md); }
+.exhibit-name { font-family: 'Libre Baskerville', serif; font-size: var(--fs-heading); font-weight: 400; color: var(--gal-ink); margin-bottom: var(--space-md); line-height: var(--lh-heading); }
+.exhibit-desc { font-size: var(--fs-body); font-weight: 300; line-height: var(--lh-body); color: var(--gal-muted); max-width: var(--max-text-width); margin-bottom: var(--space-lg); }
+.exhibit-link { font-size: var(--fs-caption); letter-spacing: var(--ls-nav); text-transform: uppercase; color: var(--gal-warm); text-decoration: none; font-weight: 400; transition: opacity 400ms var(--ease-luxury); }
+.exhibit-link:hover { opacity: 0.6; }
+
+/* GALLERY GRID — Listing page */
+.listing-hero { min-height: 40vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-3xl) var(--space-lg) var(--space-xl); }
+.gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px; max-width: 1200px; margin: 0 auto; padding: var(--space-xl) var(--space-lg); }
+.gallery-item { position: relative; cursor: pointer; text-decoration: none; color: inherit; overflow: hidden; transition: opacity 600ms var(--ease-luxury); }
+.gallery-item-image { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; transition: transform 1.2s var(--ease-luxury); }
+.gallery-item:hover .gallery-item-image { transform: scale(1.03); }
+.gallery-grid.has-hover .gallery-item:not(:hover) { opacity: 0.1; }
+.gallery-grid.has-hover .gallery-item:hover { opacity: 1; }
+.gallery-item-info { padding: var(--space-md) 0; }
+.gallery-item-name { font-family: 'Libre Baskerville', serif; font-size: var(--fs-subhead); font-weight: 400; color: var(--gal-ink); margin-bottom: 4px; }
+.gallery-item-meta { font-size: var(--fs-caption); letter-spacing: 0.08em; color: var(--gal-muted); }
+.gallery-item-price { font-size: var(--fs-body); color: var(--gal-ink); font-weight: 300; margin-top: var(--space-xs); }
+
+/* DETAIL */
+.detail-layout { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; padding-top: var(--nav-height); }
+.detail-image-col { position: sticky; top: var(--nav-height); height: calc(100vh - var(--nav-height)); display: flex; align-items: center; justify-content: center; padding: var(--space-xl) 10vw; background: var(--gal-cream); }
+.detail-main-image { max-width: 100%; max-height: 80%; object-fit: contain; display: block; }
+.detail-info-col { padding: var(--space-xl); display: flex; flex-direction: column; justify-content: center; }
+.detail-breadcrumb { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gal-muted); margin-bottom: var(--space-lg); }
+.detail-breadcrumb a { color: var(--gal-muted); text-decoration: none; }
+.detail-breadcrumb a:hover { color: var(--gal-warm); }
+.detail-title { font-family: 'Libre Baskerville', serif; font-size: var(--fs-heading); font-weight: 400; color: var(--gal-ink); margin-bottom: var(--space-sm); }
+.detail-subtitle { font-size: var(--fs-body); color: var(--gal-muted); font-weight: 300; margin-bottom: var(--space-lg); }
+.detail-price { font-size: var(--fs-body); color: var(--gal-ink); font-weight: 300; margin-bottom: var(--space-xl); padding-bottom: var(--space-md); border-bottom: 1px solid var(--gal-border); }
+.detail-description { font-size: var(--fs-body); font-weight: 300; line-height: var(--lh-body); color: var(--gal-muted); max-width: var(--max-text-width); margin-bottom: var(--space-xl); }
+.detail-specs { margin-bottom: var(--space-xl); }
+.spec-row { display: flex; justify-content: space-between; padding: var(--space-sm) 0; border-bottom: 1px solid var(--gal-border); }
+.spec-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gal-muted); }
+.spec-value { font-size: var(--fs-body); color: var(--gal-ink); font-weight: 300; }
+.detail-cta { display: inline-block; padding: 1rem 3rem; border: 1px solid var(--gal-ink); background: transparent; color: var(--gal-ink); font-size: var(--fs-caption); letter-spacing: var(--ls-nav); text-transform: uppercase; text-decoration: none; font-weight: 400; transition: all 600ms var(--ease-luxury); align-self: flex-start; }
+.detail-cta:hover { background: var(--gal-ink); color: var(--gal-cream); }
+
+/* FOOTER */
+.gallery-footer { padding: var(--space-xl) var(--space-lg); border-top: 1px solid var(--gal-border); text-align: center; }
+.footer-text { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gal-muted); opacity: 0.5; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) { .exhibit-row { grid-template-columns: 1fr; } .exhibit-row:nth-child(even) { direction: ltr; } .exhibit-image-wrap { padding: 0 5vw; } .detail-layout { grid-template-columns: 1fr; } .detail-image-col { position: relative; height: 60vh; top: 0; padding: var(--space-xl) 5vw; } }
+@media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; } .nav-links { display: none; } }
