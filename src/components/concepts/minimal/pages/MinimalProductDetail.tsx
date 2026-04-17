@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, X, ChevronDown } from 'lucide-react'
@@ -13,64 +13,111 @@ import { useCartStore } from '@/store/cart'
 
 const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8']
 
-function ZoomImage({ src, alt }: { src: string; alt: string }) {
-  const containerRef = useRef<HTMLDivElement>(null)
+/* ─── Product Image Gallery ─── */
+function ProductImageGallery({ images, name }: { images: string[]; name: string }) {
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const [isZoomed, setIsZoomed] = useState(false)
-  const [origin, setOrigin] = useState('50% 50%')
+  const [zoomOrigin, setZoomOrigin] = useState('50% 50%')
+  const imageContainerRef = useRef<HTMLDivElement>(null)
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = ((e.clientX - rect.left) / rect.width) * 100
     const y = ((e.clientY - rect.top) / rect.height) * 100
-    setOrigin(`${x}% ${y}%`)
-  }
+    setZoomOrigin(`${x}% ${y}%`)
+  }, [])
+
+  const currentSrc = images[selectedIndex] || images[0]
 
   return (
-    <div
-      ref={containerRef}
-      onMouseEnter={() => setIsZoomed(true)}
-      onMouseLeave={() => setIsZoomed(false)}
-      onMouseMove={handleMouseMove}
-      style={{
-        width: '100%',
-        aspectRatio: '1 / 1',
-        overflow: 'hidden',
-        cursor: 'crosshair',
-        backgroundColor: '#FAFAFA',
-        position: 'relative',
-      }}
-    >
-      <img
-        key={src}
-        src={src}
-        alt={alt}
-        draggable={false}
+    <div>
+      {/* Main Image with Zoom */}
+      <div
+        ref={imageContainerRef}
+        onMouseEnter={() => setIsZoomed(true)}
+        onMouseLeave={() => setIsZoomed(false)}
+        onMouseMove={handleMouseMove}
         style={{
           width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          display: 'block',
-          pointerEvents: 'none',
-          transform: isZoomed ? 'scale(2.5)' : 'scale(1)',
-          transformOrigin: origin,
-          transition: isZoomed ? 'transform-origin 0s' : 'transform 0.4s ease',
-          willChange: 'transform, transform-origin',
+          aspectRatio: '1 / 1',
+          overflow: 'hidden',
+          cursor: 'crosshair',
+          backgroundColor: '#FAFAFA',
+          position: 'relative',
         }}
-      />
+      >
+        <img
+          src={currentSrc}
+          alt={name}
+          draggable={false}
+          loading="eager"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            pointerEvents: 'none',
+            transform: isZoomed ? 'scale(2.5)' : 'scale(1)',
+            transformOrigin: zoomOrigin,
+            transition: isZoomed ? 'none' : 'transform 0.4s ease',
+          }}
+        />
+      </div>
+
+      {/* Thumbnails */}
+      {images.length > 1 && (
+        <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+          {images.map((imgSrc, i) => {
+            const isActive = selectedIndex === i
+            return (
+              <div
+                key={i}
+                onClick={() => setSelectedIndex(i)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter') setSelectedIndex(i) }}
+                style={{
+                  width: '64px',
+                  height: '64px',
+                  overflow: 'hidden',
+                  border: isActive ? '2px solid #050505' : '1px solid #E5E5E5',
+                  opacity: isActive ? 1 : 0.5,
+                  backgroundColor: '#FAFAFA',
+                  cursor: 'pointer',
+                  transition: 'border 0.2s, opacity 0.2s',
+                  flexShrink: 0,
+                }}
+              >
+                <img
+                  src={imgSrc}
+                  alt={`${name} view ${i + 1}`}
+                  loading="eager"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    pointerEvents: 'none',
+                  }}
+                />
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
 
+/* ─── Product Detail Page ─── */
 export function MinimalProductDetail({ product: productProp }: { product?: Product }) {
   const params = useParams()
   const slug = params?.slug as string
   const product = productProp || products.find((p) => p.slug === slug) || products[0]
   const addItem = useCartStore((s) => s.addItem)
 
-  const [mainImg, setMainImg] = useState(0)
   const [size, setSize] = useState('7')
   const [qty, setQty] = useState(1)
-  const [lightbox, setLightbox] = useState(false)
   const [accordion, setAccordion] = useState(0)
   const [added, setAdded] = useState(false)
   const [wish, setWish] = useState(false)
@@ -104,36 +151,9 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
 
       {/* Product Grid */}
       <div className={`${minimal.cn.container} pb-20 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-16`}>
-        {/* Image Side */}
+        {/* Image Side — self-contained gallery component */}
         <div className="md:sticky md:top-24 md:self-start">
-          <ZoomImage key={mainImg} src={product.images[mainImg]} alt={product.name} />
-          <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
-            {product.images.map((img, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setMainImg(i)}
-                style={{
-                  width: '64px',
-                  height: '64px',
-                  padding: 0,
-                  overflow: 'hidden',
-                  border: mainImg === i ? '2px solid #050505' : '1px solid #E5E5E5',
-                  opacity: mainImg === i ? 1 : 0.5,
-                  background: '#FAFAFA',
-                  borderRadius: 0,
-                  cursor: 'pointer',
-                  transition: 'border 0.2s, opacity 0.2s',
-                }}
-              >
-                <img
-                  src={img}
-                  alt={`${product.name} view ${i + 1}`}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-              </button>
-            ))}
-          </div>
+          <ProductImageGallery images={product.images} name={product.name} />
         </div>
 
         {/* Info Side */}
@@ -299,48 +319,14 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               </Link>
             </ScrollReveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {related.map((p, i) => (
-                <ScrollReveal key={p.id} delay={i * 80}>
+              {related.map((p) => (
+                <div key={p.id}>
                   <MinimalProductCard product={p} />
-                </ScrollReveal>
+                </div>
               ))}
             </div>
           </div>
         </section>
-      )}
-
-      {/* Lightbox */}
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-[300] flex items-center justify-center bg-black/90"
-          onClick={() => setLightbox(false)}
-        >
-          <button onClick={() => setLightbox(false)} className="absolute top-6 right-6 bg-transparent border-none cursor-pointer z-10">
-            <X size={24} color="#FFFFFF" />
-          </button>
-          <img
-            src={product.images[mainImg]}
-            alt={product.name}
-            className="max-w-[85vw] max-h-[85vh] object-contain"
-            onClick={(e) => e.stopPropagation()}
-          />
-          <div className="absolute bottom-8 flex gap-2" onClick={(e) => e.stopPropagation()}>
-            {product.images.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setMainImg(i)}
-                className="w-14 h-14 overflow-hidden p-0 cursor-pointer bg-transparent"
-                style={{
-                  border: mainImg === i ? '1px solid #FFFFFF' : '1px solid transparent',
-                  opacity: mainImg === i ? 1 : 0.5,
-                  borderRadius: 0,
-                }}
-              >
-                <img src={img} alt="" className="w-full h-full object-cover" />
-              </button>
-            ))}
-          </div>
-        </div>
       )}
     </MinimalLayout>
   )

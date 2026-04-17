@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductCard } from '../MinimalProductCard'
-import { ScrollReveal } from '../ScrollReveal'
 import { minimal } from '../design-system'
 import { products } from '@/data/products'
 import { categoryLabels, type ProductCategory } from '@/data/concepts'
@@ -47,10 +46,10 @@ export function MinimalCategory({ category }: { category?: string }) {
             <span className="text-[11px] uppercase tracking-[0.15em] text-[#050505]">{catName}</span>
           </div>
 
-          <ScrollReveal>
+          <div>
             <h1 className={minimal.cn.sectionHeadline}>{catName}</h1>
             <p className={`${minimal.cn.label} mt-3`}>{filtered.length} pieces</p>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
 
@@ -79,16 +78,16 @@ export function MinimalCategory({ category }: { category?: string }) {
         </div>
       </section>
 
-      {/* Product Grid */}
+      {/* Product Grid — NO ScrollReveal to avoid opacity/lazy-load conflicts */}
       <section className="pb-20 md:pb-32">
         <div className={minimal.cn.container}>
           {visible.length > 0 ? (
             <>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                {visible.map((p, i) => (
-                  <ScrollReveal key={p.id} delay={i * 80}>
+                {visible.map((p) => (
+                  <div key={p.id}>
                     <MinimalProductCard product={p} />
-                  </ScrollReveal>
+                  </div>
                 ))}
               </div>
               {hasMore && (

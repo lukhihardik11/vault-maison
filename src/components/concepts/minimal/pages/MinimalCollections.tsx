@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
-import { ScrollReveal } from '../ScrollReveal'
 import { minimal } from '../design-system'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
@@ -27,32 +26,40 @@ export function MinimalCollections() {
       {/* Header */}
       <section className={minimal.cn.section}>
         <div className={minimal.cn.container}>
-          <ScrollReveal>
+          <div>
             <span className={minimal.cn.label}>Vault Maison</span>
             <h1 className={`${minimal.cn.sectionHeadline} mt-3`}>Collections</h1>
             <p className={`${minimal.cn.body} mt-4 max-w-xl`}>
               Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
             </p>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
 
       <div className={minimal.cn.divider} />
 
-      {/* Category Grid */}
+      {/* Category Grid — no ScrollReveal to ensure images load reliably */}
       <section className={minimal.cn.section}>
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {allCategories.map((cat: ProductCategory, i: number) => {
+            {allCategories.map((cat: ProductCategory) => {
               const count = getProductsByCategory(cat).length
               return (
-                <ScrollReveal key={cat} delay={i * 60}>
+                <div key={cat}>
                   <Link href={`/minimal/category/${cat}`} className="group block no-underline" style={{ color: '#050505' }}>
                     <div className="relative aspect-[4/3] overflow-hidden bg-[#FAFAFA]">
                       <img
                         src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'}
                         alt={categoryLabels[cat]}
-                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                        loading="eager"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                          transition: 'transform 0.7s ease-out',
+                        }}
+                        className="group-hover:scale-[1.03]"
                       />
                     </div>
                     <div className="pt-4">
@@ -70,7 +77,7 @@ export function MinimalCollections() {
                       </span>
                     </div>
                   </Link>
-                </ScrollReveal>
+                </div>
               )
             })}
           </div>

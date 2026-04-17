@@ -266,10 +266,10 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <h2 className={`${minimal.cn.sectionHeadline} mt-3`}>Bestsellers</h2>
           </ScrollReveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {bestsellers.map((p, i) => (
-              <ScrollReveal key={p.id} delay={i * 80}>
+            {bestsellers.map((p) => (
+              <div key={p.id}>
                 <MinimalProductCard product={p} />
-              </ScrollReveal>
+              </div>
             ))}
           </div>
         </div>

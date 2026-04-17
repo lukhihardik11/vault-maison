@@ -10,7 +10,6 @@ interface MinimalProductCardProps {
 }
 
 export function MinimalProductCard({ product }: MinimalProductCardProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -21,19 +20,26 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#FAFAFA] mb-4">
-        {!isLoaded && (
-          <div className="absolute inset-0 animate-pulse bg-[#F0F0F0]" />
-        )}
+      <div
+        style={{
+          position: 'relative',
+          aspectRatio: '3 / 4',
+          overflow: 'hidden',
+          backgroundColor: '#FAFAFA',
+          marginBottom: '16px',
+        }}
+      >
         <img
           src={product.images[0]}
           alt={product.name}
-          loading="lazy"
+          loading="eager"
           decoding="async"
-          onLoad={() => setIsLoaded(true)}
-          className="w-full h-full object-cover transition-all duration-700 ease-out"
           style={{
-            opacity: isLoaded ? 1 : 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            transition: 'transform 0.7s ease-out',
             transform: isHovered ? 'scale(1.03)' : 'scale(1)',
           }}
         />
