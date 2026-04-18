@@ -20,9 +20,9 @@ export function MinimalPrivacy() {
     <MinimalLayout>
       <section style={{ padding: '80px 5vw 100px', maxWidth: '800px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Legal</p>
-          <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Privacy Policy</h1>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590' }}>Last updated: March 2025</p>
+          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Legal</p>
+          <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Privacy Policy</h1>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B' }}>Last updated: March 2025</p>
         </div>
 
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#555', marginBottom: '48px' }}>
@@ -31,18 +31,18 @@ export function MinimalPrivacy() {
 
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: font, fontSize: '18px', fontWeight: 400, color: '#1A1A1A', marginBottom: '12px' }}>
-              <span style={{ color: '#C4A265', marginRight: '8px' }}>{String(i + 1).padStart(2, '0')}</span>
+            <h2 style={{ fontFamily: font, fontSize: '18px', fontWeight: 400, color: '#050505', marginBottom: '12px' }}>
+              <span style={{ color: '#050505', marginRight: '8px' }}>{String(i + 1).padStart(2, '0')}</span>
               {s.title}
             </h2>
             <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#555' }}>{s.content}</p>
           </div>
         ))}
 
-        <div style={{ padding: '32px', backgroundColor: '#F5F4F0', marginTop: '48px' }}>
-          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#1A1A1A', marginBottom: '8px' }}>Questions about your privacy?</p>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590' }}>
-            Contact our privacy team at <a href="mailto:privacy@vaultmaison.com" style={{ color: '#C4A265', textDecoration: 'underline', textUnderlineOffset: '3px' }}>privacy@vaultmaison.com</a>
+        <div style={{ padding: '32px', backgroundColor: '#FAFAFA', marginTop: '48px' }}>
+          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>Questions about your privacy?</p>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B' }}>
+            Contact our privacy team at <a href="mailto:privacy@vaultmaison.com" style={{ color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>privacy@vaultmaison.com</a>
           </p>
         </div>
       </section>

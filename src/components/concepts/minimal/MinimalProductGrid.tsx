@@ -3,6 +3,8 @@
 import { useState, useMemo } from 'react'
 import { type Product } from '@/data/products'
 import { MinimalProductCard } from './MinimalProductCard'
+import { ScrollReveal } from './ScrollReveal'
+import { minimal } from './design-system'
 
 interface MinimalProductGridProps {
   products: Product[]
@@ -17,15 +19,9 @@ export function MinimalProductGrid({ products, showSort = false }: MinimalProduc
   const sorted = useMemo(() => {
     const result = [...products]
     switch (sort) {
-      case 'price-asc':
-        result.sort((a, b) => a.price - b.price)
-        break
-      case 'price-desc':
-        result.sort((a, b) => b.price - a.price)
-        break
-      case 'name':
-        result.sort((a, b) => a.name.localeCompare(b.name))
-        break
+      case 'price-asc': result.sort((a, b) => a.price - b.price); break
+      case 'price-desc': result.sort((a, b) => b.price - a.price); break
+      case 'name': result.sort((a, b) => a.name.localeCompare(b.name)); break
     }
     return result
   }, [products, sort])
@@ -40,31 +36,15 @@ export function MinimalProductGrid({ products, showSort = false }: MinimalProduc
   return (
     <div>
       {showSort && (
-        <div
-          style={{
-            display: 'flex',
-            gap: '24px',
-            marginBottom: '40px',
-            paddingBottom: '16px',
-            borderBottom: '1px solid #E8E5E0',
-          }}
-        >
+        <div className={`flex gap-6 mb-10 pb-4 ${minimal.cn.divider}`} style={{ borderBottom: '1px solid #E5E5E5' }}>
           {sortOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setSort(opt.value)}
+              className="bg-transparent border-none cursor-pointer text-[11px] uppercase tracking-[0.15em] p-0 transition-colors duration-300"
               style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '11px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                fontWeight: 400,
-                color: '#050505',
-                opacity: sort === opt.value ? 1 : 0.4,
-                transition: 'opacity 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                padding: 0,
+                color: sort === opt.value ? '#050505' : '#9B9B9B',
+                fontWeight: sort === opt.value ? 500 : 400,
               }}
             >
               {opt.label}
@@ -72,28 +52,13 @@ export function MinimalProductGrid({ products, showSort = false }: MinimalProduc
           ))}
         </div>
       )}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          columnGap: '40px',
-          rowGap: '60px',
-        }}
-        className="minimal-product-grid"
-      >
-        {sorted.map((product) => (
-          <MinimalProductCard key={product.id} product={product} />
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        {sorted.map((product, i) => (
+          <ScrollReveal key={product.id} delay={i * 80}>
+            <MinimalProductCard product={product} />
+          </ScrollReveal>
         ))}
       </div>
-      <style>{`
-        @media (max-width: 768px) {
-          .minimal-product-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            column-gap: 20px !important;
-            row-gap: 40px !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }

@@ -42,7 +42,7 @@ export const ProductBounceCard: React.FC<ProductBounceCardProps> = ({
           bottom: '-4px',
           height: '12px',
           width: '120px',
-          borderRadius: '50%',
+          borderRadius: 0,
           background: 'rgba(196, 162, 101, 0.15)',
           filter: 'blur(8px)',
         }}

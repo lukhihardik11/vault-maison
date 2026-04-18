@@ -25,10 +25,10 @@ export const ExploreButton: React.FC<ExploreButtonProps> = ({
       fontWeight: 500,
       letterSpacing: '0.12em',
       textTransform: 'uppercase',
-      color: '#1A1A1A',
+      color: '#050505',
       textDecoration: 'none',
-      border: '1.5px solid #E8E5E0',
-      borderRadius: '999px',
+      border: '1.5px solid #E5E5E5',
+      borderRadius: 0,
       position: 'relative',
       overflow: 'hidden',
       zIndex: 1,
@@ -46,8 +46,8 @@ export const ExploreButton: React.FC<ExploreButtonProps> = ({
           position: 'relative',
           zIndex: 2,
           padding: '3px',
-          border: '1px solid #E8E5E0',
-          borderRadius: '50%',
+          border: '1px solid #E5E5E5',
+          borderRadius: 0,
           transform: 'rotate(45deg)',
           transition: 'all 350ms ease',
         }}
@@ -65,7 +65,7 @@ export const ExploreButton: React.FC<ExploreButtonProps> = ({
           height: 100%;
           left: -100%;
           top: 0;
-          background: #C4A265;
+          background: #050505;
           border-radius: 999px;
           transition: all 500ms ease;
           z-index: 0;
@@ -77,7 +77,7 @@ export const ExploreButton: React.FC<ExploreButtonProps> = ({
         }
         .vm-explore-btn:hover {
           color: #FFFFFF !important;
-          border-color: #C4A265 !important;
+          border-color: #050505 !important;
         }
         .vm-explore-btn:hover .vm-explore-arrow {
           transform: rotate(90deg);

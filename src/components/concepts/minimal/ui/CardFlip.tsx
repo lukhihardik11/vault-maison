@@ -53,7 +53,7 @@ export default function CardFlip({
             'absolute inset-0 h-full w-full',
             '[backface-visibility:hidden] [transform:rotateY(0deg)]',
             'overflow-hidden',
-            'bg-white border border-[#E8E5E0]',
+            'bg-white border border-[#E5E5E5]',
             'transition-all duration-700',
             isFlipped ? 'opacity-0' : 'opacity-100'
           )}
@@ -105,7 +105,7 @@ export default function CardFlip({
             'absolute inset-0 h-full w-full',
             '[backface-visibility:hidden] [transform:rotateY(180deg)]',
             'p-6',
-            'bg-white border border-[#E8E5E0]',
+            'bg-white border border-[#E5E5E5]',
             'flex flex-col',
             'transition-all duration-700',
             isFlipped ? 'opacity-100' : 'opacity-0'
@@ -152,7 +152,7 @@ export default function CardFlip({
           </div>
 
           {/* CTA */}
-          <div className="mt-4 border-t border-[#E8E5E0] pt-4">
+          <div className="mt-4 border-t border-[#E5E5E5] pt-4">
             <Link
               href={href}
               className={cn(

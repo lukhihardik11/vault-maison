@@ -69,16 +69,16 @@ export const AnimatedSocialIcons: React.FC<AnimatedSocialIconsProps> = ({
             position: 'relative',
             width: `${size}px`,
             height: `${size}px`,
-            borderRadius: '50%',
+            borderRadius: 0,
             background: '#FAFAF8',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#9B9590',
+            color: '#9B9B9B',
             boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             transition: 'all 350ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
             textDecoration: 'none',
-            border: '1px solid #E8E5E0',
+            border: '1px solid #E5E5E5',
           }}
         >
           <span
@@ -93,7 +93,7 @@ export const AnimatedSocialIcons: React.FC<AnimatedSocialIconsProps> = ({
               background: link.hoverColor,
               color: '#fff',
               padding: '4px 10px',
-              borderRadius: '6px',
+              borderRadius: 0,
               opacity: 0,
               pointerEvents: 'none',
               transition: 'all 350ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',

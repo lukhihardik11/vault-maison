@@ -47,7 +47,7 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
               background: item.image ? 'none' : 'rgba(255,255,255,0.65)',
               backdropFilter: item.image ? 'none' : 'blur(20px)',
               border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '16px',
+              borderRadius: 0,
               padding: item.image ? '0' : '32px',
               overflow: 'hidden',
               position: 'relative',
@@ -64,9 +64,9 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
               </>
             )}
             <div style={{ position: item.image ? 'absolute' : 'relative', bottom: item.image ? '24px' : 'auto', left: item.image ? '24px' : 'auto', right: item.image ? '24px' : 'auto' }}>
-              {item.icon && <div style={{ marginBottom: '12px', color: '#C4A265' }}>{item.icon}</div>}
-              <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, color: item.image ? '#FFFFFF' : '#1A1A1A', marginBottom: '8px' }}>{item.title}</h3>
-              <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: item.image ? 'rgba(255,255,255,0.7)' : '#9B9590', lineHeight: 1.6 }}>{item.description}</p>
+              {item.icon && <div style={{ marginBottom: '12px', color: '#050505' }}>{item.icon}</div>}
+              <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, color: item.image ? '#FFFFFF' : '#050505', marginBottom: '8px' }}>{item.title}</h3>
+              <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, color: item.image ? 'rgba(255,255,255,0.7)' : '#9B9B9B', lineHeight: 1.6 }}>{item.description}</p>
             </div>
           </div>
         ))}

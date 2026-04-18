@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Value of Framework Diversity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #F4F1EA; color: #4A4A4A; }
+        .slide-container { 
+            width: 1280px; 
+            min-height: 720px; 
+            position: relative; 
+            overflow: hidden; 
+            background: linear-gradient(135deg, #F4F1EA 0%, #E8E5DE 100%);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Decorative Background Elements */
+        .bg-shape-1 {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(138, 154, 91, 0.08) 0%, rgba(244, 241, 234, 0) 70%);
+            z-index: 1;
+        }
+
+        /* Multi-pane structure */
+        .pane-left {
+            position: absolute;
+            left: 60px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(192, 192, 192, 0.5);
+            z-index: 2;
+        }
+        .pane-right {
+            position: absolute;
+            right: 60px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(192, 192, 192, 0.5);
+            z-index: 2;
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 50px 100px 20px 100px;
+            border-bottom: 1px solid rgba(192, 192, 192, 0.3);
+        }
+        h1 {
+            font-weight: 600;
+            font-size: 32px;
+            color: #2C3539;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            font-weight: 400;
+            font-size: 20px;
+            color: #4A4A4A;
+            margin-top: 12px;
+            line-height: 1.4;
+        }
+        .accent-line {
+            width: 40px;
+            height: 3px;
+            background-color: #8A9A5B;
+            margin-top: 16px;
+        }
+
+        /* Main Content Area */
+        .content-area {
+            position: relative;
+            z-index: 10;
+            padding: 40px 100px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* 3-Column Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* Content Blocks */
+        .content-block {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .block-number {
+            font-weight: 600;
+            font-size: 48px;
+            color: rgba(138, 154, 91, 0.2);
+            line-height: 1;
+            margin-bottom: -20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .block-title {
+            font-weight: 600;
+            font-size: 20px;
+            color: #2C3539;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .block-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4A4A4A;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Conclusion Block */
+        .conclusion-block {
+            background: rgba(44, 53, 57, 0.05);
+            border-left: 4px solid #8A9A5B;
+            padding: 24px 30px;
+            margin-top: 10px;
+        }
+
+        .conclusion-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #2C3539;
+            font-style: italic;
+        }
+        
+        .highlight {
+            color: #8A9A5B;
+            font-weight: 600;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-shape-1"></div>
+        
+        <div class="pane-left"></div>
+        <div class="pane-right"></div>
+
+        <div class="header">
+            <h1>Strategic Value of Framework Diversity</h1>
+            <div class="accent-line"></div>
+            <div class="subtitle">Framework diversity is not an academic exercise — it serves three strategic purposes:</div>
+        </div>
+
+        <div class="content-area">
+            <div class="grid-3">
+                <div class="content-block">
+                    <div class="block-number">01</div>
+                    <div class="block-title">Proof of Concept Depth</div>
+                    <div class="block-text">Each concept is architecturally viable, not just a visual mockup. The framework choice proves the interaction pattern can actually be built and scaled in production.</div>
+                </div>
+                
+                <div class="content-block">
+                    <div class="block-number">02</div>
+                    <div class="block-title">Risk Mitigation</div>
+                    <div class="block-text">If one framework falls out of favor or has a critical vulnerability, 9 other proven alternatives exist within the Vault-Maison playbook, ensuring long-term resilience.</div>
+                </div>
+                
+                <div class="content-block">
+                    <div class="block-number">03</div>
+                    <div class="block-title">Team Flexibility</div>
+                    <div class="block-text">Different engineering teams have different strengths. A Vue-native team can build The Observatory (Nuxt.js). A React-native team can build The Vault (Next.js).</div>
+                </div>
+            </div>
+
+            <div class="conclusion-block">
+                <div class="conclusion-text">
+                    The technology layer is the foundation that makes each concept's signature interaction possible — from <span class="highlight">The Vault's biometric reveal</span> (Framer Motion) to <span class="highlight">The Immersive Theater's WebGL constellation</span> (React Three Fiber).
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

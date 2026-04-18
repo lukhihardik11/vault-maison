@@ -104,7 +104,7 @@ export default function SmoothTab({
         className={cn(
           'relative flex items-center gap-0',
           'mx-auto w-full max-w-lg',
-          'border-t border-[#E8E5E0]',
+          'border-t border-[#E5E5E5]',
           'pt-3',
           className
         )}

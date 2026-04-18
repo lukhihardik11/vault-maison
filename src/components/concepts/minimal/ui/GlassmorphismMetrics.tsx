@@ -67,14 +67,14 @@ export default function GlassmorphismMetrics({
     <section className="relative overflow-hidden px-5 py-24 lg:py-32" style={{ fontFamily: font }}>
       {/* Subtle background blurs */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute left-0 top-0 h-[380px] w-[380px] rounded-full bg-[#050505]/[0.02] blur-[120px]" />
-        <div className="absolute right-0 top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-[#050505]/[0.015] blur-[140px]" />
+        <div className="absolute left-0 top-0 h-[380px] w-[380px] bg-[#050505]/[0.02] blur-[120px]" />
+        <div className="absolute right-0 top-1/2 h-[420px] w-[420px] -translate-y-1/2 bg-[#050505]/[0.015] blur-[140px]" />
       </div>
 
       <div className="mx-auto max-w-6xl space-y-12">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#050505]/10 bg-white/70 px-4 py-1.5 text-[10px] uppercase tracking-[0.25em] text-[#050505]/60 backdrop-blur">
+          <span className="mb-4 inline-flex items-center gap-2 border border-[#050505]/10 bg-white/70 px-4 py-1.5 text-[10px] uppercase tracking-[0.25em] text-[#050505]/60 backdrop-blur">
             <Diamond className="h-3 w-3" />
             {eyebrow}
           </span>
@@ -90,7 +90,7 @@ export default function GlassmorphismMetrics({
         <div className="grid gap-4 md:grid-cols-2">
           {metrics.map((metric) => (
             <div key={metric.label}>
-              <div className="group relative overflow-hidden rounded-2xl border border-[#050505]/8 bg-white/60 p-8 backdrop-blur-2xl transition-transform duration-300 hover:-translate-y-1">
+              <div className="group relative overflow-hidden border border-[#050505]/8 bg-white/60 p-8 backdrop-blur-2xl transition-transform duration-300 hover:-translate-y-1">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#050505]/[0.02] via-transparent to-transparent" />
                 <div className="relative z-10 space-y-5">
                   <div className="flex items-center justify-between">
@@ -103,7 +103,7 @@ export default function GlassmorphismMetrics({
                     <span className="text-4xl md:text-5xl font-light tracking-tight text-[#050505]">
                       {metric.value}
                     </span>
-                    <span className="rounded-full border border-[#050505]/10 bg-white/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-[#050505]/50 backdrop-blur">
+                    <span className="border border-[#050505]/10 bg-white/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-[#050505]/50 backdrop-blur">
                       {metric.delta}
                     </span>
                   </div>
@@ -117,9 +117,9 @@ export default function GlassmorphismMetrics({
         </div>
 
         {/* CTA Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-[#050505]/8 bg-white/50 px-6 py-6 backdrop-blur-xl md:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-6 border border-[#050505]/8 bg-white/50 px-6 py-6 backdrop-blur-xl md:px-8">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#050505]/10 bg-white/70 text-[#050505]/70">
+            <div className="flex h-12 w-12 items-center justify-center border border-[#050505]/10 bg-white/70 text-[#050505]/70">
               <Gem className="h-5 w-5" />
             </div>
             <div>
@@ -133,7 +133,7 @@ export default function GlassmorphismMetrics({
           </div>
           <Link
             href={ctaHref}
-            className="h-11 rounded-full border border-[#050505]/10 bg-white/70 px-6 text-[11px] uppercase tracking-[0.2em] text-[#050505]/60 backdrop-blur hover:text-[#050505] hover:border-[#050505]/30 transition-colors duration-300 flex items-center"
+            className="h-11 border border-[#050505]/10 bg-white/70 px-6 text-[11px] uppercase tracking-[0.2em] text-[#050505]/60 backdrop-blur hover:text-[#050505] hover:border-[#050505]/30 transition-colors duration-300 flex items-center"
           >
             {ctaText}
           </Link>

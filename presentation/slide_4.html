@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concepts 06–10: Framework Assignments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #F4F1EA; color: #4A4A4A; }
+        .slide-container { 
+            width: 1280px; 
+            min-height: 720px; 
+            position: relative; 
+            overflow: hidden; 
+            background: linear-gradient(135deg, #F4F1EA 0%, #E8E5DE 100%);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Decorative Background Elements - Varied from slide 3 */
+        .bg-shape-1 {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(138, 154, 91, 0.08) 0%, rgba(244, 241, 234, 0) 70%);
+            z-index: 1;
+        }
+
+        /* Multi-pane structure */
+        .pane-left {
+            position: absolute;
+            left: 60px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(192, 192, 192, 0.5);
+            z-index: 2;
+        }
+        .pane-right {
+            position: absolute;
+            right: 60px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(192, 192, 192, 0.5);
+            z-index: 2;
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 50px 80px 6px 80px;
+            border-bottom: 1px solid rgba(192, 192, 192, 0.3);
+        }
+        h1 {
+            font-weight: 600;
+            font-size: 32px;
+            color: #2C3539;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            font-weight: 400;
+            font-size: 20px;
+            color: #8A9A5B;
+            margin-top: 8px;
+        }
+        .accent-line {
+            width: 40px;
+            height: 3px;
+            background-color: #8A9A5B;
+            margin-top: 16px;
+        }
+
+        /* Main Content Area */
+        .content-area {
+            position: relative;
+            z-index: 10;
+            padding: 30px 80px 8px 80px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Content Blocks */
+        .content-block {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            padding: 16px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(192, 192, 192, 0.3);
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        th {
+            font-weight: 600;
+            color: #2C3539;
+            background: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+        td {
+            color: #4A4A4A;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .col-num { width: 5%; font-weight: 600; color: #8A9A5B; }
+        .col-concept { width: 25%; font-weight: 600; color: #2C3539; }
+        .col-framework { width: 15%; font-weight: 600; color: #8A9A5B; }
+        .col-why { width: 55%; }
+
+        /* Highlights List */
+        .highlights-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #2C3539;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 30px;
+        }
+        .highlight-item {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #4A4A4A;
+            display: flex;
+            align-items: flex-start;
+        }
+        .highlight-item::before {
+            content: "•";
+            color: #8A9A5B;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .highlight-bold {
+            font-weight: 600;
+            color: #2C3539;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-shape-1"></div>
+        
+        <div class="pane-left"></div>
+        <div class="pane-right"></div>
+
+        <div class="header">
+            <h1>Concepts 06–10: Framework Assignments</h1>
+            <div class="subtitle">From Provenance Archives to the Modern Flagship</div>
+            <div class="accent-line"></div>
+        </div>
+
+        <div class="content-area">
+            <div class="content-block">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-num">#</th>
+                            <th class="col-concept">Concept</th>
+                            <th class="col-framework">Framework</th>
+                            <th class="col-why">Why This Framework</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-num">06</td>
+                            <td class="col-concept">The Archive</td>
+                            <td class="col-framework">Gatsby</td>
+                            <td class="col-why">Static site generation for thousands of provenance pages</td>
+                        </tr>
+                        <tr>
+                            <td class="col-num">07</td>
+                            <td class="col-concept">The Minimal Machine</td>
+                            <td class="col-framework">Vanilla JS</td>
+                            <td class="col-why">Zero overhead for absolute minimalism</td>
+                        </tr>
+                        <tr>
+                            <td class="col-num">08</td>
+                            <td class="col-concept">The Immersive Theater</td>
+                            <td class="col-framework">Qwik</td>
+                            <td class="col-why">Resumability for instant load of heavy WebGL scenes</td>
+                        </tr>
+                        <tr>
+                            <td class="col-num">09</td>
+                            <td class="col-concept">The Marketplace of Rarity</td>
+                            <td class="col-framework">Fresh (Deno)</td>
+                            <td class="col-why">Lightning-fast pages for live bidding environment</td>
+                        </tr>
+                        <tr>
+                            <td class="col-num">10</td>
+                            <td class="col-concept">The Modern Maison</td>
+                            <td class="col-framework">SolidStart</td>
+                            <td class="col-why">Fine-grained reactivity + streaming SSR for heritage + performance balance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-block">
+                <div class="highlights-title">Supporting Tech Highlights</div>
+                <div class="highlights-grid">
+                    <div class="highlight-item"><span class="highlight-bold">06 Archive:</span>&nbsp;D3.js + SpriteSpin + BigCommerce headless</div>
+                    <div class="highlight-item"><span class="highlight-bold">07 Minimal Machine:</span>&nbsp;CSS Transitions + Custom WebGL + Stripe Checkout</div>
+                    <div class="highlight-item"><span class="highlight-bold">08 Immersive Theater:</span>&nbsp;React Three Fiber + Custom WebGL shader + Swell</div>
+                    <div class="highlight-item"><span class="highlight-bold">09 Marketplace:</span>&nbsp;Velocity.js + Cloudinary 360 Spin + Custom Node.js + Stripe Connect</div>
+                    <div class="highlight-item"><span class="highlight-bold">10 Modern Maison:</span>&nbsp;React Spring + Spinviewer.js + Commerce Layer</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

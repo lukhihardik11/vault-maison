@@ -29,12 +29,12 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    borderRadius: '8px',
+    borderRadius: 0,
     padding: '14px 16px',
     border: 'none',
     outline: 'none',
     color: 'white',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: '#050505',
     boxShadow: 'inset 2px 4px 10px rgba(5,5,5,0.8)',
   }
 
@@ -56,8 +56,8 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
       flexDirection: 'column',
       gap: '14px',
       padding: '32px 28px',
-      backgroundColor: '#1A1A1A',
-      borderRadius: '14px',
+      backgroundColor: '#050505',
+      borderRadius: 0,
       transition: 'all 350ms ease',
       maxWidth: '380px',
       width: '100%',
@@ -70,7 +70,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
           fontWeight: 300,
           letterSpacing: '0.3em',
           textTransform: 'uppercase',
-          color: '#C4A265',
+          color: '#050505',
           marginBottom: '4px',
         }}>Vault Maison</p>
         <p style={{
@@ -84,7 +84,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
 
       {mode === 'register' && (
         <div style={inputStyle}>
-          <User size={16} strokeWidth={1.5} style={{ color: '#C4A265', flexShrink: 0 }} />
+          <User size={16} strokeWidth={1.5} style={{ color: '#050505', flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Full Name"
@@ -96,7 +96,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
       )}
 
       <div style={inputStyle}>
-        <Mail size={16} strokeWidth={1.5} style={{ color: '#C4A265', flexShrink: 0 }} />
+        <Mail size={16} strokeWidth={1.5} style={{ color: '#050505', flexShrink: 0 }} />
         <input
           type="email"
           placeholder="Email Address"
@@ -107,7 +107,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
       </div>
 
       <div style={inputStyle}>
-        <Lock size={16} strokeWidth={1.5} style={{ color: '#C4A265', flexShrink: 0 }} />
+        <Lock size={16} strokeWidth={1.5} style={{ color: '#050505', flexShrink: 0 }} />
         <input
           type="password"
           placeholder="Password"
@@ -120,9 +120,9 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
       <button type="submit" className="vm-dark-submit" style={{
         marginTop: '8px',
         padding: '14px',
-        borderRadius: '8px',
+        borderRadius: 0,
         border: 'none',
-        background: 'linear-gradient(to bottom, #d4b578, #C4A265)',
+        background: 'linear-gradient(to bottom, #050505, #050505)',
         color: '#FFFFFF',
         fontFamily: font,
         fontSize: '12px',
@@ -140,7 +140,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
         onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
         style={{
           padding: '10px',
-          borderRadius: '8px',
+          borderRadius: 0,
           border: 'none',
           backgroundColor: '#252525',
           color: 'rgba(255,255,255,0.5)',

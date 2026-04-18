@@ -3,13 +3,23 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Heart, ShoppingBag, Menu, X, ChevronDown, User } from 'lucide-react'
+import { Search, Heart, ShoppingBag, Menu, X, ChevronDown } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
 import { useWishlistStore } from '@/store/wishlist'
 import ActionSearchBar from './ui/ActionSearchBar'
 import ProfileDropdown from './ui/ProfileDropdown'
+import { minimal } from './design-system'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = minimal.font.primary
+const mono = minimal.font.mono
+
+const navLinks = [
+  { label: 'Collection', href: '/minimal/collections', mega: 'diamonds' as const },
+  { label: 'Wedding', href: '/minimal/category/wedding-bridal', mega: null },
+  { label: 'Bespoke', href: '/minimal/bespoke', mega: null },
+  { label: 'About', href: '/minimal/about', mega: null },
+  { label: 'Contact', href: '/minimal/contact', mega: null },
+]
 
 const diamondLinks = [
   { label: 'Diamond Rings', href: '/minimal/category/diamond-rings' },
@@ -29,7 +39,6 @@ const goldLinks = [
 export function MinimalNav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
   const [megaMenu, setMegaMenu] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const megaTimeout = useRef<NodeJS.Timeout | null>(null)
@@ -38,11 +47,7 @@ export function MinimalNav() {
   const wishlistCount = useWishlistStore((s) => s.items.length)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      setScrollProgress(docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -57,40 +62,54 @@ export function MinimalNav() {
     megaTimeout.current = setTimeout(() => setMegaMenu(null), 200)
   }
 
-  const navLinks = [
-    { label: 'Diamonds', href: '/minimal/collections', mega: 'diamonds' },
-    { label: 'Gold', href: '/minimal/category/gold-rings', mega: 'gold' },
-    { label: 'Wedding', href: '/minimal/category/wedding-bridal', mega: null },
-    { label: 'New Arrivals', href: '/minimal/category/diamond-necklaces', mega: null },
-    { label: 'Bespoke', href: '/minimal/bespoke', mega: null },
-  ]
-
   const isActive = (href: string) => pathname === href || pathname?.startsWith(href + '/')
 
   return (
     <>
-      {/* Scroll Progress */}
-      <div style={{ position: 'fixed', top: 0, left: 0, width: `${scrollProgress}%`, height: '2px', background: 'linear-gradient(90deg, #C4A265, #D4B87A)', zIndex: 52, transition: 'width 100ms linear' }} />
-
       <nav
         style={{
-          position: 'fixed', top: 2, left: 0, right: 0, height: '60px',
-          backgroundColor: scrolled ? 'rgba(250,250,248,0.75)' : 'rgba(250,250,248,0.95)',
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
           zIndex: 50,
-          borderBottom: `1px solid ${scrolled ? 'rgba(232,229,224,0.6)' : 'transparent'}`,
-          transition: 'all 400ms cubic-bezier(0.25,0.46,0.45,0.94)',
+          height: '64px',
+          borderBottom: '1px solid #E5E5E5',
+          backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.98)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          transition: 'background-color 300ms ease',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%', padding: '0 5vw', maxWidth: '1400px', margin: '0 auto' }}>
+        <div
+          style={{
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '0 clamp(24px, 3vw, 64px)',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           {/* Logo */}
-          <Link href="/minimal" style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1A1A1A', textDecoration: 'none' }}>
-            VAULT MAISON
+          <Link
+            href="/minimal"
+            style={{
+              fontFamily: font,
+              fontSize: '14px',
+              fontWeight: 500,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: '#050505',
+              textDecoration: 'none',
+            }}
+          >
+            Minimal Machine
           </Link>
 
           {/* Desktop Nav */}
-          <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }} className="vm-nav-desktop">
+          <div className="hidden md:flex items-center" style={{ gap: '36px' }}>
             {navLinks.map((link) => (
               <div
                 key={link.href}
@@ -100,128 +119,211 @@ export function MinimalNav() {
               >
                 <Link
                   href={link.href}
+                  className="group flex items-center"
                   style={{
-                    fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase',
-                    color: isActive(link.href) ? '#C4A265' : '#1A1A1A',
-                    textDecoration: 'none', opacity: isActive(link.href) ? 1 : 0.7,
-                    display: 'flex', alignItems: 'center', gap: '4px',
-                    borderBottom: isActive(link.href) ? '2px solid #C4A265' : '2px solid transparent',
-                    paddingBottom: '2px', transition: 'all 300ms ease',
+                    fontFamily: font,
+                    fontSize: '11px',
+                    fontWeight: isActive(link.href) ? 500 : 400,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    color: isActive(link.href) ? '#050505' : '#8A8A8A',
+                    transition: 'color 0.2s ease',
+                    gap: '4px',
                   }}
-                  className="vm-nav-link"
                 >
-                  {link.label}
-                  {link.mega && <ChevronDown size={12} style={{ opacity: 0.5, transition: 'transform 200ms', transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)' }} />}
+                  <span className="hover:text-[#050505]">{link.label}</span>
+                  {link.mega && (
+                    <ChevronDown
+                      size={10}
+                      strokeWidth={1.5}
+                      style={{
+                        opacity: 0.4,
+                        transition: 'transform 200ms',
+                        transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)',
+                      }}
+                    />
+                  )}
                 </Link>
               </div>
             ))}
           </div>
 
           {/* Icons */}
-          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-            {/* Search icon → opens ActionSearchBar overlay */}
-            <button onClick={() => setSearchOpen(true)} className="vm-nav-desktop vm-icon-link" style={{ background: 'none', border: 'none', color: '#1A1A1A', opacity: 0.6, transition: 'all 300ms', cursor: 'pointer', padding: 0 }} aria-label="Search">
-              <Search size={18} strokeWidth={1.5} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="hidden md:block"
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                color: '#9B9B9B',
+                transition: 'color 0.2s ease',
+              }}
+              aria-label="Search"
+            >
+              <Search size={17} strokeWidth={1.5} />
             </button>
-            <Link href="/minimal/wishlist" className="vm-nav-desktop vm-icon-link" style={{ color: '#1A1A1A', opacity: 0.6, position: 'relative', transition: 'all 300ms' }}>
-              <Heart size={18} strokeWidth={1.5} />
-              {wishlistCount > 0 && <span style={{ position: 'absolute', top: -4, right: -4, backgroundColor: '#C4A265', width: '8px', height: '8px', borderRadius: '50%' }} />}
+            <Link
+              href="/minimal/wishlist"
+              className="hidden md:block"
+              style={{ color: '#9B9B9B', transition: 'color 0.2s ease', position: 'relative' }}
+            >
+              <Heart size={17} strokeWidth={1.5} />
+              {wishlistCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-3px', right: '-3px',
+                  width: '6px', height: '6px', backgroundColor: '#050505',
+                }} />
+              )}
             </Link>
-            <Link href="/minimal/cart" className="vm-icon-link" style={{ color: '#1A1A1A', opacity: 0.6, position: 'relative', transition: 'all 300ms' }}>
-              <ShoppingBag size={18} strokeWidth={1.5} />
-              {cartCount > 0 && <span style={{ position: 'absolute', top: -4, right: -4, backgroundColor: '#C4A265', width: '8px', height: '8px', borderRadius: '50%' }} />}
+            <Link
+              href="/minimal/cart"
+              style={{ color: '#9B9B9B', transition: 'color 0.2s ease', position: 'relative' }}
+            >
+              <ShoppingBag size={17} strokeWidth={1.5} />
+              {cartCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-3px', right: '-3px',
+                  width: '6px', height: '6px', backgroundColor: '#050505',
+                }} />
+              )}
             </Link>
-            {/* Profile Dropdown (KokonutUI) */}
-            <div className="vm-nav-desktop">
+            <div className="hidden md:block">
               <ProfileDropdown />
             </div>
-            <button onClick={() => setMenuOpen(true)} className="vm-nav-mobile-only" style={{ background: 'none', border: 'none', color: '#1A1A1A', cursor: 'pointer', padding: '4px' }} aria-label="Menu">
-              <Menu size={22} strokeWidth={1.5} />
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="md:hidden"
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '4px',
+                color: '#050505',
+              }}
+              aria-label="Menu"
+            >
+              <Menu size={20} strokeWidth={1.5} />
             </button>
           </div>
         </div>
       </nav>
 
-      {/* ActionSearchBar Overlay (KokonutUI) */}
       <ActionSearchBar isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      {/* Mega Menu: Diamonds */}
+      {/* Mega Menu */}
       {megaMenu === 'diamonds' && (
         <div
           onMouseEnter={() => openMega('diamonds')}
           onMouseLeave={closeMega}
           style={{
-            position: 'fixed', top: '62px', left: 0, right: 0, zIndex: 49,
-            background: 'rgba(250,250,248,0.92)', backdropFilter: 'blur(24px) saturate(180%)',
-            borderBottom: '1px solid rgba(232,229,224,0.5)',
-            animation: 'megaSlide 250ms ease',
+            position: 'fixed',
+            top: '64px',
+            left: 0,
+            right: 0,
+            zIndex: 49,
+            backgroundColor: '#FFFFFF',
+            borderBottom: '1px solid #E5E5E5',
+            animation: 'megaSlide 200ms ease',
           }}
         >
-          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 5vw', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '40px' }}>
+          <div
+            style={{
+              maxWidth: '1400px',
+              margin: '0 auto',
+              padding: '48px clamp(24px, 3vw, 64px)',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr 1fr',
+              gap: '48px',
+            }}
+          >
             <div>
-              <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Diamond Jewelry</p>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
+                Diamonds
+              </p>
               {diamondLinks.map((l) => (
-                <Link key={l.href} href={l.href} style={{ display: 'block', fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#1A1A1A', textDecoration: 'none', padding: '8px 0', transition: 'color 200ms' }} className="vm-mega-link">{l.label}</Link>
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  style={{
+                    display: 'block',
+                    fontFamily: font,
+                    fontSize: '14px',
+                    fontWeight: 300,
+                    color: '#6B6B6B',
+                    textDecoration: 'none',
+                    padding: '8px 0',
+                    transition: 'color 0.2s ease',
+                  }}
+                  className="hover:!text-[#050505]"
+                >
+                  {l.label}
+                </Link>
               ))}
             </div>
             <div>
-              <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>By Occasion</p>
-              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#1A1A1A', textDecoration: 'none', padding: '8px 0' }} className="vm-mega-link">Wedding & Bridal</Link>
-              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#1A1A1A', textDecoration: 'none', padding: '8px 0' }} className="vm-mega-link">Bespoke Creations</Link>
-              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#1A1A1A', textDecoration: 'none', padding: '8px 0' }} className="vm-mega-link">View All Collections</Link>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
+                Gold
+              </p>
+              {goldLinks.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  style={{
+                    display: 'block',
+                    fontFamily: font,
+                    fontSize: '14px',
+                    fontWeight: 300,
+                    color: '#6B6B6B',
+                    textDecoration: 'none',
+                    padding: '8px 0',
+                    transition: 'color 0.2s ease',
+                  }}
+                  className="hover:!text-[#050505]"
+                >
+                  {l.label}
+                </Link>
+              ))}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ width: '200px', height: '200px', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
-                <img src="/images/minimal-engagement-ring.jpg" alt="Diamond Collection" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.5), transparent)' }} />
-                <p style={{ position: 'absolute', bottom: '12px', left: '12px', fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#FFFFFF', letterSpacing: '0.1em' }}>Explore Diamonds</p>
-              </div>
+            <div>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
+                Featured
+              </p>
+              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Wedding & Bridal</Link>
+              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Bespoke Creations</Link>
+              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">View All Collections</Link>
             </div>
           </div>
         </div>
       )}
 
-      {/* Mega Menu: Gold */}
-      {megaMenu === 'gold' && (
+      {/* Mobile Menu — Full Screen Takeover */}
+      {menuOpen && (
         <div
-          onMouseEnter={() => openMega('gold')}
-          onMouseLeave={closeMega}
           style={{
-            position: 'fixed', top: '62px', left: 0, right: 0, zIndex: 49,
-            background: 'rgba(250,250,248,0.92)', backdropFilter: 'blur(24px) saturate(180%)',
-            borderBottom: '1px solid rgba(232,229,224,0.5)',
-            animation: 'megaSlide 250ms ease',
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: '#FFFFFF',
+            zIndex: 100,
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '0 24px',
           }}
         >
-          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 5vw', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '40px' }}>
-            <div>
-              <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Gold Jewelry</p>
-              {goldLinks.map((l) => (
-                <Link key={l.href} href={l.href} style={{ display: 'block', fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#1A1A1A', textDecoration: 'none', padding: '8px 0' }} className="vm-mega-link">{l.label}</Link>
-              ))}
-            </div>
-            <div>
-              <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Featured</p>
-              <Link href="/minimal/craftsmanship" style={{ display: 'block', fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#1A1A1A', textDecoration: 'none', padding: '8px 0' }} className="vm-mega-link">Our Craftsmanship</Link>
-              <Link href="/minimal/care" style={{ display: 'block', fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#1A1A1A', textDecoration: 'none', padding: '8px 0' }} className="vm-mega-link">Jewelry Care</Link>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ width: '200px', height: '200px', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
-                <img src="/images/products/classic-gold-ring.jpg" alt="Gold Collection" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.5), transparent)' }} />
-                <p style={{ position: 'absolute', bottom: '12px', left: '12px', fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#FFFFFF', letterSpacing: '0.1em' }}>Explore Gold</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(250,250,248,0.98)', backdropFilter: 'blur(20px)', zIndex: 100, display: 'flex', flexDirection: 'column', padding: '20px 5vw' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '60px' }}>
-            <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#1A1A1A' }}>VAULT MAISON</span>
-            <button onClick={() => setMenuOpen(false)} style={{ background: 'none', border: 'none', color: '#1A1A1A', cursor: 'pointer', padding: '8px' }} aria-label="Close"><X size={22} strokeWidth={1.5} /></button>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
+            <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#050505' }}>
+              Minimal Machine
+            </span>
+            <button
+              onClick={() => setMenuOpen(false)}
+              style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer', padding: '8px', color: '#050505' }}
+              aria-label="Close"
+            >
+              <X size={20} strokeWidth={1.5} />
+            </button>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', marginTop: '40px' }}>
             {[
@@ -230,28 +332,36 @@ export function MinimalNav() {
               { label: 'Wishlist', href: '/minimal/wishlist', mega: null },
               { label: 'Cart', href: '/minimal/cart', mega: null },
               { label: 'Account', href: '/minimal/account', mega: null },
-              { label: 'Contact', href: '/minimal/contact', mega: null },
             ].map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: isActive(link.href) ? '#C4A265' : '#1A1A1A', textDecoration: 'none', padding: '16px 0', borderBottom: '1px solid #E8E5E0' }}>{link.label}</Link>
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  fontFamily: font,
+                  fontSize: '13px',
+                  fontWeight: isActive(link.href) ? 500 : 300,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  color: isActive(link.href) ? '#050505' : '#8A8A8A',
+                  padding: '16px 0',
+                  borderBottom: '1px solid #E5E5E5',
+                  transition: 'color 0.2s ease',
+                }}
+              >
+                {link.label}
+              </Link>
             ))}
           </div>
         </div>
       )}
 
-      <div style={{ height: '62px' }} />
+      {/* Spacer */}
+      <div style={{ height: '64px' }} />
 
       <style>{`
-        @keyframes megaSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-        .vm-nav-link:hover { opacity: 1 !important; color: #C4A265 !important; }
-        .vm-icon-link:hover { opacity: 1 !important; color: #C4A265 !important; }
-        .vm-mega-link:hover { color: #C4A265 !important; padding-left: 4px !important; }
-        @media (max-width: 768px) {
-          .vm-nav-desktop { display: none !important; }
-          .vm-nav-mobile-only { display: block !important; }
-        }
-        @media (min-width: 769px) {
-          .vm-nav-mobile-only { display: none !important; }
-        }
+        @keyframes megaSlide { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
     </>
   )

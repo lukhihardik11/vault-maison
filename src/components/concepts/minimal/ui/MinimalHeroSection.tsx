@@ -43,10 +43,10 @@ export default function MinimalHeroSection({
       </div>
       <div style={{ position: 'absolute', inset: 0, background: overlayStyle }} />
       <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-        {eyebrow && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>{eyebrow}</p>}
+        {eyebrow && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>{eyebrow}</p>}
         <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.15, marginBottom: '16px', maxWidth: '600px' }}>{title}</h1>
         {subtitle && <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '400px', marginBottom: '32px', lineHeight: 1.7 }}>{subtitle}</p>}
-        <Link href={ctaHref} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#C4A265', padding: '12px 28px', textDecoration: 'none', transition: 'background-color 200ms ease' }}>
+        <Link href={ctaHref} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#050505', padding: '12px 28px', textDecoration: 'none', transition: 'background-color 200ms ease' }}>
           {ctaText}
         </Link>
       </div>

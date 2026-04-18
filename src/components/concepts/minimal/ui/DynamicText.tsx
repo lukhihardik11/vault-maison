@@ -37,7 +37,7 @@ export default function DynamicText({ text, className = '', style = {}, effect =
       </span>
       <style>{`
         .vm-dynamic-shimmer {
-          background: linear-gradient(90deg, #1A1A1A 0%, #C4A265 40%, #1A1A1A 80%);
+          background: linear-gradient(90deg, #050505 0%, #050505 40%, #050505 80%);
           background-size: 200% 100%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;

@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
+import { minimal } from '../design-system'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
 import { ArrowRight } from 'lucide-react'
-import MinimalHeroSection from '../ui/MinimalHeroSection'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = minimal.font.primary
+const mono = minimal.font.mono
 
 const categoryImages: Record<string, string> = {
   'diamond-rings': '/images/products/diamond-solitaire-ring.jpg',
@@ -22,75 +23,88 @@ const categoryImages: Record<string, string> = {
   'wedding-bridal': '/images/products/classic-engagement-ring.jpg',
 }
 
-const categoryFeatures: Record<string, string[]> = {
-  'diamond-rings': ['Solitaires', 'Halo Settings', 'Eternity Bands', 'Cocktail Rings'],
-  'diamond-necklaces': ['Pendants', 'Chokers', 'Chains', 'Layered Designs'],
-  'diamond-earrings': ['Studs', 'Drops', 'Hoops', 'Chandelier'],
-  'diamond-bracelets': ['Tennis', 'Bangles', 'Cuffs', 'Chain Link'],
-  'gold-rings': ['Signet', 'Bands', 'Statement', 'Stackable'],
-  'gold-necklaces': ['Curb Chain', 'Layered', 'Pendant', 'Choker'],
-  'gold-earrings': ['Hoops', 'Studs', 'Drops', 'Huggie'],
-  'gold-bracelets': ['Bangles', 'Cuffs', 'Chain', 'Tennis'],
-  'loose-diamonds': ['Round Brilliant', 'Oval', 'Emerald', 'Pear'],
-  'wedding-bridal': ['Engagement', 'Wedding Bands', 'Bridal Sets', 'Anniversary'],
-}
-
 export function MinimalCollections() {
   return (
     <MinimalLayout>
-      {/* Hero (MinimalHeroSection - KokonutUI) */}
-      <MinimalHeroSection
-        eyebrow="Vault Maison"
-        title="Collections"
-        subtitle="Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless elegance."
-        image="/images/products/editorial-model-jewelry.jpg"
-        overlay="gradient"
-      />
+      {/* Header */}
+      <div style={{ padding: 'clamp(64px, 10vh, 120px) 0 clamp(32px, 4vh, 48px)' }}>
+        <div className={minimal.cn.container}>
+          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: '16px' }}>
+            Vault Maison
+          </span>
+          <h1 style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 200, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#050505', margin: '0 0 16px' }}>
+            Collections
+          </h1>
+          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: '#6B6B6B', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
+            Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
+          </p>
+        </div>
+      </div>
+
+      <div className={minimal.cn.container}><div className={minimal.cn.divider} /></div>
 
       {/* Category Grid */}
-      <section style={{ padding: '80px 5vw', maxWidth: '1400px', margin: '0 auto' }}>
-        <div className="vm-coll-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px' }}>
-          {allCategories.map((cat: ProductCategory) => {
-            const count = getProductsByCategory(cat).length
-            const features = categoryFeatures[cat] || []
-            return (
-              <Link key={cat} href={`/minimal/category/${cat}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div className="vm-coll-card" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F5F4F0' }}>
-                  <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden' }}>
-                    <img src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'} alt={categoryLabels[cat]} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 600ms ease' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.5) 0%, transparent 50%)' }} />
-                    <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
-                      <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '6px' }}>{count} {count === 1 ? 'Piece' : 'Pieces'}</p>
-                      <h3 style={{ fontFamily: font, fontSize: '22px', fontWeight: 300, color: '#FFFFFF' }}>{categoryLabels[cat]}</h3>
-                    </div>
+      <div style={{ padding: 'clamp(48px, 8vh, 96px) 0 clamp(64px, 10vh, 120px)' }}>
+        <div className={minimal.cn.container}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {allCategories.map((cat: ProductCategory) => {
+              const count = getProductsByCategory(cat).length
+              return (
+                <Link
+                  key={cat}
+                  href={`/minimal/category/${cat}`}
+                  className="group block"
+                  style={{ textDecoration: 'none', color: '#050505' }}
+                >
+                  <div style={{ position: 'relative', aspectRatio: '4 / 3', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+                    <img
+                      src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'}
+                      alt={categoryLabels[cat]}
+                      loading="eager"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
+                      className="group-hover:scale-[1.04]"
+                    />
                   </div>
-                  <div style={{ padding: '20px' }}>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.6, color: '#9B9590', marginBottom: '16px' }}>
+                  <div style={{ paddingTop: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
+                      <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, letterSpacing: '-0.01em', color: '#050505', margin: 0 }}>
+                        {categoryLabels[cat]}
+                      </h3>
+                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#9B9B9B' }}>
+                        {count} pieces
+                      </span>
+                    </div>
+                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {categoryDescriptions[cat]}
                     </p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
-                      {features.map((f) => (
-                        <span key={f} style={{ fontFamily: font, fontSize: '10px', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9590', padding: '4px 10px', border: '1px solid #E8E5E0' }}>{f}</span>
-                      ))}
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265' }}>
-                      Explore <ArrowRight size={12} />
-                    </div>
+                    <span
+                      style={{
+                        fontFamily: font,
+                        fontSize: '11px',
+                        fontWeight: 500,
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: '#050505',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      Explore <ArrowRight size={12} strokeWidth={1.5} className="group-hover:translate-x-1 transition-transform duration-300" />
+                    </span>
                   </div>
-                </div>
-              </Link>
-            )
-          })}
+                </Link>
+              )
+            })}
+          </div>
         </div>
-      </section>
-
-      <style>{`
-        .vm-coll-card:hover .vm-coll-img { transform: scale(1.04) !important; }
-        .vm-coll-card:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
-        @media (min-width: 769px) { .vm-coll-grid { grid-template-columns: repeat(3, 1fr) !important; } }
-        @media (min-width: 1200px) { .vm-coll-grid { grid-template-columns: repeat(4, 1fr) !important; } }
-        @media (max-width: 768px) { .vm-coll-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
+      </div>
     </MinimalLayout>
   )
 }

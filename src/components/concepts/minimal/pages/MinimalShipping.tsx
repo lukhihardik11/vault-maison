@@ -18,9 +18,9 @@ export function MinimalShipping() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Delivery</p>
-        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Shipping & Returns</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', maxWidth: '500px', margin: '0 auto' }}>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Delivery</p>
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Shipping & Returns</h1>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
           Every order is carefully packaged and fully insured from our atelier to your door.
         </p>
       </section>
@@ -29,16 +29,16 @@ export function MinimalShipping() {
       <section style={{ padding: '60px 5vw', maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }} className="vm-ship-grid">
           {methods.map((m, i) => (
-            <div key={i} style={{ padding: '32px', border: '1px solid #E8E5E0' }}>
+            <div key={i} style={{ padding: '32px', border: '1px solid #E5E5E5' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                <m.icon size={22} strokeWidth={1.5} style={{ color: '#C4A265' }} />
+                <m.icon size={22} strokeWidth={1.5} style={{ color: '#050505' }} />
                 <div>
-                  <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A' }}>{m.title}</h3>
-                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>{m.time}</p>
+                  <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#050505' }}>{m.title}</h3>
+                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B' }}>{m.time}</p>
                 </div>
               </div>
               <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#555', marginBottom: '12px' }}>{m.desc}</p>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: m.price === 'Complimentary' ? '#C4A265' : '#1A1A1A' }}>{m.price}</p>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: m.price === 'Complimentary' ? '#050505' : '#050505' }}>{m.price}</p>
             </div>
           ))}
         </div>
@@ -46,20 +46,20 @@ export function MinimalShipping() {
 
       {/* Returns */}
       <section style={{ padding: '60px 5vw 0', maxWidth: '900px', margin: '0 auto' }}>
-        <div style={{ padding: '40px', backgroundColor: '#F5F4F0' }}>
+        <div style={{ padding: '40px', backgroundColor: '#FAFAFA' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-            <Shield size={22} strokeWidth={1.5} style={{ color: '#C4A265' }} />
-            <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#1A1A1A' }}>Returns & Exchanges</h2>
+            <Shield size={22} strokeWidth={1.5} style={{ color: '#050505' }} />
+            <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#050505' }}>Returns & Exchanges</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }} className="vm-returns-grid">
             <div>
-              <h3 style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A', marginBottom: '8px' }}>30-Day Return Policy</h3>
+              <h3 style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#050505', marginBottom: '8px' }}>30-Day Return Policy</h3>
               <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555' }}>
                 We offer a hassle-free 30-day return policy for unworn items in their original condition and packaging. Bespoke and engraved pieces are final sale.
               </p>
             </div>
             <div>
-              <h3 style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#1A1A1A', marginBottom: '8px' }}>How to Return</h3>
+              <h3 style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, color: '#050505', marginBottom: '8px' }}>How to Return</h3>
               <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555' }}>
                 Contact our concierge team to initiate a return. We will provide a prepaid, insured shipping label. Refunds are processed within 5 business days of receiving your item.
               </p>
@@ -70,8 +70,8 @@ export function MinimalShipping() {
 
       {/* CTA */}
       <section style={{ padding: '60px 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9590', marginBottom: '16px' }}>Have questions about your order?</p>
-        <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', textDecoration: 'none' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9B9B', marginBottom: '16px' }}>Have questions about your order?</p>
+        <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505', textDecoration: 'none' }}>
           Contact Our Concierge <ArrowRight size={14} />
         </Link>
       </section>

@@ -1,9 +1,6 @@
 'use client'
-import { AuthModal } from '@/components/shared/auth-modal'
-import { ToastNotifications } from '@/components/shared/toast-notifications'
-import { getConcept } from '@/data/concepts'
 
-import { type ReactNode, useEffect, useState } from 'react'
+import { type ReactNode } from 'react'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
@@ -15,56 +12,83 @@ interface MinimalLayoutProps {
 }
 
 export function MinimalLayout({ children, hideNav = false, hideFooter = false }: MinimalLayoutProps) {
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
+
         html, body {
-          background: #FAFAF8 !important;
-          color: #1A1A1A !important;
+          background: #FFFFFF !important;
+          color: #050505 !important;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Brutalist text selection */
+        .minimal-concept ::selection,
+        ::selection {
+          background: #050505;
+          color: #FFFFFF;
+        }
+
+        /* Smooth image loading */
+        .minimal-concept img {
+          transition: opacity 0.5s ease-out;
+        }
+
+        /* Hide scrollbar on filter bar */
+        .minimal-filter-scroll {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .minimal-filter-scroll::-webkit-scrollbar { display: none; }
+
+        /* Animated underline for links */
+        .minimal-link-underline { position: relative; display: inline-block; }
+        .minimal-link-underline::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -2px;
+          width: 0;
+          height: 1px;
+          background: #050505;
+          transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .minimal-link-underline:hover::after { width: 100%; }
+
+        /* Button hover inversion */
+        .vm-btn-primary {
+          transition: background-color 0.25s ease, color 0.25s ease !important;
+        }
+        .vm-btn-primary:hover {
+          background-color: #FFFFFF !important;
+          color: #050505 !important;
+        }
+        .vm-btn-ghost {
+          transition: background-color 0.25s ease, color 0.25s ease !important;
+        }
+        .vm-btn-ghost:hover {
+          background-color: #050505 !important;
+          color: #FFFFFF !important;
         }
       `}</style>
-      {/* Scroll progress bar */}
       <div
+        className="minimal-concept"
         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '2px',
-          width: `${scrollProgress}%`,
-          backgroundColor: '#C4A265',
-          zIndex: 9999,
-          transition: 'width 100ms linear',
-        }}
-      />
-      <div
-        style={{
-          backgroundColor: '#FAFAF8',
-          color: '#1A1A1A',
-          fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
-          fontSize: '13px',
+          backgroundColor: '#FFFFFF',
+          color: '#050505',
+          fontFamily: "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          fontSize: '14px',
           fontWeight: 300,
-          lineHeight: 1.7,
+          lineHeight: 1.6,
           minHeight: '100vh',
+          letterSpacing: '-0.01em',
         }}
       >
         {!hideNav && <MinimalNav />}
-        <AuthModal concept={getConcept('minimal')!} />
-        <ToastNotifications concept={getConcept('minimal')!} />
         <main>{children}</main>
         {!hideFooter && <MinimalFooter />}
-        {/* Mobile Bottom Navigation (KokonutUI Toolbar) */}
         {!hideNav && <Toolbar />}
       </div>
     </>
