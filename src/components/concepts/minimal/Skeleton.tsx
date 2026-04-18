@@ -1,7 +1,5 @@
 export function Skeleton({ className = '' }: { className?: string }) {
-  return (
-    <div className={`animate-pulse bg-[#F0F0F0] ${className}`} />
-  )
+  return <div className={`animate-pulse bg-[#F0F0F0] ${className}`} />;
 }
 
 export function ProductCardSkeleton() {
@@ -11,7 +9,7 @@ export function ProductCardSkeleton() {
       <Skeleton className="h-4 w-3/4" />
       <Skeleton className="h-4 w-1/3" />
     </div>
-  )
+  );
 }
 
 export function ProductDetailSkeleton() {
@@ -30,5 +28,5 @@ export function ProductDetailSkeleton() {
         <Skeleton className="h-14 w-full mt-8" />
       </div>
     </div>
-  )
+  );
 }

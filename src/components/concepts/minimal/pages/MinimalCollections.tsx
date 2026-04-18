@@ -29,13 +29,13 @@ export function MinimalCollections() {
       {/* Header */}
       <div style={{ padding: 'clamp(64px, 10vh, 120px) 0 clamp(32px, 4vh, 48px)' }}>
         <div className={minimal.cn.container}>
-          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', display: 'block', marginBottom: '16px' }}>
+          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: '16px' }}>
             Vault Maison
           </span>
           <h1 style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 200, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#050505', margin: '0 0 16px' }}>
             Collections
           </h1>
-          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: '#555555', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
+          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: '#6B6B6B', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
             Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
           </p>
         </div>
@@ -76,11 +76,11 @@ export function MinimalCollections() {
                       <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, letterSpacing: '-0.01em', color: '#050505', margin: 0 }}>
                         {categoryLabels[cat]}
                       </h3>
-                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#8A8A8A' }}>
+                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#9B9B9B' }}>
                         {count} pieces
                       </span>
                     </div>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#8A8A8A', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {categoryDescriptions[cat]}
                     </p>
                     <span

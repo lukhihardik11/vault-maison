@@ -46,14 +46,14 @@ const faqs: Record<string, { q: string; a: string }[]> = {
 function AccordionItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
-    <div style={{ borderBottom: '1px solid #E8E5E0' }}>
+    <div style={{ borderBottom: '1px solid #E5E5E5' }}>
       <button onClick={() => setOpen(!open)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
-        <span style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#1A1A1A', flex: 1, paddingRight: '16px' }}>{q}</span>
-        <ChevronDown size={16} style={{ color: '#C4A265', transition: 'transform 300ms ease', transform: open ? 'rotate(180deg)' : 'rotate(0)', flexShrink: 0 }} />
+        <span style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#050505', flex: 1, paddingRight: '16px' }}>{q}</span>
+        <ChevronDown size={16} style={{ color: '#050505', transition: 'transform 300ms ease', transform: open ? 'rotate(180deg)' : 'rotate(0)', flexShrink: 0 }} />
       </button>
       {open && (
         <div style={{ paddingBottom: '20px' }}>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590' }}>{a}</p>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B' }}>{a}</p>
         </div>
       )}
     </div>
@@ -72,22 +72,22 @@ export function MinimalFAQ() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>Support</p>
-        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Frequently Asked Questions</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9590', marginBottom: '32px' }}>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Support</p>
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Frequently Asked Questions</h1>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9B9B', marginBottom: '32px' }}>
           Find answers to common questions about our products, services, and policies.
         </p>
         {/* Search */}
         <div style={{ position: 'relative', maxWidth: '500px', margin: '0 auto' }}>
-          <Search size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#9B9590' }} />
+          <Search size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#9B9B9B' }} />
           <input
             type="text"
             placeholder="Search questions..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ width: '100%', padding: '14px 16px 14px 44px', border: '1px solid #E8E5E0', fontSize: '13px', fontWeight: 300, fontFamily: font, color: '#1A1A1A', backgroundColor: '#FFFFFF', outline: 'none' }}
-            onFocus={(e) => e.currentTarget.style.borderColor = '#C4A265'}
-            onBlur={(e) => e.currentTarget.style.borderColor = '#E8E5E0'}
+            style={{ width: '100%', padding: '14px 16px 14px 44px', border: '1px solid #E5E5E5', fontSize: '13px', fontWeight: 300, fontFamily: font, color: '#050505', backgroundColor: '#FFFFFF', outline: 'none' }}
+            onFocus={(e) => e.currentTarget.style.borderColor = '#050505'}
+            onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'}
           />
         </div>
       </section>
@@ -95,9 +95,9 @@ export function MinimalFAQ() {
       <section style={{ padding: '48px 5vw 100px', maxWidth: '900px', margin: '0 auto' }}>
         {/* Tabs */}
         {!searchQuery && (
-          <div style={{ display: 'flex', gap: '0', borderBottom: '1px solid #E8E5E0', marginBottom: '32px', overflowX: 'auto' }}>
+          <div style={{ display: 'flex', gap: '0', borderBottom: '1px solid #E5E5E5', marginBottom: '32px', overflowX: 'auto' }}>
             {categories.map(cat => (
-              <button key={cat} onClick={() => setActiveTab(cat)} style={{ fontFamily: font, fontSize: '12px', fontWeight: activeTab === cat ? 500 : 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: activeTab === cat ? '#C4A265' : '#9B9590', padding: '12px 20px', border: 'none', borderBottom: activeTab === cat ? '2px solid #C4A265' : '2px solid transparent', backgroundColor: 'transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 300ms ease' }}>
+              <button key={cat} onClick={() => setActiveTab(cat)} style={{ fontFamily: font, fontSize: '12px', fontWeight: activeTab === cat ? 500 : 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: activeTab === cat ? '#050505' : '#9B9B9B', padding: '12px 20px', border: 'none', borderBottom: activeTab === cat ? '2px solid #050505' : '2px solid transparent', backgroundColor: 'transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 300ms ease' }}>
                 {cat}
               </button>
             ))}
@@ -105,7 +105,7 @@ export function MinimalFAQ() {
         )}
 
         {searchQuery && (
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '24px' }}>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', marginBottom: '24px' }}>
             {filteredFaqs.length} result{filteredFaqs.length !== 1 ? 's' : ''} for &ldquo;{searchQuery}&rdquo;
           </p>
         )}
@@ -118,13 +118,13 @@ export function MinimalFAQ() {
         </div>
 
         {/* Still need help */}
-        <div style={{ marginTop: '60px', padding: '40px', backgroundColor: '#F5F4F0', textAlign: 'center' }}>
-          <MessageSquare size={28} strokeWidth={1} style={{ color: '#C4A265', marginBottom: '12px' }} />
-          <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#1A1A1A', marginBottom: '8px' }}>Still Have Questions?</h3>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9590', marginBottom: '20px' }}>
+        <div style={{ marginTop: '60px', padding: '40px', backgroundColor: '#FAFAFA', textAlign: 'center' }}>
+          <MessageSquare size={28} strokeWidth={1} style={{ color: '#050505', marginBottom: '12px' }} />
+          <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#050505', marginBottom: '8px' }}>Still Have Questions?</h3>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', marginBottom: '20px' }}>
             Our concierge team is available Monday through Saturday, 10am to 7pm EST.
           </p>
-          <Link href="/minimal/contact" style={{ display: 'inline-block', padding: '14px 32px', backgroundColor: '#C4A265', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>
+          <Link href="/minimal/contact" style={{ display: 'inline-block', padding: '14px 32px', backgroundColor: '#050505', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>
             Contact Us
           </Link>
         </div>

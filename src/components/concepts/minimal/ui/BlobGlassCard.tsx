@@ -15,14 +15,14 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
   title,
   description,
   icon,
-  blobColor = '#C4A265',
+  blobColor = '#050505',
 }) => {
   return (
     <div className="vm-blob-card" style={{
       position: 'relative',
       width: '100%',
       height: '240px',
-      borderRadius: '14px',
+      borderRadius: 0,
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
@@ -41,7 +41,7 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
         background: 'rgba(255, 255, 255, 0.92)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
-        borderRadius: '10px',
+        borderRadius: 0,
         overflow: 'hidden',
         outline: '1px solid rgba(255,255,255,0.6)',
         display: 'flex',
@@ -51,12 +51,12 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
         padding: '32px 24px',
         textAlign: 'center',
       }}>
-        {icon && <div style={{ marginBottom: '16px', color: '#C4A265' }}>{icon}</div>}
+        {icon && <div style={{ marginBottom: '16px', color: '#050505' }}>{icon}</div>}
         <h3 style={{
           fontFamily: font,
           fontSize: '16px',
           fontWeight: 500,
-          color: '#1A1A1A',
+          color: '#050505',
           marginBottom: '10px',
           letterSpacing: '0.02em',
         }}>{title}</h3>
@@ -65,7 +65,7 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
           fontSize: '13px',
           fontWeight: 300,
           lineHeight: 1.7,
-          color: '#9B9590',
+          color: '#9B9B9B',
           maxWidth: '220px',
         }}>{description}</p>
       </div>
@@ -77,7 +77,7 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
         left: '50%',
         width: '120px',
         height: '120px',
-        borderRadius: '50%',
+        borderRadius: 0,
         backgroundColor: blobColor,
         opacity: 0.25,
         filter: 'blur(20px)',

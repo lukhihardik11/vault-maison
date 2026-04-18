@@ -54,14 +54,14 @@ export function MinimalCategory({ category }: { category?: string }) {
                 fontSize: '10px',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#8A8A8A',
+                color: '#9B9B9B',
                 textDecoration: 'none',
               }}
               className="hover:!text-[#050505]"
             >
               Home
             </Link>
-            <span style={{ fontFamily: mono, fontSize: '10px', color: '#ABABAB' }}>/</span>
+            <span style={{ fontFamily: mono, fontSize: '10px', color: '#9B9B9B' }}>/</span>
             <Link
               href="/minimal/collections"
               style={{
@@ -69,14 +69,14 @@ export function MinimalCategory({ category }: { category?: string }) {
                 fontSize: '10px',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#8A8A8A',
+                color: '#9B9B9B',
                 textDecoration: 'none',
               }}
               className="hover:!text-[#050505]"
             >
               Collections
             </Link>
-            <span style={{ fontFamily: mono, fontSize: '10px', color: '#ABABAB' }}>/</span>
+            <span style={{ fontFamily: mono, fontSize: '10px', color: '#9B9B9B' }}>/</span>
             <span
               style={{
                 fontFamily: mono,
@@ -109,7 +109,7 @@ export function MinimalCategory({ category }: { category?: string }) {
               fontFamily: mono,
               fontSize: '11px',
               letterSpacing: '0.2em',
-              color: '#8A8A8A',
+              color: '#9B9B9B',
               marginTop: '12px',
             }}
           >
@@ -125,8 +125,8 @@ export function MinimalCategory({ category }: { category?: string }) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderTop: '1px solid #E8E8E8',
-            borderBottom: '1px solid #E8E8E8',
+            borderTop: '1px solid #E5E5E5',
+            borderBottom: '1px solid #E5E5E5',
             padding: '16px 0',
             marginBottom: 'clamp(32px, 4vh, 48px)',
           }}
@@ -159,7 +159,7 @@ export function MinimalCategory({ category }: { category?: string }) {
               fontFamily: mono,
               fontSize: '10px',
               letterSpacing: '0.2em',
-              color: '#8A8A8A',
+              color: '#9B9B9B',
             }}
           >
             {filtered.length} Results
@@ -196,7 +196,7 @@ export function MinimalCategory({ category }: { category?: string }) {
                 fontFamily: font,
                 fontSize: '18px',
                 fontWeight: 300,
-                color: '#8A8A8A',
+                color: '#9B9B9B',
               }}
             >
               No pieces found in this collection.

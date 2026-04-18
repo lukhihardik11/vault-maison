@@ -36,20 +36,20 @@ export function MinimalCraftsmanship() {
       <section style={{ padding: '0 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px' }} className="vm-craft-grid">
           {techniques.map((t, i) => (
-            <div key={i} style={{ padding: '32px', backgroundColor: '#F5F4F0' }}>
-              <t.icon size={24} strokeWidth={1.5} style={{ color: '#C4A265', marginBottom: '16px' }} />
-              <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#1A1A1A', marginBottom: '10px' }}>{t.title}</h3>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590' }}>{t.desc}</p>
+            <div key={i} style={{ padding: '32px', backgroundColor: '#FAFAFA' }}>
+              <t.icon size={24} strokeWidth={1.5} style={{ color: '#050505', marginBottom: '16px' }} />
+              <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#050505', marginBottom: '10px' }}>{t.title}</h3>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9B9B' }}>{t.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Materials */}
-      <section style={{ padding: '80px 5vw', backgroundColor: '#1A1A1A' }}>
+      <section style={{ padding: '80px 5vw', backgroundColor: '#050505' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '12px' }}>Materials</p>
+            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>Materials</p>
             <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#FFFFFF' }}>Only the Finest</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }} className="vm-materials-grid">
@@ -59,7 +59,7 @@ export function MinimalCraftsmanship() {
               { title: 'Platinum 950', desc: 'Our platinum pieces use 950 grade — 95% pure platinum — prized for its density, hypoallergenic properties, and eternal luster.' },
             ].map((m, i) => (
               <div key={i} style={{ padding: '32px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#C4A265', marginBottom: '12px' }}>{m.title}</h3>
+                <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#050505', marginBottom: '12px' }}>{m.title}</h3>
                 <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: 'rgba(255,255,255,0.5)' }}>{m.desc}</p>
               </div>
             ))}

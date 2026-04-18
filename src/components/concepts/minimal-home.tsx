@@ -300,7 +300,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 fontFamily: font,
                 fontSize: '14px',
                 fontWeight: 300,
-                color: '#555555',
+                color: '#6B6B6B',
                 lineHeight: 1.8,
                 marginBottom: '32px',
                 maxWidth: '480px',
@@ -311,7 +311,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
 
             {/* 4Cs Grid */}
             {heroProduct.diamondSpecs && (
-              <div className="grid grid-cols-4 gap-px mb-10" style={{ backgroundColor: '#E8E8E8' }}>
+              <div className="grid grid-cols-4 gap-px mb-10" style={{ backgroundColor: '#E5E5E5' }}>
                 {Object.entries(heroProduct.diamondSpecs)
                   .filter(([k]) => ['carat', 'cut', 'color', 'clarity'].includes(k))
                   .map(([key, val]) => (
@@ -365,7 +365,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               fontSize: '10px',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: '#555555',
+              color: '#6B6B6B',
               display: 'block',
               marginBottom: 'clamp(32px, 5vh, 64px)',
             }}
@@ -396,7 +396,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               fontFamily: mono,
               fontSize: '10px',
               letterSpacing: '0.2em',
-              color: '#555555',
+              color: '#6B6B6B',
             }}
           >
             Vault Maison — Est. 1974
@@ -485,7 +485,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ═══ SECTION 6: TRUST METRICS ═══ */}
       <section className={minimal.cn.sectionCompact}>
         <div className={minimal.cn.container}>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px" style={{ backgroundColor: '#E8E8E8' }}>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px" style={{ backgroundColor: '#E5E5E5' }}>
             {[
               { value: '50+', label: 'Years of Expertise' },
               { value: '10,000+', label: 'Pieces Crafted' },
@@ -518,7 +518,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     fontSize: '10px',
                     letterSpacing: '0.25em',
                     textTransform: 'uppercase',
-                    color: '#8A8A8A',
+                    color: '#9B9B9B',
                     marginTop: '12px',
                   }}
                 >
@@ -576,7 +576,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: '1px solid #E8E8E8',
+                  border: '1px solid #E5E5E5',
                   backgroundColor: 'transparent',
                   cursor: 'pointer',
                   color: '#050505',
@@ -595,7 +595,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: '1px solid #E8E8E8',
+                  border: '1px solid #E5E5E5',
                   backgroundColor: 'transparent',
                   cursor: 'pointer',
                   color: '#050505',
@@ -643,7 +643,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               fontFamily: font,
               fontSize: '15px',
               fontWeight: 300,
-              color: '#555555',
+              color: '#6B6B6B',
               lineHeight: 1.7,
               marginBottom: '40px',
               maxWidth: '400px',
@@ -661,7 +661,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 flex: 1,
                 height: '52px',
                 padding: '0 20px',
-                border: '1px solid #E8E8E8',
+                border: '1px solid #E5E5E5',
                 borderRight: 'none',
                 backgroundColor: '#FFFFFF',
                 fontFamily: font,

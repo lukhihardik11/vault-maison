@@ -74,7 +74,7 @@ function Card({ item, dimmed, onHoverStart, onHoverEnd }: CardProps) {
       }}
       className={cn(
         'group relative flex flex-col gap-5 overflow-hidden p-6',
-        'border border-[#E8E5E0] bg-white',
+        'border border-[#E5E5E5] bg-white',
         'transition-[border-color] duration-300',
         'hover:border-[#050505]/20'
       )}
@@ -106,7 +106,7 @@ function Card({ item, dimmed, onHoverStart, onHoverEnd }: CardProps) {
       />
 
       {/* Icon */}
-      <div className="relative z-10 flex h-10 w-10 items-center justify-center border border-[#E8E5E0]">
+      <div className="relative z-10 flex h-10 w-10 items-center justify-center border border-[#E5E5E5]">
         <Icon size={17} strokeWidth={1.2} color="#050505" />
       </div>
 
@@ -182,7 +182,7 @@ export default function SpotlightCards({
       </div>
 
       {/* Card grid */}
-      <div className="relative grid grid-cols-1 gap-[1px] bg-[#E8E5E0] sm:grid-cols-2 md:grid-cols-3">
+      <div className="relative grid grid-cols-1 gap-[1px] bg-[#E5E5E5] sm:grid-cols-2 md:grid-cols-3">
         {items.map((item) => (
           <Card
             dimmed={hoveredTitle !== null && hoveredTitle !== item.title}

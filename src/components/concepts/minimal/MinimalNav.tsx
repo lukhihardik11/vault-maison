@@ -74,7 +74,7 @@ export function MinimalNav() {
           right: 0,
           zIndex: 50,
           height: '64px',
-          borderBottom: '1px solid #E8E8E8',
+          borderBottom: '1px solid #E5E5E5',
           backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.98)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
@@ -159,7 +159,7 @@ export function MinimalNav() {
                 border: 'none',
                 cursor: 'pointer',
                 padding: 0,
-                color: '#8A8A8A',
+                color: '#9B9B9B',
                 transition: 'color 0.2s ease',
               }}
               aria-label="Search"
@@ -169,25 +169,25 @@ export function MinimalNav() {
             <Link
               href="/minimal/wishlist"
               className="hidden md:block"
-              style={{ color: '#8A8A8A', transition: 'color 0.2s ease', position: 'relative' }}
+              style={{ color: '#9B9B9B', transition: 'color 0.2s ease', position: 'relative' }}
             >
               <Heart size={17} strokeWidth={1.5} />
               {wishlistCount > 0 && (
                 <span style={{
                   position: 'absolute', top: '-3px', right: '-3px',
-                  width: '6px', height: '6px', backgroundColor: '#050505', borderRadius: '50%',
+                  width: '6px', height: '6px', backgroundColor: '#050505',
                 }} />
               )}
             </Link>
             <Link
               href="/minimal/cart"
-              style={{ color: '#8A8A8A', transition: 'color 0.2s ease', position: 'relative' }}
+              style={{ color: '#9B9B9B', transition: 'color 0.2s ease', position: 'relative' }}
             >
               <ShoppingBag size={17} strokeWidth={1.5} />
               {cartCount > 0 && (
                 <span style={{
                   position: 'absolute', top: '-3px', right: '-3px',
-                  width: '6px', height: '6px', backgroundColor: '#050505', borderRadius: '50%',
+                  width: '6px', height: '6px', backgroundColor: '#050505',
                 }} />
               )}
             </Link>
@@ -226,7 +226,7 @@ export function MinimalNav() {
             right: 0,
             zIndex: 49,
             backgroundColor: '#FFFFFF',
-            borderBottom: '1px solid #E8E8E8',
+            borderBottom: '1px solid #E5E5E5',
             animation: 'megaSlide 200ms ease',
           }}
         >
@@ -241,7 +241,7 @@ export function MinimalNav() {
             }}
           >
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
                 Diamonds
               </p>
               {diamondLinks.map((l) => (
@@ -253,7 +253,7 @@ export function MinimalNav() {
                     fontFamily: font,
                     fontSize: '14px',
                     fontWeight: 300,
-                    color: '#555555',
+                    color: '#6B6B6B',
                     textDecoration: 'none',
                     padding: '8px 0',
                     transition: 'color 0.2s ease',
@@ -265,7 +265,7 @@ export function MinimalNav() {
               ))}
             </div>
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
                 Gold
               </p>
               {goldLinks.map((l) => (
@@ -277,7 +277,7 @@ export function MinimalNav() {
                     fontFamily: font,
                     fontSize: '14px',
                     fontWeight: 300,
-                    color: '#555555',
+                    color: '#6B6B6B',
                     textDecoration: 'none',
                     padding: '8px 0',
                     transition: 'color 0.2s ease',
@@ -289,12 +289,12 @@ export function MinimalNav() {
               ))}
             </div>
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#8A8A8A', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
                 Featured
               </p>
-              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Wedding & Bridal</Link>
-              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Bespoke Creations</Link>
-              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#555555', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">View All Collections</Link>
+              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Wedding & Bridal</Link>
+              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Bespoke Creations</Link>
+              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">View All Collections</Link>
             </div>
           </div>
         </div>
@@ -346,7 +346,7 @@ export function MinimalNav() {
                   textDecoration: 'none',
                   color: isActive(link.href) ? '#050505' : '#8A8A8A',
                   padding: '16px 0',
-                  borderBottom: '1px solid #F0F0F0',
+                  borderBottom: '1px solid #E5E5E5',
                   transition: 'color 0.2s ease',
                 }}
               >

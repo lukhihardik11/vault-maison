@@ -23,9 +23,9 @@ export function MinimalJournal() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#C4A265', marginBottom: '16px' }}>The Journal</p>
-        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px' }}>Stories, Guides & Insights</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9590', maxWidth: '500px', margin: '0 auto' }}>
+        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>The Journal</p>
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Stories, Guides & Insights</h1>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
           Expert knowledge from our gemologists, behind-the-scenes stories, and curated guides to help you make informed choices.
         </p>
       </section>
@@ -34,17 +34,17 @@ export function MinimalJournal() {
       {featured && (
         <section style={{ padding: '60px 5vw 0', maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '48px', alignItems: 'center' }} className="vm-journal-feat">
-            <div className="vm-journal-feat-img" style={{ position: 'relative', aspectRatio: '16/10', backgroundColor: '#F5F4F0', overflow: 'hidden' }}>
+            <div className="vm-journal-feat-img" style={{ position: 'relative', aspectRatio: '16/10', backgroundColor: '#FAFAFA', overflow: 'hidden' }}>
               <img src={featured.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', transition: 'transform 600ms ease'  }} />
             </div>
             <div>
               <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
-                <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265', padding: '4px 10px', border: '1px solid #C4A265' }}>{featured.category}</span>
-                <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>{featured.date}</span>
+                <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505', padding: '4px 10px', border: '1px solid #050505' }}>{featured.category}</span>
+                <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B' }}>{featured.date}</span>
               </div>
-              <h2 style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#1A1A1A', marginBottom: '12px', lineHeight: 1.3 }}>{featured.title}</h2>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9590', marginBottom: '24px' }}>{featured.excerpt}</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C4A265' }}>
+              <h2 style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#050505', marginBottom: '12px', lineHeight: 1.3 }}>{featured.title}</h2>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', marginBottom: '24px' }}>{featured.excerpt}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505' }}>
                 Read Article <ArrowRight size={12} />
               </div>
             </div>
@@ -57,16 +57,16 @@ export function MinimalJournal() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }} className="vm-journal-grid">
           {rest.map((article) => (
             <div key={article.slug} className="vm-journal-card">
-              <div className="vm-journal-card-img" style={{ position: 'relative', aspectRatio: '16/10', backgroundColor: '#F5F4F0', marginBottom: '16px', overflow: 'hidden' }}>
+              <div className="vm-journal-card-img" style={{ position: 'relative', aspectRatio: '16/10', backgroundColor: '#FAFAFA', marginBottom: '16px', overflow: 'hidden' }}>
                 <img src={article.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', transition: 'transform 600ms ease'  }} />
               </div>
               <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '12px' }}>
-                <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4A265' }}>{article.category}</span>
-                <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>{article.date}</span>
+                <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#050505' }}>{article.category}</span>
+                <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B' }}>{article.date}</span>
               </div>
-              <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#1A1A1A', marginBottom: '8px', lineHeight: 1.3 }}>{article.title}</h3>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9590', marginBottom: '16px' }}>{article.excerpt}</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4A265' }}>
+              <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#050505', marginBottom: '8px', lineHeight: 1.3 }}>{article.title}</h3>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9B9B', marginBottom: '16px' }}>{article.excerpt}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#050505' }}>
                 Read More <ArrowRight size={12} />
               </div>
             </div>

@@ -26,7 +26,7 @@ const infoLinks = [
 
 export function MinimalFooter() {
   return (
-    <footer style={{ borderTop: '1px solid #E8E8E8', backgroundColor: '#FFFFFF' }}>
+    <footer style={{ borderTop: '1px solid #E5E5E5', backgroundColor: '#FFFFFF' }}>
       <div
         style={{
           maxWidth: '1400px',
@@ -71,7 +71,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#8A8A8A',
+                color: '#9B9B9B',
                 marginBottom: '20px',
               }}
             >
@@ -86,7 +86,7 @@ export function MinimalFooter() {
                       fontFamily: font,
                       fontSize: '13px',
                       fontWeight: 300,
-                      color: '#555555',
+                      color: '#6B6B6B',
                       textDecoration: 'none',
                       transition: 'color 0.2s ease',
                     }}
@@ -107,7 +107,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#8A8A8A',
+                color: '#9B9B9B',
                 marginBottom: '20px',
               }}
             >
@@ -122,7 +122,7 @@ export function MinimalFooter() {
                       fontFamily: font,
                       fontSize: '13px',
                       fontWeight: 300,
-                      color: '#555555',
+                      color: '#6B6B6B',
                       textDecoration: 'none',
                       transition: 'color 0.2s ease',
                     }}
@@ -143,7 +143,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#8A8A8A',
+                color: '#9B9B9B',
                 marginBottom: '20px',
               }}
             >
@@ -164,7 +164,7 @@ export function MinimalFooter() {
                       fontFamily: font,
                       fontSize: '13px',
                       fontWeight: 300,
-                      color: '#555555',
+                      color: '#6B6B6B',
                       textDecoration: 'none',
                       transition: 'color 0.2s ease',
                     }}
@@ -185,20 +185,20 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#8A8A8A',
+                color: '#9B9B9B',
                 marginBottom: '20px',
               }}
             >
               Contact
             </h5>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#555555', margin: 0 }}>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#6B6B6B', margin: 0 }}>
                 +1 (212) 555-0174
               </p>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#555555', margin: 0 }}>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#6B6B6B', margin: 0 }}>
                 concierge@minimalmachine.com
               </p>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#555555', margin: 0, lineHeight: 1.6 }}>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#6B6B6B', margin: 0, lineHeight: 1.6 }}>
                 712 Fifth Avenue
                 <br />
                 New York, NY 10019
@@ -210,7 +210,7 @@ export function MinimalFooter() {
         {/* Bottom bar */}
         <div
           style={{
-            borderTop: '1px solid #E8E8E8',
+            borderTop: '1px solid #E5E5E5',
             paddingTop: '24px',
             display: 'flex',
             justifyContent: 'space-between',
@@ -224,7 +224,7 @@ export function MinimalFooter() {
               fontFamily: mono,
               fontSize: '10px',
               letterSpacing: '0.15em',
-              color: '#ABABAB',
+              color: '#9B9B9B',
               margin: 0,
             }}
           >
@@ -243,7 +243,7 @@ export function MinimalFooter() {
                   fontFamily: mono,
                   fontSize: '10px',
                   letterSpacing: '0.15em',
-                  color: '#ABABAB',
+                  color: '#9B9B9B',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease',
                 }}

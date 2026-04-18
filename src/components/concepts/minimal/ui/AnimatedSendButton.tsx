@@ -32,7 +32,7 @@ export const AnimatedSendButton: React.FC<AnimatedSendButtonProps> = ({
       className={`vm-send-btn ${sent ? 'vm-send-sent' : ''}`}
       style={{
         cursor: 'pointer',
-        borderRadius: '8px',
+        borderRadius: 0,
         border: 'none',
         boxShadow: '0 0.5px 0.5px 1px rgba(255,255,255,0.15), 0 8px 20px rgba(0,0,0,0.12), 0 4px 5px 0px rgba(0,0,0,0.04)',
         display: 'inline-flex',
@@ -48,7 +48,7 @@ export const AnimatedSendButton: React.FC<AnimatedSendButtonProps> = ({
         fontWeight: 500,
         letterSpacing: '0.12em',
         textTransform: 'uppercase' as const,
-        background: 'linear-gradient(to bottom, #d4b578, #C4A265)',
+        background: 'linear-gradient(to bottom, #050505, #050505)',
         color: '#FFFFFF',
         overflow: 'hidden',
       }}

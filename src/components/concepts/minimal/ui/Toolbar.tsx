@@ -25,7 +25,7 @@ export default function Toolbar() {
         height: '64px',
         background: 'rgba(250,250,248,0.85)',
         backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        borderTop: '1px solid #E8E5E0',
+        borderTop: '1px solid #E5E5E5',
         display: 'none', /* shown via media query */
         alignItems: 'center', justifyContent: 'space-around',
         padding: '0 8px',
@@ -38,10 +38,10 @@ export default function Toolbar() {
               textDecoration: 'none', position: 'relative',
               transition: 'transform 200ms ease',
             }}>
-              <item.icon size={20} strokeWidth={1.5} style={{ color: active ? '#C4A265' : '#9B9590', transition: 'color 200ms' }} />
-              <span style={{ fontFamily: font, fontSize: '9px', fontWeight: active ? 500 : 400, color: active ? '#C4A265' : '#9B9590', letterSpacing: '0.05em' }}>{item.label}</span>
+              <item.icon size={20} strokeWidth={1.5} style={{ color: active ? '#050505' : '#9B9B9B', transition: 'color 200ms' }} />
+              <span style={{ fontFamily: font, fontSize: '9px', fontWeight: active ? 500 : 400, color: active ? '#050505' : '#9B9B9B', letterSpacing: '0.05em' }}>{item.label}</span>
               {item.label === 'Cart' && cartCount > 0 && (
-                <span style={{ position: 'absolute', top: -2, right: -2, width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#C4A265' }} />
+                <span style={{ position: 'absolute', top: -2, right: -2, width: '8px', height: '8px', borderRadius: 0, backgroundColor: '#050505' }} />
               )}
             </Link>
           )

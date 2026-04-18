@@ -28,7 +28,7 @@ export default function ProfileDropdown() {
     <div ref={ref} style={{ position: 'relative' }}>
       <button
         onClick={() => setOpen(!open)}
-        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#1A1A1A', opacity: 0.6, transition: 'opacity 300ms ease' }}
+        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#050505', opacity: 0.6, transition: 'opacity 300ms ease' }}
         onMouseEnter={(e) => { e.currentTarget.style.opacity = '1' }}
         onMouseLeave={(e) => { if (!open) e.currentTarget.style.opacity = '0.6' }}
       >
@@ -41,29 +41,29 @@ export default function ProfileDropdown() {
           background: 'rgba(255,255,255,0.85)',
           backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
           border: '1px solid rgba(255,255,255,0.4)',
-          borderRadius: '12px',
+          borderRadius: 0,
           boxShadow: '0 12px 40px rgba(0,0,0,0.1)',
           overflow: 'hidden',
           animation: 'dropdownIn 0.2s ease',
           zIndex: 100,
         }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #E8E5E0' }}>
-            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#1A1A1A' }}>Welcome</p>
-            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9590' }}>guest@vaultmaison.com</p>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid #E5E5E5' }}>
+            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#050505' }}>Welcome</p>
+            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B' }}>guest@vaultmaison.com</p>
           </div>
           {menuItems.map(item => (
             <Link key={item.label} href={item.href} onClick={() => setOpen(false)} style={{
               display: 'flex', alignItems: 'center', gap: '12px',
               padding: '12px 20px',
-              fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#1A1A1A',
+              fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#050505',
               textDecoration: 'none', transition: 'background 200ms',
             }}>
-              <item.icon size={15} strokeWidth={1.5} color="#9B9590" />
+              <item.icon size={15} strokeWidth={1.5} color="#9B9B9B" />
               {item.label}
             </Link>
           ))}
-          <div style={{ borderTop: '1px solid #E8E5E0' }}>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9590', background: 'none', border: 'none', cursor: 'pointer' }}>
+          <div style={{ borderTop: '1px solid #E5E5E5' }}>
+            <button style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9B9B', background: 'none', border: 'none', cursor: 'pointer' }}>
               <LogOut size={15} strokeWidth={1.5} /> Sign Out
             </button>
           </div>

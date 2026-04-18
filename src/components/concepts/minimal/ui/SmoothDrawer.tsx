@@ -28,7 +28,7 @@ export default function SmoothDrawer({ isOpen, onClose, title, children, side = 
   const positions = {
     left: { top: 0, left: 0, bottom: 0, width: '380px', maxWidth: '90vw' },
     right: { top: 0, right: 0, bottom: 0, width: '380px', maxWidth: '90vw' },
-    bottom: { left: 0, right: 0, bottom: 0, maxHeight: '80vh', borderRadius: '20px 20px 0 0' },
+    bottom: { left: 0, right: 0, bottom: 0, maxHeight: '80vh', borderRadius: 0 },
   }
 
   return (
@@ -59,10 +59,10 @@ export default function SmoothDrawer({ isOpen, onClose, title, children, side = 
         overflow: 'hidden',
       }}>
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', borderBottom: '1px solid #E8E5E0', flexShrink: 0 }}>
-          <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1A1A1A' }}>{title}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', borderBottom: '1px solid #E5E5E5', flexShrink: 0 }}>
+          <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#050505' }}>{title}</span>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
-            <X size={18} color="#9B9590" />
+            <X size={18} color="#9B9B9B" />
           </button>
         </div>
         {/* Content */}

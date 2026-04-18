@@ -38,7 +38,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
       position: 'relative',
       width: '100%',
       background: '#FAFAF8',
-      borderRadius: '14px',
+      borderRadius: 0,
       padding: '6px',
       boxShadow: '0 8px 24px rgba(100,100,111,0.08)',
       transition: 'all 350ms ease',
@@ -49,10 +49,10 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           position: 'relative',
           width: '100%',
           aspectRatio: '1',
-          borderRadius: '10px',
+          borderRadius: 0,
           overflow: 'hidden',
           marginBottom: '12px',
-          backgroundColor: '#F5F4F0',
+          backgroundColor: '#FAFAFA',
         }}>
           <img
             src={image}
@@ -66,12 +66,12 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
             right: '10px',
             bottom: '-10px',
             background: '#FAFAF8',
-            color: '#C4A265',
+            color: '#050505',
             fontWeight: 600,
             fontSize: '13px',
             fontFamily: font,
             padding: '6px 12px',
-            borderRadius: '10px 10px 14px 14px',
+            borderRadius: 0,
             boxShadow: '0 2px 10px rgba(100,100,111,0.1)',
             letterSpacing: '0.02em',
           }}>
@@ -82,7 +82,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
               position: 'absolute',
               top: '10px',
               left: '10px',
-              background: '#C4A265',
+              background: '#050505',
               color: '#fff',
               fontFamily: font,
               fontSize: '9px',
@@ -90,7 +90,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
               padding: '3px 8px',
-              borderRadius: '4px',
+              borderRadius: 0,
             }}>New</span>
           )}
         </div>
@@ -105,7 +105,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           right: '14px',
           background: 'rgba(255,255,255,0.85)',
           border: 'none',
-          borderRadius: '50%',
+          borderRadius: 0,
           width: '32px',
           height: '32px',
           display: 'flex',
@@ -120,8 +120,8 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
         <Heart
           size={15}
           strokeWidth={1.5}
-          fill={liked ? '#C4A265' : 'none'}
-          color={liked ? '#C4A265' : '#9B9590'}
+          fill={liked ? '#050505' : 'none'}
+          color={liked ? '#050505' : '#9B9B9B'}
           style={{ transition: 'all 350ms ease' }}
         />
       </button>
@@ -132,7 +132,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           fontFamily: font,
           fontSize: '11px',
           fontWeight: 500,
-          color: '#9B9590',
+          color: '#9B9B9B',
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
           marginBottom: '4px',
@@ -142,7 +142,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
             fontFamily: font,
             fontSize: '14px',
             fontWeight: 500,
-            color: '#1A1A1A',
+            color: '#050505',
             marginBottom: '8px',
             lineHeight: 1.3,
           }}>{name}</h3>
@@ -155,7 +155,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
               fontFamily: font,
               fontSize: '11px',
               fontWeight: 400,
-              color: '#9B9590',
+              color: '#9B9B9B',
             }}>{carat}</span>
           )}
           {certification && (
@@ -163,10 +163,10 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
               fontFamily: font,
               fontSize: '9px',
               fontWeight: 500,
-              color: '#C4A265',
-              border: '1px solid #C4A265',
+              color: '#050505',
+              border: '1px solid #050505',
               padding: '2px 6px',
-              borderRadius: '4px',
+              borderRadius: 0,
               letterSpacing: '0.05em',
             }}>{certification}</span>
           )}
@@ -178,9 +178,9 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           width: '100%',
           textAlign: 'center',
           padding: '10px',
-          borderRadius: '10px 10px 8px 8px',
+          borderRadius: 0,
           border: 'none',
-          background: '#1A1A1A',
+          background: '#050505',
           color: '#FFFFFF',
           fontFamily: font,
           fontSize: '11px',
@@ -198,7 +198,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
         .vm-neu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(180,170,160,0.15); }
         .vm-neu-card:hover .vm-neu-img { transform: scale(1.04); }
         .vm-neu-heart:hover { transform: scale(1.15); }
-        .vm-neu-cta:hover { background: #C4A265 !important; }
+        .vm-neu-cta:hover { background: #050505 !important; }
       `}</style>
     </div>
   )

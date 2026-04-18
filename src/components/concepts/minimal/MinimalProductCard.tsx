@@ -134,7 +134,7 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
               fontSize: '9px',
               letterSpacing: '0.25em',
               textTransform: 'uppercase',
-              color: '#8A8A8A',
+              color: '#9B9B9B',
             }}
           >
             {product.category.replace(/-/g, ' ')}

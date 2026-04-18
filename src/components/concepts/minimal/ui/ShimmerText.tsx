@@ -18,11 +18,11 @@ export default function ShimmerText({ text, className, style }: ShimmerTextProps
         .shimmer-text-inner {
           background: linear-gradient(
             90deg,
-            #C4A265 0%,
-            #C4A265 40%,
+            #050505 0%,
+            #050505 40%,
             #E8D5A8 50%,
-            #C4A265 60%,
-            #C4A265 100%
+            #050505 60%,
+            #050505 100%
           );
           background-size: 200% 100%;
           -webkit-background-clip: text;

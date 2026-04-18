@@ -65,9 +65,9 @@ export default function AttractButton({
     <button
       className={cn(
         'relative min-w-[200px] touch-none',
-        'bg-[#C4A265] hover:bg-[#b3934f]',
+        'bg-[#050505] hover:bg-[#333333]',
         'text-white',
-        'border border-[#C4A265]',
+        'border border-[#050505]',
         'px-8 py-3.5',
         'transition-all duration-300',
         'overflow-hidden',
@@ -88,7 +88,7 @@ export default function AttractButton({
           custom={index}
           initial={{ x: particles[index]?.x ?? 0, y: particles[index]?.y ?? 0 }}
           className={cn(
-            'absolute h-1 w-1 rounded-full',
+            'absolute h-1 w-1',
             'bg-white/60',
             'transition-opacity duration-300',
             isAttracting ? 'opacity-100' : 'opacity-20'
