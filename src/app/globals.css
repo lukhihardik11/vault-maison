@@ -948,13 +948,36 @@ html {
 [data-concept="minimal"] input:focus,
 [data-concept="minimal"] textarea:focus,
 [data-concept="minimal"] select:focus {
-  box-shadow: 0 0 0 1px rgba(5, 5, 5, 0.15) !important;
+  box-shadow: inset 0 0 0 1px #050505 !important;
   border-color: #050505 !important;
+}
+
+[data-concept="minimal"] ::selection {
+  background: #050505;
+  color: #FFFFFF;
+}
+
+[data-concept="minimal"] :focus-visible {
+  outline: 1px solid #050505;
+  outline-offset: 2px;
+}
+
+[data-concept="minimal"] a:focus-visible,
+[data-concept="minimal"] button:focus-visible,
+[data-concept="minimal"] input:focus-visible,
+[data-concept="minimal"] textarea:focus-visible,
+[data-concept="minimal"] select:focus-visible {
+  box-shadow: 0 0 0 1px #050505 !important;
 }
 
 /* Minimal concept — no horizontal overflow */
 [data-concept="minimal"] {
   overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+[data-concept="minimal"] [id] {
+  scroll-margin-top: 88px;
 }
 
 /* Minimal concept buttons — full width on mobile */
@@ -989,5 +1012,19 @@ html {
     transform: none !important;
     animation: none !important;
     transition: none !important;
+  }
+}
+
+@media print {
+  [data-concept="minimal"] nav,
+  [data-concept="minimal"] footer,
+  [data-concept="minimal"] .minimal-back-to-top,
+  [data-concept="minimal"] .minimal-no-print {
+    display: none !important;
+  }
+
+  [data-concept="minimal"] {
+    background: #FFFFFF !important;
+    color: #050505 !important;
   }
 }
