@@ -1,75 +1,101 @@
 'use client'
 
-import React, { useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type HTMLAttributes,
+  type PointerEvent,
+  type ReactNode,
+} from 'react'
+import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
-interface TiltCardProps {
-  children: React.ReactNode
-  className?: string
-  style?: React.CSSProperties
+interface TiltCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+  children: ReactNode
+  maxTilt?: number
+  lift?: number
 }
 
-export function TiltCard({ children, className, style }: TiltCardProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const shouldReduceMotion = useReducedMotion()
+export default function TiltCard({
+  children,
+  maxTilt = 3,
+  lift = 2,
+  style,
+  onPointerEnter,
+  onPointerLeave,
+  onPointerMove,
+  ...rest
+}: TiltCardProps) {
+  const prefersReducedMotion = useReducedMotionPreference()
+  const frameRef = useRef<number | null>(null)
+  const [isActive, setIsActive] = useState(false)
+  const [transform, setTransform] = useState('perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0px)')
 
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
+  useEffect(() => {
+    return () => {
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current)
+      }
+    }
+  }, [])
 
-  const mouseXSpring = useSpring(x)
-  const mouseYSpring = useSpring(y)
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['5deg', '-5deg'])
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-5deg', '5deg'])
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (shouldReduceMotion) return
-    if (!ref.current) return
-
-    const rect = ref.current.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
-    
-    const mouseX = e.clientX - rect.left
-    const mouseY = e.clientY - rect.top
-
-    const xPct = mouseX / width - 0.5
-    const yPct = mouseY / height - 0.5
-
-    x.set(xPct)
-    y.set(yPct)
+  const updateTransform = (value: string) => {
+    if (frameRef.current !== null) {
+      window.cancelAnimationFrame(frameRef.current)
+    }
+    frameRef.current = window.requestAnimationFrame(() => {
+      setTransform(value)
+    })
   }
 
-  const handleMouseLeave = () => {
-    if (shouldReduceMotion) return
-    x.set(0)
-    y.set(0)
-  }
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    onPointerMove?.(event)
+    if (prefersReducedMotion) return
 
-  if (shouldReduceMotion) {
-    return (
-      <div className={className} style={style}>
-        {children}
-      </div>
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = (event.clientX - rect.left) / rect.width
+    const y = (event.clientY - rect.top) / rect.height
+    const rotateY = (x - 0.5) * maxTilt * 2
+    const rotateX = (0.5 - y) * maxTilt * 2
+
+    updateTransform(
+      `perspective(900px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-${lift}px)`
     )
   }
 
+  const handlePointerEnter = (event: PointerEvent<HTMLDivElement>) => {
+    onPointerEnter?.(event)
+    setIsActive(true)
+  }
+
+  const handlePointerLeave = (event: PointerEvent<HTMLDivElement>) => {
+    onPointerLeave?.(event)
+    setIsActive(false)
+    updateTransform('perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0px)')
+  }
+
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+    <div
+      {...rest}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      onPointerMove={handlePointerMove}
       style={{
-        rotateX,
-        rotateY,
+        transform: prefersReducedMotion ? 'none' : transform,
         transformStyle: 'preserve-3d',
+        transition: prefersReducedMotion
+          ? 'none'
+          : 'transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms ease',
+        boxShadow: prefersReducedMotion
+          ? 'none'
+          : isActive
+            ? '0 12px 28px -24px #9B9B9B'
+            : '0 0 0 0 #FFFFFF',
+        willChange: prefersReducedMotion ? 'auto' : 'transform',
         ...style,
       }}
-      className={className}
     >
-      <div style={{ transform: 'translateZ(20px)', width: '100%', height: '100%' }}>
-        {children}
-      </div>
-    </motion.div>
+      {children}
+    </div>
   )
 }

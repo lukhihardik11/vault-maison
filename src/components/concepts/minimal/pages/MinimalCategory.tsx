@@ -1,17 +1,18 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { Eye } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
-import { MinimalProductCard } from '../MinimalProductCard'
 import { minimal } from '../design-system'
-import { products } from '@/data/products'
+import { products, type Product } from '@/data/products'
 import { categoryLabels, type ProductCategory } from '@/data/concepts'
-import { TiltCard } from '../ui/TiltCard'
-import { QuickView } from '../ui/QuickView'
-import { BlurUpImage } from '../ui/BlurUpImage'
-import { MinimalProductDetail } from './MinimalProductDetail'
+import { useCartStore } from '@/store/cart'
+import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
+import TiltCard from '../ui/TiltCard'
+import ImageReveal from '../ui/ImageReveal'
+import QuickView from '../ui/QuickView'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -23,92 +24,131 @@ const sortOptions = [
   { value: 'name', label: 'Name A-Z' },
 ]
 
-import { Heart, ShoppingBag } from 'lucide-react'
+function CategoryProductTile({
+  product,
+  onQuickView,
+}: {
+  product: Product
+  onQuickView: (product: Product) => void
+}) {
+  const prefersReducedMotion = useReducedMotionPreference()
+  const hoverTimerRef = useRef<number | null>(null)
+  const [isHovered, setIsHovered] = useState(false)
 
-function CategoryProductCard({ product, onQuickView }: { product: any, onQuickView: (p: any) => void }) {
-  const [hovered, setHovered] = useState(false)
+  const clearTimer = () => {
+    if (hoverTimerRef.current !== null) {
+      window.clearTimeout(hoverTimerRef.current)
+      hoverTimerRef.current = null
+    }
+  }
+
+  const handleEnter = () => {
+    setIsHovered(true)
+    if (prefersReducedMotion) return
+    hoverTimerRef.current = window.setTimeout(() => {
+      onQuickView(product)
+    }, 650)
+  }
+
+  const handleLeave = () => {
+    setIsHovered(false)
+    clearTimer()
+  }
+
   return (
-    <TiltCard>
-      <div 
-        onMouseEnter={() => setHovered(true)} 
-        onMouseLeave={() => setHovered(false)}
-        style={{ position: 'relative', display: 'block', textDecoration: 'none' }}
-      >
-        <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none' }}>
-          <div style={{ position: 'relative', aspectRatio: '4/5', background: '#F7F7F7', overflow: 'hidden' }}>
-            <BlurUpImage
-              src={hovered && product.images[1] ? product.images[1] : product.images[0]}
+    <TiltCard maxTilt={2.5} lift={2}>
+      <article onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
+        <div style={{ position: 'relative', border: '1px solid #E5E5E5', aspectRatio: '3 / 4', marginBottom: 12 }}>
+          <Link href={`/minimal/product/${product.slug}`} style={{ display: 'block', height: '100%', textDecoration: 'none' }}>
+            <ImageReveal
+              src={product.images[0]}
+              revealSrc={product.images[1]}
               alt={product.name}
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
+              containerStyle={{ width: '100%', height: '100%', background: '#E5E5E5' }}
             />
-          </div>
-          <div style={{ paddingTop: 16 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <h3 style={{ fontFamily: minimal.font.primary, fontSize: 14, fontWeight: 500, color: '#050505', margin: '0 0 4px' }}>
-                  {product.name}
-                </h3>
-                <p style={{ fontFamily: minimal.font.primary, fontSize: 13, color: '#9B9B9B', margin: 0 }}>
-                  {product.category.replace(/-/g, ' ')}
-                </p>
-              </div>
-              <p style={{ fontFamily: minimal.font.primary, fontSize: 14, fontWeight: 400, color: '#050505', margin: 0 }}>
-                {product.priceDisplay}
-              </p>
-            </div>
-          </div>
-        </Link>
+          </Link>
 
-        {hovered && (
           <button
-            onClick={(e) => {
-              e.preventDefault()
+            type="button"
+            onClick={(event) => {
+              event.preventDefault()
+              event.stopPropagation()
               onQuickView(product)
             }}
+            className="minimal-category-quick-view"
             style={{
               position: 'absolute',
-              bottom: 80,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(4px)',
-              border: '1px solid #E5E5E5',
-              padding: '10px 24px',
-              fontFamily: minimal.font.primary,
-              fontSize: 12,
+              left: 10,
+              right: 10,
+              bottom: 10,
+              height: 40,
+              border: 'none',
+              background: '#050505',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              fontFamily: font,
+              fontSize: 11,
               fontWeight: 500,
-              letterSpacing: '0.05em',
+              letterSpacing: '0.14em',
               textTransform: 'uppercase',
               cursor: 'pointer',
-              color: '#050505',
-              zIndex: 10,
-              transition: 'background-color 0.2s',
+              opacity: isHovered || prefersReducedMotion ? 1 : 0,
+              transform: isHovered || prefersReducedMotion ? 'translateY(0px)' : 'translateY(6px)',
+              transition: prefersReducedMotion ? 'none' : 'opacity 180ms ease, transform 180ms ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#FFFFFF')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.9)')}
           >
+            <Eye size={14} />
             Quick View
           </button>
-        )}
-      </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <span
+            style={{
+              fontFamily: mono,
+              fontSize: 9,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: '#9B9B9B',
+            }}
+          >
+            {product.category.replace(/-/g, ' ')}
+          </span>
+          <Link
+            href={`/minimal/product/${product.slug}`}
+            style={{
+              fontFamily: font,
+              fontSize: 14,
+              color: '#050505',
+              textDecoration: 'none',
+            }}
+          >
+            {product.name}
+          </Link>
+          <p style={{ fontFamily: font, fontSize: 14, fontWeight: 400, color: '#050505', margin: 0 }}>{product.priceDisplay}</p>
+        </div>
+      </article>
     </TiltCard>
   )
 }
 
 export function MinimalCategory({ category }: { category?: string }) {
   const params = useParams()
+  const addItem = useCartStore((state) => state.addItem)
   const slug = category || (params?.category as string)
   const catName = (slug && categoryLabels[slug as ProductCategory])
     ? categoryLabels[slug as ProductCategory]
-    : slug?.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) || 'All'
+    : slug?.replace(/-/g, ' ').replace(/\b\w/g, (value) => value.toUpperCase()) || 'All'
 
   const [sort, setSort] = useState('newest')
   const [showCount, setShowCount] = useState(12)
-  const [quickViewProduct, setQuickViewProduct] = useState<any | null>(null)
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
 
   const filtered = useMemo(() => {
-    let items = slug ? products.filter((p) => p.category === slug) : products
+    let items = slug ? products.filter((product) => product.category === slug) : products
     if (sort === 'price-asc') items = [...items].sort((a, b) => a.price - b.price)
     else if (sort === 'price-desc') items = [...items].sort((a, b) => b.price - a.price)
     else if (sort === 'name') items = [...items].sort((a, b) => a.name.localeCompare(b.name))
@@ -120,45 +160,43 @@ export function MinimalCategory({ category }: { category?: string }) {
 
   return (
     <MinimalLayout>
-      {/* Header */}
       <div style={{ padding: 'clamp(48px, 8vh, 96px) 0 clamp(32px, 4vh, 48px)' }}>
         <div className={minimal.cn.container}>
-          {/* Breadcrumb */}
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '32px' }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 32 }}>
             <Link
               href="/minimal"
+              className="minimal-category-crumb"
               style={{
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: 10,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: '#9B9B9B',
                 textDecoration: 'none',
               }}
-              className="hover:!text-[#050505]"
             >
               Home
             </Link>
-            <span style={{ fontFamily: mono, fontSize: '10px', color: '#9B9B9B' }}>/</span>
+            <span style={{ fontFamily: mono, fontSize: 10, color: '#9B9B9B' }}>/</span>
             <Link
               href="/minimal/collections"
+              className="minimal-category-crumb"
               style={{
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: 10,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: '#9B9B9B',
                 textDecoration: 'none',
               }}
-              className="hover:!text-[#050505]"
             >
               Collections
             </Link>
-            <span style={{ fontFamily: mono, fontSize: '10px', color: '#9B9B9B' }}>/</span>
+            <span style={{ fontFamily: mono, fontSize: 10, color: '#9B9B9B' }}>/</span>
             <span
               style={{
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: 10,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: '#050505',
@@ -185,10 +223,10 @@ export function MinimalCategory({ category }: { category?: string }) {
           <p
             style={{
               fontFamily: mono,
-              fontSize: '11px',
+              fontSize: 11,
               letterSpacing: '0.2em',
               color: '#9B9B9B',
-              marginTop: '12px',
+              marginTop: 12,
             }}
           >
             {filtered.length} {filtered.length === 1 ? 'Piece' : 'Pieces'}
@@ -196,7 +234,6 @@ export function MinimalCategory({ category }: { category?: string }) {
         </div>
       </div>
 
-      {/* Sort Bar */}
       <div className={minimal.cn.container}>
         <div
           style={{
@@ -209,33 +246,33 @@ export function MinimalCategory({ category }: { category?: string }) {
             marginBottom: 'clamp(32px, 4vh, 48px)',
           }}
         >
-          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-            {sortOptions.map((opt) => (
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            {sortOptions.map((option) => (
               <button
-                key={opt.value}
-                onClick={() => setSort(opt.value)}
+                key={option.value}
+                onClick={() => setSort(option.value)}
                 style={{
                   fontFamily: mono,
-                  fontSize: '10px',
+                  fontSize: 10,
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
                   backgroundColor: 'transparent',
                   border: 'none',
                   cursor: 'pointer',
                   padding: '4px 0',
-                  color: sort === opt.value ? '#050505' : '#8A8A8A',
-                  fontWeight: sort === opt.value ? 500 : 400,
-                  borderBottom: sort === opt.value ? '1px solid #050505' : '1px solid transparent',
+                  color: sort === option.value ? '#050505' : '#6B6B6B',
+                  fontWeight: sort === option.value ? 500 : 400,
+                  borderBottom: sort === option.value ? '1px solid #050505' : '1px solid transparent',
                 }}
               >
-                {opt.label}
+                {option.label}
               </button>
             ))}
           </div>
           <span
             style={{
               fontFamily: mono,
-              fontSize: '10px',
+              fontSize: 10,
               letterSpacing: '0.2em',
               color: '#9B9B9B',
             }}
@@ -245,21 +282,21 @@ export function MinimalCategory({ category }: { category?: string }) {
         </div>
       </div>
 
-      {/* Product Grid */}
       <div className={minimal.cn.container} style={{ paddingBottom: 'clamp(64px, 10vh, 120px)' }}>
         {visible.length > 0 ? (
           <>
             <div className={minimal.cn.gridProduct}>
-              {visible.map((p) => (
-                <CategoryProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />
+              {visible.map((product) => (
+                <CategoryProductTile
+                  key={product.id}
+                  product={product}
+                  onQuickView={(nextProduct) => setQuickViewProduct(nextProduct)}
+                />
               ))}
             </div>
             {hasMore && (
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '64px' }}>
-                <button
-                  onClick={() => setShowCount((c) => c + 12)}
-                  className={minimal.cn.btnSecondary}
-                >
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: 64 }}>
+                <button onClick={() => setShowCount((count) => count + 12)} className={minimal.cn.btnSecondary}>
                   Load More
                 </button>
               </div>
@@ -270,30 +307,49 @@ export function MinimalCategory({ category }: { category?: string }) {
             <p
               style={{
                 fontFamily: font,
-                fontSize: '18px',
+                fontSize: 18,
                 fontWeight: 300,
                 color: '#9B9B9B',
               }}
             >
               No pieces found in this collection.
             </p>
-              <Link
-              href="/minimal/collections"
-              className={`${minimal.cn.btnPrimary} no-underline mt-8 inline-flex`}
-            >
+            <Link href="/minimal/collections" className={`${minimal.cn.btnPrimary} no-underline mt-8 inline-flex`}>
               Browse Collections
             </Link>
           </div>
         )}
       </div>
 
-      <QuickView isOpen={!!quickViewProduct} onClose={() => setQuickViewProduct(null)}>
-        {quickViewProduct && (
-          <div style={{ padding: 40 }}>
-            <MinimalProductDetail product={quickViewProduct} />
-          </div>
-        )}
-      </QuickView>
+      <QuickView
+        open={Boolean(quickViewProduct)}
+        product={quickViewProduct}
+        onClose={() => setQuickViewProduct(null)}
+        onAddToCart={(product, size, quantity) => {
+          for (let count = 0; count < quantity; count += 1) {
+            addItem(product, size)
+          }
+        }}
+      />
+
+      <style>{`
+        .minimal-category-crumb:hover {
+          color: #050505 !important;
+        }
+
+        @media (max-width: 768px) {
+          .minimal-category-quick-view {
+            opacity: 1 !important;
+            transform: translateY(0px) !important;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .minimal-category-quick-view {
+            transition: none !important;
+          }
+        }
+      `}</style>
     </MinimalLayout>
   )
 }

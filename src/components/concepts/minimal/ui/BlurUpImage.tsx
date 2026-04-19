@@ -1,37 +1,61 @@
 'use client'
 
-import React, { useState } from 'react'
-import Image from 'next/image'
+import { useEffect, useState, type CSSProperties, type ImgHTMLAttributes } from 'react'
+import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
-interface BlurUpImageProps {
+export interface BlurUpImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'> {
   src: string
   alt: string
-  fill?: boolean
-  width?: number
-  height?: number
-  className?: string
-  style?: React.CSSProperties
-  sizes?: string
+  containerClassName?: string
+  containerStyle?: CSSProperties
 }
 
-export function BlurUpImage({ src, alt, fill, width, height, className, style, sizes }: BlurUpImageProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
+export default function BlurUpImage({
+  src,
+  alt,
+  containerClassName,
+  containerStyle,
+  style,
+  onLoad,
+  ...rest
+}: BlurUpImageProps) {
+  const prefersReducedMotion = useReducedMotionPreference()
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    setLoaded(false)
+  }, [src])
 
   return (
-    <div style={{ position: 'relative', overflow: 'hidden', ...style }} className={className}>
-      <Image
+    <div
+      className={containerClassName}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#E5E5E5',
+        ...containerStyle,
+      }}
+    >
+      <img
+        {...rest}
         src={src}
         alt={alt}
-        fill={fill}
-        width={width}
-        height={height}
-        sizes={sizes}
-        onLoad={() => setIsLoaded(true)}
+        onLoad={(event) => {
+          setLoaded(true)
+          onLoad?.(event)
+        }}
         style={{
+          width: '100%',
+          height: '100%',
           objectFit: 'cover',
-          filter: isLoaded ? 'blur(0)' : 'blur(20px)',
-          transform: isLoaded ? 'scale(1)' : 'scale(1.05)',
-          transition: 'filter 0.5s ease-out, transform 0.5s ease-out',
+          display: 'block',
+          opacity: loaded ? 1 : 0.82,
+          filter: loaded ? 'blur(0px)' : 'blur(14px)',
+          transform: loaded ? 'scale(1)' : 'scale(1.04)',
+          transition: prefersReducedMotion
+            ? 'none'
+            : 'opacity 240ms ease, filter 320ms ease, transform 320ms ease',
+          ...style,
         }}
       />
     </div>

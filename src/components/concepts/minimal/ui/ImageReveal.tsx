@@ -1,25 +1,76 @@
 'use client'
 
-import React from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { useState, type CSSProperties } from 'react'
+import BlurUpImage from './BlurUpImage'
+import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
 interface ImageRevealProps {
-  children: React.ReactNode
-  className?: string
-  style?: React.CSSProperties
+  src: string
+  revealSrc?: string
+  alt: string
+  containerClassName?: string
+  containerStyle?: CSSProperties
+  imageStyle?: CSSProperties
 }
 
-export function ImageReveal({ children, className, style }: ImageRevealProps) {
-  const shouldReduceMotion = useReducedMotion()
+export default function ImageReveal({
+  src,
+  revealSrc,
+  alt,
+  containerClassName,
+  containerStyle,
+  imageStyle,
+}: ImageRevealProps) {
+  const prefersReducedMotion = useReducedMotionPreference()
+  const [isActive, setIsActive] = useState(false)
+
+  const hasReveal = Boolean(revealSrc && revealSrc !== src)
+  const transition = prefersReducedMotion ? 'none' : 'opacity 260ms ease, transform 260ms ease'
 
   return (
-    <motion.div
-      className={className}
-      style={{ overflow: 'hidden', position: 'relative', ...style }}
-      whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
-      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+    <div
+      className={containerClassName}
+      onPointerEnter={() => setIsActive(true)}
+      onPointerLeave={() => setIsActive(false)}
+      onFocus={() => setIsActive(true)}
+      onBlur={() => setIsActive(false)}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        ...containerStyle,
+      }}
+      tabIndex={hasReveal ? 0 : -1}
     >
-      {children}
-    </motion.div>
+      <BlurUpImage
+        src={src}
+        alt={alt}
+        containerStyle={{ width: '100%', height: '100%', background: 'transparent' }}
+        style={{
+          ...imageStyle,
+          opacity: hasReveal && isActive ? 0 : 1,
+          transform: hasReveal && isActive ? 'scale(1.02)' : 'scale(1)',
+          transition,
+        }}
+      />
+      {hasReveal && (
+        <BlurUpImage
+          src={revealSrc!}
+          alt={`${alt} alternate view`}
+          containerStyle={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            background: 'transparent',
+          }}
+          style={{
+            ...imageStyle,
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'scale(1)' : 'scale(1.02)',
+            transition,
+          }}
+        />
+      )}
+    </div>
   )
 }
