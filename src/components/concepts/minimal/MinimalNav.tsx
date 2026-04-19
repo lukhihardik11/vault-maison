@@ -43,7 +43,7 @@ export function MinimalNav() {
   const [searchOpen, setSearchOpen] = useState(false)
   const megaTimeout = useRef<NodeJS.Timeout | null>(null)
   const pathname = usePathname()
-  const cartCount = useCartStore((s) => s.items.length)
+  const cartCount = useCartStore((s) => s.items.reduce((acc, item) => acc + item.quantity, 0))
   const wishlistCount = useWishlistStore((s) => s.items.length)
 
   useEffect(() => {
@@ -54,6 +54,15 @@ export function MinimalNav() {
 
   useEffect(() => { setMegaMenu(null) }, [pathname])
 
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
   const openMega = (key: string) => {
     if (megaTimeout.current) clearTimeout(megaTimeout.current)
     setMegaMenu(key)
@@ -63,6 +72,14 @@ export function MinimalNav() {
   }
 
   const isActive = (href: string) => pathname === href || pathname?.startsWith(href + '/')
+
+  const mobileLinks = [
+    ...navLinks,
+    { label: 'Search', href: '/minimal/search', mega: null },
+    { label: 'Wishlist', href: '/minimal/wishlist', mega: null },
+    { label: 'Cart', href: '/minimal/cart', mega: null },
+    { label: 'Account', href: '/minimal/account', mega: null },
+  ]
 
   return (
     <>
@@ -119,7 +136,7 @@ export function MinimalNav() {
               >
                 <Link
                   href={link.href}
-                  className="group flex items-center"
+                  className={`minimal-nav-link group flex items-center ${isActive(link.href) ? 'minimal-nav-link-active' : ''}`}
                   style={{
                     fontFamily: font,
                     fontSize: '11px',
@@ -130,9 +147,10 @@ export function MinimalNav() {
                     color: isActive(link.href) ? '#050505' : '#8A8A8A',
                     transition: 'color 0.2s ease',
                     gap: '4px',
+                    paddingBottom: '2px',
                   }}
                 >
-                  <span className="hover:text-[#050505]">{link.label}</span>
+                  <span>{link.label}</span>
                   {link.mega && (
                     <ChevronDown
                       size={10}
@@ -152,15 +170,21 @@ export function MinimalNav() {
           {/* Icons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             <button
+              type="button"
               onClick={() => setSearchOpen(true)}
               className="hidden md:block"
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                padding: 0,
+                padding: '4px',
                 color: '#9B9B9B',
                 transition: 'color 0.2s ease',
+                minWidth: '44px',
+                minHeight: '44px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
               aria-label="Search"
             >
@@ -168,33 +192,68 @@ export function MinimalNav() {
             </button>
             <Link
               href="/minimal/wishlist"
-              className="hidden md:block"
-              style={{ color: '#9B9B9B', transition: 'color 0.2s ease', position: 'relative' }}
+              className="hidden md:flex"
+              style={{
+                color: '#9B9B9B',
+                transition: 'color 0.2s ease',
+                position: 'relative',
+                minWidth: '44px',
+                minHeight: '44px',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              aria-label="Wishlist"
             >
               <Heart size={17} strokeWidth={1.5} />
               {wishlistCount > 0 && (
                 <span style={{
-                  position: 'absolute', top: '-3px', right: '-3px',
+                  position: 'absolute', top: '6px', right: '6px',
                   width: '6px', height: '6px', backgroundColor: '#050505',
                 }} />
               )}
             </Link>
             <Link
               href="/minimal/cart"
-              style={{ color: '#9B9B9B', transition: 'color 0.2s ease', position: 'relative' }}
+              style={{
+                color: '#9B9B9B',
+                transition: 'color 0.2s ease',
+                position: 'relative',
+                minWidth: '44px',
+                minHeight: '44px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              aria-label={`Cart with ${cartCount} items`}
             >
               <ShoppingBag size={17} strokeWidth={1.5} />
               {cartCount > 0 && (
                 <span style={{
-                  position: 'absolute', top: '-3px', right: '-3px',
-                  width: '6px', height: '6px', backgroundColor: '#050505',
-                }} />
+                  position: 'absolute',
+                  top: '2px',
+                  right: '2px',
+                  minWidth: '16px',
+                  height: '16px',
+                  backgroundColor: '#050505',
+                  color: '#FFFFFF',
+                  fontFamily: font,
+                  fontSize: '9px',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  lineHeight: 1,
+                  padding: '0 3px',
+                }}>
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
               )}
             </Link>
             <div className="hidden md:block">
               <ProfileDropdown />
             </div>
             <button
+              type="button"
               onClick={() => setMenuOpen(true)}
               className="md:hidden"
               style={{
@@ -203,6 +262,11 @@ export function MinimalNav() {
                 cursor: 'pointer',
                 padding: '4px',
                 color: '#050505',
+                minWidth: '44px',
+                minHeight: '44px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
               aria-label="Menu"
             >
@@ -300,7 +364,7 @@ export function MinimalNav() {
         </div>
       )}
 
-      {/* Mobile Menu — Full Screen Takeover */}
+      {/* Mobile Menu — Full Screen Takeover with Stagger */}
       {menuOpen && (
         <div
           style={{
@@ -311,6 +375,7 @@ export function MinimalNav() {
             display: 'flex',
             flexDirection: 'column',
             padding: '0 24px',
+            animation: 'fadeIn 200ms ease',
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
@@ -318,25 +383,32 @@ export function MinimalNav() {
               Minimal Machine
             </span>
             <button
+              type="button"
               onClick={() => setMenuOpen(false)}
-              style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer', padding: '8px', color: '#050505' }}
-              aria-label="Close"
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px',
+                color: '#050505',
+                minWidth: '44px',
+                minHeight: '44px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              aria-label="Close menu"
             >
               <X size={20} strokeWidth={1.5} />
             </button>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', marginTop: '40px' }}>
-            {[
-              ...navLinks,
-              { label: 'Search', href: '/minimal/search', mega: null },
-              { label: 'Wishlist', href: '/minimal/wishlist', mega: null },
-              { label: 'Cart', href: '/minimal/cart', mega: null },
-              { label: 'Account', href: '/minimal/account', mega: null },
-            ].map((link) => (
+            {mobileLinks.map((link, i) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
+                className="minimal-mobile-link"
                 style={{
                   fontFamily: font,
                   fontSize: '13px',
@@ -348,6 +420,10 @@ export function MinimalNav() {
                   padding: '16px 0',
                   borderBottom: '1px solid #E5E5E5',
                   transition: 'color 0.2s ease',
+                  animationDelay: `${i * 50}ms`,
+                  minHeight: '52px',
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
                 {link.label}
@@ -362,6 +438,54 @@ export function MinimalNav() {
 
       <style>{`
         @keyframes megaSlide { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Nav link underline — slides in from left */
+        .minimal-nav-link {
+          position: relative;
+        }
+        .minimal-nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background: #050505;
+          transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .minimal-nav-link:hover::after {
+          width: 100%;
+        }
+        .minimal-nav-link:hover {
+          color: #050505 !important;
+        }
+        .minimal-nav-link-active::after {
+          width: 100%;
+        }
+
+        /* Product card title underline — slides in from left */
+        .group:hover .minimal-card-title::after {
+          width: 100%;
+        }
+        .minimal-card-title::after {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background: rgba(5, 5, 5, 0.25);
+          transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Mobile menu stagger fade-in */
+        .minimal-mobile-link {
+          animation: mobileMenuFadeIn 400ms ease both;
+        }
+        @keyframes mobileMenuFadeIn {
+          from { opacity: 0; transform: translateX(-12px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
       `}</style>
     </>
   )

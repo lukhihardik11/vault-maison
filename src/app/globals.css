@@ -940,6 +940,37 @@ html {
   transform: translateY(0) !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   MINIMAL MACHINE CONCEPT — Monochrome overrides
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Override gold focus glow for minimal concept pages */
+[data-concept="minimal"] input:focus,
+[data-concept="minimal"] textarea:focus,
+[data-concept="minimal"] select:focus {
+  box-shadow: 0 0 0 1px rgba(5, 5, 5, 0.15) !important;
+  border-color: #050505 !important;
+}
+
+/* Minimal concept — no horizontal overflow */
+[data-concept="minimal"] {
+  overflow-x: hidden;
+}
+
+/* Minimal concept buttons — full width on mobile */
+@media (max-width: 640px) {
+  [data-concept="minimal"] .minimal-btn-responsive {
+    width: 100%;
+  }
+}
+
+/* Product detail: stack "Complete the Look" on mobile */
+@media (max-width: 768px) {
+  [data-concept="minimal"] .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Reduced motion — skip all animations, show everything immediately */
 @media (prefers-reduced-motion: reduce) {
   .vault-scroll-reveal,

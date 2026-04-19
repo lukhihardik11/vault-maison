@@ -148,6 +148,7 @@ export function MinimalCheckout() {
   const [promoCode, setPromoCode] = useState('')
   const [promoApplied, setPromoApplied] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [errors, setErrors] = useState<Record<string, string>>({})
   const { suggestions, getSuggestions, clear: clearSuggestions } = useAddressAutocomplete()
   const suggestionsRef = useRef<HTMLDivElement>(null)
 
@@ -172,7 +173,39 @@ export function MinimalCheckout() {
   ]
   const currentIdx = steps.findIndex(s => s.id === step)
 
-  const updateField = (field: string, value: string | boolean) => setForm(prev => ({ ...prev, [field]: value }))
+  const updateField = (field: string, value: string | boolean) => {
+    setForm(prev => ({ ...prev, [field]: value }))
+    if (errors[field]) setErrors(prev => { const next = { ...prev }; delete next[field]; return next })
+  }
+
+  const validateInfo = (): boolean => {
+    const errs: Record<string, string> = {}
+    if (!form.firstName.trim()) errs.firstName = 'First name is required'
+    if (!form.lastName.trim()) errs.lastName = 'Last name is required'
+    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Valid email is required'
+    setErrors(errs)
+    return Object.keys(errs).length === 0
+  }
+
+  const validateShipping = (): boolean => {
+    const errs: Record<string, string> = {}
+    if (!form.address.trim()) errs.address = 'Address is required'
+    if (!form.city.trim()) errs.city = 'City is required'
+    if (!form.state.trim()) errs.state = 'State is required'
+    if (!form.zip.trim()) errs.zip = 'ZIP code is required'
+    setErrors(errs)
+    return Object.keys(errs).length === 0
+  }
+
+  const validatePayment = (): boolean => {
+    const errs: Record<string, string> = {}
+    if (form.cardNumber.replace(/\s/g, '').length < 15) errs.cardNumber = 'Valid card number required'
+    if (!form.cardName.trim()) errs.cardName = 'Cardholder name is required'
+    if (form.cardExpiry.replace(/\D/g, '').length < 4) errs.cardExpiry = 'Valid expiry required'
+    if (form.cardCvc.length < 3) errs.cardCvc = 'Valid CVC required'
+    setErrors(errs)
+    return Object.keys(errs).length === 0
+  }
 
   const handleAddressChange = (value: string) => {
     updateField('address', value)
@@ -286,7 +319,7 @@ export function MinimalCheckout() {
       </div>
 
       {/* ─── Main Content ─── */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px 80px', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 48, alignItems: 'start' }}>
+      <div className="minimal-checkout-grid" style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px 80px', alignItems: 'start' }}>
 
         {/* ─── Left: Form Steps ─── */}
         <div>
@@ -303,7 +336,7 @@ export function MinimalCheckout() {
               <div style={{ marginBottom: 32 }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
                   {['Apple Pay', 'Google Pay', 'PayPal'].map(method => (
-                    <button key={method} style={{
+                    <button key={method} type="button" style={{
                       padding: '14px 16px', background: '#FFF', border: '1.5px solid #E5E5E5',
                       cursor: 'pointer', fontFamily: F, fontSize: 13,
                       fontWeight: 500, color: '#050505', transition: 'all 0.2s ease',
@@ -346,8 +379,18 @@ export function MinimalCheckout() {
                 <span style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B' }}>Save my information for faster checkout</span>
               </label>
 
+              {Object.keys(errors).length > 0 && (
+                <div style={{ marginBottom: 16, padding: '12px 16px', background: '#FAFAFA', border: '1px solid #E5E5E5' }}>
+                  <p style={{ fontFamily: F, fontSize: 13, color: '#050505', fontWeight: 500, margin: 0 }}>Please correct the following:</p>
+                  {Object.values(errors).map((err, i) => (
+                    <p key={i} style={{ fontFamily: F, fontSize: 12, color: '#6B6B6B', margin: '4px 0 0' }}>{err}</p>
+                  ))}
+                </div>
+              )}
+
               <button
-                onClick={() => setStep('shipping')}
+                type="button"
+                onClick={() => validateInfo() && setStep('shipping')}
                 style={{
                   width: '100%', padding: '16px 36px', background: '#050505', border: 'none',
                   cursor: 'pointer', display: 'flex', alignItems: 'center',
@@ -472,18 +515,20 @@ export function MinimalCheckout() {
 
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
                 <button
-                  onClick={() => setStep('info')}
+                  type="button"
+                  onClick={() => { setErrors({}); setStep('info') }}
                   style={{
                     padding: '16px 28px', background: 'transparent', border: '1.5px solid #E5E5E5',
                     cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, color: '#050505',
-                    transition: 'all 0.2s ease',
+                    transition: 'all 0.2s ease', minHeight: 52,
                   }}
                 >
                   <ArrowLeft size={16} />
                   <span style={{ fontFamily: F, fontSize: 14, fontWeight: 500 }}>Back</span>
                 </button>
                 <button
-                  onClick={() => setStep('payment')}
+                  type="button"
+                  onClick={() => validateShipping() && setStep('payment')}
                   style={{
                     flex: 1, maxWidth: 280, padding: '16px 36px', background: '#050505', border: 'none',
                     cursor: 'pointer', display: 'flex', alignItems: 'center',
@@ -604,18 +649,20 @@ export function MinimalCheckout() {
 
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
                 <button
-                  onClick={() => setStep('shipping')}
+                  type="button"
+                  onClick={() => { setErrors({}); setStep('shipping') }}
                   style={{
                     padding: '16px 28px', background: 'transparent', border: '1.5px solid #E5E5E5',
                     cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, color: '#050505',
-                    transition: 'all 0.2s ease',
+                    transition: 'all 0.2s ease', minHeight: 52,
                   }}
                 >
                   <ArrowLeft size={16} />
                   <span style={{ fontFamily: F, fontSize: 14, fontWeight: 500 }}>Back</span>
                 </button>
                 <button
-                  onClick={() => setStep('review')}
+                  type="button"
+                  onClick={() => validatePayment() && setStep('review')}
                   style={{
                     flex: 1, maxWidth: 280, padding: '16px 36px', background: '#050505', border: 'none',
                     cursor: 'pointer', display: 'flex', alignItems: 'center',
@@ -897,6 +944,23 @@ export function MinimalCheckout() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .minimal-checkout-grid {
+          display: grid;
+          grid-template-columns: 1fr 380px;
+          gap: 48px;
+        }
+        @media (max-width: 768px) {
+          .minimal-checkout-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+          }
+          .minimal-checkout-grid > div:first-child > div {
+            padding: 24px 20px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

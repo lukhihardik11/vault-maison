@@ -31,7 +31,7 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
 
     const handleMouseEnter = () => {
       isZoomed = true
-      mainImg.style.transform = 'scale(2.5)'
+      mainImg.style.transform = 'scale(2)'
     }
     const handleMouseLeave = () => {
       isZoomed = false
@@ -187,7 +187,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) addItem(product, size)
     setAdded(true)
-    setTimeout(() => setAdded(false), 2000)
+    setTimeout(() => setAdded(false), 1500)
   }
 
   const handleShare = async () => {
@@ -289,7 +289,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               <p style={{ fontFamily: F, fontSize: 13, letterSpacing: '0.05em', textTransform: 'uppercase', color: '#050505', fontWeight: 500, margin: 0 }}>
                 Ring Size: <span style={{ color: '#9B9B9B', fontWeight: 400 }}>{size}</span>
               </p>
-              <button style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+              <button type="button" style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>
                 Size Guide
               </button>
             </div>
@@ -297,6 +297,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               {sizes.map((s) => (
                 <button
                   key={s}
+                  type="button"
                   onClick={() => setSize(s)}
                   style={{
                     width: 48,
@@ -326,11 +327,11 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               Quantity
             </p>
             <div style={{ display: 'inline-flex', alignItems: 'center', border: '1.5px solid #E5E5E5', overflow: 'hidden' }}>
-              <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', border: 'none', cursor: 'pointer', color: '#050505', transition: 'background 0.2s' }}>
+              <button type="button" onClick={() => setQty(Math.max(1, qty - 1))} style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', border: 'none', cursor: 'pointer', color: '#050505', transition: 'background 0.2s' }}>
                 <Minus size={15} strokeWidth={1.5} />
               </button>
               <span style={{ width: 52, textAlign: 'center', fontFamily: F, fontSize: 15, fontWeight: 500, fontVariantNumeric: 'tabular-nums', color: '#050505', borderLeft: '1.5px solid #E5E5E5', borderRight: '1.5px solid #E5E5E5', lineHeight: '48px' }}>{qty}</span>
-              <button onClick={() => setQty(qty + 1)} style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', border: 'none', cursor: 'pointer', color: '#050505', transition: 'background 0.2s' }}>
+              <button type="button" onClick={() => setQty(qty + 1)} style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', border: 'none', cursor: 'pointer', color: '#050505', transition: 'background 0.2s' }}>
                 <Plus size={15} strokeWidth={1.5} />
               </button>
             </div>
@@ -339,6 +340,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
           {/* Add to Bag + Wishlist + Share */}
           <div style={{ display: 'flex', gap: 10, marginBottom: 32 }}>
             <button
+              type="button"
               onClick={handleAdd}
               className="pdp-add-btn"
               style={{
@@ -367,6 +369,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               )}
             </button>
             <button
+              type="button"
               onClick={() => setWish(!wish)}
               className="pdp-icon-btn"
               style={{
@@ -385,6 +388,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
               <Heart size={18} strokeWidth={1.5} fill={wish ? '#050505' : 'none'} color="#050505" />
             </button>
             <button
+              type="button"
               onClick={handleShare}
               className="pdp-icon-btn"
               style={{
@@ -430,6 +434,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
             {accItems.map((item, i) => (
               <div key={i} style={{ borderBottom: '1px solid #E5E5E5' }}>
                 <button
+                  type="button"
                   onClick={() => setAccordion(accordion === i ? -1 : i)}
                   style={{
                     width: '100%',
@@ -500,7 +505,7 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
       {/* Complete the Look */}
       <section style={{ padding: 'clamp(48px, 8vh, 80px) 0', borderTop: '1px solid #E5E5E5' }}>
         <div className={minimal.cn.container}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 40, alignItems: 'center' }}>
             <div>
               <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: 12 }}>Styling</span>
               <h2 style={{ fontFamily: F, fontSize: 'clamp(24px, 2.5vw, 38px)', fontWeight: 200, letterSpacing: '-0.02em', color: '#050505', margin: '0 0 16px' }}>Complete the Look</h2>
