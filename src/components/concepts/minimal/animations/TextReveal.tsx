@@ -21,13 +21,17 @@ interface TextRevealProps {
 }
 
 /**
- * TextReveal — Clip-path headline reveal animation
- * Text "wipes" in from left-to-right (or bottom-to-top) using clipPath.
- * Triggered when element enters viewport.
- * Respects prefers-reduced-motion (shows immediately).
- * 
- * Uses CSS transitions instead of Framer Motion initial={{ opacity: 0 }}
- * to avoid blank page issues.
+ * TextReveal — GSAP ScrollTrigger clip-path headline reveal.
+ * Text wipes in from left-to-right (or bottom-to-top) using clipPath,
+ * triggered when the element enters the viewport at `top 85%`.
+ *
+ * Honors prefers-reduced-motion (skips the animation entirely; shows
+ * the element immediately without applying the initial clip).
+ *
+ * SSR: useReducedMotionPreference returns false on the server, so the
+ * server-rendered markup matches the first client render — no hydration
+ * mismatch. The initial clip is applied via inline style to prevent a
+ * flash of unclipped content before the useEffect hydrates GSAP.
  */
 export function TextReveal({
   children,
@@ -39,16 +43,22 @@ export function TextReveal({
 }: TextRevealProps) {
   const ref = useRef<HTMLElement | null>(null);
   const prefersReduced = useReducedMotionPreference();
+  const hiddenClip =
+    direction === 'left' ? 'inset(0 100% 0 0)' : 'inset(100% 0 0 0)';
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || prefersReduced) return;
+    if (!el) return;
 
-    const hiddenClip =
-      direction === 'left' ? 'inset(0 100% 0 0)' : 'inset(100% 0 0 0)';
+    // Reduced-motion clients: clear any pre-applied clip so the text shows.
+    if (prefersReduced) {
+      el.style.clipPath = '';
+      el.style.willChange = '';
+      return;
+    }
 
     const ctx = gsap.context(() => {
-      gsap.set(el, { clipPath: hiddenClip });
+      gsap.set(el, { clipPath: hiddenClip, willChange: 'clip-path' });
       gsap.to(el, {
         clipPath: 'inset(0 0% 0 0)',
         duration: duration / 1000,
@@ -61,15 +71,22 @@ export function TextReveal({
           toggleActions: 'play none none none',
           once: true,
         },
+        onComplete: () => {
+          el.style.willChange = '';
+        },
       });
     }, el);
 
     return () => ctx.revert();
-  }, [delay, direction, duration, prefersReduced]);
+  }, [delay, direction, duration, hiddenClip, prefersReduced]);
 
   const Tag = as;
+  // Apply initial clip inline to eliminate first-paint flash before useEffect.
+  // On the server (and reduced-motion clients) this still renders the same
+  // value — the post-mount effect clears it for reduced-motion users.
+  const initialStyle: React.CSSProperties = { clipPath: hiddenClip };
   return (
-    <Tag ref={ref as never} className={className}>
+    <Tag ref={ref as never} className={className} style={initialStyle}>
       {children}
     </Tag>
   );

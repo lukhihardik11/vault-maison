@@ -19,12 +19,12 @@ interface StaggerRevealProps {
 }
 
 /**
- * StaggerReveal — Staggered child element reveals
- * Wraps children and animates them in with staggered timing.
- * Each direct child slides in from the specified direction.
- * Respects prefers-reduced-motion (shows immediately).
- * 
- * Does NOT use initial={{ opacity: 0 }} — uses CSS transitions only.
+ * StaggerReveal — GSAP ScrollTrigger child stagger reveal.
+ * Each direct child slides in from the chosen direction with staggered
+ * timing when the wrapper enters the viewport at `top 80%`.
+ *
+ * Honors prefers-reduced-motion (skips animation; children render visible).
+ * Uses gsap.context() for scoped cleanup on unmount.
  */
 export function StaggerReveal({
   children,
