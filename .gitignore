@@ -33,3 +33,9 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Research files
+DESIGN-INTELLIGENCE.md
+RESEARCH.md
+ASSESSMENT.md
+.ui-ux-pro-max/

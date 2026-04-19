@@ -1,9 +1,15 @@
 'use client'
 
-import { type ReactNode } from 'react'
+import { type ReactNode, lazy, Suspense } from 'react'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
+import { ScrollProgress } from './animations/ScrollProgress'
+
+// Lazy-load CustomCursor (only needed on desktop)
+const CustomCursor = lazy(() =>
+  import('./cursor/CustomCursor').then(m => ({ default: m.CustomCursor }))
+)
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -88,6 +94,14 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           overflowX: 'hidden',
         }}
       >
+        {/* Global scroll progress bar */}
+        <ScrollProgress />
+
+        {/* Global custom cursor (lazy-loaded, desktop only) */}
+        <Suspense fallback={null}>
+          <CustomCursor />
+        </Suspense>
+
         {!hideNav && <MinimalNav />}
         <main>{children}</main>
         {!hideFooter && <MinimalFooter />}
