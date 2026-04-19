@@ -3,23 +3,25 @@
 import { useEffect, useRef, useState } from 'react';
 
 export function MinimalCursor() {
-  const isTouchDevice =
-    typeof window !== 'undefined' &&
-    ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   const dotRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
-  const mouse = useRef({ x: 0, y: 0 });
-  const frame = useRef({ x: 0, y: 0 });
+  const mouse = useRef({ x: -100, y: -100 });
+  const frame = useRef({ x: -100, y: -100 });
   const rafRef = useRef<number>(0);
   const [cursorText, setCursorText] = useState('');
   const textRef = useRef('');
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
+    // All device/preference checks MUST run inside useEffect (client-only)
+    const isTouchDevice =
+      'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const prefersReducedMotion =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     if (isTouchDevice || prefersReducedMotion) return;
+
+    setShouldRender(true);
 
     const move = (event: MouseEvent) => {
       mouse.current = { x: event.clientX, y: event.clientY };
@@ -79,14 +81,15 @@ export function MinimalCursor() {
       document.removeEventListener('mouseout', handleOut);
       window.cancelAnimationFrame(rafRef.current);
     };
-  }, [isTouchDevice, prefersReducedMotion]);
+  }, []);
 
-  if (isTouchDevice || prefersReducedMotion) return null;
+  if (!shouldRender) return null;
 
   return (
     <>
       <div
         ref={dotRef}
+        aria-hidden="true"
         style={{
           position: 'fixed',
           top: 0,
@@ -97,10 +100,12 @@ export function MinimalCursor() {
           pointerEvents: 'none',
           zIndex: 9999,
           mixBlendMode: 'difference',
+          transform: 'translate(-100px, -100px)',
         }}
       />
       <div
         ref={frameRef}
+        aria-hidden="true"
         style={{
           position: 'fixed',
           top: 0,
@@ -115,6 +120,7 @@ export function MinimalCursor() {
           justifyContent: 'center',
           mixBlendMode: 'difference',
           transition: 'width 0.3s ease, height 0.3s ease',
+          transform: 'translate(-100px, -100px)',
         }}
       >
         {cursorText && (

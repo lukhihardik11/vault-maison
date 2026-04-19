@@ -52,7 +52,7 @@ function Controls({ onInteractChange }: { onInteractChange: (v: boolean) => void
 function Float({
   children,
   speed = 1,
-  floatIntensity = 0.18,
+  floatIntensity = 0.12,
 }: {
   children: React.ReactNode;
   speed?: number;
@@ -67,6 +67,65 @@ function Float({
   return <group ref={groupRef}>{children}</group>;
 }
 
+/* ─── Environment cube map for metallic reflections ─── */
+function EnvironmentSetup() {
+  const { scene } = useThree();
+
+  useEffect(() => {
+    // Create a simple gradient environment map for reflections
+    const size = 64;
+    const data = new Uint8Array(size * size * 4 * 6);
+
+    for (let face = 0; face < 6; face++) {
+      for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+          const offset = (face * size * size + y * size + x) * 4;
+          // Create a subtle gradient: darker at bottom, lighter at top
+          const ny = y / size;
+          const brightness = Math.floor(40 + ny * 180);
+          data[offset] = brightness;
+          data[offset + 1] = brightness;
+          data[offset + 2] = brightness + 10; // Slight cool tint
+          data[offset + 3] = 255;
+        }
+      }
+    }
+
+    const cubeTexture = new THREE.CubeTexture();
+    const faces: THREE.Texture[] = [];
+
+    for (let i = 0; i < 6; i++) {
+      const faceData = new Uint8Array(size * size * 4);
+      faceData.set(data.subarray(i * size * size * 4, (i + 1) * size * size * 4));
+      const dataTexture = new THREE.DataTexture(faceData, size, size, THREE.RGBAFormat);
+      dataTexture.needsUpdate = true;
+      faces.push(dataTexture);
+    }
+
+    cubeTexture.images = faces.map((t) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d')!;
+      const imageData = ctx.createImageData(size, size);
+      const texData = (t as THREE.DataTexture).image?.data;
+      if (texData) imageData.data.set(texData);
+      ctx.putImageData(imageData, 0, 0);
+      return canvas;
+    });
+    cubeTexture.needsUpdate = true;
+
+    scene.environment = cubeTexture;
+
+    return () => {
+      scene.environment = null;
+      cubeTexture.dispose();
+    };
+  }, [scene]);
+
+  return null;
+}
+
 /* ─── Ring with brilliant-cut diamond accent ─── */
 function RingWithDiamond() {
   const ringRef = useRef<THREE.Mesh>(null);
@@ -76,14 +135,16 @@ function RingWithDiamond() {
 
   return (
     <Float>
-      {/* Ring band */}
+      {/* Ring band — bright silver/platinum material */}
       <mesh ref={ringRef} castShadow receiveShadow>
         <torusGeometry args={[1, 0.15, 32, 100]} />
         <meshStandardMaterial
-          color="#E8E8E8"
-          metalness={0.95}
-          roughness={0.08}
-          envMapIntensity={1.5}
+          color="#E0E0E0"
+          metalness={0.6}
+          roughness={0.2}
+          emissive="#404040"
+          emissiveIntensity={0.3}
+          envMapIntensity={2.0}
         />
       </mesh>
       {/* Brilliant-cut diamond on top */}
@@ -91,25 +152,49 @@ function RingWithDiamond() {
         <octahedronGeometry args={[0.2, 2]} />
         <meshPhysicalMaterial
           color="#FFFFFF"
-          metalness={0.1}
+          metalness={0.0}
           roughness={0}
-          transmission={0.95}
+          transmission={0.85}
           thickness={0.5}
-          ior={2.4}
-          envMapIntensity={2.5}
+          ior={2.42}
+          emissive="#AAAACC"
+          emissiveIntensity={0.15}
+          envMapIntensity={3.0}
           clearcoat={1}
           clearcoatRoughness={0}
         />
       </mesh>
-      {/* Reflection floor */}
+      {/* Prong settings (4 prongs) */}
+      {[0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2].map((angle, i) => (
+        <mesh
+          key={i}
+          position={[
+            Math.cos(angle) * 0.12,
+            0.95,
+            Math.sin(angle) * 0.12,
+          ]}
+          castShadow
+        >
+          <cylinderGeometry args={[0.015, 0.01, 0.15, 8]} />
+          <meshStandardMaterial
+            color="#E0E0E0"
+            metalness={0.6}
+            roughness={0.2}
+            emissive="#404040"
+            emissiveIntensity={0.3}
+            envMapIntensity={2.0}
+          />
+        </mesh>
+      ))}
+      {/* Reflection floor — subtle, semi-transparent */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.6, 0]} receiveShadow>
         <planeGeometry args={[10, 10]} />
         <meshStandardMaterial
-          color="#0A0A0A"
-          metalness={0.5}
-          roughness={0.5}
+          color="#1A1A1A"
+          metalness={0.3}
+          roughness={0.7}
           transparent
-          opacity={0.5}
+          opacity={0.35}
         />
       </mesh>
     </Float>
@@ -120,23 +205,25 @@ function RingWithDiamond() {
 function Lighting() {
   return (
     <>
-      <ambientLight intensity={0.35} />
-      {/* Key light: top-front-right */}
-      <directionalLight position={[5, 5, 5]} intensity={1.4} castShadow />
+      <ambientLight intensity={0.5} />
+      {/* Key light: top-front-right — bright */}
+      <directionalLight position={[5, 5, 5]} intensity={2.0} castShadow />
       {/* Fill light: cooler, from left */}
-      <directionalLight position={[-5, 3, -3]} intensity={0.55} color="#E8EFFF" />
+      <directionalLight position={[-5, 3, -3]} intensity={0.8} color="#E8EFFF" />
       {/* Top spot for diamond sparkle */}
       <spotLight
         position={[0, 6, 0]}
-        intensity={1.1}
+        intensity={1.5}
         angle={0.35}
         penumbra={1}
         castShadow
       />
-      {/* Rim back light: separates subject from black bg */}
-      <directionalLight position={[0, 2, -6]} intensity={0.7} color="#FFFFFF" />
+      {/* Rim back light: separates subject from dark bg */}
+      <directionalLight position={[0, 2, -6]} intensity={1.0} color="#FFFFFF" />
       {/* Bottom bounce */}
-      <pointLight position={[0, -3, 2]} intensity={0.25} color="#FFFFFF" />
+      <pointLight position={[0, -3, 2]} intensity={0.4} color="#FFFFFF" />
+      {/* Front fill to prevent dark face */}
+      <pointLight position={[0, 1, 4]} intensity={0.6} color="#FFFFFF" />
     </>
   );
 }
@@ -163,7 +250,8 @@ export default function Minimal3DViewer({
   if (!enabled) {
     return (
       <div
-        className={`aspect-square w-full max-w-md mx-auto bg-[#F0F0F0] flex items-center justify-center ${className}`}
+        className={`w-full flex items-center justify-center ${className}`}
+        style={{ height: '500px', backgroundColor: '#0A0A0A' }}
       >
         <span
           style={{
@@ -181,8 +269,9 @@ export default function Minimal3DViewer({
 
   return (
     <div
-      className={`relative aspect-square w-full max-w-md mx-auto ${className}`}
+      className={`relative w-full ${className}`}
       style={{
+        height: 'min(600px, 60vh)',
         backgroundColor: '#050505',
         cursor: rotateOnly ? 'default' : isInteracting ? 'grabbing' : 'grab',
       }}
@@ -194,13 +283,14 @@ export default function Minimal3DViewer({
           antialias: true,
           powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.0,
+          toneMappingExposure: 1.2,
         }}
         dpr={[1, 2]}
         shadows
         style={{ background: '#050505' }}
       >
         <Suspense fallback={null}>
+          <EnvironmentSetup />
           <Lighting />
           <RingWithDiamond />
           {!rotateOnly && <Controls onInteractChange={setIsInteracting} />}
@@ -210,7 +300,7 @@ export default function Minimal3DViewer({
         <div
           style={{
             position: 'absolute',
-            bottom: '12px',
+            bottom: '16px',
             left: '50%',
             transform: 'translateX(-50%)',
             color: '#6B6B6B',
@@ -224,7 +314,7 @@ export default function Minimal3DViewer({
             whiteSpace: 'nowrap',
           }}
         >
-          DRAG · ROTATE · ZOOM
+          Drag to rotate · Scroll to zoom
         </div>
       )}
     </div>

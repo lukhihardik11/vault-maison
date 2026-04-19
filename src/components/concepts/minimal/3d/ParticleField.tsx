@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -57,10 +57,15 @@ export default function ParticleField({
 }: {
   className?: string;
 }) {
-  const enabled =
-    typeof window !== 'undefined' &&
-    window.innerWidth >= 768 &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!isMobile && !prefersReduced) {
+      setEnabled(true);
+    }
+  }, []);
 
   if (!enabled) return null;
 

@@ -465,7 +465,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </div>
           </div>
         </div>
-        <Minimal3DViewer className="pb-10" />
+        <Minimal3DViewer />
       </section>
 
       {/* ═══ SECTION 4: BRAND STORY — Full-width Dark Band with Text Reveal ═══ */}
