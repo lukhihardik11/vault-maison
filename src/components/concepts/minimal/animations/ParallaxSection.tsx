@@ -1,71 +1,78 @@
 'use client';
 
 import { useRef, useEffect, useState, ReactNode } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface ParallaxSectionProps {
   children: ReactNode;
   className?: string;
-  /** Speed multiplier. 0 = no parallax, 0.5 = half speed, -0.3 = reverse. Default 0.3 */
+  /** Speed multiplier. 0 = no parallax, positive = slower (background), negative = faster/opposite. Default 0.3 */
   speed?: number;
-  /** Scroll offset range. Default ['start end', 'end start'] */
+  /** Kept for backward compatibility — no longer used by GSAP implementation. */
   offset?: [string, string];
 }
 
 /**
- * ParallaxSection — Scroll-linked parallax depth layer
- * Moves children at a different speed than the scroll.
- * speed > 0: moves slower than scroll (background feel)
- * speed < 0: moves faster/opposite (foreground feel)
- * 
- * Respects prefers-reduced-motion (disables parallax, shows static).
- * Disabled on mobile (< 768px) for performance.
+ * ParallaxSection — GSAP ScrollTrigger scroll-linked parallax depth layer.
+ * Moves children at a different speed than scroll using scrub.
+ * Disabled on mobile (< 768px) and when prefers-reduced-motion is set.
  */
 export function ParallaxSection({
   children,
   className = '',
   speed = 0.3,
-  offset = ['start end', 'end start'],
 }: ParallaxSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [prefersReduced, setPrefersReduced] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: offset as any,
-  });
-
-  // Convert speed to pixel range: speed * viewport height
-  const yRange = speed * 200;
-  const y = useTransform(scrollYProgress, [0, 1], [-yRange, yRange]);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handler);
-
-    // Check mobile
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
+    const checkDisabled = () =>
+      setDisabled(mq.matches || window.innerWidth < 768);
+    checkDisabled();
+    const handleMq = () => checkDisabled();
+    mq.addEventListener('change', handleMq);
+    window.addEventListener('resize', checkDisabled);
     return () => {
-      mq.removeEventListener('change', handler);
-      window.removeEventListener('resize', checkMobile);
+      mq.removeEventListener('change', handleMq);
+      window.removeEventListener('resize', checkDisabled);
     };
   }, []);
 
-  const disabled = prefersReduced || isMobile;
+  useEffect(() => {
+    const el = ref.current;
+    const inner = innerRef.current;
+    if (!el || !inner || disabled) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        inner,
+        { y: -100 * speed },
+        {
+          y: 100 * speed,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        }
+      );
+    }, el);
+
+    return () => ctx.revert();
+  }, [speed, disabled]);
 
   return (
     <div ref={ref} className={className} style={{ overflow: 'hidden' }}>
-      <motion.div
-        style={disabled ? undefined : { y }}
-      >
-        {children}
-      </motion.div>
+      <div ref={innerRef}>{children}</div>
     </div>
   );
 }
@@ -81,7 +88,7 @@ interface ParallaxImageProps {
 }
 
 /**
- * ParallaxImage — Image with parallax scroll effect
+ * ParallaxImage — Image with GSAP-driven parallax scroll effect.
  * Image moves at a different rate than scroll, creating depth.
  * Slightly scaled up to prevent white gaps at edges.
  */
@@ -93,46 +100,63 @@ export function ParallaxImage({
   scale = 1.15,
 }: ParallaxImageProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [prefersReduced, setPrefersReduced] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-
-  const yRange = speed * 200;
-  const y = useTransform(scrollYProgress, [0, 1], [-yRange, yRange]);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handler);
-
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
+    const checkDisabled = () =>
+      setDisabled(mq.matches || window.innerWidth < 768);
+    checkDisabled();
+    const handleMq = () => checkDisabled();
+    mq.addEventListener('change', handleMq);
+    window.addEventListener('resize', checkDisabled);
     return () => {
-      mq.removeEventListener('change', handler);
-      window.removeEventListener('resize', checkMobile);
+      mq.removeEventListener('change', handleMq);
+      window.removeEventListener('resize', checkDisabled);
     };
   }, []);
 
-  const disabled = prefersReduced || isMobile;
+  useEffect(() => {
+    const el = ref.current;
+    const img = imgRef.current;
+    if (!el || !img || disabled) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(img, { scale });
+      gsap.fromTo(
+        img,
+        { y: -100 * speed },
+        {
+          y: 100 * speed,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        }
+      );
+    }, el);
+
+    return () => ctx.revert();
+  }, [speed, scale, disabled]);
 
   return (
     <div ref={ref} className={className} style={{ overflow: 'hidden' }}>
-      <motion.img
+      <img
+        ref={imgRef}
         src={src}
         alt={alt}
-        style={disabled ? { width: '100%', height: '100%', objectFit: 'cover' } : {
-          y,
-          scale,
+        loading="lazy"
+        decoding="async"
+        style={{
           width: '100%',
           height: '100%',
           objectFit: 'cover',
+          display: 'block',
+          transform: disabled ? 'none' : `scale(${scale})`,
         }}
       />
     </div>

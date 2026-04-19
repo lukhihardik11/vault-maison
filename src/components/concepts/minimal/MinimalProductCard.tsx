@@ -30,6 +30,8 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
     >
       {/* Image Container */}
       <div
+        className="product-image"
+        data-cursor="view"
         style={{
           position: 'relative',
           aspectRatio: '3 / 4',
