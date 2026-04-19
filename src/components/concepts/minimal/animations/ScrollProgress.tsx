@@ -1,44 +1,35 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
 
-/**
- * ScrollProgress — Minimal scroll progress bar
- * 2px black line at the very top of the page that grows left→right as user scrolls.
- * Respects prefers-reduced-motion (hidden when reduced motion preferred).
- */
 export function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-  const [prefersReduced, setPrefersReduced] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? scrollTop / docHeight : 0);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
-  if (prefersReduced) return null;
-
   return (
-    <motion.div
+    <div
+      className="fixed top-0 left-0 z-[100] h-[2px] bg-[#050505] origin-left"
       style={{
-        scaleX,
-        transformOrigin: '0%',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '2px',
-        backgroundColor: '#050505',
-        zIndex: 9999,
+        width: '100%',
+        transform: `scaleX(${progress})`,
+        transition: 'transform 0.1s linear',
+        transformOrigin: '0 50%',
       }}
     />
   );

@@ -90,6 +90,8 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
       {/* Main Image */}
       <div
         ref={containerRef}
+        className="product-image"
+        data-cursor="view"
         style={{
           width: '100%',
           aspectRatio: '4 / 5',

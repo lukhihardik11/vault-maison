@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef, useState, useEffect, Suspense } from 'react'
+import { useCallback, useRef, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -15,19 +15,21 @@ import { useInView } from 'framer-motion'
 
 // Animation components
 import { TextReveal, SplitTextReveal } from './minimal/animations/TextReveal'
-import { StaggerReveal, StaggerItem } from './minimal/animations/StaggerReveal'
+import { StaggerReveal } from './minimal/animations/StaggerReveal'
 import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
+import { useReducedMotionPreference } from './minimal/animations/useResponsiveMotion'
 
-// Lazy-load heavy 3D components (Next.js dynamic for SSR safety)
-const DiamondDust = dynamic(
-  () => import('./minimal/3d/DiamondDust').then(m => ({ default: m.DiamondDust })),
-  { ssr: false, loading: () => <div /> }
-)
-const ProductViewer3D = dynamic(
-  () => import('./minimal/3d/ProductViewer3D').then(m => ({ default: m.ProductViewer3D })),
-  { ssr: false, loading: () => <div style={{ height: '500px', backgroundColor: '#050505' }} /> }
-)
+const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
+  ssr: false,
+})
+
+const Minimal3DViewer = dynamic(() => import('./minimal/3d/Minimal3DViewer'), {
+  ssr: false,
+  loading: () => (
+    <div className="aspect-square w-full max-w-md mx-auto animate-pulse bg-[#F0F0F0]" />
+  ),
+})
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -64,18 +66,13 @@ const curatedPieces = products.filter(p => p.isBestseller || p.isNew).slice(0, 5
 function CountUp({ value, suffix = '' }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true })
-  const [display, setDisplay] = useState('0')
-  const [prefersReduced, setPrefersReduced] = useState(false)
+  const prefersReduced = useReducedMotionPreference()
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReduced(mq.matches)
-  }, [])
-
-  useEffect(() => {
-    if (!isInView) return
+    const el = ref.current
+    if (!el || !isInView) return
     if (prefersReduced) {
-      setDisplay(value.toLocaleString())
+      el.textContent = `${value.toLocaleString()}${suffix}`
       return
     }
 
@@ -88,44 +85,24 @@ function CountUp({ value, suffix = '' }: { value: number; suffix?: string }) {
       // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3)
       const current = Math.round(eased * value)
-      setDisplay(current.toLocaleString())
+      el.textContent = `${current.toLocaleString()}${suffix}`
       if (progress < 1) requestAnimationFrame(animate)
     }
 
     requestAnimationFrame(animate)
-  }, [isInView, value, prefersReduced])
+  }, [isInView, prefersReduced, suffix, value])
 
-  return <span ref={ref}>{display}{suffix}</span>
+  return <span ref={ref}>0{suffix}</span>
 }
 
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
+  void concept
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: 'start', slidesToScroll: 1 },
     [Autoplay({ delay: 5000, stopOnInteraction: true })]
   )
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
-
-  // Refs for stagger grids
-  const categoryGridRef = useRef<HTMLDivElement>(null)
-  const categoryInView = useInView(categoryGridRef, { once: true, margin: '-60px 0px' })
-  const [categoryReduced, setCategoryReduced] = useState(false)
-
-  const collectionGridRef = useRef<HTMLDivElement>(null)
-  const collectionInView = useInView(collectionGridRef, { once: true, margin: '-60px 0px' })
-  const [collectionReduced, setCollectionReduced] = useState(false)
-
-  const bestsellersGridRef = useRef<HTMLDivElement>(null)
-  const bestsellersInView = useInView(bestsellersGridRef, { once: true, margin: '-60px 0px' })
-  const [bestsellersReduced, setBestsellersReduced] = useState(false)
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const val = mq.matches
-    setCategoryReduced(val)
-    setCollectionReduced(val)
-    setBestsellersReduced(val)
-  }, [])
 
   return (
     <MinimalLayout>
@@ -306,10 +283,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             alt="Precision-cut diamond"
             speed={0.15}
           />
-          {/* Diamond Dust particles overlay */}
-          <Suspense fallback={null}>
-            <DiamondDust particleCount={120} />
-          </Suspense>
+          <ParticleField />
         </div>
       </section>
 
@@ -324,53 +298,44 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               </span>
             </TextReveal>
           </div>
-          <div ref={categoryGridRef} className={minimal.cn.gridCategory}>
-            {categories.map((cat, i) => (
-              <StaggerItem
+          <StaggerReveal className={minimal.cn.gridCategory}>
+            {categories.map((cat) => (
+              <Link
                 key={cat.slug}
-                index={i}
-                stagger={100}
-                duration={500}
-                direction="up"
-                isInView={categoryInView}
-                prefersReduced={categoryReduced}
+                href={`/minimal/category/${cat.slug}`}
+                className="group block"
+                style={{ textDecoration: 'none', color: '#050505' }}
               >
-                <Link
-                  href={`/minimal/category/${cat.slug}`}
-                  className="group block"
-                  style={{ textDecoration: 'none', color: '#050505' }}
-                >
-                  <div style={{ position: 'relative', aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
-                    <img
-                      src={cat.image}
-                      alt={cat.label}
-                      loading="eager"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                        transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-                      }}
-                      className="group-hover:scale-[1.04]"
-                    />
-                  </div>
-                  <p
+                <div style={{ position: 'relative', aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+                  <img
+                    src={cat.image}
+                    alt={cat.label}
+                    loading="eager"
                     style={{
-                      fontFamily: font,
-                      fontSize: '13px',
-                      fontWeight: 400,
-                      letterSpacing: '-0.01em',
-                      marginTop: '14px',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
-                    className="group-hover:underline underline-offset-4 decoration-[#050505]/20"
-                  >
-                    {cat.label}
-                  </p>
-                </Link>
-              </StaggerItem>
+                    className="group-hover:scale-[1.04]"
+                  />
+                </div>
+                <p
+                  style={{
+                    fontFamily: font,
+                    fontSize: '13px',
+                    fontWeight: 400,
+                    letterSpacing: '-0.01em',
+                    marginTop: '14px',
+                  }}
+                  className="group-hover:underline underline-offset-4 decoration-[#050505]/20"
+                >
+                  {cat.label}
+                </p>
+              </Link>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </section>
 
@@ -500,13 +465,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </div>
           </div>
         </div>
-        <Suspense fallback={
-          <div style={{ height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6B6B6B', fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            LOADING 3D VIEW...
-          </div>
-        }>
-          <ProductViewer3D jewelryType="ring" height="500px" />
-        </Suspense>
+        <Minimal3DViewer className="pb-10" />
       </section>
 
       {/* ═══ SECTION 4: BRAND STORY — Full-width Dark Band with Text Reveal ═══ */}
@@ -557,6 +516,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <Link
               href={`/minimal/product/${product.slug}`}
               className="group block"
+              data-cursor="view"
               style={{
                 textDecoration: 'none',
                 color: '#050505',
@@ -654,74 +614,65 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               View All <ArrowRight size={12} strokeWidth={1.5} />
             </Link>
           </div>
-          <div ref={collectionGridRef} className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {collections.map((col, i) => (
-              <StaggerItem
+          <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {collections.map((col) => (
+              <Link
                 key={col.title}
-                index={i}
-                stagger={100}
-                duration={600}
-                direction="up"
-                isInView={collectionInView}
-                prefersReduced={collectionReduced}
+                href={col.href}
+                className="group block"
+                style={{ textDecoration: 'none', color: '#050505' }}
               >
-                <Link
-                  href={col.href}
-                  className="group block"
-                  style={{ textDecoration: 'none', color: '#050505' }}
-                >
-                  <div style={{ position: 'relative', aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
-                    <img
-                      src={col.image}
-                      alt={col.title}
-                      loading="eager"
+                <div style={{ position: 'relative', aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+                  <img
+                    src={col.image}
+                    alt={col.title}
+                    loading="eager"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                    }}
+                    className="group-hover:scale-[1.04]"
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      backgroundColor: 'rgba(5, 5, 5, 0.35)',
+                    }}
+                  />
+                  <div style={{ position: 'absolute', bottom: 'clamp(20px, 3vw, 32px)', left: 'clamp(20px, 3vw, 32px)' }}>
+                    <span
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
+                        fontFamily: mono,
+                        fontSize: '10px',
+                        letterSpacing: '0.25em',
+                        textTransform: 'uppercase',
+                        color: 'rgba(255,255,255,0.5)',
                         display: 'block',
-                        transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                        marginBottom: '6px',
                       }}
-                      className="group-hover:scale-[1.04]"
-                    />
-                    <div
+                    >
+                      {col.desc}
+                    </span>
+                    <p
                       style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: 'linear-gradient(to top, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0) 50%)',
+                        fontFamily: font,
+                        fontSize: 'clamp(16px, 1.5vw, 22px)',
+                        fontWeight: 400,
+                        color: '#FFFFFF',
+                        letterSpacing: '-0.01em',
                       }}
-                    />
-                    <div style={{ position: 'absolute', bottom: 'clamp(20px, 3vw, 32px)', left: 'clamp(20px, 3vw, 32px)' }}>
-                      <span
-                        style={{
-                          fontFamily: mono,
-                          fontSize: '10px',
-                          letterSpacing: '0.25em',
-                          textTransform: 'uppercase',
-                          color: 'rgba(255,255,255,0.5)',
-                          display: 'block',
-                          marginBottom: '6px',
-                        }}
-                      >
-                        {col.desc}
-                      </span>
-                      <p
-                        style={{
-                          fontFamily: font,
-                          fontSize: 'clamp(16px, 1.5vw, 22px)',
-                          fontWeight: 400,
-                          color: '#FFFFFF',
-                          letterSpacing: '-0.01em',
-                        }}
-                      >
-                        {col.title}
-                      </p>
-                    </div>
+                    >
+                      {col.title}
+                    </p>
                   </div>
-                </Link>
-              </StaggerItem>
+                </div>
+              </Link>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </section>
 
@@ -791,21 +742,11 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               View All <ArrowRight size={12} strokeWidth={1.5} />
             </Link>
           </div>
-          <div ref={bestsellersGridRef} className={minimal.cn.gridProduct}>
-            {bestsellers.map((p, i) => (
-              <StaggerItem
-                key={p.id}
-                index={i}
-                stagger={120}
-                duration={500}
-                direction="up"
-                isInView={bestsellersInView}
-                prefersReduced={bestsellersReduced}
-              >
-                <MinimalProductCard product={p} />
-              </StaggerItem>
+          <StaggerReveal className={minimal.cn.gridProduct}>
+            {bestsellers.map((p) => (
+              <MinimalProductCard key={p.id} product={p} />
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </section>
 

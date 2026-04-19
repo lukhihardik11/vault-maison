@@ -1,72 +1,61 @@
 'use client';
 
-import { useRef, useEffect, useState, ReactNode } from 'react';
+import { useRef, useEffect, type ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useIsMobile, useReducedMotionPreference } from './useResponsiveMotion';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 interface HorizontalScrollProps {
   children: ReactNode;
   className?: string;
-  /** Number of panels — used as fallback when measuring scrollWidth. */
-  panelCount?: number;
-  /** Kept for backward compatibility — no longer affects GSAP pin behavior. */
+  /** Number of panels/cards. Used to calculate scroll height. */
+  panelCount: number;
+  /** Height multiplier per panel in vh. Default 100 */
   heightPerPanel?: number;
+  /** Section title displayed above the scroll area */
   title?: string;
+  /** Section subtitle */
   subtitle?: string;
 }
 
 /**
- * HorizontalScroll — GSAP ScrollTrigger pinned horizontal scroll showcase.
- * Section pins to viewport while content translates horizontally based on scroll progress.
- * Uses scrub for smooth tween linked to scroll velocity.
- *
- * Mobile fallback: standard vertical layout (no pin, no transform).
- * Respects prefers-reduced-motion (skips the pinned scroll, falls back to vertical).
+ * HorizontalScroll — Pinned horizontal scroll showcase
+ * Container sticks to viewport while content scrolls horizontally.
+ * Vertical scroll is converted to horizontal translation.
+ * 
+ * Mobile fallback: standard vertical scroll with snap.
+ * Respects prefers-reduced-motion (instant scroll, no spring).
  */
 export function HorizontalScroll({
   children,
   className = '',
+  panelCount,
+  heightPerPanel = 100,
   title,
   subtitle,
 }: HorizontalScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [prefersReduced, setPrefersReduced] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    setPrefersReduced(mq.matches);
-    checkMobile();
-    const handleMq = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handleMq);
-    window.addEventListener('resize', checkMobile);
-    return () => {
-      mq.removeEventListener('change', handleMq);
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
+  const prefersReduced = useReducedMotionPreference();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const container = containerRef.current;
     const track = trackRef.current;
-    if (!container || !track || isMobile || prefersReduced) return;
+    if (!container || !track || prefersReduced || isMobile) return;
 
     const ctx = gsap.context(() => {
-      const getScrollAmount = () => track.scrollWidth - window.innerWidth;
+      const getDistance = () => Math.max(track.scrollWidth - window.innerWidth, 0);
 
       gsap.to(track, {
-        x: () => -getScrollAmount(),
+        x: () => -getDistance(),
         ease: 'none',
         scrollTrigger: {
           trigger: container,
           start: 'top top',
-          end: () => `+=${getScrollAmount()}`,
+          end: () => `+=${getDistance() || panelCount * window.innerWidth * 0.6}`,
           scrub: 1,
           pin: true,
           anticipatePin: 1,
@@ -76,96 +65,101 @@ export function HorizontalScroll({
     }, container);
 
     return () => ctx.revert();
-  }, [isMobile, prefersReduced]);
+  }, [isMobile, panelCount, prefersReduced]);
 
-  // Mobile / reduced-motion fallback: vertical stack
-  if (isMobile || prefersReduced) {
+  // Mobile: vertical scroll with snap
+  if (isMobile) {
     return (
       <section className={className}>
         {(title || subtitle) && (
-          <div style={{ padding: '60px 20px 30px' }}>
+          <div style={{ padding: '60px 20px 30px', backgroundColor: '#FFFFFF' }}>
             {title && (
-              <h2
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '28px',
-                  fontWeight: 200,
-                  color: '#050505',
-                  letterSpacing: '-0.02em',
-                  marginBottom: subtitle ? '12px' : 0,
-                }}
-              >
+              <h2 style={{
+                fontFamily: 'var(--font-heading, system-ui)',
+                fontSize: '28px',
+                fontWeight: 700,
+                color: '#050505',
+                letterSpacing: '-0.02em',
+                marginBottom: subtitle ? '12px' : '0',
+              }}>
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '11px',
-                  color: '#6B6B6B',
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase' as const,
-                }}
-              >
+              <p style={{
+                fontFamily: 'var(--font-body, system-ui)',
+                fontSize: '14px',
+                color: '#6B6B6B',
+                letterSpacing: '0.02em',
+                textTransform: 'uppercase' as const,
+              }}>
                 {subtitle}
               </p>
             )}
           </div>
         )}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            padding: '0 20px 60px',
-          }}
-        >
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          padding: '0 20px 60px',
+        }}>
           {children}
         </div>
       </section>
     );
   }
 
-  // Desktop: GSAP pinned horizontal scroll
   return (
     <section
       ref={containerRef}
       className={className}
-      style={{ position: 'relative', overflow: 'hidden' }}
+      style={{
+        height: `${panelCount * heightPerPanel}vh`,
+        position: 'relative',
+      }}
     >
-      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <div style={{
+        position: 'sticky',
+        top: 0,
+        height: '100vh',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        {/* Header */}
         {(title || subtitle) && (
-          <div style={{ padding: '40px 60px 20px', flexShrink: 0 }}>
+          <div style={{
+            padding: '40px 60px 20px',
+            flexShrink: 0,
+          }}>
             {title && (
-              <h2
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 'clamp(32px, 4vw, 48px)',
-                  fontWeight: 200,
-                  color: '#050505',
-                  letterSpacing: '-0.02em',
-                  marginBottom: subtitle ? '12px' : 0,
-                }}
-              >
+              <h2 style={{
+                fontFamily: 'var(--font-heading, system-ui)',
+                fontSize: 'clamp(32px, 4vw, 48px)',
+                fontWeight: 700,
+                color: '#050505',
+                letterSpacing: '-0.02em',
+                marginBottom: subtitle ? '12px' : '0',
+              }}>
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '11px',
-                  color: '#6B6B6B',
-                  letterSpacing: '0.25em',
-                  textTransform: 'uppercase' as const,
-                }}
-              >
+              <p style={{
+                fontFamily: 'var(--font-body, system-ui)',
+                fontSize: '14px',
+                color: '#6B6B6B',
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase' as const,
+              }}>
                 {subtitle}
               </p>
             )}
           </div>
         )}
+
+        {/* Scrolling track */}
         <div
           ref={trackRef}
           style={{
@@ -175,7 +169,7 @@ export function HorizontalScroll({
             gap: '40px',
             paddingLeft: '60px',
             paddingRight: '60px',
-            willChange: 'transform',
+            width: 'max-content',
           }}
         >
           {children}
@@ -193,7 +187,7 @@ interface HorizontalPanelProps {
 }
 
 /**
- * HorizontalPanel — Individual panel within HorizontalScroll.
+ * HorizontalPanel — Individual panel within HorizontalScroll
  */
 export function HorizontalPanel({
   children,
@@ -205,7 +199,7 @@ export function HorizontalPanel({
       className={className}
       style={{
         minWidth: width,
-        width,
+        width: width,
         flexShrink: 0,
         height: '100%',
         display: 'flex',
