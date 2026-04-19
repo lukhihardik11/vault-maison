@@ -991,3 +991,56 @@ html {
     transition: none !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL POLISH (Minimal & Others)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Refined text selection */
+::selection {
+  background: rgba(5, 5, 5, 0.9);
+  color: #ffffff;
+}
+::-moz-selection {
+  background: rgba(5, 5, 5, 0.9);
+  color: #ffffff;
+}
+
+/* Better focus-visible states for accessibility */
+*:focus-visible {
+  outline: 2px solid #050505;
+  outline-offset: 2px;
+  border-radius: 2px;
+  transition: outline-offset 0.2s ease;
+}
+
+/* Smooth anchor link scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed nav */
+}
+
+/* Print stylesheet basics */
+@media print {
+  nav, footer, .vm-btn-ghost, .vm-btn-primary, [role="button"], button, iframe, .page-load-fade {
+    display: none !important;
+  }
+  body, html, main {
+    background: transparent !important;
+    color: #000 !important;
+    font-size: 12pt;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+}

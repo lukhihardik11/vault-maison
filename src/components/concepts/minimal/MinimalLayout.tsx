@@ -1,11 +1,15 @@
 'use client'
 
-import { type ReactNode } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
 import { ScrollProgress } from './animations/ScrollProgress'
+import { PageTransition } from './ui/PageTransition'
+import { BackToTop } from './ui/BackToTop'
+import { Breadcrumb } from './ui/Breadcrumb'
 
 const MinimalCursor = dynamic(
   () => import('./cursor/MinimalCursor').then((mod) => mod.MinimalCursor),
@@ -19,6 +23,14 @@ interface MinimalLayoutProps {
 }
 
 export function MinimalLayout({ children, hideNav = false, hideFooter = false }: MinimalLayoutProps) {
+  const pathname = usePathname()
+  const isInnerPage = pathname && pathname !== '/minimal'
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <>
       <style>{`
@@ -79,9 +91,19 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           background-color: #050505 !important;
           color: #FFFFFF !important;
         }
+        
+        /* Subtle page-load animation */
+        .page-load-fade {
+          opacity: 0;
+          animation: pageLoadFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes pageLoadFadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
       `}</style>
       <div
-        className="minimal-concept"
+        className={`minimal-concept ${mounted ? 'page-load-fade' : ''}`}
         data-concept="minimal"
         style={{
           backgroundColor: '#FFFFFF',
@@ -101,9 +123,21 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         <MinimalCursor />
 
         {!hideNav && <MinimalNav />}
-        <main>{children}</main>
+        
+        <PageTransition>
+          <main>
+            {isInnerPage && !hideNav && (
+              <div className="max-w-[1400px] mx-auto px-[clamp(24px,3vw,64px)] pt-6 pb-2">
+                <Breadcrumb />
+              </div>
+            )}
+            {children}
+          </main>
+        </PageTransition>
+        
         {!hideFooter && <MinimalFooter />}
         {!hideNav && <Toolbar />}
+        <BackToTop />
       </div>
     </>
   )

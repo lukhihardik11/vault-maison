@@ -11,6 +11,27 @@ export const minimal = {
     border: '#E5E5E5',
     hoverBg: '#FAFAFA',
   },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '32px',
+    xl: '64px',
+    xxl: '128px',
+  },
+  animation: {
+    easing: {
+      brutal: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      smooth: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+      snap: 'cubic-bezier(0.85, 0, 0.15, 1)',
+    },
+    timing: {
+      micro: '150ms',
+      fast: '300ms',
+      base: '500ms',
+      slow: '800ms',
+    }
+  },
   cn: {
     heroHeadline: 'text-4xl md:text-6xl lg:text-8xl font-extralight tracking-tighter leading-none text-[#050505]',
     sectionHeadline: 'text-2xl md:text-3xl lg:text-5xl font-light tracking-tight text-[#050505]',
