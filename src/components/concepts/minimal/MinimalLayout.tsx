@@ -1,9 +1,16 @@
 'use client'
 
 import { type ReactNode } from 'react'
+import dynamic from 'next/dynamic'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
+import { ScrollProgress } from './animations/ScrollProgress'
+
+const MinimalCursor = dynamic(
+  () => import('./cursor/MinimalCursor').then((mod) => mod.MinimalCursor),
+  { ssr: false }
+)
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -88,6 +95,11 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           overflowX: 'hidden',
         }}
       >
+        {/* Global scroll progress bar */}
+        <ScrollProgress />
+
+        <MinimalCursor />
+
         {!hideNav && <MinimalNav />}
         <main>{children}</main>
         {!hideFooter && <MinimalFooter />}

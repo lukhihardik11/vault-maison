@@ -1,8 +1,9 @@
 # Vault Maison — Project Status
 
-> **Last Updated:** April 15, 2026
+> **Last Updated:** April 18, 2026
 > **Repository:** [github.com/lukhihardik11/vault-maison](https://github.com/lukhihardik11/vault-maison.git)
 > **Stable Branch:** `main` (43 PRs merged)
+> **Active Branch:** `feature/minimal-3d-animations` (PR pending)
 > **Documentation Branch:** `feature/documentation-checkpoint`
 
 ---
@@ -192,6 +193,12 @@ Each concept is a fully themed storefront accessible at `/{concept-id}`. All 10 
 | #41 | **Opacity fix** — Resolved all invisible sections. The `@keyframes !important` approach was invalid per CSS spec; replaced with direct selector overrides. |
 | #42 | **Content fill** — Filled empty sections in Archive (major rewrite), Gallery (new arrivals), and Salon (advisor photos). |
 | #43 | **Product catalog expansion** — Expanded from 50 to 65 products, added 118 product images (up from 39), GemHub research documentation. |
+
+### Phase 7: 3D & Scroll Animations (PR #49, Apr 18)
+
+| PR | Description |
+|----|-------------|
+| #49 | **3D & scroll animations** — Added 8 world-class animation effects to Minimal Machine concept: (1) ScrollProgress bar (Framer Motion useScroll), (2) Clip-path TextReveal/SplitTextReveal headlines (GSAP ScrollTrigger), (3) StaggerReveal grid animations (GSAP stagger), (4) ParallaxSection/ParallaxImage depth layers (GSAP ScrollTrigger), (5) HorizontalScroll pinned showcase (GSAP pin), (6) MinimalCursor with lerp + mix-blend-mode, (7) ParticleField R3F ambient particles, (8) Minimal3DViewer interactive 3D jewelry viewer (R3F + useFrame). All effects respect `prefers-reduced-motion` via `useReducedMotionPreference()` hook, have mobile fallbacks via `useIsMobile()`, use only design system colors (#FFFFFF, #050505, #6B6B6B, #9B9B9B), zero `initial={{ opacity: 0 }}`, zero rounded corners. 3D components lazy-loaded with `next/dynamic` + `ssr: false`. QA cleanup removed 3 dead duplicate files (CustomCursor, DiamondDust, ProductViewer3D) and unused `@react-three/drei` dependency. |
 
 ---
 

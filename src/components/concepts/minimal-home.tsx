@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useRef, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { MinimalLayout } from './minimal/MinimalLayout'
@@ -10,6 +11,25 @@ import { products } from '@/data/products'
 import type { ConceptConfig } from '@/data/concepts'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
+import { useInView } from 'framer-motion'
+
+// Animation components
+import { TextReveal, SplitTextReveal } from './minimal/animations/TextReveal'
+import { StaggerReveal } from './minimal/animations/StaggerReveal'
+import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
+import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
+import { useReducedMotionPreference } from './minimal/animations/useResponsiveMotion'
+
+const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
+  ssr: false,
+})
+
+const Minimal3DViewer = dynamic(() => import('./minimal/3d/Minimal3DViewer'), {
+  ssr: false,
+  loading: () => (
+    <div className="aspect-square w-full max-w-md mx-auto animate-pulse bg-[#F0F0F0]" />
+  ),
+})
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -35,7 +55,48 @@ const collections = [
   { title: 'Bracelets', desc: 'Linear precision', image: '/images/minimal-tennis-bracelet.jpg', href: '/minimal/category/diamond-bracelets' },
 ]
 
+// Curated pieces for horizontal scroll section
+const curatedPieces = products.filter(p => p.isBestseller || p.isNew).slice(0, 5)
+
+/**
+ * CountUp — Animated number counter
+ * Counts from 0 to target value when in view.
+ * Respects prefers-reduced-motion.
+ */
+function CountUp({ value, suffix = '' }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true })
+  const prefersReduced = useReducedMotionPreference()
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || !isInView) return
+    if (prefersReduced) {
+      el.textContent = `${value.toLocaleString()}${suffix}`
+      return
+    }
+
+    const duration = 1500
+    const start = performance.now()
+
+    const animate = (now: number) => {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3)
+      const current = Math.round(eased * value)
+      el.textContent = `${current.toLocaleString()}${suffix}`
+      if (progress < 1) requestAnimationFrame(animate)
+    }
+
+    requestAnimationFrame(animate)
+  }, [isInView, prefersReduced, suffix, value])
+
+  return <span ref={ref}>0{suffix}</span>
+}
+
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
+  void concept
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: 'start', slidesToScroll: 1 },
     [Autoplay({ delay: 5000, stopOnInteraction: true })]
@@ -45,13 +106,14 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
 
   return (
     <MinimalLayout>
-      {/* ═══ SECTION 1: HERO — Brutalist Split-Screen ═══ */}
+      {/* ═══ SECTION 1: HERO — Brutalist Split-Screen + Diamond Dust ═══ */}
       <section
         style={{
           display: 'flex',
           flexDirection: 'row',
           minHeight: '100vh',
           width: '100%',
+          position: 'relative',
         }}
         className="vm-hero-split"
       >
@@ -84,118 +146,130 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           </span>
 
           <div>
-            <h1
-              style={{
-                fontFamily: font,
-                fontSize: 'clamp(52px, 10vw, 160px)',
-                fontWeight: 100,
-                letterSpacing: '-0.05em',
-                lineHeight: 0.88,
-                color: '#050505',
-                textTransform: 'uppercase',
-                margin: 0,
-              }}
-            >
-              Precision.
-              <br />
-              Nothing
-              <br />
-              More.
-            </h1>
-
-            {/* Data points — horizontal on desktop */}
-            <div
-              style={{
-                display: 'flex',
-                gap: 'clamp(24px, 3vw, 48px)',
-                marginTop: 'clamp(40px, 5vh, 72px)',
-                flexWrap: 'wrap',
-              }}
-            >
-              {[
-                { num: '01', text: 'GIA Certified' },
-                { num: '02', text: 'Flawless Clarity' },
-                { num: '03', text: 'Exacting Cut' },
-              ].map((item) => (
-                <div key={item.num} style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
-                  <span
-                    style={{
-                      fontFamily: mono,
-                      fontSize: '10px',
-                      letterSpacing: '0.2em',
-                      color: '#ABABAB',
-                    }}
-                  >
-                    {item.num}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: font,
-                      fontSize: '10px',
-                      letterSpacing: '0.25em',
-                      textTransform: 'uppercase',
-                      color: '#050505',
-                      fontWeight: 500,
-                    }}
-                  >
-                    {item.text}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA Buttons */}
-            <div style={{ display: 'flex', gap: '16px', marginTop: 'clamp(40px, 5vh, 64px)', flexWrap: 'wrap' }}>
-              <Link
-                href="/minimal/collections"
-                className="vm-btn-primary"
+            {/* Animated headline with clip-path reveal */}
+            <TextReveal duration={800}>
+              <h1
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '12px',
                   fontFamily: font,
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
-                  color: '#FFFFFF',
-                  backgroundColor: '#050505',
-                  padding: '20px 48px',
-                  border: '1px solid #050505',
-                  height: '52px',
-                }}
-              >
-                Shop Collection
-              </Link>
-              <Link
-                href="/minimal/bespoke"
-                className="vm-btn-secondary"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: font,
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
+                  fontSize: 'clamp(52px, 10vw, 160px)',
+                  fontWeight: 100,
+                  letterSpacing: '-0.05em',
+                  lineHeight: 0.88,
                   color: '#050505',
-                  backgroundColor: 'transparent',
-                  padding: '20px 48px',
-                  border: '1px solid #050505',
-                  height: '52px',
+                  textTransform: 'uppercase',
+                  margin: 0,
                 }}
               >
-                Bespoke
-              </Link>
-            </div>
+                Precision.
+                <br />
+                Nothing
+                <br />
+                More.
+              </h1>
+            </TextReveal>
+
+            {/* Data points — staggered reveal */}
+            <StaggerReveal
+              stagger={120}
+              duration={500}
+              direction="up"
+              className=""
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 'clamp(24px, 3vw, 48px)',
+                  marginTop: 'clamp(40px, 5vh, 72px)',
+                  flexWrap: 'wrap',
+                }}
+              >
+                {[
+                  { num: '01', text: 'GIA Certified' },
+                  { num: '02', text: 'Flawless Clarity' },
+                  { num: '03', text: 'Exacting Cut' },
+                ].map((item) => (
+                  <div key={item.num} style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
+                    <span
+                      style={{
+                        fontFamily: mono,
+                        fontSize: '10px',
+                        letterSpacing: '0.2em',
+                        color: '#ABABAB',
+                      }}
+                    >
+                      {item.num}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: font,
+                        fontSize: '10px',
+                        letterSpacing: '0.25em',
+                        textTransform: 'uppercase',
+                        color: '#050505',
+                        fontWeight: 500,
+                      }}
+                    >
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </StaggerReveal>
+
+            {/* CTA Buttons — staggered */}
+            <StaggerReveal stagger={100} duration={500} direction="up" className="">
+              <div style={{ display: 'flex', gap: '16px', marginTop: 'clamp(40px, 5vh, 64px)', flexWrap: 'wrap' }}>
+                <Link
+                  href="/minimal/collections"
+                  className="vm-btn-primary"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    fontFamily: font,
+                    fontSize: '11px',
+                    fontWeight: 500,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    color: '#FFFFFF',
+                    backgroundColor: '#050505',
+                    padding: '20px 48px',
+                    border: '1px solid #050505',
+                    height: '52px',
+                  }}
+                >
+                  Shop Collection
+                </Link>
+                <Link
+                  href="/minimal/bespoke"
+                  className="vm-btn-secondary"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: font,
+                    fontSize: '11px',
+                    fontWeight: 500,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    color: '#050505',
+                    backgroundColor: 'transparent',
+                    padding: '20px 48px',
+                    border: '1px solid #050505',
+                    height: '52px',
+                  }}
+                >
+                  Bespoke
+                </Link>
+              </div>
+            </StaggerReveal>
           </div>
         </div>
 
-        {/* Right — Full-bleed Image */}
+        {/* Right — Full-bleed Image with Parallax + Diamond Dust overlay */}
         <div
           className="vm-hero-right"
           style={{
@@ -204,29 +278,27 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             overflow: 'hidden',
           }}
         >
-          <img
+          <ParallaxImage
             src="/images/diamond-melee-1.jpg"
             alt="Precision-cut diamond"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              display: 'block',
-            }}
+            speed={0.15}
           />
+          <ParticleField />
         </div>
       </section>
 
-      {/* ═══ SECTION 2: CATEGORY SHOWCASE ═══ */}
+      {/* ═══ SECTION 2: CATEGORY SHOWCASE — Staggered Grid ═══ */}
       <section className={minimal.cn.section}>
         <div className={minimal.cn.container}>
           <div className="mb-16 md:mb-20">
             <span className={minimal.cn.label} style={{ fontFamily: mono }}>Categories</span>
-            <h2 className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font }}>
-              Shop by Category
-            </h2>
+            <TextReveal delay={100} duration={700} as="h2">
+              <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
+                Shop by Category
+              </span>
+            </TextReveal>
           </div>
-          <div className={minimal.cn.gridCategory}>
+          <StaggerReveal className={minimal.cn.gridCategory}>
             {categories.map((cat) => (
               <Link
                 key={cat.slug}
@@ -263,38 +335,43 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 </p>
               </Link>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </section>
 
       <div className={minimal.cn.container}><div className={minimal.cn.divider} /></div>
 
-      {/* ═══ SECTION 3: FEATURED PIECE — Editorial Layout ═══ */}
+      {/* ═══ SECTION 3: FEATURED PIECE — Editorial Layout with Parallax ═══ */}
       <section className={minimal.cn.section}>
         <div className={`${minimal.cn.container} grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center`}>
-          <div style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
-            <img
-              src={heroProduct.images[0]}
-              alt={heroProduct.name}
-              loading="eager"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
-          </div>
+          <ParallaxSection speed={0.1}>
+            <div style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+              <img
+                src={heroProduct.images[0]}
+                alt={heroProduct.name}
+                loading="eager"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          </ParallaxSection>
           <div>
             <span className={minimal.cn.label} style={{ fontFamily: mono }}>Featured Piece</span>
-            <h2
-              className="mt-5 mb-4"
-              style={{
-                fontFamily: font,
-                fontSize: 'clamp(28px, 3.5vw, 48px)',
-                fontWeight: 200,
-                letterSpacing: '-0.03em',
-                lineHeight: 1.1,
-                color: '#050505',
-              }}
-            >
-              {heroProduct.name}
-            </h2>
+            <TextReveal delay={100} duration={700} as="h2">
+              <span
+                className="mt-5 mb-4"
+                style={{
+                  fontFamily: font,
+                  fontSize: 'clamp(28px, 3.5vw, 48px)',
+                  fontWeight: 200,
+                  letterSpacing: '-0.03em',
+                  lineHeight: 1.1,
+                  color: '#050505',
+                  display: 'block',
+                }}
+              >
+                {heroProduct.name}
+              </span>
+            </TextReveal>
             <p
               style={{
                 fontFamily: font,
@@ -356,7 +433,42 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* ═══ SECTION 4: BRAND STORY — Full-width Dark Band ═══ */}
+      {/* ═══ SECTION 3B: 3D PRODUCT VIEWER ═══ */}
+      <section style={{ backgroundColor: '#050505' }}>
+        <div className={minimal.cn.container} style={{ paddingTop: '40px', paddingBottom: '0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
+            <div>
+              <span
+                style={{
+                  fontFamily: mono,
+                  fontSize: '10px',
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  color: '#6B6B6B',
+                  display: 'block',
+                  marginBottom: '12px',
+                }}
+              >
+                Interactive
+              </span>
+              <h2
+                style={{
+                  fontFamily: font,
+                  fontSize: 'clamp(24px, 3vw, 40px)',
+                  fontWeight: 200,
+                  letterSpacing: '-0.03em',
+                  color: '#FFFFFF',
+                }}
+              >
+                360° View
+              </h2>
+            </div>
+          </div>
+        </div>
+        <Minimal3DViewer />
+      </section>
+
+      {/* ═══ SECTION 4: BRAND STORY — Full-width Dark Band with Text Reveal ═══ */}
       <section style={{ backgroundColor: '#050505', padding: 'clamp(80px, 12vh, 160px) 0' }}>
         <div className={minimal.cn.containerNarrow} style={{ textAlign: 'center' }}>
           <span
@@ -372,24 +484,13 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           >
             Philosophy
           </span>
-          <p
-            style={{
-              fontFamily: font,
-              fontSize: 'clamp(20px, 2.5vw, 36px)',
-              fontWeight: 200,
-              color: '#FFFFFF',
-              lineHeight: 1.6,
-              letterSpacing: '-0.02em',
-            }}
-          >
-            Crafted with obsession. Worn with intention.
-            <br />
-            Every facet, every angle, every proportion —
-            <br />
-            calculated to maximize brilliance while
-            <br />
-            minimizing everything else.
-          </p>
+          <SplitTextReveal
+            text="Crafted with obsession. Worn with intention. Every facet, every angle, every proportion — calculated to maximize brilliance while minimizing everything else."
+            as="p"
+            stagger={30}
+            duration={500}
+            className=""
+          />
           <div style={{ width: '48px', height: '1px', backgroundColor: '#333333', margin: '48px auto 24px' }} />
           <p
             style={{
@@ -404,21 +505,116 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* ═══ SECTION 5: COLLECTION GRID — Asymmetric ═══ */}
+      {/* ═══ SECTION 4B: HORIZONTAL SCROLL SHOWCASE ═══ */}
+      <HorizontalScroll
+        panelCount={curatedPieces.length}
+        title="Curated Selection"
+        subtitle="Scroll to explore"
+      >
+        {curatedPieces.map((product) => (
+          <HorizontalPanel key={product.id} width="70vw">
+            <Link
+              href={`/minimal/product/${product.slug}`}
+              className="group block"
+              data-cursor="view"
+              style={{
+                textDecoration: 'none',
+                color: '#050505',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '40px',
+                width: '100%',
+                height: '70vh',
+                alignItems: 'center',
+              }}
+            >
+              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA', height: '100%' }}>
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                  className="group-hover:scale-[1.03]"
+                />
+              </div>
+              <div style={{ padding: '40px 0' }}>
+                <span
+                  style={{
+                    fontFamily: mono,
+                    fontSize: '10px',
+                    letterSpacing: '0.25em',
+                    textTransform: 'uppercase',
+                    color: '#9B9B9B',
+                    display: 'block',
+                    marginBottom: '16px',
+                  }}
+                >
+                  {product.category}
+                </span>
+                <h3
+                  style={{
+                    fontFamily: font,
+                    fontSize: 'clamp(24px, 2.5vw, 36px)',
+                    fontWeight: 200,
+                    letterSpacing: '-0.02em',
+                    lineHeight: 1.2,
+                    marginBottom: '16px',
+                  }}
+                >
+                  {product.name}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: font,
+                    fontSize: '14px',
+                    fontWeight: 300,
+                    color: '#6B6B6B',
+                    lineHeight: 1.8,
+                    maxWidth: '360px',
+                    marginBottom: '24px',
+                  }}
+                >
+                  {product.description}
+                </p>
+                <p
+                  style={{
+                    fontFamily: font,
+                    fontSize: 'clamp(20px, 1.5vw, 28px)',
+                    fontWeight: 200,
+                    color: '#050505',
+                    fontVariantNumeric: 'tabular-nums',
+                  }}
+                >
+                  {product.priceDisplay}
+                </p>
+              </div>
+            </Link>
+          </HorizontalPanel>
+        ))}
+      </HorizontalScroll>
+
+      {/* ═══ SECTION 5: COLLECTION GRID — Staggered ═══ */}
       <section className={minimal.cn.section}>
         <div className={minimal.cn.container}>
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
               <span className={minimal.cn.label} style={{ fontFamily: mono }}>Curated</span>
-              <h2 className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font }}>
-                Collections
-              </h2>
+              <TextReveal delay={100} duration={700} as="h2">
+                <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
+                  Collections
+                </span>
+              </TextReveal>
             </div>
             <Link href="/minimal/collections" className={`${minimal.cn.btnGhost} no-underline`}>
               View All <ArrowRight size={12} strokeWidth={1.5} />
             </Link>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {collections.map((col) => (
               <Link
                 key={col.title}
@@ -444,7 +640,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'linear-gradient(to top, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0) 50%)',
+                      backgroundColor: 'rgba(5, 5, 5, 0.35)',
                     }}
                   />
                   <div style={{ position: 'absolute', bottom: 'clamp(20px, 3vw, 32px)', left: 'clamp(20px, 3vw, 32px)' }}>
@@ -476,21 +672,21 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 </div>
               </Link>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </section>
 
       <div className={minimal.cn.container}><div className={minimal.cn.divider} /></div>
 
-      {/* ═══ SECTION 6: TRUST METRICS ═══ */}
+      {/* ═══ SECTION 6: TRUST METRICS — Animated CountUp ═══ */}
       <section className={minimal.cn.sectionCompact}>
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px" style={{ backgroundColor: '#E5E5E5' }}>
             {[
-              { value: '50+', label: 'Years of Expertise' },
-              { value: '10,000+', label: 'Pieces Crafted' },
-              { value: '100%', label: 'GIA Certified' },
-              { value: '30', label: 'Day Returns' },
+              { value: 50, suffix: '+', label: 'Years of Expertise' },
+              { value: 10000, suffix: '+', label: 'Pieces Crafted' },
+              { value: 100, suffix: '%', label: 'GIA Certified' },
+              { value: 30, suffix: '', label: 'Day Returns' },
             ].map((stat) => (
               <div
                 key={stat.label}
@@ -510,7 +706,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
-                  {stat.value}
+                  <CountUp value={stat.value} suffix={stat.suffix} />
                 </p>
                 <p
                   style={{
@@ -530,27 +726,27 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* ═══ SECTION 6B: BESTSELLERS ═══ */}
+      {/* ═══ SECTION 6B: BESTSELLERS — Staggered Grid ═══ */}
       <section className={minimal.cn.section} style={{ paddingTop: 0 }}>
         <div className={minimal.cn.container}>
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
               <span className={minimal.cn.label} style={{ fontFamily: mono }}>Most Loved</span>
-              <h2 className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font }}>
-                Bestsellers
-              </h2>
+              <TextReveal delay={100} duration={700} as="h2">
+                <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
+                  Bestsellers
+                </span>
+              </TextReveal>
             </div>
             <Link href="/minimal/collections" className={`${minimal.cn.btnGhost} no-underline`}>
               View All <ArrowRight size={12} strokeWidth={1.5} />
             </Link>
           </div>
-          <div className={minimal.cn.gridProduct}>
+          <StaggerReveal className={minimal.cn.gridProduct}>
             {bestsellers.map((p) => (
-              <div key={p.id}>
-                <MinimalProductCard product={p} />
-              </div>
+              <MinimalProductCard key={p.id} product={p} />
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </section>
 
@@ -562,9 +758,11 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
               <span className={minimal.cn.label} style={{ fontFamily: mono }}>Just In</span>
-              <h2 className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font }}>
-                New Arrivals
-              </h2>
+              <TextReveal delay={100} duration={700} as="h2">
+                <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
+                  New Arrivals
+                </span>
+              </TextReveal>
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               <button
@@ -625,19 +823,22 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <span className={minimal.cn.label} style={{ fontFamily: mono, display: 'block', marginBottom: '20px' }}>
             Stay Informed
           </span>
-          <h2
-            style={{
-              fontFamily: font,
-              fontSize: 'clamp(28px, 3.5vw, 48px)',
-              fontWeight: 200,
-              letterSpacing: '-0.03em',
-              lineHeight: 1.1,
-              color: '#050505',
-              marginBottom: '16px',
-            }}
-          >
-            Newsletter
-          </h2>
+          <TextReveal duration={700} as="h2">
+            <span
+              style={{
+                fontFamily: font,
+                fontSize: 'clamp(28px, 3.5vw, 48px)',
+                fontWeight: 200,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.1,
+                color: '#050505',
+                marginBottom: '16px',
+                display: 'block',
+              }}
+            >
+              Newsletter
+            </span>
+          </TextReveal>
           <p
             style={{
               fontFamily: font,
@@ -657,6 +858,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <input
               type="email"
               placeholder="Your email"
+              aria-label="Email address"
               style={{
                 flex: 1,
                 height: '52px',
@@ -721,6 +923,16 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           .vm-hero-right {
             flex: 0 0 45vh !important;
           }
+        }
+
+        /* SplitTextReveal in dark section */
+        .${minimal.cn.containerNarrow?.split(' ')[0] || 'container'} p {
+          font-family: ${font};
+          font-size: clamp(20px, 2.5vw, 36px);
+          font-weight: 200;
+          color: #FFFFFF;
+          line-height: 1.6;
+          letter-spacing: -0.02em;
         }
 
         /* Smooth focus states */

@@ -1,0 +1,36 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? scrollTop / docHeight : 0);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
+
+  return (
+    <div
+      className="fixed top-0 left-0 z-[100] h-[2px] bg-[#050505] origin-left"
+      style={{
+        width: '100%',
+        transform: `scaleX(${progress})`,
+        transition: 'transform 0.1s linear',
+        transformOrigin: '0 50%',
+      }}
+    />
+  );
+}
