@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useRef, useState, useEffect, lazy, Suspense } from 'react'
+import { useCallback, useRef, useState, useEffect, Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { MinimalLayout } from './minimal/MinimalLayout'
@@ -18,12 +19,14 @@ import { StaggerReveal, StaggerItem } from './minimal/animations/StaggerReveal'
 import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
 
-// Lazy-load heavy 3D components
-const DiamondDust = lazy(() =>
-  import('./minimal/3d/DiamondDust').then(m => ({ default: m.DiamondDust }))
+// Lazy-load heavy 3D components (Next.js dynamic for SSR safety)
+const DiamondDust = dynamic(
+  () => import('./minimal/3d/DiamondDust').then(m => ({ default: m.DiamondDust })),
+  { ssr: false, loading: () => <div /> }
 )
-const ProductViewer3D = lazy(() =>
-  import('./minimal/3d/ProductViewer3D').then(m => ({ default: m.ProductViewer3D }))
+const ProductViewer3D = dynamic(
+  () => import('./minimal/3d/ProductViewer3D').then(m => ({ default: m.ProductViewer3D })),
+  { ssr: false, loading: () => <div style={{ height: '500px', backgroundColor: '#050505' }} /> }
 )
 
 const font = minimal.font.primary
