@@ -1,15 +1,14 @@
 'use client'
 
-import { type ReactNode, Suspense } from 'react'
+import { type ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
 import { ScrollProgress } from './animations/ScrollProgress'
 
-// Lazy-load CustomCursor (desktop only, no SSR needed)
-const CustomCursor = dynamic(
-  () => import('./cursor/CustomCursor').then(m => ({ default: m.CustomCursor })),
+const MinimalCursor = dynamic(
+  () => import('./cursor/MinimalCursor').then((m) => m.MinimalCursor),
   { ssr: false }
 )
 
@@ -100,9 +99,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         <ScrollProgress />
 
         {/* Global custom cursor (lazy-loaded, desktop only) */}
-        <Suspense fallback={null}>
-          <CustomCursor />
-        </Suspense>
+        <MinimalCursor />
 
         {!hideNav && <MinimalNav />}
         <main>{children}</main>

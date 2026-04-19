@@ -1,13 +1,16 @@
 'use client';
 
-import { useRef, useEffect, useState, ReactNode } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { Children, useRef, useEffect, useState, ReactNode } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface HorizontalScrollProps {
   children: ReactNode;
   className?: string;
   /** Number of panels/cards. Used to calculate scroll height. */
-  panelCount: number;
+  panelCount?: number;
   /** Height multiplier per panel in vh. Default 100 */
   heightPerPanel?: number;
   /** Section title displayed above the scroll area */
@@ -33,27 +36,9 @@ export function HorizontalScroll({
   subtitle,
 }: HorizontalScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [prefersReduced, setPrefersReduced] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  // Transform vertical scroll to horizontal translation
-  // Move from 0% to -(panelCount - 1) * 100vw
-  const xRaw = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ['0%', `${-(panelCount - 1) * 100}%`]
-  );
-
-  const x = useSpring(xRaw, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -71,8 +56,37 @@ export function HorizontalScroll({
     };
   }, []);
 
-  // Mobile: vertical scroll with snap
-  if (isMobile) {
+  const computedPanelCount = panelCount ?? (Children.count(children) || 1);
+  const disabled = isMobile || prefersReduced;
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const track = trackRef.current;
+    if (!container || !track || disabled) return;
+
+    const ctx = gsap.context(() => {
+      const totalWidth = Math.max(track.scrollWidth - window.innerWidth, 0);
+      if (totalWidth <= 0) return;
+
+      gsap.to(track, {
+        x: -totalWidth,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: container,
+          start: 'top top',
+          end: `+=${totalWidth}`,
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+        },
+      });
+    }, container);
+
+    return () => ctx.revert();
+  }, [disabled, children]);
+
+  // Mobile / reduced-motion fallback: vertical layout
+  if (disabled) {
     return (
       <section className={className}>
         {(title || subtitle) && (
@@ -120,7 +134,7 @@ export function HorizontalScroll({
       ref={containerRef}
       className={className}
       style={{
-        height: `${panelCount * heightPerPanel}vh`,
+        height: `${computedPanelCount * heightPerPanel}vh`,
         position: 'relative',
       }}
     >
@@ -165,19 +179,20 @@ export function HorizontalScroll({
         )}
 
         {/* Scrolling track */}
-        <motion.div
+        <div
+          ref={trackRef}
           style={{
-            x: prefersReduced ? xRaw : x,
             display: 'flex',
             flex: 1,
             alignItems: 'center',
             gap: '40px',
             paddingLeft: '60px',
             paddingRight: '60px',
+            willChange: 'transform',
           }}
         >
           {children}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

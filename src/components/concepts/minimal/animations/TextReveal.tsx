@@ -1,7 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useState, ReactNode } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useRef, useEffect, ReactNode } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface TextRevealProps {
   children: ReactNode;
@@ -29,50 +32,46 @@ export function TextReveal({
   children,
   className = '',
   delay = 0,
-  duration = 600,
+  duration = 1200,
   direction = 'left',
   as = 'div',
 }: TextRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-40px 0px' });
-  const [prefersReduced, setPrefersReduced] = useState(false);
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // Clip-path values for different directions
-  const clipHidden = direction === 'left'
-    ? 'inset(0 100% 0 0)'
-    : 'inset(100% 0 0 0)';
-  const clipVisible = 'inset(0 0% 0 0)';
+    const fromClip = direction === 'left' ? 'inset(0 100% 0 0)' : 'inset(100% 0 0 0)';
 
-  const MotionTag = motion[as] as typeof motion.div;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { clipPath: fromClip },
+        {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: duration / 1000,
+          ease: 'power3.out',
+          delay: delay / 1000,
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            end: 'top 50%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }, el);
 
-  if (prefersReduced) {
-    return (
-      <MotionTag ref={ref} className={className}>
-        {children}
-      </MotionTag>
-    );
-  }
+    return () => ctx.revert();
+  }, [delay, direction, duration]);
 
+  const Tag = as;
   return (
-    <MotionTag
-      ref={ref}
-      className={className}
-      style={{
-        clipPath: isInView ? clipVisible : clipHidden,
-        transition: `clip-path ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}ms`,
-        willChange: isInView ? 'auto' : 'clip-path',
-      }}
-    >
+    <Tag ref={ref as never} className={className}>
       {children}
-    </MotionTag>
+    </Tag>
   );
 }
 
@@ -94,43 +93,51 @@ export function SplitTextReveal({
   text,
   className = '',
   stagger = 40,
-  duration = 500,
+  duration = 700,
   as: Tag = 'h2',
 }: SplitTextRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-40px 0px' });
-  const [prefersReduced, setPrefersReduced] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-
+  const ref = useRef<HTMLElement>(null);
   const words = text.split(' ');
 
-  if (prefersReduced) {
-    return <Tag ref={ref as React.RefObject<HTMLHeadingElement>} className={className}>{text}</Tag>;
-  }
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const wordEls = el.querySelectorAll('[data-split-word]');
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        wordEls,
+        { y: 30, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: duration / 1000,
+          stagger: stagger / 1000,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }, el);
+
+    return () => ctx.revert();
+  }, [duration, stagger, words.length]);
 
   return (
     <Tag
-      ref={ref as React.RefObject<HTMLHeadingElement>}
+      ref={ref as never}
       className={className}
       style={{ overflow: 'hidden', display: 'flex', flexWrap: 'wrap', gap: '0 0.3em' }}
     >
       {words.map((word, i) => (
         <span
           key={i}
-          style={{
-            display: 'inline-block',
-            transform: isInView ? 'translateY(0)' : 'translateY(110%)',
-            opacity: isInView ? 1 : 0,
-            transition: `transform ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${i * stagger}ms, opacity ${duration}ms ease ${i * stagger}ms`,
-            willChange: isInView ? 'auto' : 'transform',
-          }}
+          data-split-word
+          style={{ display: 'inline-block' }}
         >
           {word}
         </span>

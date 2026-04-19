@@ -19,15 +19,14 @@ import { StaggerReveal, StaggerItem } from './minimal/animations/StaggerReveal'
 import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
 
-// Lazy-load heavy 3D components (Next.js dynamic for SSR safety)
-const DiamondDust = dynamic(
-  () => import('./minimal/3d/DiamondDust').then(m => ({ default: m.DiamondDust })),
-  { ssr: false, loading: () => <div /> }
-)
-const ProductViewer3D = dynamic(
-  () => import('./minimal/3d/ProductViewer3D').then(m => ({ default: m.ProductViewer3D })),
-  { ssr: false, loading: () => <div style={{ height: '500px', backgroundColor: '#050505' }} /> }
-)
+const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
+  ssr: false,
+  loading: () => <div />,
+})
+const Minimal3DViewer = dynamic(() => import('./minimal/3d/Minimal3DViewer'), {
+  ssr: false,
+  loading: () => <div className="aspect-square w-full max-w-md mx-auto animate-pulse bg-[#F0F0F0]" />,
+})
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -306,9 +305,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             alt="Precision-cut diamond"
             speed={0.15}
           />
-          {/* Diamond Dust particles overlay */}
+          {/* Diamond dust particles overlay */}
           <Suspense fallback={null}>
-            <DiamondDust particleCount={120} />
+            <ParticleField className="absolute inset-0 pointer-events-none" />
           </Suspense>
         </div>
       </section>
@@ -505,7 +504,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             LOADING 3D VIEW...
           </div>
         }>
-          <ProductViewer3D jewelryType="ring" height="500px" />
+          <Minimal3DViewer className="max-w-none w-full" />
         </Suspense>
       </section>
 
@@ -557,6 +556,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <Link
               href={`/minimal/product/${product.slug}`}
               className="group block"
+              data-cursor="view"
               style={{
                 textDecoration: 'none',
                 color: '#050505',
@@ -568,7 +568,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 alignItems: 'center',
               }}
             >
-              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA', height: '100%' }}>
+              <div className="product-image" style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA', height: '100%' }}>
                 <img
                   src={product.images[0]}
                   alt={product.name}

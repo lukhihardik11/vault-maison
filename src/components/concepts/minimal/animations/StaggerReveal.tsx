@@ -1,7 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useState, ReactNode } from 'react';
-import { useInView } from 'framer-motion';
+import { useRef, useEffect, ReactNode } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface StaggerRevealProps {
   children: ReactNode;
@@ -26,52 +29,48 @@ export function StaggerReveal({
   children,
   className = '',
   stagger = 80,
-  duration = 500,
+  duration = 800,
   direction = 'up',
 }: StaggerRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-60px 0px' });
-  const [prefersReduced, setPrefersReduced] = useState(false);
-
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const getTransform = (visible: boolean) => {
-    if (visible) return 'translate3d(0, 0, 0)';
-    switch (direction) {
-      case 'up': return 'translate3d(0, 40px, 0)';
-      case 'left': return 'translate3d(-40px, 0, 0)';
-      case 'right': return 'translate3d(40px, 0, 0)';
-    }
-  };
+    const items = Array.from(el.children);
+    if (!items.length) return;
 
-  if (prefersReduced) {
-    return <div ref={ref} className={className}>{children}</div>;
-  }
+    const fromVars =
+      direction === 'left'
+        ? { x: -40, y: 0, autoAlpha: 0 }
+        : direction === 'right'
+          ? { x: 40, y: 0, autoAlpha: 0 }
+          : { x: 0, y: 40, autoAlpha: 0 };
 
-  // Convert children to array for stagger indexing
-  const childArray = Array.isArray(children) ? children : [children];
+    const ctx = gsap.context(() => {
+      gsap.set(items, fromVars);
+      gsap.to(items, {
+        x: 0,
+        y: 0,
+        autoAlpha: 1,
+        duration: duration / 1000,
+        stagger: stagger / 1000,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, [direction, duration, stagger]);
 
   return (
     <div ref={ref} className={className}>
-      {childArray.map((child, i) => (
-        <div
-          key={i}
-          style={{
-            transform: isInView ? getTransform(true) : getTransform(false),
-            opacity: isInView ? 1 : 0,
-            transition: `transform ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${i * stagger}ms, opacity ${duration}ms ease ${i * stagger}ms`,
-            willChange: isInView ? 'auto' : 'transform, opacity',
-          }}
-        >
-          {child}
-        </div>
-      ))}
+      {children}
     </div>
   );
 }
@@ -102,28 +101,51 @@ export function StaggerItem({
   isInView = false,
   prefersReduced = false,
 }: StaggerItemProps) {
-  const getTransform = (visible: boolean) => {
-    if (visible) return 'translate3d(0, 0, 0)';
-    switch (direction) {
-      case 'up': return 'translate3d(0, 40px, 0)';
-      case 'left': return 'translate3d(-40px, 0, 0)';
-      case 'right': return 'translate3d(40px, 0, 0)';
-    }
-  };
+  const ref = useRef<HTMLDivElement>(null);
 
   if (prefersReduced) {
     return <div className={className}>{children}</div>;
   }
 
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const fromVars =
+      direction === 'left'
+        ? { x: -40, y: 0, autoAlpha: 0 }
+        : direction === 'right'
+          ? { x: 40, y: 0, autoAlpha: 0 }
+          : { x: 0, y: 40, autoAlpha: 0 };
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        fromVars,
+        {
+          x: 0,
+          y: 0,
+          autoAlpha: 1,
+          duration: duration / 1000,
+          delay: (index * stagger) / 1000,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 82%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }, el);
+
+    return () => ctx.revert();
+  }, [direction, duration, index, stagger, isInView]);
+
   return (
     <div
+      ref={ref}
       className={className}
-      style={{
-        transform: isInView ? getTransform(true) : getTransform(false),
-        opacity: isInView ? 1 : 0,
-        transition: `transform ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * stagger}ms, opacity ${duration}ms ease ${index * stagger}ms`,
-        willChange: isInView ? 'auto' : 'transform, opacity',
-      }}
     >
       {children}
     </div>

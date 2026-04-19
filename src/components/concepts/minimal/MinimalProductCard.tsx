@@ -24,12 +24,14 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
     <Link
       href={`/minimal/product/${product.slug}`}
       className="group block"
+      data-cursor="view"
       style={{ textDecoration: 'none', color: '#050505' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
       <div
+        className="product-image"
         style={{
           position: 'relative',
           aspectRatio: '3 / 4',

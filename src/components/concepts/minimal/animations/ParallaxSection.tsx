@@ -1,14 +1,17 @@
 'use client';
 
 import { useRef, useEffect, useState, ReactNode } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ParallaxSectionProps {
   children: ReactNode;
   className?: string;
   /** Speed multiplier. 0 = no parallax, 0.5 = half speed, -0.3 = reverse. Default 0.3 */
   speed?: number;
-  /** Scroll offset range. Default ['start end', 'end start'] */
+  /** ScrollTrigger range. Default ['top bottom', 'bottom top'] */
   offset?: [string, string];
 }
 
@@ -25,20 +28,11 @@ export function ParallaxSection({
   children,
   className = '',
   speed = 0.3,
-  offset = ['start end', 'end start'],
+  offset = ['top bottom', 'bottom top'],
 }: ParallaxSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [prefersReduced, setPrefersReduced] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: offset as any,
-  });
-
-  // Convert speed to pixel range: speed * viewport height
-  const yRange = speed * 200;
-  const y = useTransform(scrollYProgress, [0, 1], [-yRange, yRange]);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -57,17 +51,28 @@ export function ParallaxSection({
     };
   }, []);
 
-  const disabled = prefersReduced || isMobile;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReduced || isMobile) return;
+    const yDistance = -100 * speed;
 
-  return (
-    <div ref={ref} className={className} style={{ overflow: 'hidden' }}>
-      <motion.div
-        style={disabled ? undefined : { y }}
-      >
-        {children}
-      </motion.div>
-    </div>
-  );
+    const ctx = gsap.context(() => {
+      gsap.to(el, {
+        y: yDistance,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el,
+          start: offset[0],
+          end: offset[1],
+          scrub: true,
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, [isMobile, offset, prefersReduced, speed]);
+
+  return <div ref={ref} className={className}>{children}</div>;
 }
 
 interface ParallaxImageProps {
@@ -92,17 +97,9 @@ export function ParallaxImage({
   speed = 0.2,
   scale = 1.15,
 }: ParallaxImageProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLImageElement>(null);
   const [prefersReduced, setPrefersReduced] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-
-  const yRange = speed * 200;
-  const y = useTransform(scrollYProgress, [0, 1], [-yRange, yRange]);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -120,19 +117,38 @@ export function ParallaxImage({
     };
   }, []);
 
-  const disabled = prefersReduced || isMobile;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReduced || isMobile) return;
+
+    const yDistance = -100 * speed;
+    const ctx = gsap.context(() => {
+      gsap.to(el, {
+        y: yDistance,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, [isMobile, prefersReduced, speed]);
 
   return (
-    <div ref={ref} className={className} style={{ overflow: 'hidden' }}>
-      <motion.img
+    <div className={className} style={{ overflow: 'hidden' }}>
+      <img
+        ref={ref}
         src={src}
         alt={alt}
-        style={disabled ? { width: '100%', height: '100%', objectFit: 'cover' } : {
-          y,
-          scale,
+        style={{
           width: '100%',
           height: '100%',
           objectFit: 'cover',
+          transform: prefersReduced || isMobile ? 'none' : `scale(${scale})`,
         }}
       />
     </div>
