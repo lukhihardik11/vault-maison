@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { type Product } from '@/data/products'
 import { minimal } from './design-system'
@@ -11,9 +11,14 @@ interface MinimalProductCardProps {
 
 export function MinimalProductCard({ product }: MinimalProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const [imgLoaded, setImgLoaded] = useState(false)
+  const [altImgLoaded, setAltImgLoaded] = useState(false)
   const hasSecondImage = product.images.length > 1
   const font = minimal.font.primary
   const mono = minimal.font.mono
+
+  const handleImgLoad = useCallback(() => setImgLoaded(true), [])
+  const handleAltImgLoad = useCallback(() => setAltImgLoaded(true), [])
 
   return (
     <Link
@@ -33,12 +38,25 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
           marginBottom: '16px',
         }}
       >
+        {/* Skeleton placeholder */}
+        {!imgLoaded && (
+          <div
+            className="animate-pulse"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundColor: '#F0F0F0',
+            }}
+          />
+        )}
+
         {/* Primary Image */}
         <img
           src={product.images[0]}
           alt={product.name}
-          loading="eager"
+          loading="lazy"
           decoding="async"
+          onLoad={handleImgLoad}
           style={{
             position: 'absolute',
             inset: 0,
@@ -46,9 +64,9 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
             height: '100%',
             objectFit: 'cover',
             display: 'block',
-            transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease',
-            transform: isHovered ? 'scale(1.04)' : 'scale(1)',
-            opacity: isHovered && hasSecondImage ? 0 : 1,
+            transition: 'transform 700ms cubic-bezier(0.16, 1, 0.3, 1), opacity 500ms ease',
+            transform: isHovered ? 'scale(1.03)' : 'scale(1)',
+            opacity: imgLoaded ? (isHovered && hasSecondImage ? 0 : 1) : 0,
           }}
         />
 
@@ -57,8 +75,9 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
           <img
             src={product.images[1]}
             alt={`${product.name} alternate view`}
-            loading="eager"
+            loading="lazy"
             decoding="async"
+            onLoad={handleAltImgLoad}
             style={{
               position: 'absolute',
               inset: 0,
@@ -66,9 +85,9 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
               height: '100%',
               objectFit: 'cover',
               display: 'block',
-              transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease',
-              transform: isHovered ? 'scale(1.04)' : 'scale(1)',
-              opacity: isHovered ? 1 : 0,
+              transition: 'transform 700ms cubic-bezier(0.16, 1, 0.3, 1), opacity 500ms ease',
+              transform: isHovered ? 'scale(1.03)' : 'scale(1)',
+              opacity: isHovered && altImgLoaded ? 1 : 0,
             }}
           />
         )}
@@ -141,6 +160,7 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
           </span>
         )}
         <h3
+          className="minimal-card-title"
           style={{
             fontFamily: font,
             fontSize: '14px',
@@ -148,9 +168,10 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
             letterSpacing: '-0.01em',
             color: '#050505',
             margin: 0,
-            transition: 'opacity 0.2s ease',
+            position: 'relative',
+            display: 'inline-block',
+            width: 'fit-content',
           }}
-          className="group-hover:underline underline-offset-4 decoration-[#050505]/20"
         >
           {product.name}
         </h3>

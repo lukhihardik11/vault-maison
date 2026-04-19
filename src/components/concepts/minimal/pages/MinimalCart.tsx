@@ -1,4 +1,5 @@
 'use client'
+import { useState, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Minus, Plus, X, ArrowRight, Shield, Truck, RotateCcw } from 'lucide-react'
@@ -8,9 +9,18 @@ const F = "'Inter', 'Helvetica Neue', sans-serif"
 
 export function MinimalCart() {
   const { items, removeItem, updateQuantity, getTotal, getItemCount } = useCartStore()
+  const [removingId, setRemovingId] = useState<string | null>(null)
   const subtotal = getTotal()
   const shipping = subtotal > 500 ? 0 : 25
   const total = subtotal + shipping
+
+  const handleRemove = useCallback((productId: string) => {
+    setRemovingId(productId)
+    setTimeout(() => {
+      removeItem(productId)
+      setRemovingId(null)
+    }, 300)
+  }, [removeItem])
 
   if (items.length === 0) {
     return (
@@ -24,6 +34,7 @@ export function MinimalCart() {
           fontFamily: F, fontSize: 14, color: '#FFF', textDecoration: 'none',
           background: '#050505', padding: '14px 40px',
           letterSpacing: '0.08em', fontWeight: 500, textTransform: 'uppercase' as const,
+          display: 'inline-block',
         }}>
           Shop Collection
         </Link>
@@ -34,20 +45,29 @@ export function MinimalCart() {
   return (
     <div style={{ background: '#FAFAFA', minHeight: '100vh', color: '#050505' }}>
       <div style={{ padding: '56px 24px 24px', maxWidth: 1200, margin: '0 auto' }}>
-        <h1 style={{ fontFamily: F, fontSize: 40, fontWeight: 300, color: '#050505', letterSpacing: '-0.03em' }}>
-          Your Bag <span style={{ fontFamily: F, fontSize: 20, fontWeight: 300, color: '#9B9B9B' }}>({getItemCount()})</span>
+        <h1 style={{ fontFamily: F, fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 300, color: '#050505', letterSpacing: '-0.03em' }}>
+          Your Bag <span style={{ fontFamily: F, fontSize: 'clamp(16px, 3vw, 20px)', fontWeight: 300, color: '#9B9B9B' }}>({getItemCount()})</span>
         </h1>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 80px', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40, alignItems: 'start' }}>
+      <div className="minimal-cart-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 80px', alignItems: 'start' }}>
         {/* Items */}
         <div style={{ background: '#FFF', padding: '8px 0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
           {items.map((item, idx) => (
-            <div key={item.product.id} style={{
-              display: 'grid', gridTemplateColumns: '100px 1fr auto', gap: 20,
-              padding: '24px 28px',
-              borderBottom: idx < items.length - 1 ? '1px solid #F5F5F5' : 'none',
-            }}>
+            <div
+              key={item.product.id}
+              className="minimal-cart-item"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '100px 1fr auto',
+                gap: 20,
+                padding: '24px 28px',
+                borderBottom: idx < items.length - 1 ? '1px solid #F5F5F5' : 'none',
+                transition: 'opacity 300ms ease, transform 300ms ease',
+                opacity: removingId === item.product.id ? 0 : 1,
+                transform: removingId === item.product.id ? 'translateX(-20px)' : 'translateX(0)',
+              }}
+            >
               <div style={{ position: 'relative', width: 100, height: 120, overflow: 'hidden', background: '#F5F5F5' }}>
                 <Image src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} />
               </div>
@@ -56,25 +76,31 @@ export function MinimalCart() {
                   <h3 style={{ fontFamily: F, fontSize: 16, fontWeight: 500, color: '#050505', marginBottom: 4 }}>{item.product.name}</h3>
                   <p style={{ fontFamily: F, fontSize: 13, color: '#9B9B9B' }}>{item.product.material || item.product.category}</p>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid #E5E5E5', overflow: 'hidden' }}>
                     <button
+                      type="button"
                       onClick={() => updateQuantity(item.product.id, Math.max(1, item.quantity - 1))}
-                      style={{ width: 36, height: 36, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#050505' }}
+                      style={{ width: 36, height: 36, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#050505', minWidth: 44, minHeight: 44 }}
+                      aria-label="Decrease quantity"
                     >
                       <Minus size={14} />
                     </button>
                     <span style={{ fontFamily: F, fontSize: 14, fontWeight: 500, width: 32, textAlign: 'center' }}>{item.quantity}</span>
                     <button
+                      type="button"
                       onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                      style={{ width: 36, height: 36, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#050505' }}
+                      style={{ width: 36, height: 36, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#050505', minWidth: 44, minHeight: 44 }}
+                      aria-label="Increase quantity"
                     >
                       <Plus size={14} />
                     </button>
                   </div>
                   <button
-                    onClick={() => removeItem(item.product.id)}
-                    style={{ background: 'none', border: 'none', color: '#9B9B9B', cursor: 'pointer', fontFamily: F, fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, transition: 'color 0.2s' }}
+                    type="button"
+                    onClick={() => handleRemove(item.product.id)}
+                    style={{ background: 'none', border: 'none', color: '#9B9B9B', cursor: 'pointer', fontFamily: F, fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, transition: 'color 0.2s', minHeight: 44, padding: '0 4px' }}
+                    aria-label={`Remove ${item.product.name}`}
                   >
                     <X size={14} /> Remove
                   </button>
@@ -108,8 +134,8 @@ export function MinimalCart() {
               <span style={{ fontFamily: F, fontSize: 22, fontWeight: 400, color: '#050505', letterSpacing: '-0.02em' }}>${total.toLocaleString()}</span>
             </div>
 
-            <Link href="/minimal/checkout" style={{ textDecoration: 'none' }}>
-              <button style={{
+            <Link href="/minimal/checkout" style={{ textDecoration: 'none', display: 'block' }}>
+              <button type="button" style={{
                 width: '100%', height: 52, background: '#050505', border: 'none',
                 cursor: 'pointer', display: 'flex', alignItems: 'center',
                 justifyContent: 'center', gap: 10, transition: 'all 0.2s ease',
@@ -141,6 +167,32 @@ export function MinimalCart() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .minimal-cart-grid {
+          display: grid;
+          grid-template-columns: 1fr 380px;
+          gap: 40px;
+        }
+        .minimal-cart-item {
+          grid-template-columns: 100px 1fr auto;
+        }
+        @media (max-width: 768px) {
+          .minimal-cart-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+          }
+          .minimal-cart-item {
+            grid-template-columns: 80px 1fr !important;
+            gap: 12px !important;
+            padding: 16px !important;
+          }
+          .minimal-cart-item > div:last-child {
+            grid-column: 1 / -1;
+            text-align: right;
+          }
+        }
+      `}</style>
     </div>
   )
 }

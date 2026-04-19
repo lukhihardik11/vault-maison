@@ -75,6 +75,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
       `}</style>
       <div
         className="minimal-concept"
+        data-concept="minimal"
         style={{
           backgroundColor: '#FFFFFF',
           color: '#050505',
@@ -84,6 +85,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           lineHeight: 1.6,
           minHeight: '100vh',
           letterSpacing: '-0.01em',
+          overflowX: 'hidden',
         }}
       >
         {!hideNav && <MinimalNav />}
