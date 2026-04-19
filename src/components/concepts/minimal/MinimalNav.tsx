@@ -9,6 +9,7 @@ import { useWishlistStore } from '@/store/wishlist'
 import ActionSearchBar from './ui/ActionSearchBar'
 import ProfileDropdown from './ui/ProfileDropdown'
 import { minimal } from './design-system'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -91,10 +92,10 @@ export function MinimalNav() {
           right: 0,
           zIndex: 50,
           height: '64px',
-          borderBottom: '1px solid #E5E5E5',
-          backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.98)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: scrolled ? '1px solid rgba(229, 229, 229, 0.5)' : '1px solid transparent',
+          backgroundColor: scrolled ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.98)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
           transition: 'background-color 300ms ease',
         }}
       >
@@ -227,27 +228,35 @@ export function MinimalNav() {
               aria-label={`Cart with ${cartCount} items`}
             >
               <ShoppingBag size={17} strokeWidth={1.5} />
-              {cartCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '2px',
-                  right: '2px',
-                  minWidth: '16px',
-                  height: '16px',
-                  backgroundColor: '#050505',
-                  color: '#FFFFFF',
-                  fontFamily: font,
-                  fontSize: '9px',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  lineHeight: 1,
-                  padding: '0 3px',
-                }}>
-                  {cartCount > 99 ? '99+' : cartCount}
-                </span>
-              )}
+              <AnimatePresence>
+                {cartCount > 0 && (
+                  <motion.span 
+                    key={cartCount}
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.5, opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                    style={{
+                      position: 'absolute',
+                      top: '2px',
+                      right: '2px',
+                      minWidth: '16px',
+                      height: '16px',
+                      backgroundColor: '#050505',
+                      color: '#FFFFFF',
+                      fontFamily: font,
+                      fontSize: '9px',
+                      fontWeight: 600,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      lineHeight: 1,
+                      padding: '0 3px',
+                    }}>
+                    {cartCount > 99 ? '99+' : cartCount}
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </Link>
             <div className="hidden md:block">
               <ProfileDropdown />
@@ -290,7 +299,7 @@ export function MinimalNav() {
             right: 0,
             zIndex: 49,
             backgroundColor: '#FFFFFF',
-            borderBottom: '1px solid #E5E5E5',
+            borderBottom: '1px solid transparent',
             animation: 'megaSlide 200ms ease',
           }}
         >
@@ -365,73 +374,89 @@ export function MinimalNav() {
       )}
 
       {/* Mobile Menu — Full Screen Takeover with Stagger */}
-      {menuOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: '#FFFFFF',
-            zIndex: 100,
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '0 24px',
-            animation: 'fadeIn 200ms ease',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
-            <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#050505' }}>
-              Minimal Machine
-            </span>
-            <button
-              type="button"
-              onClick={() => setMenuOpen(false)}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '8px',
-                color: '#050505',
-                minWidth: '44px',
-                minHeight: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              aria-label="Close menu"
-            >
-              <X size={20} strokeWidth={1.5} />
-            </button>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '40px' }}>
-            {mobileLinks.map((link, i) => (
-              <Link
-                key={link.href}
-                href={link.href}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: '#FFFFFF',
+              zIndex: 100,
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '0 24px',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
+              <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#050505' }}>
+                Minimal Machine
+              </span>
+              <button
+                type="button"
                 onClick={() => setMenuOpen(false)}
-                className="minimal-mobile-link"
                 style={{
-                  fontFamily: font,
-                  fontSize: '13px',
-                  fontWeight: isActive(link.href) ? 500 : 300,
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
-                  color: isActive(link.href) ? '#050505' : '#8A8A8A',
-                  padding: '16px 0',
-                  borderBottom: '1px solid #E5E5E5',
-                  transition: 'color 0.2s ease',
-                  animationDelay: `${i * 50}ms`,
-                  minHeight: '52px',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '12px', // Larger tap target
+                  margin: '-4px', // Offset padding
+                  color: '#050505',
+                  minWidth: '44px',
+                  minHeight: '44px',
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                 }}
+                aria-label="Close menu"
               >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+                <X size={20} strokeWidth={1.5} />
+              </button>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', marginTop: '40px' }}>
+              {mobileLinks.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ 
+                    duration: 0.4, 
+                    delay: i * 0.05,
+                    ease: [0.16, 1, 0.3, 1] 
+                  }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      fontFamily: font,
+                      fontSize: '13px',
+                      fontWeight: isActive(link.href) ? 500 : 300,
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      textDecoration: 'none',
+                      color: isActive(link.href) ? '#050505' : '#8A8A8A',
+                      padding: '16px 0',
+                      borderBottom: '1px solid transparent',
+                      transition: 'color 0.2s ease',
+                      minHeight: '52px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      width: '100%', // Full width tap target
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Spacer */}
       <div style={{ height: '64px' }} />
@@ -439,7 +464,7 @@ export function MinimalNav() {
       <style>{`
         @keyframes megaSlide { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Nav link underline — slides in from left */
+        /* Nav link underline — slides in from center */
         .minimal-nav-link {
           position: relative;
         }
@@ -447,35 +472,37 @@ export function MinimalNav() {
           content: '';
           position: absolute;
           bottom: -2px;
-          left: 0;
+          left: 50%;
           width: 0;
           height: 1px;
           background: #050505;
-          transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .minimal-nav-link:hover::after {
           width: 100%;
+          left: 0;
         }
         .minimal-nav-link:hover {
           color: #050505 !important;
         }
         .minimal-nav-link-active::after {
           width: 100%;
+          left: 0;
         }
 
-        /* Product card title underline — slides in from left */
-        .group:hover .minimal-card-title::after {
-          width: 100%;
-        }
         .minimal-card-title::after {
           content: '';
           position: absolute;
           bottom: -1px;
-          left: 0;
+          left: 50%;
           width: 0;
           height: 1px;
           background: rgba(5, 5, 5, 0.25);
-          transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .group:hover .minimal-card-title::after {
+          width: 100%;
+          left: 0;
         }
 
         /* Mobile menu stagger fade-in */

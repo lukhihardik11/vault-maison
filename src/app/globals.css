@@ -957,6 +957,23 @@ html {
   overflow-x: hidden;
 }
 
+/* Minimal concept - outline style for focus visible */
+[data-concept="minimal"] *:focus-visible {
+  outline: 1px solid #050505;
+  outline-offset: 2px;
+}
+
+/* Minimal concept - print styles */
+@media print {
+  [data-concept="minimal"] nav,
+  [data-concept="minimal"] footer,
+  [data-concept="minimal"] .minimal-cursor,
+  [data-concept="minimal"] .scroll-progress-container,
+  [data-concept="minimal"] .toolbar {
+    display: none !important;
+  }
+}
+
 /* Minimal concept buttons — full width on mobile */
 @media (max-width: 640px) {
   [data-concept="minimal"] .minimal-btn-responsive {

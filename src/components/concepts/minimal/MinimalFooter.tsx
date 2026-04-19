@@ -63,6 +63,67 @@ export function MinimalFooter() {
             paddingBottom: 'clamp(48px, 6vh, 72px)',
           }}
         >
+          {/* Newsletter (New) */}
+          <div style={{ gridColumn: '1 / -1', marginBottom: '32px' }}>
+            <h5
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: '#9B9B9B',
+                marginBottom: '20px',
+              }}
+            >
+              Newsletter
+            </h5>
+            <div style={{ maxWidth: '400px', display: 'flex', gap: '8px' }}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="minimal-newsletter-input"
+                style={{
+                  width: '100%',
+                  padding: '12px 0',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: '1px solid #E5E5E5',
+                  fontFamily: font,
+                  fontSize: '13px',
+                  color: '#050505',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease',
+                }}
+              />
+              <button
+                type="button"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  fontFamily: font,
+                  fontSize: '13px',
+                  color: '#050505',
+                  cursor: 'pointer',
+                  padding: '12px 0',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  transition: 'opacity 0.2s ease',
+                }}
+                className="hover:opacity-60"
+              >
+                Subscribe
+              </button>
+            </div>
+            <style>{`
+              .minimal-newsletter-input:focus {
+                border-bottom-color: #050505 !important;
+              }
+              .minimal-newsletter-input::placeholder {
+                color: #9B9B9B;
+              }
+            `}</style>
+          </div>
+
           {/* Shop */}
           <div>
             <h5
@@ -230,6 +291,30 @@ export function MinimalFooter() {
           >
             &copy; {new Date().getFullYear()} Minimal Machine. All rights reserved.
           </p>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            {[
+              { label: 'Instagram', href: '#' },
+              { label: 'Pinterest', href: '#' },
+              { label: 'Journal', href: '#' },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                style={{
+                  fontFamily: mono,
+                  fontSize: '10px',
+                  letterSpacing: '0.15em',
+                  color: '#9B9B9B',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease, transform 0.2s ease',
+                  display: 'inline-block',
+                }}
+                className="hover:!text-[#050505] hover:-translate-y-[2px]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
           <div style={{ display: 'flex', gap: '24px' }}>
             {[
               { label: 'Privacy', href: '/minimal/privacy' },

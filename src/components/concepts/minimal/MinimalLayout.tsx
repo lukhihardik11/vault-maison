@@ -6,6 +6,9 @@ import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
 import { ScrollProgress } from './animations/ScrollProgress'
+import { PageTransition } from './ui/PageTransition'
+import { Breadcrumb } from './ui/Breadcrumb'
+import { BackToTop } from './ui/BackToTop'
 
 const MinimalCursor = dynamic(
   () => import('./cursor/MinimalCursor').then((mod) => mod.MinimalCursor),
@@ -55,14 +58,14 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         .minimal-link-underline::after {
           content: '';
           position: absolute;
-          left: 0;
+          left: 50%;
           bottom: -2px;
           width: 0;
           height: 1px;
           background: #050505;
-          transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .minimal-link-underline:hover::after { width: 100%; }
+        .minimal-link-underline:hover::after { width: 100%; left: 0; }
 
         /* Button hover inversion */
         .vm-btn-primary {
@@ -101,9 +104,13 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         <MinimalCursor />
 
         {!hideNav && <MinimalNav />}
-        <main>{children}</main>
+        {!hideNav && <Breadcrumb />}
+        <PageTransition>
+          <main>{children}</main>
+        </PageTransition>
         {!hideFooter && <MinimalFooter />}
         {!hideNav && <Toolbar />}
+        <BackToTop />
       </div>
     </>
   )

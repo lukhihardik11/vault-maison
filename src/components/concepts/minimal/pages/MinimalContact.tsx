@@ -84,14 +84,14 @@ export function MinimalContact() {
               <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '4px' }}>Send a Message</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                  <div><label style={labelStyle}>First Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                  <div><label style={labelStyle}>Last Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
+                  <div><label style={labelStyle}>First Name</label><input type="text" required style={inputStyle} className="minimal-input-focus" /></div>
+                  <div><label style={labelStyle}>Last Name</label><input type="text" required style={inputStyle} className="minimal-input-focus" /></div>
                 </div>
-                <div><label style={labelStyle}>Email</label><input type="email" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                <div><label style={labelStyle}>Phone (Optional)</label><input type="tel" style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
+                <div><label style={labelStyle}>Email</label><input type="email" required style={inputStyle} className="minimal-input-focus" /></div>
+                <div><label style={labelStyle}>Phone (Optional)</label><input type="tel" style={inputStyle} className="minimal-input-focus" /></div>
                 <div>
                   <label style={labelStyle}>Subject</label>
-                  <select style={{ ...inputStyle, cursor: 'pointer' }} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'}>
+                  <select style={{ ...inputStyle, cursor: 'pointer' }} className="minimal-input-focus">
                     <option>General Inquiry</option>
                     <option>Product Question</option>
                     <option>Bespoke Request</option>
@@ -99,9 +99,11 @@ export function MinimalContact() {
                     <option>Press & Media</option>
                   </select>
                 </div>
-                <div><label style={labelStyle}>Message</label><textarea required rows={5} style={{ ...inputStyle, resize: 'vertical' }} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                <div style={{ alignSelf: 'flex-start' }}>
-                  <AnimatedSendButton text="Send Message" sentText="Message Sent!" type="submit" />
+                <div><label style={labelStyle}>Message</label><textarea required rows={5} style={{ ...inputStyle, resize: 'vertical' }} className="minimal-input-focus" /></div>
+                <div style={{ alignSelf: 'flex-start', width: '100%' }}>
+                  <button type="submit" className="minimal-submit-btn">
+                    <span>Send Message</span>
+                  </button>
                 </div>
               </form>
             )}
@@ -110,6 +112,33 @@ export function MinimalContact() {
       </section>
 
       <style>{`
+        .minimal-input-focus {
+          transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        .minimal-input-focus:focus {
+          border-color: #050505 !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        }
+        .minimal-submit-btn {
+          width: 100%;
+          padding: 16px 24px;
+          background-color: #050505;
+          color: #FFFFFF;
+          border: none;
+          font-family: ${font};
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .minimal-submit-btn:hover {
+          opacity: 0.9;
+        }
+        .minimal-submit-btn:active {
+          transform: scale(0.98);
+        }
         @media (max-width: 768px) {
           .vm-contact-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
         }
