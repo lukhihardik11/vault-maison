@@ -11,6 +11,32 @@ export const minimal = {
     border: '#E5E5E5',
     hoverBg: '#FAFAFA',
   },
+  animation: {
+    easing: {
+      brutal: 'cubic-bezier(0.19, 1, 0.22, 1)',
+      smooth: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      bounce: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+    },
+    timing: {
+      micro: '150ms',
+      fast: '300ms',
+      base: '500ms',
+      slow: '800ms',
+      macro: '1200ms',
+    },
+  },
+  spacing: {
+    '3xs': '0.25rem', // 4px
+    '2xs': '0.5rem',  // 8px
+    'xs': '1rem',     // 16px
+    'sm': '1.5rem',   // 24px
+    'md': '2rem',     // 32px
+    'lg': '3rem',     // 48px
+    'xl': '4rem',     // 64px
+    '2xl': '6rem',    // 96px
+    '3xl': '8rem',    // 128px
+    '4xl': '12rem',   // 192px
+  },
   cn: {
     heroHeadline: 'text-4xl md:text-6xl lg:text-8xl font-extralight tracking-tighter leading-none text-[#050505]',
     sectionHeadline: 'text-2xl md:text-3xl lg:text-5xl font-light tracking-tight text-[#050505]',

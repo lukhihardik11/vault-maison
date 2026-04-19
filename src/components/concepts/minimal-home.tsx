@@ -20,6 +20,11 @@ import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSec
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
 import { useReducedMotionPreference } from './minimal/animations/useResponsiveMotion'
 
+import { MarqueeText } from './minimal/ui/MarqueeText'
+import { MagneticButton } from './minimal/ui/MagneticButton'
+import { GlitchText } from './minimal/ui/GlitchText'
+import { SmoothCounter } from './minimal/ui/SmoothCounter'
+
 const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
   ssr: false,
 })
@@ -160,11 +165,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   margin: 0,
                 }}
               >
-                Precision.
-                <br />
-                Nothing
-                <br />
-                More.
+                <GlitchText text="Precision." /><br />
+                <GlitchText text="Nothing" /><br />
+                <GlitchText text="More." />
               </h1>
             </TextReveal>
 
@@ -219,9 +222,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             {/* CTA Buttons — staggered */}
             <StaggerReveal stagger={100} duration={500} direction="up" className="">
               <div style={{ display: 'flex', gap: '16px', marginTop: 'clamp(40px, 5vh, 64px)', flexWrap: 'wrap' }}>
-                <Link
-                  href="/minimal/collections"
-                  className="vm-btn-primary"
+                <MagneticButton
+                  onClick={() => window.location.href = '/minimal/collections'}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -233,17 +235,14 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
                     textDecoration: 'none',
-                    color: '#FFFFFF',
-                    backgroundColor: '#050505',
                     padding: '20px 48px',
-                    border: '1px solid #050505',
                     height: '52px',
                   }}
                 >
                   Shop Collection
-                </Link>
-                <Link
-                  href="/minimal/bespoke"
+                </MagneticButton>
+                <MagneticButton
+                  onClick={() => window.location.href = '/minimal/bespoke'}
                   className="vm-btn-secondary"
                   style={{
                     display: 'inline-flex',
@@ -263,7 +262,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   }}
                 >
                   Bespoke
-                </Link>
+                </MagneticButton>
               </div>
             </StaggerReveal>
           </div>
@@ -286,6 +285,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <ParticleField />
         </div>
       </section>
+
+      <MarqueeText text="VAULT MAISON • VAULT MAISON • VAULT MAISON" />
 
       {/* ═══ SECTION 2: CATEGORY SHOWCASE — Staggered Grid ═══ */}
       <section className={minimal.cn.section}>
@@ -706,7 +707,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
-                  <CountUp value={stat.value} suffix={stat.suffix} />
+                  <SmoothCounter value={stat.value} suffix={stat.suffix} />
                 </p>
                 <p
                   style={{
