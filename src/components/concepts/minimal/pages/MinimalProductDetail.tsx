@@ -3,12 +3,16 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, ChevronDown, Share2, Check } from 'lucide-react'
+import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, Share2, Check } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { MinimalProductCard } from '../MinimalProductCard'
 import { minimal } from '../design-system'
 import { products, type Product } from '@/data/products'
 import { useCartStore } from '@/store/cart'
+import { TiltCard } from '../ui/TiltCard'
+import { ImageReveal } from '../ui/ImageReveal'
+import { BlurUpImage } from '../ui/BlurUpImage'
+import { SmoothAccordion } from '../ui/SmoothAccordion'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const M = "'SF Mono', 'Fira Code', monospace"
@@ -88,19 +92,21 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
   return (
     <div className="md:sticky md:top-24 md:self-start">
       {/* Main Image */}
-      <div
-        ref={containerRef}
+      <ImageReveal
         className="product-image"
-        data-cursor="view"
         style={{
           width: '100%',
           aspectRatio: '4 / 5',
-          overflow: 'hidden',
-          cursor: 'crosshair',
           backgroundColor: '#F7F7F7',
-          position: 'relative',
         }}
       >
+        <BlurUpImage
+          src={images[selectedRef.current || 0]}
+          alt={`${productName} view`}
+          fill
+          style={{ objectFit: 'cover' }}
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
         <img
           ref={mainImgRef}
           src={images[0]}
@@ -110,11 +116,7 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            display: 'block',
-            pointerEvents: 'none',
-            transform: 'scale(1)',
-            transformOrigin: '50% 50%',
-            transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            display: 'none',
           }}
         />
         {/* Zoom hint */}
@@ -127,7 +129,7 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
         }}>
           Hover to zoom
         </div>
-      </div>
+      </ImageReveal>
 
       {/* Thumbnails */}
       {images.length > 1 && (
@@ -152,17 +154,12 @@ function ImageGallery({ images, productName }: { images: string[]; productName: 
                 transform: i === 0 ? 'scale(1.05)' : 'scale(1)',
               }}
             >
-              <img
+              <BlurUpImage
                 src={imgSrc}
                 alt={`${productName} view ${i + 1}`}
-                draggable={false}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                  pointerEvents: 'none',
-                }}
+                fill
+                style={{ objectFit: 'cover', pointerEvents: 'none' }}
+                sizes="76px"
               />
             </div>
           ))}
@@ -432,44 +429,8 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
           </div>
 
           {/* Accordion */}
-          <div style={{ borderTop: '1px solid #E5E5E5' }}>
-            {accItems.map((item, i) => (
-              <div key={i} style={{ borderBottom: '1px solid #E5E5E5' }}>
-                <button
-                  type="button"
-                  onClick={() => setAccordion(accordion === i ? -1 : i)}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '20px 0',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                  }}
-                >
-                  <span style={{ fontFamily: F, fontSize: 13, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: accordion === i ? '#050505' : '#9B9B9B', transition: 'color 0.2s' }}>
-                    {item.title}
-                  </span>
-                  <ChevronDown
-                    size={16}
-                    strokeWidth={1.5}
-                    color="#9B9B9B"
-                    style={{
-                      transform: accordion === i ? 'rotate(180deg)' : 'rotate(0)',
-                      transition: 'transform 300ms ease',
-                    }}
-                  />
-                </button>
-                <div style={{ maxHeight: accordion === i ? '300px' : '0', overflow: 'hidden', transition: 'max-height 300ms ease' }}>
-                  <p style={{ fontFamily: F, fontSize: 14, fontWeight: 300, color: '#6B6B6B', lineHeight: 1.85, paddingBottom: 20, margin: 0 }}>
-                    {item.content}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div style={{ marginTop: 40 }}>
+            <SmoothAccordion items={accItems} />
           </div>
         </div>
       </div>
@@ -525,11 +486,13 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               {related.slice(0, 2).map((p) => (
                 <Link key={p.id} href={`/minimal/product/${p.slug}`} style={{ textDecoration: 'none' }}>
-                  <div style={{ overflow: 'hidden', background: '#F7F7F7', aspectRatio: '3/4' }}>
-                    <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                  </div>
-                  <p style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: '#050505', margin: '10px 0 2px' }}>{p.name}</p>
-                  <p style={{ fontFamily: F, fontSize: 13, fontWeight: 300, color: '#9B9B9B', margin: 0 }}>{p.priceDisplay}</p>
+                  <TiltCard>
+                    <div style={{ overflow: 'hidden', background: '#F7F7F7', aspectRatio: '3/4' }}>
+                      <BlurUpImage src={p.images[0]} alt={p.name} fill sizes="50vw" />
+                    </div>
+                    <p style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: '#050505', margin: '10px 0 2px' }}>{p.name}</p>
+                    <p style={{ fontFamily: F, fontSize: 13, fontWeight: 300, color: '#9B9B9B', margin: 0 }}>{p.priceDisplay}</p>
+                  </TiltCard>
                 </Link>
               ))}
             </div>
@@ -557,9 +520,9 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
             </div>
             <div className={minimal.cn.gridProduct}>
               {related.map((p) => (
-                <div key={p.id}>
+                <TiltCard key={p.id}>
                   <MinimalProductCard product={p} />
-                </div>
+                </TiltCard>
               ))}
             </div>
           </div>

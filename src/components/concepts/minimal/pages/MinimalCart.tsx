@@ -2,8 +2,10 @@
 import { useState, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { Minus, Plus, X, ArrowRight, Shield, Truck, RotateCcw } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
+import { BlurUpImage } from '../ui/BlurUpImage'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -22,22 +24,49 @@ export function MinimalCart() {
     }, 300)
   }, [removeItem])
 
+  const shouldReduceMotion = useReducedMotion()
+
   if (items.length === 0) {
     return (
       <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#FAFAFA', padding: 40 }}>
-        <div style={{ width: 80, height: 80, background: '#F0F0F0', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
+        <motion.div
+          initial={shouldReduceMotion ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0.5 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          style={{ width: 80, height: 80, background: '#F0F0F0', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}
+        >
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9B9B9B" strokeWidth="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        </div>
-        <h2 style={{ fontFamily: F, fontSize: 26, color: '#050505', marginBottom: 8, fontWeight: 300, letterSpacing: '-0.02em' }}>Your bag is empty</h2>
-        <p style={{ fontFamily: F, fontSize: 15, color: '#9B9B9B', marginBottom: 32 }}>Discover our curated collection of fine jewelry</p>
-        <Link href="/minimal/collections" style={{
-          fontFamily: F, fontSize: 14, color: '#FFF', textDecoration: 'none',
-          background: '#050505', padding: '14px 40px',
-          letterSpacing: '0.08em', fontWeight: 500, textTransform: 'uppercase' as const,
-          display: 'inline-block',
-        }}>
-          Shop Collection
-        </Link>
+        </motion.div>
+        <motion.h2
+          initial={shouldReduceMotion ? { y: 0, opacity: 1 } : { y: 10, opacity: 0.5 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          style={{ fontFamily: F, fontSize: 26, color: '#050505', marginBottom: 8, fontWeight: 300, letterSpacing: '-0.02em' }}
+        >
+          Your bag is empty
+        </motion.h2>
+        <motion.p
+          initial={shouldReduceMotion ? { y: 0, opacity: 1 } : { y: 10, opacity: 0.5 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          style={{ fontFamily: F, fontSize: 15, color: '#9B9B9B', marginBottom: 32 }}
+        >
+          Discover our curated collection of fine jewelry
+        </motion.p>
+        <motion.div
+          initial={shouldReduceMotion ? { y: 0, opacity: 1 } : { y: 10, opacity: 0.5 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <Link href="/minimal/collections" style={{
+            fontFamily: F, fontSize: 14, color: '#FFF', textDecoration: 'none',
+            background: '#050505', padding: '14px 40px',
+            letterSpacing: '0.08em', fontWeight: 500, textTransform: 'uppercase' as const,
+            display: 'inline-block',
+          }}>
+            Shop Collection
+          </Link>
+        </motion.div>
       </div>
     )
   }
@@ -69,7 +98,7 @@ export function MinimalCart() {
               }}
             >
               <div style={{ position: 'relative', width: 100, height: 120, overflow: 'hidden', background: '#F5F5F5' }}>
-                <Image src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} />
+                <BlurUpImage src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} sizes="100px" />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '4px 0' }}>
                 <div>
@@ -77,11 +106,13 @@ export function MinimalCart() {
                   <p style={{ fontFamily: F, fontSize: 13, color: '#9B9B9B' }}>{item.product.material || item.product.category}</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid #E5E5E5', overflow: 'hidden' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid #E5E5E5', overflow: 'hidden', borderRadius: 0 }}>
                     <button
                       type="button"
                       onClick={() => updateQuantity(item.product.id, Math.max(1, item.quantity - 1))}
-                      style={{ width: 36, height: 36, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#050505', minWidth: 44, minHeight: 44 }}
+                      style={{ width: 36, height: 36, background: '#FFF', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#050505', minWidth: 44, minHeight: 44, transition: 'background 0.2s' }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F5F5F5'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FFF'}
                       aria-label="Decrease quantity"
                     >
                       <Minus size={14} />
@@ -90,7 +121,9 @@ export function MinimalCart() {
                     <button
                       type="button"
                       onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                      style={{ width: 36, height: 36, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#050505', minWidth: 44, minHeight: 44 }}
+                      style={{ width: 36, height: 36, background: '#FFF', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#050505', minWidth: 44, minHeight: 44, transition: 'background 0.2s' }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F5F5F5'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FFF'}
                       aria-label="Increase quantity"
                     >
                       <Plus size={14} />

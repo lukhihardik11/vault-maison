@@ -8,6 +8,10 @@ import { MinimalProductCard } from '../MinimalProductCard'
 import { minimal } from '../design-system'
 import { products } from '@/data/products'
 import { categoryLabels, type ProductCategory } from '@/data/concepts'
+import { TiltCard } from '../ui/TiltCard'
+import { QuickView } from '../ui/QuickView'
+import { BlurUpImage } from '../ui/BlurUpImage'
+import { MinimalProductDetail } from './MinimalProductDetail'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -19,6 +23,79 @@ const sortOptions = [
   { value: 'name', label: 'Name A-Z' },
 ]
 
+import { Heart, ShoppingBag } from 'lucide-react'
+
+function CategoryProductCard({ product, onQuickView }: { product: any, onQuickView: (p: any) => void }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <TiltCard>
+      <div 
+        onMouseEnter={() => setHovered(true)} 
+        onMouseLeave={() => setHovered(false)}
+        style={{ position: 'relative', display: 'block', textDecoration: 'none' }}
+      >
+        <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none' }}>
+          <div style={{ position: 'relative', aspectRatio: '4/5', background: '#F7F7F7', overflow: 'hidden' }}>
+            <BlurUpImage
+              src={hovered && product.images[1] ? product.images[1] : product.images[0]}
+              alt={product.name}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+          </div>
+          <div style={{ paddingTop: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <h3 style={{ fontFamily: minimal.font.primary, fontSize: 14, fontWeight: 500, color: '#050505', margin: '0 0 4px' }}>
+                  {product.name}
+                </h3>
+                <p style={{ fontFamily: minimal.font.primary, fontSize: 13, color: '#9B9B9B', margin: 0 }}>
+                  {product.category.replace(/-/g, ' ')}
+                </p>
+              </div>
+              <p style={{ fontFamily: minimal.font.primary, fontSize: 14, fontWeight: 400, color: '#050505', margin: 0 }}>
+                {product.priceDisplay}
+              </p>
+            </div>
+          </div>
+        </Link>
+
+        {hovered && (
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              onQuickView(product)
+            }}
+            style={{
+              position: 'absolute',
+              bottom: 80,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              backdropFilter: 'blur(4px)',
+              border: '1px solid #E5E5E5',
+              padding: '10px 24px',
+              fontFamily: minimal.font.primary,
+              fontSize: 12,
+              fontWeight: 500,
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+              color: '#050505',
+              zIndex: 10,
+              transition: 'background-color 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#FFFFFF')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.9)')}
+          >
+            Quick View
+          </button>
+        )}
+      </div>
+    </TiltCard>
+  )
+}
+
 export function MinimalCategory({ category }: { category?: string }) {
   const params = useParams()
   const slug = category || (params?.category as string)
@@ -28,6 +105,7 @@ export function MinimalCategory({ category }: { category?: string }) {
 
   const [sort, setSort] = useState('newest')
   const [showCount, setShowCount] = useState(12)
+  const [quickViewProduct, setQuickViewProduct] = useState<any | null>(null)
 
   const filtered = useMemo(() => {
     let items = slug ? products.filter((p) => p.category === slug) : products
@@ -173,9 +251,7 @@ export function MinimalCategory({ category }: { category?: string }) {
           <>
             <div className={minimal.cn.gridProduct}>
               {visible.map((p) => (
-                <div key={p.id}>
-                  <MinimalProductCard product={p} />
-                </div>
+                <CategoryProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />
               ))}
             </div>
             {hasMore && (
@@ -201,7 +277,7 @@ export function MinimalCategory({ category }: { category?: string }) {
             >
               No pieces found in this collection.
             </p>
-            <Link
+              <Link
               href="/minimal/collections"
               className={`${minimal.cn.btnPrimary} no-underline mt-8 inline-flex`}
             >
@@ -210,6 +286,14 @@ export function MinimalCategory({ category }: { category?: string }) {
           </div>
         )}
       </div>
+
+      <QuickView isOpen={!!quickViewProduct} onClose={() => setQuickViewProduct(null)}>
+        {quickViewProduct && (
+          <div style={{ padding: 40 }}>
+            <MinimalProductDetail product={quickViewProduct} />
+          </div>
+        )}
+      </QuickView>
     </MinimalLayout>
   )
 }

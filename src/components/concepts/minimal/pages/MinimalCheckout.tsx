@@ -3,8 +3,10 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ArrowLeft, Check, Shield, Truck, RotateCcw, Lock, CreditCard, ChevronDown } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
+import { BlurUpImage } from '../ui/BlurUpImage'
 
 /* ─── Types ─── */
 type Step = 'info' | 'shipping' | 'payment' | 'review'
@@ -151,6 +153,7 @@ export function MinimalCheckout() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const { suggestions, getSuggestions, clear: clearSuggestions } = useAddressAutocomplete()
   const suggestionsRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
 
   const [form, setForm] = useState({
     email: '', firstName: '', lastName: '', phone: '',
@@ -322,11 +325,19 @@ export function MinimalCheckout() {
       <div className="minimal-checkout-grid" style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px 80px', alignItems: 'start' }}>
 
         {/* ─── Left: Form Steps ─── */}
-        <div>
+        <div style={{ position: 'relative' }}>
+          <AnimatePresence mode="wait">
 
           {/* ═══ Step 1: Contact Details ═══ */}
           {step === 'info' && (
-            <div style={{ background: '#FFF', padding: '40px 36px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <motion.div
+              key="step-info"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
+              transition={{ duration: 0.3 }}
+              style={{ background: '#FFF', padding: '40px 36px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+            >
               <div style={{ marginBottom: 32 }}>
                 <h2 style={{ fontFamily: F, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em', marginBottom: 4 }}>Contact Details</h2>
                 <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B' }}>We&apos;ll use this to send your order confirmation</p>
@@ -400,12 +411,19 @@ export function MinimalCheckout() {
                 <span style={{ fontFamily: F, fontSize: 14, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' as const }}>Continue to Shipping</span>
                 <ArrowRight size={16} />
               </button>
-            </div>
+            </motion.div>
           )}
 
           {/* ═══ Step 2: Shipping Address ═══ */}
           {step === 'shipping' && (
-            <div style={{ background: '#FFF', padding: '40px 36px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <motion.div
+              key="step-shipping"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
+              transition={{ duration: 0.3 }}
+              style={{ background: '#FFF', padding: '40px 36px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+            >
               <div style={{ marginBottom: 32 }}>
                 <h2 style={{ fontFamily: F, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em', marginBottom: 4 }}>Shipping Address</h2>
                 <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B' }}>Where should we deliver your order?</p>
@@ -539,12 +557,19 @@ export function MinimalCheckout() {
                   <ArrowRight size={16} />
                 </button>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* ═══ Step 3: Payment ═══ */}
           {step === 'payment' && (
-            <div style={{ background: '#FFF', padding: '40px 36px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <motion.div
+              key="step-payment"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
+              transition={{ duration: 0.3 }}
+              style={{ background: '#FFF', padding: '40px 36px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+            >
               <div style={{ marginBottom: 32 }}>
                 <h2 style={{ fontFamily: F, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em', marginBottom: 4 }}>Payment</h2>
                 <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B' }}>All transactions are secure and encrypted</p>
@@ -673,12 +698,19 @@ export function MinimalCheckout() {
                   <ArrowRight size={16} />
                 </button>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* ═══ Step 4: Review & Place Order ═══ */}
           {step === 'review' && (
-            <div style={{ background: '#FFF', padding: '40px 36px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <motion.div
+              key="step-review"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
+              transition={{ duration: 0.3 }}
+              style={{ background: '#FFF', padding: '40px 36px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+            >
               <div style={{ marginBottom: 32 }}>
                 <h2 style={{ fontFamily: F, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em', marginBottom: 4 }}>Review Your Order</h2>
                 <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B' }}>Please confirm everything looks correct</p>
@@ -727,7 +759,7 @@ export function MinimalCheckout() {
                     borderBottom: '1px solid #F5F5F5',
                   }}>
                     <div style={{ width: 64, height: 80, position: 'relative', flexShrink: 0, overflow: 'hidden', background: '#F5F5F5' }}>
-                      <Image src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} />
+                      <BlurUpImage src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} sizes="64px" />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p style={{ fontFamily: F, fontSize: 14, fontWeight: 500, color: '#050505', marginBottom: 2 }}>{item.product.name}</p>
@@ -802,8 +834,9 @@ export function MinimalCheckout() {
                   <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B' }}>Redirecting to confirmation...</p>
                 </div>
               )}
-            </div>
+            </motion.div>
           )}
+          </AnimatePresence>
 
           {/* Trust badges */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 32, marginTop: 32, padding: '0 20px' }}>
@@ -836,7 +869,7 @@ export function MinimalCheckout() {
                     width: 56, height: 68, position: 'relative', flexShrink: 0,
                     overflow: 'hidden', background: '#F5F5F5',
                   }}>
-                    <Image src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} />
+                    <BlurUpImage src={item.product.images[0]} alt={item.product.name} fill style={{ objectFit: 'cover' }} sizes="56px" />
                     {/* Quantity badge */}
                     <div style={{
                       position: 'absolute', top: -4, right: -4, width: 20, height: 20,
