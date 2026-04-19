@@ -6,6 +6,9 @@ import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
 import { ScrollProgress } from './animations/ScrollProgress'
+import { PageTransition } from './ui/PageTransition'
+import { Breadcrumb } from './ui/Breadcrumb'
+import { BackToTop } from './ui/BackToTop'
 
 const MinimalCursor = dynamic(
   () => import('./cursor/MinimalCursor').then((mod) => mod.MinimalCursor),
@@ -33,14 +36,20 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
 
         /* Brutalist text selection */
         .minimal-concept ::selection,
-        ::selection {
-          background: #050505;
-          color: #FFFFFF;
+        [data-concept="minimal"] ::selection {
+          background: #E5E5E5;
+          color: #050505;
+        }
+        
+        /* Better focus-visible states for accessibility */
+        [data-concept="minimal"] *:focus-visible {
+          outline: 2px solid #050505;
+          outline-offset: 4px;
         }
 
         /* Smooth image loading */
         .minimal-concept img {
-          transition: opacity 0.5s ease-out;
+          transition: opacity 0.5s ease-out, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* Hide scrollbar on filter bar */
@@ -79,6 +88,19 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           background-color: #050505 !important;
           color: #FFFFFF !important;
         }
+
+        @media print {
+          [data-concept="minimal"] nav,
+          [data-concept="minimal"] footer,
+          [data-concept="minimal"] .minimal-back-top,
+          [data-concept="minimal"] #vm-toolbar {
+            display: none !important;
+          }
+          [data-concept="minimal"] {
+            background: white !important;
+            color: black !important;
+          }
+        }
       `}</style>
       <div
         className="minimal-concept"
@@ -101,9 +123,13 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         <MinimalCursor />
 
         {!hideNav && <MinimalNav />}
-        <main>{children}</main>
+        <PageTransition>
+          <Breadcrumb />
+          <main>{children}</main>
+        </PageTransition>
         {!hideFooter && <MinimalFooter />}
         {!hideNav && <Toolbar />}
+        <BackToTop />
       </div>
     </>
   )

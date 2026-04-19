@@ -205,6 +205,80 @@ export function MinimalFooter() {
               </p>
             </div>
           </div>
+          {/* Newsletter & Social */}
+          <div style={{ gridColumn: '1 / -1', marginTop: '16px' }}>
+            <h5
+              style={{
+                fontFamily: mono,
+                fontSize: '10px',
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: '#9B9B9B',
+                marginBottom: '20px',
+              }}
+            >
+              Newsletter
+            </h5>
+            <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', gap: '8px', maxWidth: '400px', marginBottom: '32px' }}>
+              <input 
+                type="email" 
+                placeholder="Your email address" 
+                className="minimal-newsletter-input"
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: '1px solid #E5E5E5',
+                  padding: '8px 0',
+                  fontFamily: font,
+                  fontSize: '13px',
+                  color: '#050505',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease',
+                  borderRadius: 0,
+                }}
+              />
+              <button 
+                type="submit"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  fontFamily: mono,
+                  fontSize: '10px',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#050505',
+                  cursor: 'pointer',
+                  padding: '8px 0',
+                  borderBottom: '1px solid transparent',
+                  transition: 'border-color 0.3s ease',
+                }}
+                className="hover:!border-[#050505]"
+              >
+                Subscribe
+              </button>
+            </form>
+            
+            <div style={{ display: 'flex', gap: '24px' }}>
+              {['Instagram', 'Pinterest', 'Twitter'].map(social => (
+                <a 
+                  key={social}
+                  href={`#${social}`}
+                  style={{
+                    fontFamily: font,
+                    fontSize: '13px',
+                    fontWeight: 300,
+                    color: '#6B6B6B',
+                    textDecoration: 'none',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                  className="hover:!text-[#050505] hover:-translate-y-1"
+                >
+                  {social}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Bottom bar */}
@@ -255,6 +329,11 @@ export function MinimalFooter() {
           </div>
         </div>
       </div>
+      <style>{`
+        .minimal-newsletter-input:focus {
+          border-bottom-color: #050505 !important;
+        }
+      `}</style>
     </footer>
   )
 }

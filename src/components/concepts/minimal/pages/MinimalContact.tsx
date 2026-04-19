@@ -10,7 +10,7 @@ const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', s
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '14px 16px', border: '1px solid #E5E5E5',
   fontSize: '13px', fontWeight: 300, fontFamily: font, color: '#050505',
-  backgroundColor: '#FFFFFF', outline: 'none', transition: 'border-color 200ms ease',
+  backgroundColor: '#FFFFFF', outline: 'none', transition: 'all 300ms cubic-bezier(0.16, 1, 0.3, 1)',
 }
 
 const labelStyle: React.CSSProperties = {
@@ -84,23 +84,23 @@ export function MinimalContact() {
               <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '4px' }}>Send a Message</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                  <div><label style={labelStyle}>First Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                  <div><label style={labelStyle}>Last Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
+                  <div><label style={labelStyle}>First Name</label><input type="text" required style={inputStyle} onFocus={(e) => { e.currentTarget.style.borderColor = '#050505'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)' }} onBlur={(e) => { e.currentTarget.style.borderColor = '#E5E5E5'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }} /></div>
+                  <div><label style={labelStyle}>Last Name</label><input type="text" required style={inputStyle} onFocus={(e) => { e.currentTarget.style.borderColor = '#050505'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)' }} onBlur={(e) => { e.currentTarget.style.borderColor = '#E5E5E5'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }} /></div>
                 </div>
-                <div><label style={labelStyle}>Email</label><input type="email" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                <div><label style={labelStyle}>Phone (Optional)</label><input type="tel" style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                <div>
-                  <label style={labelStyle}>Subject</label>
-                  <select style={{ ...inputStyle, cursor: 'pointer' }} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'}>
+              <div><label style={labelStyle}>Email</label><input type="email" required style={inputStyle} onFocus={(e) => { e.currentTarget.style.borderColor = '#050505'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)' }} onBlur={(e) => { e.currentTarget.style.borderColor = '#E5E5E5'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }} /></div>
+              <div><label style={labelStyle}>Phone (Optional)</label><input type="tel" style={inputStyle} onFocus={(e) => { e.currentTarget.style.borderColor = '#050505'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)' }} onBlur={(e) => { e.currentTarget.style.borderColor = '#E5E5E5'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }} /></div>
+              <div>
+                <label style={labelStyle}>Subject</label>
+                <select style={{ ...inputStyle, cursor: 'pointer' }} onFocus={(e) => { e.currentTarget.style.borderColor = '#050505'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)' }} onBlur={(e) => { e.currentTarget.style.borderColor = '#E5E5E5'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}>
                     <option>General Inquiry</option>
                     <option>Product Question</option>
                     <option>Bespoke Request</option>
                     <option>Order Support</option>
-                    <option>Press & Media</option>
-                  </select>
-                </div>
-                <div><label style={labelStyle}>Message</label><textarea required rows={5} style={{ ...inputStyle, resize: 'vertical' }} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                <div style={{ alignSelf: 'flex-start' }}>
+                  <option>Press & Media</option>
+                </select>
+              </div>
+              <div><label style={labelStyle}>Message</label><textarea required rows={5} style={{ ...inputStyle, resize: 'vertical' }} onFocus={(e) => { e.currentTarget.style.borderColor = '#050505'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)' }} onBlur={(e) => { e.currentTarget.style.borderColor = '#E5E5E5'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }} /></div>
+              <div style={{ alignSelf: 'flex-start' }}>
                   <AnimatedSendButton text="Send Message" sentText="Message Sent!" type="submit" />
                 </div>
               </form>

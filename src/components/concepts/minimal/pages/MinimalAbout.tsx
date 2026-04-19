@@ -87,7 +87,7 @@ export function MinimalAbout() {
             </div>
           </FadeIn>
           <FadeIn delay={200}>
-            <div style={{ position: 'relative', aspectRatio: '4/5', backgroundColor: '#FAFAFA', overflow: 'hidden', borderRadius: 0 }}>
+            <div className="minimal-about-img" style={{ position: 'relative', aspectRatio: '4/5', backgroundColor: '#FAFAFA', overflow: 'hidden', borderRadius: 0 }}>
               <img src="/images/products/classic-gold-ring.jpg" alt="Craftsmanship" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </FadeIn>
@@ -177,6 +177,8 @@ export function MinimalAbout() {
         .abt-value-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 12px #E5E5E5, -6px -6px 12px #ffffff !important; }
         .abt-cta-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
         .abt-cta-secondary:hover { border-color: #050505 !important; color: #050505 !important; }
+        .minimal-about-img img { transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .minimal-about-img:hover img { transform: scale(1.05); }
         @media (max-width: 768px) {
           .vm-about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .vm-values-grid { grid-template-columns: repeat(2, 1fr) !important; }

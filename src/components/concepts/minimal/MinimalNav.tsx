@@ -91,10 +91,10 @@ export function MinimalNav() {
           right: 0,
           zIndex: 50,
           height: '64px',
-          borderBottom: '1px solid #E5E5E5',
-          backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.98)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: scrolled ? '1px solid #E5E5E5' : '1px solid transparent',
+          backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.8)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
           transition: 'background-color 300ms ease',
         }}
       >
@@ -228,7 +228,10 @@ export function MinimalNav() {
             >
               <ShoppingBag size={17} strokeWidth={1.5} />
               {cartCount > 0 && (
-                <span style={{
+                <span 
+                  key={cartCount}
+                  className="animate-badge-pulse"
+                  style={{
                   position: 'absolute',
                   top: '2px',
                   right: '2px',
@@ -439,19 +442,20 @@ export function MinimalNav() {
       <style>{`
         @keyframes megaSlide { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Nav link underline — slides in from left */
+        /* Nav link underline — slides in from center */
         .minimal-nav-link {
           position: relative;
         }
         .minimal-nav-link::after {
           content: '';
           position: absolute;
-          bottom: -2px;
-          left: 0;
+          bottom: -4px;
+          left: 50%;
+          transform: translateX(-50%);
           width: 0;
           height: 1px;
           background: #050505;
-          transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .minimal-nav-link:hover::after {
           width: 100%;
@@ -483,8 +487,8 @@ export function MinimalNav() {
           animation: mobileMenuFadeIn 400ms ease both;
         }
         @keyframes mobileMenuFadeIn {
-          from { opacity: 0; transform: translateX(-12px); }
-          to { opacity: 1; transform: translateX(0); }
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </>
