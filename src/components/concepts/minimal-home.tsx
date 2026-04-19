@@ -1,24 +1,26 @@
 'use client'
 
-import { useCallback, useRef, useEffect } from 'react'
+import { useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { MinimalLayout } from './minimal/MinimalLayout'
 import { MinimalProductCard } from './minimal/MinimalProductCard'
 import { minimal } from './minimal/design-system'
+import MarqueeText from './minimal/ui/MarqueeText'
+import MagneticButton from './minimal/ui/MagneticButton'
+import GlitchText from './minimal/ui/GlitchText'
+import SmoothCounter from './minimal/ui/SmoothCounter'
 import { products } from '@/data/products'
 import type { ConceptConfig } from '@/data/concepts'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { useInView } from 'framer-motion'
 
 // Animation components
 import { TextReveal, SplitTextReveal } from './minimal/animations/TextReveal'
 import { StaggerReveal } from './minimal/animations/StaggerReveal'
 import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
-import { useReducedMotionPreference } from './minimal/animations/useResponsiveMotion'
 
 const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
   ssr: false,
@@ -27,7 +29,7 @@ const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
 const Minimal3DViewer = dynamic(() => import('./minimal/3d/Minimal3DViewer'), {
   ssr: false,
   loading: () => (
-    <div className="aspect-square w-full max-w-md mx-auto animate-pulse bg-[#F0F0F0]" />
+    <div className="aspect-square w-full max-w-md mx-auto animate-pulse bg-[#E5E5E5]" />
   ),
 })
 
@@ -57,43 +59,6 @@ const collections = [
 
 // Curated pieces for horizontal scroll section
 const curatedPieces = products.filter(p => p.isBestseller || p.isNew).slice(0, 5)
-
-/**
- * CountUp — Animated number counter
- * Counts from 0 to target value when in view.
- * Respects prefers-reduced-motion.
- */
-function CountUp({ value, suffix = '' }: { value: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const isInView = useInView(ref, { once: true })
-  const prefersReduced = useReducedMotionPreference()
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el || !isInView) return
-    if (prefersReduced) {
-      el.textContent = `${value.toLocaleString()}${suffix}`
-      return
-    }
-
-    const duration = 1500
-    const start = performance.now()
-
-    const animate = (now: number) => {
-      const elapsed = now - start
-      const progress = Math.min(elapsed / duration, 1)
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3)
-      const current = Math.round(eased * value)
-      el.textContent = `${current.toLocaleString()}${suffix}`
-      if (progress < 1) requestAnimationFrame(animate)
-    }
-
-    requestAnimationFrame(animate)
-  }, [isInView, prefersReduced, suffix, value])
-
-  return <span ref={ref}>0{suffix}</span>
-}
 
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   void concept
@@ -139,7 +104,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               fontFamily: mono,
               fontSize: '11px',
               letterSpacing: '0.25em',
-              color: '#ABABAB',
+              color: '#9B9B9B',
             }}
           >
             07 / 10
@@ -148,7 +113,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <div>
             {/* Animated headline with clip-path reveal */}
             <TextReveal duration={800}>
-              <h1
+              <GlitchText
+                as="h1"
+                text={'Precision.\nNothing\nMore.'}
                 style={{
                   fontFamily: font,
                   fontSize: 'clamp(52px, 10vw, 160px)',
@@ -159,13 +126,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   textTransform: 'uppercase',
                   margin: 0,
                 }}
-              >
-                Precision.
-                <br />
-                Nothing
-                <br />
-                More.
-              </h1>
+              />
             </TextReveal>
 
             {/* Data points — staggered reveal */}
@@ -194,7 +155,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         fontFamily: mono,
                         fontSize: '10px',
                         letterSpacing: '0.2em',
-                        color: '#ABABAB',
+                        color: '#9B9B9B',
                       }}
                     >
                       {item.num}
@@ -219,51 +180,20 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             {/* CTA Buttons — staggered */}
             <StaggerReveal stagger={100} duration={500} direction="up" className="">
               <div style={{ display: 'flex', gap: '16px', marginTop: 'clamp(40px, 5vh, 64px)', flexWrap: 'wrap' }}>
-                <Link
+                <MagneticButton
                   href="/minimal/collections"
-                  className="vm-btn-primary"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '12px',
-                    fontFamily: font,
-                    fontSize: '11px',
-                    fontWeight: 500,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    color: '#FFFFFF',
-                    backgroundColor: '#050505',
-                    padding: '20px 48px',
-                    border: '1px solid #050505',
-                    height: '52px',
-                  }}
+                  variant="primary"
+                  ariaLabel="Shop collection"
                 >
                   Shop Collection
-                </Link>
-                <Link
+                </MagneticButton>
+                <MagneticButton
                   href="/minimal/bespoke"
-                  className="vm-btn-secondary"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: font,
-                    fontSize: '11px',
-                    fontWeight: 500,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    color: '#050505',
-                    backgroundColor: 'transparent',
-                    padding: '20px 48px',
-                    border: '1px solid #050505',
-                    height: '52px',
-                  }}
+                  variant="secondary"
+                  ariaLabel="Browse bespoke pieces"
                 >
                   Bespoke
-                </Link>
+                </MagneticButton>
               </div>
             </StaggerReveal>
           </div>
@@ -287,6 +217,18 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
+      <section aria-label="Brand marquee">
+        <MarqueeText
+          items={[
+            'Brutalist Monochrome',
+            'GIA Certified Stones',
+            'Sharp Geometry',
+            'Built for Clarity',
+            'No Ornament. Only Form.',
+          ]}
+        />
+      </section>
+
       {/* ═══ SECTION 2: CATEGORY SHOWCASE — Staggered Grid ═══ */}
       <section className={minimal.cn.section}>
         <div className={minimal.cn.container}>
@@ -306,7 +248,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 className="group block"
                 style={{ textDecoration: 'none', color: '#050505' }}
               >
-                <div style={{ position: 'relative', aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+                <div style={{ position: 'relative', aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#E5E5E5' }}>
                   <img
                     src={cat.image}
                     alt={cat.label}
@@ -345,7 +287,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       <section className={minimal.cn.section}>
         <div className={`${minimal.cn.container} grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center`}>
           <ParallaxSection speed={0.1}>
-            <div style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+            <div style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#E5E5E5' }}>
               <img
                 src={heroProduct.images[0]}
                 alt={heroProduct.name}
@@ -423,12 +365,13 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             >
               {heroProduct.priceDisplay}
             </p>
-            <Link
+            <MagneticButton
               href={`/minimal/product/${heroProduct.slug}`}
-              className={`${minimal.cn.btnPrimary} no-underline`}
+              variant="primary"
+              ariaLabel={`Discover ${heroProduct.name}`}
             >
               Discover <ArrowRight size={14} strokeWidth={1.5} />
-            </Link>
+            </MagneticButton>
           </div>
         </div>
       </section>
@@ -491,7 +434,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             duration={500}
             className=""
           />
-          <div style={{ width: '48px', height: '1px', backgroundColor: '#333333', margin: '48px auto 24px' }} />
+          <div style={{ width: '48px', height: '1px', backgroundColor: '#6B6B6B', margin: '48px auto 24px' }} />
           <p
             style={{
               fontFamily: mono,
@@ -528,7 +471,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 alignItems: 'center',
               }}
             >
-              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA', height: '100%' }}>
+              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#E5E5E5', height: '100%' }}>
                 <img
                   src={product.images[0]}
                   alt={product.name}
@@ -610,9 +553,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 </span>
               </TextReveal>
             </div>
-            <Link href="/minimal/collections" className={`${minimal.cn.btnGhost} no-underline`}>
+            <MagneticButton href="/minimal/collections" variant="secondary" ariaLabel="View all collections">
               View All <ArrowRight size={12} strokeWidth={1.5} />
-            </Link>
+            </MagneticButton>
           </div>
           <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {collections.map((col) => (
@@ -622,7 +565,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 className="group block"
                 style={{ textDecoration: 'none', color: '#050505' }}
               >
-                <div style={{ position: 'relative', aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+                <div style={{ position: 'relative', aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#E5E5E5' }}>
                   <img
                     src={col.image}
                     alt={col.title}
@@ -640,7 +583,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      backgroundColor: 'rgba(5, 5, 5, 0.35)',
+                      backgroundColor: '#050505',
+                      opacity: 0.35,
                     }}
                   />
                   <div style={{ position: 'absolute', bottom: 'clamp(20px, 3vw, 32px)', left: 'clamp(20px, 3vw, 32px)' }}>
@@ -650,7 +594,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         fontSize: '10px',
                         letterSpacing: '0.25em',
                         textTransform: 'uppercase',
-                        color: 'rgba(255,255,255,0.5)',
+                        color: '#9B9B9B',
                         display: 'block',
                         marginBottom: '6px',
                       }}
@@ -706,7 +650,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
-                  <CountUp value={stat.value} suffix={stat.suffix} />
+                  <SmoothCounter value={stat.value} suffix={stat.suffix} />
                 </p>
                 <p
                   style={{
@@ -738,9 +682,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 </span>
               </TextReveal>
             </div>
-            <Link href="/minimal/collections" className={`${minimal.cn.btnGhost} no-underline`}>
+            <MagneticButton href="/minimal/collections" variant="secondary" ariaLabel="View all bestsellers">
               View All <ArrowRight size={12} strokeWidth={1.5} />
-            </Link>
+            </MagneticButton>
           </div>
           <StaggerReveal className={minimal.cn.gridProduct}>
             {bestsellers.map((p) => (
@@ -818,7 +762,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       </section>
 
       {/* ═══ SECTION 8: NEWSLETTER — Minimal ═══ */}
-      <section style={{ backgroundColor: '#FAFAFA', padding: 'clamp(64px, 10vh, 120px) 0' }}>
+      <section style={{ backgroundColor: '#E5E5E5', padding: 'clamp(64px, 10vh, 120px) 0' }}>
         <div className={minimal.cn.containerNarrow} style={{ textAlign: 'center' }}>
           <span className={minimal.cn.label} style={{ fontFamily: mono, display: 'block', marginBottom: '20px' }}>
             Stay Informed
