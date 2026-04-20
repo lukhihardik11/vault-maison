@@ -9,8 +9,6 @@ import { minimal } from '../design-system'
 import { products, type Product } from '@/data/products'
 import { useCartStore } from '@/store/cart'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
-import TiltCard from '../ui/TiltCard'
-import ImageReveal from '../ui/ImageReveal'
 import BlurUpImage from '../ui/BlurUpImage'
 import SmoothAccordion, { type SmoothAccordionItem } from '../ui/SmoothAccordion'
 
@@ -22,36 +20,25 @@ function ProductImageGallery({ images, productName }: { images: string[]; produc
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const selectedImage = images[selectedIndex] ?? images[0]
-  const revealImage = images.length > 1 ? images[(selectedIndex + 1) % images.length] : undefined
 
+  // Main PDP hero is a plain BlurUpImage. Users switch views via the
+  // thumbnail row below. The earlier ImageReveal setup swapped to the
+  // next gallery image on hover, which was disorienting (users hover
+  // the hero to inspect detail, not to cycle through the gallery).
+  // The "Hover to reveal" chip was removed for the same reason.
+  //
+  // This fix was first landed on PR #64 (commit aea9aea) but got
+  // dropped during the PR #66 merge conflict resolution — restoring it
+  // here.
   return (
     <div className="md:sticky md:top-24 md:self-start">
       <div style={{ width: '100%', aspectRatio: '4 / 5', border: '1px solid #E5E5E5', background: '#E5E5E5', position: 'relative' }}>
-        <ImageReveal
+        <BlurUpImage
           src={selectedImage}
-          revealSrc={revealImage}
           alt={productName}
           containerStyle={{ width: '100%', height: '100%' }}
-          imageStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
-        {revealImage && (
-          <span
-            style={{
-              position: 'absolute',
-              right: 12,
-              bottom: 12,
-              background: '#FFFFFF',
-              border: '1px solid #E5E5E5',
-              color: '#6B6B6B',
-              fontFamily: F,
-              fontSize: 11,
-              padding: '4px 8px',
-              pointerEvents: 'none',
-            }}
-          >
-            Hover to reveal
-          </span>
-        )}
       </div>
 
       {images.length > 1 && (
@@ -84,17 +71,15 @@ function ProductImageGallery({ images, productName }: { images: string[]; produc
 
 function ProductMiniCard({ product }: { product: Product }) {
   return (
-    <TiltCard maxTilt={2.5} lift={2}>
-      <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none' }}>
-        <div style={{ border: '1px solid #E5E5E5', background: '#FFFFFF' }}>
-          <div style={{ aspectRatio: '3 / 4', background: '#E5E5E5' }}>
-            <BlurUpImage src={product.images[0]} alt={product.name} containerStyle={{ width: '100%', height: '100%' }} />
-          </div>
+    <Link href={`/minimal/product/${product.slug}`} style={{ textDecoration: 'none' }}>
+      <div style={{ border: '1px solid #E5E5E5', background: '#FFFFFF' }}>
+        <div style={{ aspectRatio: '3 / 4', background: '#E5E5E5' }}>
+          <BlurUpImage src={product.images[0]} alt={product.name} containerStyle={{ width: '100%', height: '100%' }} />
         </div>
-        <p style={{ fontFamily: F, fontSize: 13, color: '#050505', margin: '10px 0 2px' }}>{product.name}</p>
-        <p style={{ fontFamily: F, fontSize: 13, color: '#9B9B9B', margin: 0 }}>{product.priceDisplay}</p>
-      </Link>
-    </TiltCard>
+      </div>
+      <p style={{ fontFamily: F, fontSize: 13, color: '#050505', margin: '10px 0 2px' }}>{product.name}</p>
+      <p style={{ fontFamily: F, fontSize: 13, color: '#9B9B9B', margin: 0 }}>{product.priceDisplay}</p>
+    </Link>
   )
 }
 

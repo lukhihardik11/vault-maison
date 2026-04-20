@@ -31,7 +31,7 @@ const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
 const Minimal3DViewer = dynamic(() => import('./minimal/3d/Minimal3DViewer'), {
   ssr: false,
   loading: () => (
-    <div className="aspect-square w-full max-w-md mx-auto animate-pulse bg-[#F0F0F0]" />
+    <div className="aspect-square w-full max-w-md mx-auto animate-pulse bg-[#E5E5E5]" />
   ),
 })
 
@@ -119,7 +119,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               fontFamily: mono,
               fontSize: '11px',
               letterSpacing: '0.25em',
-              color: '#ABABAB',
+              color: '#9B9B9B',
             }}
           >
             07 / 10
@@ -174,7 +174,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         fontFamily: mono,
                         fontSize: '10px',
                         letterSpacing: '0.2em',
-                        color: '#ABABAB',
+                        color: '#9B9B9B',
                       }}
                     >
                       {item.num}
@@ -269,7 +269,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <ParallaxImage
             src="/images/diamond-melee-1.jpg"
             alt="Precision-cut diamond"
-            speed={0.15}
+            speed={minimal.motion.parallax.bg}
           />
           <ParticleField />
         </div>
@@ -335,7 +335,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ═══ SECTION 3: FEATURED PIECE — Editorial Layout with Parallax ═══ */}
       <section className={minimal.cn.section}>
         <div className={`${minimal.cn.container} grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center`}>
-          <ParallaxSection speed={0.1}>
+          <ParallaxSection speed={minimal.motion.parallax.bg}>
             <div style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
               <img
                 src={heroProduct.images[0]}
@@ -481,7 +481,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             duration={500}
             className=""
           />
-          <div style={{ width: '48px', height: '1px', backgroundColor: '#333333', margin: '48px auto 24px' }} />
+          <div style={{ width: '48px', height: '1px', backgroundColor: '#6B6B6B', margin: '48px auto 24px' }} />
           <p
             style={{
               fontFamily: mono,

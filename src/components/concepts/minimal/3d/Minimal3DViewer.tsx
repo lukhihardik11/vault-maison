@@ -251,7 +251,7 @@ export default function Minimal3DViewer({
     return (
       <div
         className={`w-full flex items-center justify-center ${className}`}
-        style={{ height: '500px', backgroundColor: '#0A0A0A' }}
+        style={{ height: '500px', backgroundColor: '#050505' }}
       >
         <span
           style={{

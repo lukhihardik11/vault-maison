@@ -72,8 +72,14 @@ export const minimal = {
    *   - `easeIn`      exits (slow start, fast end)
    *   - `easeInOut`   continuous, accordion, drawer
    *   - `easeSnap`    brutalist UI snap (used by buttons)
-   *   - `springSoft`  magnetic / cursor-follow (low stiffness, low mass)
+   *   - `springSoft`  magnetic pull (low stiffness, low mass)
    *   - `springTight` counter, cart bounce (tight, returns fast)
+   *   - `parallax.*`  ScrollTrigger speeds for depth layering. Values
+   *                   are multipliers, not px — the lower the number,
+   *                   the slower the layer moves relative to scroll.
+   *                   See `docs/research/ui-polish-v2-recommendations.md`
+   *                   §1.3 (derived from the UI UX Pro Max parallax
+   *                   search).
    *   - durations are unitless ms; convert to s in GSAP, leave in ms in CSS
    */
   motion: {
@@ -94,16 +100,23 @@ export const minimal = {
       slow: 600,
       cinematic: 1500,
     },
+    parallax: {
+      /** Deep background layer — slowest. 0.15–0.3 looks like "far distance". */
+      bg: 0.3,
+      /** Mid-ground — ~half the scroll speed. Used for hero images. */
+      mid: 0.6,
+      /** Foreground — moves with scroll. No parallax, baseline. */
+      fg: 1.0,
+    },
   },
   /**
-   * Interactive cursor variables. Mirrors the values consumed by
-   * `MinimalCursor.tsx` and the new `MagneticButton` primitive.
+   * Magnetic-hover variables. Consumed by `MagneticButton`. Cursor
+   * values used to live here for a custom follower cursor; that
+   * component was removed (we use the native OS cursor), so only
+   * the magnetic-pull radius remains.
    */
-  cursor: {
-    size: 20,
-    hoverScale: 1.5,
-    magneticRadius: 100,
-    blendMode: 'difference',
+  magnetic: {
+    radius: 100,
   },
   cn: {
     heroHeadline: 'text-4xl md:text-6xl lg:text-8xl font-extralight tracking-tighter leading-none text-[#050505]',
