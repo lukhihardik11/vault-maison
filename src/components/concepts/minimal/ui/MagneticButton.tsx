@@ -40,7 +40,7 @@ export interface MagneticButtonProps {
 export function MagneticButton({
   children,
   strength = 0.35,
-  radius = minimal.cursor.magneticRadius,
+  radius = minimal.magnetic.radius,
   className = '',
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);

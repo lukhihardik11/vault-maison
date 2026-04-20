@@ -46,3 +46,17 @@ export { default as QuickView } from './QuickView'
 export { default as PageTransition } from './PageTransition'
 export { default as Breadcrumb } from './Breadcrumb'
 export { default as BackToTop } from './BackToTop'
+
+// Polish v2 — editorial list with cursor-peek preview. Sourced from
+// 21st.dev (manual copy-paste; see docs/research/ui-polish-v2-recommendations.md)
+export { default as HoverPeekList } from './HoverPeekList'
+export type { HoverPeekItem, HoverPeekListProps } from './HoverPeekList'
+
+// Polish v2 — 3D-tilt card primitives (Aceternity 3D-card-effect pattern).
+// Sourced from 21st.dev (manual copy-paste; see research doc).
+export { CardContainer, CardBody, CardItem, useMouseEnter } from './Card3D'
+export type {
+  CardContainerProps,
+  CardBodyProps,
+  CardItemProps,
+} from './Card3D'

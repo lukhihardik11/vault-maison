@@ -46,7 +46,7 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
             style={{
               position: 'absolute',
               inset: 0,
-              backgroundColor: '#F0F0F0',
+              backgroundColor: '#E5E5E5',
             }}
           />
         )}

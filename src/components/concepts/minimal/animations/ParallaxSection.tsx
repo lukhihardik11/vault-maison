@@ -4,13 +4,18 @@ import { useRef, useEffect, type ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useIsMobile, useReducedMotionPreference } from './useResponsiveMotion';
+import { minimal } from '../design-system';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ParallaxSectionProps {
   children: ReactNode;
   className?: string;
-  /** Speed multiplier. 0 = no parallax, 0.5 = half speed, -0.3 = reverse. Default 0.3 */
+  /**
+   * Speed multiplier. 0 = no parallax, 0.5 = half speed, -0.3 = reverse.
+   * Default `minimal.motion.parallax.bg` (0.3), matching the UI UX Pro
+   * Max parallax-storytelling recommendation: `--parallax-speed-bg: 0.3`.
+   */
   speed?: number;
   /** Scroll offset range. Default ['start end', 'end start'] */
   offset?: [string, string];
@@ -28,7 +33,7 @@ interface ParallaxSectionProps {
 export function ParallaxSection({
   children,
   className = '',
-  speed = 0.3,
+  speed = minimal.motion.parallax.bg,
   offset = ['start end', 'end start'],
 }: ParallaxSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -73,7 +78,10 @@ interface ParallaxImageProps {
   src: string;
   alt: string;
   className?: string;
-  /** Speed multiplier. Default 0.2 */
+  /**
+   * Speed multiplier. Default `minimal.motion.parallax.bg` (0.3).
+   * Use `minimal.motion.parallax.mid` (0.6) for hero imagery.
+   */
   speed?: number;
   /** Extra scale to prevent gaps during parallax. Default 1.15 */
   scale?: number;
@@ -88,7 +96,7 @@ export function ParallaxImage({
   src,
   alt,
   className = '',
-  speed = 0.2,
+  speed = minimal.motion.parallax.bg,
   scale = 1.15,
 }: ParallaxImageProps) {
   const ref = useRef<HTMLDivElement>(null);

@@ -58,9 +58,35 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           color: #FFFFFF;
         }
 
+        /*
+         * Keyboard focus indicator (UI UX Pro Max pre-delivery checklist:
+         * "Focus states visible for keyboard nav"). Explicit outline on
+         * every interactive element inside .minimal-concept. Mouse users
+         * never see it; keyboard users always do. Offset + solid colour
+         * matches the brutalist 1px hairline idiom.
+         */
+        .minimal-concept a:focus-visible,
+        .minimal-concept button:focus-visible,
+        .minimal-concept input:focus-visible,
+        .minimal-concept textarea:focus-visible,
+        .minimal-concept select:focus-visible,
+        .minimal-concept [role="button"]:focus-visible,
+        .minimal-concept [tabindex="0"]:focus-visible {
+          outline: 1px solid #050505;
+          outline-offset: 2px;
+        }
+
         /* Smooth image loading */
         .minimal-concept img {
           transition: opacity 0.5s ease-out;
+        }
+
+        /* Respect the user's opt-in for smooth anchor scrolling — so
+           the "Back to Top" button (and any #fragment links) glide
+           instead of jump. */
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) {
+          html { scroll-behavior: auto; }
         }
 
         /* Hide scrollbar on filter bar */
