@@ -21,6 +21,10 @@ export { default as ProfileDropdown } from './ProfileDropdown'
 export { default as AvatarPicker } from './AvatarPicker'
 export { default as DynamicText } from './DynamicText'
 export { default as SwitchButton } from './SwitchButton'
+export { default as MarqueeText } from './MarqueeText'
+export { default as MagneticButton } from './MagneticButton'
+export { default as GlitchText } from './GlitchText'
+export { default as SmoothCounter } from './SmoothCounter'
 // Production polish components
 export { ProductBounceCard } from './ProductBounceCard'
 export { BlobGlassCard } from './BlobGlassCard'
@@ -30,11 +34,15 @@ export { TruckLoader } from './TruckLoader'
 export { ExploreButton } from './ExploreButton'
 export { DarkLoginForm } from './DarkLoginForm'
 export { NeuProductCard } from './NeuProductCard'
+
 // Phase-2 homepage primitives (see docs/research/ui-ux-pro-max-recommendations.md)
 // MarqueeText, MagneticButton, GlitchText, SmoothCounter already exported above
-// Shopping UI components (PR #61)
+// Shopping UI components
 export { default as TiltCard } from './TiltCard'
 export { default as ImageReveal } from './ImageReveal'
 export { default as BlurUpImage } from './BlurUpImage'
 export { default as SmoothAccordion } from './SmoothAccordion'
 export { default as QuickView } from './QuickView'
+export { default as PageTransition } from './PageTransition'
+export { default as Breadcrumb } from './Breadcrumb'
+export { default as BackToTop } from './BackToTop'
