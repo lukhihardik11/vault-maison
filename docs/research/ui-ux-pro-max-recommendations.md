@@ -205,10 +205,12 @@ and reduced motion. Uses `springSoft`. Renders a wrapping `motion.div`
 without `initial` to avoid flash.
 
 ### 4.3 `GlitchText`
-Brutalist hover effect: text duplicates into two RGB-style layers
-(but in our case, *grey-shift* — using `#6B6B6B` and `#E5E5E5` instead
-of red/blue) that offset by 2 px on `:hover` / `:focus`. No transition
-in — only on hover, reverts to instant on reduced motion.
+Brutalist hover effect: text duplicates into two grey-shifted layers
+(`textMuted #9B9B9B` to the right, `textSecondary #6B6B6B` to the
+left) that offset by 2 px on `:hover` / `:focus-visible`. No
+transition in — only on hover, reverts to instant on reduced motion.
+The two greys read as a printing-misregistration glitch without ever
+leaving the monochrome palette.
 
 ### 4.4 `SmoothCounter`
 Replaces the existing inline `CountUp` in `minimal-home.tsx` with a

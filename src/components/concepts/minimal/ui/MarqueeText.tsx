@@ -17,8 +17,13 @@
  *   - `animation-play-state: paused` is a one-liner for hover
  *
  * Accessibility:
- *   - The full text is rendered once with `aria-label` for screen readers,
- *     then duplicated visually for the seamless loop.
+ *   - Decorative brand band — every phrase ("Precision Cuts", "GIA
+ *     Certified", …) already appears verbatim elsewhere on the homepage
+ *     (hero data points, philosophy section, footer). Re-announcing the
+ *     same words here would be noise. We mark the whole strip
+ *     `aria-hidden="true"` so AT users skip it.
+ *   - We deliberately do NOT use `role="marquee"` — it is not a valid
+ *     WAI-ARIA role and would fail `jsx-a11y/aria-role`.
  *   - Reduced-motion users see the original (un-duplicated) text static.
  */
 
@@ -55,14 +60,12 @@ export function MarqueeText({
   const bg = variant === 'dark' ? minimal.colors.text : '#FFFFFF';
   const sepColor = variant === 'dark' ? '#6B6B6B' : '#9B9B9B';
 
-  // Render items joined by ◆ — once for screen readers via aria-label
-  // on the wrapper, then twice visually for the seamless loop.
-  const ariaText = items.join(`  ${SEPARATOR}  `);
+  // Two identical rows are concatenated to fake a seamless loop.
+  // The strip is decorative — see the JSDoc Accessibility section.
   const renderRow = (key: string) => (
     <div
       key={key}
       className={`vm-marquee-row-${id}`}
-      aria-hidden="true"
       style={{
         display: 'flex',
         flexShrink: 0,
@@ -103,8 +106,7 @@ export function MarqueeText({
 
   return (
     <div
-      role="marquee"
-      aria-label={ariaText}
+      aria-hidden="true"
       className={`vm-marquee-${id} ${className}`}
       style={{
         backgroundColor: bg,
