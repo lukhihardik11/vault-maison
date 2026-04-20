@@ -506,7 +506,6 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <Link
               href={`/minimal/product/${product.slug}`}
               className="group block"
-              data-cursor="view"
               style={{
                 textDecoration: 'none',
                 color: '#050505',

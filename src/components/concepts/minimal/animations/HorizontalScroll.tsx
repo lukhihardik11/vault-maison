@@ -119,9 +119,14 @@ export function HorizontalScroll({
         position: 'relative',
       }}
     >
+      {/*
+        Inner wrapper used to be \`position: sticky\` here, which was
+        fighting GSAP ScrollTrigger's \`pin: true\` (they both want to
+        hold the element in place). GSAP now does the pinning on its
+        own \`pinSpacer\`; the wrapper just needs to clip the track and
+        size to 100vh. No sticky, no transform on this element.
+      */}
       <div style={{
-        position: 'sticky',
-        top: 0,
         height: '100vh',
         overflow: 'hidden',
         display: 'flex',

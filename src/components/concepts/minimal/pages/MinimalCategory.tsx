@@ -148,7 +148,21 @@ function MinimalCategoryContent({ category }: { category?: string }) {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
 
   const filtered = useMemo(() => {
-    let items = slug ? products.filter((product) => product.category === slug || product.category.includes(slug)) : products
+    // Hyphen-aware matching. Slugs in the data are compound like
+    // "diamond-rings" / "gold-earrings" / "wedding-bridal". The nav
+    // sometimes links with a short slug like "rings" and we want that
+    // to match BOTH "diamond-rings" and "gold-rings" — but NOT
+    // "earrings" (substring `.includes("rings")` is a false positive).
+    //
+    // A category matches when the slug is either the exact category
+    // or a trailing/leading hyphen-delimited segment of it.
+    const matches = (category: string, s: string) =>
+      category === s ||
+      category.endsWith(`-${s}`) ||
+      category.startsWith(`${s}-`) ||
+      category.split('-').includes(s)
+
+    let items = slug ? products.filter((product) => matches(product.category, slug)) : products
     if (sort === 'price-asc') items = [...items].sort((a, b) => a.price - b.price)
     else if (sort === 'price-desc') items = [...items].sort((a, b) => b.price - a.price)
     else if (sort === 'name') items = [...items].sort((a, b) => a.name.localeCompare(b.name))
