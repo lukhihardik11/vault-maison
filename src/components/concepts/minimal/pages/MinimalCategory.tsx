@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState, Suspense } from 'react'
+import { useMemo, useState, Suspense } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Eye } from 'lucide-react'
@@ -9,9 +9,7 @@ import { minimal } from '../design-system'
 import { products, type Product } from '@/data/products'
 import { categoryLabels, type ProductCategory } from '@/data/concepts'
 import { useCartStore } from '@/store/cart'
-import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
-import TiltCard from '../ui/TiltCard'
-import ImageReveal from '../ui/ImageReveal'
+import BlurUpImage from '../ui/BlurUpImage'
 import QuickView from '../ui/QuickView'
 
 const font = minimal.font.primary
@@ -24,6 +22,18 @@ const sortOptions = [
   { value: 'name', label: 'Name A-Z' },
 ]
 
+/**
+ * CategoryProductTile — quiet, hover-free.
+ *
+ * Earlier versions wrapped the tile in a 3D-tilt (`TiltCard`), swapped
+ * the product image to a back-angle on hover (`ImageReveal`), and
+ * auto-opened the QuickView modal after a 650 ms hover dwell. Per
+ * user direction ("delete the hover preview effect and the hover
+ * circle effect") all three are gone. The tile is now a plain
+ * clickable article; users can still reach the QuickView modal via
+ * the explicit "Quick View" button, which stays always-visible
+ * rather than fading in on hover.
+ */
 function CategoryProductTile({
   product,
   onQuickView,
@@ -31,107 +41,80 @@ function CategoryProductTile({
   product: Product
   onQuickView: (product: Product) => void
 }) {
-  const prefersReducedMotion = useReducedMotionPreference()
-  const hoverTimerRef = useRef<number | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
-
-  const clearTimer = () => {
-    if (hoverTimerRef.current !== null) {
-      window.clearTimeout(hoverTimerRef.current)
-      hoverTimerRef.current = null
-    }
-  }
-
-  const handleEnter = () => {
-    setIsHovered(true)
-    if (prefersReducedMotion) return
-    hoverTimerRef.current = window.setTimeout(() => {
-      onQuickView(product)
-    }, 650)
-  }
-
-  const handleLeave = () => {
-    setIsHovered(false)
-    clearTimer()
-  }
-
   return (
-    <TiltCard maxTilt={2.5} lift={2}>
-      <article onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
-        <div style={{ position: 'relative', border: '1px solid #E5E5E5', aspectRatio: '3 / 4', marginBottom: 12 }}>
-          <Link href={`/minimal/product/${product.slug}`} style={{ display: 'block', height: '100%', textDecoration: 'none' }}>
-            <ImageReveal
-              src={product.images[0]}
-              revealSrc={product.images[1]}
-              alt={product.name}
-              containerStyle={{ width: '100%', height: '100%', background: '#E5E5E5' }}
-            />
-          </Link>
+    <article>
+      <div style={{ position: 'relative', border: '1px solid #E5E5E5', aspectRatio: '3 / 4', marginBottom: 12 }}>
+        <Link
+          href={`/minimal/product/${product.slug}`}
+          style={{ display: 'block', height: '100%', textDecoration: 'none' }}
+        >
+          <BlurUpImage
+            src={product.images[0]}
+            alt={product.name}
+            containerStyle={{ width: '100%', height: '100%', background: '#E5E5E5' }}
+          />
+        </Link>
 
-          <button
-            type="button"
-            onClick={(event) => {
-              event.preventDefault()
-              event.stopPropagation()
-              onQuickView(product)
-            }}
-            className="minimal-category-quick-view"
-            style={{
-              position: 'absolute',
-              left: 10,
-              right: 10,
-              bottom: 10,
-              height: 40,
-              border: 'none',
-              background: '#050505',
-              color: '#FFFFFF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-              fontFamily: font,
-              fontSize: 11,
-              fontWeight: 500,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-              opacity: isHovered || prefersReducedMotion ? 1 : 0,
-              transform: isHovered || prefersReducedMotion ? 'translateY(0px)' : 'translateY(6px)',
-              transition: prefersReducedMotion ? 'none' : 'opacity 180ms ease, transform 180ms ease',
-            }}
-          >
-            <Eye size={14} />
-            Quick View
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={(event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            onQuickView(product)
+          }}
+          className="minimal-category-quick-view"
+          style={{
+            position: 'absolute',
+            left: 10,
+            right: 10,
+            bottom: 10,
+            height: 40,
+            border: 'none',
+            background: '#050505',
+            color: '#FFFFFF',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            fontFamily: font,
+            fontSize: 11,
+            fontWeight: 500,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+          }}
+        >
+          <Eye size={14} />
+          Quick View
+        </button>
+      </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <span
-            style={{
-              fontFamily: mono,
-              fontSize: 9,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#9B9B9B',
-            }}
-          >
-            {product.category.replace(/-/g, ' ')}
-          </span>
-          <Link
-            href={`/minimal/product/${product.slug}`}
-            style={{
-              fontFamily: font,
-              fontSize: 14,
-              color: '#050505',
-              textDecoration: 'none',
-            }}
-          >
-            {product.name}
-          </Link>
-          <p style={{ fontFamily: font, fontSize: 14, fontWeight: 400, color: '#050505', margin: 0 }}>{product.priceDisplay}</p>
-        </div>
-      </article>
-    </TiltCard>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span
+          style={{
+            fontFamily: mono,
+            fontSize: 9,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: '#9B9B9B',
+          }}
+        >
+          {product.category.replace(/-/g, ' ')}
+        </span>
+        <Link
+          href={`/minimal/product/${product.slug}`}
+          style={{
+            fontFamily: font,
+            fontSize: 14,
+            color: '#050505',
+            textDecoration: 'none',
+          }}
+        >
+          {product.name}
+        </Link>
+        <p style={{ fontFamily: font, fontSize: 14, fontWeight: 400, color: '#050505', margin: 0 }}>{product.priceDisplay}</p>
+      </div>
+    </article>
   )
 }
 
@@ -349,19 +332,6 @@ function MinimalCategoryContent({ category }: { category?: string }) {
       <style>{`
         .minimal-category-crumb:hover {
           color: #050505 !important;
-        }
-
-        @media (max-width: 768px) {
-          .minimal-category-quick-view {
-            opacity: 1 !important;
-            transform: translateY(0px) !important;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .minimal-category-quick-view {
-            transition: none !important;
-          }
         }
       `}</style>
     </MinimalLayout>
