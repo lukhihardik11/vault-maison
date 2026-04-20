@@ -10,10 +10,19 @@ gsap.registerPlugin(ScrollTrigger);
 interface HorizontalScrollProps {
   children: ReactNode;
   className?: string;
-  /** Number of panels/cards. Used to calculate scroll height. */
+  /**
+   * Number of panels/cards.
+   *
+   * Previously used as a vh multiplier for the outer section height
+   * (`panelCount * heightPerPanel vh`), which caused a big empty block
+   * after the section: the outer container was sized to, e.g., 500vh,
+   * but GSAP's pin only ran for the horizontal translate distance
+   * (a few thousand px). Anything past the pin end was empty runway.
+   *
+   * Now kept only for the mobile fallback (semantic count of items)
+   * and retained in the type for backward compatibility.
+   */
   panelCount: number;
-  /** Height multiplier per panel in vh. Default 100 */
-  heightPerPanel?: number;
   /** Section title displayed above the scroll area */
   title?: string;
   /** Section subtitle */
@@ -24,7 +33,7 @@ interface HorizontalScrollProps {
  * HorizontalScroll — Pinned horizontal scroll showcase
  * Container sticks to viewport while content scrolls horizontally.
  * Vertical scroll is converted to horizontal translation.
- * 
+ *
  * Mobile fallback: standard vertical scroll with snap.
  * Respects prefers-reduced-motion (instant scroll, no spring).
  */
@@ -32,7 +41,6 @@ export function HorizontalScroll({
   children,
   className = '',
   panelCount,
-  heightPerPanel = 100,
   title,
   subtitle,
 }: HorizontalScrollProps) {
@@ -49,17 +57,35 @@ export function HorizontalScroll({
     const ctx = gsap.context(() => {
       const getDistance = () => Math.max(track.scrollWidth - window.innerWidth, 0);
 
+      // Size the outer section = `distance + 100vh`. Combined with the
+      // inner wrapper's `position: sticky; top: 0; height: 100vh`, this
+      // means the inner sticks for `section.height - 100vh === distance`
+      // pixels of scroll — exactly the amount we need to play the
+      // horizontal translation. When the section ends, the next section
+      // (Collections) starts immediately. No empty runway.
+      //
+      // Why not `pin: true`? GSAP's pin adds `padding-bottom = duration`
+      // to its pinSpacer AND keeps the trigger's own height on top, so
+      // the pinSpacer is `trigger.height + duration` tall. The trigger's
+      // height portion (100vh) is empty padding that scrolls by AFTER
+      // the pin releases — visibly a big blank block after the section.
+      // The sticky + scrub pattern has no such spacer.
+      const syncHeight = () => {
+        const distance = getDistance();
+        container.style.height = `${distance + window.innerHeight}px`;
+      };
+      syncHeight();
+
       gsap.to(track, {
         x: () => -getDistance(),
         ease: 'none',
         scrollTrigger: {
           trigger: container,
           start: 'top top',
-          end: () => `+=${getDistance() || panelCount * window.innerWidth * 0.6}`,
+          end: 'bottom bottom',
           scrub: 1,
-          pin: true,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
+          onRefresh: syncHeight,
         },
       });
     }, container);
@@ -114,19 +140,24 @@ export function HorizontalScroll({
     <section
       ref={containerRef}
       className={className}
+      // Height is set imperatively in the effect above to
+      // `horizontalDistance + 100vh`. SSR / first-paint fallback: size
+      // roughly to the expected final height so there's no layout jump.
       style={{
-        height: `${panelCount * heightPerPanel}vh`,
+        height: `${panelCount * 100}vh`,
         position: 'relative',
       }}
     >
       {/*
-        Inner wrapper used to be \`position: sticky\` here, which was
-        fighting GSAP ScrollTrigger's \`pin: true\` (they both want to
-        hold the element in place). GSAP now does the pinning on its
-        own \`pinSpacer\`; the wrapper just needs to clip the track and
-        size to 100vh. No sticky, no transform on this element.
+        Inner sticky wrapper sticks at `top: 0` for `section.height -
+        100vh === distance` pixels of scroll. GSAP animates the track's
+        `x` in sync with that scroll progress, via ScrollTrigger's
+        `scrub: 1`. No `pin: true`, no pinSpacer — therefore no empty
+        space after the section ends.
       */}
       <div style={{
+        position: 'sticky',
+        top: 0,
         height: '100vh',
         overflow: 'hidden',
         display: 'flex',
