@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties, ElementType } from 'react'
+import type { CSSProperties, ElementType, ReactNode } from 'react'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
 interface GlitchTextProps {
@@ -17,18 +17,23 @@ export default function GlitchText({
   style,
 }: GlitchTextProps) {
   const prefersReduced = useReducedMotionPreference()
+  const Tag = Component as ElementType<{
+    children?: ReactNode
+    className?: string
+    style?: CSSProperties
+  }>
 
   if (prefersReduced) {
     return (
-      <Component className={className} style={{ whiteSpace: 'pre-line', ...style }}>
+      <Tag className={className} style={{ whiteSpace: 'pre-line', ...style }}>
         {text}
-      </Component>
+      </Tag>
     )
   }
 
   return (
     <>
-      <Component className={`vm-glitch ${className}`.trim()} style={style}>
+      <Tag className={`vm-glitch ${className}`.trim()} style={style}>
         <span className="vm-glitch-base">{text}</span>
         <span aria-hidden="true" className="vm-glitch-layer vm-glitch-layer-a">
           {text}
@@ -36,7 +41,7 @@ export default function GlitchText({
         <span aria-hidden="true" className="vm-glitch-layer vm-glitch-layer-b">
           {text}
         </span>
-      </Component>
+      </Tag>
 
       <style>{`
         .vm-glitch {
