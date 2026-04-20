@@ -1,11 +1,16 @@
 'use client'
 
-import { type ReactNode } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
 import { ScrollProgress } from './animations/ScrollProgress'
+import { useReducedMotionPreference } from './animations/useResponsiveMotion'
+import PageTransition from './ui/PageTransition'
+import Breadcrumb from './ui/Breadcrumb'
+import BackToTop from './ui/BackToTop'
 
 const MinimalCursor = dynamic(
   () => import('./cursor/MinimalCursor').then((mod) => mod.MinimalCursor),
@@ -19,6 +24,27 @@ interface MinimalLayoutProps {
 }
 
 export function MinimalLayout({ children, hideNav = false, hideFooter = false }: MinimalLayoutProps) {
+  const pathname = usePathname()
+  const prefersReducedMotion = useReducedMotionPreference()
+  const [isLoaded, setIsLoaded] = useState(true)
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setIsLoaded(true)
+      return
+    }
+
+    setIsLoaded(false)
+    const frame = window.requestAnimationFrame(() => {
+      setIsLoaded(true)
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [pathname, prefersReducedMotion])
+
+  const isMinimalHome = pathname === '/minimal' || pathname === '/minimal/'
+  const showBreadcrumb = Boolean(pathname?.startsWith('/minimal') && !isMinimalHome && !hideNav)
+
   return (
     <>
       <style>{`
@@ -79,9 +105,38 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           background-color: #050505 !important;
           color: #FFFFFF !important;
         }
+
+        .minimal-concept {
+          opacity: 1;
+          transform: translateY(0);
+          transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .minimal-concept.is-loading {
+          opacity: 0.94;
+          transform: translateY(6px);
+        }
+        .minimal-concept.is-loaded {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .minimal-main-content {
+          min-height: calc(100vh - 64px);
+        }
+        .minimal-concept.is-reduced-motion {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .minimal-concept {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+          }
+        }
       `}</style>
       <div
-        className="minimal-concept"
+        className={`minimal-concept ${isLoaded ? 'is-loaded' : 'is-loading'} ${prefersReducedMotion ? 'is-reduced-motion' : ''}`}
         data-concept="minimal"
         style={{
           backgroundColor: '#FFFFFF',
@@ -101,9 +156,13 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         <MinimalCursor />
 
         {!hideNav && <MinimalNav />}
-        <main>{children}</main>
+        <main className="minimal-main-content">
+          {showBreadcrumb && <Breadcrumb />}
+          <PageTransition>{children}</PageTransition>
+        </main>
         {!hideFooter && <MinimalFooter />}
         {!hideNav && <Toolbar />}
+        <BackToTop />
       </div>
     </>
   )

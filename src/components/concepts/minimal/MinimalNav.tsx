@@ -9,6 +9,7 @@ import { useWishlistStore } from '@/store/wishlist'
 import ActionSearchBar from './ui/ActionSearchBar'
 import ProfileDropdown from './ui/ProfileDropdown'
 import { minimal } from './design-system'
+import { useReducedMotionPreference } from './animations/useResponsiveMotion'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -41,34 +42,48 @@ export function MinimalNav() {
   const [scrolled, setScrolled] = useState(false)
   const [megaMenu, setMegaMenu] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [cartPulse, setCartPulse] = useState(false)
   const megaTimeout = useRef<NodeJS.Timeout | null>(null)
   const pathname = usePathname()
+  const prefersReducedMotion = useReducedMotionPreference()
   const cartCount = useCartStore((s) => s.items.reduce((acc, item) => acc + item.quantity, 0))
   const wishlistCount = useWishlistStore((s) => s.items.length)
+  const previousCartCount = useRef(cartCount)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
+    const handleScroll = () => setScrolled(window.scrollY > 16)
+    handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => { setMegaMenu(null) }, [pathname])
+  useEffect(() => {
+    setMegaMenu(null)
+    setMenuOpen(false)
+  }, [pathname])
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
+
+  useEffect(() => {
+    const increased = cartCount > previousCartCount.current
+    previousCartCount.current = cartCount
+
+    if (!increased || prefersReducedMotion) return
+
+    setCartPulse(true)
+    const timeout = window.setTimeout(() => setCartPulse(false), 280)
+    return () => window.clearTimeout(timeout)
+  }, [cartCount, prefersReducedMotion])
 
   const openMega = (key: string) => {
     if (megaTimeout.current) clearTimeout(megaTimeout.current)
     setMegaMenu(key)
   }
   const closeMega = () => {
-    megaTimeout.current = setTimeout(() => setMegaMenu(null), 200)
+    megaTimeout.current = setTimeout(() => setMegaMenu(null), 140)
   }
 
   const isActive = (href: string) => pathname === href || pathname?.startsWith(href + '/')
@@ -84,6 +99,7 @@ export function MinimalNav() {
   return (
     <>
       <nav
+        className={`minimal-nav-shell ${scrolled ? 'is-scrolled' : ''}`}
         style={{
           position: 'fixed',
           top: 0,
@@ -91,13 +107,9 @@ export function MinimalNav() {
           right: 0,
           zIndex: 50,
           height: '64px',
-          borderBottom: '1px solid #E5E5E5',
-          backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.98)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          transition: 'background-color 300ms ease',
         }}
       >
+        <div className={`minimal-nav-border ${scrolled ? 'is-visible' : ''}`} aria-hidden="true" />
         <div
           style={{
             maxWidth: '1400px',
@@ -137,6 +149,7 @@ export function MinimalNav() {
                 <Link
                   href={link.href}
                   className={`minimal-nav-link group flex items-center ${isActive(link.href) ? 'minimal-nav-link-active' : ''}`}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
                   style={{
                     fontFamily: font,
                     fontSize: '11px',
@@ -144,8 +157,7 @@ export function MinimalNav() {
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
                     textDecoration: 'none',
-                    color: isActive(link.href) ? '#050505' : '#8A8A8A',
-                    transition: 'color 0.2s ease',
+                    color: isActive(link.href) ? '#050505' : '#6B6B6B',
                     gap: '4px',
                     paddingBottom: '2px',
                   }}
@@ -157,7 +169,7 @@ export function MinimalNav() {
                       strokeWidth={1.5}
                       style={{
                         opacity: 0.4,
-                        transition: 'transform 200ms',
+                        transition: prefersReducedMotion ? 'none' : 'transform 200ms',
                         transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)',
                       }}
                     />
@@ -172,19 +184,14 @@ export function MinimalNav() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="hidden md:block"
+              className="minimal-icon-button hidden md:flex"
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                padding: '4px',
-                color: '#9B9B9B',
-                transition: 'color 0.2s ease',
+                padding: '6px',
                 minWidth: '44px',
                 minHeight: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
               }}
               aria-label="Search"
             >
@@ -192,10 +199,8 @@ export function MinimalNav() {
             </button>
             <Link
               href="/minimal/wishlist"
-              className="hidden md:flex"
+              className="minimal-icon-button hidden md:flex"
               style={{
-                color: '#9B9B9B',
-                transition: 'color 0.2s ease',
                 position: 'relative',
                 minWidth: '44px',
                 minHeight: '44px',
@@ -214,9 +219,8 @@ export function MinimalNav() {
             </Link>
             <Link
               href="/minimal/cart"
+              className="minimal-icon-button"
               style={{
-                color: '#9B9B9B',
-                transition: 'color 0.2s ease',
                 position: 'relative',
                 minWidth: '44px',
                 minHeight: '44px',
@@ -228,23 +232,26 @@ export function MinimalNav() {
             >
               <ShoppingBag size={17} strokeWidth={1.5} />
               {cartCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '2px',
-                  right: '2px',
-                  minWidth: '16px',
-                  height: '16px',
-                  backgroundColor: '#050505',
-                  color: '#FFFFFF',
-                  fontFamily: font,
-                  fontSize: '9px',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  lineHeight: 1,
-                  padding: '0 3px',
-                }}>
+                <span
+                  className={`minimal-cart-badge ${cartPulse ? 'pulse' : ''}`}
+                  style={{
+                    position: 'absolute',
+                    top: '2px',
+                    right: '2px',
+                    minWidth: '16px',
+                    height: '16px',
+                    backgroundColor: '#050505',
+                    color: '#FFFFFF',
+                    fontFamily: font,
+                    fontSize: '9px',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    lineHeight: 1,
+                    padding: '0 3px',
+                  }}
+                >
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
@@ -255,18 +262,14 @@ export function MinimalNav() {
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
-              className="md:hidden"
+              className="minimal-icon-button md:hidden"
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                padding: '4px',
-                color: '#050505',
+                padding: '6px',
                 minWidth: '44px',
                 minHeight: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
               }}
               aria-label="Menu"
             >
@@ -367,6 +370,7 @@ export function MinimalNav() {
       {/* Mobile Menu — Full Screen Takeover with Stagger */}
       {menuOpen && (
         <div
+          className="minimal-mobile-overlay"
           style={{
             position: 'fixed',
             inset: 0,
@@ -375,7 +379,6 @@ export function MinimalNav() {
             display: 'flex',
             flexDirection: 'column',
             padding: '0 24px',
-            animation: 'fadeIn 200ms ease',
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
@@ -385,17 +388,14 @@ export function MinimalNav() {
             <button
               type="button"
               onClick={() => setMenuOpen(false)}
+              className="minimal-icon-button"
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                padding: '8px',
-                color: '#050505',
+                padding: '10px',
                 minWidth: '44px',
                 minHeight: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
               }}
               aria-label="Close menu"
             >
@@ -408,7 +408,7 @@ export function MinimalNav() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="minimal-mobile-link"
+                className={`minimal-mobile-link ${isActive(link.href) ? 'active' : ''}`}
                 style={{
                   fontFamily: font,
                   fontSize: '13px',
@@ -416,12 +416,11 @@ export function MinimalNav() {
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
                   textDecoration: 'none',
-                  color: isActive(link.href) ? '#050505' : '#8A8A8A',
-                  padding: '16px 0',
+                  color: isActive(link.href) ? '#050505' : '#6B6B6B',
+                  padding: '18px 12px',
                   borderBottom: '1px solid #E5E5E5',
-                  transition: 'color 0.2s ease',
-                  animationDelay: `${i * 50}ms`,
-                  minHeight: '52px',
+                  animationDelay: prefersReducedMotion ? '0ms' : `${i * 60}ms`,
+                  minHeight: '58px',
                   display: 'flex',
                   alignItems: 'center',
                 }}
@@ -437,30 +436,74 @@ export function MinimalNav() {
       <div style={{ height: '64px' }} />
 
       <style>{`
+        .minimal-nav-shell {
+          background-color: #FFFFFF;
+          backdrop-filter: blur(18px) saturate(140%);
+          -webkit-backdrop-filter: blur(18px) saturate(140%);
+          transition: backdrop-filter 300ms ease;
+        }
+        .minimal-nav-shell.is-scrolled {
+          backdrop-filter: blur(24px) saturate(165%);
+          -webkit-backdrop-filter: blur(24px) saturate(165%);
+        }
+        .minimal-nav-border {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 1px;
+          background: #E5E5E5;
+          opacity: 0;
+          transition: opacity 260ms ease;
+          pointer-events: none;
+        }
+        .minimal-nav-border.is-visible {
+          opacity: 1;
+        }
         @keyframes megaSlide { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Nav link underline — slides in from left */
         .minimal-nav-link {
           position: relative;
+          transition: color 220ms ease;
         }
         .minimal-nav-link::after {
           content: '';
           position: absolute;
           bottom: -2px;
           left: 0;
-          width: 0;
+          width: 100%;
           height: 1px;
           background: #050505;
-          transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          transform: scaleX(0);
+          transform-origin: left center;
+          transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .minimal-nav-link:hover::after {
-          width: 100%;
+          transform: scaleX(1);
         }
         .minimal-nav-link:hover {
           color: #050505 !important;
         }
         .minimal-nav-link-active::after {
-          width: 100%;
+          transform: scaleX(1);
+        }
+
+        .minimal-icon-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #6B6B6B;
+          transition: color 220ms ease, transform 220ms ease;
+          text-decoration: none;
+        }
+        .minimal-icon-button:hover {
+          color: #050505;
+          transform: translateY(-1px);
+        }
+        .minimal-icon-button:focus-visible {
+          outline: 1px solid #050505;
+          outline-offset: 2px;
         }
 
         /* Product card title underline — slides in from left */
@@ -474,17 +517,65 @@ export function MinimalNav() {
           left: 0;
           width: 0;
           height: 1px;
-          background: rgba(5, 5, 5, 0.25);
+          background: #9B9B9B;
           transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .minimal-mobile-overlay {
+          animation: fadeIn 220ms ease;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
 
         /* Mobile menu stagger fade-in */
         .minimal-mobile-link {
-          animation: mobileMenuFadeIn 400ms ease both;
+          animation: mobileMenuFadeIn 440ms cubic-bezier(0.16, 1, 0.3, 1) both;
+          transition: color 220ms ease, background-color 220ms ease;
+        }
+        .minimal-mobile-link:hover {
+          color: #050505 !important;
+          background: #E5E5E5;
+        }
+        .minimal-mobile-link.active {
+          color: #050505 !important;
         }
         @keyframes mobileMenuFadeIn {
-          from { opacity: 0; transform: translateX(-12px); }
-          to { opacity: 1; transform: translateX(0); }
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .minimal-cart-badge {
+          transition: transform 220ms ease;
+          transform-origin: center;
+        }
+        .minimal-cart-badge.pulse {
+          animation: minimalCartPulse 280ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes minimalCartPulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.16); }
+          100% { transform: scale(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .minimal-nav-shell,
+          .minimal-nav-border,
+          .minimal-nav-link,
+          .minimal-nav-link::after,
+          .minimal-icon-button,
+          .minimal-mobile-link,
+          .minimal-cart-badge,
+          .minimal-mobile-overlay {
+            transition: none !important;
+            animation: none !important;
+          }
+          .minimal-icon-button:hover,
+          .minimal-mobile-link:hover,
+          .minimal-cart-badge.pulse {
+            transform: none !important;
+          }
         }
       `}</style>
     </>
