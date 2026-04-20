@@ -35,29 +35,32 @@ export default function PageTransition({ children }: PageTransitionProps) {
         {children}
       </div>
       <style>{`
+        /*
+         * No \`transform\` on the idle/settled state — see the note in
+         * MinimalLayout.tsx. A transformed ancestor creates a containing
+         * block for \`position: fixed\` which silently breaks GSAP
+         * ScrollTrigger's \`pin: true\` (used by HorizontalScroll).
+         * Same story for \`will-change: transform\`. Fade via opacity
+         * only at rest; the translateY sneaks in only during the actual
+         * transition frame and is removed when settled.
+         */
         .minimal-page-transition {
           opacity: 1;
-          transform: translateY(0);
-          transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-          will-change: opacity, transform;
+          transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .minimal-page-transition.is-transitioning {
           opacity: 0.88;
-          transform: translateY(10px);
         }
         .minimal-page-transition.is-settled {
           opacity: 1;
-          transform: translateY(0);
         }
         .minimal-page-transition.is-reduced {
           opacity: 1;
-          transform: none;
           transition: none;
         }
         @media (prefers-reduced-motion: reduce) {
           .minimal-page-transition {
             opacity: 1 !important;
-            transform: none !important;
             transition: none !important;
           }
         }

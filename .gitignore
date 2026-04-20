@@ -39,3 +39,6 @@ DESIGN-INTELLIGENCE.md
 RESEARCH.md
 ASSESSMENT.md
 .ui-ux-pro-max/
+
+# Puppeteer verification output (regeneratable; too big to commit)
+scripts/out/
