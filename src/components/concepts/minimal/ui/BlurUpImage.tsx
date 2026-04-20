@@ -1,6 +1,12 @@
 'use client'
 
-import { useEffect, useState, type CSSProperties, type ImgHTMLAttributes } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ImgHTMLAttributes,
+} from 'react'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
 export interface BlurUpImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'> {
@@ -17,12 +23,35 @@ export default function BlurUpImage({
   containerStyle,
   style,
   onLoad,
+  onError,
   ...rest
 }: BlurUpImageProps) {
   const prefersReducedMotion = useReducedMotionPreference()
+  const imgRef = useRef<HTMLImageElement>(null)
   const [loaded, setLoaded] = useState(false)
 
+  // Cache-hit handling.
+  //
+  // The `<img>` `onLoad` event does NOT fire for images that are already
+  // in the browser cache and complete before React attaches the handler.
+  // When that happens, `loaded` stays `false` forever and the image
+  // renders permanently at `blur(14px)` / opacity 0.82 — the "stuck
+  // blurred" bug the user was seeing in QuickView and the PDP thumbnails.
+  //
+  // Fix: after mount / src change, sync-check `img.complete` and flip
+  // `loaded` to `true` if the browser already decoded the image. For
+  // uncached images `complete` is `false` here, so we fall back to the
+  // `onLoad` handler as before. Errored images also get `loaded = true`
+  // to stop the endless blur-pulse (we'd rather show a broken-image
+  // icon than a perpetual loading state).
   useEffect(() => {
+    const img = imgRef.current
+    if (!img) return
+    if (img.complete && img.naturalWidth > 0) {
+      setLoaded(true)
+      return
+    }
+    // Uncached — reset to blurred and wait for the image to decode.
     setLoaded(false)
   }, [src])
 
@@ -38,11 +67,18 @@ export default function BlurUpImage({
     >
       <img
         {...rest}
+        ref={imgRef}
         src={src}
         alt={alt}
         onLoad={(event) => {
           setLoaded(true)
           onLoad?.(event)
+        }}
+        onError={(event) => {
+          // Still flip loaded so the user sees the native broken-image
+          // glyph instead of an indefinite blur.
+          setLoaded(true)
+          onError?.(event)
         }}
         style={{
           width: '100%',

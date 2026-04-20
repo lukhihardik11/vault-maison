@@ -43,3 +43,4 @@ ASSESSMENT.md
 # Puppeteer verification output (regeneratable; too big to commit)
 scripts/out/
 scripts/out-v2/
+scripts/out-blur/
