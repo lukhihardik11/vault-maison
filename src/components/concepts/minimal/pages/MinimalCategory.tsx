@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState, Suspense } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Eye } from 'lucide-react'
@@ -135,7 +135,7 @@ function CategoryProductTile({
   )
 }
 
-export function MinimalCategory({ category }: { category?: string }) {
+function MinimalCategoryContent({ category }: { category?: string }) {
   const params = useParams()
   const addItem = useCartStore((state) => state.addItem)
   const slug = category || (params?.category as string)
@@ -148,7 +148,7 @@ export function MinimalCategory({ category }: { category?: string }) {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
 
   const filtered = useMemo(() => {
-    let items = slug ? products.filter((product) => product.category === slug) : products
+    let items = slug ? products.filter((product) => product.category === slug || product.category.includes(slug)) : products
     if (sort === 'price-asc') items = [...items].sort((a, b) => a.price - b.price)
     else if (sort === 'price-desc') items = [...items].sort((a, b) => b.price - a.price)
     else if (sort === 'name') items = [...items].sort((a, b) => a.name.localeCompare(b.name))
@@ -351,5 +351,13 @@ export function MinimalCategory({ category }: { category?: string }) {
         }
       `}</style>
     </MinimalLayout>
+  )
+}
+
+export function MinimalCategory({ category }: { category?: string }) {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: '#FFFFFF' }} />}>
+      <MinimalCategoryContent category={category} />
+    </Suspense>
   )
 }

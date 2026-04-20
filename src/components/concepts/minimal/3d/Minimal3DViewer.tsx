@@ -286,7 +286,7 @@ export default function Minimal3DViewer({
           toneMappingExposure: 1.2,
         }}
         dpr={[1, 2]}
-        shadows
+        shadows={{ type: THREE.PCFShadowMap }}
         style={{ background: '#050505' }}
       >
         <Suspense fallback={null}>

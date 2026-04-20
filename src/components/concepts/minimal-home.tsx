@@ -93,6 +93,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           minHeight: '100vh',
           width: '100%',
           position: 'relative',
+          overflow: 'hidden',
         }}
         className="vm-hero-split"
       >
@@ -128,9 +129,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             {/* Animated headline with clip-path reveal + per-line glitch on hover */}
             <TextReveal duration={800}>
               <h1
+                className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl"
                 style={{
                   fontFamily: font,
-                  fontSize: 'clamp(52px, 10vw, 160px)',
                   fontWeight: 100,
                   letterSpacing: '-0.05em',
                   lineHeight: 0.88,
@@ -197,56 +198,60 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
 
             {/* CTA Buttons — staggered, magnetic on hover */}
             <StaggerReveal stagger={100} duration={500} direction="up" className="">
-              <div style={{ display: 'flex', gap: '16px', marginTop: 'clamp(40px, 5vh, 64px)', flexWrap: 'wrap' }}>
-                <MagneticButton>
-                  <Link
-                    href="/minimal/collections"
-                    className="vm-btn-primary"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '12px',
-                      fontFamily: font,
-                      fontSize: '11px',
-                      fontWeight: 500,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase',
-                      textDecoration: 'none',
-                      color: '#FFFFFF',
-                      backgroundColor: '#050505',
-                      padding: '20px 48px',
-                      border: '1px solid #050505',
-                      height: '52px',
-                    }}
-                  >
-                    Shop Collection
-                  </Link>
-                </MagneticButton>
-                <MagneticButton>
-                  <Link
-                    href="/minimal/bespoke"
-                    className="vm-btn-secondary"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontFamily: font,
-                      fontSize: '11px',
-                      fontWeight: 500,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase',
-                      textDecoration: 'none',
-                      color: '#050505',
-                      backgroundColor: 'transparent',
-                      padding: '20px 48px',
-                      border: '1px solid #050505',
-                      height: '52px',
-                    }}
-                  >
-                    Bespoke
-                  </Link>
-                </MagneticButton>
+              <div style={{ display: 'flex', gap: '16px', marginTop: 'clamp(40px, 5vh, 64px)', flexWrap: 'wrap' }} className="w-full">
+                <div className="w-full sm:w-auto">
+                  <MagneticButton>
+                    <Link
+                      href="/minimal/collections"
+                      className="vm-btn-primary w-full sm:w-auto"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '12px',
+                        fontFamily: font,
+                        fontSize: '11px',
+                        fontWeight: 500,
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        textDecoration: 'none',
+                        color: '#FFFFFF',
+                        backgroundColor: '#050505',
+                        padding: '20px 48px',
+                        border: '1px solid #050505',
+                        height: '52px',
+                      }}
+                    >
+                      Shop Collection
+                    </Link>
+                  </MagneticButton>
+                </div>
+                <div className="w-full sm:w-auto">
+                  <MagneticButton>
+                    <Link
+                      href="/minimal/bespoke"
+                      className="vm-btn-secondary w-full sm:w-auto"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontFamily: font,
+                        fontSize: '11px',
+                        fontWeight: 500,
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        textDecoration: 'none',
+                        color: '#050505',
+                        backgroundColor: 'transparent',
+                        padding: '20px 48px',
+                        border: '1px solid #050505',
+                        height: '52px',
+                      }}
+                    >
+                      Bespoke
+                    </Link>
+                  </MagneticButton>
+                </div>
               </div>
             </StaggerReveal>
           </div>
@@ -344,10 +349,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <span className={minimal.cn.label} style={{ fontFamily: mono }}>Featured Piece</span>
             <TextReveal delay={100} duration={700} as="h2">
               <span
-                className="mt-5 mb-4"
+                className="mt-5 mb-4 text-xl sm:text-2xl md:text-3xl lg:text-5xl"
                 style={{
                   fontFamily: font,
-                  fontSize: 'clamp(28px, 3.5vw, 48px)',
                   fontWeight: 200,
                   letterSpacing: '-0.03em',
                   lineHeight: 1.1,
@@ -374,7 +378,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
 
             {/* 4Cs Grid */}
             {heroProduct.diamondSpecs && (
-              <div className="grid grid-cols-4 gap-px mb-10" style={{ backgroundColor: '#E5E5E5' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px mb-10" style={{ backgroundColor: '#E5E5E5' }}>
                 {Object.entries(heroProduct.diamondSpecs)
                   .filter(([k]) => ['carat', 'cut', 'color', 'clarity'].includes(k))
                   .map(([key, val]) => (
@@ -438,9 +442,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 Interactive
               </span>
               <h2
+                className="text-xl sm:text-2xl md:text-3xl lg:text-5xl"
                 style={{
                   fontFamily: font,
-                  fontSize: 'clamp(24px, 3vw, 40px)',
                   fontWeight: 200,
                   letterSpacing: '-0.03em',
                   color: '#FFFFFF',
@@ -811,9 +815,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           </span>
           <TextReveal duration={700} as="h2">
             <span
+              className="text-xl sm:text-2xl md:text-3xl lg:text-5xl"
               style={{
                 fontFamily: font,
-                fontSize: 'clamp(28px, 3.5vw, 48px)',
                 fontWeight: 200,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.1,

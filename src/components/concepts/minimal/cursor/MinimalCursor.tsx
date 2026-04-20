@@ -36,7 +36,7 @@ export function MinimalCursor() {
       }
 
       if (frameRef.current) {
-        const targetSize = textRef.current ? 76 : 28;
+        const targetSize = textRef.current ? 76 : 36;
         frameRef.current.style.width = `${targetSize}px`;
         frameRef.current.style.height = `${targetSize}px`;
         frameRef.current.style.transform = `translate(${frame.current.x - targetSize / 2}px, ${frame.current.y - targetSize / 2}px)`;
@@ -49,7 +49,7 @@ export function MinimalCursor() {
       const target = event.target as HTMLElement | null;
       if (!target) return;
 
-      if (target.closest('.product-image, [data-cursor="view"]')) {
+      if (target.closest('[data-cursor="view"]')) {
         textRef.current = 'View';
         setCursorText('View');
         return;
@@ -65,7 +65,18 @@ export function MinimalCursor() {
       setCursorText('');
     };
 
-    const handleOut = () => {
+    const handleOut = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const relatedTarget = event.relatedTarget as HTMLElement | null;
+      
+      // If we're moving inside the same [data-cursor="view"], don't clear
+      if (
+        target?.closest('[data-cursor="view"]') && 
+        relatedTarget?.closest('[data-cursor="view"]') === target.closest('[data-cursor="view"]')
+      ) {
+        return;
+      }
+      
       textRef.current = '';
       setCursorText('');
     };
@@ -96,11 +107,12 @@ export function MinimalCursor() {
           left: 0,
           width: '6px',
           height: '6px',
-          backgroundColor: '#050505',
+          backgroundColor: '#FFFFFF',
           pointerEvents: 'none',
           zIndex: 9999,
           mixBlendMode: 'difference',
           transform: 'translate(-100px, -100px)',
+          borderRadius: '50%',
         }}
       />
       <div
@@ -110,9 +122,9 @@ export function MinimalCursor() {
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '28px',
-          height: '28px',
-          border: '1px solid rgba(5, 5, 5, 0.4)',
+          width: '36px',
+          height: '36px',
+          border: '1px solid rgba(255, 255, 255, 0.4)',
           pointerEvents: 'none',
           zIndex: 9998,
           display: 'flex',
@@ -121,6 +133,7 @@ export function MinimalCursor() {
           mixBlendMode: 'difference',
           transition: 'width 0.3s ease, height 0.3s ease',
           transform: 'translate(-100px, -100px)',
+          borderRadius: '50%',
         }}
       >
         {cursorText && (
