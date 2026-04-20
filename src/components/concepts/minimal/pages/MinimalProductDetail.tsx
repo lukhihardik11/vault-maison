@@ -11,6 +11,7 @@ import { useCartStore } from '@/store/cart'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import BlurUpImage from '../ui/BlurUpImage'
 import SmoothAccordion, { type SmoothAccordionItem } from '../ui/SmoothAccordion'
+import { ProductBounceCard } from '@/components/ui/product-bounce-card'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const M = "'SF Mono', 'Fira Code', monospace"
@@ -38,6 +39,15 @@ function ProductImageGallery({ images, productName }: { images: string[]; produc
           alt={productName}
           containerStyle={{ width: '100%', height: '100%' }}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      </div>
+
+      {/* 21st.dev ProductBounceCard — floating product animation */}
+      <div style={{ marginTop: 24, padding: '32px 0', borderTop: '1px solid #E5E5E5' }}>
+        <ProductBounceCard
+          imageUrl={selectedImage}
+          alt={productName}
+          className="w-full h-48 md:h-64"
         />
       </div>
 

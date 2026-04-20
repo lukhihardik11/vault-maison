@@ -46,6 +46,13 @@ export { MorphingText } from './morphing-text'
 
 // 21st.dev inspired components
 export { MagneticButton } from './magnetic-button'
+export { ProductBounceCard } from './product-bounce-card'
+export { PaymentSummary } from './payment'
+export { GlassCheckoutCard } from './glass-checkout-card'
+export { OrderConfirmationCard } from './order-confirmation-card'
+export { CreditCardForm } from './credit-card-form'
+export { TrackingTimeline } from './order-history'
+export type { TimelineItem } from './order-history'
 
 // Background patterns
 export { DotPattern } from './dot-pattern'
