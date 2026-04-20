@@ -30,3 +30,8 @@ export { TruckLoader } from './TruckLoader'
 export { ExploreButton } from './ExploreButton'
 export { DarkLoginForm } from './DarkLoginForm'
 export { NeuProductCard } from './NeuProductCard'
+// Phase-2 homepage primitives (see docs/research/ui-ux-pro-max-recommendations.md)
+export { MarqueeText } from './MarqueeText'
+export { MagneticButton } from './MagneticButton'
+export { GlitchText } from './GlitchText'
+export { SmoothCounter } from './SmoothCounter'

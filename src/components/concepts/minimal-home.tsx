@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef, useEffect } from 'react'
+import { useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -11,14 +11,18 @@ import { products } from '@/data/products'
 import type { ConceptConfig } from '@/data/concepts'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { useInView } from 'framer-motion'
 
 // Animation components
 import { TextReveal, SplitTextReveal } from './minimal/animations/TextReveal'
 import { StaggerReveal } from './minimal/animations/StaggerReveal'
 import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
-import { useReducedMotionPreference } from './minimal/animations/useResponsiveMotion'
+
+// Phase-2 homepage primitives — see docs/research/ui-ux-pro-max-recommendations.md
+import { MarqueeText } from './minimal/ui/MarqueeText'
+import { MagneticButton } from './minimal/ui/MagneticButton'
+import { GlitchText } from './minimal/ui/GlitchText'
+import { SmoothCounter } from './minimal/ui/SmoothCounter'
 
 const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
   ssr: false,
@@ -58,42 +62,17 @@ const collections = [
 // Curated pieces for horizontal scroll section
 const curatedPieces = products.filter(p => p.isBestseller || p.isNew).slice(0, 5)
 
-/**
- * CountUp — Animated number counter
- * Counts from 0 to target value when in view.
- * Respects prefers-reduced-motion.
- */
-function CountUp({ value, suffix = '' }: { value: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const isInView = useInView(ref, { once: true })
-  const prefersReduced = useReducedMotionPreference()
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el || !isInView) return
-    if (prefersReduced) {
-      el.textContent = `${value.toLocaleString()}${suffix}`
-      return
-    }
-
-    const duration = 1500
-    const start = performance.now()
-
-    const animate = (now: number) => {
-      const elapsed = now - start
-      const progress = Math.min(elapsed / duration, 1)
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3)
-      const current = Math.round(eased * value)
-      el.textContent = `${current.toLocaleString()}${suffix}`
-      if (progress < 1) requestAnimationFrame(animate)
-    }
-
-    requestAnimationFrame(animate)
-  }, [isInView, prefersReduced, suffix, value])
-
-  return <span ref={ref}>0{suffix}</span>
-}
+// Brand band running between the hero and category showcase. Black band,
+// monochrome type, ◆ separators — see MarqueeText for the visual contract.
+const marqueeItems = [
+  'Precision Cuts',
+  'GIA Certified',
+  'Bespoke Commissions',
+  'Ethically Sourced',
+  'Lifetime Service',
+  'Hand Set',
+  'Est. 1974',
+]
 
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   void concept
@@ -146,7 +125,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           </span>
 
           <div>
-            {/* Animated headline with clip-path reveal */}
+            {/* Animated headline with clip-path reveal + per-line glitch on hover */}
             <TextReveal duration={800}>
               <h1
                 style={{
@@ -160,11 +139,11 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   margin: 0,
                 }}
               >
-                Precision.
+                <GlitchText>Precision.</GlitchText>
                 <br />
-                Nothing
+                <GlitchText>Nothing</GlitchText>
                 <br />
-                More.
+                <GlitchText>More.</GlitchText>
               </h1>
             </TextReveal>
 
@@ -216,54 +195,58 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               </div>
             </StaggerReveal>
 
-            {/* CTA Buttons — staggered */}
+            {/* CTA Buttons — staggered, magnetic on hover */}
             <StaggerReveal stagger={100} duration={500} direction="up" className="">
               <div style={{ display: 'flex', gap: '16px', marginTop: 'clamp(40px, 5vh, 64px)', flexWrap: 'wrap' }}>
-                <Link
-                  href="/minimal/collections"
-                  className="vm-btn-primary"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '12px',
-                    fontFamily: font,
-                    fontSize: '11px',
-                    fontWeight: 500,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    color: '#FFFFFF',
-                    backgroundColor: '#050505',
-                    padding: '20px 48px',
-                    border: '1px solid #050505',
-                    height: '52px',
-                  }}
-                >
-                  Shop Collection
-                </Link>
-                <Link
-                  href="/minimal/bespoke"
-                  className="vm-btn-secondary"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: font,
-                    fontSize: '11px',
-                    fontWeight: 500,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    color: '#050505',
-                    backgroundColor: 'transparent',
-                    padding: '20px 48px',
-                    border: '1px solid #050505',
-                    height: '52px',
-                  }}
-                >
-                  Bespoke
-                </Link>
+                <MagneticButton>
+                  <Link
+                    href="/minimal/collections"
+                    className="vm-btn-primary"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '12px',
+                      fontFamily: font,
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      textDecoration: 'none',
+                      color: '#FFFFFF',
+                      backgroundColor: '#050505',
+                      padding: '20px 48px',
+                      border: '1px solid #050505',
+                      height: '52px',
+                    }}
+                  >
+                    Shop Collection
+                  </Link>
+                </MagneticButton>
+                <MagneticButton>
+                  <Link
+                    href="/minimal/bespoke"
+                    className="vm-btn-secondary"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontFamily: font,
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      textDecoration: 'none',
+                      color: '#050505',
+                      backgroundColor: 'transparent',
+                      padding: '20px 48px',
+                      border: '1px solid #050505',
+                      height: '52px',
+                    }}
+                  >
+                    Bespoke
+                  </Link>
+                </MagneticButton>
               </div>
             </StaggerReveal>
           </div>
@@ -286,6 +269,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <ParticleField />
         </div>
       </section>
+
+      {/* ═══ SECTION 1B: BRAND BAND — Scrolling Marquee ═══ */}
+      <MarqueeText items={marqueeItems} duration={45} />
 
       {/* ═══ SECTION 2: CATEGORY SHOWCASE — Staggered Grid ═══ */}
       <section className={minimal.cn.section}>
@@ -706,7 +692,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
-                  <CountUp value={stat.value} suffix={stat.suffix} />
+                  <SmoothCounter to={stat.value} suffix={stat.suffix} />
                 </p>
                 <p
                   style={{
