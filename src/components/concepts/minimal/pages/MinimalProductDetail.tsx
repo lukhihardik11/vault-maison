@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Heart, ShoppingBag, Minus, Plus, Truck, Shield, RotateCcw, Share2, Check } from 'lucide-react'
@@ -98,7 +98,7 @@ function ProductMiniCard({ product }: { product: Product }) {
   )
 }
 
-export function MinimalProductDetail({ product: productProp }: { product?: Product }) {
+function MinimalProductDetailContent({ product: productProp }: { product?: Product }) {
   const params = useParams()
   const slug = params?.slug as string
   const product = productProp || products.find((item) => item.slug === slug) || products[0]
@@ -508,5 +508,13 @@ export function MinimalProductDetail({ product: productProp }: { product?: Produ
         }
       `}</style>
     </MinimalLayout>
+  )
+}
+
+export function MinimalProductDetail({ product }: { product?: Product }) {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: '#FFFFFF' }} />}>
+      <MinimalProductDetailContent product={product} />
+    </Suspense>
   )
 }

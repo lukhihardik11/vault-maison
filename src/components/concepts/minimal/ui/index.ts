@@ -34,6 +34,10 @@ export { TruckLoader } from './TruckLoader'
 export { ExploreButton } from './ExploreButton'
 export { DarkLoginForm } from './DarkLoginForm'
 export { NeuProductCard } from './NeuProductCard'
+
+// Phase-2 homepage primitives (see docs/research/ui-ux-pro-max-recommendations.md)
+// MarqueeText, MagneticButton, GlitchText, SmoothCounter already exported above
+// Shopping UI components
 export { default as TiltCard } from './TiltCard'
 export { default as ImageReveal } from './ImageReveal'
 export { default as BlurUpImage } from './BlurUpImage'

@@ -1,56 +1,106 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useId } from 'react';
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion';
 
-interface GlitchTextProps {
-  text: string;
+export interface GlitchTextProps {
+  children: ReactNode;
+  as?: 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'div' | 'p';
+  offset?: number;
+  color?: string;
   className?: string;
   style?: React.CSSProperties;
+  always?: boolean;
 }
 
-export function GlitchText({ text, className = '', style }: GlitchTextProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const prefersReduced = useReducedMotionPreference();
+const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
 
-  if (prefersReduced) {
-    return <span className={className} style={style}>{text}</span>;
-  }
+export function GlitchText({
+  children,
+  as: Tag = 'span',
+  offset = 2,
+  color,
+  className = '',
+  style,
+  always = false,
+}: GlitchTextProps) {
+  const id = useId().replace(/:/g, '');
+  const prefersReducedMotion = useReducedMotionPreference();
+  const text = typeof children === 'string' ? children : '';
+  
+  const [displayText, setDisplayText] = useState(text);
+  const [isHovered, setIsHovered] = useState(always);
+  const animationRef = useRef<number | null>(null);
+  const scrambleCountRef = useRef(0);
+  const currentIndexRef = useRef(0);
+  
+  const speed = 30;
+  const scrambleSpeed = 10;
+
+  const getRandomChar = () => characters[Math.floor(Math.random() * characters.length)];
+
+  useEffect(() => {
+    if (prefersReducedMotion || !text || (!isHovered && !always)) {
+      setDisplayText(text);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      return;
+    }
+
+    currentIndexRef.current = 0;
+    scrambleCountRef.current = 0;
+
+    const animate = () => {
+      if (currentIndexRef.current >= text.length) {
+        setDisplayText(text);
+        return;
+      }
+
+      if (scrambleCountRef.current < scrambleSpeed) {
+        const scrambled = text
+          .split("")
+          .map((char, index) => {
+            if (index < currentIndexRef.current) return char;
+            if (char === " ") return " ";
+            return getRandomChar();
+          })
+          .join("");
+
+        setDisplayText(scrambled);
+        scrambleCountRef.current++;
+      } else {
+        currentIndexRef.current++;
+        scrambleCountRef.current = 0;
+      }
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [text, isHovered, always, prefersReducedMotion]);
 
   return (
-    <span
-      className={`relative inline-block ${className}`}
-      style={style}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <Tag
+      className={`vm-glitch-${id} ${className}`}
+      onMouseEnter={() => !always && setIsHovered(true)}
+      onMouseLeave={() => !always && setIsHovered(false)}
+      style={{
+        color,
+        display: 'inline-block',
+        position: 'relative',
+        ...style,
+      }}
     >
-      <span className={isHovered ? 'opacity-0' : ''}>{text}</span>
-      {isHovered && (
-        <>
-          <span className="absolute top-0 left-0 -ml-1 text-[#6B6B6B] animate-glitch-1 mix-blend-multiply">{text}</span>
-          <span className="absolute top-0 left-0 ml-1 text-[#9B9B9B] animate-glitch-2 mix-blend-multiply">{text}</span>
-        </>
-      )}
-      <style>{`
-        @keyframes glitch-1 {
-          0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
-          20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
-          40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
-          60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
-          80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
-          100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
-        }
-        @keyframes glitch-2 {
-          0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
-          20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 1px); }
-          40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, -2px); }
-          60% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, 2px); }
-          80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, -1px); }
-          100% { clip-path: inset(5% 0 80% 0); transform: translate(-1px, 1px); }
-        }
-        .animate-glitch-1 { animation: glitch-1 0.3s infinite linear alternate-reverse; }
-        .animate-glitch-2 { animation: glitch-2 0.4s infinite linear alternate-reverse; }
-      `}</style>
-    </span>
+      <span className="sr-only">{children}</span>
+      <span aria-hidden="true" style={{ minWidth: text ? `${text.length}ch` : 'auto' }}>
+        {text ? displayText : children}
+      </span>
+    </Tag>
   );
 }
+
+export default GlitchText;
