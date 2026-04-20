@@ -24,11 +24,6 @@ import { MagneticButton } from './minimal/ui/MagneticButton'
 import { GlitchText } from './minimal/ui/GlitchText'
 import { SmoothCounter } from './minimal/ui/SmoothCounter'
 
-// Polish v2 — editorial hover-peek list, sourced from 21st.dev. See
-// docs/research/ui-polish-v2-recommendations.md
-import { HoverPeekList, type HoverPeekItem } from './minimal/ui/HoverPeekList'
-import { CardContainer, CardBody, CardItem } from './minimal/ui/Card3D'
-
 const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
   ssr: false,
 })
@@ -66,22 +61,6 @@ const collections = [
 
 // Curated pieces for horizontal scroll section
 const curatedPieces = products.filter(p => p.isBestseller || p.isNew).slice(0, 5)
-
-// Signature editorial list — four hero pieces rendered in the
-// HoverPeekList (cursor-following preview). Different product lens
-// from the horizontal-scroll Curated Selection below it; acts as the
-// tonal bridge between the dark Philosophy band and the pinned scroll.
-const signaturePieces: HoverPeekItem[] = products
-  .filter((p) => p.isBestseller)
-  .slice(0, 4)
-  .map((product) => ({
-    title: product.name,
-    description: product.subtitle || product.description.slice(0, 80) + '…',
-    meta: product.priceDisplay,
-    href: `/minimal/product/${product.slug}`,
-    image: product.images[0],
-    alt: product.name,
-  }))
 
 // Brand band running between the hero and category showcase. Black band,
 // monochrome type, ◆ separators — see MarqueeText for the visual contract.
@@ -356,29 +335,15 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ═══ SECTION 3: FEATURED PIECE — Editorial Layout with Parallax ═══ */}
       <section className={minimal.cn.section}>
         <div className={`${minimal.cn.container} grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center`}>
-          {/* Featured image: parallax-scroll (from the ambient GSAP
-              layer) + 3D tilt on mouse (Card3D, sourced from 21st.dev).
-              The two effects compose because ParallaxSection writes its
-              transform on a wrapper one level out from CardContainer's
-              rotating inner div, so neither steps on the other. Touch
-              and reduced-motion users see a flat image. */}
           <ParallaxSection speed={minimal.motion.parallax.bg}>
-            <CardContainer containerClassName="!py-0 block" className="w-full">
-              <CardBody className="w-full">
-                <CardItem
-                  translateZ={30}
-                  className="w-full"
-                  style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#FAFAFA' }}
-                >
-                  <img
-                    src={heroProduct.images[0]}
-                    alt={heroProduct.name}
-                    loading="eager"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                  />
-                </CardItem>
-              </CardBody>
-            </CardContainer>
+            <div style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+              <img
+                src={heroProduct.images[0]}
+                alt={heroProduct.name}
+                loading="eager"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
           </ParallaxSection>
           <div>
             <span className={minimal.cn.label} style={{ fontFamily: mono }}>Featured Piece</span>
@@ -527,45 +492,6 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           >
             Vault Maison — Est. 1974
           </p>
-        </div>
-      </section>
-
-      {/* ═══ SECTION 4A: SIGNATURE — Editorial Hover-Peek List ═══
-           Pattern sourced from 21st.dev (see docs/research/ui-polish-v2-recommendations.md).
-           Bridges the dark Philosophy band → pinned Curated Selection
-           scroll with a quieter editorial list; preview image follows
-           the cursor for desktop hover, plain list on touch / reduced
-           motion. */}
-      <section
-        className={minimal.cn.section}
-        style={{ paddingBottom: 0 }}
-      >
-        <div className={minimal.cn.containerNarrow}>
-          <div className="mb-12 md:mb-16">
-            <TextReveal delay={80} duration={600} as="h2">
-              <span
-                className={`${minimal.cn.sectionHeadline}`}
-                style={{ fontFamily: font, display: 'block' }}
-              >
-                Signature
-              </span>
-            </TextReveal>
-            <p
-              className="mt-3"
-              style={{
-                fontFamily: font,
-                fontSize: '14px',
-                fontWeight: 300,
-                color: '#6B6B6B',
-                lineHeight: 1.7,
-                maxWidth: '44ch',
-              }}
-            >
-              The edit — four pieces the house returns to, again and again.
-            </p>
-          </div>
-
-          <HoverPeekList label="Selected" items={signaturePieces} />
         </div>
       </section>
 
