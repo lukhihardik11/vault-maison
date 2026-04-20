@@ -1,7 +1,8 @@
 'use client'
 
-import { ChevronDown } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
 export interface SmoothAccordionItem {
@@ -20,21 +21,11 @@ const F = "'Inter', 'Helvetica Neue', sans-serif"
 export default function SmoothAccordion({ items, defaultOpenIndex = 0 }: SmoothAccordionProps) {
   const prefersReducedMotion = useReducedMotionPreference()
   const [openIndex, setOpenIndex] = useState(defaultOpenIndex)
-  const [heights, setHeights] = useState<Record<number, number>>({})
-  const contentRefs = useRef<Array<HTMLDivElement | null>>([])
-
-  useEffect(() => {
-    if (openIndex < 0) return
-    const element = contentRefs.current[openIndex]
-    if (!element) return
-    setHeights((prev) => ({ ...prev, [openIndex]: element.scrollHeight }))
-  }, [items, openIndex])
 
   return (
     <div style={{ borderTop: '1px solid #E5E5E5' }}>
       {items.map((item, index) => {
         const isOpen = openIndex === index
-        const measuredHeight = heights[index] ?? 0
 
         return (
           <div key={item.id ?? `${item.title}-${index}`} style={{ borderBottom: '1px solid #E5E5E5' }}>
@@ -67,51 +58,43 @@ export default function SmoothAccordion({ items, defaultOpenIndex = 0 }: SmoothA
               >
                 {item.title}
               </span>
-              <ChevronDown
-                size={16}
-                strokeWidth={1.5}
-                color="#9B9B9B"
-                style={{
-                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: prefersReducedMotion ? 'none' : 'transform 220ms ease',
-                }}
-              />
-            </button>
-            <div
-              style={{
-                maxHeight: isOpen ? (prefersReducedMotion ? 'none' : `${measuredHeight}px`) : '0px',
-                overflow: isOpen && prefersReducedMotion ? 'visible' : 'hidden',
-                transition: prefersReducedMotion ? 'none' : 'max-height 280ms ease',
-              }}
-            >
-              <div
-                ref={(element) => {
-                  contentRefs.current[index] = element
-                }}
-                style={{
-                  paddingBottom: isOpen ? 18 : 0,
-                  opacity: isOpen ? 1 : 0,
-                  transition: prefersReducedMotion ? 'none' : 'opacity 180ms ease',
-                }}
+              <motion.div
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: 'easeInOut' }}
               >
-                {typeof item.content === 'string' ? (
-                  <p
-                    style={{
-                      margin: 0,
-                      fontFamily: F,
-                      fontSize: 14,
-                      fontWeight: 300,
-                      lineHeight: 1.8,
-                      color: '#6B6B6B',
-                    }}
-                  >
-                    {item.content}
-                  </p>
-                ) : (
-                  item.content
-                )}
-              </div>
-            </div>
+                <ChevronDown size={16} strokeWidth={1.5} color="#9B9B9B" />
+              </motion.div>
+            </button>
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={prefersReducedMotion ? false : { height: 0, opacity: 0.01 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0.01 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
+                >
+                  <div style={{ paddingBottom: 18 }}>
+                    {typeof item.content === 'string' ? (
+                      <p
+                        style={{
+                          margin: 0,
+                          fontFamily: F,
+                          fontSize: 14,
+                          fontWeight: 300,
+                          lineHeight: 1.8,
+                          color: '#6B6B6B',
+                        }}
+                      >
+                        {item.content}
+                      </p>
+                    ) : (
+                      item.content
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )
       })}
