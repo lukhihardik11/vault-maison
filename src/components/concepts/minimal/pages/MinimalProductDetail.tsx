@@ -10,7 +10,6 @@ import { products, type Product } from '@/data/products'
 import { useCartStore } from '@/store/cart'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import TiltCard from '../ui/TiltCard'
-import ImageReveal from '../ui/ImageReveal'
 import BlurUpImage from '../ui/BlurUpImage'
 import SmoothAccordion, { type SmoothAccordionItem } from '../ui/SmoothAccordion'
 
@@ -22,36 +21,21 @@ function ProductImageGallery({ images, productName }: { images: string[]; produc
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const selectedImage = images[selectedIndex] ?? images[0]
-  const revealImage = images.length > 1 ? images[(selectedIndex + 1) % images.length] : undefined
 
+  // Main PDP image is a plain `BlurUpImage` — no hover-swap. Users
+  // switch views via the thumbnail row below. Hovering the hero used
+  // to cycle through the gallery, which was disorienting: the picture
+  // the user wanted to look closely at would swap to a different angle
+  // the moment they hovered in to inspect it.
   return (
     <div className="md:sticky md:top-24 md:self-start">
       <div style={{ width: '100%', aspectRatio: '4 / 5', border: '1px solid #E5E5E5', background: '#E5E5E5', position: 'relative' }}>
-        <ImageReveal
+        <BlurUpImage
           src={selectedImage}
-          revealSrc={revealImage}
           alt={productName}
           containerStyle={{ width: '100%', height: '100%' }}
-          imageStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
-        {revealImage && (
-          <span
-            style={{
-              position: 'absolute',
-              right: 12,
-              bottom: 12,
-              background: '#FFFFFF',
-              border: '1px solid #E5E5E5',
-              color: '#6B6B6B',
-              fontFamily: F,
-              fontSize: 11,
-              padding: '4px 8px',
-              pointerEvents: 'none',
-            }}
-          >
-            Hover to reveal
-          </span>
-        )}
       </div>
 
       {images.length > 1 && (
