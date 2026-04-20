@@ -31,7 +31,10 @@ export { ExploreButton } from './ExploreButton'
 export { DarkLoginForm } from './DarkLoginForm'
 export { NeuProductCard } from './NeuProductCard'
 // Phase-2 homepage primitives (see docs/research/ui-ux-pro-max-recommendations.md)
-export { MarqueeText } from './MarqueeText'
-export { MagneticButton } from './MagneticButton'
-export { GlitchText } from './GlitchText'
-export { SmoothCounter } from './SmoothCounter'
+// MarqueeText, MagneticButton, GlitchText, SmoothCounter already exported above
+// Shopping UI components (PR #61)
+export { default as TiltCard } from './TiltCard'
+export { default as ImageReveal } from './ImageReveal'
+export { default as BlurUpImage } from './BlurUpImage'
+export { default as SmoothAccordion } from './SmoothAccordion'
+export { default as QuickView } from './QuickView'
