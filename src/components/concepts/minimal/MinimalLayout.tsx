@@ -1,7 +1,6 @@
 'use client'
 
 import { type ReactNode, useEffect, useState } from 'react'
-import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
@@ -11,11 +10,6 @@ import { useReducedMotionPreference } from './animations/useResponsiveMotion'
 import PageTransition from './ui/PageTransition'
 import Breadcrumb from './ui/Breadcrumb'
 import BackToTop from './ui/BackToTop'
-
-const MinimalCursor = dynamic(
-  () => import('./cursor/MinimalCursor').then((mod) => mod.MinimalCursor),
-  { ssr: false }
-)
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -106,31 +100,38 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           color: #FFFFFF !important;
         }
 
+        /*
+         * IMPORTANT: no \`transform\` on the idle state.
+         *
+         * Any non-\`none\` transform (even \`translateY(0)\`) creates a
+         * containing block for \`position: fixed\` descendants. GSAP
+         * ScrollTrigger's \`pin: true\` uses \`position: fixed\` under the
+         * hood, so a transformed ancestor silently breaks the pin — the
+         * "pinned" element becomes fixed to this ancestor instead of the
+         * viewport, which visually looks like the horizontal-scroll
+         * section simply doesn't work. Same issue applies to
+         * \`will-change: transform\`. Keep this transform-free at rest.
+         */
         .minimal-concept {
           opacity: 1;
-          transform: translateY(0);
-          transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+          transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .minimal-concept.is-loading {
           opacity: 0.94;
-          transform: translateY(6px);
         }
         .minimal-concept.is-loaded {
           opacity: 1;
-          transform: translateY(0);
         }
         .minimal-main-content {
           min-height: calc(100vh - 64px);
         }
         .minimal-concept.is-reduced-motion {
           opacity: 1 !important;
-          transform: none !important;
           transition: none !important;
         }
         @media (prefers-reduced-motion: reduce) {
           .minimal-concept {
             opacity: 1 !important;
-            transform: none !important;
             transition: none !important;
           }
         }
@@ -147,13 +148,16 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           lineHeight: 1.6,
           minHeight: '100vh',
           letterSpacing: '-0.01em',
-          overflowX: 'hidden',
+          // `overflow-x: clip` (not `hidden`) — `hidden` creates a scroll
+          // container on the X axis, which breaks `position: sticky` on
+          // descendants and GSAP ScrollTrigger's `pin: true` (used by
+          // HorizontalScroll). `clip` contains visual overflow without
+          // creating a scroll container, so sticky/pin work normally.
+          overflowX: 'clip',
         }}
       >
         {/* Global scroll progress bar */}
         <ScrollProgress />
-
-        <MinimalCursor />
 
         {!hideNav && <MinimalNav />}
         <main className="minimal-main-content">

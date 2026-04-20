@@ -2,6 +2,7 @@
 
 import { type ReactNode, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
 interface PageTransitionProps {
@@ -11,57 +12,51 @@ interface PageTransitionProps {
 export default function PageTransition({ children }: PageTransitionProps) {
   const pathname = usePathname()
   const prefersReducedMotion = useReducedMotionPreference()
-  const [isSettled, setIsSettled] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setIsSettled(true)
-      return
-    }
+    setMounted(true)
+  }, [])
 
-    setIsSettled(false)
-    const frame = window.requestAnimationFrame(() => {
-      setIsSettled(true)
-    })
+  if (prefersReducedMotion || !mounted) {
+    return <>{children}</>
+  }
 
-    return () => window.cancelAnimationFrame(frame)
-  }, [pathname, prefersReducedMotion])
+  const variants = {
+    enter: {
+      opacity: 0.01,
+      y: 10,
+      filter: "blur(4px)",
+    },
+    center: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+    },
+    exit: {
+      opacity: 0.01,
+      y: -10,
+      filter: "blur(4px)",
+    },
+  }
 
   return (
-    <>
-      <div
-        className={`minimal-page-transition ${isSettled ? 'is-settled' : 'is-transitioning'} ${prefersReducedMotion ? 'is-reduced' : ''}`}
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname}
+        variants={variants}
+        initial="enter"
+        animate="center"
+        exit="exit"
+        transition={{
+          opacity: { duration: 0.4, ease: "easeInOut" },
+          y: { duration: 0.4, ease: "easeOut" },
+          filter: { duration: 0.4, ease: "easeInOut" },
+        }}
+        className="w-full"
       >
         {children}
-      </div>
-      <style>{`
-        .minimal-page-transition {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-          will-change: opacity, transform;
-        }
-        .minimal-page-transition.is-transitioning {
-          opacity: 0.88;
-          transform: translateY(10px);
-        }
-        .minimal-page-transition.is-settled {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .minimal-page-transition.is-reduced {
-          opacity: 1;
-          transform: none;
-          transition: none;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .minimal-page-transition {
-            opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
-          }
-        }
-      `}</style>
-    </>
+      </motion.div>
+    </AnimatePresence>
   )
 }

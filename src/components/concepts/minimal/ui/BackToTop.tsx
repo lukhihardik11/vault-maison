@@ -1,11 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { ArrowUp } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
-import { minimal } from '../design-system'
-
-const mono = minimal.font.mono
 
 interface BackToTopProps {
   mode?: 'floating' | 'inline'
@@ -14,6 +12,7 @@ interface BackToTopProps {
 export default function BackToTop({ mode = 'floating' }: BackToTopProps) {
   const prefersReducedMotion = useReducedMotionPreference()
   const [isVisible, setIsVisible] = useState(mode === 'inline')
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     if (mode === 'inline') {
@@ -37,75 +36,74 @@ export default function BackToTop({ mode = 'floating' }: BackToTopProps) {
     })
   }
 
-  return (
-    <>
+  const transition = {
+    duration: 0.4,
+    ease: [0.19, 1, 0.22, 1] as const,
+  }
+
+  if (mode === 'inline') {
+    return (
       <button
         type="button"
         onClick={scrollToTop}
-        className={`minimal-back-to-top ${mode === 'inline' ? 'inline' : 'floating'} ${isVisible ? 'visible' : 'hidden'}`}
-        aria-label="Back to top"
+        className="flex items-center justify-center gap-2 h-10 px-4 border border-[#050505] bg-white text-[#050505] hover:bg-[#050505] hover:text-white transition-colors duration-300"
+        style={{
+          fontFamily: "'SF Mono', 'Fira Code', monospace",
+          fontSize: '10px',
+          fontWeight: 500,
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase',
+          borderRadius: 0,
+        }}
       >
-        <ArrowUp size={14} strokeWidth={1.7} />
+        <ArrowUp size={14} strokeWidth={1.5} />
         <span>Top</span>
       </button>
-      <style>{`
-        .minimal-back-to-top {
-          border: 1px solid #050505;
-          background: #FFFFFF;
-          color: #050505;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          min-height: 40px;
-          padding: 0 14px;
-          font-family: ${mono};
-          font-size: 10px;
-          font-weight: 500;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease, background-color 220ms ease, color 220ms ease;
-        }
-        .minimal-back-to-top.floating {
-          position: fixed;
-          right: 20px;
-          bottom: 20px;
-          z-index: 48;
-          pointer-events: auto;
-        }
-        .minimal-back-to-top.inline {
-          position: relative;
-        }
-        .minimal-back-to-top.visible {
-          opacity: 1;
-          transform: translateY(0);
-          pointer-events: auto;
-        }
-        .minimal-back-to-top.hidden {
-          opacity: 0;
-          transform: translateY(8px);
-          pointer-events: none;
-        }
-        .minimal-back-to-top:hover {
-          background: #050505;
-          color: #FFFFFF;
-          transform: translateY(-2px);
-        }
-        .minimal-back-to-top:focus-visible {
-          outline: 1px solid #050505;
-          outline-offset: 2px;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .minimal-back-to-top {
-            transition: none;
-          }
-          .minimal-back-to-top.hidden,
-          .minimal-back-to-top.visible,
-          .minimal-back-to-top:hover {
-            transform: none;
-          }
-        }
-      `}</style>
-    </>
+    )
+  }
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          initial={{ opacity: 0.01, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0.01, scale: 0.8, y: 20 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          onClick={scrollToTop}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onFocus={() => setIsHovered(true)}
+          onBlur={() => setIsHovered(false)}
+          whileTap={{ scale: 0.95 }}
+          className="fixed bottom-8 right-8 z-50 h-12 w-12 overflow-hidden inline-flex items-center justify-center border border-[#050505] bg-white text-[#050505] shadow-lg"
+          style={{ borderRadius: 0 }}
+          aria-label="Back to top"
+        >
+          <motion.div
+            className="absolute inset-0 z-0 bg-[#050505]"
+            initial={{ y: "100%" }}
+            animate={isHovered ? { y: 0 } : { y: "100%" }}
+            transition={transition}
+          />
+
+          <motion.div
+            className="relative z-10 flex h-5 flex-col items-center justify-start overflow-hidden"
+            animate={isHovered ? { y: "-50%" } : { y: 0 }}
+            transition={transition}
+          >
+            <ArrowUp
+              className="h-5 w-5 text-[#050505]"
+              strokeWidth={1.5}
+            />
+            <ArrowUp
+              className="h-5 w-5 text-white"
+              strokeWidth={1.5}
+              aria-hidden="true"
+            />
+          </motion.div>
+        </motion.button>
+      )}
+    </AnimatePresence>
   )
 }

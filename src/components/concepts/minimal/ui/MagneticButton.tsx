@@ -1,143 +1,100 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import type { ReactNode, MouseEvent } from 'react'
-import { minimal } from '../design-system'
-import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
+/**
+ * MagneticButton — cursor-attracted CTA wrapper.
+ *
+ * Wraps any clickable child (Link, button, anchor, etc.) and applies a
+ * spring-driven transform that pulls the child toward the cursor when
+ * the cursor enters a configurable radius. Releases back to centre on
+ * `mouseleave` with a soft bounce.
+ *
+ * Why a wrapper, not a button itself:
+ *   - The minimal concept has 4+ button variants (primary, secondary,
+ *     ghost, link). A wrapper composes with all of them.
+ *   - Lets the consumer keep their own semantics (`<Link>` vs `<button>`).
+ *
+ * Accessibility / fallbacks:
+ *   - Disabled on `(pointer: coarse)` (touch devices): the magnetic
+ *     pull is meaningless without a precise pointer.
+ *   - Disabled on `(prefers-reduced-motion: reduce)`: no transform.
+ *   - Focus-visible ring is preserved by the inner element.
+ *
+ * Repo rule: NEVER `initial={{ opacity: 0 }}` — we omit `initial` and
+ * let `animate` drive position-only changes from { 0, 0 } baseline.
+ */
 
-type Variant = 'primary' | 'secondary'
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import { minimal } from '../design-system';
 
-interface MagneticButtonProps {
-  children: ReactNode
-  href?: string
-  className?: string
-  variant?: Variant
-  maxOffset?: number
-  ariaLabel?: string
+export interface MagneticButtonProps {
+  children: React.ReactNode;
+  /** Pull strength multiplier (0–1). Default 0.35. Higher = more pull. */
+  strength?: number;
+  /** Activation radius in px. Cursor must be within this of centre. Default 100. */
+  radius?: number;
+  /** Optional className for the wrapping motion.div. */
+  className?: string;
 }
 
-function getMagneticOffset(event: MouseEvent<HTMLElement>, maxOffset: number) {
-  const { currentTarget, clientX, clientY } = event
-  const rect = currentTarget.getBoundingClientRect()
-  const x = ((clientX - rect.left) / rect.width - 0.5) * maxOffset * 2
-  const y = ((clientY - rect.top) / rect.height - 0.5) * maxOffset * 2
-  return { x, y }
-}
-
-export default function MagneticButton({
+export function MagneticButton({
   children,
-  href,
+  strength = 0.35,
+  radius = minimal.cursor.magneticRadius,
   className = '',
-  variant = 'primary',
-  maxOffset = 6,
-  ariaLabel,
 }: MagneticButtonProps) {
-  const prefersReduced = useReducedMotionPreference()
-  const isPrimary = variant === 'primary'
+  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+  const prefersReduced = useReducedMotion();
 
-  const sharedClassName = `vm-magnetic-btn ${isPrimary ? 'vm-magnetic-btn-primary' : 'vm-magnetic-btn-secondary'} ${className}`.trim()
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(pointer: coarse)');
+    const sync = () => setIsCoarsePointer(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
 
-  const handleMove = (event: MouseEvent<HTMLElement>) => {
-    if (prefersReduced) return
-    const { x, y } = getMagneticOffset(event, maxOffset)
-    event.currentTarget.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`
-  }
+  const disabled = prefersReduced || isCoarsePointer;
 
-  const resetPosition = (target: HTMLElement) => {
-    target.style.transform = 'translate(0px, 0px)'
-  }
+  const handleMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (disabled || !ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.hypot(dx, dy);
+      if (dist > radius) {
+        setPos({ x: 0, y: 0 });
+        return;
+      }
+      // Falloff — pull weakens as the cursor nears the edge of `radius`.
+      // Linear is fine here; a power curve felt over-eager in testing.
+      const falloff = 1 - dist / radius;
+      setPos({ x: dx * strength * falloff, y: dy * strength * falloff });
+    },
+    [disabled, radius, strength],
+  );
 
-  const handleLeave = (event: MouseEvent<HTMLElement>) => {
-    resetPosition(event.currentTarget)
-  }
+  const handleLeave = useCallback(() => setPos({ x: 0, y: 0 }), []);
 
   return (
-    <>
-      {href ? (
-        <Link
-          href={href}
-          aria-label={ariaLabel}
-          className={sharedClassName}
-          onMouseMove={handleMove}
-          onMouseLeave={handleLeave}
-          onBlur={(event) => resetPosition(event.currentTarget)}
-        >
-          {children}
-        </Link>
-      ) : (
-        <button
-          type="button"
-          aria-label={ariaLabel}
-          className={sharedClassName}
-          onMouseMove={handleMove}
-          onMouseLeave={handleLeave}
-          onBlur={(event) => resetPosition(event.currentTarget)}
-        >
-          {children}
-        </button>
-      )}
-
-      <style>{`
-        .vm-magnetic-btn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          height: 52px;
-          padding: 0 30px;
-          border: 1px solid #050505;
-          border-radius: 0;
-          font-family: ${minimal.font.primary};
-          font-size: 11px;
-          font-weight: 500;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          text-decoration: none;
-          white-space: nowrap;
-          transition:
-            transform ${minimal.motion.buttonMs}ms ${minimal.easing.expressive},
-            background-color ${minimal.motion.hoverMs}ms ${minimal.easing.standard},
-            color ${minimal.motion.hoverMs}ms ${minimal.easing.standard},
-            border-color ${minimal.motion.hoverMs}ms ${minimal.easing.standard};
-          will-change: transform;
-          cursor: pointer;
-        }
-
-        .vm-magnetic-btn:focus-visible {
-          outline: 1px solid #050505;
-          outline-offset: 2px;
-        }
-
-        .vm-magnetic-btn-primary {
-          background: #050505;
-          color: #FFFFFF;
-        }
-
-        .vm-magnetic-btn-primary:hover {
-          background: #FFFFFF;
-          color: #050505;
-        }
-
-        .vm-magnetic-btn-secondary {
-          background: #FFFFFF;
-          color: #050505;
-        }
-
-        .vm-magnetic-btn-secondary:hover {
-          background: #050505;
-          color: #FFFFFF;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .vm-magnetic-btn {
-            transform: none !important;
-            transition:
-              background-color ${minimal.motion.microMs}ms linear,
-              color ${minimal.motion.microMs}ms linear,
-              border-color ${minimal.motion.microMs}ms linear;
-          }
-        }
-      `}</style>
-    </>
-  )
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      animate={disabled ? { x: 0, y: 0 } : { x: pos.x, y: pos.y }}
+      transition={minimal.motion.spring.soft}
+      className={className}
+      style={{ display: 'inline-flex', willChange: disabled ? undefined : 'transform' }}
+    >
+      {children}
+    </motion.div>
+  );
 }
+
+export default MagneticButton;

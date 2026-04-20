@@ -1,36 +1,32 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
+import * as React from 'react'
+import { motion, useScroll, useSpring, type HTMLMotionProps } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
-export function ScrollProgress() {
-  const [progress, setProgress] = useState(0);
+export function ScrollProgress({
+  className,
+  ...props
+}: HTMLMotionProps<'div'>) {
+  const { scrollYProgress } = useScroll()
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(docHeight > 0 ? scrollTop / docHeight : 0);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, []);
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 250,
+    damping: 40,
+    bounce: 0,
+  })
 
   return (
-    <div
-      className="fixed top-0 left-0 z-[100] h-[2px] bg-[#050505] origin-left"
-      style={{
-        width: '100%',
-        transform: `scaleX(${progress})`,
-        transition: 'transform 0.1s linear',
-        transformOrigin: '0 50%',
-      }}
+    <motion.div
+      data-slot="scroll-progress"
+      style={{ scaleX }}
+      className={cn(
+        'fixed z-[100] top-0 left-0 right-0 h-[2px] bg-[#050505] origin-left',
+        className,
+      )}
+      {...props}
     />
-  );
+  )
 }
+
+export default ScrollProgress
