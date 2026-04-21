@@ -88,6 +88,21 @@ export function HorizontalScroll({
           onRefresh: syncHeight,
         },
       });
+
+      // Belt-and-braces: image loads inside the panels can change the
+      // track's `scrollWidth` *after* the initial measurement, leaving
+      // the user "stuck" on the first card because GSAP only mapped a
+      // tiny fraction of the real distance. Re-run the measurement
+      // once each panel image has decoded. (Cheap — a handful of
+      // events for the curated pieces in the row.)
+      const imgs = Array.from(track.querySelectorAll('img'));
+      const refresh = () => ScrollTrigger.refresh();
+      imgs.forEach((img) => {
+        if (!img.complete) {
+          img.addEventListener('load', refresh, { once: true });
+          img.addEventListener('error', refresh, { once: true });
+        }
+      });
     }, container);
 
     return () => ctx.revert();

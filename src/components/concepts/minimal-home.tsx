@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -28,10 +28,23 @@ const ParticleField = dynamic(() => import('./minimal/3d/ParticleField'), {
   ssr: false,
 })
 
-const Minimal3DViewer = dynamic(() => import('./minimal/3d/Minimal3DViewer'), {
+// Replaces the previous WebGL `Minimal3DViewer` (which rendered a grey
+// canvas on iOS Safari due to a broken hand-rolled cube-map env). The
+// new image-based viewer cycles through ACTUAL product photography and
+// works on every device. See `Minimal360Viewer` JSDoc for the rationale.
+const Minimal360Viewer = dynamic(() => import('./minimal/3d/Minimal360Viewer'), {
   ssr: false,
   loading: () => (
-    <div className="aspect-square w-full max-w-md mx-auto animate-pulse bg-[#E5E5E5]" />
+    <div className="w-full" style={{ background: '#050505', padding: '24px 12px 36px' }}>
+      <div
+        className="mx-auto"
+        style={{
+          width: 'min(540px, 86vw)',
+          aspectRatio: '1 / 1',
+          background: '#E5E5E5',
+        }}
+      />
+    </div>
   ),
 })
 
@@ -62,6 +75,19 @@ const collections = [
 // Curated pieces for horizontal scroll section
 const curatedPieces = products.filter(p => p.isBestseller || p.isNew).slice(0, 5)
 
+// Frame stack for the 360° image viewer. We start with every angle of
+// the hero product, then trail with the lead image of three other
+// bestsellers so the spin lasts long enough to feel like a continuous
+// orbit. De-duplicated so a repeated path doesn't waste a cycle.
+const viewer360Images = Array.from(
+  new Set(
+    [
+      ...heroProduct.images,
+      ...bestsellers.slice(1, 4).flatMap((p) => p.images.slice(0, 1)),
+    ].filter(Boolean),
+  ),
+)
+
 // Brand band running between the hero and category showcase. Black band,
 // monochrome type, ◆ separators — see MarqueeText for the visual contract.
 const marqueeItems = [
@@ -76,12 +102,56 @@ const marqueeItems = [
 
 export function MinimalHome({ concept }: { concept: ConceptConfig }) {
   void concept
+
+  // ── New Arrivals carousel ─────────────────────────────────────────
+  // Embla v8 with native CSS-gap support. Slides use `flex: 0 0 auto`
+  // + responsive Tailwind widths (no calc-based flex-basis), which is
+  // the pattern the Embla docs recommend for v8 — and the one that
+  // doesn't silently leave the user stuck on slide #1 when the gap
+  // value disagrees with the calc subtraction (the regression flagged
+  // in the bug sprint). `containScroll: 'trimSnaps'` strips snap
+  // points beyond the natural overflow so the user can never end up
+  // pinned to "page 5 of 4". `dragFree: false` preserves the snap-to-
+  // slide UX the original carousel was going for.
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, align: 'start', slidesToScroll: 1 },
-    [Autoplay({ delay: 5000, stopOnInteraction: true })]
+    {
+      loop: true,
+      align: 'start',
+      slidesToScroll: 1,
+      containScroll: 'trimSnaps',
+      dragFree: false,
+    },
+    [Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })],
   )
+  const [canPrev, setCanPrev] = useState(false)
+  const [canNext, setCanNext] = useState(true)
+
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+
+  // Sync prev/next button enabled-state with Embla. With `loop: true`
+  // both flags stay `true` always, which is the desired UX (arrows
+  // never look "broken" mid-row). Re-init also runs on window resize
+  // so the carousel recovers after orientation flips on iOS.
+  useEffect(() => {
+    if (!emblaApi) return
+
+    const sync = () => {
+      setCanPrev(emblaApi.canScrollPrev())
+      setCanNext(emblaApi.canScrollNext())
+    }
+    const handleResize = () => emblaApi.reInit()
+
+    sync()
+    emblaApi.on('select', sync)
+    emblaApi.on('reInit', sync)
+    window.addEventListener('resize', handleResize)
+    return () => {
+      emblaApi.off('select', sync)
+      emblaApi.off('reInit', sync)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [emblaApi])
 
   return (
     <MinimalLayout>
@@ -196,14 +266,21 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               </div>
             </StaggerReveal>
 
-            {/* CTA Buttons — staggered, magnetic on hover */}
+            {/* CTA Buttons — staggered, magnetic on hover.
+                Both CTAs share the `vm-hero-cta` class so they get an
+                identical 220px min-width on tablet+ and full-width on
+                mobile (handled in the global <style> block at the
+                bottom of this file). Without that constraint the
+                shorter "Bespoke" rendered ~140px while "Shop
+                Collection" rendered ~220px — the regression the user
+                flagged in the bug sprint. */}
             <StaggerReveal stagger={100} duration={500} direction="up" className="">
               <div style={{ display: 'flex', gap: '16px', marginTop: 'clamp(40px, 5vh, 64px)', flexWrap: 'wrap' }} className="w-full">
                 <div className="w-full sm:w-auto">
                   <MagneticButton>
                     <Link
                       href="/minimal/collections"
-                      className="vm-btn-primary w-full sm:w-auto"
+                      className="vm-btn-primary vm-hero-cta w-full sm:w-auto"
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -217,9 +294,10 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         textDecoration: 'none',
                         color: '#FFFFFF',
                         backgroundColor: '#050505',
-                        padding: '20px 48px',
+                        padding: '0 32px',
                         border: '1px solid #050505',
                         height: '52px',
+                        boxSizing: 'border-box',
                       }}
                     >
                       Shop Collection
@@ -230,7 +308,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   <MagneticButton>
                     <Link
                       href="/minimal/bespoke"
-                      className="vm-btn-secondary w-full sm:w-auto"
+                      className="vm-btn-secondary vm-hero-cta w-full sm:w-auto"
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -243,9 +321,10 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         textDecoration: 'none',
                         color: '#050505',
                         backgroundColor: 'transparent',
-                        padding: '20px 48px',
+                        padding: '0 32px',
                         border: '1px solid #050505',
                         height: '52px',
+                        boxSizing: 'border-box',
                       }}
                     >
                       Bespoke
@@ -423,10 +502,14 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* ═══ SECTION 3B: 3D PRODUCT VIEWER ═══ */}
+      {/* ═══ SECTION 3B: 360° PRODUCT VIEWER ═══
+          Image-sequence spinner with real product photography. Drag
+          horizontally (mouse / touch) or use ←/→ keys to scrub. Pre-
+          viously a WebGL canvas — see Minimal360Viewer JSDoc for why
+          we abandoned that path. */}
       <section style={{ backgroundColor: '#050505' }}>
         <div className={minimal.cn.container} style={{ paddingTop: '40px', paddingBottom: '0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px', gap: 16, flexWrap: 'wrap' }}>
             <div>
               <span
                 style={{
@@ -453,9 +536,21 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 360° View
               </h2>
             </div>
+            <p
+              style={{
+                fontFamily: font,
+                fontSize: '13px',
+                fontWeight: 300,
+                color: '#9B9B9B',
+                maxWidth: 360,
+                lineHeight: 1.7,
+              }}
+            >
+              Drag the piece to inspect every facet. Each frame is a real studio shot — no renders, no shaders.
+            </p>
           </div>
         </div>
-        <Minimal3DViewer />
+        <Minimal360Viewer images={viewer360Images} alt={heroProduct.name} />
       </section>
 
       {/* ═══ SECTION 4: BRAND STORY — Full-width Dark Band with Text Reveal ═══ */}
@@ -755,49 +850,37 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               <button
+                type="button"
                 onClick={scrollPrev}
-                aria-label="Previous"
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid #E5E5E5',
-                  backgroundColor: 'transparent',
-                  cursor: 'pointer',
-                  color: '#050505',
-                  transition: 'all 0.2s ease',
-                }}
-                className="hover:!bg-[#050505] hover:!text-white hover:!border-[#050505]"
+                disabled={!canPrev}
+                aria-label="Previous arrivals"
+                className="vm-carousel-arrow"
               >
                 <ChevronLeft size={18} strokeWidth={1.5} />
               </button>
               <button
+                type="button"
                 onClick={scrollNext}
-                aria-label="Next"
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid #E5E5E5',
-                  backgroundColor: 'transparent',
-                  cursor: 'pointer',
-                  color: '#050505',
-                  transition: 'all 0.2s ease',
-                }}
-                className="hover:!bg-[#050505] hover:!text-white hover:!border-[#050505]"
+                disabled={!canNext}
+                aria-label="Next arrivals"
+                className="vm-carousel-arrow"
               >
                 <ChevronRight size={18} strokeWidth={1.5} />
               </button>
             </div>
           </div>
-          <div ref={emblaRef} className="overflow-hidden" style={{ cursor: 'grab' }}>
-            <div style={{ display: 'flex', gap: 'clamp(16px, 2vw, 24px)' }}>
+          {/* Embla v8 viewport. The inner ".vm-embla-track" is a flex
+              container with native CSS gap; each slide is `flex: 0 0
+              auto` with responsive widths so we always get more
+              snap points than visible columns and the arrows can
+              actually advance the row. */}
+          <div ref={emblaRef} className="overflow-hidden vm-embla-viewport">
+            <div className="flex gap-4 md:gap-6 vm-embla-track">
               {(newArrivals.length > 0 ? newArrivals : products.slice(0, 8)).map((p) => (
-                <div key={p.id} style={{ flex: '0 0 calc(25% - 18px)', minWidth: '240px' }}>
+                <div
+                  key={p.id}
+                  className="vm-embla-slide basis-[78%] sm:basis-[46%] md:basis-[32%] lg:basis-[23.5%]"
+                >
                   <MinimalProductCard product={p} />
                 </div>
               ))}
@@ -896,6 +979,60 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           background-color: #050505 !important;
           color: #FFFFFF !important;
           transition: none;
+        }
+
+        /* Hero CTA pair — Shop Collection + Bespoke must render at the
+           SAME width regardless of label length. We pin a 220 px floor
+           on tablet+ (matches the natural width of "Shop Collection")
+           so the shorter "Bespoke" stretches to match. On mobile each
+           CTA is full-width (parent .w-full) so they stack as equal
+           full-bleed rectangles. */
+        .vm-hero-cta {
+          width: 100%;
+        }
+        @media (min-width: 640px) {
+          .vm-hero-cta {
+            min-width: 220px;
+            width: auto;
+          }
+        }
+
+        /* New Arrivals carousel — Embla v8 modern slide pattern.
+           ".vm-embla-viewport" wraps the track; ".vm-embla-track" is
+           the flex container; ".vm-embla-slide" is each card. We pin
+           flex-shrink: 0 so the responsive Tailwind basis stays the
+           one source of truth for slide width. */
+        .vm-embla-viewport { cursor: grab; }
+        .vm-embla-viewport:active { cursor: grabbing; }
+        .vm-embla-slide { flex-shrink: 0; min-width: 0; }
+
+        /* Arrow buttons — same hairline border as elsewhere in the
+           concept; disabled state grays out per WCAG contrast and
+           prevents click while still being announced by AT. */
+        .vm-carousel-arrow {
+          width: 44px;
+          height: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #E5E5E5;
+          background-color: transparent;
+          color: #050505;
+          cursor: pointer;
+          transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+        }
+        .vm-carousel-arrow:hover:not(:disabled) {
+          background-color: #050505;
+          color: #FFFFFF;
+          border-color: #050505;
+        }
+        .vm-carousel-arrow:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+        .vm-carousel-arrow:focus-visible {
+          outline: 1px solid #050505;
+          outline-offset: 2px;
         }
 
         /* Featured product card responsive */
