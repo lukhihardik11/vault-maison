@@ -97,7 +97,7 @@ export default function SocialButton({ className, onShare }: SocialButtonProps) 
             <motion.div
               animate={{ opacity: activeIndex === i ? 0.15 : 0 }}
               className="absolute inset-0 bg-white"
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 0.01 }}
               transition={{ duration: 0.2, ease: 'easeInOut' }}
             />
           </motion.button>

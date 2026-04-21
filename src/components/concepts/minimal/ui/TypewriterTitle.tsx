@@ -133,7 +133,7 @@ export default function TypewriterTitle({
     <motion.div
       animate={{ opacity: 1 }}
       className={`flex items-center gap-1 ${className}`}
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0.01 }}
       transition={{ duration: 0.5 }}
       style={{
         fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
