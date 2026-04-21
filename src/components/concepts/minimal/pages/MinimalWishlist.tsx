@@ -63,6 +63,7 @@ export function MinimalWishlist() {
         .vm-wish-img:hover { box-shadow: 0 4px 20px rgba(180, 170, 160, 0.12) !important; }
         @media (max-width: 1024px) { .vm-wish-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 768px) { .vm-wish-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 400px) { .vm-wish-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </MinimalLayout>
   )

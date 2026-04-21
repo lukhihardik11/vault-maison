@@ -454,6 +454,13 @@ export function MinimalFooter() {
             align-items: flex-start !important;
           }
         }
+        /* Extra bottom padding on mobile so footer content isn't hidden behind toolbar */
+        @media (max-width: 768px) {
+          footer {
+            padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 8px);
+          }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .minimal-newsletter-control,
           .minimal-newsletter-submit,

@@ -505,7 +505,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <HorizontalPanel key={product.id} width="70vw">
             <Link
               href={`/minimal/product/${product.slug}`}
-              className="group block"
+              className="group block vm-featured-card"
               style={{
                 textDecoration: 'none',
                 color: '#050505',
@@ -896,6 +896,15 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           background-color: #050505 !important;
           color: #FFFFFF !important;
           transition: none;
+        }
+
+        /* Featured product card responsive */
+        @media (max-width: 768px) {
+          .vm-featured-card {
+            grid-template-columns: 1fr !important;
+            height: auto !important;
+            gap: 20px !important;
+          }
         }
 
         /* Hero responsive */

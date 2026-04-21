@@ -7,6 +7,9 @@ import { ArrowRight, ArrowLeft, Check, Shield, Truck, RotateCcw, Lock } from 'lu
 import { useCartStore } from '@/store/cart'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import BlurUpImage from '../ui/BlurUpImage'
+import { CreditCardForm, type CardState, type CardValidity } from '@/components/ui/credit-card-form'
+import { PaymentSummary } from '@/components/ui/payment'
+import { CreditCard } from 'lucide-react'
 
 type Step = 'info' | 'shipping' | 'payment' | 'review'
 
@@ -272,7 +275,7 @@ export function MinimalCheckout() {
                   <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B', margin: 0 }}>We&apos;ll use this to send your order confirmation.</p>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                <div className="vm-checkout-name-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                   <Field label="First Name" value={form.firstName} onChange={(value) => updateField('firstName', value)} required error={errors.firstName} />
                   <Field label="Last Name" value={form.lastName} onChange={(value) => updateField('lastName', value)} required error={errors.lastName} />
                 </div>
@@ -322,7 +325,7 @@ export function MinimalCheckout() {
                   <Field label="Apartment, Suite, etc." value={form.apt} onChange={(value) => updateField('apt', value)} placeholder="Optional" />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
+                <div className="vm-checkout-city-row" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
                   <Field label="City" value={form.city} onChange={(value) => updateField('city', value)} required error={errors.city} />
                   <Field label="State" value={form.state} onChange={(value) => updateField('state', value)} required error={errors.state} />
                   <Field label="ZIP" value={form.zip} onChange={(value) => updateField('zip', value)} required error={errors.zip} />
@@ -399,39 +402,22 @@ export function MinimalCheckout() {
                   <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B', margin: 0 }}>All transactions are secure and encrypted.</p>
                 </div>
 
-                <div style={{ marginBottom: 16 }}>
-                  <Field
-                    label="Card Number"
-                    value={form.cardNumber}
-                    onChange={(value) => updateField('cardNumber', formatCardNumber(value))}
-                    required
-                    error={errors.cardNumber}
-                    placeholder="1234 5678 9012 3456"
-                  />
-                </div>
-
-                <div style={{ marginBottom: 16 }}>
-                  <Field label="Cardholder Name" value={form.cardName} onChange={(value) => updateField('cardName', value)} required error={errors.cardName} />
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
-                  <Field
-                    label="Expiry"
-                    value={form.cardExpiry}
-                    onChange={(value) => updateField('cardExpiry', formatExpiry(value))}
-                    required
-                    error={errors.cardExpiry}
-                    placeholder="MM / YY"
-                  />
-                  <Field
-                    label="CVC"
-                    value={form.cardCvc}
-                    onChange={(value) => updateField('cardCvc', value.replace(/\D/g, '').slice(0, 4))}
-                    required
-                    error={errors.cardCvc}
-                    placeholder="CVC"
-                  />
-                </div>
+                {/* 21st.dev CreditCardForm — interactive 3D flip card */}
+                <CreditCardForm
+                  defaultHolder={form.cardName}
+                  maskMiddle
+                  showSubmit={false}
+                  onChange={(state: CardState) => {
+                    setForm((prev) => ({
+                      ...prev,
+                      cardNumber: state.number,
+                      cardName: state.holder,
+                      cardExpiry: state.month && state.year ? `${state.month} / ${state.year.slice(-2)}` : prev.cardExpiry,
+                      cardCvc: state.cvv,
+                    }))
+                  }}
+                  className="mb-6"
+                />
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', border: '1px solid #E5E5E5', marginBottom: 26 }}>
                   <Shield size={15} color="#050505" />
@@ -670,6 +656,27 @@ export function MinimalCheckout() {
             <Lock size={12} color="#9B9B9B" />
             <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B' }}>Secured by 256-bit SSL encryption</span>
           </div>
+
+          {/* 21st.dev PaymentSummary — animated payment details */}
+          {step === 'review' && (
+            <div style={{ marginTop: 20 }}>
+              <PaymentSummary
+                title="Payment Details"
+                paymentMethod={{
+                  icon: <CreditCard size={16} color="#050505" />,
+                  name: form.cardNumber ? `•••• ${form.cardNumber.slice(-4)}` : 'Card',
+                }}
+                items={[
+                  { label: 'Subtotal', value: `$${total.toLocaleString()}` },
+                  ...(promoApplied ? [{ label: 'Discount', value: `-$${discount.toLocaleString()}` }] : []),
+                  { label: 'Shipping', value: shipping === 0 ? 'Free' : `$${shipping}` },
+                  { label: 'Tax', value: `$${tax.toLocaleString()}` },
+                ]}
+                total={{ label: 'Total', value: `$${finalTotal.toLocaleString()}` }}
+                className="w-full max-w-full"
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -704,6 +711,16 @@ export function MinimalCheckout() {
           .minimal-checkout-step-panel,
           .minimal-checkout-grid > div:first-child > div {
             padding: 24px 20px !important;
+          }
+        }
+
+        /* Collapse form grid rows on small mobile */
+        @media (max-width: 480px) {
+          .vm-checkout-name-row {
+            grid-template-columns: 1fr !important;
+          }
+          .vm-checkout-city-row {
+            grid-template-columns: 1fr !important;
           }
         }
 

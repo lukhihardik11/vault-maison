@@ -36,7 +36,7 @@ export function MinimalBespoke() {
         <img src="/images/products/classic-gold-ring.jpg" alt="Bespoke" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', opacity: 0.35  }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '600px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Bespoke Service</p>
-          <h1 style={{ fontFamily: font, fontSize: '44px', fontWeight: 200, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.1 }}>Your Vision, Our Craft</h1>
+          <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 200, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.1 }}>Your Vision, Our Craft</h1>
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, lineHeight: 1.8, color: 'rgba(255,255,255,0.6)' }}>
             Create a one-of-a-kind piece designed exclusively for you, from initial sketch to final setting.
           </p>
@@ -94,12 +94,12 @@ export function MinimalBespoke() {
               </p>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: '20px', backgroundColor: '#FFFFFF', padding: '40px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }} className="vm-bespoke-form" style={{ display: 'flex', flexDirection: 'column', gap: '20px', backgroundColor: '#FFFFFF', padding: '40px' }}>
+              <div className="vm-bespoke-form-row">
                 <div><label style={labelStyle}>First Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
                 <div><label style={labelStyle}>Last Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="vm-bespoke-form-row">
                 <div><label style={labelStyle}>Email</label><input type="email" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
                 <div><label style={labelStyle}>Phone</label><input type="tel" style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
               </div>
@@ -145,6 +145,23 @@ export function MinimalBespoke() {
       <style>{`
         @media (max-width: 768px) {
           .vm-bespoke-steps { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 480px) {
+          .vm-bespoke-steps { grid-template-columns: 1fr !important; }
+        }
+        /* Collapse two-column form rows on mobile */
+        .vm-bespoke-form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+        @media (max-width: 640px) {
+          .vm-bespoke-form-row {
+            grid-template-columns: 1fr !important;
+          }
+          .vm-bespoke-form {
+            padding: 24px 16px !important;
+          }
         }
       `}</style>
     </MinimalLayout>

@@ -5,7 +5,9 @@ import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { getConcept } from '@/data/concepts'
 import { ConceptLayout } from '@/components/shared'
-import { Check, Package, ArrowRight, Loader2 } from 'lucide-react'
+import { Check, Package, ArrowRight, Loader2, ClipboardCheck, Warehouse, Ship, PackageCheck, Home } from 'lucide-react'
+import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card'
+import { TrackingTimeline, type TimelineItem } from '@/components/ui/order-history'
 
 interface OrderData {
   id: string
@@ -31,7 +33,8 @@ function ConfirmationContent() {
   const params = useParams()
   const searchParams = useSearchParams()
   const concept = getConcept(params.concept as string)
-  const orderNumber = searchParams.get('order')
+  // Support both 'order' and 'orderId' query params for compatibility
+  const orderNumber = searchParams.get('order') || searchParams.get('orderId')
   const [order, setOrder] = useState<OrderData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -60,6 +63,7 @@ function ConfirmationContent() {
 
   if (!concept) return null
 
+  const isMinimal = concept.id === 'minimal'
   const accent = concept.palette.accent
   const bg = concept.palette.bg
   const text = concept.palette.text
@@ -69,6 +73,102 @@ function ConfirmationContent() {
   const formatPrice = (price: number) =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price)
 
+  const now = new Date()
+  const formatDate = (d: Date) =>
+    d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+
+  // TrackingTimeline items for the minimal concept
+  const trackingItems: TimelineItem[] = [
+    {
+      id: 1,
+      status: 'completed',
+      title: 'Order Placed',
+      date: formatDate(now),
+      icon: <ClipboardCheck className="h-4 w-4 text-[#FFFFFF]" />,
+    },
+    {
+      id: 2,
+      status: 'in-progress',
+      title: 'Processing & Inspection',
+      date: 'In progress',
+      icon: <Package className="h-4 w-4 text-[#050505]" />,
+    },
+    {
+      id: 3,
+      status: 'pending',
+      title: 'Quality Assurance',
+      date: 'Estimated 1-2 days',
+      icon: <Warehouse className="h-4 w-4 text-[#9B9B9B]" />,
+    },
+    {
+      id: 4,
+      status: 'pending',
+      title: 'Shipped',
+      date: 'Estimated 3-5 days',
+      icon: <Ship className="h-4 w-4 text-[#9B9B9B]" />,
+    },
+    {
+      id: 5,
+      status: 'pending',
+      title: 'Out for Delivery',
+      date: 'Estimated 5-7 days',
+      icon: <PackageCheck className="h-4 w-4 text-[#9B9B9B]" />,
+    },
+    {
+      id: 6,
+      status: 'pending',
+      title: 'Delivered',
+      date: 'Estimated 7 days',
+      icon: <Home className="h-4 w-4 text-[#9B9B9B]" />,
+    },
+  ]
+
+  // Minimal concept uses 21st.dev components
+  if (isMinimal) {
+    return (
+      <ConceptLayout concept={concept}>
+        <div className="min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-[#FFFFFF]">
+          {isLoading ? (
+            <div className="flex flex-col items-center gap-4">
+              <Loader2 size={32} className="animate-spin" style={{ color: '#050505' }} />
+              <p className="text-sm text-[#9B9B9B] tracking-wide">Loading order details...</p>
+            </div>
+          ) : (
+            <div className="w-full max-w-lg flex flex-col items-center gap-10">
+              {/* 21st.dev OrderConfirmationCard */}
+              <OrderConfirmationCard
+                orderId={orderNumber || 'VM-PENDING'}
+                paymentMethod="Credit Card"
+                dateTime={formatDate(now)}
+                totalAmount={order?.total ? formatPrice(order.total) : 'Pending'}
+                onGoToAccount={() => {
+                  window.location.href = `/${concept.id}/account`
+                }}
+                title="Order Confirmed"
+                buttonText="View My Account"
+              />
+
+              {/* 21st.dev TrackingTimeline */}
+              <div className="w-full max-w-sm border border-[#E5E5E5] bg-[#FFFFFF] p-6">
+                <h3 className="text-lg font-semibold text-[#050505] mb-6">Order Tracking</h3>
+                <TrackingTimeline items={trackingItems} />
+              </div>
+
+              {/* Continue Shopping */}
+              <Link
+                href={`/${concept.id}`}
+                className="flex items-center justify-center gap-2 py-3.5 px-8 text-xs tracking-widest uppercase font-medium border border-[#E5E5E5] text-[#050505] hover:bg-[#050505] hover:text-[#FFFFFF] transition-colors"
+              >
+                Continue Shopping
+              </Link>
+            </div>
+          )}
+        </div>
+      </ConceptLayout>
+    )
+  }
+
+  // Non-minimal concepts use the original generic confirmation UI
   return (
     <ConceptLayout concept={concept}>
       <div className="min-h-screen flex items-center justify-center px-4 py-20">
@@ -82,11 +182,11 @@ function ConfirmationContent() {
             <>
               {/* Success checkmark */}
               <div
-                className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8"
+                className="w-20 h-20 flex items-center justify-center mx-auto mb-8"
                 style={{ backgroundColor: `${accent}15` }}
               >
                 <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center"
+                  className="w-14 h-14 flex items-center justify-center"
                   style={{ backgroundColor: accent }}
                 >
                   <Check size={28} style={{ color: bg }} strokeWidth={3} />
@@ -234,7 +334,7 @@ export default function OrderConfirmationPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center">
-          <Loader2 size={32} className="animate-spin" style={{ color: '#C4A265' }} />
+          <Loader2 size={32} className="animate-spin" style={{ color: '#050505' }} />
         </div>
       }
     >
