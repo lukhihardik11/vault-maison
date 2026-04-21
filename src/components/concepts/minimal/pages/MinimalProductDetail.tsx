@@ -17,10 +17,34 @@ const F = "'Inter', 'Helvetica Neue', sans-serif"
 const M = "'SF Mono', 'Fira Code', monospace"
 const sizes = ['5', '5.5', '6', '6.5', '7', '7.5', '8']
 
-function ProductImageGallery({ images, productName }: { images: string[]; productName: string }) {
+// Categories whose hero image is typically a standalone product shot on a clean
+// background (no hands, ears, wrists, necks, or models). Only these categories
+// get the floating ProductBounceCard animation.
+const BOUNCE_ELIGIBLE_CATEGORIES = new Set([
+  'diamond-rings',
+  'gold-rings',
+  'diamond-bracelets',
+  'gold-bracelets',
+  'loose-diamonds',
+  'wedding-bridal',
+])
+
+// Image filenames that suggest a person / body part is visible — these should
+// never be used for the bounce animation even if the category qualifies.
+const BODY_PART_KEYWORDS = /wrist|hand|ear|neck|model|person|wear|finger|arm|editorial/i
+
+function ProductImageGallery({ images, productName, category }: { images: string[]; productName: string; category: string }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const selectedImage = images[selectedIndex] ?? images[0]
+  const heroImage = images[0]
+
+  // Show the bounce card only for standalone jewelry product shots:
+  // 1) The product category must be in the eligible set
+  // 2) The hero image filename must not contain body-part keywords
+  const showBounce =
+    BOUNCE_ELIGIBLE_CATEGORIES.has(category) &&
+    !BODY_PART_KEYWORDS.test(heroImage)
 
   // Main PDP hero is a plain BlurUpImage. Users switch views via the
   // thumbnail row below. The earlier ImageReveal setup swapped to the
@@ -39,15 +63,6 @@ function ProductImageGallery({ images, productName }: { images: string[]; produc
           alt={productName}
           containerStyle={{ width: '100%', height: '100%' }}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-      </div>
-
-      {/* 21st.dev ProductBounceCard — floating product animation */}
-      <div style={{ marginTop: 24, padding: '32px 0', borderTop: '1px solid #E5E5E5' }}>
-        <ProductBounceCard
-          imageUrl={selectedImage}
-          alt={productName}
-          className="w-full h-48 md:h-64"
         />
       </div>
 
@@ -73,6 +88,17 @@ function ProductImageGallery({ images, productName }: { images: string[]; produc
               <BlurUpImage src={image} alt={`${productName} view ${index + 1}`} containerStyle={{ width: '100%', height: '100%' }} draggable={false} />
             </button>
           ))}
+        </div>
+      )}
+
+      {/* 21st.dev ProductBounceCard — standalone floating product animation.
+          Only rendered below ALL pictures for categories with clean product shots. */}
+      {showBounce && (
+        <div style={{ marginTop: 24, padding: '32px 0', borderTop: '1px solid #E5E5E5' }}>
+          <ProductBounceCard
+            imageUrl={heroImage}
+            alt={productName}
+          />
         </div>
       )}
     </div>
@@ -189,7 +215,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
       </div>
 
       <div className={`${minimal.cn.container} grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20`} style={{ paddingBottom: 'clamp(64px, 10vh, 120px)' }}>
-        <ProductImageGallery images={product.images} productName={product.name} />
+        <ProductImageGallery images={product.images} productName={product.name} category={product.category} />
 
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>

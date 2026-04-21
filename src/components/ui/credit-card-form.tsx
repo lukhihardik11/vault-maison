@@ -336,16 +336,11 @@ const CreditCardForm = ({
         }
         .ccf-wrap {
           width: 100%;
-          max-width: 1000px;
+          max-width: 700px;
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 24px;
+          grid-template-columns: 1fr;
+          gap: 32px;
           align-items: start;
-        }
-        @media (max-width: 920px) {
-          .ccf-wrap {
-            grid-template-columns: 1fr;
-          }
         }
 
         /* ── Highlight overlay ── */
@@ -392,7 +387,7 @@ const CreditCardForm = ({
         .ccf-card {
           position: relative;
           width: 100%;
-          max-width: 420px;
+          max-width: 460px;
           margin: 0 auto;
           transform-style: preserve-3d;
           perspective: 1000px;
@@ -404,8 +399,8 @@ const CreditCardForm = ({
         .ccf-card__front,
         .ccf-card__back {
           width: 100%;
-          max-width: 420px;
-          height: 233px;
+          max-width: 460px;
+          height: 260px;
           padding: 24px 30px 30px;
           background: linear-gradient(to right bottom, #050505, #1a1a1a);
           box-shadow: 0 33px 50px -15px rgba(5, 5, 5, 0.5);
@@ -576,13 +571,13 @@ const CreditCardForm = ({
         .ccf-form {
           background: #ffffff;
           width: 100%;
-          max-width: 600px;
+          max-width: 700px;
           margin: 0 auto;
-          padding: 24px;
-          border: 1px solid #e5e5e5;
-          box-shadow: 0 0 40px rgba(5, 5, 5, 0.08);
+          padding: 28px 0 0;
+          border: none;
+          box-shadow: none;
           display: grid;
-          gap: 12px;
+          gap: 16px;
           color: #050505;
         }
         .ccf-form label {
