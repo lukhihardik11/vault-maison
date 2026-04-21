@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
-import { Search, X, ArrowRight } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import Link from 'next/link'
 import { products } from '@/data/products'
 
@@ -15,15 +15,39 @@ export default function ActionSearchBar({ isOpen, onClose }: ActionSearchBarProp
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
+  // Lock body scroll while the overlay is open + wire Escape-to-close.
+  // We intentionally listen on `keydown` in the capture phase so the
+  // overlay reliably handles the key even when focus is currently on
+  // a result link further down the panel. The bug spec called this
+  // out explicitly: "Close on Escape key and clicking outside".
+  //
+  // Cleanup also resets the query so reopening the overlay starts
+  // from a clean slate. (We do it here rather than in a separate
+  // effect so React 19's set-state-in-effect lint stays happy — the
+  // cleanup runs *between* open cycles, not on every render.)
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100)
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+    if (!isOpen) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const focusTimer = window.setTimeout(() => inputRef.current?.focus(), 80)
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onClose()
+      }
     }
-    return () => { document.body.style.overflow = '' }
-  }, [isOpen])
+    window.addEventListener('keydown', handleKey, true)
+
+    return () => {
+      window.removeEventListener('keydown', handleKey, true)
+      window.clearTimeout(focusTimer)
+      document.body.style.overflow = previousOverflow
+      setQuery('')
+    }
+  }, [isOpen, onClose])
 
   const results = query.length > 1
     ? products.filter(p => p.name.toLowerCase().includes(query.toLowerCase()) || p.category.toLowerCase().includes(query.toLowerCase())).slice(0, 6)
