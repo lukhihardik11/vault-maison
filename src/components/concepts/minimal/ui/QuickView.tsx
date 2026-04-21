@@ -88,7 +88,7 @@ export default function QuickView({ open, product, onClose, onAddToCart }: Quick
         className={prefersReducedMotion ? undefined : 'minimal-quick-view-panel'}
         style={{
           position: 'relative',
-          width: 'min(880px, 100%)',
+          width: 'min(880px, calc(100% - 24px))',
           background: '#FFFFFF',
           border: '1px solid #E5E5E5',
           display: 'grid',
@@ -341,6 +341,15 @@ export default function QuickView({ open, product, onClose, onAddToCart }: Quick
         @media (max-width: 920px) {
           .minimal-quick-view-panel {
             grid-template-columns: 1fr !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .minimal-quick-view-panel {
+            width: calc(100% - 16px) !important;
+            max-height: calc(100vh - 80px) !important;
+            max-height: calc(100dvh - 80px) !important;
+            margin: 0 8px;
           }
         }
 

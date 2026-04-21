@@ -388,7 +388,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
             </button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, padding: '20px 0', marginBottom: 28 }}>
+          <div className="vm-product-trust-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, padding: '20px 0', marginBottom: 28 }}>
             {[
               { icon: Truck, label: 'Free Shipping', sub: 'Insured delivery' },
               { icon: Shield, label: 'GIA Certified', sub: 'Authenticated' },
@@ -518,6 +518,14 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
         .minimal-pdp-view-all:hover {
           background: #050505 !important;
           color: #FFFFFF !important;
+        }
+
+        /* Mobile: stack trust badges and reduce gap */
+        @media (max-width: 480px) {
+          .vm-product-trust-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {

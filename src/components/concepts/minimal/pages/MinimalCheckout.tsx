@@ -275,7 +275,7 @@ export function MinimalCheckout() {
                   <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B', margin: 0 }}>We&apos;ll use this to send your order confirmation.</p>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                <div className="vm-checkout-name-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                   <Field label="First Name" value={form.firstName} onChange={(value) => updateField('firstName', value)} required error={errors.firstName} />
                   <Field label="Last Name" value={form.lastName} onChange={(value) => updateField('lastName', value)} required error={errors.lastName} />
                 </div>
@@ -325,7 +325,7 @@ export function MinimalCheckout() {
                   <Field label="Apartment, Suite, etc." value={form.apt} onChange={(value) => updateField('apt', value)} placeholder="Optional" />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
+                <div className="vm-checkout-city-row" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
                   <Field label="City" value={form.city} onChange={(value) => updateField('city', value)} required error={errors.city} />
                   <Field label="State" value={form.state} onChange={(value) => updateField('state', value)} required error={errors.state} />
                   <Field label="ZIP" value={form.zip} onChange={(value) => updateField('zip', value)} required error={errors.zip} />
@@ -711,6 +711,16 @@ export function MinimalCheckout() {
           .minimal-checkout-step-panel,
           .minimal-checkout-grid > div:first-child > div {
             padding: 24px 20px !important;
+          }
+        }
+
+        /* Collapse form grid rows on small mobile */
+        @media (max-width: 480px) {
+          .vm-checkout-name-row {
+            grid-template-columns: 1fr !important;
+          }
+          .vm-checkout-city-row {
+            grid-template-columns: 1fr !important;
           }
         }
 

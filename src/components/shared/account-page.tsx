@@ -180,7 +180,7 @@ export function AccountPage({
         <h1 style={{ fontFamily: fontHeading, fontSize: '2rem', fontWeight: 400, color: textColor, margin: '0 0 8px' }}>My Account</h1>
         <p style={{ fontFamily: fontBody, fontSize: '0.8rem', color: mutedColor, margin: '0 0 40px' }}>Welcome back, valued client</p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 48 }}>
+        <div className="vm-account-grid" style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 48 }}>
           {/* Sidebar */}
           <div>
             {sidebarItems.map(item => (
@@ -217,7 +217,7 @@ export function AccountPage({
             {activeTab === 'dashboard' && (
               <div>
                 <h2 style={{ fontFamily: fontHeading, fontSize: '1.3rem', fontWeight: 500, color: textColor, margin: '0 0 24px' }}>Dashboard</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 32 }}>
+                <div className="vm-account-stats" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 32 }}>
                   {[
                     { label: 'Total Orders', value: '3', icon: Package },
                     { label: 'Wishlist Items', value: '7', icon: Heart },
@@ -295,7 +295,7 @@ export function AccountPage({
                     Add New
                   </button>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div className="vm-account-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                   {mockAddresses.map(addr => (
                     <div key={addr.id} style={{ padding: 20, background: bg, border: `1px solid ${addr.isDefault ? accentColor : border}` }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
@@ -321,7 +321,7 @@ export function AccountPage({
               <div>
                 <h2 style={{ fontFamily: fontHeading, fontSize: '1.3rem', fontWeight: 500, color: textColor, margin: '0 0 24px' }}>Profile Settings</h2>
                 <div style={{ maxWidth: 500 }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                  <div className="vm-account-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                     <div>
                       <label style={labelStyle}>First Name</label>
                       <input defaultValue="Jane" style={inputStyle} />
@@ -362,6 +362,20 @@ export function AccountPage({
           </div>
         </div>
       </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .vm-account-grid {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          .vm-account-stats {
+            grid-template-columns: 1fr !important;
+          }
+          .vm-account-form-row {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

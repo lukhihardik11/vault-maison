@@ -72,6 +72,9 @@ export function MinimalCraftsmanship() {
           .vm-craft-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .vm-materials-grid { grid-template-columns: 1fr !important; }
         }
+        @media (max-width: 480px) {
+          .vm-craft-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </MinimalLayout>
   )
