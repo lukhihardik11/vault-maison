@@ -78,7 +78,7 @@ export default function GlassmorphismMetrics({
             <Diamond className="h-3 w-3" />
             {eyebrow}
           </span>
-          <h2 className="mt-4 text-3xl md:text-4xl font-light tracking-tight text-[#050505] leading-tight">
+          <h2 className="mt-4 text-3xl md:text-4xl font-semibold tracking-tight text-[#050505] leading-tight">
             {heading}
           </h2>
           <p className="mt-5 text-sm leading-relaxed text-[#050505]/60 md:text-base" style={{ fontWeight: 300 }}>
@@ -100,7 +100,7 @@ export default function GlassmorphismMetrics({
                     <ArrowUpRight className="h-4 w-4 text-[#050505]/30 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </div>
                   <div className="flex items-end gap-3">
-                    <span className="text-4xl md:text-5xl font-light tracking-tight text-[#050505]">
+                    <span className="text-4xl md:text-5xl font-semibold tracking-tight text-[#050505]">
                       {metric.value}
                     </span>
                     <span className="border border-[#050505]/10 bg-white/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-[#050505]/50 backdrop-blur">

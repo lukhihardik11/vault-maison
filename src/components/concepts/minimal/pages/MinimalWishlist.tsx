@@ -18,7 +18,7 @@ export function MinimalWishlist() {
         <div style={{ marginBottom: '48px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '8px' }}>Saved Pieces</p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505' }}>Wishlist</h1>
+            <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Wishlist</h1>
             {items.length > 0 && <p style={{ fontFamily: font, fontSize: '12px', color: '#9B9B9B' }}>{items.length} {items.length === 1 ? 'piece' : 'pieces'}</p>}
           </div>
         </div>
@@ -26,7 +26,7 @@ export function MinimalWishlist() {
         {items.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
             <Heart size={48} strokeWidth={1} style={{ color: '#E5E5E5', marginBottom: '24px' }} />
-            <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 200, color: '#050505', marginBottom: '8px' }}>Your wishlist is empty</h2>
+            <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 600, color: '#050505', marginBottom: '8px' }}>Your wishlist is empty</h2>
             <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', marginBottom: '32px' }}>Save pieces you love by clicking the heart icon.</p>
             <Link href="/minimal/collections" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', backgroundColor: '#050505', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>
               Browse Collections <ArrowRight size={14} />

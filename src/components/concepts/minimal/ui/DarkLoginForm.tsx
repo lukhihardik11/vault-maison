@@ -35,7 +35,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
     outline: 'none',
     color: 'white',
     backgroundColor: '#050505',
-    boxShadow: 'inset 2px 4px 10px rgba(5,5,5,0.8)',
+    boxShadow: 'inset 0 1px 3px rgba(5,5,5,0.3)',
   }
 
   const fieldInputStyle: React.CSSProperties = {
@@ -156,7 +156,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
       </button>
 
       <style>{`
-        .vm-dark-form:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .vm-dark-form:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
         .vm-dark-submit:hover { filter: brightness(1.1); transform: translateY(-1px); }
         .vm-dark-form input::placeholder { color: rgba(255,255,255,0.25); }
       `}</style>

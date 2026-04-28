@@ -73,7 +73,7 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
       </div>
       <style>{`
         .bento-item.bento-visible { opacity: 1 !important; transform: translateY(0) !important; }
-        .bento-item:hover { box-shadow: 0 8px 30px rgba(196,162,101,0.12) !important; }
+        .bento-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06) !important; }
         @media (max-width: 768px) { .bento-item { grid-column: span 1 !important; } }
       `}</style>
     </>

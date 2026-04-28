@@ -84,7 +84,7 @@ export function MinimalSizeGuide() {
           Size Guide
         </p>
         <h1 style={{
-          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 200,
+          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
           color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
           marginBottom: '24px', maxWidth: '800px',
         }}>

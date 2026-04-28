@@ -202,8 +202,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl"
                 style={{
                   fontFamily: font,
-                  fontWeight: 100,
-                  letterSpacing: '-0.05em',
+                  fontWeight: 700,
+                  letterSpacing: '-0.04em',
                   lineHeight: 0.88,
                   color: '#050505',
                   textTransform: 'uppercase',
@@ -431,7 +431,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 className="mt-5 mb-4 text-xl sm:text-2xl md:text-3xl lg:text-5xl"
                 style={{
                   fontFamily: font,
-                  fontWeight: 200,
+                  fontWeight: 600,
                   letterSpacing: '-0.03em',
                   lineHeight: 1.1,
                   color: '#050505',
@@ -467,10 +467,10 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         style={{
                           fontFamily: font,
                           fontSize: 'clamp(18px, 1.5vw, 24px)',
-                          fontWeight: 200,
-                          color: '#050505',
-                          marginTop: '8px',
-                          fontVariantNumeric: 'tabular-nums',
+                        fontWeight: 600,
+                        color: '#050505',
+                        marginTop: '8px',
+                        fontVariantNumeric: 'tabular-nums',
                         }}
                       >
                         {val}
@@ -484,7 +484,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               style={{
                 fontFamily: font,
                 fontSize: 'clamp(22px, 2vw, 32px)',
-                fontWeight: 200,
+                fontWeight: 600,
                 color: '#050505',
                 marginBottom: '32px',
                 fontVariantNumeric: 'tabular-nums',
@@ -528,7 +528,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl"
                 style={{
                   fontFamily: font,
-                  fontWeight: 200,
+                  fontWeight: 600,
                   letterSpacing: '-0.03em',
                   color: '#FFFFFF',
                 }}
@@ -644,7 +644,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   style={{
                     fontFamily: font,
                     fontSize: 'clamp(24px, 2.5vw, 36px)',
-                    fontWeight: 200,
+                    fontWeight: 600,
                     letterSpacing: '-0.02em',
                     lineHeight: 1.2,
                     marginBottom: '16px',
@@ -669,7 +669,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   style={{
                     fontFamily: font,
                     fontSize: 'clamp(20px, 1.5vw, 28px)',
-                    fontWeight: 200,
+                    fontWeight: 600,
                     color: '#050505',
                     fontVariantNumeric: 'tabular-nums',
                   }}
@@ -784,7 +784,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   style={{
                     fontFamily: font,
                     fontSize: 'clamp(32px, 3.5vw, 56px)',
-                    fontWeight: 100,
+                    fontWeight: 700,
                     color: '#050505',
                     lineHeight: 1,
                     fontVariantNumeric: 'tabular-nums',
@@ -900,7 +900,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               className="text-xl sm:text-2xl md:text-3xl lg:text-5xl"
               style={{
                 fontFamily: font,
-                fontWeight: 200,
+                fontWeight: 600,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.1,
                 color: '#050505',
@@ -1064,7 +1064,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         .${minimal.cn.containerNarrow?.split(' ')[0] || 'container'} p {
           font-family: ${font};
           font-size: clamp(20px, 2.5vw, 36px);
-          font-weight: 200;
+          font-weight: 600;
           color: #FFFFFF;
           line-height: 1.6;
           letter-spacing: -0.02em;

@@ -15,7 +15,7 @@ interface MinimalHeroSectionProps {
 }
 
 export default function MinimalHeroSection({
-  eyebrow, title, subtitle, image, ctaText = 'Explore', ctaHref = '#', overlay = 'gradient'
+  eyebrow, title, subtitle, image, ctaText = 'Explore', ctaHref = '#', overlay = 'dark'
 }: MinimalHeroSectionProps) {
   const imgRef = useRef<HTMLDivElement>(null)
 
@@ -34,7 +34,7 @@ export default function MinimalHeroSection({
     ? 'rgba(26,26,26,0.6)'
     : overlay === 'light'
     ? 'rgba(250,250,248,0.4)'
-    : 'linear-gradient(to right, rgba(26,26,26,0.7) 0%, rgba(26,26,26,0.3) 50%, transparent 100%)'
+    : 'rgba(5,5,5,0.45)'
 
   return (
     <section style={{ position: 'relative', height: '70vh', minHeight: '400px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
@@ -44,7 +44,7 @@ export default function MinimalHeroSection({
       <div style={{ position: 'absolute', inset: 0, background: overlayStyle }} />
       <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
         {eyebrow && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>{eyebrow}</p>}
-        <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 200, color: '#FFFFFF', lineHeight: 1.15, marginBottom: '16px', maxWidth: '600px' }}>{title}</h1>
+        <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 600, color: '#FFFFFF', lineHeight: 1.15, marginBottom: '16px', maxWidth: '600px' }}>{title}</h1>
         {subtitle && <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: 'rgba(255,255,255,0.7)', maxWidth: '400px', marginBottom: '32px', lineHeight: 1.7 }}>{subtitle}</p>}
         <Link href={ctaHref} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#050505', padding: '12px 28px', textDecoration: 'none', transition: 'background-color 200ms ease' }}>
           {ctaText}

@@ -17,7 +17,7 @@
  *   - Greyscale palette ONLY  (no gold, no gradient, no chromatic blur)
  *   - Border radius = 0       (`rounded-*` utilities are forbidden)
  *   - Hairlines = 1px         (no 2-4px brutalist borders)
- *   - Hero weight 100-200     (scale, not weight, carries the brand)
+ *   - Hero weight 600-700     (bold headings per Tier 1 references: apple/celine/jilsander/B&O)
  *   - Reduced-motion honored  (use `useReducedMotionPreference()`)
  *   - No `initial={{ opacity: 0 }}` in Framer Motion (first-paint flash)
  */
@@ -119,12 +119,12 @@ export const minimal = {
     radius: 100,
   },
   cn: {
-    heroHeadline: 'text-4xl md:text-6xl lg:text-8xl font-extralight tracking-tighter leading-none text-[#050505]',
-    sectionHeadline: 'text-2xl md:text-3xl lg:text-5xl font-light tracking-tight text-[#050505]',
-    subsectionHead: 'text-xl md:text-2xl font-normal tracking-tight text-[#050505]',
+    heroHeadline: 'text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter leading-none text-[#050505]',
+    sectionHeadline: 'text-2xl md:text-3xl lg:text-5xl font-semibold tracking-tight text-[#050505]',
+    subsectionHead: 'text-xl md:text-2xl font-semibold tracking-tight text-[#050505]',
     productTitle: 'text-lg font-medium tracking-tight text-[#050505]',
     body: 'text-sm md:text-base text-[#6B6B6B] leading-relaxed',
-    label: 'text-[11px] uppercase tracking-[0.15em] text-[#9B9B9B]',
+    label: 'text-[11px] uppercase tracking-[0.2em] text-[#9B9B9B] font-medium',
     price: 'text-base font-medium tabular-nums text-[#050505]',
     section: 'py-20 md:py-32',
     container: 'max-w-7xl mx-auto px-5 md:px-8',

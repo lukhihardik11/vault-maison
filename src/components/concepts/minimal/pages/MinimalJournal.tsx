@@ -24,7 +24,7 @@ export function MinimalJournal() {
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>The Journal</p>
-        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Stories, Guides & Insights</h1>
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Stories, Guides & Insights</h1>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
           Expert knowledge from our gemologists, behind-the-scenes stories, and curated guides to help you make informed choices.
         </p>
@@ -42,7 +42,7 @@ export function MinimalJournal() {
                 <span style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505', padding: '4px 10px', border: '1px solid #050505' }}>{featured.category}</span>
                 <span style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B' }}>{featured.date}</span>
               </div>
-              <h2 style={{ fontFamily: font, fontSize: '28px', fontWeight: 200, color: '#050505', marginBottom: '12px', lineHeight: 1.3 }}>{featured.title}</h2>
+              <h2 style={{ fontFamily: font, fontSize: '28px', fontWeight: 600, color: '#050505', marginBottom: '12px', lineHeight: 1.3 }}>{featured.title}</h2>
               <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', marginBottom: '24px' }}>{featured.excerpt}</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505' }}>
                 Read Article <ArrowRight size={12} />

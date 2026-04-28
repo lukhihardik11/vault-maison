@@ -84,7 +84,7 @@ export function MinimalFooter() {
               style={{
                 fontFamily: font,
                 fontSize: 'clamp(24px, 3vw, 40px)',
-                fontWeight: 200,
+                fontWeight: 600,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.2,
                 color: '#050505',

@@ -100,7 +100,7 @@ export default function ActionSearchBar({ isOpen, onClose }: ActionSearchBarProp
             <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '16px' }}>Popular Searches</p>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {popular.map(term => (
-                <button key={term} onClick={() => setQuery(term)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, padding: '8px 16px', background: '#FAFAFA', borderRadius: 0, border: 'none', cursor: 'pointer', color: '#050505', boxShadow: '3px 3px 6px #E5E5E5, -3px -3px 6px #ffffff', transition: 'all 300ms ease' }}>
+                <button key={term} onClick={() => setQuery(term)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 300, padding: '8px 16px', background: '#FAFAFA', borderRadius: 0, border: 'none', cursor: 'pointer', color: '#050505', boxShadow: 'none', transition: 'all 300ms ease' }}>
                   {term}
                 </button>
               ))}

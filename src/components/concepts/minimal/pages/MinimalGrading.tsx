@@ -35,7 +35,7 @@ export function MinimalGrading() {
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <Diamond size={32} strokeWidth={1} style={{ color: '#050505', marginBottom: '16px' }} />
-        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Diamond Grading Guide</h1>
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Diamond Grading Guide</h1>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '550px', margin: '0 auto' }}>
           Understanding the 4Cs — Carat, Cut, Color, and Clarity — is essential to choosing the perfect diamond. This guide explains each factor and how they influence a diamond&apos;s beauty and value.
         </p>
@@ -47,7 +47,7 @@ export function MinimalGrading() {
           <div key={i} style={{ padding: '40px 0', borderBottom: i < fourCs.length - 1 ? '1px solid #E5E5E5' : 'none' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '24px' }} className="vm-grade-row">
               <div style={{ width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAFAFA', flexShrink: 0 }}>
-                <span style={{ fontFamily: font, fontSize: '24px', fontWeight: 200, color: '#050505' }}>{c.letter}</span>
+                <span style={{ fontFamily: font, fontSize: '24px', fontWeight: 600, color: '#050505' }}>{c.letter}</span>
               </div>
               <div style={{ flex: 1 }}>
                 <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 300, color: '#050505', marginBottom: '12px' }}>{c.title}</h2>

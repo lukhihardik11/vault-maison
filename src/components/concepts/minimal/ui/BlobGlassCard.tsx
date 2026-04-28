@@ -28,7 +28,7 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      boxShadow: '12px 12px 40px #e0ddd8, -12px -12px 40px #ffffff',
+      boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
     }}>
       {/* Frosted glass background */}
       <div style={{
@@ -94,7 +94,7 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
           100% { transform: translate(-100%, -100%) translate3d(0, 0, 0); }
         }
         .vm-blob-card { transition: transform 350ms ease, box-shadow 350ms ease; }
-        .vm-blob-card:hover { transform: translateY(-4px); box-shadow: 12px 12px 50px #d8d5d0, -12px -12px 50px #ffffff; }
+        .vm-blob-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
       `}</style>
     </div>
   )

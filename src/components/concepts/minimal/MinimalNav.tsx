@@ -367,28 +367,27 @@ export function MinimalNav() {
         </div>
       )}
 
-      {/* Mobile Menu — Full Screen Takeover with Stagger */}
+      {/* Mobile Menu — Full-Screen Black Overlay (Tier 1: jilsander/celine pattern) */}
       {menuOpen && (
         <div
           className="minimal-mobile-overlay"
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#050505',
             zIndex: 100,
             display: 'flex',
             flexDirection: 'column',
-            padding: '0 24px',
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
-            <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#050505' }}>
-              Minimal Machine
+          {/* Top bar */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px', padding: '0 24px' }}>
+            <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#FFFFFF' }}>
+              Vault Maison
             </span>
             <button
               type="button"
               onClick={() => setMenuOpen(false)}
-              className="minimal-icon-button"
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',
@@ -396,13 +395,19 @@ export function MinimalNav() {
                 padding: '10px',
                 minWidth: '44px',
                 minHeight: '44px',
+                color: '#FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
               aria-label="Close menu"
             >
-              <X size={20} strokeWidth={1.5} />
+              <X size={24} strokeWidth={1.5} />
             </button>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '40px' }}>
+
+          {/* Large nav links — Tier 1 pattern: big type, staggered reveal */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 clamp(32px, 6vw, 80px)' }}>
             {mobileLinks.map((link, i) => (
               <Link
                 key={link.href}
@@ -411,23 +416,28 @@ export function MinimalNav() {
                 className={`minimal-mobile-link ${isActive(link.href) ? 'active' : ''}`}
                 style={{
                   fontFamily: font,
-                  fontSize: '13px',
-                  fontWeight: isActive(link.href) ? 500 : 300,
-                  letterSpacing: '0.15em',
+                  fontSize: 'clamp(28px, 5vw, 48px)',
+                  fontWeight: 600,
+                  letterSpacing: '-0.02em',
                   textTransform: 'uppercase',
                   textDecoration: 'none',
-                  color: isActive(link.href) ? '#050505' : '#6B6B6B',
-                  padding: '18px 12px',
-                  borderBottom: '1px solid #E5E5E5',
-                  animationDelay: prefersReducedMotion ? '0ms' : `${i * 60}ms`,
-                  minHeight: '58px',
-                  display: 'flex',
-                  alignItems: 'center',
+                  color: isActive(link.href) ? '#FFFFFF' : 'rgba(255,255,255,0.4)',
+                  padding: 'clamp(12px, 2vh, 20px) 0',
+                  animationDelay: prefersReducedMotion ? '0ms' : `${i * 50}ms`,
+                  display: 'block',
+                  lineHeight: 1.1,
                 }}
               >
                 {link.label}
               </Link>
             ))}
+          </div>
+
+          {/* Bottom info */}
+          <div style={{ padding: '24px clamp(32px, 6vw, 80px)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>
+              Vault Maison — Est. 1974
+            </p>
           </div>
         </div>
       )}
@@ -437,14 +447,15 @@ export function MinimalNav() {
 
       <style>{`
         .minimal-nav-shell {
-          background-color: #FFFFFF;
-          backdrop-filter: blur(18px) saturate(140%);
-          -webkit-backdrop-filter: blur(18px) saturate(140%);
-          transition: backdrop-filter 300ms ease;
+          background-color: rgba(255,255,255,0.85);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          transition: background-color 300ms ease, backdrop-filter 300ms ease;
         }
         .minimal-nav-shell.is-scrolled {
-          backdrop-filter: blur(24px) saturate(165%);
-          -webkit-backdrop-filter: blur(24px) saturate(165%);
+          background-color: rgba(255,255,255,0.95);
+          backdrop-filter: blur(24px) saturate(200%);
+          -webkit-backdrop-filter: blur(24px) saturate(200%);
         }
         .minimal-nav-border {
           position: absolute;
@@ -535,11 +546,10 @@ export function MinimalNav() {
           transition: color 220ms ease, background-color 220ms ease;
         }
         .minimal-mobile-link:hover {
-          color: #050505 !important;
-          background: #E5E5E5;
+          color: #FFFFFF !important;
         }
         .minimal-mobile-link.active {
-          color: #050505 !important;
+          color: #FFFFFF !important;
         }
         @keyframes mobileMenuFadeIn {
           from { opacity: 0; transform: translateY(10px); }

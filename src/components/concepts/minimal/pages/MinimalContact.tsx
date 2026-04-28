@@ -94,7 +94,7 @@ export function MinimalContact() {
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
             Get in Touch
           </p>
-          <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Contact Us</h1>
+          <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Contact Us</h1>
           <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto' }}>
             Our advisors are available for product questions, bespoke consultations, and after-purchase support.
           </p>

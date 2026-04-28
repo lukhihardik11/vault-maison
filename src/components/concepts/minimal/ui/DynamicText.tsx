@@ -64,7 +64,7 @@ export default function DynamicText({ text, className = '', style = {}, effect =
           transition: text-shadow 1s ease;
         }
         .vm-dynamic-glow.vm-dynamic-active {
-          text-shadow: 0 0 20px rgba(196,162,101,0.3), 0 0 40px rgba(196,162,101,0.1);
+          text-shadow: 0 0 20px rgba(5,5,5,0.15), 0 0 40px rgba(5,5,5,0.05);
         }
       `}</style>
     </>
