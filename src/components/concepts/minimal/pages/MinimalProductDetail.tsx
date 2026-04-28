@@ -232,7 +232,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
             style={{
               fontFamily: F,
               fontSize: 'clamp(28px, 3vw, 42px)',
-              fontWeight: 200,
+              fontWeight: 600,
               letterSpacing: '-0.025em',
               lineHeight: 1.15,
               color: '#050505',
@@ -411,7 +411,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
           <div className={minimal.cn.container}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
               <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: 12 }}>Diamond Certification</span>
-              <h2 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 200, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>The 4Cs</h2>
+              <h2 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>The 4Cs</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: 16 }}>
               {[
@@ -422,7 +422,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
               ].map((spec) => (
                 <div key={spec.label} style={{ backgroundColor: '#FFFFFF', border: '1px solid #E5E5E5', padding: 'clamp(24px, 3vw, 40px)', textAlign: 'center' }}>
                   <p style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B', margin: '0 0 14px' }}>{spec.label}</p>
-                  <p style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 200, color: '#050505', margin: '0 0 6px' }}>{spec.value}</p>
+                  <p style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 600, color: '#050505', margin: '0 0 6px' }}>{spec.value}</p>
                   <p style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', margin: 0 }}>{spec.desc}</p>
                 </div>
               ))}
@@ -436,7 +436,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
           <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 40, alignItems: 'center' }}>
             <div>
               <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: 12 }}>Styling</span>
-              <h2 style={{ fontFamily: F, fontSize: 'clamp(24px, 2.5vw, 38px)', fontWeight: 200, letterSpacing: '-0.02em', color: '#050505', margin: '0 0 16px' }}>Complete the Look</h2>
+              <h2 style={{ fontFamily: F, fontSize: 'clamp(24px, 2.5vw, 38px)', fontWeight: 600, letterSpacing: '-0.02em', color: '#050505', margin: '0 0 16px' }}>Complete the Look</h2>
               <p style={{ fontFamily: F, fontSize: 15, fontWeight: 300, color: '#6B6B6B', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 420 }}>
                 Pair this piece with complementary items from our collection for an effortlessly curated ensemble.
               </p>
@@ -472,7 +472,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48 }}>
               <div>
                 <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: 12 }}>You May Also Like</span>
-                <h2 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 200, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>Related Pieces</h2>
+                <h2 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>Related Pieces</h2>
               </div>
               <Link
                 href={`/minimal/category/${product.category}`}

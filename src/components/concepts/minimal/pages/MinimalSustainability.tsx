@@ -66,7 +66,7 @@ export function MinimalSustainability() {
           Responsibility
         </p>
         <h1 style={{
-          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 200,
+          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
           color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
           marginBottom: '24px', maxWidth: '800px',
         }}>
@@ -103,7 +103,7 @@ export function MinimalSustainability() {
           {commitments.map((c, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <p style={{
-                fontFamily: F, fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 200,
+                fontFamily: F, fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 600,
                 color: '#050505', lineHeight: 1, marginBottom: '8px',
               }}>
                 {c.metric}
@@ -135,7 +135,7 @@ export function MinimalSustainability() {
           Our Approach
         </p>
         <h2 style={{
-          fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 200,
+          fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
           color: '#050505', marginBottom: '48px', letterSpacing: '-0.02em',
         }}>
           Five Pillars of Responsibility

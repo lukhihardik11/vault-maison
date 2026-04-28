@@ -21,7 +21,7 @@ export default function AvatarPicker({ initials = 'VM', onSelect }: AvatarPicker
         width: '80px', height: '80px', borderRadius: 0,
         backgroundColor: selected,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        boxShadow: '6px 6px 12px #E5E5E5, -6px -6px 12px #ffffff',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
         transition: 'background-color 300ms ease',
       }}>
         <span style={{ fontFamily: font, fontSize: '24px', fontWeight: 300, color: '#FFFFFF', letterSpacing: '0.1em' }}>{initials}</span>

@@ -119,7 +119,7 @@ export default function ScrollText({
               animate="visible"
               style={{
                 fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
-                fontWeight: 200,
+                fontWeight: 600,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
               }}

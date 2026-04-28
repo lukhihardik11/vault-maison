@@ -92,7 +92,7 @@ export function MinimalCraftsmanship() {
           Our Craft
         </p>
         <h1 style={{
-          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 200,
+          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
           color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
           marginBottom: '24px', maxWidth: '800px',
         }}>
@@ -129,7 +129,7 @@ export function MinimalCraftsmanship() {
           {atelierStats.map((stat, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <p style={{
-                fontFamily: F, fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 200,
+                fontFamily: F, fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 600,
                 color: '#050505', lineHeight: 1, marginBottom: '8px',
               }}>
                 {stat.value}
@@ -155,7 +155,7 @@ export function MinimalCraftsmanship() {
           The Process
         </p>
         <h2 style={{
-          fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 200,
+          fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
           color: '#050505', marginBottom: '48px', letterSpacing: '-0.02em',
         }}>
           From Raw Material to Finished Piece
@@ -217,7 +217,7 @@ export function MinimalCraftsmanship() {
             Materials
           </p>
           <h2 style={{
-            fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 200,
+            fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
             color: '#FFFFFF', marginBottom: '48px', letterSpacing: '-0.02em',
           }}>
             Only the Finest
@@ -283,7 +283,7 @@ export function MinimalCraftsmanship() {
           The Atelier
         </p>
         <h2 style={{
-          fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 200,
+          fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
           color: '#050505', marginBottom: '24px', letterSpacing: '-0.02em',
         }}>
           Where It All Happens

@@ -69,7 +69,7 @@ export function MinimalAuthenticity() {
         <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
           Trust
         </p>
-        <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
+        <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
           Authenticity Guarantee
         </h1>
         <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '560px', margin: '0 auto' }}>

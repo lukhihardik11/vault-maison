@@ -104,7 +104,7 @@ const Card = ({ product, index, totalCards, isExpanded }: CardProps) => {
 
       {/* Title & Price */}
       <div className="mt-4">
-        <h2 className="text-left text-[18px] font-light tracking-tight text-[#050505]">
+        <h2 className="text-left text-[18px] font-semibold tracking-tight text-[#050505]">
           {product.title}
         </h2>
         <span className="block text-left text-[13px] font-light text-[#050505]/50 mt-0.5">

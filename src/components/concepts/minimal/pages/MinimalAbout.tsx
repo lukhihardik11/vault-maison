@@ -124,7 +124,7 @@ export function MinimalAbout() {
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#E5E5E5', marginBottom: '16px' }}>
             Our Story
           </p>
-          <h1 style={{ fontFamily: font, fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 200, color: '#FFFFFF', marginBottom: '16px', lineHeight: 1.1 }}>
+          <h1 style={{ fontFamily: font, fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 600, color: '#FFFFFF', marginBottom: '16px', lineHeight: 1.1 }}>
             Where Craft Meets Conviction
           </h1>
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, lineHeight: 1.8, color: '#E5E5E5', maxWidth: '520px' }}>
@@ -140,7 +140,7 @@ export function MinimalAbout() {
               <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
                 Philosophy
               </p>
-              <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505', marginBottom: '20px', lineHeight: 1.2 }}>
+              <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '20px', lineHeight: 1.2 }}>
                 The Art of Less, Perfected
               </h2>
               <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#6B6B6B', marginBottom: '16px' }}>
@@ -169,7 +169,7 @@ export function MinimalAbout() {
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>
               Our Values
             </p>
-            <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505' }}>What We Stand For</h2>
+            <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>What We Stand For</h2>
           </Reveal>
 
           <div className="abt-values-grid">
@@ -196,14 +196,14 @@ export function MinimalAbout() {
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>
             Journey
           </p>
-          <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505' }}>Our Milestones</h2>
+          <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Our Milestones</h2>
         </Reveal>
 
         <div className="abt-timeline-list">
           {milestones.map((milestone, index) => (
             <Reveal key={milestone.year} reducedMotion={reducedMotion} delay={index * 90}>
               <article className="abt-timeline-item">
-                <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 200, color: '#050505', margin: '0 0 6px' }}>{milestone.year}</p>
+                <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 600, color: '#050505', margin: '0 0 6px' }}>{milestone.year}</p>
                 <h3 style={{ fontFamily: font, fontSize: '17px', fontWeight: 500, color: '#050505', margin: '0 0 8px' }}>{milestone.title}</h3>
                 <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#6B6B6B', margin: 0 }}>{milestone.desc}</p>
               </article>
@@ -222,7 +222,7 @@ export function MinimalAbout() {
           ].map((stat, index) => (
             <Reveal key={stat.label} reducedMotion={reducedMotion} delay={index * 80}>
               <div>
-                <p style={{ fontFamily: font, fontSize: '36px', fontWeight: 200, color: '#FFFFFF', marginBottom: '8px' }}>{stat.num}</p>
+                <p style={{ fontFamily: font, fontSize: '36px', fontWeight: 600, color: '#FFFFFF', marginBottom: '8px' }}>{stat.num}</p>
                 <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E5E5E5' }}>
                   {stat.label}
                 </p>
@@ -237,7 +237,7 @@ export function MinimalAbout() {
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
             Begin Your Journey
           </p>
-          <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505', marginBottom: '16px' }}>Let Us Create Something Extraordinary</h2>
+          <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '16px' }}>Let Us Create Something Extraordinary</h2>
           <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto 32px' }}>
             Whether you are selecting an engagement ring or a bespoke heirloom, our advisors are here to guide every step.
           </p>
@@ -486,7 +486,7 @@ export function MinimalAbout() {
         <div style={{ position: 'absolute', inset: 0, backgroundColor: '#050505', opacity: 0.52 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '720px' }}>
           <p style={{ margin: '0 0 14px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.24em', textTransform: 'uppercase', color: '#E5E5E5' }}>Our Story</p>
-          <h1 style={{ margin: '0 0 16px', fontFamily: font, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 200, lineHeight: 1.08, color: '#FFFFFF', letterSpacing: '-0.03em' }}>
+          <h1 style={{ margin: '0 0 16px', fontFamily: font, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 600, lineHeight: 1.08, color: '#FFFFFF', letterSpacing: '-0.03em' }}>
             Where Craft Meets Conviction
           </h1>
           <p style={{ margin: 0, maxWidth: '560px', fontFamily: font, fontSize: '15px', fontWeight: 300, lineHeight: 1.8, color: '#E5E5E5' }}>
@@ -500,7 +500,7 @@ export function MinimalAbout() {
           <FadeIn>
             <div>
               <p style={{ margin: '0 0 12px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>Philosophy</p>
-              <h2 style={{ margin: '0 0 18px', fontFamily: font, fontSize: '32px', fontWeight: 200, lineHeight: 1.2, letterSpacing: '-0.02em', color: '#050505' }}>The Art of Less, Refined</h2>
+              <h2 style={{ margin: '0 0 18px', fontFamily: font, fontSize: '32px', fontWeight: 600, lineHeight: 1.2, letterSpacing: '-0.02em', color: '#050505' }}>The Art of Less, Refined</h2>
               <p style={{ margin: '0 0 14px', fontFamily: font, fontSize: '14px', lineHeight: 1.85, color: '#6B6B6B' }}>
                 We focus on precision. Every curve, setting, and surface is iterated until it feels inevitable.
               </p>
@@ -521,7 +521,7 @@ export function MinimalAbout() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <FadeIn style={{ marginBottom: '34px', textAlign: 'center' }}>
             <p style={{ margin: '0 0 10px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>Our Values</p>
-            <h2 style={{ margin: 0, fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505' }}>What We Stand For</h2>
+            <h2 style={{ margin: 0, fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>What We Stand For</h2>
           </FadeIn>
           <div className="abt-values-grid">
             {values.map((value, index) => (
@@ -540,13 +540,13 @@ export function MinimalAbout() {
       <section style={{ padding: '96px 5vw', maxWidth: '920px', margin: '0 auto' }}>
         <FadeIn style={{ textAlign: 'center', marginBottom: '44px' }}>
           <p style={{ margin: '0 0 10px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>Journey</p>
-          <h2 style={{ margin: 0, fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505' }}>Milestones</h2>
+          <h2 style={{ margin: 0, fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Milestones</h2>
         </FadeIn>
         <div className="abt-timeline-list">
           {milestones.map((milestone, index) => (
             <FadeIn key={milestone.year} delay={index * 70}>
               <article className="abt-timeline-item">
-                <p style={{ margin: '0 0 6px', fontFamily: font, fontSize: '20px', fontWeight: 200, color: '#050505' }}>{milestone.year}</p>
+                <p style={{ margin: '0 0 6px', fontFamily: font, fontSize: '20px', fontWeight: 600, color: '#050505' }}>{milestone.year}</p>
                 <h3 style={{ margin: '0 0 6px', fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#050505' }}>{milestone.title}</h3>
                 <p style={{ margin: 0, fontFamily: font, fontSize: '13px', lineHeight: 1.75, color: '#6B6B6B' }}>{milestone.desc}</p>
               </article>
@@ -558,7 +558,7 @@ export function MinimalAbout() {
       <section style={{ padding: '96px 5vw', textAlign: 'center' }}>
         <FadeIn>
           <p style={{ margin: '0 0 12px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>Begin Your Journey</p>
-          <h2 style={{ margin: '0 0 12px', fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505' }}>Let Us Create Something Lasting</h2>
+          <h2 style={{ margin: '0 0 12px', fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Let Us Create Something Lasting</h2>
           <p style={{ margin: '0 auto 28px', maxWidth: '520px', fontFamily: font, fontSize: '14px', lineHeight: 1.8, color: '#6B6B6B' }}>
             From engagement rings to bespoke heirlooms, our advisors guide each decision with clarity and care.
           </p>

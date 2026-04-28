@@ -37,7 +37,7 @@ export function MinimalShipping() {
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Delivery</p>
-        <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>Shipping & Returns</h1>
+        <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>Shipping & Returns</h1>
         <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
           Every order is carefully packaged and fully insured from our atelier to your door.
         </p>

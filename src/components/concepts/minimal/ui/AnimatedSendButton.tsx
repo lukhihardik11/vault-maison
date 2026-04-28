@@ -90,7 +90,7 @@ export const AnimatedSendButton: React.FC<AnimatedSendButtonProps> = ({
       <span className="vm-send-outline" />
       <style>{`
         .vm-send-btn { position: relative; }
-        .vm-send-btn:hover { transform: scale(1.02); box-shadow: 0 0 1px 2px rgba(196,162,101,0.2), 0 12px 24px rgba(0,0,0,0.15); }
+        .vm-send-btn:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
         .vm-send-btn:active { transform: scale(1); }
         .vm-send-letter {
           display: inline-block;

@@ -34,7 +34,7 @@ export default function SwitchButton({ label, defaultChecked = false, onChange }
           transition: 'background 300ms ease',
           boxShadow: checked
             ? 'inset 2px 2px 4px rgba(0,0,0,0.1)'
-            : '3px 3px 6px #E5E5E5, -3px -3px 6px #ffffff',
+            : '0 1px 3px rgba(0,0,0,0.06)',
         }}
       >
         <span style={{

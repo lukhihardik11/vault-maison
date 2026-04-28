@@ -97,7 +97,7 @@ export function MinimalTerms() {
           <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
             Legal
           </p>
-          <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
+          <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
             Terms of Service
           </h1>
           <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, color: '#9B9B9B' }}>

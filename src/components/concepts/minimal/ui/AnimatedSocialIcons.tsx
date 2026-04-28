@@ -114,7 +114,7 @@ export const AnimatedSocialIcons: React.FC<AnimatedSocialIconsProps> = ({
           .vm-social-${i}:hover {
             background: ${link.hoverColor} !important;
             color: #fff !important;
-            box-shadow: 0 6px 16px ${link.hoverColor}33 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
           }
           .vm-social-${i}:hover .vm-social-tooltip-${i} {
             opacity: 1 !important;

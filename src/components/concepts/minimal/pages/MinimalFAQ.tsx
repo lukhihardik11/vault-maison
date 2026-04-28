@@ -73,7 +73,7 @@ export function MinimalFAQ() {
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Support</p>
-        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Frequently Asked Questions</h1>
+        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Frequently Asked Questions</h1>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9B9B', marginBottom: '32px' }}>
           Find answers to common questions about our products, services, and policies.
         </p>

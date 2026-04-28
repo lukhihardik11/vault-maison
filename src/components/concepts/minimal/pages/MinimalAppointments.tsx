@@ -73,7 +73,7 @@ export function MinimalAppointments() {
           Private Consultations
         </p>
         <h1 style={{
-          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 200,
+          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
           color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
           marginBottom: '24px', maxWidth: '800px',
         }}>
@@ -138,7 +138,7 @@ export function MinimalAppointments() {
           <div style={{ border: '1px solid #050505', padding: '64px 32px' }}>
             <Check size={32} strokeWidth={1} style={{ color: '#050505', marginBottom: '24px' }} />
             <h2 style={{
-              fontFamily: F, fontSize: '24px', fontWeight: 200,
+              fontFamily: F, fontSize: '24px', fontWeight: 600,
               color: '#050505', marginBottom: '16px',
             }}>
               Request Received

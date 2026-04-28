@@ -208,7 +208,7 @@ function MinimalCategoryContent({ category }: { category?: string }) {
             style={{
               fontFamily: font,
               fontSize: 'clamp(32px, 4vw, 56px)',
-              fontWeight: 200,
+              fontWeight: 600,
               letterSpacing: '-0.03em',
               lineHeight: 1.1,
               color: '#050505',

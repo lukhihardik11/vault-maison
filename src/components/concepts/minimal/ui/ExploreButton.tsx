@@ -66,7 +66,7 @@ export const ExploreButton: React.FC<ExploreButtonProps> = ({
           left: -100%;
           top: 0;
           background: #050505;
-          border-radius: 999px;
+          border-radius: 0;
           transition: all 500ms ease;
           z-index: 0;
           aspect-ratio: 1;

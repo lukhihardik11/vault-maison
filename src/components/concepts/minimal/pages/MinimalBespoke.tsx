@@ -36,7 +36,7 @@ export function MinimalBespoke() {
         <img src="/images/products/classic-gold-ring.jpg" alt="Bespoke" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', opacity: 0.35  }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '600px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Bespoke Service</p>
-          <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 200, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.1 }}>Your Vision, Our Craft</h1>
+          <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 600, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.1 }}>Your Vision, Our Craft</h1>
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, lineHeight: 1.8, color: 'rgba(255,255,255,0.6)' }}>
             Create a one-of-a-kind piece designed exclusively for you, from initial sketch to final setting.
           </p>
@@ -47,7 +47,7 @@ export function MinimalBespoke() {
       <section style={{ padding: '80px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>The Process</p>
-          <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505' }}>Four Steps to Your Masterpiece</h2>
+          <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Four Steps to Your Masterpiece</h2>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px' }} className="vm-bespoke-steps">
           {steps.map((s, i) => (
@@ -77,7 +77,7 @@ export function MinimalBespoke() {
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>Begin Your Journey</p>
-            <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 200, color: '#050505', marginBottom: '12px' }}>Request a Consultation</h2>
+            <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Request a Consultation</h2>
             <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9B9B' }}>
               Share your vision and we will arrange a private session with our design team.
             </p>
