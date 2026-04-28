@@ -19,7 +19,7 @@ const categoryImages: Record<string, string> = {
   'gold-necklaces': '/images/products/gold-chain-necklace.jpg',
   'gold-earrings': '/images/products/gold-hoop-earrings.jpg',
   'gold-bracelets': '/images/products/gold-bangles-set.jpg',
-  'loose-diamonds': '/images/products/loose-diamond-round.jpg',
+  'loose-diamonds': '/images/products/loose-round-diamond.jpg',
   'wedding-bridal': '/images/products/classic-engagement-ring.jpg',
 }
 

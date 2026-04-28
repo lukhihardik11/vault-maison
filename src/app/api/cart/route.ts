@@ -1,13 +1,31 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { validateUUID, validatePositiveInt } from '@/lib/security/validate'
+
+// ── Demo mode guard ──────────────────────────────────────────────────
+// When Supabase env vars are not configured (local dev without a DB),
+// return graceful demo-mode responses instead of crashing with a 500.
+// The Zustand cart store already treats server sync as optional
+// (pushToServer errors are swallowed), so the UI works fine either way.
+const isSupabaseConfigured =
+  !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
+  !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+async function getSupabase() {
+  if (!isSupabaseConfigured) return null
+  const { createServerSupabaseClient } = await import('@/lib/supabase/server')
+  return createServerSupabaseClient()
+}
 
 /**
  * GET /api/cart — Fetch the authenticated user's cart items
  */
 export async function GET() {
   try {
-    const supabase = await createServerSupabaseClient()
+    const supabase = await getSupabase()
+    if (!supabase) {
+      return NextResponse.json({ items: [], demo: true })
+    }
+
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
@@ -40,7 +58,11 @@ export async function GET() {
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createServerSupabaseClient()
+    const supabase = await getSupabase()
+    if (!supabase) {
+      return NextResponse.json({ item: null, demo: true }, { status: 201 })
+    }
+
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
@@ -107,7 +129,11 @@ export async function POST(request: NextRequest) {
  */
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = await createServerSupabaseClient()
+    const supabase = await getSupabase()
+    if (!supabase) {
+      return NextResponse.json({ item: null, demo: true })
+    }
+
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
@@ -150,7 +176,11 @@ export async function PUT(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = await createServerSupabaseClient()
+    const supabase = await getSupabase()
+    if (!supabase) {
+      return NextResponse.json({ success: true, demo: true })
+    }
+
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
