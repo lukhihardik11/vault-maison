@@ -1,11 +1,25 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+
+// ── Demo mode guard ──────────────────────────────────────────────────
+const isSupabaseConfigured =
+  !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
+  !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 /**
  * GET /api/orders — Fetch the authenticated user's orders
  */
 export async function GET(request: NextRequest) {
   try {
+    // Demo mode: return empty orders when Supabase is not configured
+    if (!isSupabaseConfigured) {
+      return NextResponse.json({
+        orders: [],
+        pagination: { page: 1, limit: 10, total: 0, totalPages: 0 },
+        demo: true,
+      })
+    }
+
+    const { createServerSupabaseClient } = await import('@/lib/supabase/server')
     const supabase = await createServerSupabaseClient()
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -60,6 +74,24 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
+    // Demo mode: return a mock order when Supabase is not configured
+    if (!isSupabaseConfigured) {
+      const body = await request.json()
+      const orderNumber = `VM-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`
+      return NextResponse.json({
+        order: {
+          id: orderNumber,
+          order_number: orderNumber,
+          status: 'confirmed',
+          created_at: new Date().toISOString(),
+          total: 0,
+          demo: true,
+        },
+        orderNumber,
+      }, { status: 201 })
+    }
+
+    const { createServerSupabaseClient } = await import('@/lib/supabase/server')
     const supabase = await createServerSupabaseClient()
     const { data: { user } } = await supabase.auth.getUser()
 
