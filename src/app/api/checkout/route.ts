@@ -1,5 +1,4 @@
 import { getStripeOrThrow } from '@/lib/stripe/server'
-import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { checkRateLimit } from '@/lib/security/rate-limit'
 
@@ -24,6 +23,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Demo mode guard — graceful fallback when Supabase is not configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return NextResponse.json(
+        { error: 'Checkout unavailable in demo mode — Supabase not configured' },
+        { status: 503 }
+      )
+    }
+
+    const { createServerSupabaseClient } = await import('@/lib/supabase/server')
     const supabase = await createServerSupabaseClient()
     const { data: { user } } = await supabase.auth.getUser()
 

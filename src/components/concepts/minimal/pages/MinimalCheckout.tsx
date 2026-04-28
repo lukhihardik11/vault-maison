@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, ArrowLeft, Check, Shield, Truck, RotateCcw, Lock, Award, Fingerprint } from 'lucide-react'
@@ -125,6 +125,19 @@ export function MinimalCheckout() {
       block: 'start',
     })
   }, [step, prefersReducedMotion])
+
+  // Memoized callback to prevent infinite re-render loop.
+  // CreditCardForm's useEffect has `onChange` in its deps array —
+  // an inline arrow would get a new ref every render → setForm → re-render → loop.
+  const handleCardChange = useCallback((state: CardState) => {
+    setForm((prev) => ({
+      ...prev,
+      cardNumber: state.number,
+      cardName: state.holder,
+      cardExpiry: state.month && state.year ? `${state.month} / ${state.year.slice(-2)}` : prev.cardExpiry,
+      cardCvc: state.cvv,
+    }))
+  }, [])
 
   const updateField = (field: keyof typeof form, value: string) => {
     setForm((previous) => ({ ...previous, [field]: value }))
@@ -407,15 +420,7 @@ export function MinimalCheckout() {
                   defaultHolder={form.cardName}
                   maskMiddle
                   showSubmit={false}
-                  onChange={(state: CardState) => {
-                    setForm((prev) => ({
-                      ...prev,
-                      cardNumber: state.number,
-                      cardName: state.holder,
-                      cardExpiry: state.month && state.year ? `${state.month} / ${state.year.slice(-2)}` : prev.cardExpiry,
-                      cardCvc: state.cvv,
-                    }))
-                  }}
+                  onChange={handleCardChange}
                   className="mb-6"
                 />
 
