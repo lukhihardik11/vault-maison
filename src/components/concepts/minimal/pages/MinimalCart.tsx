@@ -129,7 +129,7 @@ export function MinimalCart() {
 
             return (
               <div
-                key={item.product.id}
+                key={`${item.product.id}-${index}`}
                 className="minimal-cart-item"
                 style={{
                   display: 'grid',

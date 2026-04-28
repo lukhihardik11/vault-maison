@@ -620,8 +620,8 @@ export function MinimalCheckout() {
             <h3 style={{ fontFamily: F, fontSize: 16, fontWeight: 600, color: '#050505', marginBottom: 20, letterSpacing: '0.02em' }}>Order Summary</h3>
 
             <div style={{ marginBottom: 20 }}>
-              {items.map((item) => (
-                <div key={item.product.id} style={{ display: 'flex', gap: 14, marginBottom: 14 }}>
+              {items.map((item, idx) => (
+                <div key={`${item.product.id}-${idx}`} style={{ display: 'flex', gap: 14, marginBottom: 14 }}>
                   <div style={{ width: 56, height: 68, position: 'relative', overflow: 'hidden', background: '#E5E5E5', flexShrink: 0 }}>
                     <BlurUpImage src={item.product.images[0]} alt={item.product.name} containerStyle={{ width: '100%', height: '100%' }} />
                     <div style={{ position: 'absolute', top: -4, right: -4, width: 20, height: 20, background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
