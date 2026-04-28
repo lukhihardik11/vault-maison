@@ -10,6 +10,7 @@ import { useReducedMotionPreference } from './animations/useResponsiveMotion'
 import PageTransition from './ui/PageTransition'
 import Breadcrumb from './ui/Breadcrumb'
 import BackToTop from './ui/BackToTop'
+import CustomCursor from './ui/CustomCursor'
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -193,6 +194,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         {!hideFooter && <MinimalFooter />}
         {!hideNav && <Toolbar />}
         <BackToTop />
+        <CustomCursor />
       </div>
     </>
   )

@@ -6,6 +6,7 @@ import { Calendar, Clock, MapPin, Video } from 'lucide-react'
 import { getConcept } from '@/data/concepts'
 import { ConceptLayout, PageHeader, CTABanner } from '@/components/shared'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalAppointments } from '@/components/concepts/minimal/pages'
 
 const appointmentTypes = [
   { id: 'showroom', icon: MapPin, title: 'Showroom Visit', desc: 'Visit our London showroom for a private viewing. By appointment only.', duration: '60 min' },
@@ -28,6 +29,8 @@ export default function AppointmentsPage() {
   const [submitted, setSubmitted] = useState(false)
 
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalAppointments />
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
