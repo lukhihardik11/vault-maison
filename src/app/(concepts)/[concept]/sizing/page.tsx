@@ -3,11 +3,15 @@ import { useParams } from 'next/navigation'
 import { getConcept } from '@/data/concepts'
 import { InfoPage } from '@/components/shared/info-page'
 import { buildConceptUrl } from '@/lib/concept-utils'
+import { MinimalSizeGuide } from '@/components/concepts/minimal/pages'
 
 export default function SizingPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
   if (!concept) return null
+
+  if (concept.id === 'minimal') return <MinimalSizeGuide />
+
   return (
     <InfoPage
       concept={concept}
