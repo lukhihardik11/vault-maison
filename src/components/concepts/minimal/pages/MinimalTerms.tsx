@@ -100,13 +100,13 @@ export function MinimalTerms() {
           <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
             Terms of Service
           </h1>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, color: '#9B9B9B' }}>
+          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#9B9B9B' }}>
             Effective: April 28, 2026
           </p>
         </div>
 
         {/* Intro */}
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#555', marginBottom: '56px' }}>
+        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#555', marginBottom: '56px' }}>
           These Terms of Service govern your use of the Vault Maison website and your purchase of products from us. Please read them carefully. By using our Site, you acknowledge that you have read, understood, and agree to be bound by these terms.
         </p>
 
@@ -117,7 +117,7 @@ export function MinimalTerms() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             {sections.map((s, i) => (
-              <span key={i} style={{ fontFamily: F, fontSize: '13px', color: '#050505', fontWeight: 300 }}>
+              <span key={i} style={{ fontFamily: F, fontSize: '13px', color: '#050505', fontWeight: 400 }}>
                 {String(i + 1).padStart(2, '0')} — {s.title}
               </span>
             ))}
@@ -141,7 +141,7 @@ export function MinimalTerms() {
                 <p key={j} style={{
                   fontFamily: F,
                   fontSize: '14px',
-                  fontWeight: 300,
+                  fontWeight: 400,
                   lineHeight: 1.9,
                   color: '#555',
                   marginBottom: j < s.content.length - 1 ? '12px' : '0',
@@ -158,7 +158,7 @@ export function MinimalTerms() {
           <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>
             Questions about these terms?
           </p>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', marginBottom: '16px' }}>
+          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#9B9B9B', marginBottom: '16px' }}>
             Contact our legal team at{' '}
             <a href="mailto:legal@vaultmaison.com" style={{ color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               legal@vaultmaison.com

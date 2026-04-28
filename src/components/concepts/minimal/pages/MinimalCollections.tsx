@@ -5,7 +5,6 @@ import { MinimalLayout } from '../MinimalLayout'
 import { minimal } from '../design-system'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
-import { ArrowRight } from 'lucide-react'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -35,7 +34,7 @@ export function MinimalCollections() {
           <h1 style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#050505', margin: '0 0 16px' }}>
             Collections
           </h1>
-          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, color: '#6B6B6B', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
+          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#6B6B6B', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
             Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
           </p>
         </div>
@@ -43,7 +42,7 @@ export function MinimalCollections() {
 
       <div className={minimal.cn.container}><div className={minimal.cn.divider} /></div>
 
-      {/* Category Grid */}
+      {/* Category Grid — Tier 2: no zoom, opacity hover, editorial CTA */}
       <div style={{ padding: 'clamp(48px, 8vh, 96px) 0 clamp(64px, 10vh, 120px)' }}>
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -53,10 +52,11 @@ export function MinimalCollections() {
                 <Link
                   key={cat}
                   href={`/minimal/category/${cat}`}
-                  className="group block"
-                  style={{ textDecoration: 'none', color: '#050505' }}
+                  className="tier2-collection-tile"
+                  style={{ textDecoration: 'none', color: '#050505', display: 'block' }}
                 >
-                  <div style={{ position: 'relative', aspectRatio: '4 / 3', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+                  {/* Image — no zoom on hover, just opacity dim */}
+                  <div style={{ position: 'relative', aspectRatio: '4 / 3', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
                     <img
                       src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'}
                       alt={categoryLabels[cat]}
@@ -66,9 +66,7 @@ export function MinimalCollections() {
                         height: '100%',
                         objectFit: 'cover',
                         display: 'block',
-                        transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                       }}
-                      className="group-hover:scale-[1.04]"
                     />
                   </div>
                   <div style={{ paddingTop: '16px' }}>
@@ -80,7 +78,7 @@ export function MinimalCollections() {
                         {count} pieces
                       </span>
                     </div>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {categoryDescriptions[cat]}
                     </p>
                     <span
@@ -91,12 +89,11 @@ export function MinimalCollections() {
                         letterSpacing: '0.15em',
                         textTransform: 'uppercase',
                         color: '#050505',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
+                        borderBottom: '1px solid #050505',
+                        paddingBottom: '2px',
                       }}
                     >
-                      Explore <ArrowRight size={12} strokeWidth={1.5} className="group-hover:translate-x-1 transition-transform duration-300" />
+                      Discover
                     </span>
                   </div>
                 </Link>
@@ -105,6 +102,15 @@ export function MinimalCollections() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .tier2-collection-tile {
+          transition: opacity 0.2s ease;
+        }
+        .tier2-collection-tile:hover {
+          opacity: 0.75;
+        }
+      `}</style>
     </MinimalLayout>
   )
 }

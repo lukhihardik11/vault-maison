@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { type Product } from '@/data/products'
 import { minimal } from './design-system'
@@ -10,82 +11,78 @@ interface MinimalProductCardProps {
 }
 
 /**
- * Quiet product tile: single image, category eyebrow, name, price.
+ * Tier 2 product tile — image swap on hover (Acne Studios / The Row pattern).
  *
- * Intentionally free of hover interactions — the card earlier swapped
- * to a secondary "back-angle" image, scaled on hover, and slid a dark
- * "Quick View" bar up from the bottom. All of that read as busy on the
- * Minimal Machine concept; per user direction ("delete the hover
- * preview effect and the hover circle effect") the card is now a
- * clean clickable tile.
+ * On hover the primary image crossfades to the second product image
+ * (alternate angle / lifestyle shot). No zoom, no scale, no shadow.
+ * Product info: name + price only. Category eyebrow removed for
+ * cleaner presentation. Badges removed per The Row's "zero
+ * promotional elements" approach.
+ *
+ * Hover states use opacity reduction (Acne Studios pattern), not
+ * color change.
  */
 export function MinimalProductCard({ product }: MinimalProductCardProps) {
   const font = minimal.font.primary
-  const mono = minimal.font.mono
+  const [isHovered, setIsHovered] = useState(false)
+
+  const primaryImage = product.images[0]
+  const hoverImage = product.images.length > 1 ? product.images[1] : product.images[0]
 
   return (
     <Link
       href={`/minimal/product/${product.slug}`}
       className="group block"
       style={{ textDecoration: 'none', color: '#050505' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Image */}
+      {/* Image — crossfade swap on hover */}
       <div
-        className="product-image"
         style={{
           position: 'relative',
           aspectRatio: '3 / 4',
           overflow: 'hidden',
-          backgroundColor: '#FAFAFA',
+          backgroundColor: '#F5F5F5',
           marginBottom: '16px',
         }}
       >
-        <BlurUpImage
-          src={product.images[0]}
-          alt={product.name}
-          containerStyle={{ width: '100%', height: '100%', background: '#E5E5E5' }}
-        />
+        {/* Primary image */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            opacity: isHovered ? 0 : 1,
+            transition: 'opacity 0.4s ease',
+          }}
+        >
+          <BlurUpImage
+            src={primaryImage}
+            alt={product.name}
+            containerStyle={{ width: '100%', height: '100%', background: '#F5F5F5' }}
+          />
+        </div>
 
-        {/* New / Bestseller badge — kept because it's a static affordance,
-            not a hover effect. */}
-        {(product.isNew || product.isBestseller) && (
-          <span
-            style={{
-              position: 'absolute',
-              top: '12px',
-              left: '12px',
-              fontFamily: mono,
-              fontSize: '9px',
-              fontWeight: 500,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#050505',
-              backgroundColor: '#FFFFFF',
-              padding: '5px 10px',
-            }}
-          >
-            {product.isNew ? 'New' : 'Best'}
-          </span>
-        )}
+        {/* Hover image (alternate angle) */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            opacity: isHovered ? 1 : 0,
+            transition: 'opacity 0.4s ease',
+          }}
+        >
+          <BlurUpImage
+            src={hoverImage}
+            alt={`${product.name} — alternate view`}
+            containerStyle={{ width: '100%', height: '100%', background: '#F5F5F5' }}
+          />
+        </div>
       </div>
 
-      {/* Product info */}
+      {/* Product info — name + price only (The Row pattern) */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        {product.category && (
-          <span
-            style={{
-              fontFamily: mono,
-              fontSize: '9px',
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: '#9B9B9B',
-            }}
-          >
-            {product.category.replace(/-/g, ' ')}
-          </span>
-        )}
         <h3
-          className="minimal-card-title"
           style={{
             fontFamily: font,
             fontSize: '14px',
@@ -93,6 +90,8 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
             letterSpacing: '-0.01em',
             color: '#050505',
             margin: 0,
+            transition: 'opacity 0.2s ease',
+            opacity: isHovered ? 0.6 : 1,
           }}
         >
           {product.name}

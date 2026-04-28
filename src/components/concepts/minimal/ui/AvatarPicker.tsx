@@ -24,7 +24,7 @@ export default function AvatarPicker({ initials = 'VM', onSelect }: AvatarPicker
         boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
         transition: 'background-color 300ms ease',
       }}>
-        <span style={{ fontFamily: font, fontSize: '24px', fontWeight: 300, color: '#FFFFFF', letterSpacing: '0.1em' }}>{initials}</span>
+        <span style={{ fontFamily: font, fontSize: '24px', fontWeight: 400, color: '#FFFFFF', letterSpacing: '0.1em' }}>{initials}</span>
       </div>
       {/* Color picker */}
       <div style={{ display: 'flex', gap: '10px' }}>

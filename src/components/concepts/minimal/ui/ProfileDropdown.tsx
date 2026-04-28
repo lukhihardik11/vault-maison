@@ -49,13 +49,13 @@ export default function ProfileDropdown() {
         }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid #E5E5E5' }}>
             <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#050505' }}>Welcome</p>
-            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B' }}>guest@vaultmaison.com</p>
+            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#9B9B9B' }}>guest@vaultmaison.com</p>
           </div>
           {menuItems.map(item => (
             <Link key={item.label} href={item.href} onClick={() => setOpen(false)} style={{
               display: 'flex', alignItems: 'center', gap: '12px',
               padding: '12px 20px',
-              fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#050505',
+              fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#050505',
               textDecoration: 'none', transition: 'background 200ms',
             }}>
               <item.icon size={15} strokeWidth={1.5} color="#9B9B9B" />
@@ -63,7 +63,7 @@ export default function ProfileDropdown() {
             </Link>
           ))}
           <div style={{ borderTop: '1px solid #E5E5E5' }}>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: 300, color: '#9B9B9B', background: 'none', border: 'none', cursor: 'pointer' }}>
+            <button style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#9B9B9B', background: 'none', border: 'none', cursor: 'pointer' }}>
               <LogOut size={15} strokeWidth={1.5} /> Sign Out
             </button>
           </div>

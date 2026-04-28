@@ -205,7 +205,7 @@ export function MinimalCheckout() {
         <div style={{ width: 80, height: 80, background: '#E5E5E5', border: '1px solid #E5E5E5', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
           <Lock size={30} color="#9B9B9B" />
         </div>
-        <h2 style={{ fontFamily: F, fontSize: 26, color: '#050505', marginBottom: 8, fontWeight: 300, letterSpacing: '-0.02em' }}>Your bag is empty</h2>
+        <h2 style={{ fontFamily: F, fontSize: 26, color: '#050505', marginBottom: 8, fontWeight: 400, letterSpacing: '-0.02em' }}>Your bag is empty</h2>
         <p style={{ fontFamily: F, fontSize: 15, color: '#9B9B9B', marginBottom: 32 }}>Add items to begin checkout</p>
         <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: 14, color: '#FFFFFF', textDecoration: 'none', background: '#050505', padding: '14px 40px', letterSpacing: '0.08em', fontWeight: 500, textTransform: 'uppercase' }}>
           Shop Collection

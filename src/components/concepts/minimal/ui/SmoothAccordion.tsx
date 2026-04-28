@@ -81,7 +81,7 @@ export default function SmoothAccordion({ items, defaultOpenIndex = 0 }: SmoothA
                           margin: 0,
                           fontFamily: F,
                           fontSize: 14,
-                          fontWeight: 300,
+                          fontWeight: 400,
                           lineHeight: 1.8,
                           color: '#6B6B6B',
                         }}

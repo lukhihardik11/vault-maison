@@ -9,7 +9,7 @@ const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', s
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '14px 16px', border: '1px solid #E5E5E5',
-  fontSize: '13px', fontWeight: 300, fontFamily: font, color: '#050505',
+  fontSize: '13px', fontWeight: 400, fontFamily: font, color: '#050505',
   backgroundColor: '#FFFFFF', outline: 'none', transition: 'border-color 200ms ease',
 }
 
@@ -37,7 +37,7 @@ export function MinimalBespoke() {
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '600px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Bespoke Service</p>
           <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 600, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.1 }}>Your Vision, Our Craft</h1>
-          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, lineHeight: 1.8, color: 'rgba(255,255,255,0.6)' }}>
+          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, lineHeight: 1.8, color: 'rgba(255,255,255,0.6)' }}>
             Create a one-of-a-kind piece designed exclusively for you, from initial sketch to final setting.
           </p>
         </div>
@@ -57,7 +57,7 @@ export function MinimalBespoke() {
               </div>
               <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505', marginBottom: '8px' }}>Step {i + 1}</p>
               <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 500, color: '#050505', marginBottom: '8px' }}>{s.title}</h3>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#9B9B9B' }}>{s.desc}</p>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, lineHeight: 1.7, color: '#9B9B9B' }}>{s.desc}</p>
             </div>
           ))}
         </div>
@@ -78,7 +78,7 @@ export function MinimalBespoke() {
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>Begin Your Journey</p>
             <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Request a Consultation</h2>
-            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9B9B' }}>
+            <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#9B9B9B' }}>
               Share your vision and we will arrange a private session with our design team.
             </p>
           </div>
@@ -88,8 +88,8 @@ export function MinimalBespoke() {
               <div style={{ width: '48px', height: '48px', borderRadius: 0, backgroundColor: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
                 <Check size={20} color="#FFFFFF" />
               </div>
-              <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '8px' }}>Request Received</h3>
-              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', lineHeight: 1.7 }}>
+              <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>Request Received</h3>
+              <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.7 }}>
                 Thank you for your interest in our bespoke service. A design consultant will contact you within 24 hours to schedule your private session.
               </p>
             </div>
@@ -127,7 +127,7 @@ export function MinimalBespoke() {
                 <label style={labelStyle}>Preferred Consultation</label>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   {['In-Person', 'Video Call', 'Phone'].map(opt => (
-                    <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#050505', cursor: 'pointer' }}>
+                    <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#050505', cursor: 'pointer' }}>
                       <input type="radio" name="consultation" defaultChecked={opt === 'In-Person'} style={{ accentColor: '#050505' }} /> {opt}
                     </label>
                   ))}

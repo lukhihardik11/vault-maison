@@ -46,7 +46,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
     color: '#d3d3d3',
     fontFamily: font,
     fontSize: '14px',
-    fontWeight: 300,
+    fontWeight: 400,
     letterSpacing: '0.02em',
   }
 
@@ -67,7 +67,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
         <p style={{
           fontFamily: font,
           fontSize: '18px',
-          fontWeight: 300,
+          fontWeight: 400,
           letterSpacing: '0.3em',
           textTransform: 'uppercase',
           color: '#050505',

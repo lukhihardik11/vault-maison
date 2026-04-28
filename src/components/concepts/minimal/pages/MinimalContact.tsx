@@ -26,7 +26,7 @@ const inputStyle: CSSProperties = {
   padding: '14px 16px',
   border: '1px solid #E5E5E5',
   fontSize: '13px',
-  fontWeight: 300,
+  fontWeight: 400,
   fontFamily: font,
   color: '#050505',
   backgroundColor: '#FFFFFF',
@@ -95,7 +95,7 @@ export function MinimalContact() {
             Get in Touch
           </p>
           <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Contact Us</h1>
-          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto' }}>
+          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto' }}>
             Our advisors are available for product questions, bespoke consultations, and after-purchase support.
           </p>
         </Reveal>
@@ -106,7 +106,7 @@ export function MinimalContact() {
           <Reveal reducedMotion={reducedMotion}>
             <div>
               <div style={{ marginBottom: '36px' }}>
-                <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '22px' }}>Visit Our Atelier</h2>
+                <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '22px' }}>Visit Our Atelier</h2>
                 {contactDetails.map((item, index) => (
                   <div key={item.label} className="vm-contact-row" style={{ display: 'flex', gap: '16px', marginBottom: index === contactDetails.length - 1 ? 0 : '10px' }}>
                     <item.icon size={18} strokeWidth={1.5} style={{ color: '#050505', flexShrink: 0, marginTop: '2px' }} />
@@ -114,7 +114,7 @@ export function MinimalContact() {
                       <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '4px' }}>
                         {item.label}
                       </p>
-                      <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#050505', lineHeight: 1.6, whiteSpace: 'pre-line', margin: 0 }}>
+                      <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#050505', lineHeight: 1.6, whiteSpace: 'pre-line', margin: 0 }}>
                         {item.value}
                       </p>
                     </div>
@@ -127,7 +127,7 @@ export function MinimalContact() {
                   <MessageSquare size={18} strokeWidth={1.5} style={{ color: '#050505' }} />
                   <h3 style={{ fontFamily: font, fontSize: '15px', fontWeight: 500, color: '#050505', margin: 0 }}>Private Consultation</h3>
                 </div>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#6B6B6B', marginBottom: '16px' }}>
+                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, lineHeight: 1.7, color: '#6B6B6B', marginBottom: '16px' }}>
                   Schedule a one-on-one session with our gemologist for personalized guidance on engagement rings, bespoke pieces, or investment stones.
                 </p>
                 <Link
@@ -156,14 +156,14 @@ export function MinimalContact() {
               {submitted ? (
                 <div style={{ padding: '56px 30px', textAlign: 'center', background: '#E5E5E5' }}>
                   <Send size={30} strokeWidth={1.2} style={{ color: '#050505', marginBottom: '16px' }} />
-                  <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '8px' }}>Message Sent</h3>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#6B6B6B', lineHeight: 1.7, margin: 0 }}>
+                  <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>Message Sent</h3>
+                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#6B6B6B', lineHeight: 1.7, margin: 0 }}>
                     Thank you for reaching out. Our team will respond within 24 hours.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '4px' }}>Send a Message</h2>
+                  <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '4px' }}>Send a Message</h2>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="vm-contact-name-grid">
                     <div>
                       <label htmlFor="minimal-contact-first-name" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#9B9B9B', display: 'block', marginBottom: '6px' }}>

@@ -72,7 +72,7 @@ export function MinimalAuthenticity() {
         <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
           Authenticity Guarantee
         </h1>
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '560px', margin: '0 auto' }}>
+        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '560px', margin: '0 auto' }}>
           Every piece we sell is verified, certified, and guaranteed authentic. No exceptions.
         </p>
       </section>
@@ -80,7 +80,7 @@ export function MinimalAuthenticity() {
       {/* Promise Statement */}
       <section style={{ padding: '60px 5vw', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ borderLeft: '2px solid #050505', paddingLeft: '24px' }}>
-          <p style={{ fontFamily: F, fontSize: '18px', fontWeight: 300, lineHeight: 1.8, color: '#050505', margin: 0 }}>
+          <p style={{ fontFamily: F, fontSize: '18px', fontWeight: 400, lineHeight: 1.8, color: '#050505', margin: 0 }}>
             "Authenticity is not a feature — it is the foundation. Every gemstone, every metal, every claim we make is independently verified and permanently documented."
           </p>
         </div>
@@ -88,7 +88,7 @@ export function MinimalAuthenticity() {
 
       {/* 6-Step Verification Process */}
       <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto' }}>
-        <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '32px' }}>
+        <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '32px' }}>
           Our 6-Step Verification Process
         </h2>
         <div style={{ display: 'grid', gap: '0' }}>
@@ -106,7 +106,7 @@ export function MinimalAuthenticity() {
               </div>
               <div>
                 <h3 style={{ fontFamily: F, fontSize: '16px', fontWeight: 500, color: '#050505', marginBottom: '8px' }}>{step.title}</h3>
-                <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555', margin: 0 }}>{step.desc}</p>
+                <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555', margin: 0 }}>{step.desc}</p>
               </div>
             </div>
           ))}
@@ -115,7 +115,7 @@ export function MinimalAuthenticity() {
 
       {/* Our Guarantees */}
       <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto' }}>
-        <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '24px' }}>
+        <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '24px' }}>
           Our Guarantees
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }} className="vm-auth-grid">
@@ -125,7 +125,7 @@ export function MinimalAuthenticity() {
                 <CheckCircle size={16} strokeWidth={1.5} style={{ color: '#050505' }} />
                 <h3 style={{ fontFamily: F, fontSize: '15px', fontWeight: 500, color: '#050505', margin: 0 }}>{g.title}</h3>
               </div>
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555', margin: 0 }}>{g.desc}</p>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555', margin: 0 }}>{g.desc}</p>
             </div>
           ))}
         </div>
@@ -159,10 +159,10 @@ export function MinimalAuthenticity() {
       {/* Verify Your Piece */}
       <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ border: '1px solid #050505', padding: '40px', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '12px' }}>
+          <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '12px' }}>
             Verify Your Piece
           </h2>
-          <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#555', marginBottom: '24px', maxWidth: '480px', margin: '0 auto 24px' }}>
+          <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#555', marginBottom: '24px', maxWidth: '480px', margin: '0 auto 24px' }}>
             Enter the authentication code from your certificate or scan the QR code to verify the authenticity of your Vault Maison piece.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '0', maxWidth: '400px', margin: '0 auto' }}>
@@ -172,7 +172,7 @@ export function MinimalAuthenticity() {
               style={{
                 fontFamily: F,
                 fontSize: '13px',
-                fontWeight: 300,
+                fontWeight: 400,
                 padding: '12px 16px',
                 border: '1px solid #050505',
                 borderRight: 'none',
@@ -203,7 +203,7 @@ export function MinimalAuthenticity() {
 
       {/* CTA + Cross-links */}
       <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, color: '#9B9B9B', marginBottom: '16px' }}>
+        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#9B9B9B', marginBottom: '16px' }}>
           Questions about authenticity or certification?
         </p>
         <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: F, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505', textDecoration: 'none', marginBottom: '32px' }}>

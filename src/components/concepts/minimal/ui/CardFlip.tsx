@@ -65,7 +65,7 @@ export default function CardFlip({
                 src={image}
                 alt={title}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover transition-transform duration-700 "
                 unoptimized
               />
             )}
@@ -140,7 +140,7 @@ export default function CardFlip({
                       opacity: isFlipped ? 1 : 0,
                       transitionDelay: `${index * 100 + 200}ms`,
                       fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
-                      fontWeight: 300,
+                      fontWeight: 400,
                     }}
                   >
                     <ArrowRight className="h-3 w-3 text-[#050505]/40" />

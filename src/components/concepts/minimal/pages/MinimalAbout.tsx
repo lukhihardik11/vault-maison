@@ -127,7 +127,7 @@ export function MinimalAbout() {
           <h1 style={{ fontFamily: font, fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 600, color: '#FFFFFF', marginBottom: '16px', lineHeight: 1.1 }}>
             Where Craft Meets Conviction
           </h1>
-          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 300, lineHeight: 1.8, color: '#E5E5E5', maxWidth: '520px' }}>
+          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, lineHeight: 1.8, color: '#E5E5E5', maxWidth: '520px' }}>
             Vault Maison was born from a simple belief: extraordinary jewelry should be transparent, personal, and built to last.
           </p>
         </div>
@@ -143,13 +143,13 @@ export function MinimalAbout() {
               <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '20px', lineHeight: 1.2 }}>
                 The Art of Less, Perfected
               </h2>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#6B6B6B', marginBottom: '16px' }}>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#6B6B6B', marginBottom: '16px' }}>
                 In an industry often defined by excess, we choose restraint. Every design is refined until each detail carries purpose.
               </p>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#6B6B6B', marginBottom: '16px' }}>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#6B6B6B', marginBottom: '16px' }}>
                 Our New York jewelers combine inherited bench technique with modern precision, balancing craft tradition and contemporary performance.
               </p>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#6B6B6B' }}>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#6B6B6B' }}>
                 We share stone details, metal composition, and pricing context so clients can make high-confidence choices.
               </p>
             </div>
@@ -182,7 +182,7 @@ export function MinimalAbout() {
                       <Icon size={20} strokeWidth={1.5} />
                     </div>
                     <h3 style={{ fontFamily: font, fontSize: '17px', fontWeight: 400, color: '#050505', margin: '0 0 10px' }}>{value.title}</h3>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#6B6B6B', lineHeight: 1.7, margin: 0 }}>{value.desc}</p>
+                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#6B6B6B', lineHeight: 1.7, margin: 0 }}>{value.desc}</p>
                   </article>
                 </Reveal>
               )
@@ -205,7 +205,7 @@ export function MinimalAbout() {
               <article className="abt-timeline-item">
                 <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 600, color: '#050505', margin: '0 0 6px' }}>{milestone.year}</p>
                 <h3 style={{ fontFamily: font, fontSize: '17px', fontWeight: 500, color: '#050505', margin: '0 0 8px' }}>{milestone.title}</h3>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#6B6B6B', margin: 0 }}>{milestone.desc}</p>
+                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#6B6B6B', margin: 0 }}>{milestone.desc}</p>
               </article>
             </Reveal>
           ))}
@@ -238,7 +238,7 @@ export function MinimalAbout() {
             Begin Your Journey
           </p>
           <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '16px' }}>Let Us Create Something Extraordinary</h2>
-          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto 32px' }}>
+          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto 32px' }}>
             Whether you are selecting an engagement ring or a bespoke heirloom, our advisors are here to guide every step.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -489,7 +489,7 @@ export function MinimalAbout() {
           <h1 style={{ margin: '0 0 16px', fontFamily: font, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 600, lineHeight: 1.08, color: '#FFFFFF', letterSpacing: '-0.03em' }}>
             Where Craft Meets Conviction
           </h1>
-          <p style={{ margin: 0, maxWidth: '560px', fontFamily: font, fontSize: '15px', fontWeight: 300, lineHeight: 1.8, color: '#E5E5E5' }}>
+          <p style={{ margin: 0, maxWidth: '560px', fontFamily: font, fontSize: '15px', fontWeight: 400, lineHeight: 1.8, color: '#E5E5E5' }}>
             Vault Maison was built on a simple principle: extraordinary jewelry should feel intentional, traceable, and deeply personal.
           </p>
         </div>

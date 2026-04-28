@@ -36,7 +36,7 @@ export function MinimalGrading() {
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <Diamond size={32} strokeWidth={1} style={{ color: '#050505', marginBottom: '16px' }} />
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Diamond Grading Guide</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '550px', margin: '0 auto' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '550px', margin: '0 auto' }}>
           Understanding the 4Cs — Carat, Cut, Color, and Clarity — is essential to choosing the perfect diamond. This guide explains each factor and how they influence a diamond&apos;s beauty and value.
         </p>
       </section>
@@ -50,8 +50,8 @@ export function MinimalGrading() {
                 <span style={{ fontFamily: font, fontSize: '24px', fontWeight: 600, color: '#050505' }}>{c.letter}</span>
               </div>
               <div style={{ flex: 1 }}>
-                <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 300, color: '#050505', marginBottom: '12px' }}>{c.title}</h2>
-                <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#555', marginBottom: '20px' }}>{c.desc}</p>
+                <h2 style={{ fontFamily: font, fontSize: '24px', fontWeight: 400, color: '#050505', marginBottom: '12px' }}>{c.title}</h2>
+                <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#555', marginBottom: '20px' }}>{c.desc}</p>
                 <div style={{ display: 'flex', gap: '0', overflow: 'auto' }}>
                   {c.scale.map((s, j) => (
                     <div key={j} style={{ flex: 1, minWidth: '60px', padding: '10px 8px', textAlign: 'center', backgroundColor: j >= c.scale.length - 2 ? '#050505' : '#FAFAFA', borderRight: j < c.scale.length - 1 ? '1px solid #FFFFFF' : 'none' }}>
@@ -59,10 +59,10 @@ export function MinimalGrading() {
                     </div>
                   ))}
                 </div>
-                {i === 0 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B', marginTop: '8px' }}>← Smaller · Larger →</p>}
-                {i === 1 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B', marginTop: '8px' }}>← Less Brilliant · More Brilliant →</p>}
-                {i === 2 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B', marginTop: '8px' }}>← Colorless · Near Colorless →</p>}
-                {i === 3 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 300, color: '#9B9B9B', marginTop: '8px' }}>← More Inclusions · Flawless →</p>}
+                {i === 0 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#9B9B9B', marginTop: '8px' }}>← Smaller · Larger →</p>}
+                {i === 1 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#9B9B9B', marginTop: '8px' }}>← Less Brilliant · More Brilliant →</p>}
+                {i === 2 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#9B9B9B', marginTop: '8px' }}>← Colorless · Near Colorless →</p>}
+                {i === 3 && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#9B9B9B', marginTop: '8px' }}>← More Inclusions · Flawless →</p>}
               </div>
             </div>
           </div>
@@ -72,8 +72,8 @@ export function MinimalGrading() {
       {/* CTA */}
       <section style={{ padding: '60px 5vw 100px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ padding: '40px', backgroundColor: '#050505', textAlign: 'center' }}>
-          <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 300, color: '#FFFFFF', marginBottom: '12px' }}>Need Expert Guidance?</h3>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: 'rgba(255,255,255,0.5)', marginBottom: '24px', maxWidth: '400px', margin: '0 auto 24px' }}>
+          <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#FFFFFF', marginBottom: '12px' }}>Need Expert Guidance?</h3>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: 'rgba(255,255,255,0.5)', marginBottom: '24px', maxWidth: '400px', margin: '0 auto 24px' }}>
             Our GIA-certified gemologists are available for complimentary consultations to help you find the perfect diamond.
           </p>
           <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 32px', border: '1px solid #050505', color: '#050505', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>

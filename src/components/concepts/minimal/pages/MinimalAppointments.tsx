@@ -81,7 +81,7 @@ export function MinimalAppointments() {
           Your Vision.
         </h1>
         <p style={{
-          fontFamily: F, fontSize: '15px', fontWeight: 300,
+          fontFamily: F, fontSize: '15px', fontWeight: 400,
           lineHeight: 1.9, color: '#6B6B6B', maxWidth: '560px',
         }}>
           Every exceptional piece begins with a conversation. Book a private consultation
@@ -102,7 +102,7 @@ export function MinimalAppointments() {
               <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 500, color: '#050505', marginBottom: '4px' }}>
                 Atelier & Showroom
               </p>
-              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 300, color: '#9B9B9B', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.6 }}>
                 580 Fifth Avenue, Suite 1200<br />New York, NY 10036
               </p>
             </div>
@@ -113,7 +113,7 @@ export function MinimalAppointments() {
               <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 500, color: '#050505', marginBottom: '4px' }}>
                 Appointment Hours
               </p>
-              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 300, color: '#9B9B9B', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.6 }}>
                 Monday – Saturday<br />10:00 AM – 6:00 PM EST
               </p>
             </div>
@@ -124,7 +124,7 @@ export function MinimalAppointments() {
               <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 500, color: '#050505', marginBottom: '4px' }}>
                 Direct Line
               </p>
-              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 300, color: '#9B9B9B', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.6 }}>
                 +1 (212) 555-0180<br />Virtual consultations available
               </p>
             </div>
@@ -144,7 +144,7 @@ export function MinimalAppointments() {
               Request Received
             </h2>
             <p style={{
-              fontFamily: F, fontSize: '14px', fontWeight: 300,
+              fontFamily: F, fontSize: '14px', fontWeight: 400,
               lineHeight: 1.8, color: '#555', marginBottom: '32px',
             }}>
               Thank you. Our team will confirm your appointment within 24 hours
@@ -206,7 +206,7 @@ export function MinimalAppointments() {
                     </span>
                   </div>
                   <p style={{
-                    fontFamily: F, fontSize: '12px', fontWeight: 300,
+                    fontFamily: F, fontSize: '12px', fontWeight: 400,
                     lineHeight: 1.7,
                     color: selectedType === i ? 'rgba(255,255,255,0.6)' : '#9B9B9B',
                     margin: 0,
@@ -241,7 +241,7 @@ export function MinimalAppointments() {
                   onChange={(e) => setSelectedDate(e.target.value)}
                   required
                   style={{
-                    fontFamily: F, fontSize: '14px', fontWeight: 300,
+                    fontFamily: F, fontSize: '14px', fontWeight: 400,
                     width: '100%', padding: '12px 0',
                     border: 'none', borderBottom: '1px solid #E5E5E5',
                     outline: 'none', backgroundColor: 'transparent',
@@ -300,7 +300,7 @@ export function MinimalAppointments() {
                   placeholder="Full Name"
                   required
                   style={{
-                    fontFamily: F, fontSize: '14px', fontWeight: 300,
+                    fontFamily: F, fontSize: '14px', fontWeight: 400,
                     width: '100%', padding: '12px 0',
                     border: 'none', borderBottom: '1px solid #E5E5E5',
                     outline: 'none', backgroundColor: 'transparent',
@@ -315,7 +315,7 @@ export function MinimalAppointments() {
                 placeholder="Email Address"
                 required
                 style={{
-                  fontFamily: F, fontSize: '14px', fontWeight: 300,
+                  fontFamily: F, fontSize: '14px', fontWeight: 400,
                   width: '100%', padding: '12px 0',
                   border: 'none', borderBottom: '1px solid #E5E5E5',
                   outline: 'none', backgroundColor: 'transparent',
@@ -328,7 +328,7 @@ export function MinimalAppointments() {
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Phone Number"
                 style={{
-                  fontFamily: F, fontSize: '14px', fontWeight: 300,
+                  fontFamily: F, fontSize: '14px', fontWeight: 400,
                   width: '100%', padding: '12px 0',
                   border: 'none', borderBottom: '1px solid #E5E5E5',
                   outline: 'none', backgroundColor: 'transparent',
@@ -342,7 +342,7 @@ export function MinimalAppointments() {
                   placeholder="Any specific pieces, styles, or topics you'd like to discuss? (Optional)"
                   rows={3}
                   style={{
-                    fontFamily: F, fontSize: '14px', fontWeight: 300,
+                    fontFamily: F, fontSize: '14px', fontWeight: 400,
                     width: '100%', padding: '12px 0',
                     border: 'none', borderBottom: '1px solid #E5E5E5',
                     outline: 'none', backgroundColor: 'transparent',
@@ -373,7 +373,7 @@ export function MinimalAppointments() {
       {/* ── What to Expect ─────────────────────────────────────── */}
       <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
         <h2 style={{
-          fontFamily: F, fontSize: '20px', fontWeight: 300,
+          fontFamily: F, fontSize: '20px', fontWeight: 400,
           color: '#050505', marginBottom: '24px',
         }}>
           What to Expect
@@ -387,7 +387,7 @@ export function MinimalAppointments() {
             }}>
               <Check size={14} strokeWidth={1.5} style={{ color: '#050505', flexShrink: 0 }} />
               <p style={{
-                fontFamily: F, fontSize: '14px', fontWeight: 300,
+                fontFamily: F, fontSize: '14px', fontWeight: 400,
                 color: '#555', margin: 0,
               }}>
                 {item}
