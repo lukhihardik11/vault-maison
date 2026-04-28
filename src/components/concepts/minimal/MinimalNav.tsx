@@ -183,7 +183,10 @@ export function MinimalNav() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             <button
               type="button"
-              onClick={() => setSearchOpen(true)}
+              onClick={() => {
+                // Dispatch custom event to open command palette in Layout
+                window.dispatchEvent(new CustomEvent('open-command-palette'))
+              }}
               className="minimal-icon-button hidden md:flex"
               style={{
                 backgroundColor: 'transparent',
@@ -193,7 +196,8 @@ export function MinimalNav() {
                 minWidth: '44px',
                 minHeight: '44px',
               }}
-              aria-label="Search"
+              aria-label="Search (⌘K)"
+              title="Search (⌘K)"
             >
               <Search size={17} strokeWidth={1.5} />
             </button>

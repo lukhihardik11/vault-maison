@@ -26,6 +26,9 @@ interface FieldProps {
 }
 
 function Field({ label, value, onChange, required = false, placeholder = '', type = 'text', error }: FieldProps) {
+  const [touched, setTouched] = useState(false)
+  const showError = error && touched
+
   return (
     <div>
       <label
@@ -45,19 +48,33 @@ function Field({ label, value, onChange, required = false, placeholder = '', typ
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        onBlur={() => setTouched(true)}
         placeholder={placeholder}
         style={{
           width: '100%',
           padding: '14px 16px',
-          border: error ? '1.5px solid #050505' : '1px solid #E5E5E5',
+          border: showError ? '1.5px solid #050505' : '1px solid #E5E5E5',
           background: '#FFFFFF',
           color: '#050505',
           fontFamily: F,
           fontSize: 14,
           outline: 'none',
+          transition: 'border-color 150ms',
         }}
       />
-      {error && <span style={{ display: 'block', marginTop: 6, fontFamily: F, fontSize: 12, color: '#050505' }}>{error}</span>}
+      {showError && (
+        <span style={{
+          display: 'block',
+          marginTop: 6,
+          fontFamily: F,
+          fontSize: 12,
+          color: '#050505',
+          opacity: 0,
+          animation: 'fadeIn 150ms ease forwards',
+        }}>
+          {error}
+        </span>
+      )}
     </div>
   )
 }
@@ -571,20 +588,16 @@ export function MinimalCheckout() {
             )}
           </div>
 
-          {/* Trust guarantee strip */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: 32, padding: '16px 20px', borderTop: '1px solid #E5E5E5' }}>
-            {[
-              { icon: <Shield size={15} color="#9B9B9B" />, label: 'Secure Checkout' },
-              { icon: <Truck size={15} color="#9B9B9B" />, label: 'Free Shipping $500+' },
-              { icon: <RotateCcw size={15} color="#9B9B9B" />, label: '30-Day Returns' },
-              { icon: <Award size={15} color="#9B9B9B" />, label: 'GIA Certified' },
-              { icon: <Fingerprint size={15} color="#9B9B9B" />, label: 'Authenticity Guaranteed' },
-            ].map((badge) => (
-              <div key={badge.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                {badge.icon}
-                <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B' }}>{badge.label}</span>
-              </div>
-            ))}
+          {/* Trust guarantee strip — text-based per Stripe pattern */}
+          <div style={{ marginTop: 32, padding: '20px 0', borderTop: '1px solid #E5E5E5' }}>
+            <p style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B', textAlign: 'center', margin: '0 0 12px', letterSpacing: '0.02em', lineHeight: 1.6 }}>
+              Your payment is encrypted end-to-end with 256-bit SSL. We never store your card details on our servers.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, flexWrap: 'wrap' }}>
+              {['Free shipping on orders $500+', '30-day returns', 'GIA certified diamonds', 'Lifetime authenticity guarantee'].map((text) => (
+                <span key={text} style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', letterSpacing: '0.02em' }}>{text}</span>
+              ))}
+            </div>
           </div>
 
           {/* Policy links */}

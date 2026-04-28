@@ -1038,3 +1038,43 @@ html {
   from { opacity: 0; transform: scale(0.92); }
   to { opacity: 1; transform: scale(1); }
 }
+
+/* Tier 3: MinimalButton instant-invert hover */
+.minimal-button--primary:hover {
+  background-color: #FAFAFA !important;
+  color: #050505 !important;
+  border-color: #050505 !important;
+}
+.minimal-button--secondary:hover {
+  background-color: #050505 !important;
+  color: #FAFAFA !important;
+  border-color: #050505 !important;
+}
+.minimal-button--ghost:hover {
+  background-color: rgba(5, 5, 5, 0.04) !important;
+}
+
+/* Tier 3: Focus-visible states (keyboard navigation only) */
+.minimal-button:focus-visible,
+.minimal-icon-button:focus-visible {
+  outline: 1px solid #050505;
+  outline-offset: 2px;
+}
+
+/* Tier 3: Command palette group headings */
+[cmdk-group-heading] {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 8px 16px 4px;
+}
+
+/* Tier 3: Minimal concept form focus override (no gold) */
+[data-concept="minimal"] input:focus,
+[data-concept="minimal"] textarea:focus,
+[data-concept="minimal"] select:focus {
+  box-shadow: 0 0 0 1px rgba(5, 5, 5, 0.2) !important;
+  border-color: #050505 !important;
+}
