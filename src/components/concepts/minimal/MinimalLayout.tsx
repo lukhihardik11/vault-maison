@@ -1,6 +1,6 @@
 'use client'
 
-import { type ReactNode, useEffect, useState } from 'react'
+import { type ReactNode, useCallback, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
@@ -11,6 +11,8 @@ import PageTransition from './ui/PageTransition'
 import Breadcrumb from './ui/Breadcrumb'
 import BackToTop from './ui/BackToTop'
 import CustomCursor from './ui/CustomCursor'
+import { CommandPalette } from './ui/CommandPalette'
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -22,6 +24,20 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
   const pathname = usePathname()
   const prefersReducedMotion = useReducedMotionPreference()
   const [isLoaded, setIsLoaded] = useState(true)
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
+
+  const handleCommandPalette = useCallback(() => {
+    setCommandPaletteOpen(prev => !prev)
+  }, [])
+
+  useKeyboardShortcuts({ onCommandPalette: handleCommandPalette })
+
+  // Listen for custom event from Nav search button
+  useEffect(() => {
+    const handler = () => setCommandPaletteOpen(true)
+    window.addEventListener('open-command-palette', handler)
+    return () => window.removeEventListener('open-command-palette', handler)
+  }, [])
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -195,6 +211,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         {!hideNav && <Toolbar />}
         <BackToTop />
         <CustomCursor />
+        <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
       </div>
     </>
   )
