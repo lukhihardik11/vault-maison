@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ArrowLeft, Check, Shield, Truck, RotateCcw, Lock } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Check, Shield, Truck, RotateCcw, Lock, Award, Fingerprint } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import BlurUpImage from '../ui/BlurUpImage'
@@ -419,9 +419,20 @@ export function MinimalCheckout() {
                   className="mb-6"
                 />
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', border: '1px solid #E5E5E5', marginBottom: 26 }}>
-                  <Shield size={15} color="#050505" />
-                  <span style={{ fontFamily: F, fontSize: 13, color: '#6B6B6B' }}>256-bit SSL encrypted. Your payment info is secure.</span>
+                {/* Security assurance strip */}
+                <div style={{ border: '1px solid #E5E5E5', marginBottom: 26 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', borderBottom: '1px solid #E5E5E5' }}>
+                    <Lock size={14} color="#050505" />
+                    <span style={{ fontFamily: F, fontSize: 13, color: '#050505', fontWeight: 500 }}>Encrypted Checkout</span>
+                    <span style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B', marginLeft: 'auto' }}>256-bit SSL</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '10px 14px' }}>
+                    <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Accepted</span>
+                    {/* Monochrome payment method text badges */}
+                    {['Visa', 'Mastercard', 'Amex', 'Apple Pay'].map((m) => (
+                      <span key={m} style={{ fontFamily: F, fontSize: 11, color: '#6B6B6B', fontWeight: 500, letterSpacing: '0.02em' }}>{m}</span>
+                    ))}
+                  </div>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
@@ -555,16 +566,33 @@ export function MinimalCheckout() {
             )}
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 32, marginTop: 32, padding: '0 20px' }}>
+          {/* Trust guarantee strip */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: 32, padding: '16px 20px', borderTop: '1px solid #E5E5E5' }}>
             {[
-              { icon: <Shield size={16} color="#9B9B9B" />, label: 'Secure Checkout' },
-              { icon: <Truck size={16} color="#9B9B9B" />, label: 'Free Shipping 500+' },
-              { icon: <RotateCcw size={16} color="#9B9B9B" />, label: '30-Day Returns' },
+              { icon: <Shield size={15} color="#9B9B9B" />, label: 'Secure Checkout' },
+              { icon: <Truck size={15} color="#9B9B9B" />, label: 'Free Shipping $500+' },
+              { icon: <RotateCcw size={15} color="#9B9B9B" />, label: '30-Day Returns' },
+              { icon: <Award size={15} color="#9B9B9B" />, label: 'GIA Certified' },
+              { icon: <Fingerprint size={15} color="#9B9B9B" />, label: 'Authenticity Guaranteed' },
             ].map((badge) => (
-              <div key={badge.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div key={badge.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 {badge.icon}
-                <span style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B' }}>{badge.label}</span>
+                <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B' }}>{badge.label}</span>
               </div>
+            ))}
+          </div>
+
+          {/* Policy links */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 12 }}>
+            {[
+              { label: 'Privacy Policy', href: '/minimal/privacy' },
+              { label: 'Terms of Service', href: '/minimal/terms' },
+              { label: 'Shipping & Returns', href: '/minimal/shipping' },
+              { label: 'Authenticity', href: '/minimal/authenticity' },
+            ].map((link) => (
+              <Link key={link.label} href={link.href} style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', textDecoration: 'none', letterSpacing: '0.02em' }} className="minimal-link-underline">
+                {link.label}
+              </Link>
             ))}
           </div>
         </div>
@@ -652,9 +680,17 @@ export function MinimalCheckout() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16 }}>
-            <Lock size={12} color="#9B9B9B" />
-            <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B' }}>Secured by 256-bit SSL encryption</span>
+          {/* Sidebar security footer */}
+          <div style={{ marginTop: 16, padding: '14px 0', borderTop: '1px solid #E5E5E5' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 8 }}>
+              <Lock size={12} color="#9B9B9B" />
+              <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B' }}>Secured by 256-bit SSL encryption</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+              <span style={{ fontFamily: F, fontSize: 10, color: '#BFBFBF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>PCI DSS Compliant</span>
+              <span style={{ color: '#E5E5E5' }}>|</span>
+              <span style={{ fontFamily: F, fontSize: 10, color: '#BFBFBF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Fully Insured Delivery</span>
+            </div>
           </div>
 
           {/* 21st.dev PaymentSummary — animated payment details */}
