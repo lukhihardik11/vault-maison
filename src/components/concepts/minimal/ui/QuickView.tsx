@@ -169,7 +169,7 @@ export default function QuickView({ open, product, onClose, onAddToCart }: Quick
             style={{
               fontFamily: F,
               fontSize: 'clamp(24px, 2.8vw, 30px)',
-              fontWeight: 300,
+              fontWeight: 400,
               color: '#050505',
               margin: '0 0 8px',
               lineHeight: 1.15,
@@ -179,7 +179,7 @@ export default function QuickView({ open, product, onClose, onAddToCart }: Quick
             {product.name}
           </h3>
           <p style={{ fontFamily: F, fontSize: 14, color: '#6B6B6B', margin: '0 0 8px' }}>{product.subtitle}</p>
-          <p style={{ fontFamily: F, fontSize: 24, fontWeight: 300, color: '#050505', margin: '0 0 20px' }}>{product.priceDisplay}</p>
+          <p style={{ fontFamily: F, fontSize: 24, fontWeight: 400, color: '#050505', margin: '0 0 20px' }}>{product.priceDisplay}</p>
           <p style={{ fontFamily: F, fontSize: 14, lineHeight: 1.7, color: '#6B6B6B', margin: '0 0 20px' }}>
             {product.description}
           </p>

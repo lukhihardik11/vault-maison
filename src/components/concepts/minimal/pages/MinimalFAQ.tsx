@@ -53,7 +53,7 @@ function AccordionItem({ q, a }: { q: string; a: string }) {
       </button>
       {open && (
         <div style={{ paddingBottom: '20px' }}>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B' }}>{a}</p>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#9B9B9B' }}>{a}</p>
         </div>
       )}
     </div>
@@ -74,7 +74,7 @@ export function MinimalFAQ() {
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Support</p>
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Frequently Asked Questions</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#9B9B9B', marginBottom: '32px' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#9B9B9B', marginBottom: '32px' }}>
           Find answers to common questions about our products, services, and policies.
         </p>
         {/* Search */}
@@ -85,7 +85,7 @@ export function MinimalFAQ() {
             placeholder="Search questions..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ width: '100%', padding: '14px 16px 14px 44px', border: '1px solid #E5E5E5', fontSize: '13px', fontWeight: 300, fontFamily: font, color: '#050505', backgroundColor: '#FFFFFF', outline: 'none' }}
+            style={{ width: '100%', padding: '14px 16px 14px 44px', border: '1px solid #E5E5E5', fontSize: '13px', fontWeight: 400, fontFamily: font, color: '#050505', backgroundColor: '#FFFFFF', outline: 'none' }}
             onFocus={(e) => e.currentTarget.style.borderColor = '#050505'}
             onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'}
           />
@@ -105,7 +105,7 @@ export function MinimalFAQ() {
         )}
 
         {searchQuery && (
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', marginBottom: '24px' }}>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#9B9B9B', marginBottom: '24px' }}>
             {filteredFaqs.length} result{filteredFaqs.length !== 1 ? 's' : ''} for &ldquo;{searchQuery}&rdquo;
           </p>
         )}
@@ -120,8 +120,8 @@ export function MinimalFAQ() {
         {/* Still need help */}
         <div style={{ marginTop: '60px', padding: '40px', backgroundColor: '#FAFAFA', textAlign: 'center' }}>
           <MessageSquare size={28} strokeWidth={1} style={{ color: '#050505', marginBottom: '12px' }} />
-          <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 300, color: '#050505', marginBottom: '8px' }}>Still Have Questions?</h3>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', marginBottom: '20px' }}>
+          <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>Still Have Questions?</h3>
+          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#9B9B9B', marginBottom: '20px' }}>
             Our concierge team is available Monday through Saturday, 10am to 7pm EST.
           </p>
           <Link href="/minimal/contact" style={{ display: 'inline-block', padding: '14px 32px', backgroundColor: '#050505', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>

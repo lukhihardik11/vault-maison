@@ -81,7 +81,7 @@ export default function GlassmorphismMetrics({
           <h2 className="mt-4 text-3xl md:text-4xl font-semibold tracking-tight text-[#050505] leading-tight">
             {heading}
           </h2>
-          <p className="mt-5 text-sm leading-relaxed text-[#050505]/60 md:text-base" style={{ fontWeight: 300 }}>
+          <p className="mt-5 text-sm leading-relaxed text-[#050505]/60 md:text-base" style={{ fontWeight: 400 }}>
             {subheading}
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function GlassmorphismMetrics({
                       {metric.delta}
                     </span>
                   </div>
-                  <p className="text-sm leading-relaxed text-[#050505]/60" style={{ fontWeight: 300 }}>
+                  <p className="text-sm leading-relaxed text-[#050505]/60" style={{ fontWeight: 400 }}>
                     {metric.description}
                   </p>
                 </div>
@@ -126,7 +126,7 @@ export default function GlassmorphismMetrics({
               <p className="text-[10px] uppercase tracking-[0.25em] text-[#050505]/50">
                 Private Appointments
               </p>
-              <p className="text-sm text-[#050505]/70" style={{ fontWeight: 300 }}>
+              <p className="text-sm text-[#050505]/70" style={{ fontWeight: 400 }}>
                 {ctaDescription}
               </p>
             </div>

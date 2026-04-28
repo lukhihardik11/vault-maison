@@ -110,13 +110,13 @@ export function MinimalPrivacy() {
           <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
             Privacy Policy
           </h1>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, color: '#9B9B9B' }}>
+          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#9B9B9B' }}>
             Last updated: April 28, 2026
           </p>
         </div>
 
         {/* Intro */}
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#555', marginBottom: '24px' }}>
+        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#555', marginBottom: '24px' }}>
           At Vault Maison, your privacy is not a feature — it is a fundamental right. We collect only what is necessary, protect it with enterprise-grade security, and never monetize your data. This policy explains exactly what we collect, why, and what control you have.
         </p>
 
@@ -155,7 +155,7 @@ export function MinimalPrivacy() {
                 <p key={j} style={{
                   fontFamily: F,
                   fontSize: '14px',
-                  fontWeight: 300,
+                  fontWeight: 400,
                   lineHeight: 1.9,
                   color: '#555',
                   marginBottom: j < s.content.length - 1 ? '12px' : '0',
@@ -172,7 +172,7 @@ export function MinimalPrivacy() {
           <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>
             Questions about your privacy?
           </p>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, color: '#9B9B9B', marginBottom: '16px' }}>
+          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#9B9B9B', marginBottom: '16px' }}>
             Contact our Data Protection Officer at{' '}
             <a href="mailto:privacy@vaultmaison.com" style={{ color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               privacy@vaultmaison.com

@@ -74,7 +74,7 @@ export function MinimalSustainability() {
           Compromise.
         </h1>
         <p style={{
-          fontFamily: F, fontSize: '15px', fontWeight: 300,
+          fontFamily: F, fontSize: '15px', fontWeight: 400,
           lineHeight: 1.9, color: '#6B6B6B', maxWidth: '560px',
         }}>
           We believe that true luxury carries no hidden cost — not to the earth,
@@ -161,7 +161,7 @@ export function MinimalSustainability() {
                   {pillar.title}
                 </h3>
                 <p style={{
-                  fontFamily: F, fontSize: '13px', fontWeight: 300,
+                  fontFamily: F, fontSize: '13px', fontWeight: 400,
                   lineHeight: 1.8, color: '#555', margin: 0,
                 }}>
                   {pillar.desc}
@@ -176,7 +176,7 @@ export function MinimalSustainability() {
       <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ borderLeft: '2px solid #050505', paddingLeft: '24px' }}>
           <p style={{
-            fontFamily: F, fontSize: '18px', fontWeight: 300,
+            fontFamily: F, fontSize: '18px', fontWeight: 400,
             lineHeight: 1.8, color: '#050505', margin: 0,
           }}>
             "The true measure of luxury is not what it costs the buyer,
@@ -194,13 +194,13 @@ export function MinimalSustainability() {
       {/* ── Lab-Grown vs Natural: Honest Perspective ───────────── */}
       <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
         <h2 style={{
-          fontFamily: F, fontSize: '20px', fontWeight: 300,
+          fontFamily: F, fontSize: '20px', fontWeight: 400,
           color: '#050505', marginBottom: '24px',
         }}>
           Lab-Grown vs. Natural: Our Position
         </h2>
         <p style={{
-          fontFamily: F, fontSize: '14px', fontWeight: 300,
+          fontFamily: F, fontSize: '14px', fontWeight: 400,
           lineHeight: 1.9, color: '#555', marginBottom: '20px',
         }}>
           We offer both natural and lab-grown diamonds because we believe in informed choice,
@@ -209,7 +209,7 @@ export function MinimalSustainability() {
           environmental profile.
         </p>
         <p style={{
-          fontFamily: F, fontSize: '14px', fontWeight: 300,
+          fontFamily: F, fontSize: '14px', fontWeight: 400,
           lineHeight: 1.9, color: '#555',
         }}>
           What matters to us is transparency. Every diamond in our collection — natural or
@@ -246,13 +246,13 @@ export function MinimalSustainability() {
       <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ border: '1px solid #050505', padding: '48px 32px' }}>
           <h2 style={{
-            fontFamily: F, fontSize: '20px', fontWeight: 300,
+            fontFamily: F, fontSize: '20px', fontWeight: 400,
             color: '#050505', marginBottom: '12px',
           }}>
             Questions About Our Practices?
           </h2>
           <p style={{
-            fontFamily: F, fontSize: '14px', fontWeight: 300,
+            fontFamily: F, fontSize: '14px', fontWeight: 400,
             lineHeight: 1.8, color: '#555', marginBottom: '24px',
             maxWidth: '480px', margin: '0 auto 24px',
           }}>

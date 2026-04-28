@@ -68,7 +68,7 @@ export function MinimalCart() {
             <path d="M16 10a4 4 0 01-8 0" />
           </svg>
         </div>
-        <h2 style={{ fontFamily: F, fontSize: 26, color: '#050505', marginBottom: 8, fontWeight: 300, letterSpacing: '-0.02em' }}>Your bag is empty</h2>
+        <h2 style={{ fontFamily: F, fontSize: 26, color: '#050505', marginBottom: 8, fontWeight: 400, letterSpacing: '-0.02em' }}>Your bag is empty</h2>
         <p style={{ fontFamily: F, fontSize: 15, color: '#9B9B9B', marginBottom: 32 }}>Discover our curated collection of fine jewelry</p>
         <Link
           href="/minimal/collections"
@@ -116,8 +116,8 @@ export function MinimalCart() {
   return (
     <div style={{ background: '#FFFFFF', minHeight: '100vh', color: '#050505' }}>
       <div style={{ padding: '56px 24px 24px', maxWidth: 1200, margin: '0 auto' }}>
-        <h1 style={{ fontFamily: F, fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 300, color: '#050505', letterSpacing: '-0.03em' }}>
-          Your Bag <span style={{ fontFamily: F, fontSize: 'clamp(16px, 3vw, 20px)', fontWeight: 300, color: '#9B9B9B' }}>({getItemCount()})</span>
+        <h1 style={{ fontFamily: F, fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 400, color: '#050505', letterSpacing: '-0.03em' }}>
+          Your Bag <span style={{ fontFamily: F, fontSize: 'clamp(16px, 3vw, 20px)', fontWeight: 400, color: '#9B9B9B' }}>({getItemCount()})</span>
         </h1>
       </div>
 

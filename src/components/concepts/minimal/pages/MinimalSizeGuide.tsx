@@ -92,7 +92,7 @@ export function MinimalSizeGuide() {
           Perfect Fit.
         </h1>
         <p style={{
-          fontFamily: F, fontSize: '15px', fontWeight: 300,
+          fontFamily: F, fontSize: '15px', fontWeight: 400,
           lineHeight: 1.9, color: '#6B6B6B', maxWidth: '560px',
         }}>
           Accurate sizing is essential for comfort and security. Use our comprehensive
@@ -117,7 +117,7 @@ export function MinimalSizeGuide() {
               <ol style={{ margin: 0, paddingLeft: '16px' }}>
                 {tip.steps.map((step, j) => (
                   <li key={j} style={{
-                    fontFamily: F, fontSize: '13px', fontWeight: 300,
+                    fontFamily: F, fontSize: '13px', fontWeight: 400,
                     lineHeight: 1.8, color: '#555',
                     marginBottom: j < tip.steps.length - 1 ? '8px' : '0',
                   }}>
@@ -160,7 +160,7 @@ export function MinimalSizeGuide() {
         {activeTab === 'rings' && (
           <div>
             <h2 style={{
-              fontFamily: F, fontSize: '20px', fontWeight: 300,
+              fontFamily: F, fontSize: '20px', fontWeight: 400,
               color: '#050505', marginBottom: '24px',
             }}>
               Ring Size Chart
@@ -188,10 +188,10 @@ export function MinimalSizeGuide() {
                   {ringSizes.map((row, i) => (
                     <tr key={i} style={{ borderBottom: '1px solid #E5E5E5' }}>
                       <td style={{ padding: '12px 16px', fontWeight: 500, color: '#050505' }}>{row.us}</td>
-                      <td style={{ padding: '12px 16px', fontWeight: 300, color: '#555' }}>{row.uk}</td>
-                      <td style={{ padding: '12px 16px', fontWeight: 300, color: '#555' }}>{row.eu}</td>
-                      <td style={{ padding: '12px 16px', fontWeight: 300, color: '#555' }}>{row.diameter}</td>
-                      <td style={{ padding: '12px 16px', fontWeight: 300, color: '#555' }}>{row.circ}</td>
+                      <td style={{ padding: '12px 16px', fontWeight: 400, color: '#555' }}>{row.uk}</td>
+                      <td style={{ padding: '12px 16px', fontWeight: 400, color: '#555' }}>{row.eu}</td>
+                      <td style={{ padding: '12px 16px', fontWeight: 400, color: '#555' }}>{row.diameter}</td>
+                      <td style={{ padding: '12px 16px', fontWeight: 400, color: '#555' }}>{row.circ}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -203,7 +203,7 @@ export function MinimalSizeGuide() {
         {activeTab === 'bracelets' && (
           <div>
             <h2 style={{
-              fontFamily: F, fontSize: '20px', fontWeight: 300,
+              fontFamily: F, fontSize: '20px', fontWeight: 400,
               color: '#050505', marginBottom: '24px',
             }}>
               Bracelet Size Chart
@@ -230,15 +230,15 @@ export function MinimalSizeGuide() {
                 {braceletSizes.map((row, i) => (
                   <tr key={i} style={{ borderBottom: '1px solid #E5E5E5' }}>
                     <td style={{ padding: '12px 16px', fontWeight: 500, color: '#050505' }}>{row.size}</td>
-                    <td style={{ padding: '12px 16px', fontWeight: 300, color: '#555' }}>{row.wrist}</td>
-                    <td style={{ padding: '12px 16px', fontWeight: 300, color: '#555' }}>{row.length}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: 400, color: '#555' }}>{row.wrist}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: 400, color: '#555' }}>{row.length}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
 
             <p style={{
-              fontFamily: F, fontSize: '12px', fontWeight: 300,
+              fontFamily: F, fontSize: '12px', fontWeight: 400,
               color: '#9B9B9B', marginTop: '16px', lineHeight: 1.7,
             }}>
               Bangle sizes are measured by internal diameter. For a snug fit, measure across the widest
@@ -250,7 +250,7 @@ export function MinimalSizeGuide() {
         {activeTab === 'necklaces' && (
           <div>
             <h2 style={{
-              fontFamily: F, fontSize: '20px', fontWeight: 300,
+              fontFamily: F, fontSize: '20px', fontWeight: 400,
               color: '#050505', marginBottom: '24px',
             }}>
               Necklace Length Guide
@@ -277,8 +277,8 @@ export function MinimalSizeGuide() {
                 {necklaceLengths.map((row, i) => (
                   <tr key={i} style={{ borderBottom: '1px solid #E5E5E5' }}>
                     <td style={{ padding: '12px 16px', fontWeight: 500, color: '#050505' }}>{row.style}</td>
-                    <td style={{ padding: '12px 16px', fontWeight: 300, color: '#555' }}>{row.length}</td>
-                    <td style={{ padding: '12px 16px', fontWeight: 300, color: '#555' }}>{row.placement}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: 400, color: '#555' }}>{row.length}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: 400, color: '#555' }}>{row.placement}</td>
                   </tr>
                 ))}
               </tbody>
@@ -305,7 +305,7 @@ export function MinimalSizeGuide() {
               'For surprise gifts, borrow a ring they wear on the intended finger and trace the inner circle.',
             ].map((tip, i) => (
               <li key={i} style={{
-                fontFamily: F, fontSize: '13px', fontWeight: 300,
+                fontFamily: F, fontSize: '13px', fontWeight: 400,
                 lineHeight: 1.8, color: '#555',
                 marginBottom: i < 4 ? '8px' : '0',
               }}>
@@ -326,7 +326,7 @@ export function MinimalSizeGuide() {
             Complimentary Resizing
           </h3>
           <p style={{
-            fontFamily: F, fontSize: '13px', fontWeight: 300,
+            fontFamily: F, fontSize: '13px', fontWeight: 400,
             lineHeight: 1.8, color: '#555', margin: 0,
           }}>
             All Vault Maison rings include one complimentary resizing within the first year
@@ -341,13 +341,13 @@ export function MinimalSizeGuide() {
       <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ border: '1px solid #050505', padding: '48px 32px' }}>
           <h2 style={{
-            fontFamily: F, fontSize: '20px', fontWeight: 300,
+            fontFamily: F, fontSize: '20px', fontWeight: 400,
             color: '#050505', marginBottom: '12px',
           }}>
             Still Unsure?
           </h2>
           <p style={{
-            fontFamily: F, fontSize: '14px', fontWeight: 300,
+            fontFamily: F, fontSize: '14px', fontWeight: 400,
             lineHeight: 1.8, color: '#555', marginBottom: '24px',
             maxWidth: '480px', margin: '0 auto 24px',
           }}>

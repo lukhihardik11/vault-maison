@@ -57,7 +57,7 @@ function ProductImageGallery({ images, productName, category }: { images: string
   // here.
   return (
     <div className="md:sticky md:top-24 md:self-start">
-      <div style={{ width: '100%', aspectRatio: '4 / 5', border: '1px solid #E5E5E5', background: '#E5E5E5', position: 'relative' }}>
+      <div style={{ width: '100%', aspectRatio: '4 / 5', background: '#F5F5F5', position: 'relative' }}>
         <BlurUpImage
           src={selectedImage}
           alt={productName}
@@ -77,7 +77,7 @@ function ProductImageGallery({ images, productName, category }: { images: string
               style={{
                 width: 76,
                 height: 76,
-                border: index === selectedIndex ? '1.5px solid #050505' : '1px solid #E5E5E5',
+                border: index === selectedIndex ? '1.5px solid #050505' : '1px solid transparent',
                 background: '#FFFFFF',
                 padding: 0,
                 cursor: 'pointer',
@@ -242,15 +242,15 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
             {product.name}
           </h1>
 
-          {product.subtitle && <p style={{ fontFamily: F, fontSize: 15, fontWeight: 300, color: '#9B9B9B', margin: '0 0 20px' }}>{product.subtitle}</p>}
+          {product.subtitle && <p style={{ fontFamily: F, fontSize: 15, fontWeight: 400, color: '#9B9B9B', margin: '0 0 20px', lineHeight: 1.6 }}>{product.subtitle}</p>}
 
-          <p style={{ fontFamily: F, fontSize: 'clamp(24px, 2.2vw, 34px)', fontWeight: 300, color: '#050505', margin: '0 0 28px', fontVariantNumeric: 'tabular-nums' }}>
+          <p style={{ fontFamily: F, fontSize: 'clamp(24px, 2.2vw, 34px)', fontWeight: 400, color: '#050505', margin: '0 0 28px', fontVariantNumeric: 'tabular-nums' }}>
             {product.priceDisplay}
           </p>
 
           <div style={{ height: 1, background: '#E5E5E5', marginBottom: 28 }} />
 
-          <p style={{ fontFamily: F, fontSize: 15, fontWeight: 300, color: '#6B6B6B', lineHeight: 1.8, margin: '0 0 32px', maxWidth: 500 }}>
+          <p style={{ fontFamily: F, fontSize: 15, fontWeight: 400, color: '#6B6B6B', lineHeight: 1.8, margin: '0 0 32px', maxWidth: 500 }}>
             {product.description}
           </p>
 
@@ -437,7 +437,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
             <div>
               <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: 12 }}>Styling</span>
               <h2 style={{ fontFamily: F, fontSize: 'clamp(24px, 2.5vw, 38px)', fontWeight: 600, letterSpacing: '-0.02em', color: '#050505', margin: '0 0 16px' }}>Complete the Look</h2>
-              <p style={{ fontFamily: F, fontSize: 15, fontWeight: 300, color: '#6B6B6B', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 420 }}>
+              <p style={{ fontFamily: F, fontSize: 15, fontWeight: 400, color: '#6B6B6B', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 420 }}>
                 Pair this piece with complementary items from our collection for an effortlessly curated ensemble.
               </p>
               <Link
@@ -504,15 +504,15 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
 
       <style>{`
         .minimal-pdp-add-btn:hover {
-          opacity: 0.92;
+          opacity: 0.85;
         }
 
         .minimal-pdp-icon-btn:hover {
-          border-color: #050505 !important;
+          opacity: 0.5;
         }
 
         .minimal-pdp-crumb:hover {
-          color: #050505 !important;
+          opacity: 0.5;
         }
 
         .minimal-pdp-view-all:hover {

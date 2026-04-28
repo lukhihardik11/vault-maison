@@ -100,7 +100,7 @@ export function MinimalCraftsmanship() {
           Everything Is Made Right.
         </h1>
         <p style={{
-          fontFamily: F, fontSize: '15px', fontWeight: 300,
+          fontFamily: F, fontSize: '15px', fontWeight: 400,
           lineHeight: 1.9, color: '#6B6B6B', maxWidth: '560px',
         }}>
           At Vault Maison, craftsmanship is not a marketing term — it is the foundation
@@ -195,7 +195,7 @@ export function MinimalCraftsmanship() {
                   </span>
                 </div>
                 <p style={{
-                  fontFamily: F, fontSize: '13px', fontWeight: 300,
+                  fontFamily: F, fontSize: '13px', fontWeight: 400,
                   lineHeight: 1.8, color: '#555', margin: 0,
                 }}>
                   {step.desc}
@@ -237,13 +237,13 @@ export function MinimalCraftsmanship() {
                   {m.purity}
                 </p>
                 <h3 style={{
-                  fontFamily: F, fontSize: '20px', fontWeight: 300,
+                  fontFamily: F, fontSize: '20px', fontWeight: 400,
                   color: '#FFFFFF', marginBottom: '16px',
                 }}>
                   {m.title}
                 </h3>
                 <p style={{
-                  fontFamily: F, fontSize: '13px', fontWeight: 300,
+                  fontFamily: F, fontSize: '13px', fontWeight: 400,
                   lineHeight: 1.8, color: 'rgba(255,255,255,0.55)', margin: 0,
                 }}>
                   {m.desc}
@@ -258,7 +258,7 @@ export function MinimalCraftsmanship() {
       <section style={{ padding: '80px 5vw', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ borderLeft: '2px solid #050505', paddingLeft: '24px' }}>
           <p style={{
-            fontFamily: F, fontSize: '18px', fontWeight: 300,
+            fontFamily: F, fontSize: '18px', fontWeight: 400,
             lineHeight: 1.8, color: '#050505', margin: 0,
           }}>
             "Less, but better. Every joint, every setting, every surface must earn its place.
@@ -289,7 +289,7 @@ export function MinimalCraftsmanship() {
           Where It All Happens
         </h2>
         <p style={{
-          fontFamily: F, fontSize: '14px', fontWeight: 300,
+          fontFamily: F, fontSize: '14px', fontWeight: 400,
           lineHeight: 1.9, color: '#555', marginBottom: '32px', maxWidth: '640px',
         }}>
           Our atelier in New York houses twelve master artisans, each with over twenty years
@@ -299,7 +299,7 @@ export function MinimalCraftsmanship() {
           approach could accomplish alone.
         </p>
         <p style={{
-          fontFamily: F, fontSize: '14px', fontWeight: 300,
+          fontFamily: F, fontSize: '14px', fontWeight: 400,
           lineHeight: 1.9, color: '#555', maxWidth: '640px',
         }}>
           Every artisan in our workshop specializes in a specific discipline — stone setting,
@@ -314,13 +314,13 @@ export function MinimalCraftsmanship() {
       <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ border: '1px solid #050505', padding: '48px 32px' }}>
           <h2 style={{
-            fontFamily: F, fontSize: '20px', fontWeight: 300,
+            fontFamily: F, fontSize: '20px', fontWeight: 400,
             color: '#050505', marginBottom: '12px',
           }}>
             Commission a Bespoke Piece
           </h2>
           <p style={{
-            fontFamily: F, fontSize: '14px', fontWeight: 300,
+            fontFamily: F, fontSize: '14px', fontWeight: 400,
             lineHeight: 1.8, color: '#555', marginBottom: '24px',
             maxWidth: '480px', margin: '0 auto 24px',
           }}>

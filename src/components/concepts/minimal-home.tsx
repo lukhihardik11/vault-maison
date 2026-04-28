@@ -388,7 +388,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                       display: 'block',
                       transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
-                    className="group-hover:scale-[1.04]"
+                    
                   />
                 </div>
                 <p
@@ -445,7 +445,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               style={{
                 fontFamily: font,
                 fontSize: '14px',
-                fontWeight: 300,
+                fontWeight: 400,
                 color: '#6B6B6B',
                 lineHeight: 1.8,
                 marginBottom: '32px',
@@ -540,7 +540,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               style={{
                 fontFamily: font,
                 fontSize: '13px',
-                fontWeight: 300,
+                fontWeight: 400,
                 color: '#9B9B9B',
                 maxWidth: 360,
                 lineHeight: 1.7,
@@ -623,7 +623,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     display: 'block',
                     transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
-                  className="group-hover:scale-[1.03]"
+                  
                 />
               </div>
               <div style={{ padding: '40px 0' }}>
@@ -656,7 +656,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   style={{
                     fontFamily: font,
                     fontSize: '14px',
-                    fontWeight: 300,
+                    fontWeight: 400,
                     color: '#6B6B6B',
                     lineHeight: 1.8,
                     maxWidth: '360px',
@@ -718,7 +718,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                       display: 'block',
                       transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
-                    className="group-hover:scale-[1.04]"
+                    
                   />
                   <div
                     style={{
@@ -806,6 +806,104 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SECTION 6A: BRAND MANIFESTO — Tier 2 (Margiela / Bottega editorial integration) ═══ */}
+      <section style={{ padding: 'clamp(80px, 12vh, 160px) 0', borderTop: '1px solid #E5E5E5' }}>
+        <div className={minimal.cn.container}>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 'clamp(40px, 6vw, 96px)', alignItems: 'center' }}>
+            <div>
+              <span
+                style={{
+                  fontFamily: mono,
+                  fontSize: '10px',
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  color: '#9B9B9B',
+                  display: 'block',
+                  marginBottom: '24px',
+                }}
+              >
+                Our Philosophy
+              </span>
+              <h2
+                style={{
+                  fontFamily: font,
+                  fontSize: 'clamp(28px, 3vw, 48px)',
+                  fontWeight: 600,
+                  letterSpacing: '-0.03em',
+                  lineHeight: 1.15,
+                  color: '#050505',
+                  margin: '0 0 24px',
+                }}
+              >
+                Craft Is Our Language
+              </h2>
+              <p
+                style={{
+                  fontFamily: font,
+                  fontSize: '15px',
+                  fontWeight: 400,
+                  color: '#6B6B6B',
+                  lineHeight: 1.8,
+                  margin: '0 0 16px',
+                  maxWidth: '480px',
+                }}
+              >
+                Vault Maison exists at the intersection of art and precision. Each piece begins as a conversation between material and maker — a dialogue refined over five decades of uncompromising craftsmanship.
+              </p>
+              <p
+                style={{
+                  fontFamily: font,
+                  fontSize: '15px',
+                  fontWeight: 400,
+                  color: '#6B6B6B',
+                  lineHeight: 1.8,
+                  margin: '0 0 32px',
+                  maxWidth: '480px',
+                }}
+              >
+                We believe jewelry should be felt before it is seen. The weight of 18-karat gold against skin. The way light fractures through a precisely cut diamond. These are the moments we design for.
+              </p>
+              <Link
+                href="/minimal/craftsmanship"
+                className="tier2-manifesto-link"
+                style={{
+                  fontFamily: font,
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: '#050505',
+                  textDecoration: 'none',
+                  borderBottom: '1px solid #050505',
+                  paddingBottom: '4px',
+                  transition: 'opacity 0.2s ease',
+                }}
+              >
+                Discover Our Craft
+              </Link>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
+                <img
+                  src="/images/minimal-engagement-ring.jpg"
+                  alt="Vault Maison craftsmanship — precision setting"
+                  loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#F5F5F5', marginTop: '48px' }}>
+                <img
+                  src="/images/minimal-loose-diamond.jpg"
+                  alt="Vault Maison — ethically sourced diamonds"
+                  loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -915,7 +1013,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             style={{
               fontFamily: font,
               fontSize: '15px',
-              fontWeight: 300,
+              fontWeight: 400,
               color: '#6B6B6B',
               lineHeight: 1.7,
               marginBottom: '40px',
@@ -940,7 +1038,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 backgroundColor: '#FFFFFF',
                 fontFamily: font,
                 fontSize: '14px',
-                fontWeight: 300,
+                fontWeight: 400,
                 color: '#050505',
                 outline: 'none',
               }}
@@ -1068,6 +1166,11 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           color: #FFFFFF;
           line-height: 1.6;
           letter-spacing: -0.02em;
+        }
+
+        /* Tier 2: Opacity-based hover states */
+        .tier2-manifesto-link:hover {
+          opacity: 0.5;
         }
 
         /* Smooth focus states */

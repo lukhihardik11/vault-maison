@@ -38,7 +38,7 @@ export function MinimalShipping() {
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Delivery</p>
         <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>Shipping & Returns</h1>
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
+        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
           Every order is carefully packaged and fully insured from our atelier to your door.
         </p>
       </section>
@@ -52,10 +52,10 @@ export function MinimalShipping() {
                 <m.icon size={22} strokeWidth={1.5} style={{ color: '#050505' }} />
                 <div>
                   <h3 style={{ fontFamily: F, fontSize: '16px', fontWeight: 500, color: '#050505', margin: 0 }}>{m.title}</h3>
-                  <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 300, color: '#9B9B9B', margin: 0 }}>{m.time}</p>
+                  <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 400, color: '#9B9B9B', margin: 0 }}>{m.time}</p>
                 </div>
               </div>
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#555', marginBottom: '12px' }}>{m.desc}</p>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.7, color: '#555', marginBottom: '12px' }}>{m.desc}</p>
               <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 500, color: '#050505' }}>{m.price}</p>
             </div>
           ))}
@@ -64,12 +64,12 @@ export function MinimalShipping() {
 
       {/* Packaging */}
       <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto' }}>
-        <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 300, color: '#050505', marginBottom: '24px' }}>Our Packaging</h2>
+        <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '24px' }}>Our Packaging</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }} className="vm-pack-grid">
           {packagingFeatures.map((f, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
               <CheckCircle size={14} strokeWidth={1.5} style={{ color: '#050505', marginTop: '2px', flexShrink: 0 }} />
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.7, color: '#555', margin: 0 }}>{f}</p>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.7, color: '#555', margin: 0 }}>{f}</p>
             </div>
           ))}
         </div>
@@ -82,10 +82,10 @@ export function MinimalShipping() {
             <Shield size={20} strokeWidth={1.5} style={{ color: '#050505' }} />
             <h2 style={{ fontFamily: F, fontSize: '18px', fontWeight: 400, color: '#050505', margin: 0 }}>Full Insurance Coverage</h2>
           </div>
-          <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, lineHeight: 1.9, color: '#555', marginBottom: '12px' }}>
+          <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#555', marginBottom: '12px' }}>
             Every shipment is insured for its full retail value from the moment it leaves our facility until it is signed for at your door. In the event of loss, theft, or damage during transit, we will replace the item or issue a complete refund — no deductibles, no claims process, no exceptions.
           </p>
-          <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 300, color: '#9B9B9B' }}>
+          <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#9B9B9B' }}>
             Insurance is included at no additional cost on all shipping methods.
           </p>
         </div>
@@ -96,30 +96,30 @@ export function MinimalShipping() {
         <div style={{ padding: '40px', backgroundColor: '#FAFAFA' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
             <Shield size={22} strokeWidth={1.5} style={{ color: '#050505' }} />
-            <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 300, color: '#050505', margin: 0 }}>Returns & Exchanges</h2>
+            <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 400, color: '#050505', margin: 0 }}>Returns & Exchanges</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }} className="vm-returns-grid">
             <div>
               <h3 style={{ fontFamily: F, fontSize: '14px', fontWeight: 500, color: '#050505', marginBottom: '8px' }}>30-Day Return Policy</h3>
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555', marginBottom: '12px' }}>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555', marginBottom: '12px' }}>
                 We offer a hassle-free 30-day return policy for unworn items in their original condition and packaging with all tags and certificates intact.
               </p>
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555' }}>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555' }}>
                 Bespoke, custom, and engraved pieces are final sale unless there is a manufacturing defect.
               </p>
             </div>
             <div>
               <h3 style={{ fontFamily: F, fontSize: '14px', fontWeight: 500, color: '#050505', marginBottom: '8px' }}>How to Return</h3>
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555', marginBottom: '12px' }}>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555', marginBottom: '12px' }}>
                 1. Contact our concierge team via email or phone to initiate a return.
               </p>
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555', marginBottom: '12px' }}>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555', marginBottom: '12px' }}>
                 2. We will provide a prepaid, fully insured shipping label within 24 hours.
               </p>
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555', marginBottom: '12px' }}>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555', marginBottom: '12px' }}>
                 3. Pack the item securely in its original packaging and drop off at any FedEx location.
               </p>
-              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555' }}>
+              <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555' }}>
                 4. Refunds are processed within 5–10 business days of receiving and inspecting the item.
               </p>
             </div>
@@ -131,19 +131,19 @@ export function MinimalShipping() {
       <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
           <HelpCircle size={20} strokeWidth={1.5} style={{ color: '#050505' }} />
-          <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 300, color: '#050505', margin: 0 }}>Frequently Asked Questions</h2>
+          <h2 style={{ fontFamily: F, fontSize: '20px', fontWeight: 400, color: '#050505', margin: 0 }}>Frequently Asked Questions</h2>
         </div>
         {faqs.map((faq, i) => (
           <div key={i} style={{ borderBottom: '1px solid #E5E5E5', paddingBottom: '20px', marginBottom: '20px' }}>
             <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 500, color: '#050505', marginBottom: '8px' }}>{faq.q}</p>
-            <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 300, lineHeight: 1.8, color: '#555', margin: 0 }}>{faq.a}</p>
+            <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#555', margin: 0 }}>{faq.a}</p>
           </div>
         ))}
       </section>
 
       {/* CTA + Cross-links */}
       <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 300, color: '#9B9B9B', marginBottom: '16px' }}>Have questions about your order?</p>
+        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#9B9B9B', marginBottom: '16px' }}>Have questions about your order?</p>
         <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: F, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505', textDecoration: 'none', marginBottom: '32px' }}>
           Contact Our Concierge <ArrowRight size={14} />
         </Link>

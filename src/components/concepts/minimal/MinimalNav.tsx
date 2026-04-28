@@ -319,13 +319,13 @@ export function MinimalNav() {
                     display: 'block',
                     fontFamily: font,
                     fontSize: '14px',
-                    fontWeight: 300,
+                    fontWeight: 400,
                     color: '#6B6B6B',
                     textDecoration: 'none',
                     padding: '8px 0',
-                    transition: 'color 0.2s ease',
+                    transition: 'opacity 0.2s ease',
                   }}
-                  className="hover:!text-[#050505]"
+                  className="hover:opacity-50"
                 >
                   {l.label}
                 </Link>
@@ -343,13 +343,13 @@ export function MinimalNav() {
                     display: 'block',
                     fontFamily: font,
                     fontSize: '14px',
-                    fontWeight: 300,
+                    fontWeight: 400,
                     color: '#6B6B6B',
                     textDecoration: 'none',
                     padding: '8px 0',
-                    transition: 'color 0.2s ease',
+                    transition: 'opacity 0.2s ease',
                   }}
-                  className="hover:!text-[#050505]"
+                  className="hover:opacity-50"
                 >
                   {l.label}
                 </Link>
@@ -359,9 +359,9 @@ export function MinimalNav() {
               <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
                 Featured
               </p>
-              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Wedding & Bridal</Link>
-              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">Bespoke Creations</Link>
-              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'color 0.2s ease' }} className="hover:!text-[#050505]">View All Collections</Link>
+              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">Wedding & Bridal</Link>
+              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">Bespoke Creations</Link>
+              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">View All Collections</Link>
             </div>
           </div>
         </div>
@@ -494,7 +494,7 @@ export function MinimalNav() {
           transform: scaleX(1);
         }
         .minimal-nav-link:hover {
-          color: #050505 !important;
+          opacity: 0.5;
         }
         .minimal-nav-link-active::after {
           transform: scaleX(1);
@@ -505,12 +505,11 @@ export function MinimalNav() {
           align-items: center;
           justify-content: center;
           color: #6B6B6B;
-          transition: color 220ms ease, transform 220ms ease;
+          transition: opacity 220ms ease;
           text-decoration: none;
         }
         .minimal-icon-button:hover {
-          color: #050505;
-          transform: translateY(-1px);
+          opacity: 0.5;
         }
         .minimal-icon-button:focus-visible {
           outline: 1px solid #050505;
@@ -546,7 +545,7 @@ export function MinimalNav() {
           transition: color 220ms ease, background-color 220ms ease;
         }
         .minimal-mobile-link:hover {
-          color: #FFFFFF !important;
+          opacity: 0.6;
         }
         .minimal-mobile-link.active {
           color: #FFFFFF !important;

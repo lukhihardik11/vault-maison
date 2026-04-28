@@ -129,7 +129,7 @@ export function MinimalFooter() {
                   color: '#050505',
                   fontFamily: font,
                   fontSize: '13px',
-                  fontWeight: 300,
+                  fontWeight: 400,
                   padding: '0 14px',
                   height: '44px',
                   outline: 'none',
@@ -201,7 +201,7 @@ export function MinimalFooter() {
                     style={{
                       fontFamily: font,
                       fontSize: '14px',
-                      fontWeight: 300,
+                      fontWeight: 400,
                       color: '#6B6B6B',
                       textDecoration: 'none',
                     }}
@@ -235,7 +235,7 @@ export function MinimalFooter() {
                     style={{
                       fontFamily: font,
                       fontSize: '14px',
-                      fontWeight: 300,
+                      fontWeight: 400,
                       color: '#6B6B6B',
                       textDecoration: 'none',
                     }}
@@ -269,7 +269,7 @@ export function MinimalFooter() {
                     style={{
                       fontFamily: font,
                       fontSize: '14px',
-                      fontWeight: 300,
+                      fontWeight: 400,
                       color: '#6B6B6B',
                       textDecoration: 'none',
                     }}
@@ -295,13 +295,13 @@ export function MinimalFooter() {
               Contact
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', margin: 0 }}>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', margin: 0 }}>
                 +1 (212) 555-0174
               </p>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', margin: 0 }}>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', margin: 0 }}>
                 concierge@minimalmachine.com
               </p>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 300, color: '#6B6B6B', margin: 0, lineHeight: 1.6 }}>
+              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', margin: 0, lineHeight: 1.6 }}>
                 712 Fifth Avenue
                 <br />
                 New York, NY 10019
@@ -414,14 +414,13 @@ export function MinimalFooter() {
           transition: background-color 200ms ease, color 200ms ease;
         }
         .minimal-newsletter-submit:hover {
-          background: #FFFFFF !important;
-          color: #050505 !important;
+          opacity: 0.85;
         }
         .minimal-footer-link {
           transition: color 200ms ease;
         }
         .minimal-footer-link:hover {
-          color: #050505 !important;
+          opacity: 0.5;
         }
         .minimal-footer-meta {
           display: flex;
@@ -433,9 +432,7 @@ export function MinimalFooter() {
           transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), color 200ms ease, border-color 200ms ease;
         }
         .minimal-footer-social:hover {
-          color: #050505 !important;
-          border-color: #050505 !important;
-          transform: scale(1.08);
+          opacity: 0.5;
         }
         .minimal-footer-social:focus-visible {
           outline: 1px solid #050505;

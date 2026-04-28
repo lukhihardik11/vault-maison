@@ -61,7 +61,7 @@ export default function HeroFashion({
                     <Link
                       href={item.href}
                       className="cursor-pointer hover:underline underline-offset-4 decoration-[#050505]/20"
-                      style={{ fontFamily: font, fontWeight: 300 }}
+                      style={{ fontFamily: font, fontWeight: 400 }}
                     >
                       {item.label}
                     </Link>
@@ -79,7 +79,7 @@ export default function HeroFashion({
                 </h2>
                 <p
                   className="text-sm text-[#050505]/70 max-w-md leading-relaxed tracking-[-0.01em]"
-                  style={{ fontFamily: font, fontWeight: 300 }}
+                  style={{ fontFamily: font, fontWeight: 400 }}
                 >
                   {description}
                 </p>

@@ -171,7 +171,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           color: '#050505',
           fontFamily: "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
           fontSize: '14px',
-          fontWeight: 300,
+          fontWeight: 400,
           lineHeight: 1.6,
           minHeight: '100vh',
           letterSpacing: '-0.01em',

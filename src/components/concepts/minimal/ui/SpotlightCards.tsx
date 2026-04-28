@@ -125,7 +125,7 @@ function Card({ item, dimmed, onHoverStart, onHoverEnd }: CardProps) {
           className="text-[12px] leading-relaxed text-[#050505]/50"
           style={{
             fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
-            fontWeight: 300,
+            fontWeight: 400,
           }}
         >
           {item.description}
@@ -174,7 +174,7 @@ export default function SpotlightCards({
           className="text-[22px] tracking-tight text-[#050505]"
           style={{
             fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
-            fontWeight: 300,
+            fontWeight: 400,
           }}
         >
           {heading}
