@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Leaf, Shield, Globe, Recycle, Heart, ArrowRight } from 'lucide-react'
 
-const F = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const F = "'Inter', 'Helvetica Neue', sans-serif"
+const MONO = "'Space Mono', 'SF Mono', monospace"
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 
@@ -58,13 +59,7 @@ export function MinimalSustainability() {
     <MinimalLayout>
       {/* ── Hero ───────────────────────────────────────────────── */}
       <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
-        <p style={{
-          fontFamily: F, fontSize: '11px', fontWeight: 500,
-          letterSpacing: '0.25em', textTransform: 'uppercase',
-          color: '#9B9B9B', marginBottom: '24px',
-        }}>
-          Responsibility
-        </p>
+        <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Responsibility</span>
         <h1 style={{
           fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
           color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
@@ -103,8 +98,9 @@ export function MinimalSustainability() {
           {commitments.map((c, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <p style={{
-                fontFamily: F, fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 600,
+                fontFamily: MONO, fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 700,
                 color: '#050505', lineHeight: 1, marginBottom: '8px',
+                letterSpacing: '0.02em',
               }}>
                 {c.metric}
               </p>
@@ -127,13 +123,7 @@ export function MinimalSustainability() {
 
       {/* ── Five Pillars ───────────────────────────────────────── */}
       <section style={{ padding: '80px 5vw', maxWidth: '900px', margin: '0 auto' }}>
-        <p style={{
-          fontFamily: F, fontSize: '11px', fontWeight: 500,
-          letterSpacing: '0.25em', textTransform: 'uppercase',
-          color: '#9B9B9B', marginBottom: '12px',
-        }}>
-          Our Approach
-        </p>
+        <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>02 — Our Approach</span>
         <h2 style={{
           fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
           color: '#050505', marginBottom: '48px', letterSpacing: '-0.02em',

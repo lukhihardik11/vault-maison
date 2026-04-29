@@ -115,7 +115,7 @@ function Card({ item, dimmed, onHoverStart, onHoverEnd }: CardProps) {
         <h3
           className="text-[14px] tracking-tight text-[#050505]"
           style={{
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+            fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
             fontWeight: 400,
           }}
         >
@@ -124,7 +124,7 @@ function Card({ item, dimmed, onHoverStart, onHoverEnd }: CardProps) {
         <p
           className="text-[12px] leading-relaxed text-[#050505]/50"
           style={{
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+            fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
             fontWeight: 400,
           }}
         >
@@ -164,7 +164,7 @@ export default function SpotlightCards({
         <p
           className="text-[10px] uppercase tracking-[0.22em] text-[#050505]/40"
           style={{
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+            fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
             fontWeight: 400,
           }}
         >
@@ -173,7 +173,7 @@ export default function SpotlightCards({
         <h2
           className="text-[22px] tracking-tight text-[#050505]"
           style={{
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+            fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
             fontWeight: 400,
           }}
         >

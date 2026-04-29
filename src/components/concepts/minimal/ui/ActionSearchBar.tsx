@@ -4,7 +4,7 @@ import { Search, X } from 'lucide-react'
 import Link from 'next/link'
 import { products } from '@/data/products'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
 
 interface ActionSearchBarProps {
   isOpen: boolean

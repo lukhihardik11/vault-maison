@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { ChevronDown, Search, MessageSquare } from 'lucide-react'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 const categories = ['Ordering', 'Shipping', 'Returns', 'Diamonds', 'Care', 'Bespoke']
 
@@ -72,7 +73,7 @@ export function MinimalFAQ() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Support</p>
+        <p style={{ fontFamily: font, fontSize: '11px', }}><span className="brutalist-section-num">01 — Support</span></p>
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Frequently Asked Questions</h1>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#9B9B9B', marginBottom: '32px' }}>
           Find answers to common questions about our products, services, and policies.

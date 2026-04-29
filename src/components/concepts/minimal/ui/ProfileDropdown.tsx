@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { User, Heart, ShoppingBag, Settings, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
 
 const menuItems = [
   { icon: User, label: 'My Account', href: '/minimal/account' },

@@ -49,7 +49,7 @@ const Minimal360Viewer = dynamic(() => import('./minimal/3d/Minimal360Viewer'), 
 })
 
 const font = minimal.font.primary
-const mono = minimal.font.mono
+const mono = minimal.font.brutalistMono
 
 const bestsellers = products.filter((p) => p.isBestseller).slice(0, 4)
 const newArrivals = products.filter((p) => p.isNew).slice(0, 8)
@@ -361,7 +361,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       <section className={minimal.cn.section}>
         <div className={minimal.cn.container}>
           <div className="mb-16 md:mb-20">
-            <span className={minimal.cn.label} style={{ fontFamily: mono }}>Categories</span>
+            <span className="brutalist-section-num">02 — Categories</span>
             <TextReveal delay={100} duration={700} as="h2">
               <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
                 Shop by Category
@@ -425,7 +425,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </div>
           </ParallaxSection>
           <div>
-            <span className={minimal.cn.label} style={{ fontFamily: mono }}>Featured Piece</span>
+            <span className="brutalist-section-num">03 — Featured Piece</span>
             <TextReveal delay={100} duration={700} as="h2">
               <span
                 className="mt-5 mb-4 text-xl sm:text-2xl md:text-3xl lg:text-5xl"
@@ -687,7 +687,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         <div className={minimal.cn.container}>
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
-              <span className={minimal.cn.label} style={{ fontFamily: mono }}>Curated</span>
+              <span className="brutalist-section-num">05 — Collections</span>
               <TextReveal delay={100} duration={700} as="h2">
                 <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
                   Collections
@@ -782,7 +782,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               >
                 <p
                   style={{
-                    fontFamily: font,
+                    fontFamily: mono,
                     fontSize: 'clamp(32px, 3.5vw, 56px)',
                     fontWeight: 700,
                     color: '#050505',
@@ -810,24 +810,12 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* ═══ SECTION 6A: BRAND MANIFESTO — Tier 2 (Margiela / Bottega editorial integration) ═══ */}
-      <section style={{ padding: 'clamp(80px, 12vh, 160px) 0', borderTop: '1px solid #E5E5E5' }}>
+      {/* ═══ SECTION 6A: BRAND MANIFESTO — Tier 4 Dark Inversion (brutalist contrast block) ═══ */}
+      <section style={{ padding: 'clamp(80px, 12vh, 160px) 0', backgroundColor: '#050505', color: '#FFFFFF' }}>
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 'clamp(40px, 6vw, 96px)', alignItems: 'center' }}>
             <div>
-              <span
-                style={{
-                  fontFamily: mono,
-                  fontSize: '10px',
-                  letterSpacing: '0.3em',
-                  textTransform: 'uppercase',
-                  color: '#9B9B9B',
-                  display: 'block',
-                  marginBottom: '24px',
-                }}
-              >
-                Our Philosophy
-              </span>
+              <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>06A — Our Philosophy</span>
               <h2
                 style={{
                   fontFamily: font,
@@ -835,7 +823,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   fontWeight: 600,
                   letterSpacing: '-0.03em',
                   lineHeight: 1.15,
-                  color: '#050505',
+                  color: '#FFFFFF',
                   margin: '0 0 24px',
                 }}
               >
@@ -846,7 +834,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   fontFamily: font,
                   fontSize: '15px',
                   fontWeight: 400,
-                  color: '#6B6B6B',
+                  color: 'rgba(255,255,255,0.6)',
                   lineHeight: 1.8,
                   margin: '0 0 16px',
                   maxWidth: '480px',
@@ -859,7 +847,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   fontFamily: font,
                   fontSize: '15px',
                   fontWeight: 400,
-                  color: '#6B6B6B',
+                  color: 'rgba(255,255,255,0.6)',
                   lineHeight: 1.8,
                   margin: '0 0 32px',
                   maxWidth: '480px',
@@ -869,17 +857,14 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               </p>
               <Link
                 href="/minimal/craftsmanship"
-                className="tier2-manifesto-link"
+                className="brutalist-underline-link"
                 style={{
                   fontFamily: font,
                   fontSize: '12px',
                   fontWeight: 500,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  color: '#050505',
-                  textDecoration: 'none',
-                  borderBottom: '1px solid #050505',
-                  paddingBottom: '4px',
+                  color: '#FFFFFF',
                   transition: 'opacity 0.2s ease',
                 }}
               >
@@ -913,7 +898,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         <div className={minimal.cn.container}>
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
-              <span className={minimal.cn.label} style={{ fontFamily: mono }}>Most Loved</span>
+              <span className="brutalist-section-num">06B — Most Loved</span>
               <TextReveal delay={100} duration={700} as="h2">
                 <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
                   Bestsellers
@@ -925,8 +910,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </Link>
           </div>
           <StaggerReveal className={minimal.cn.gridProduct}>
-            {bestsellers.map((p) => (
-              <MinimalProductCard key={p.id} product={p} />
+            {bestsellers.map((p, i) => (
+              <MinimalProductCard key={p.id} product={p} index={i + 1} />
             ))}
           </StaggerReveal>
         </div>
@@ -939,7 +924,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         <div className={minimal.cn.container}>
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
-              <span className={minimal.cn.label} style={{ fontFamily: mono }}>Just In</span>
+              <span className="brutalist-section-num">07 — Just In</span>
               <TextReveal delay={100} duration={700} as="h2">
                 <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
                   New Arrivals
@@ -974,12 +959,12 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               actually advance the row. */}
           <div ref={emblaRef} className="overflow-hidden vm-embla-viewport">
             <div className="flex gap-4 md:gap-6 vm-embla-track">
-              {(newArrivals.length > 0 ? newArrivals : products.slice(0, 8)).map((p) => (
+              {(newArrivals.length > 0 ? newArrivals : products.slice(0, 8)).map((p, i) => (
                 <div
                   key={p.id}
                   className="vm-embla-slide basis-[78%] sm:basis-[46%] md:basis-[32%] lg:basis-[23.5%]"
                 >
-                  <MinimalProductCard product={p} />
+                  <MinimalProductCard product={p} index={i + 1} />
                 </div>
               ))}
             </div>
@@ -990,9 +975,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ═══ SECTION 8: NEWSLETTER — Minimal ═══ */}
       <section style={{ backgroundColor: '#FAFAFA', padding: 'clamp(64px, 10vh, 120px) 0' }}>
         <div className={minimal.cn.containerNarrow} style={{ textAlign: 'center' }}>
-          <span className={minimal.cn.label} style={{ fontFamily: mono, display: 'block', marginBottom: '20px' }}>
-            Stay Informed
-          </span>
+          <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '20px' }}>08 — Stay Informed</span>
           <TextReveal duration={700} as="h2">
             <span
               className="text-xl sm:text-2xl md:text-3xl lg:text-5xl"

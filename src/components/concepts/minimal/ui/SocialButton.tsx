@@ -5,7 +5,7 @@ import { motion } from 'motion/react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
 
 interface SocialButtonProps {
   className?: string

@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Mail, Lock, User } from 'lucide-react'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
 
 interface DarkLoginFormProps {
   onLogin?: (email: string, password: string) => void

@@ -101,6 +101,13 @@ body {
 .font-libre { font-family: 'Libre Baskerville', serif; }
 .font-dm-sans { font-family: 'DM Sans', sans-serif; }
 .font-bodoni { font-family: 'Bodoni Moda', serif; }
+.font-space-mono { font-family: 'Space Mono', monospace; }
+
+/* Tier 4: Brutalist utility classes */
+[data-concept="minimal"] .font-mono { font-family: 'Space Mono', 'SF Mono', 'Fira Code', monospace !important; }
+[data-concept="minimal"] .brutalist-index { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: #9B9B9B; }
+[data-concept="minimal"] .brutalist-section-num { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.3em; color: #9B9B9B; text-transform: uppercase; }
+[data-concept="minimal"] .brutalist-underline-link { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 
 .tracking-luxury { letter-spacing: 0.15em; }
 .tracking-luxury-wide { letter-spacing: 0.25em; }

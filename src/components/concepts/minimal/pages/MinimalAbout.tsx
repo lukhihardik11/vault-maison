@@ -6,7 +6,8 @@ import { ArrowRight, Award, Diamond, Gem, Globe, type LucideIcon } from 'lucide-
 import { MinimalLayout } from '../MinimalLayout'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 const milestones = [
   { year: '2018', title: 'Founded in New York', desc: 'Vault Maison was established with a vision to redefine luxury jewelry through transparency and craftsmanship.' },
@@ -121,9 +122,7 @@ export function MinimalAbout() {
         </div>
         <div style={{ position: 'absolute', inset: 0, background: '#050505', opacity: 0.56 }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '700px' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#E5E5E5', marginBottom: '16px' }}>
-            Our Story
-          </p>
+          <span className="brutalist-section-num" style={{ color: '#E5E5E5', display: 'block', marginBottom: '16px' }}>01 — Our Story</span>
           <h1 style={{ fontFamily: font, fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 600, color: '#FFFFFF', marginBottom: '16px', lineHeight: 1.1 }}>
             Where Craft Meets Conviction
           </h1>
@@ -137,9 +136,7 @@ export function MinimalAbout() {
         <div className="vm-about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
           <Reveal reducedMotion={reducedMotion}>
             <div>
-              <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
-                Philosophy
-              </p>
+              <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>02 — Philosophy</span>
               <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '20px', lineHeight: 1.2 }}>
                 The Art of Less, Perfected
               </h2>
@@ -166,9 +163,7 @@ export function MinimalAbout() {
       <section style={{ padding: '80px 5vw', background: '#E5E5E5' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <Reveal reducedMotion={reducedMotion} style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>
-              Our Values
-            </p>
+            <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>03 — Our Values</span>
             <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>What We Stand For</h2>
           </Reveal>
 
@@ -193,9 +188,7 @@ export function MinimalAbout() {
 
       <section style={{ padding: '100px 5vw', maxWidth: '980px', margin: '0 auto' }}>
         <Reveal reducedMotion={reducedMotion} style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>
-            Journey
-          </p>
+          <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>04 — Journey</span>
           <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Our Milestones</h2>
         </Reveal>
 
@@ -203,7 +196,7 @@ export function MinimalAbout() {
           {milestones.map((milestone, index) => (
             <Reveal key={milestone.year} reducedMotion={reducedMotion} delay={index * 90}>
               <article className="abt-timeline-item">
-                <p style={{ fontFamily: font, fontSize: '22px', fontWeight: 600, color: '#050505', margin: '0 0 6px' }}>{milestone.year}</p>
+                <p style={{ fontFamily: mono, fontSize: '22px', fontWeight: 700, color: '#050505', margin: '0 0 6px', letterSpacing: '0.05em' }}>{milestone.year}</p>
                 <h3 style={{ fontFamily: font, fontSize: '17px', fontWeight: 500, color: '#050505', margin: '0 0 8px' }}>{milestone.title}</h3>
                 <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#6B6B6B', margin: 0 }}>{milestone.desc}</p>
               </article>
@@ -222,7 +215,7 @@ export function MinimalAbout() {
           ].map((stat, index) => (
             <Reveal key={stat.label} reducedMotion={reducedMotion} delay={index * 80}>
               <div>
-                <p style={{ fontFamily: font, fontSize: '36px', fontWeight: 600, color: '#FFFFFF', marginBottom: '8px' }}>{stat.num}</p>
+                <p style={{ fontFamily: mono, fontSize: '36px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px', letterSpacing: '0.02em' }}>{stat.num}</p>
                 <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E5E5E5' }}>
                   {stat.label}
                 </p>
@@ -234,9 +227,7 @@ export function MinimalAbout() {
 
       <section style={{ padding: '100px 5vw', textAlign: 'center' }}>
         <Reveal reducedMotion={reducedMotion}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
-            Begin Your Journey
-          </p>
+          <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>06 — Begin Your Journey</span>
           <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '16px' }}>Let Us Create Something Extraordinary</h2>
           <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto 32px' }}>
             Whether you are selecting an engagement ring or a bespoke heirloom, our advisors are here to guide every step.
@@ -344,12 +335,14 @@ export function MinimalAbout() {
           transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease, background-color 220ms ease, color 220ms ease;
         }
         .abt-cta-primary:hover {
-          transform: translateY(-2px);
-          background: #6B6B6B !important;
+          background: #FFFFFF !important;
+          color: #050505 !important;
+          transition: none;
         }
         .abt-cta-secondary:hover {
-          transform: translateY(-2px);
-          border-color: #050505 !important;
+          background: #050505 !important;
+          color: #FFFFFF !important;
+          transition: none;
         }
         .abt-cta-primary:focus-visible,
         .abt-cta-secondary:focus-visible {
@@ -359,7 +352,7 @@ export function MinimalAbout() {
         .abt-image-card:hover,
         .abt-value-card:hover,
         .abt-timeline-item:hover {
-          transform: translateY(-3px);
+          opacity: 0.85;
           border-color: #050505;
         }
         @media (max-width: 768px) {
@@ -402,7 +395,8 @@ import { ArrowRight, Award, Diamond, Gem, Globe, type LucideIcon } from 'lucide-
 import { MinimalLayout } from '../MinimalLayout'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 const milestones = [
   { year: '2018', title: 'Founded in New York', desc: 'Vault Maison launched with a clear brief: remove excess and let craftsmanship lead every decision.' },
