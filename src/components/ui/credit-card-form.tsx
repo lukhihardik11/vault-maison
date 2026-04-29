@@ -530,29 +530,29 @@ const CreditCardForm = ({
           left: 0;
         }
         .ccf-highlight--number {
-          width: calc(100% - 44px);
-          height: 40px;
-          top: 85px;
-          left: 22px;
+          width: calc(100% - 9.6%);
+          height: 15.4%;
+          top: 32.7%;
+          left: 4.8%;
         }
         .ccf-highlight--holder {
           width: 60%;
-          height: 48px;
-          top: 151px;
-          left: 22px;
+          height: 18.5%;
+          top: 58.1%;
+          left: 4.8%;
         }
         .ccf-highlight--expire {
-          width: 86px;
-          height: 48px;
-          top: 151px;
-          right: 22px;
+          width: 13.7%;
+          height: 21.5%;
+          top: 56.5%;
+          right: 5.2%;
           left: auto;
         }
         .ccf-highlight--cvv {
-          width: calc(100% - 44px);
-          height: 82px;
-          top: 108px;
-          left: 22px;
+          width: calc(100% - 9.6%);
+          height: 31.5%;
+          top: 41.5%;
+          left: 4.8%;
         }
 
         /* ── Card inner elements ── */
@@ -669,7 +669,7 @@ const CreditCardForm = ({
         }
         .ccf-card__cvv-field {
           background-color: #ffffff;
-          border-radius: 12px;
+          border-radius: 0;
           height: 44px;
           width: 100%;
           color: #050505;
@@ -709,31 +709,7 @@ const CreditCardForm = ({
           .ccf-slot:nth-child(4n) {
             margin-right: 6px;
           }
-          .ccf-highlight--number {
-            width: calc(100% - 28px);
-            height: 34px;
-            top: 72px;
-            left: 14px;
-          }
-          .ccf-highlight--holder {
-            width: 55%;
-            height: 48px;
-            top: 126px;
-            left: 14px;
-          }
-          .ccf-highlight--expire {
-            width: 72px;
-            height: 48px;
-            top: 126px;
-            right: 14px;
-            left: auto;
-          }
-          .ccf-highlight--cvv {
-            width: calc(100% - 28px);
-            height: 72px;
-            top: 92px;
-            left: 14px;
-          }
+
           .ccf-card__cvv-area {
             padding: 0 18px;
             margin-top: 16px;
