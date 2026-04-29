@@ -480,9 +480,6 @@ const CreditCardForm = ({
           overflow: hidden;
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
         }
 
         /* Monochrome accent rings (subtle white glow) */
@@ -515,43 +512,47 @@ const CreditCardForm = ({
 
         .ccf-card__back {
           transform: rotateY(180deg);
-          padding: 0;
-          justify-content: flex-start;
+          padding: 24px 0 0;
         }
 
         /* ── Highlight overlay ── */
         .ccf-highlight {
           position: absolute;
           border: 1px solid rgba(255, 255, 255, 0.65);
+          box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+          border-radius: 4px;
           z-index: 2;
           pointer-events: none;
           transition: ${prefersReducedMotion ? "none" : "all 0.3s ease"};
+          width: 0;
+          height: 0;
+          top: 0;
+          left: 0;
         }
         .ccf-highlight--number {
-          top: 50%;
+          width: calc(100% - 44px);
+          height: 40px;
+          top: 85px;
           left: 22px;
-          right: 22px;
-          height: 38px;
-          transform: translateY(-50%);
         }
         .ccf-highlight--holder {
-          bottom: 16px;
+          width: 60%;
+          height: 48px;
+          top: 151px;
           left: 22px;
-          width: 50%;
-          height: 44px;
         }
         .ccf-highlight--expire {
-          bottom: 16px;
+          width: 86px;
+          height: 48px;
+          top: 151px;
           right: 22px;
-          width: 72px;
-          height: 44px;
+          left: auto;
         }
         .ccf-highlight--cvv {
-          top: 50%;
-          left: 20px;
-          right: 20px;
-          height: 60px;
-          transform: translateY(-30%);
+          width: calc(100% - 44px);
+          height: 82px;
+          top: 108px;
+          left: 22px;
         }
 
         /* ── Card inner elements ── */
@@ -561,6 +562,7 @@ const CreditCardForm = ({
           justify-content: space-between;
           position: relative;
           z-index: 1;
+          margin-bottom: 32px;
         }
         .ccf-card__brand {
           font-size: 14px;
@@ -584,7 +586,7 @@ const CreditCardForm = ({
           height: 33px;
           overflow: hidden;
           color: #ffffff;
-          align-items: center;
+          margin-bottom: 32px;
         }
         .ccf-slot {
           display: inline-flex;
@@ -609,7 +611,7 @@ const CreditCardForm = ({
 
         .ccf-card__footer {
           display: flex;
-          align-items: flex-end;
+          align-items: center;
           justify-content: space-between;
           position: relative;
           z-index: 1;
@@ -639,40 +641,45 @@ const CreditCardForm = ({
 
         /* ── Card Back ── */
         .ccf-card__magstripe {
-          height: 36px;
+          height: 40px;
           width: 100%;
-          background: linear-gradient(180deg, #333 0%, #555 50%, #333 100%);
-          margin-top: 20%;
+          background-color: #6b7280;
+          position: relative;
+          z-index: 1;
+          margin-top: 24px;
         }
         .ccf-card__cvv-area {
           position: relative;
           z-index: 1;
-          margin-top: 16%;
-          padding: 0 28px;
+          margin-top: 24px;
+          padding: 0 32px;
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-        }
-        .ccf-card__cvv-label {
-          font-size: 11px;
+          font-size: 14px;
           font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
-          margin-bottom: 4px;
-          color: rgba(255,255,255,0.8);
+        }
+        .ccf-card__cvv-label {
+          font-size: 14px;
+          font-weight: 600;
+          text-transform: uppercase;
+          margin-bottom: 6px;
+          color: rgba(255,255,255,0.9);
         }
         .ccf-card__cvv-field {
           background-color: #ffffff;
-          height: 32px;
-          width: 60%;
+          border-radius: 12px;
+          height: 44px;
+          width: 100%;
           color: #050505;
           display: flex;
           align-items: center;
           justify-content: flex-end;
           padding: 0 12px;
-          font-size: 18px;
+          font-size: 25px;
           letter-spacing: 4px;
-          line-height: 32px;
+          line-height: 21px;
         }
 
         /* ── Mobile card adjustments ── */
@@ -681,9 +688,13 @@ const CreditCardForm = ({
           .ccf-card__back {
             padding: 16px 18px;
           }
+          .ccf-card__header {
+            margin-bottom: 24px;
+          }
           .ccf-card__number {
             font-size: 16px;
             height: 28px;
+            margin-bottom: 24px;
           }
           .ccf-digit {
             height: 28px;
@@ -699,41 +710,41 @@ const CreditCardForm = ({
             margin-right: 6px;
           }
           .ccf-highlight--number {
-            left: 14px;
-            right: 14px;
+            width: calc(100% - 28px);
             height: 34px;
+            top: 72px;
+            left: 14px;
           }
           .ccf-highlight--holder {
-            bottom: 12px;
+            width: 55%;
+            height: 48px;
+            top: 126px;
             left: 14px;
-            width: 50%;
-            height: 38px;
           }
           .ccf-highlight--expire {
-            bottom: 12px;
+            width: 72px;
+            height: 48px;
+            top: 126px;
             right: 14px;
-            width: 64px;
-            height: 38px;
+            left: auto;
           }
           .ccf-highlight--cvv {
-            top: 50%;
+            width: calc(100% - 28px);
+            height: 72px;
+            top: 92px;
             left: 14px;
-            right: 14px;
-            height: 54px;
-            transform: translateY(-30%);
           }
           .ccf-card__cvv-area {
             padding: 0 18px;
-            margin-top: 14%;
+            margin-top: 16px;
           }
           .ccf-card__cvv-field {
-            height: 28px;
-            font-size: 16px;
-            width: 60%;
+            height: 36px;
+            font-size: 20px;
           }
           .ccf-card__magstripe {
-            height: 28px;
-            margin-top: 18%;
+            height: 32px;
+            margin-top: 16px;
           }
         }
 
