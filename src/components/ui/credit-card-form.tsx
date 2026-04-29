@@ -1,6 +1,7 @@
 // Source: 21st.dev - CreditCardForm
 // Adapted: monochrome palette (#050505/#FFFFFF/#6B6B6B/#9B9B9B/#E5E5E5),
 //          sharp edges (no rounded corners), reduced-motion safe, CSS 3D flip card
+//          Dynamic card network logo detection (Visa, Mastercard, Amex, Discover, RuPay, etc.)
 
 "use client";
 
@@ -35,6 +36,110 @@ type CreditCardFormProps = {
   onSubmit?: (state: CardState, validity: CardValidity) => void;
   className?: string;
 };
+
+type CardNetwork = 'visa' | 'mastercard' | 'amex' | 'discover' | 'rupay' | 'diners' | 'jcb' | 'unionpay' | 'unknown';
+
+function detectCardNetwork(number: string): CardNetwork {
+  const digits = number.replace(/\s/g, '');
+  if (!digits) return 'unknown';
+
+  // Amex: starts with 34 or 37
+  if (/^3[47]/.test(digits)) return 'amex';
+  // Visa: starts with 4
+  if (/^4/.test(digits)) return 'visa';
+  // Mastercard: starts with 51-55 or 2221-2720
+  if (/^5[1-5]/.test(digits) || /^2[2-7]/.test(digits)) return 'mastercard';
+  // Discover: starts with 6011, 622126-622925, 644-649, 65
+  if (/^6011|^65|^64[4-9]|^622(1[2-9][6-9]|[2-8]\d{2}|9[0-2][0-5])/.test(digits)) return 'discover';
+  // RuPay: starts with 60, 65, 81, 82, 508
+  if (/^(508|60|65|81|82)/.test(digits)) return 'rupay';
+  // Diners Club: starts with 300-305, 36, 38
+  if (/^3(0[0-5]|[68])/.test(digits)) return 'diners';
+  // JCB: starts with 2131, 1800, 35
+  if (/^(2131|1800|35)/.test(digits)) return 'jcb';
+  // UnionPay: starts with 62
+  if (/^62/.test(digits)) return 'unionpay';
+
+  return 'unknown';
+}
+
+function CardNetworkLogo({ network }: { network: CardNetwork }) {
+  switch (network) {
+    case 'visa':
+      return (
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+          <text x="4" y="22" fontFamily="Inter, sans-serif" fontSize="14" fontWeight="700" fill="#FFFFFF" letterSpacing="0.5">VISA</text>
+        </svg>
+      );
+    case 'mastercard':
+      return (
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+          <circle cx="18" cy="16" r="10" fill="rgba(235,0,27,0.8)" />
+          <circle cx="30" cy="16" r="10" fill="rgba(255,159,0,0.8)" />
+          <path d="M24 8.5a10 10 0 0 1 0 15" fill="rgba(255,95,0,0.7)" />
+        </svg>
+      );
+    case 'amex':
+      return (
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+          <text x="2" y="22" fontFamily="Inter, sans-serif" fontSize="10" fontWeight="700" fill="#FFFFFF" letterSpacing="0.3">AMEX</text>
+        </svg>
+      );
+    case 'discover':
+      return (
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+          <text x="2" y="20" fontFamily="Inter, sans-serif" fontSize="9" fontWeight="600" fill="#FFFFFF" letterSpacing="0.2">DISCOVER</text>
+          <circle cx="38" cy="16" r="6" fill="rgba(255,102,0,0.8)" />
+        </svg>
+      );
+    case 'rupay':
+      return (
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+          <text x="2" y="21" fontFamily="Inter, sans-serif" fontSize="10" fontWeight="700" fill="#FFFFFF" letterSpacing="0.3">RuPay</text>
+        </svg>
+      );
+    case 'diners':
+      return (
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+          <circle cx="24" cy="16" r="12" stroke="#FFFFFF" strokeWidth="1.5" fill="none" />
+          <line x1="16" y1="16" x2="32" y2="16" stroke="#FFFFFF" strokeWidth="1" />
+          <line x1="24" y1="8" x2="24" y2="24" stroke="#FFFFFF" strokeWidth="1" />
+        </svg>
+      );
+    case 'jcb':
+      return (
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+          <text x="8" y="21" fontFamily="Inter, sans-serif" fontSize="12" fontWeight="700" fill="#FFFFFF" letterSpacing="0.3">JCB</text>
+        </svg>
+      );
+    case 'unionpay':
+      return (
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+          <rect x="4" y="6" width="16" height="20" rx="2" fill="rgba(0,50,120,0.8)" />
+          <rect x="18" y="6" width="16" height="20" rx="2" fill="rgba(200,0,0,0.8)" />
+          <rect x="32" y="6" width="12" height="20" rx="2" fill="rgba(0,80,60,0.8)" />
+        </svg>
+      );
+    default:
+      // Generic card icon
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="32"
+          width="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+        >
+          <rect x="1" y="4" width="22" height="16" rx="0" ry="0" />
+          <line x1="1" y1="10" x2="23" y2="10" />
+        </svg>
+      );
+  }
+}
 
 function formatNumberSpaces(num: string): string {
   return num.replace(/\s+/g, "").replace(/(\d{4})(?=\d)/g, "$1 ");
@@ -81,6 +186,8 @@ const CreditCardForm = ({
     return Array.from({ length: 10 }, (_, i) => String(start + i));
   }, []);
 
+  const cardNetwork = useMemo(() => detectCardNetwork(number), [number]);
+
   const validity: CardValidity = useMemo(() => {
     const numberValid = number.length >= 13;
     const holderValid = holder.trim().length >= 2;
@@ -121,21 +228,6 @@ const CreditCardForm = ({
     return arr;
   }, [displayDigits, maskMiddle]);
 
-  const highlightClass = (() => {
-    switch (focusField) {
-      case "number":
-        return "ccf-highlight--number";
-      case "holder":
-        return "ccf-highlight--holder";
-      case "expire":
-        return "ccf-highlight--expire";
-      case "cvv":
-        return "ccf-highlight--cvv";
-      default:
-        return "ccf-highlight--hidden";
-    }
-  })();
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit?.({ number, holder, month, year, cvv }, validity);
@@ -148,74 +240,73 @@ const CreditCardForm = ({
     <section className={`ccf-root ${className}`}>
       <div className="ccf-wrap">
         {/* CARD VISUAL */}
-        <section
-          className={`ccf-card ${flip ? "ccf-card--flip" : ""}`}
-          style={{ transition: transitionDuration }}
-        >
-          <div className={`ccf-highlight ${highlightClass}`} />
+        <div className="ccf-card-container">
+          <div
+            className={`ccf-card ${flip ? "ccf-card--flip" : ""}`}
+            style={{ transition: `transform ${transitionDuration}` }}
+          >
+            {/* FRONT */}
+            <div className="ccf-card__front">
+              {/* Focus highlight */}
+              {focusField && focusField !== "cvv" && (
+                <div className={`ccf-highlight ccf-highlight--${focusField}`} />
+              )}
 
-          {/* FRONT */}
-          <section className="ccf-card__front">
-            <div className="ccf-card__header">
-              <div className="ccf-card__brand">VAULT MAISON</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="32"
-                width="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="square"
-                strokeLinejoin="miter"
-              >
-                <rect x="1" y="4" width="22" height="16" rx="0" ry="0" />
-                <line x1="1" y1="10" x2="23" y2="10" />
-              </svg>
-            </div>
-
-            <div className="ccf-card__number" aria-label="Card number">
-              {displayedSlots.map((slot, idx) => (
-                <span key={idx} className="ccf-slot">
-                  <span
-                    className={`ccf-digit ${slot.filed ? "ccf-digit--filed" : ""}`}
-                    style={{ transition: slotTransition }}
-                  >
-                    <span className="ccf-row ccf-row--placeholder">#</span>
-                    <span className="ccf-row ccf-row--value">
-                      {slot.textTop}
-                    </span>
-                  </span>
-                </span>
-              ))}
-            </div>
-
-            <div className="ccf-card__footer">
-              <div className="ccf-card__holder-block">
-                <div className="ccf-card__section-title">Card Holder</div>
-                <div className="ccf-card__holder-name">
-                  {holder || "NAME ON CARD"}
+              <div className="ccf-card__header">
+                <div className="ccf-card__brand">VAULT MAISON</div>
+                <div className="ccf-card__network-logo">
+                  <CardNetworkLogo network={cardNetwork} />
                 </div>
               </div>
-              <div className="ccf-card__expires-block">
-                <div className="ccf-card__section-title">Expires</div>
-                <span>{month || "MM"}</span>/
-                <span>{year ? year.slice(-2) : "YY"}</span>
-              </div>
-            </div>
-          </section>
 
-          {/* BACK */}
-          <section className="ccf-card__back">
-            <div className="ccf-card__magstripe" />
-            <div className="ccf-card__cvv-area">
-              <span>CVV</span>
-              <div className="ccf-card__cvv-field">
-                {"*".repeat(cvv.length)}
+              <div className="ccf-card__number" aria-label="Card number">
+                {displayedSlots.map((slot, idx) => (
+                  <span key={idx} className="ccf-slot">
+                    <span
+                      className={`ccf-digit ${slot.filed ? "ccf-digit--filed" : ""}`}
+                      style={{ transition: slotTransition }}
+                    >
+                      <span className="ccf-row ccf-row--placeholder">#</span>
+                      <span className="ccf-row ccf-row--value">
+                        {slot.textTop}
+                      </span>
+                    </span>
+                  </span>
+                ))}
+              </div>
+
+              <div className="ccf-card__footer">
+                <div className="ccf-card__holder-block">
+                  <div className="ccf-card__section-title">CARD HOLDER</div>
+                  <div className="ccf-card__holder-name">
+                    {holder || "NAME ON CARD"}
+                  </div>
+                </div>
+                <div className="ccf-card__expires-block">
+                  <div className="ccf-card__section-title">EXPIRES</div>
+                  <div className="ccf-card__expires-value">
+                    <span>{month || "MM"}</span>/<span>{year ? year.slice(-2) : "YY"}</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </section>
-        </section>
+
+            {/* BACK */}
+            <div className="ccf-card__back">
+              {/* CVV highlight */}
+              {focusField === "cvv" && (
+                <div className="ccf-highlight ccf-highlight--cvv" />
+              )}
+              <div className="ccf-card__magstripe" />
+              <div className="ccf-card__cvv-area">
+                <span className="ccf-card__cvv-label">CVV</span>
+                <div className="ccf-card__cvv-field">
+                  {"*".repeat(cvv.length)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* FORM */}
         <form className="ccf-form" onSubmit={handleSubmit} noValidate>
@@ -311,6 +402,21 @@ const CreditCardForm = ({
             </div>
           </div>
 
+          {/* Security info */}
+          <div className="ccf-security">
+            <div className="ccf-security__row">
+              <span className="ccf-security__lock">&#128274; Encrypted Checkout</span>
+              <span className="ccf-security__ssl">256-bit SSL</span>
+            </div>
+            <div className="ccf-security__accepted">
+              <span className="ccf-security__label">ACCEPTED</span>
+              <span>Visa</span>
+              <span>Mastercard</span>
+              <span>Amex</span>
+              <span>Apple Pay</span>
+            </div>
+          </div>
+
           {showSubmit && (
             <button
               className="ccf-submit"
@@ -343,54 +449,18 @@ const CreditCardForm = ({
           align-items: start;
         }
 
-        /* ── Highlight overlay ── */
-        .ccf-highlight {
-          position: absolute;
-          border: 1px solid #ffffff;
-          z-index: 1;
-          width: 0;
-          height: 0;
-          top: 0;
-          left: 0;
-          box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
-          transition: ${prefersReducedMotion ? "none" : "0.3s"};
-        }
-        .ccf-highlight--number {
-          width: 346px;
-          height: 40px;
-          top: 92px;
-          left: 18px;
-        }
-        .ccf-highlight--holder {
-          width: 264px;
-          height: 56px;
-          top: 156px;
-          left: 18px;
-        }
-        .ccf-highlight--expire {
-          width: 86px;
-          height: 56px;
-          top: 156px;
-          left: 323px;
-        }
-        .ccf-highlight--cvv {
-          width: 381px;
-          height: 91px;
-          top: 83px;
-          left: 18px;
-        }
-        .ccf-highlight--hidden {
-          display: none;
-        }
-
-        /* ── Card ── */
-        .ccf-card {
-          position: relative;
+        /* ── Card Container (3D perspective) ── */
+        .ccf-card-container {
+          perspective: 1000px;
           width: 100%;
           max-width: 460px;
           margin: 0 auto;
+        }
+        .ccf-card {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 460 / 260;
           transform-style: preserve-3d;
-          perspective: 1000px;
         }
         .ccf-card--flip {
           transform: rotateY(180deg);
@@ -398,47 +468,21 @@ const CreditCardForm = ({
 
         .ccf-card__front,
         .ccf-card__back {
-          width: 100%;
-          max-width: 460px;
-          height: 260px;
-          padding: 24px 30px 30px;
-          background: linear-gradient(to right bottom, #050505, #1a1a1a);
-          box-shadow: 0 33px 50px -15px rgba(5, 5, 5, 0.5);
-          color: #ffffff;
-          overflow: hidden;
-          margin: 0 auto;
-          backface-visibility: hidden;
-          position: relative;
-        }
-        @media (max-width: 450px) {
-          .ccf-card__front,
-          .ccf-card__back {
-            padding: 12px 14px 16px;
-            height: 206px;
-          }
-          .ccf-highlight--number {
-            width: 300px;
-            left: 14px;
-          }
-          .ccf-highlight--holder {
-            width: 220px;
-            left: 14px;
-          }
-          .ccf-highlight--expire {
-            left: 280px;
-          }
-          .ccf-highlight--cvv {
-            width: 330px;
-            left: 14px;
-          }
-        }
-
-        .ccf-card__back {
           position: absolute;
           top: 0;
           left: 0;
-          transform: rotateY(180deg);
-          padding: 24px 0 0;
+          width: 100%;
+          height: 100%;
+          padding: 24px 30px;
+          background: linear-gradient(135deg, #1a1a1a 0%, #050505 50%, #111 100%);
+          box-shadow: 0 20px 40px -10px rgba(5, 5, 5, 0.5);
+          color: #ffffff;
+          overflow: hidden;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
         }
 
         /* Monochrome accent rings (subtle white glow) */
@@ -446,83 +490,100 @@ const CreditCardForm = ({
         .ccf-card__back::before {
           content: "";
           position: absolute;
-          border: 16px solid rgba(255, 255, 255, 0.08);
+          border: 16px solid rgba(255, 255, 255, 0.06);
           border-radius: 100%;
           left: -17%;
           top: -45px;
           height: 300px;
           width: 300px;
           filter: blur(13px);
+          pointer-events: none;
         }
         .ccf-card__front::after,
         .ccf-card__back::after {
           content: "";
           position: absolute;
-          border: 16px solid rgba(255, 255, 255, 0.05);
+          border: 16px solid rgba(255, 255, 255, 0.04);
           border-radius: 100%;
           width: 300px;
           top: 55%;
           left: -200px;
           height: 300px;
           filter: blur(13px);
+          pointer-events: none;
+        }
+
+        .ccf-card__back {
+          transform: rotateY(180deg);
+          padding: 0;
+          justify-content: flex-start;
+        }
+
+        /* ── Highlight overlay ── */
+        .ccf-highlight {
+          position: absolute;
+          border: 1px solid rgba(255, 255, 255, 0.7);
+          z-index: 2;
+          pointer-events: none;
+          transition: ${prefersReducedMotion ? "none" : "all 0.3s ease"};
+        }
+        .ccf-highlight--number {
+          top: 50%;
+          left: 24px;
+          right: 24px;
+          height: 40px;
+          transform: translateY(-70%);
+        }
+        .ccf-highlight--holder {
+          bottom: 20px;
+          left: 24px;
+          width: 55%;
+          height: 52px;
+        }
+        .ccf-highlight--expire {
+          bottom: 20px;
+          right: 24px;
+          width: 80px;
+          height: 52px;
+        }
+        .ccf-highlight--cvv {
+          top: 60px;
+          left: 24px;
+          right: 24px;
+          height: 80px;
         }
 
         /* ── Card inner elements ── */
-        .ccf-card__magstripe {
-          height: 40px;
-          width: 100%;
-          background-color: #6b6b6b;
-          position: relative;
-          z-index: 1;
-        }
-        .ccf-card__cvv-area {
-          position: relative;
-          z-index: 1;
-          margin-top: 24px;
-          padding: 0 32px;
-          display: flex;
-          flex-direction: column;
-          align-items: end;
-          font-size: 14px;
-          font-weight: 600;
-          text-transform: uppercase;
-        }
-        .ccf-card__cvv-field {
-          margin-top: 6px;
-          background-color: #ffffff;
-          height: 44px;
-          width: 100%;
-          color: #050505;
-          display: flex;
-          align-items: center;
-          justify-content: end;
-          padding: 0 12px;
-          font-size: 25px;
-          line-height: 21px;
-        }
         .ccf-card__header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          font-weight: 600;
-          margin-bottom: 32px;
           position: relative;
           z-index: 1;
         }
         .ccf-card__brand {
           font-size: 14px;
+          font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
         }
+        .ccf-card__network-logo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 48px;
+          min-height: 32px;
+        }
+
         .ccf-card__number {
-          font-size: 22px;
-          margin-bottom: 32px;
+          font-size: clamp(16px, 4vw, 22px);
           position: relative;
           z-index: 1;
           display: flex;
           height: 33px;
           overflow: hidden;
           color: #ffffff;
+          align-items: center;
         }
         .ccf-slot {
           display: inline-flex;
@@ -544,9 +605,10 @@ const CreditCardForm = ({
           height: 33px;
           display: block;
         }
+
         .ccf-card__footer {
           display: flex;
-          align-items: center;
+          align-items: flex-end;
           justify-content: space-between;
           position: relative;
           z-index: 1;
@@ -555,16 +617,121 @@ const CreditCardForm = ({
           text-transform: uppercase;
         }
         .ccf-card__section-title {
-          font-size: 14px;
+          font-size: 11px;
           font-weight: 600;
           text-transform: uppercase;
+          letter-spacing: 0.05em;
+          opacity: 0.7;
+          margin-bottom: 2px;
         }
         .ccf-card__holder-name {
           font-size: 14px;
-          margin-top: 4px;
+          margin-top: 2px;
         }
         .ccf-card__expires-block {
+          text-align: right;
+        }
+        .ccf-card__expires-value {
           font-size: 14px;
+          margin-top: 2px;
+        }
+
+        /* ── Card Back ── */
+        .ccf-card__magstripe {
+          height: 40px;
+          width: 100%;
+          background: linear-gradient(180deg, #4a4a4a 0%, #6b6b6b 50%, #4a4a4a 100%);
+          margin-top: 24px;
+        }
+        .ccf-card__cvv-area {
+          position: relative;
+          z-index: 1;
+          margin-top: 20px;
+          padding: 0 32px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        }
+        .ccf-card__cvv-label {
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          margin-bottom: 6px;
+        }
+        .ccf-card__cvv-field {
+          background-color: #ffffff;
+          height: 36px;
+          width: 100%;
+          max-width: 260px;
+          color: #050505;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding: 0 16px;
+          font-size: 20px;
+          letter-spacing: 4px;
+          line-height: 36px;
+        }
+
+        /* ── Mobile card adjustments ── */
+        @media (max-width: 480px) {
+          .ccf-card__front,
+          .ccf-card__back {
+            padding: 16px 18px;
+          }
+          .ccf-card__number {
+            font-size: 16px;
+            height: 28px;
+          }
+          .ccf-digit {
+            height: 28px;
+            line-height: 28px;
+          }
+          .ccf-digit--filed {
+            transform: translateY(-28px);
+          }
+          .ccf-row {
+            height: 28px;
+          }
+          .ccf-slot:nth-child(4n) {
+            margin-right: 6px;
+          }
+          .ccf-highlight--number {
+            left: 16px;
+            right: 16px;
+            height: 34px;
+          }
+          .ccf-highlight--holder {
+            bottom: 14px;
+            left: 16px;
+            width: 55%;
+            height: 44px;
+          }
+          .ccf-highlight--expire {
+            bottom: 14px;
+            right: 16px;
+            width: 70px;
+            height: 44px;
+          }
+          .ccf-highlight--cvv {
+            top: 50px;
+            left: 16px;
+            right: 16px;
+            height: 70px;
+          }
+          .ccf-card__cvv-area {
+            padding: 0 18px;
+            margin-top: 14px;
+          }
+          .ccf-card__cvv-field {
+            height: 30px;
+            font-size: 16px;
+          }
+          .ccf-card__magstripe {
+            height: 32px;
+            margin-top: 18px;
+          }
         }
 
         /* ── Form ── */
@@ -612,6 +779,7 @@ const CreditCardForm = ({
           display: grid;
           grid-template-columns: 2fr 1fr;
           gap: 24px;
+          align-items: end;
         }
         @media (max-width: 560px) {
           .ccf-field-group {
@@ -628,6 +796,44 @@ const CreditCardForm = ({
           font-size: 12px;
           margin-top: 4px;
         }
+
+        /* ── Security section ── */
+        .ccf-security {
+          border: 1px solid #E5E5E5;
+          padding: 16px 20px;
+          margin-top: 8px;
+        }
+        .ccf-security__row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        }
+        .ccf-security__lock {
+          font-size: 13px;
+          font-weight: 500;
+          color: #050505;
+        }
+        .ccf-security__ssl {
+          font-size: 12px;
+          color: #6B6B6B;
+        }
+        .ccf-security__accepted {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          font-size: 12px;
+          color: #6B6B6B;
+          border-top: 1px solid #E5E5E5;
+          padding-top: 10px;
+        }
+        .ccf-security__label {
+          font-weight: 600;
+          color: #9B9B9B;
+          font-size: 10px;
+          letter-spacing: 0.08em;
+        }
+
         .ccf-submit {
           margin-top: 8px;
           height: 48px;
