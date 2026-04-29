@@ -49,7 +49,7 @@ export function MinimalBespoke() {
       </section>
 
       {/* Process Steps */}
-      <section style={{ padding: '80px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '48px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>The Process</p>
           <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Four Steps to Your Masterpiece</h2>
@@ -69,7 +69,7 @@ export function MinimalBespoke() {
       </section>
 
       {/* Why Bespoke - BlobGlassCard */}
-      <section style={{ padding: '80px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '48px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }} className="vm-bespoke-steps">
           <BlobGlassCard title="Unique Design" description="No two pieces are alike. Your jewelry is designed from scratch to reflect your personal story." />
           <BlobGlassCard title="Expert Guidance" description="Work directly with our master gemologists and designers throughout the entire creation process." />
@@ -78,7 +78,7 @@ export function MinimalBespoke() {
       </section>
 
       {/* Consultation Form */}
-      <section style={{ padding: '80px 5vw', backgroundColor: '#FAFAFA' }}>
+      <section style={{ padding: '48px 5vw', backgroundColor: '#FAFAFA' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '12px' }}>Begin Your Journey</p>

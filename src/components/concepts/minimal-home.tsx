@@ -569,7 +569,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       </section>
 
       {/* ═══ SECTION 4: BRAND STORY — Full-width Dark Band with Text Reveal ═══ */}
-      <section style={{ backgroundColor: '#050505', padding: 'clamp(80px, 12vh, 160px) 0' }}>
+      <section style={{ backgroundColor: '#050505', padding: 'clamp(32px, 5vh, 64px) 0' }}>
         <div className={minimal.cn.containerNarrow} style={{ textAlign: 'center' }}>
           <span
             style={{
@@ -587,7 +587,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <ScrollWordReveal
             text="Crafted with obsession. Worn with intention. Every facet, every angle, every proportion — calculated to maximize brilliance while minimizing everything else."
             as="p"
-            baseOpacity={0.1}
+            baseOpacity={0.3}
             start="top 85%"
             end="top 25%"
           />
@@ -607,7 +607,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
 
       {/* ═══ SECTION 4A-PAN: INFINITE CRAFTSMANSHIP CANVAS ═══ */}
       <section style={{ position: 'relative', overflow: 'hidden' }}>
-        <InfiniteShowcasePan height="480px" panDuration={60} />
+        <InfiniteShowcasePan height="clamp(300px, 50vh, 480px)" panDuration={60} />
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -617,25 +617,26 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           pointerEvents: 'none',
           zIndex: 2,
         }}>
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', padding: '24px 40px', borderRadius: '4px', background: 'rgba(5,5,5,0.7)', backdropFilter: 'blur(8px)' }}>
             <span style={{
               fontFamily: mono,
               fontSize: '10px',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.45)',
+              color: 'rgba(255,255,255,0.6)',
               display: 'block',
-              marginBottom: '12px',
+              marginBottom: '8px',
             }}>
               Behind Every Piece
             </span>
             <h2 style={{
               fontFamily: font,
-              fontSize: 'clamp(24px, 3.5vw, 44px)',
-              fontWeight: 200,
+              fontSize: 'clamp(20px, 3vw, 36px)',
+              fontWeight: 300,
               color: '#FFFFFF',
-              letterSpacing: '-0.03em',
+              letterSpacing: '-0.02em',
               lineHeight: 1.1,
+              margin: 0,
             }}>
               The Metrics of Mastery
             </h2>
@@ -665,7 +666,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 alignItems: 'center',
               }}
             >
-              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#FAFAFA', height: '100%' }}>
+              <div style={{ overflow: 'hidden', backgroundColor: '#FAFAFA', height: '100%', position: 'relative' }}>
                 <img
                   src={product.images[0]}
                   alt={product.name}
@@ -680,7 +681,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   }}
                 />
               </div>
-              <div style={{ padding: '40px 0' }}>
+              <div style={{ padding: '40px 20px 40px 0', position: 'relative', zIndex: 2, backgroundColor: '#FFFFFF' }}>
                 <span
                   style={{
                     fontFamily: mono,
@@ -875,7 +876,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       </section>
 
       {/* ═══ SECTION 6-BENTO: VAULT DIFFERENTIATORS — Brutalist Bento Grid ═══ */}
-      <section style={{ padding: 'clamp(80px, 10vh, 120px) 5vw', backgroundColor: '#FFFFFF' }}>
+      <section style={{ padding: 'clamp(48px, 6vh, 80px) 5vw', backgroundColor: '#FFFFFF' }}>
         <VaultBentoShowcase
           sectionNum="06 — Why Vault Maison"
           sectionTitle="Foundation Blocks"
@@ -916,7 +917,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       </section>
 
       {/* ═══ SECTION 6A: BRAND MANIFESTO — Tier 4 Dark Inversion (brutalist contrast block) ═══ */}
-      <section style={{ padding: 'clamp(80px, 12vh, 160px) 0', backgroundColor: '#050505', color: '#FFFFFF' }}>
+      <section style={{ padding: 'clamp(32px, 5vh, 64px) 0', backgroundColor: '#050505', color: '#FFFFFF' }}>
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 'clamp(40px, 6vw, 96px)', alignItems: 'center' }}>
             <ScrollScrub from={{ y: 50, opacity: 0 }} start="top 85%" end="top 35%">
@@ -984,7 +985,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             </div>
             </ScrollScrub>
             <ScrollScrub from={{ y: 60, opacity: 0 }} start="top 80%" end="top 30%">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="vm-craft-image-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
                 <img
                   src="/images/minimal-engagement-ring.jpg"
@@ -1103,7 +1104,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       </section>
 
       {/* ═══ SECTION 8: NEWSLETTER — Minimal ═══ */}
-      <section style={{ backgroundColor: '#FAFAFA', padding: 'clamp(64px, 10vh, 120px) 0' }}>
+      <section style={{ backgroundColor: '#FAFAFA', padding: 'clamp(48px, 6vh, 80px) 0' }}>
         <div className={minimal.cn.containerNarrow} style={{ textAlign: 'center' }}>
           <ScrollScrub from={{ y: 30, opacity: 0 }} start="top 90%" end="top 50%">
           <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '20px' }}>08 — Stay Informed</span>
@@ -1237,6 +1238,13 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           outline-offset: 2px;
         }
 
+        /* Craft image grid mobile */
+        @media (max-width: 480px) {
+          .vm-craft-image-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+        }
         /* Featured product card responsive */
         @media (max-width: 768px) {
           .vm-featured-card {

@@ -26,7 +26,7 @@ export default function CartPage() {
   const concept = getConcept(params.concept as string)
   const { items, removeItem, updateQuantity, getTotal } = useCartStore()
 
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalCart />
   if (concept.id === 'vault') return <VaultCart />

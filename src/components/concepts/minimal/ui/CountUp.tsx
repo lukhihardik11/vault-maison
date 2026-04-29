@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect, type CSSProperties } from 'react'
+import React, { useRef, useState, useEffect, type CSSProperties } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -35,7 +35,7 @@ interface CountUpProps {
   /** Use comma separator for thousands */
   separator?: boolean
   /** HTML tag to render */
-  as?: keyof JSX.IntrinsicElements
+  as?: keyof React.JSX.IntrinsicElements
   /** Style overrides */
   style?: CSSProperties
   /** CSS class */

@@ -21,7 +21,7 @@ export default function CategoryPage() {
   const concept = getConcept(params.concept as string)
   const category = params.category as ProductCategory
 
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalCategory category={category} />
   if (concept.id === 'vault') return <VaultCategory category={category} />

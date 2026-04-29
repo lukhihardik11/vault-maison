@@ -53,7 +53,7 @@ const locations = [
 export default function StoresPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   return (
     <ConceptLayout concept={concept}>

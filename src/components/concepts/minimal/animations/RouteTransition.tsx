@@ -21,7 +21,7 @@ import { useReducedMotionPreference } from './useResponsiveMotion'
  *   5. New page content is revealed
  *
  * The curtain uses `clip-path: inset()` for GPU-accelerated animation
- * without layout thrashing. The wordmark uses `autoAlpha` for clean
+ * without layout thrashing. The wordmark uses `opacity` for clean
  * fade without FOUC.
  *
  * Context API:
@@ -109,7 +109,7 @@ export function RouteTransition({ children }: RouteTransitionProps) {
 
     // Phase 2: Wordmark fades in
     tl.to(wordmark, {
-      autoAlpha: 1,
+      opacity: 1,
       duration: 0.2,
       ease: 'power2.out',
     })
@@ -119,7 +119,7 @@ export function RouteTransition({ children }: RouteTransitionProps) {
 
     // Phase 4: Wordmark fades out
     tl.to(wordmark, {
-      autoAlpha: 0,
+      opacity: 0,
       duration: 0.15,
       ease: 'power2.in',
     })
@@ -170,7 +170,6 @@ export function RouteTransition({ children }: RouteTransitionProps) {
               textTransform: 'uppercase',
               color: '#FFFFFF',
               opacity: 0,
-              visibility: 'hidden',
               userSelect: 'none',
             }}
           >

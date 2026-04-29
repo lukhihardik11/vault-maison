@@ -87,7 +87,7 @@ const atelierStats = [
 export function MinimalCraftsmanship() {
   return (
     <MinimalLayout>      {/* ── Hero: Full-width typographic header ───────────────────── */}
-      <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '80px 5vw 48px', maxWidth: '1200px', margin: '0 auto' }}>
         <PageEntrance variant="standard" delay={0.05}>
         <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Our Craft</span>        {/* Phase 6: Line-by-line masked headline reveal */}
         <HeadlineReveal
@@ -125,7 +125,7 @@ export function MinimalCraftsmanship() {
       </section>
 
       {/* ── Atelier Stats ──────────────────────────────────────── */}
-      <section style={{ padding: '64px 5vw', borderBottom: '1px solid #E5E5E5' }}>
+      <section style={{ padding: '48px 5vw', borderBottom: '1px solid #E5E5E5' }}>
         <div style={{
           maxWidth: '1200px', margin: '0 auto',
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '32px',
@@ -151,7 +151,7 @@ export function MinimalCraftsmanship() {
       </section>
 
       {/* ── The Process: 6-Step Timeline ───────────────────────── */}
-      <section style={{ padding: '80px 5vw', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: '48px 5vw', maxWidth: '900px', margin: '0 auto' }}>
         <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>02 — The Process</span>
         <h2 style={{
           fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
@@ -206,7 +206,7 @@ export function MinimalCraftsmanship() {
       </section>
 
       {/* ── Materials: Dark section ────────────────────────────── */}
-      <section style={{ padding: '80px 5vw', backgroundColor: '#050505' }}>
+      <section style={{ padding: '48px 5vw', backgroundColor: '#050505' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>03 — Materials</span>
           <h2 style={{
@@ -246,7 +246,7 @@ export function MinimalCraftsmanship() {
           </div>
         </div>
       </section>      {/* ── Philosophy Quote — Tier 4 Dark Inversion + ScrollWordReveal ────── */}
-      <section style={{ padding: '80px 5vw', backgroundColor: '#050505', margin: '0 auto' }}>
+      <section style={{ padding: '48px 5vw', backgroundColor: '#050505', margin: '0 auto' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', borderLeft: '2px solid #FFFFFF', paddingLeft: '24px' }}>
           <ScrollWordReveal
             text='"Less, but better. Every joint, every setting, every surface must earn its place. We do not add — we refine until only the essential remains."'
@@ -268,7 +268,7 @@ export function MinimalCraftsmanship() {
 
       {/* ── Infinite Craftsmanship Canvas — Bento Pan ─────────── */}
       <section style={{ position: 'relative', overflow: 'hidden' }}>
-        <InfiniteShowcasePan height="500px" panDuration={55} />
+        <InfiniteShowcasePan height="clamp(280px, 45vh, 500px)" panDuration={55} />
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -305,7 +305,7 @@ export function MinimalCraftsmanship() {
       </section>
 
       {/* ── The Atelier ────────────────────────────────────────── */}
-      <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: '48px 5vw 48px', maxWidth: '900px', margin: '0 auto' }}>
         <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>04 — The Atelier</span>
         <h2 style={{
           fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
@@ -336,7 +336,7 @@ export function MinimalCraftsmanship() {
       </section>
 
       {/* ── CTA + Cross-links ──────────────────────────────────── */}
-      <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+      <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ border: '1px solid #050505', padding: '48px 32px' }}>
           <h2 style={{
             fontFamily: F, fontSize: '20px', fontWeight: 400,
@@ -389,6 +389,7 @@ export function MinimalCraftsmanship() {
           margin: 0;
         }
         @media (max-width: 768px) {
+          .vm-craft-quote { font-size: 15px !important; line-height: 1.6 !important; }
           .vm-craft-stats { grid-template-columns: repeat(2, 1fr) !important; }
           .vm-materials-grid { grid-template-columns: 1fr !important; }
         }

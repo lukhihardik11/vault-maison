@@ -32,7 +32,7 @@ export default function FAQPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
   const [open, setOpen] = useState<number | null>(null)
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalFAQ />
   if (concept.id === 'vault') return <VaultFAQ />

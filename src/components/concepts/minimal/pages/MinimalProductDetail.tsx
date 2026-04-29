@@ -218,7 +218,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
         </div>
       </div>
 
-      <div className={`${minimal.cn.container} grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20`} style={{ paddingBottom: 'clamp(64px, 10vh, 120px)' }}>
+      <div className={`${minimal.cn.container} grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20`} style={{ paddingBottom: 'clamp(40px, 6vh, 60px)' }}>
         <ProductImageGallery images={product.images} productName={product.name} category={product.category} />
 
         <div>
@@ -389,7 +389,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
       </div>
 
       {product.diamondSpecs && (
-        <section style={{ backgroundColor: '#FFFFFF', padding: 'clamp(64px, 10vh, 120px) 0', borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: 'clamp(40px, 6vh, 60px) 0', borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5' }}>
           <div className={minimal.cn.container}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
               <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', display: 'block', marginBottom: 12 }}>Diamond Certification</span>
@@ -413,7 +413,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
         </section>
       )}
 
-      <section style={{ padding: 'clamp(48px, 8vh, 80px) 0', borderBottom: '1px solid #E5E5E5' }}>
+      <section style={{ padding: 'clamp(32px, 5vh, 48px) 0', borderBottom: '1px solid #E5E5E5' }}>
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 40, alignItems: 'center' }}>
             <div>
@@ -449,7 +449,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
       </section>
 
       {related.length > 0 && (
-        <section style={{ padding: 'clamp(64px, 10vh, 120px) 0', background: '#FFFFFF' }}>
+        <section style={{ padding: 'clamp(40px, 6vh, 60px) 0', background: '#FFFFFF' }}>
           <div className={minimal.cn.container}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48 }}>
               <div>

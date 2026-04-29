@@ -57,7 +57,7 @@ export default function SearchPage() {
     return filtered
   }, [query, selectedMaterial, selectedRange])
 
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalSearch />
   if (concept.id === 'vault') return <VaultSearch />

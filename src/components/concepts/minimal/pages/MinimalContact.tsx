@@ -94,7 +94,7 @@ export function MinimalContact() {
 
   return (
     <MinimalLayout>
-      <section style={{ padding: '80px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+      <section style={{ padding: '60px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
         <Reveal reducedMotion={reducedMotion}>
           <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>01 — Get in Touch</span>
           <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Contact Us</h1>
@@ -104,7 +104,7 @@ export function MinimalContact() {
         </Reveal>
       </section>
 
-      <section style={{ padding: '60px 5vw 100px', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '48px 5vw 60px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '80px' }} className="vm-contact-grid">
           <Reveal reducedMotion={reducedMotion}>
             <div>

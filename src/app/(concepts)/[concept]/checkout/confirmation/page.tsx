@@ -61,7 +61,7 @@ function ConfirmationContent() {
     fetchOrder()
   }, [orderNumber])
 
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   const isMinimal = concept.id === 'minimal'
   const accent = concept.palette.accent

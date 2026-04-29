@@ -8,25 +8,6 @@ import { useReducedMotionPreference } from './useResponsiveMotion'
 /*  PreLoader — First-visit branded loading sequence                   */
 /* ================================================================== */
 
-/**
- * PreLoader — a cinematic loading screen shown only on the very first
- * visit to the site (per session). Subsequent navigations use the
- * RouteTransition curtain instead.
- *
- * Sequence:
- *   1. Full-screen black overlay with "VAULT MAISON" in large type
- *   2. Each character staggers in with translateY + autoAlpha
- *   3. A thin progress line animates from 0% to 100% width
- *   4. After progress completes, the overlay lifts with clip-path
- *   5. Page content is revealed beneath
- *
- * Uses sessionStorage to track whether the loader has played.
- * Disabled on prefers-reduced-motion (content shows immediately).
- *
- * The loader blocks interaction during playback via pointer-events
- * and is removed from the DOM after completion.
- */
-
 const BRAND_TEXT = 'VAULT MAISON'
 const SESSION_KEY = 'vm-preloader-played'
 
@@ -44,19 +25,26 @@ export function PreLoader() {
       return
     }
 
-    // Check if already played this session
     try {
       if (sessionStorage.getItem(SESSION_KEY)) {
         setIsDone(true)
         return
       }
     } catch {
-      // sessionStorage not available — skip loader
       setIsDone(true)
       return
     }
 
     setShouldShow(true)
+
+    // Safety: force-remove after 3s even if GSAP fails
+    const safety = setTimeout(() => {
+      try { sessionStorage.setItem(SESSION_KEY, '1') } catch { /* noop */ }
+      document.body.style.overflow = ''
+      setIsDone(true)
+    }, 3000)
+
+    return () => clearTimeout(safety)
   }, [prefersReduced])
 
   useEffect(() => {
@@ -67,64 +55,58 @@ export function PreLoader() {
     const chars = charsRef.current.filter(Boolean) as HTMLSpanElement[]
     if (!overlay || !line || !chars.length) return
 
-    // Lock body scroll during preloader
     document.body.style.overflow = 'hidden'
 
     const tl = gsap.timeline({
       onComplete: () => {
-        try {
-          sessionStorage.setItem(SESSION_KEY, '1')
-        } catch { /* noop */ }
+        try { sessionStorage.setItem(SESSION_KEY, '1') } catch { /* noop */ }
         document.body.style.overflow = ''
         setIsDone(true)
       },
     })
 
-    // Initial state
-    tl.set(chars, { autoAlpha: 0, y: 30 })
+    // Use opacity (not autoAlpha) to avoid visibility:hidden issues
+    tl.set(chars, { opacity: 0, y: 30 })
     tl.set(line, { scaleX: 0, transformOrigin: 'left center' })
 
     // Phase 1: Stagger characters in
     tl.to(chars, {
-      autoAlpha: 1,
+      opacity: 1,
       y: 0,
-      duration: 0.5,
-      stagger: 0.04,
+      duration: 0.4,
+      stagger: 0.03,
       ease: 'power3.out',
-    }, 0.3)
+    }, 0.2)
 
     // Phase 2: Progress line
     tl.to(line, {
       scaleX: 1,
-      duration: 1.2,
+      duration: 0.8,
       ease: 'power2.inOut',
-    }, 0.8)
+    }, 0.5)
 
-    // Phase 3: Hold
-    tl.to({}, { duration: 0.3 })
+    // Phase 3: Hold briefly
+    tl.to({}, { duration: 0.2 })
 
     // Phase 4: Fade out text
     tl.to(chars, {
-      autoAlpha: 0,
+      opacity: 0,
       y: -15,
-      duration: 0.3,
-      stagger: 0.02,
+      duration: 0.25,
+      stagger: 0.015,
       ease: 'power2.in',
     })
 
-    tl.to(line, {
-      autoAlpha: 0,
-      duration: 0.2,
-    }, '<')
+    tl.to(line, { opacity: 0, duration: 0.15 }, '<')
 
     // Phase 5: Curtain lifts
     tl.to(overlay, {
       clipPath: 'inset(0 0 100% 0)',
-      duration: 0.7,
+      duration: 0.5,
       ease: 'power3.inOut',
     })
 
-    // Phase 6: Remove from DOM
+    // Phase 6: Remove
     tl.set(overlay, { display: 'none' })
 
     return () => {
@@ -133,7 +115,6 @@ export function PreLoader() {
     }
   }, [shouldShow, isDone])
 
-  if (isDone && !shouldShow) return null
   if (isDone) return null
 
   return (
@@ -152,13 +133,8 @@ export function PreLoader() {
         pointerEvents: 'all',
       }}
     >
-      {/* Brand text — each character wrapped for stagger */}
       <div
-        style={{
-          display: 'flex',
-          gap: '0',
-          userSelect: 'none',
-        }}
+        style={{ display: 'flex', gap: '0', userSelect: 'none' }}
         aria-hidden="true"
       >
         {BRAND_TEXT.split('').map((char, i) => (
@@ -173,8 +149,6 @@ export function PreLoader() {
               color: '#FFFFFF',
               display: 'inline-block',
               opacity: 0,
-              visibility: 'hidden',
-              // Preserve space character width
               minWidth: char === ' ' ? '0.5em' : undefined,
             }}
           >
@@ -183,7 +157,6 @@ export function PreLoader() {
         ))}
       </div>
 
-      {/* Progress line */}
       <div
         style={{
           width: 'clamp(120px, 20vw, 200px)',

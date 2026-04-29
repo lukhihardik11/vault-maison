@@ -58,9 +58,9 @@ export function ScrollDrivenReveal({
     if (supportsScrollTimeline) {
       // Native CSS scroll-driven animation — zero JS overhead
       el.style.animationName = 'scrollDrivenFadeIn'
-      el.style.animationTimeline = 'view()'
-      el.style.animationRangeStart = rangeStart
-      el.style.animationRangeEnd = rangeEnd
+      ;(el.style as any).animationTimeline = 'view()'
+      ;(el.style as any).animationRangeStart = rangeStart
+      ;(el.style as any).animationRangeEnd = rangeEnd
       el.style.animationFillMode = 'both'
       el.style.animationDuration = '1ms' // Required but ignored by scroll timeline
       if (delay > 0) {
@@ -130,9 +130,9 @@ export function ScrollDrivenScale({
 
     if (supportsScrollTimeline) {
       el.style.animationName = 'scrollDrivenScaleIn'
-      el.style.animationTimeline = 'view()'
-      el.style.animationRangeStart = 'entry 0%'
-      el.style.animationRangeEnd = 'cover 40%'
+      ;(el.style as any).animationTimeline = 'view()'
+      ;(el.style as any).animationRangeStart = 'entry 0%'
+      ;(el.style as any).animationRangeEnd = 'cover 40%'
       el.style.animationFillMode = 'both'
       el.style.animationDuration = '1ms'
     } else {

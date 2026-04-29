@@ -18,7 +18,7 @@ import { MaisonCollections } from '@/components/concepts/maison/pages'
 export default function CollectionsPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalCollections />
   if (concept.id === 'vault') return <VaultCollections />
