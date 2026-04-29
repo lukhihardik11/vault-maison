@@ -6,6 +6,7 @@ import { ArrowRight, Award, Diamond, Gem, Globe, type LucideIcon } from 'lucide-
 import { MinimalLayout } from '../MinimalLayout'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import { ScrollWordReveal } from '../animations/ScrollScrub'
+import { KineticHeadline } from '../animations/KineticType'
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'Space Mono', 'SF Mono', monospace"
@@ -124,9 +125,17 @@ export function MinimalAbout() {
         <div style={{ position: 'absolute', inset: 0, background: '#050505', opacity: 0.56 }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '700px' }}>
           <span className="brutalist-section-num" style={{ color: '#E5E5E5', display: 'block', marginBottom: '16px' }}>01 — Our Story</span>
-          <h1 style={{ fontFamily: font, fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 600, color: '#FFFFFF', marginBottom: '16px', lineHeight: 1.1 }}>
-            Where Craft Meets Conviction
-          </h1>
+          {/* Phase 6: Per-character kinetic headline on dark hero */}
+          <KineticHeadline
+            text="Where Craft Meets Conviction"
+            as="h1"
+            variant="slide-up"
+            style={{ fontFamily: font, fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 600, color: '#FFFFFF', marginBottom: '16px', lineHeight: 1.1 }}
+            stagger={0.02}
+            once
+            duration={0.9}
+            start="top 95%"
+          />
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, lineHeight: 1.8, color: '#E5E5E5', maxWidth: '520px' }}>
             Vault Maison was born from a simple belief: extraordinary jewelry should be transparent, personal, and built to last.
           </p>

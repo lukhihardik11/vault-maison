@@ -18,6 +18,7 @@ import { StaggerReveal } from './minimal/animations/StaggerReveal'
 import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
 import { ScrollScrub, ScrollWordReveal } from './minimal/animations/ScrollScrub'
+import { KineticHeadline, HeadlineReveal } from './minimal/animations/KineticType'
 
 // Phase-2 homepage primitives — see docs/research/ui-ux-pro-max-recommendations.md
 import { MarqueeText } from './minimal/ui/MarqueeText'
@@ -197,27 +198,24 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           </span>
 
           <div>
-            {/* Animated headline with clip-path reveal + per-line glitch on hover */}
-            <TextReveal duration={800}>
-              <h1
-                className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl"
-                style={{
-                  fontFamily: font,
-                  fontWeight: 700,
-                  letterSpacing: '-0.04em',
-                  lineHeight: 0.88,
-                  color: '#050505',
-                  textTransform: 'uppercase',
-                  margin: 0,
-                }}
-              >
-                <GlitchText>Precision.</GlitchText>
-                <br />
-                <GlitchText>Nothing</GlitchText>
-                <br />
-                <GlitchText>More.</GlitchText>
-              </h1>
-            </TextReveal>
+            {/* Phase 6: Kinetic headline — line-by-line masked reveal */}
+            <HeadlineReveal
+              lines={['Precision.', 'Nothing', 'More.']}
+              as="h1"
+              className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl"
+              style={{
+                fontFamily: font,
+                fontWeight: 700,
+                letterSpacing: '-0.04em',
+                lineHeight: 0.88,
+                color: '#050505',
+                textTransform: 'uppercase',
+                margin: 0,
+              }}
+              stagger={0.14}
+              duration={0.9}
+              start="top 95%"
+            />
 
             {/* Data points — staggered reveal */}
             <StaggerReveal
@@ -427,21 +425,25 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           </ParallaxSection>
           <div>
             <span className="brutalist-section-num">03 — Featured Piece</span>
-            <TextReveal delay={100} duration={700} as="h2">
-              <span
-                className="mt-5 mb-4 text-xl sm:text-2xl md:text-3xl lg:text-5xl"
-                style={{
-                  fontFamily: font,
-                  fontWeight: 600,
-                  letterSpacing: '-0.03em',
-                  lineHeight: 1.1,
-                  color: '#050505',
-                  display: 'block',
-                }}
-              >
-                {heroProduct.name}
-              </span>
-            </TextReveal>
+            {/* Phase 6: Per-character kinetic reveal on product name */}
+            <KineticHeadline
+              text={heroProduct.name}
+              as="h2"
+              variant="slide-up"
+              className="mt-5 mb-4 text-xl sm:text-2xl md:text-3xl lg:text-5xl"
+              style={{
+                fontFamily: font,
+                fontWeight: 600,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.1,
+                color: '#050505',
+                display: 'block',
+              }}
+              stagger={0.025}
+              once
+              duration={0.9}
+              start="top 80%"
+            />
             <p
               style={{
                 fontFamily: font,
@@ -689,11 +691,18 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
               <span className="brutalist-section-num">05 — Collections</span>
-              <TextReveal delay={100} duration={700} as="h2">
-                <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
-                  Collections
-                </span>
-              </TextReveal>
+              {/* Phase 6: Per-character kinetic reveal */}
+              <KineticHeadline
+                text="Collections"
+                as="h2"
+                variant="slide-up"
+                className={`${minimal.cn.sectionHeadline} mt-4`}
+                style={{ fontFamily: font, display: 'block' }}
+                stagger={0.03}
+                once
+                duration={0.8}
+                start="top 82%"
+              />
             </div>
             <Link href="/minimal/collections" className={`${minimal.cn.btnGhost} no-underline`}>
               View All <ArrowRight size={12} strokeWidth={1.5} />
@@ -820,7 +829,11 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <ScrollScrub from={{ y: 50, opacity: 0 }} start="top 85%" end="top 35%">
             <div>
               <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>06A — Our Philosophy</span>
-              <h2
+              {/* Phase 6: Per-character kinetic reveal on dark section */}
+              <KineticHeadline
+                text="Craft Is Our Language"
+                as="h2"
+                variant="slide-up"
                 style={{
                   fontFamily: font,
                   fontSize: 'clamp(28px, 3vw, 48px)',
@@ -830,9 +843,10 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   color: '#FFFFFF',
                   margin: '0 0 24px',
                 }}
-              >
-                Craft Is Our Language
-              </h2>
+                stagger={0.03}
+                start="top 80%"
+                end="top 35%"
+              />
               <p
                 style={{
                   fontFamily: font,
@@ -906,11 +920,18 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
               <span className="brutalist-section-num">06B — Most Loved</span>
-              <TextReveal delay={100} duration={700} as="h2">
-                <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
-                  Bestsellers
-                </span>
-              </TextReveal>
+              {/* Phase 6: Per-character kinetic reveal */}
+              <KineticHeadline
+                text="Bestsellers"
+                as="h2"
+                variant="fade"
+                className={`${minimal.cn.sectionHeadline} mt-4`}
+                style={{ fontFamily: font, display: 'block' }}
+                stagger={0.03}
+                once
+                duration={0.8}
+                start="top 82%"
+              />
             </div>
             <Link href="/minimal/collections" className={`${minimal.cn.btnGhost} no-underline`}>
               View All <ArrowRight size={12} strokeWidth={1.5} />
@@ -932,11 +953,18 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <div className="flex justify-between items-end mb-16 md:mb-20">
             <div>
               <span className="brutalist-section-num">07 — Just In</span>
-              <TextReveal delay={100} duration={700} as="h2">
-                <span className={`${minimal.cn.sectionHeadline} mt-4`} style={{ fontFamily: font, display: 'block' }}>
-                  New Arrivals
-                </span>
-              </TextReveal>
+              {/* Phase 6: Per-character kinetic reveal */}
+              <KineticHeadline
+                text="New Arrivals"
+                as="h2"
+                variant="slide-up"
+                className={`${minimal.cn.sectionHeadline} mt-4`}
+                style={{ fontFamily: font, display: 'block' }}
+                stagger={0.025}
+                once
+                duration={0.8}
+                start="top 82%"
+              />
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               <button
