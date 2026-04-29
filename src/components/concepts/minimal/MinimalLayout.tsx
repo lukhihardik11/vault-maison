@@ -7,7 +7,8 @@ import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
 import { ScrollProgress } from './animations/ScrollProgress'
 import { useReducedMotionPreference } from './animations/useResponsiveMotion'
-import PageTransition from './ui/PageTransition'
+import { RouteTransition } from './animations/RouteTransition'
+import { PreLoader } from './animations/PreLoader'
 import Breadcrumb from './ui/Breadcrumb'
 import BackToTop from './ui/BackToTop'
 import CursorFollower from './ui/CursorFollower'
@@ -181,6 +182,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           }
         }
       `}</style>
+      <RouteTransition>
       <LenisProvider lerp={0.07} disabled={prefersReducedMotion}>
       <div
         className={`minimal-concept ${isLoaded ? 'is-loaded' : 'is-loading'} ${prefersReducedMotion ? 'is-reduced-motion' : ''}`}
@@ -208,7 +210,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         {!hideNav && <MinimalNav />}
         <main className="minimal-main-content">
           {showBreadcrumb && <Breadcrumb />}
-          <PageTransition>{children}</PageTransition>
+          {children}
         </main>
         {!hideFooter && <MinimalFooter />}
         {!hideNav && <Toolbar />}
@@ -218,6 +220,8 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
       </div>
       </LenisProvider>
+      <PreLoader />
+      </RouteTransition>
     </>
   )
 }

@@ -6,6 +6,7 @@ import { MinimalLayout } from '../MinimalLayout'
 import { Leaf, Shield, Globe, Recycle, Heart, ArrowRight } from 'lucide-react'
 import { ScrollWordReveal } from '../animations/ScrollScrub'
 import { HeadlineReveal } from '../animations/KineticType'
+import { PageEntrance } from '../animations/PageEntrance'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -61,6 +62,7 @@ export function MinimalSustainability() {
     <MinimalLayout>
       {/* ── Hero ───────────────────────────────────────────────── */}
       <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
+        <PageEntrance variant="standard" delay={0.05}>
         <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Responsibility</span>
         {/* Phase 6: Line-by-line masked headline reveal */}
         <HeadlineReveal
@@ -83,6 +85,7 @@ export function MinimalSustainability() {
           end="top 30%"
           className="vm-sustain-opening"
         />
+        </PageEntrance>
       </section>
 
       {/* ── Full-bleed image ───────────────────────────────────── */}

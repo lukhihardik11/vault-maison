@@ -6,6 +6,7 @@ import { minimal } from '../design-system'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
 import { KineticHeadline } from '../animations/KineticType'
+import { PageEntrance } from '../animations/PageEntrance'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -29,6 +30,7 @@ export function MinimalCollections() {
       {/* Header */}
       <div style={{ padding: 'clamp(64px, 10vh, 120px) 0 clamp(32px, 4vh, 48px)' }}>
         <div className={minimal.cn.container}>
+          <PageEntrance variant="standard" delay={0.05}>
           <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: '16px' }}>
             Vault Maison
           </span>
@@ -46,6 +48,7 @@ export function MinimalCollections() {
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#6B6B6B', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
             Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
           </p>
+          </PageEntrance>
         </div>
       </div>
 

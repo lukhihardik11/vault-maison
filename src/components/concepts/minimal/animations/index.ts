@@ -6,3 +6,6 @@ export { HorizontalScroll, HorizontalPanel } from './HorizontalScroll';
 export { ScrollDrivenReveal, ScrollDrivenScale } from './ScrollDrivenReveal';
 export { ScrollScrub, ScrollWordReveal } from './ScrollScrub';
 export { KineticHeadline, HeadlineReveal } from './KineticType';
+export { RouteTransition, useTransitionState } from './RouteTransition';
+export { PreLoader } from './PreLoader';
+export { PageEntrance } from './PageEntrance';

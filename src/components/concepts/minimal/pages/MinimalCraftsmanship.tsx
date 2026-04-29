@@ -6,6 +6,7 @@ import { MinimalLayout } from '../MinimalLayout'
 import { Gem, Ruler, Eye, Sparkles, Clock, Layers, ArrowRight } from 'lucide-react'
 import { ScrollWordReveal, ScrollScrub } from '../animations/ScrollScrub'
 import { HeadlineReveal } from '../animations/KineticType'
+import { PageEntrance } from '../animations/PageEntrance'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -84,11 +85,10 @@ const atelierStats = [
 
 export function MinimalCraftsmanship() {
   return (
-    <MinimalLayout>
-      {/* ── Hero: Full-width typographic header ─────────────────── */}
+    <MinimalLayout>      {/* ── Hero: Full-width typographic header ───────────────────── */}
       <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
-        <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Our Craft</span>
-        {/* Phase 6: Line-by-line masked headline reveal */}
+        <PageEntrance variant="standard" delay={0.05}>
+        <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Our Craft</span>        {/* Phase 6: Line-by-line masked headline reveal */}
         <HeadlineReveal
           lines={['Nothing Is Made Quickly.', 'Everything Is Made Right.']}
           as="h1"
@@ -109,6 +109,7 @@ export function MinimalCraftsmanship() {
           of everything we create. From the initial sketch to the final polish, every step
           is performed by hand in our New York atelier.
         </p>
+        </PageEntrance>
       </section>
 
       {/* ── Full-bleed image ───────────────────────────────────── */}
