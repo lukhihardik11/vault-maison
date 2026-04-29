@@ -5,7 +5,8 @@ import { MinimalLayout } from '../MinimalLayout'
 import { Pencil, Gem, Hammer, Gift, Check } from 'lucide-react'
 import { BlobGlassCard } from '../ui'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '14px 16px', border: '1px solid #E5E5E5',
@@ -35,7 +36,7 @@ export function MinimalBespoke() {
       <section style={{ position: 'relative', height: '50vh', minHeight: '360px', backgroundColor: '#050505', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
         <img src="/images/products/classic-gold-ring.jpg" alt="Bespoke" style={{ position: "absolute", inset: 0, width: "100%", height: "100%",  objectFit: 'cover', opacity: 0.35  }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '600px' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Bespoke Service</p>
+          <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>01 — Bespoke Service</span>
           <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 600, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.1 }}>Your Vision, Our Craft</h1>
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, lineHeight: 1.8, color: 'rgba(255,255,255,0.6)' }}>
             Create a one-of-a-kind piece designed exclusively for you, from initial sketch to final setting.

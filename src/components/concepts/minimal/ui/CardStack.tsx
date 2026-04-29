@@ -66,7 +66,7 @@ const Card = ({ product, index, totalCards, isExpanded }: CardProps) => {
         maxWidth: '300px',
         left: '50%',
         marginLeft: '-150px',
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+        fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
       }}
       transition={{
         type: 'spring',
@@ -152,7 +152,7 @@ export default function CardStack({ products, className }: CardStackProps) {
       </button>
       <p
         className="text-center text-[11px] uppercase tracking-[0.2em] text-[#050505]/30 mt-6"
-        style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif" }}
+        style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif" }}
       >
         {isExpanded ? 'Click to stack' : 'Click to reveal'}
       </p>

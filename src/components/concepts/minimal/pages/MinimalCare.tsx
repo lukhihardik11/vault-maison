@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { Droplets, ShieldCheck, Sparkles, AlertTriangle, ArrowRight } from 'lucide-react'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 const tips = [
   { icon: Droplets, title: 'Cleaning', items: ['Clean gently with a soft, lint-free cloth after each wear', 'Use warm water with mild soap for deeper cleaning', 'Pat dry thoroughly — never use paper towels or tissues', 'Professional ultrasonic cleaning recommended every 6 months'] },
@@ -18,7 +19,7 @@ export function MinimalCare() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>Jewelry Care</p>
+        <p style={{ fontFamily: font, fontSize: '11px', }}><span className="brutalist-section-num">01 — Jewelry Care</span></p>
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Care Guide</h1>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
           Proper care ensures your Vault Maison pieces maintain their brilliance for generations. Follow these guidelines to protect your investment.

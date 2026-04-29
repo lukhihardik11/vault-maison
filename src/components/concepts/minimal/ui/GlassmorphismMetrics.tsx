@@ -52,7 +52,7 @@ const defaultMetrics: Metric[] = [
   },
 ]
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
 
 export default function GlassmorphismMetrics({
   eyebrow = 'Our Promise',

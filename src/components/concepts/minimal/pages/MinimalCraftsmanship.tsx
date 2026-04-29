@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Gem, Ruler, Eye, Sparkles, Clock, Layers, ArrowRight } from 'lucide-react'
 
-const F = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const F = "'Inter', 'Helvetica Neue', sans-serif"
+const MONO = "'Space Mono', 'SF Mono', monospace"
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 
@@ -84,13 +85,7 @@ export function MinimalCraftsmanship() {
     <MinimalLayout>
       {/* ── Hero: Full-width typographic header ─────────────────── */}
       <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
-        <p style={{
-          fontFamily: F, fontSize: '11px', fontWeight: 500,
-          letterSpacing: '0.25em', textTransform: 'uppercase',
-          color: '#9B9B9B', marginBottom: '24px',
-        }}>
-          Our Craft
-        </p>
+        <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Our Craft</span>
         <h1 style={{
           fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
           color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
@@ -129,8 +124,9 @@ export function MinimalCraftsmanship() {
           {atelierStats.map((stat, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <p style={{
-                fontFamily: F, fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 600,
+                fontFamily: MONO, fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 700,
                 color: '#050505', lineHeight: 1, marginBottom: '8px',
+                letterSpacing: '0.02em',
               }}>
                 {stat.value}
               </p>
@@ -147,13 +143,7 @@ export function MinimalCraftsmanship() {
 
       {/* ── The Process: 6-Step Timeline ───────────────────────── */}
       <section style={{ padding: '80px 5vw', maxWidth: '900px', margin: '0 auto' }}>
-        <p style={{
-          fontFamily: F, fontSize: '11px', fontWeight: 500,
-          letterSpacing: '0.25em', textTransform: 'uppercase',
-          color: '#9B9B9B', marginBottom: '12px',
-        }}>
-          The Process
-        </p>
+        <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>02 — The Process</span>
         <h2 style={{
           fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
           color: '#050505', marginBottom: '48px', letterSpacing: '-0.02em',
@@ -172,8 +162,8 @@ export function MinimalCraftsmanship() {
             }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', paddingTop: '2px' }}>
                 <span style={{
-                  fontFamily: F, fontSize: '11px', fontWeight: 500,
-                  color: '#9B9B9B', letterSpacing: '0.05em',
+                  fontFamily: MONO, fontSize: '11px', fontWeight: 500,
+                  color: '#9B9B9B', letterSpacing: '0.1em',
                 }}>
                   {step.step}
                 </span>
@@ -188,8 +178,8 @@ export function MinimalCraftsmanship() {
                     {step.title}
                   </h3>
                   <span style={{
-                    fontFamily: F, fontSize: '11px', fontWeight: 400,
-                    color: '#9B9B9B',
+                    fontFamily: MONO, fontSize: '11px', fontWeight: 400,
+                    color: '#9B9B9B', letterSpacing: '0.05em',
                   }}>
                     {step.time}
                   </span>
@@ -209,13 +199,7 @@ export function MinimalCraftsmanship() {
       {/* ── Materials: Dark section ────────────────────────────── */}
       <section style={{ padding: '80px 5vw', backgroundColor: '#050505' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <p style={{
-            fontFamily: F, fontSize: '11px', fontWeight: 500,
-            letterSpacing: '0.25em', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.4)', marginBottom: '12px',
-          }}>
-            Materials
-          </p>
+          <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>03 — Materials</span>
           <h2 style={{
             fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
             color: '#FFFFFF', marginBottom: '48px', letterSpacing: '-0.02em',
@@ -252,21 +236,20 @@ export function MinimalCraftsmanship() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* ── Philosophy Quote ───────────────────────────────────── */}
-      <section style={{ padding: '80px 5vw', maxWidth: '900px', margin: '0 auto' }}>
-        <div style={{ borderLeft: '2px solid #050505', paddingLeft: '24px' }}>
+      </section>      {/* ── Philosophy Quote — Tier 4 Dark Inversion ─────────────────────── */}
+      <section style={{ padding: '80px 5vw', backgroundColor: '#050505', margin: '0 auto' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', borderLeft: '2px solid #FFFFFF', paddingLeft: '24px' }}>
           <p style={{
             fontFamily: F, fontSize: '18px', fontWeight: 400,
-            lineHeight: 1.8, color: '#050505', margin: 0,
+            lineHeight: 1.8, color: '#FFFFFF', margin: 0,
           }}>
             "Less, but better. Every joint, every setting, every surface must earn its place.
             We do not add — we refine until only the essential remains."
           </p>
           <p style={{
-            fontFamily: F, fontSize: '12px', fontWeight: 400,
-            color: '#9B9B9B', marginTop: '16px',
+            fontFamily: MONO, fontSize: '11px', fontWeight: 400,
+            color: 'rgba(255,255,255,0.5)', marginTop: '16px',
+            letterSpacing: '0.1em',
           }}>
             — Vault Maison Atelier Philosophy
           </p>
@@ -275,13 +258,7 @@ export function MinimalCraftsmanship() {
 
       {/* ── The Atelier ────────────────────────────────────────── */}
       <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
-        <p style={{
-          fontFamily: F, fontSize: '11px', fontWeight: 500,
-          letterSpacing: '0.25em', textTransform: 'uppercase',
-          color: '#9B9B9B', marginBottom: '12px',
-        }}>
-          The Atelier
-        </p>
+        <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>04 — The Atelier</span>
         <h2 style={{
           fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
           color: '#050505', marginBottom: '24px', letterSpacing: '-0.02em',

@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { Shield, Lock, Eye, Database, Globe, UserCheck, Trash2, Mail } from 'lucide-react'
 
-const F = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const F = "'Inter', 'Helvetica Neue', sans-serif"
+const MONO = "'Space Mono', 'SF Mono', monospace"
 
 const sections = [
   {
@@ -104,9 +105,7 @@ export function MinimalPrivacy() {
       <section style={{ padding: '80px 5vw 100px', maxWidth: '800px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
-            Legal
-          </p>
+          <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, }}><span className="brutalist-section-num">01 — Legal</span></p>
           <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
             Privacy Policy
           </h1>

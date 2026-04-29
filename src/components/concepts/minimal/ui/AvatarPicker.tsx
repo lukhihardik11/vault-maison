@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { User } from 'lucide-react'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
 
 const avatarColors = ['#050505', '#9B9B9B', '#050505', '#333333', '#6B6B6B', '#333333']
 

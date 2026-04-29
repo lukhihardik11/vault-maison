@@ -136,7 +136,7 @@ export default function TypewriterTitle({
       initial={{ opacity: 0.01 }}
       transition={{ duration: 0.5 }}
       style={{
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+        fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
         color: '#050505',
       }}
     >

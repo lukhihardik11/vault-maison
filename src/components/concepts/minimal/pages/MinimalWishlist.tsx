@@ -6,7 +6,8 @@ import { useWishlistStore } from '@/store/wishlist'
 import { useCartStore } from '@/store/cart'
 import { Heart, ShoppingBag, X, ArrowRight } from 'lucide-react'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 export function MinimalWishlist() {
   const { items, toggleItem } = useWishlistStore()
@@ -16,7 +17,7 @@ export function MinimalWishlist() {
     <MinimalLayout>
       <section style={{ padding: '60px 5vw 100px', maxWidth: '1200px', margin: '0 auto', minHeight: '70vh' }}>
         <div style={{ marginBottom: '48px' }}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#050505', marginBottom: '8px' }}>Saved Pieces</p>
+          <p style={{ fontFamily: font, fontSize: '11px', }}><span className="brutalist-section-num">01 — Saved Pieces</span></p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
             <h1 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Wishlist</h1>
             {items.length > 0 && <p style={{ fontFamily: font, fontSize: '12px', color: '#9B9B9B' }}>{items.length} {items.length === 1 ? 'piece' : 'pieces'}</p>}

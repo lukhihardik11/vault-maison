@@ -77,14 +77,14 @@ export default function CardFlip({
               <div>
                 <h3
                   className="text-[15px] font-normal tracking-tight text-[#050505] transition-transform duration-500 group-hover:-translate-y-1"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif" }}
+                  style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif" }}
                 >
                   {title}
                 </h3>
                 {subtitle && (
                   <p
                     className="text-[12px] font-light text-[#050505]/50 mt-1 transition-transform duration-500 delay-[50ms] group-hover:-translate-y-1"
-                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif" }}
+                    style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif" }}
                   >
                     {subtitle}
                   </p>
@@ -115,14 +115,14 @@ export default function CardFlip({
             <div className="space-y-2">
               <h3
                 className="text-[15px] font-normal tracking-tight text-[#050505]"
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif" }}
+                style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif" }}
               >
                 {title}
               </h3>
               {description && (
                 <p
                   className="text-[12px] font-light leading-relaxed text-[#050505]/60"
-                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif" }}
+                  style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif" }}
                 >
                   {description}
                 </p>
@@ -139,7 +139,7 @@ export default function CardFlip({
                       transform: isFlipped ? 'translateX(0)' : 'translateX(-10px)',
                       opacity: isFlipped ? 1 : 0,
                       transitionDelay: `${index * 100 + 200}ms`,
-                      fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+                      fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
                       fontWeight: 400,
                     }}
                   >
@@ -165,7 +165,7 @@ export default function CardFlip({
             >
               <span
                 className="text-[12px] font-normal text-[#050505] uppercase tracking-[0.15em] transition-colors duration-300"
-                style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif" }}
+                style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif" }}
               >
                 View Collection
               </span>

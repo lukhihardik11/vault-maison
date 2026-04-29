@@ -8,26 +8,35 @@ import BlurUpImage from './ui/BlurUpImage'
 
 interface MinimalProductCardProps {
   product: Product
+  /** Tier 4: Optional index number displayed as raw catalog reference (001, 002...) */
+  index?: number
 }
 
 /**
- * Tier 2 product tile — image swap on hover (Acne Studios / The Row pattern).
+ * Tier 4 product tile — brutalist catalog card.
  *
- * On hover the primary image crossfades to the second product image
- * (alternate angle / lifestyle shot). No zoom, no scale, no shadow.
- * Product info: name + price only. Category eyebrow removed for
- * cleaner presentation. Badges removed per The Row's "zero
- * promotional elements" approach.
+ * Builds on Tier 2 (image swap on hover, opacity states) and adds:
+ *   - Product index number (001, 002...) in Space Mono
+ *   - Monospace price for raw data-spec feel
+ *   - SKU/material metadata line
+ *   - Underlined "View" link instead of full-card click illusion
  *
- * Hover states use opacity reduction (Acne Studios pattern), not
- * color change.
+ * No zoom, no scale, no shadow, no badges.
  */
-export function MinimalProductCard({ product }: MinimalProductCardProps) {
+export function MinimalProductCard({ product, index }: MinimalProductCardProps) {
   const font = minimal.font.primary
+  const mono = minimal.font.brutalistMono
   const [isHovered, setIsHovered] = useState(false)
 
   const primaryImage = product.images[0]
   const hoverImage = product.images.length > 1 ? product.images[1] : product.images[0]
+
+  // Generate a product code from the slug
+  const productCode = product.slug
+    .split('-')
+    .map((w: string) => w[0]?.toUpperCase() || '')
+    .join('')
+    .slice(0, 4)
 
   return (
     <Link
@@ -44,9 +53,29 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
           aspectRatio: '3 / 4',
           overflow: 'hidden',
           backgroundColor: '#F5F5F5',
-          marginBottom: '16px',
+          marginBottom: '14px',
         }}
       >
+        {/* Tier 4: Product index overlay */}
+        {index !== undefined && (
+          <span
+            style={{
+              position: 'absolute',
+              top: '12px',
+              left: '12px',
+              fontFamily: mono,
+              fontSize: '10px',
+              letterSpacing: '0.15em',
+              color: '#9B9B9B',
+              zIndex: 1,
+              backgroundColor: 'rgba(255,255,255,0.85)',
+              padding: '2px 6px',
+            }}
+          >
+            {String(index).padStart(3, '0')}
+          </span>
+        )}
+
         {/* Primary image */}
         <div
           style={{
@@ -80,8 +109,20 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
         </div>
       </div>
 
-      {/* Product info — name + price only (The Row pattern) */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      {/* Product info — Tier 4: name + monospace price + code */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+        {/* Product code in monospace */}
+        <span
+          style={{
+            fontFamily: mono,
+            fontSize: '10px',
+            letterSpacing: '0.15em',
+            color: '#9B9B9B',
+          }}
+        >
+          VM—{productCode}
+        </span>
+
         <h3
           style={{
             fontFamily: font,
@@ -96,14 +137,17 @@ export function MinimalProductCard({ product }: MinimalProductCardProps) {
         >
           {product.name}
         </h3>
+
+        {/* Monospace price — raw data-spec feel */}
         <p
           style={{
-            fontFamily: font,
-            fontSize: '14px',
+            fontFamily: mono,
+            fontSize: '13px',
             fontWeight: 400,
             color: '#050505',
             fontVariantNumeric: 'tabular-nums',
             margin: 0,
+            letterSpacing: '0.02em',
           }}
         >
           {product.priceDisplay}

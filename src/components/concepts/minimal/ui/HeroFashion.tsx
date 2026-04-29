@@ -24,7 +24,7 @@ export default function HeroFashion({
   ctaHref = '/minimal/collections',
   ctaLabel = 'View All Collections',
 }: HeroFashionProps) {
-  const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+  const font = "'Inter', 'Helvetica Neue', sans-serif"
 
   return (
     <section className="min-h-screen bg-white">

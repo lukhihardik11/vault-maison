@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { Calendar, Clock, MapPin, Phone, ArrowRight, Check } from 'lucide-react'
 
-const F = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const F = "'Inter', 'Helvetica Neue', sans-serif"
+const MONO = "'Space Mono', 'SF Mono', monospace"
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 
@@ -65,13 +66,7 @@ export function MinimalAppointments() {
     <MinimalLayout>
       {/* ── Hero ───────────────────────────────────────────────── */}
       <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
-        <p style={{
-          fontFamily: F, fontSize: '11px', fontWeight: 500,
-          letterSpacing: '0.25em', textTransform: 'uppercase',
-          color: '#9B9B9B', marginBottom: '24px',
-        }}>
-          Private Consultations
-        </p>
+        <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>01 — Private Consultations</span>
         <h1 style={{
           fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
           color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
@@ -199,8 +194,9 @@ export function MinimalAppointments() {
                       {type.title}
                     </h3>
                     <span style={{
-                      fontFamily: F, fontSize: '11px', fontWeight: 400,
+                      fontFamily: MONO, fontSize: '11px', fontWeight: 400,
                       color: selectedType === i ? 'rgba(255,255,255,0.5)' : '#9B9B9B',
+                      letterSpacing: '0.05em',
                     }}>
                       {type.duration}
                     </span>

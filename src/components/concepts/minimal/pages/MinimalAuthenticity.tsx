@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { Shield, Award, Search, FileCheck, Fingerprint, RefreshCw, CheckCircle } from 'lucide-react'
 
-const F = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const F = "'Inter', 'Helvetica Neue', sans-serif"
+const MONO = "'Space Mono', 'SF Mono', monospace"
 
 const verificationSteps = [
   {
@@ -66,9 +67,7 @@ export function MinimalAuthenticity() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
-          Trust
-        </p>
+        <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, }}><span className="brutalist-section-num">01 — Trust</span></p>
         <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
           Authenticity Guarantee
         </h1>

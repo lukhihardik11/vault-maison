@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { ArrowRight } from 'lucide-react'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 const articles = [
   { slug: 'understanding-the-4cs', title: 'Understanding the 4Cs: A Complete Guide', excerpt: 'Carat, cut, color, and clarity — the four pillars of diamond quality explained by our master gemologist.', category: 'Education', date: 'March 2025', image: '/images/products/diamond-round-ring.jpg', featured: true },
@@ -23,7 +24,7 @@ export function MinimalJournal() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>The Journal</p>
+        <p style={{ fontFamily: font, fontSize: '11px', }}><span className="brutalist-section-num">01 — The Journal</span></p>
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Stories, Guides & Insights</h1>
         <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
           Expert knowledge from our gemologists, behind-the-scenes stories, and curated guides to help you make informed choices.

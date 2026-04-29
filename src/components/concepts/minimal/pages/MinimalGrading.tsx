@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { Diamond, ArrowRight } from 'lucide-react'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 const fourCs = [
   {

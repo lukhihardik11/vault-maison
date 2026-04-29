@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
 
 interface SwitchButtonProps {
   label?: string

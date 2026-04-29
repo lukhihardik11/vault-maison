@@ -127,6 +127,8 @@ export default function RootLayout({
         {/* Preconnect to font providers */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Tier 4: Space Mono for brutalist monospace elements (prices, codes, specs) */}
+        <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

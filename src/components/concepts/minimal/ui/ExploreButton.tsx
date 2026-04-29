@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
 
 interface ExploreButtonProps {
   text?: string

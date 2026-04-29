@@ -151,7 +151,7 @@ export default function SmoothTab({
                 tabIndex={isSelected ? 0 : -1}
                 type="button"
                 style={{
-                  fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif",
+                  fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
                   fontWeight: 400,
                 }}
               >

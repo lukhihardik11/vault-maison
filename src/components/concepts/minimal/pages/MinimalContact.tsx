@@ -6,7 +6,8 @@ import { Clock, Mail, MapPin, MessageSquare, Phone, Send, type LucideIcon } from
 import { MinimalLayout } from '../MinimalLayout'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 
-const font = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif"
+const font = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'Space Mono', 'SF Mono', monospace"
 
 type ContactDetail = {
   icon: LucideIcon
@@ -91,9 +92,7 @@ export function MinimalContact() {
     <MinimalLayout>
       <section style={{ padding: '80px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
         <Reveal reducedMotion={reducedMotion}>
-          <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>
-            Get in Touch
-          </p>
+          <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>01 — Get in Touch</span>
           <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Contact Us</h1>
           <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto' }}>
             Our advisors are available for product questions, bespoke consultations, and after-purchase support.

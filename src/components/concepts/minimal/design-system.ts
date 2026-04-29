@@ -25,6 +25,8 @@ export const minimal = {
   font: {
     primary: "'Inter', 'Helvetica Neue', sans-serif",
     mono: "'SF Mono', 'Fira Code', monospace",
+    /** Tier 4: Brutalist monospace for prices, codes, specs — loaded via Google Fonts */
+    brutalistMono: "'Space Mono', 'SF Mono', 'Fira Code', monospace",
   },
   colors: {
     bg: '#FFFFFF',
@@ -125,7 +127,13 @@ export const minimal = {
     productTitle: 'text-lg font-medium tracking-tight text-[#050505]',
     body: 'text-sm md:text-base text-[#6B6B6B] leading-relaxed',
     label: 'text-[11px] uppercase tracking-[0.2em] text-[#9B9B9B] font-medium',
-    price: 'text-base font-medium tabular-nums text-[#050505]',
+    price: 'text-base font-medium tabular-nums text-[#050505] font-mono',
+    /** Tier 4: Monospace for product codes, specs, metadata */
+    mono: 'font-mono text-xs tracking-wide text-[#9B9B9B]',
+    /** Tier 4: Section index number (01, 02, 03...) */
+    sectionIndex: 'font-mono text-[11px] tracking-[0.3em] text-[#9B9B9B] uppercase',
+    /** Tier 4: Product index number on cards */
+    productIndex: 'font-mono text-[10px] tracking-[0.2em] text-[#9B9B9B]',
     section: 'py-20 md:py-32',
     container: 'max-w-7xl mx-auto px-5 md:px-8',
     btnPrimary: 'bg-[#050505] text-[#FFFFFF] h-12 md:h-14 px-8 text-[13px] uppercase tracking-[0.12em] font-medium hover:bg-[#6B6B6B] transition-colors duration-300 rounded-none inline-flex items-center justify-center',
