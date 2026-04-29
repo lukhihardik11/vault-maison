@@ -188,7 +188,7 @@ function MaterialCard({ label, accent }: { label?: string; accent: string }) {
           left: 18,
           fontSize: 10,
           fontFamily: MONO,
-          color: 'rgba(255,255,255,0.5)',
+          color: 'rgba(255,255,255,0.7)',
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
         }}>
@@ -222,7 +222,7 @@ function Card({ card, accent, index, frame }: { card: CardDef; accent: string; i
     height: card.h,
     borderRadius: 14,
     background: 'linear-gradient(180deg, #131313 0%, #0a0a0a 100%)',
-    border: '1px solid rgba(255,255,255,0.05)',
+    border: '1px solid rgba(255,255,255,0.12)',
     overflow: 'hidden',
     padding: 16,
     color: 'white',
@@ -235,7 +235,7 @@ function Card({ card, accent, index, frame }: { card: CardDef; accent: string; i
       fontSize: 10,
       fontWeight: 500,
       fontFamily: MONO,
-      color: 'rgba(255,255,255,0.45)',
+      color: 'rgba(255,255,255,0.65)',
       letterSpacing: '0.08em',
       textTransform: 'uppercase',
       marginBottom: 6,
@@ -407,7 +407,7 @@ export function InfiniteShowcasePan({
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'radial-gradient(ellipse at center, transparent 20%, rgba(5,5,5,0.7) 70%, #050505 100%)',
+        background: 'radial-gradient(ellipse at center, transparent 35%, rgba(5,5,5,0.45) 75%, rgba(5,5,5,0.85) 100%)',
         pointerEvents: 'none',
       }} />
 

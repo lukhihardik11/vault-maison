@@ -10,22 +10,11 @@ gsap.registerPlugin(ScrollTrigger);
 interface StaggerRevealProps {
   children: ReactNode;
   className?: string;
-  /** Stagger delay between children (ms). Default 80 */
   stagger?: number;
-  /** Animation duration per child (ms). Default 500 */
   duration?: number;
-  /** Direction children animate from. Default 'up' */
   direction?: 'up' | 'left' | 'right';
 }
 
-/**
- * StaggerReveal — GSAP ScrollTrigger child stagger reveal.
- * Each direct child slides in from the chosen direction with staggered
- * timing when the wrapper enters the viewport at `top 80%`.
- *
- * Honors prefers-reduced-motion (skips animation; children render visible).
- * Uses gsap.context() for scoped cleanup on unmount.
- */
 export function StaggerReveal({
   children,
   className = '',
@@ -47,12 +36,12 @@ export function StaggerReveal({
       gsap.set(items, {
         x: direction === 'left' ? -40 : direction === 'right' ? 40 : 0,
         y: direction === 'up' ? 40 : 0,
-        autoAlpha: 0,
+        opacity: 0,
       });
       gsap.to(items, {
         x: 0,
         y: 0,
-        autoAlpha: 1,
+        opacity: 1,
         duration: duration / 1000,
         stagger: stagger / 1000,
         ease: 'power2.out',
@@ -82,11 +71,6 @@ interface StaggerItemProps {
   prefersReduced?: boolean;
 }
 
-/**
- * StaggerItem — Individual stagger-animated item
- * Use when you need more control over the grid layout (e.g., CSS Grid).
- * Parent must provide isInView and prefersReduced props.
- */
 export function StaggerItem({
   children,
   className = '',
@@ -107,12 +91,12 @@ export function StaggerItem({
       gsap.set(el, {
         x: direction === 'left' ? -40 : direction === 'right' ? 40 : 0,
         y: direction === 'up' ? 40 : 0,
-        autoAlpha: 0,
+        opacity: 0,
       });
       gsap.to(el, {
         x: 0,
         y: 0,
-        autoAlpha: 1,
+        opacity: 1,
         duration: duration / 1000,
         delay: (index * stagger) / 1000,
         ease: 'power2.out',
@@ -126,7 +110,6 @@ export function StaggerItem({
     <div
       ref={ref}
       className={className}
-      style={prefersReduced ? undefined : { willChange: 'transform, opacity' }}
     >
       {children}
     </div>

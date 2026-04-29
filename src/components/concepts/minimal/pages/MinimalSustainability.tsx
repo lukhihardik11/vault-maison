@@ -61,7 +61,7 @@ export function MinimalSustainability() {
   return (
     <MinimalLayout>
       {/* ── Hero ───────────────────────────────────────────────── */}
-      <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '80px 5vw 48px', maxWidth: '1200px', margin: '0 auto' }}>
         <PageEntrance variant="standard" delay={0.05}>
         <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Responsibility</span>
         {/* Phase 6: Line-by-line masked headline reveal */}
@@ -100,7 +100,7 @@ export function MinimalSustainability() {
       </section>
 
       {/* ── Commitments by the Numbers ─────────────────────────── */}
-      <section style={{ padding: '64px 5vw', borderBottom: '1px solid #E5E5E5' }}>
+      <section style={{ padding: '48px 5vw', borderBottom: '1px solid #E5E5E5' }}>
         <div style={{
           maxWidth: '1200px', margin: '0 auto',
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '32px',
@@ -132,7 +132,7 @@ export function MinimalSustainability() {
       </section>
 
       {/* ── Five Pillars ───────────────────────────────────────── */}
-      <section style={{ padding: '80px 5vw', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: '48px 5vw', maxWidth: '900px', margin: '0 auto' }}>
         <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>02 — Our Approach</span>
         <h2 style={{
           fontFamily: F, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 600,
@@ -173,7 +173,7 @@ export function MinimalSustainability() {
       </section>
 
       {/* ── Philosophy Quote ───────────────────────────────────── */}
-      <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: '0 5vw 48px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ borderLeft: '2px solid #050505', paddingLeft: '24px' }}>
           <p style={{
             fontFamily: F, fontSize: '18px', fontWeight: 400,
@@ -192,7 +192,7 @@ export function MinimalSustainability() {
       </section>
 
       {/* ── Lab-Grown vs Natural: Honest Perspective ───────────── */}
-      <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: '0 5vw 48px', maxWidth: '900px', margin: '0 auto' }}>
         <h2 style={{
           fontFamily: F, fontSize: '20px', fontWeight: 400,
           color: '#050505', marginBottom: '24px',
@@ -219,7 +219,7 @@ export function MinimalSustainability() {
       </section>
 
       {/* ── Certifications ─────────────────────────────────────── */}
-      <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: '0 5vw 48px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ padding: '32px', backgroundColor: '#FAFAFA' }}>
           <h2 style={{
             fontFamily: F, fontSize: '16px', fontWeight: 400,
@@ -243,7 +243,7 @@ export function MinimalSustainability() {
       </section>
 
       {/* ── CTA + Cross-links ──────────────────────────────────── */}
-      <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+      <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ border: '1px solid #050505', padding: '48px 32px' }}>
           <h2 style={{
             fontFamily: F, fontSize: '20px', fontWeight: 400,

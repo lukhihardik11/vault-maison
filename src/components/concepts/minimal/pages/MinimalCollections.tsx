@@ -28,7 +28,7 @@ export function MinimalCollections() {
   return (
     <MinimalLayout>
       {/* Header */}
-      <div style={{ padding: 'clamp(64px, 10vh, 120px) 0 clamp(32px, 4vh, 48px)' }}>
+      <div style={{ padding: 'clamp(40px, 6vh, 80px) 0 clamp(20px, 3vh, 32px)' }}>
         <div className={minimal.cn.container}>
           <PageEntrance variant="standard" delay={0.05}>
           <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', display: 'block', marginBottom: '16px' }}>
@@ -55,7 +55,7 @@ export function MinimalCollections() {
       <div className={minimal.cn.container}><div className={minimal.cn.divider} /></div>
 
       {/* Category Grid — Tier 2: no zoom, opacity hover, editorial CTA */}
-      <div style={{ padding: 'clamp(48px, 8vh, 96px) 0 clamp(64px, 10vh, 120px)' }}>
+      <div style={{ padding: 'clamp(32px, 4vh, 56px) 0 clamp(48px, 6vh, 80px)' }}>
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {allCategories.map((cat: ProductCategory) => {
@@ -86,7 +86,7 @@ export function MinimalCollections() {
                       <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, letterSpacing: '-0.01em', color: '#050505', margin: 0 }}>
                         {categoryLabels[cat]}
                       </h3>
-                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#767676' }}>
+                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#555555' }}>
                         {count} pieces
                       </span>
                     </div>

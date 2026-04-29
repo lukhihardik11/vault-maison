@@ -10,28 +10,18 @@ gsap.registerPlugin(ScrollTrigger);
 interface TextRevealProps {
   children: ReactNode;
   className?: string;
-  /** Delay before animation starts (ms) */
   delay?: number;
-  /** Animation duration (ms). Default 600 */
   duration?: number;
-  /** Direction of the wipe. Default 'left' (wipes from left to right) */
   direction?: 'left' | 'bottom';
-  /** Tag to render. Default 'div' */
   as?: 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
 }
 
 /**
  * TextReveal — GSAP ScrollTrigger clip-path headline reveal.
- * Text wipes in from left-to-right (or bottom-to-top) using clipPath,
- * triggered when the element enters the viewport at `top 85%`.
- *
- * Honors prefers-reduced-motion (skips the animation entirely; shows
- * the element immediately without applying the initial clip).
- *
- * SSR: useReducedMotionPreference returns false on the server, so the
- * server-rendered markup matches the first client render — no hydration
- * mismatch. The initial clip is applied via inline style to prevent a
- * flash of unclipped content before the useEffect hydrates GSAP.
+ * 
+ * IMPORTANT: No inline hidden styles on initial render. Content is
+ * visible by default. GSAP applies the clip only after hydration,
+ * ensuring content is never permanently hidden if JS fails.
  */
 export function TextReveal({
   children,
@@ -48,16 +38,10 @@ export function TextReveal({
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-
-    // Reduced-motion clients: clear any pre-applied clip so the text shows.
-    if (prefersReduced) {
-      el.style.clipPath = '';
-      el.style.willChange = '';
-      return;
-    }
+    if (!el || prefersReduced) return;
 
     const ctx = gsap.context(() => {
+      // Apply clip ONLY after JS hydrates — never in SSR/inline
       gsap.set(el, { clipPath: hiddenClip, willChange: 'clip-path' });
       gsap.to(el, {
         clipPath: 'inset(0 0% 0 0)',
@@ -81,27 +65,21 @@ export function TextReveal({
   }, [delay, direction, duration, hiddenClip, prefersReduced]);
 
   const Tag = as;
-  // Apply initial clip inline to eliminate first-paint flash before useEffect.
-  // On the server (and reduced-motion clients) this still renders the same
-  // value — the post-mount effect clears it for reduced-motion users.
-  const initialStyle: React.CSSProperties = { clipPath: hiddenClip };
   return (
-    <Tag ref={ref as never} className={className} style={initialStyle}>
+    <Tag ref={ref as never} className={className}>
       {children}
     </Tag>
   );
 }
 
 /**
- * SplitTextReveal — Staggered character/word reveal
- * Each word animates in from below with stagger timing.
+ * SplitTextReveal — Staggered word reveal.
+ * Content visible by default; GSAP applies yPercent only after mount.
  */
 interface SplitTextRevealProps {
   text: string;
   className?: string;
-  /** Stagger delay between words (ms). Default 40 */
   stagger?: number;
-  /** Animation duration per word (ms). Default 500 */
   duration?: number;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
 }
@@ -126,7 +104,8 @@ export function SplitTextReveal({
     if (!items.length) return;
 
     const ctx = gsap.context(() => {
-      gsap.set(items, { yPercent: 110, autoAlpha: 1 });
+      // Apply hidden state only after JS mount
+      gsap.set(items, { yPercent: 110 });
       gsap.to(items, {
         yPercent: 0,
         duration: duration / 1000,

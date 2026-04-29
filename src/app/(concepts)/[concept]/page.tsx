@@ -36,7 +36,7 @@ export default function ConceptHomePage() {
   const conceptId = params.concept as string
   const concept = getConcept(conceptId)
 
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   const HomeComponent = conceptHomeMap[conceptId]
   if (HomeComponent) {

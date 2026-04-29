@@ -50,6 +50,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
+  // Allow proxied dev origins (sandbox, tunnels, etc.)
+  allowedDevOrigins: ['3099-i4ykdndjat54b7fmgrh19-688cb51c.us2.manus.computer'],
 };
 
 export default nextConfig;

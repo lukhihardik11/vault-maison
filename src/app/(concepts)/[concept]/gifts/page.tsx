@@ -18,7 +18,7 @@ const giftCategories = [
 export default function GiftsPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
   const featured = getBestsellers().slice(0, 4)
 
   return (

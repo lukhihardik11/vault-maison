@@ -146,7 +146,7 @@ export function MinimalAbout() {
         </div>
       </section>
 
-      <section style={{ padding: '100px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '60px 5vw', maxWidth: '1200px', margin: '0 auto' }}>
         <div className="vm-about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
           <Reveal reducedMotion={reducedMotion}>
             <div>
@@ -179,7 +179,7 @@ export function MinimalAbout() {
         </div>
       </section>
 
-      <section style={{ padding: '80px 5vw', background: '#E5E5E5' }}>
+      <section style={{ padding: '48px 5vw', background: '#E5E5E5' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <VaultBentoShowcase
             sectionNum="03 — Our Values"
@@ -217,7 +217,7 @@ export function MinimalAbout() {
         </div>
       </section>
 
-      <section style={{ padding: '100px 5vw', maxWidth: '980px', margin: '0 auto' }}>
+      <section style={{ padding: '60px 5vw', maxWidth: '980px', margin: '0 auto' }}>
         <Reveal reducedMotion={reducedMotion} style={{ textAlign: 'center', marginBottom: '60px' }}>
           <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>04 — Journey</span>
           <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Our Milestones</h2>
@@ -236,7 +236,7 @@ export function MinimalAbout() {
         </div>
       </section>
 
-      <section style={{ padding: '80px 5vw', background: '#050505' }}>
+      <section style={{ padding: '48px 5vw', background: '#050505' }}>
         <div className="vm-numbers-grid" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px', textAlign: 'center' }}>
           {[
             { num: '5,000+', label: 'Pieces Crafted' },
@@ -256,7 +256,7 @@ export function MinimalAbout() {
         </div>
       </section>
 
-      <section style={{ padding: '100px 5vw', textAlign: 'center' }}>
+      <section style={{ padding: '60px 5vw', textAlign: 'center' }}>
         <Reveal reducedMotion={reducedMotion}>
           <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>06 — Begin Your Journey</span>
           <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '16px' }}>Let Us Create Something Extraordinary</h2>

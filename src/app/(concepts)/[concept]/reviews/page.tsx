@@ -20,7 +20,7 @@ const reviews = [
 export default function ReviewsPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
 

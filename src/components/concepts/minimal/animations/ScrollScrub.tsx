@@ -123,7 +123,7 @@ export function ScrollWordReveal({
   text,
   className = '',
   as: Tag = 'p',
-  baseOpacity = 0.12,
+  baseOpacity = 0.25,
   start = 'top 80%',
   end = 'top 20%',
 }: ScrollWordRevealProps) {
@@ -171,6 +171,7 @@ export function ScrollWordReveal({
           style={{
             display: 'inline-block',
             opacity: prefersReduced ? 1 : baseOpacity,
+            transition: 'opacity 0.1s ease',
           }}
         >
           {word}

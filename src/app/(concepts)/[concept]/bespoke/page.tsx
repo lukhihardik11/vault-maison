@@ -22,7 +22,7 @@ export default function BespokePage() {
   const concept = getConcept(params.concept as string)
   const [formStep, setFormStep] = useState(0)
 
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalBespoke />
   if (concept.id === 'vault') return <VaultBespoke />

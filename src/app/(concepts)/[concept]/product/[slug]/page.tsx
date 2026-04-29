@@ -20,7 +20,7 @@ export default function ProductPage() {
   const concept = getConcept(params.concept as string)
   const product = getProduct(params.slug as string)
 
-  if (!concept || !product) return null
+  if (!concept || !product) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalProductDetail product={product} />
   if (concept.id === 'vault') return <VaultProductDetail product={product} />

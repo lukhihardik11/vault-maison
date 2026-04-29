@@ -17,7 +17,7 @@ import { MaisonCare } from '@/components/concepts/maison/pages'
 export default function CarePage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalCare />
   if (concept.id === 'vault') return <VaultCare />

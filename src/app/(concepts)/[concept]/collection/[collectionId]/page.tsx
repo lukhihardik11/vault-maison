@@ -14,7 +14,7 @@ export default function CollectionDetailPage() {
   const concept = getConcept(params.concept as string)
   const collection = getCollection(params.collectionId as string)
 
-  if (!concept || !collection) return null
+  if (!concept || !collection) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   const collectionProducts = products.filter((p) =>
     collection.categories.includes(p.category)

@@ -38,7 +38,7 @@ const sections = [
 export default function AccessibilityPage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   return (
     <InfoPage

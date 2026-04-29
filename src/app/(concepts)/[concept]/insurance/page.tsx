@@ -7,7 +7,7 @@ import { buildConceptUrl } from '@/lib/concept-utils'
 export default function InsurancePage() {
   const params = useParams()
   const concept = getConcept(params.concept as string)
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
   return (
     <InfoPage
       concept={concept}

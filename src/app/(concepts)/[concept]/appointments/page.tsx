@@ -28,7 +28,7 @@ export default function AppointmentsPage() {
   const [notes, setNotes] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   if (concept.id === 'minimal') return <MinimalAppointments />
 

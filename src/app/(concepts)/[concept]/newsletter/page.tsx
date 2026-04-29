@@ -15,7 +15,7 @@ export default function NewsletterPage() {
   const [interests, setInterests] = useState<string[]>([])
   const [subscribed, setSubscribed] = useState(false)
 
-  if (!concept) return null
+  if (!concept) return <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }} />
 
   const interestOptions = [
     'Diamond Jewelry',

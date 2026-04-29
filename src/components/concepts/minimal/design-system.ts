@@ -51,8 +51,8 @@ export const minimal = {
     7: '48px',
     8: '64px',
     9: '96px',
-    sectionY: 'clamp(80px, 12vh, 160px)',
-    sectionYCompact: 'clamp(48px, 8vh, 96px)',
+    sectionY: 'clamp(48px, 8vh, 96px)',
+    sectionYCompact: 'clamp(32px, 5vh, 64px)',
     containerX: 'clamp(20px, 5vw, 96px)',
   },
   /**
@@ -134,7 +134,7 @@ export const minimal = {
     sectionIndex: 'font-mono text-[11px] tracking-[0.3em] text-[#767676] uppercase',
     /** Tier 4: Product index number on cards */
     productIndex: 'font-mono text-[10px] tracking-[0.2em] text-[#767676]',
-    section: 'py-20 md:py-32',
+    section: 'py-12 md:py-20',
     container: 'max-w-7xl mx-auto px-5 md:px-8',
     btnPrimary: 'bg-[#050505] text-[#FFFFFF] h-12 md:h-14 px-8 text-[13px] uppercase tracking-[0.12em] font-medium hover:bg-[#6B6B6B] transition-colors duration-300 rounded-none inline-flex items-center justify-center',
     btnSecondary: 'border border-[#050505] bg-transparent text-[#050505] h-12 px-8 text-[13px] uppercase tracking-[0.12em] font-medium hover:bg-[#050505] hover:text-[#FFFFFF] transition-all duration-300 rounded-none inline-flex items-center justify-center',
@@ -143,7 +143,7 @@ export const minimal = {
     gridProduct: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6',
     gridCategory: 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6',
     containerNarrow: 'max-w-3xl mx-auto px-5 md:px-8',
-    sectionCompact: 'py-12 md:py-20',
+    sectionCompact: 'py-8 md:py-14',
     btnGhost: 'border border-[#050505] bg-transparent text-[#050505] h-10 px-6 text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-[#050505] hover:text-[#FFFFFF] transition-all duration-300 rounded-none inline-flex items-center justify-center gap-2',
   },
 } as const;
