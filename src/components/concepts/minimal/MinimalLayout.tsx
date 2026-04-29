@@ -13,6 +13,8 @@ import BackToTop from './ui/BackToTop'
 import CustomCursor from './ui/CustomCursor'
 import { CommandPalette } from './ui/CommandPalette'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
+import { LenisProvider } from './providers/LenisProvider'
+import { FilmGrain } from './ui/FilmGrain'
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -101,10 +103,10 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         /* Respect the user's opt-in for smooth anchor scrolling — so
            the "Back to Top" button (and any #fragment links) glide
            instead of jump. */
-        html { scroll-behavior: smooth; }
-        @media (prefers-reduced-motion: reduce) {
-          html { scroll-behavior: auto; }
-        }
+        /* Lenis handles smooth scrolling — disable native scroll-behavior
+           to avoid double-smoothing. Lenis respects prefers-reduced-motion
+           via the disabled prop on LenisProvider. */
+        html { scroll-behavior: auto; }
 
         /* Hide scrollbar on filter bar */
         .minimal-filter-scroll {
@@ -179,6 +181,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           }
         }
       `}</style>
+      <LenisProvider lerp={0.07} disabled={prefersReducedMotion}>
       <div
         className={`minimal-concept ${isLoaded ? 'is-loaded' : 'is-loading'} ${prefersReducedMotion ? 'is-reduced-motion' : ''}`}
         data-concept="minimal"
@@ -211,8 +214,10 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         {!hideNav && <Toolbar />}
         <BackToTop />
         <CustomCursor />
+        <FilmGrain />
         <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
       </div>
+      </LenisProvider>
     </>
   )
 }
