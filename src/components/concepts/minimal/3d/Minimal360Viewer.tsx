@@ -205,7 +205,7 @@ export default function Minimal360Viewer({
           width: '100%',
           minHeight: 'min(540px, 60vh)',
           background: '#0A0A0A',
-          color: '#9B9B9B',
+          color: '#767676',
           fontFamily: M,
           fontSize: 11,
           letterSpacing: '0.18em',

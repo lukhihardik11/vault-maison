@@ -137,7 +137,7 @@ export function MinimalSizeGuide() {
                 letterSpacing: '0.15em', textTransform: 'uppercase',
                 padding: '16px 24px',
                 border: 'none', backgroundColor: 'transparent',
-                color: activeTab === tab.key ? '#050505' : '#9B9B9B',
+                color: activeTab === tab.key ? '#050505' : '#767676',
                 borderBottom: activeTab === tab.key ? '2px solid #050505' : '2px solid transparent',
                 cursor: 'pointer',
                 transition: 'all 200ms ease',
@@ -234,7 +234,7 @@ export function MinimalSizeGuide() {
 
             <p style={{
               fontFamily: F, fontSize: '12px', fontWeight: 400,
-              color: '#9B9B9B', marginTop: '16px', lineHeight: 1.7,
+              color: '#767676', marginTop: '16px', lineHeight: 1.7,
             }}>
               Bangle sizes are measured by internal diameter. For a snug fit, measure across the widest
               part of your hand when fingers are together. For a loose fit, add 0.5 cm.
@@ -364,13 +364,13 @@ export function MinimalSizeGuide() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '32px' }}>
-          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Collections
           </Link>
-          <Link href="/minimal/care" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/care" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Jewelry Care
           </Link>
-          <Link href="/minimal/contact" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/contact" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Contact Us
           </Link>
         </div>

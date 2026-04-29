@@ -74,7 +74,7 @@ export const AnimatedSocialIcons: React.FC<AnimatedSocialIconsProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#9B9B9B',
+            color: '#767676',
             boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             transition: 'all 350ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
             textDecoration: 'none',

@@ -114,7 +114,7 @@ export function MinimalContact() {
                   <div key={item.label} className="vm-contact-row" style={{ display: 'flex', gap: '16px', marginBottom: index === contactDetails.length - 1 ? 0 : '10px' }}>
                     <item.icon size={18} strokeWidth={1.5} style={{ color: '#050505', flexShrink: 0, marginTop: '2px' }} />
                     <div>
-                      <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '4px' }}>
+                      <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#767676', marginBottom: '4px' }}>
                         {item.label}
                       </p>
                       <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#050505', lineHeight: 1.6, whiteSpace: 'pre-line', margin: 0 }}>
@@ -175,7 +175,7 @@ export function MinimalContact() {
                   <FocusInput label="Phone (Optional)" type="tel" />
 
                   <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="minimal-contact-subject" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#9B9B9B', display: 'block', marginBottom: '6px' }}>
+                    <label htmlFor="minimal-contact-subject" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#767676', display: 'block', marginBottom: '6px' }}>
                       Subject
                     </label>
                     <select id="minimal-contact-subject" style={{ ...inputStyle, cursor: 'pointer' }} className="vm-contact-input">
@@ -249,7 +249,7 @@ export function MinimalContact() {
           transition: border-color 220ms ease;
         }
         .vm-contact-panel:hover {
-          border-color: #9B9B9B;
+          border-color: #767676;
         }
         .vm-contact-input {
           transition: border-color 220ms ease, box-shadow 220ms ease;

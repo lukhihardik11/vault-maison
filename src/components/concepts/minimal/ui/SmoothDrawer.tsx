@@ -62,7 +62,7 @@ export default function SmoothDrawer({ isOpen, onClose, title, children, side = 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', borderBottom: '1px solid #E5E5E5', flexShrink: 0 }}>
           <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#050505' }}>{title}</span>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
-            <X size={18} color="#9B9B9B" />
+            <X size={18} color="#767676" />
           </button>
         </div>
         {/* Content */}

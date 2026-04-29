@@ -58,7 +58,7 @@ export function MarqueeText({
   const id = useId().replace(/:/g, '');
   const fg = variant === 'dark' ? '#FFFFFF' : minimal.colors.text;
   const bg = variant === 'dark' ? minimal.colors.text : '#FFFFFF';
-  const sepColor = variant === 'dark' ? '#6B6B6B' : '#9B9B9B';
+  const sepColor = variant === 'dark' ? '#6B6B6B' : '#767676';
 
   // Two identical rows are concatenated to fake a seamless loop.
   // The strip is decorative — see the JSDoc Accessibility section.

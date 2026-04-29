@@ -159,7 +159,7 @@ export default function QuickView({ open, product, onClose, onAddToCart }: Quick
               fontSize: 10,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              color: '#9B9B9B',
+              color: '#767676',
               marginBottom: 12,
             }}
           >

@@ -2,21 +2,24 @@
 
 import { type ReactNode, useCallback, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { MinimalNav } from './MinimalNav'
 import { MinimalFooter } from './MinimalFooter'
 import Toolbar from './ui/Toolbar'
 import { ScrollProgress } from './animations/ScrollProgress'
 import { useReducedMotionPreference } from './animations/useResponsiveMotion'
 import { RouteTransition } from './animations/RouteTransition'
-import { PreLoader } from './animations/PreLoader'
 import Breadcrumb from './ui/Breadcrumb'
 import BackToTop from './ui/BackToTop'
-import CursorFollower from './ui/CursorFollower'
 import { CommandPalette } from './ui/CommandPalette'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 import { LenisProvider } from './providers/LenisProvider'
-import { FilmGrain } from './ui/FilmGrain'
 import { ToastProvider } from './ui/Toast'
+
+// Code-split heavy visual components — not needed for initial paint
+const CursorFollower = dynamic(() => import('./ui/CursorFollower'), { ssr: false })
+const FilmGrain = dynamic(() => import('./ui/FilmGrain').then(m => ({ default: m.FilmGrain })), { ssr: false })
+const PreLoader = dynamic(() => import('./animations/PreLoader').then(m => ({ default: m.PreLoader })), { ssr: false })
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -93,8 +96,8 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         .minimal-concept select:focus-visible,
         .minimal-concept [role="button"]:focus-visible,
         .minimal-concept [tabindex="0"]:focus-visible {
-          outline: 1px solid #050505;
-          outline-offset: 2px;
+          outline: 2px solid #050505;
+          outline-offset: 3px;
         }
 
         /* Smooth image loading */
@@ -181,6 +184,14 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
             opacity: 1 !important;
             transition: none !important;
           }
+          .minimal-concept *,
+          .minimal-concept *::before,
+          .minimal-concept *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
         }
       `}</style>
       <ToastProvider>
@@ -198,19 +209,39 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           lineHeight: 1.6,
           minHeight: '100vh',
           letterSpacing: '-0.01em',
-          // `overflow-x: clip` (not `hidden`) — `hidden` creates a scroll
-          // container on the X axis, which breaks `position: sticky` on
-          // descendants and GSAP ScrollTrigger's `pin: true` (used by
-          // HorizontalScroll). `clip` contains visual overflow without
-          // creating a scroll container, so sticky/pin work normally.
           overflowX: 'clip',
         }}
       >
+        {/* Skip-to-content link for keyboard/screen reader users */}
+        <a
+          href="#main-content"
+          className="vm-skip-link"
+          style={{
+            position: 'absolute',
+            top: '-100px',
+            left: '16px',
+            zIndex: 99999,
+            padding: '12px 24px',
+            backgroundColor: '#050505',
+            color: '#FFFFFF',
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '14px',
+            fontWeight: 500,
+            textDecoration: 'none',
+            borderRadius: '0 0 4px 4px',
+            transition: 'top 0.2s ease',
+          }}
+          onFocus={(e) => { e.currentTarget.style.top = '0' }}
+          onBlur={(e) => { e.currentTarget.style.top = '-100px' }}
+        >
+          Skip to main content
+        </a>
+
         {/* Global scroll progress bar */}
         <ScrollProgress />
 
         {!hideNav && <MinimalNav />}
-        <main className="minimal-main-content">
+        <main id="main-content" className="minimal-main-content" role="main">
           {showBreadcrumb && <Breadcrumb />}
           {children}
         </main>

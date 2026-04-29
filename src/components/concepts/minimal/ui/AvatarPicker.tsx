@@ -4,7 +4,7 @@ import { User } from 'lucide-react'
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
-const avatarColors = ['#050505', '#9B9B9B', '#050505', '#333333', '#6B6B6B', '#333333']
+const avatarColors = ['#050505', '#767676', '#050505', '#333333', '#6B6B6B', '#333333']
 
 interface AvatarPickerProps {
   initials?: string

@@ -230,6 +230,9 @@ export const PressButton = forwardRef<HTMLButtonElement, PressButtonProps>(
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
           }
+          @media (prefers-reduced-motion: reduce) {
+            .vm-press-btn * { animation: none !important; transition: none !important; }
+          }
         `}</style>
       </button>
     )

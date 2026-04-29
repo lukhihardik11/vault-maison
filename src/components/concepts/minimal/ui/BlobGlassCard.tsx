@@ -65,7 +65,7 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
           fontSize: '13px',
           fontWeight: 400,
           lineHeight: 1.7,
-          color: '#9B9B9B',
+          color: '#767676',
           maxWidth: '220px',
         }}>{description}</p>
       </div>

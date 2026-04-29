@@ -62,7 +62,7 @@ export default function SmoothAccordion({ items, defaultOpenIndex = 0 }: SmoothA
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: 'easeInOut' }}
               >
-                <ChevronDown size={16} strokeWidth={1.5} color="#9B9B9B" />
+                <ChevronDown size={16} strokeWidth={1.5} color="#767676" />
               </motion.div>
             </button>
             <AnimatePresence initial={false}>

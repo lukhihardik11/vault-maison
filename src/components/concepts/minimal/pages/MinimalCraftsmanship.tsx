@@ -140,7 +140,7 @@ export function MinimalCraftsmanship() {
               </p>
               <p style={{
                 fontFamily: F, fontSize: '11px', fontWeight: 500,
-                letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9B9B',
+                letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676',
               }}>
                 {stat.label}
               </p>
@@ -171,7 +171,7 @@ export function MinimalCraftsmanship() {
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', paddingTop: '2px' }}>
                 <span style={{
                   fontFamily: MONO, fontSize: '11px', fontWeight: 500,
-                  color: '#9B9B9B', letterSpacing: '0.1em',
+                  color: '#767676', letterSpacing: '0.1em',
                 }}>
                   {step.step}
                 </span>
@@ -187,7 +187,7 @@ export function MinimalCraftsmanship() {
                   </h3>
                   <span style={{
                     fontFamily: MONO, fontSize: '11px', fontWeight: 400,
-                    color: '#9B9B9B', letterSpacing: '0.05em',
+                    color: '#767676', letterSpacing: '0.05em',
                   }}>
                     {step.time}
                   </span>
@@ -328,13 +328,13 @@ export function MinimalCraftsmanship() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '32px' }}>
-          <Link href="/minimal/sustainability" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/sustainability" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Sustainability
           </Link>
-          <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Authenticity
           </Link>
-          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Collections
           </Link>
         </div>

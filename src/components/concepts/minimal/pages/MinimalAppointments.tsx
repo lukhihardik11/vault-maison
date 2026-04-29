@@ -97,7 +97,7 @@ export function MinimalAppointments() {
               <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 500, color: '#050505', marginBottom: '4px' }}>
                 Atelier & Showroom
               </p>
-              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#767676', lineHeight: 1.6 }}>
                 580 Fifth Avenue, Suite 1200<br />New York, NY 10036
               </p>
             </div>
@@ -108,7 +108,7 @@ export function MinimalAppointments() {
               <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 500, color: '#050505', marginBottom: '4px' }}>
                 Appointment Hours
               </p>
-              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#767676', lineHeight: 1.6 }}>
                 Monday – Saturday<br />10:00 AM – 6:00 PM EST
               </p>
             </div>
@@ -119,7 +119,7 @@ export function MinimalAppointments() {
               <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 500, color: '#050505', marginBottom: '4px' }}>
                 Direct Line
               </p>
-              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: F, fontSize: '12px', fontWeight: 400, color: '#767676', lineHeight: 1.6 }}>
                 +1 (212) 555-0180<br />Virtual consultations available
               </p>
             </div>
@@ -167,7 +167,7 @@ export function MinimalAppointments() {
             <p style={{
               fontFamily: F, fontSize: '11px', fontWeight: 500,
               letterSpacing: '0.25em', textTransform: 'uppercase',
-              color: '#9B9B9B', marginBottom: '20px',
+              color: '#767676', marginBottom: '20px',
             }}>
               01 — Select Consultation Type
             </p>
@@ -195,7 +195,7 @@ export function MinimalAppointments() {
                     </h3>
                     <span style={{
                       fontFamily: MONO, fontSize: '11px', fontWeight: 400,
-                      color: selectedType === i ? 'rgba(255,255,255,0.5)' : '#9B9B9B',
+                      color: selectedType === i ? 'rgba(255,255,255,0.5)' : '#767676',
                       letterSpacing: '0.05em',
                     }}>
                       {type.duration}
@@ -204,7 +204,7 @@ export function MinimalAppointments() {
                   <p style={{
                     fontFamily: F, fontSize: '12px', fontWeight: 400,
                     lineHeight: 1.7,
-                    color: selectedType === i ? 'rgba(255,255,255,0.6)' : '#9B9B9B',
+                    color: selectedType === i ? 'rgba(255,255,255,0.6)' : '#767676',
                     margin: 0,
                   }}>
                     {type.desc}
@@ -219,7 +219,7 @@ export function MinimalAppointments() {
             <p style={{
               fontFamily: F, fontSize: '11px', fontWeight: 500,
               letterSpacing: '0.25em', textTransform: 'uppercase',
-              color: '#9B9B9B', marginBottom: '20px',
+              color: '#767676', marginBottom: '20px',
             }}>
               02 — Choose Date & Time
             </p>
@@ -227,7 +227,7 @@ export function MinimalAppointments() {
               <div>
                 <label style={{
                   fontFamily: F, fontSize: '12px', fontWeight: 400,
-                  color: '#9B9B9B', display: 'block', marginBottom: '8px',
+                  color: '#767676', display: 'block', marginBottom: '8px',
                 }}>
                   Preferred Date
                 </label>
@@ -248,7 +248,7 @@ export function MinimalAppointments() {
               <div>
                 <label style={{
                   fontFamily: F, fontSize: '12px', fontWeight: 400,
-                  color: '#9B9B9B', display: 'block', marginBottom: '8px',
+                  color: '#767676', display: 'block', marginBottom: '8px',
                 }}>
                   Preferred Time
                 </label>
@@ -283,7 +283,7 @@ export function MinimalAppointments() {
             <p style={{
               fontFamily: F, fontSize: '11px', fontWeight: 500,
               letterSpacing: '0.25em', textTransform: 'uppercase',
-              color: '#9B9B9B', marginBottom: '20px',
+              color: '#767676', marginBottom: '20px',
             }}>
               03 — Your Details
             </p>
@@ -396,16 +396,16 @@ export function MinimalAppointments() {
       {/* ── Cross-links ────────────────────────────────────────── */}
       <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '24px' }}>
-          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Collections
           </Link>
-          <Link href="/minimal/craftsmanship" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/craftsmanship" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Craftsmanship
           </Link>
-          <Link href="/minimal/bespoke" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/bespoke" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Bespoke
           </Link>
-          <Link href="/minimal/contact" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/contact" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Contact
           </Link>
         </div>

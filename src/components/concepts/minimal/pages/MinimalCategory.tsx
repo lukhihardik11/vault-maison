@@ -199,14 +199,14 @@ function MinimalCategoryContent({ category }: { category?: string }) {
                 fontSize: 10,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#9B9B9B',
+                color: '#767676',
                 textDecoration: 'none',
                 transition: 'opacity 0.2s ease',
               }}
             >
               Home
             </Link>
-            <span style={{ fontFamily: mono, fontSize: 10, color: '#9B9B9B' }}>/</span>
+            <span style={{ fontFamily: mono, fontSize: 10, color: '#767676' }}>/</span>
             <Link
               href="/minimal/collections"
               className="tier2-crumb"
@@ -215,14 +215,14 @@ function MinimalCategoryContent({ category }: { category?: string }) {
                 fontSize: 10,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#9B9B9B',
+                color: '#767676',
                 textDecoration: 'none',
                 transition: 'opacity 0.2s ease',
               }}
             >
               Collections
             </Link>
-            <span style={{ fontFamily: mono, fontSize: 10, color: '#9B9B9B' }}>/</span>
+            <span style={{ fontFamily: mono, fontSize: 10, color: '#767676' }}>/</span>
             <span
               style={{
                 fontFamily: mono,
@@ -255,7 +255,7 @@ function MinimalCategoryContent({ category }: { category?: string }) {
               fontFamily: mono,
               fontSize: 11,
               letterSpacing: '0.2em',
-              color: '#9B9B9B',
+              color: '#767676',
               marginTop: 12,
             }}
           >
@@ -291,7 +291,7 @@ function MinimalCategoryContent({ category }: { category?: string }) {
                   border: 'none',
                   cursor: 'pointer',
                   padding: '4px 0',
-                  color: sort === option.value ? '#050505' : '#9B9B9B',
+                  color: sort === option.value ? '#050505' : '#767676',
                   fontWeight: sort === option.value ? 500 : 400,
                   borderBottom: sort === option.value ? '1px solid #050505' : '1px solid transparent',
                   transition: 'opacity 0.2s ease',
@@ -307,7 +307,7 @@ function MinimalCategoryContent({ category }: { category?: string }) {
               fontFamily: mono,
               fontSize: 10,
               letterSpacing: '0.2em',
-              color: '#9B9B9B',
+              color: '#767676',
             }}
           >
             {filtered.length} Results
@@ -359,7 +359,7 @@ function MinimalCategoryContent({ category }: { category?: string }) {
                 fontFamily: font,
                 fontSize: 18,
                 fontWeight: 400,
-                color: '#9B9B9B',
+                color: '#767676',
               }}
             >
               No pieces found in this collection.

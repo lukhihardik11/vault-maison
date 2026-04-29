@@ -220,10 +220,10 @@ export function MinimalCheckout() {
     return (
       <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#FFFFFF', padding: 40 }}>
         <div style={{ width: 80, height: 80, background: '#E5E5E5', border: '1px solid #E5E5E5', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
-          <Lock size={30} color="#9B9B9B" />
+          <Lock size={30} color="#767676" />
         </div>
         <h2 style={{ fontFamily: F, fontSize: 26, color: '#050505', marginBottom: 8, fontWeight: 400, letterSpacing: '-0.02em' }}>Your bag is empty</h2>
-        <p style={{ fontFamily: F, fontSize: 15, color: '#9B9B9B', marginBottom: 32 }}>Add items to begin checkout</p>
+        <p style={{ fontFamily: F, fontSize: 15, color: '#767676', marginBottom: 32 }}>Add items to begin checkout</p>
         <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: 14, color: '#FFFFFF', textDecoration: 'none', background: '#050505', padding: '14px 40px', letterSpacing: '0.08em', fontWeight: 500, textTransform: 'uppercase' }}>
           Shop Collection
         </Link>
@@ -271,7 +271,7 @@ export function MinimalCheckout() {
                     justifyContent: 'center',
                     background: index < currentIndex ? '#050505' : '#FFFFFF',
                     border: index < currentIndex ? '1px solid #050505' : index === currentIndex ? '2px solid #050505' : '1px solid #E5E5E5',
-                    color: index < currentIndex ? '#FFFFFF' : index === currentIndex ? '#050505' : '#9B9B9B',
+                    color: index < currentIndex ? '#FFFFFF' : index === currentIndex ? '#050505' : '#767676',
                     transition: prefersReducedMotion ? 'none' : 'background-color 180ms ease, border-color 180ms ease, color 180ms ease',
                   }}
                 >
@@ -281,7 +281,7 @@ export function MinimalCheckout() {
                   style={{
                     fontFamily: F,
                     fontSize: 11,
-                    color: index <= currentIndex ? '#050505' : '#9B9B9B',
+                    color: index <= currentIndex ? '#050505' : '#767676',
                     letterSpacing: '0.05em',
                     textTransform: 'uppercase',
                   }}
@@ -446,10 +446,10 @@ export function MinimalCheckout() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', borderBottom: '1px solid #E5E5E5' }}>
                     <Lock size={14} color="#050505" />
                     <span style={{ fontFamily: F, fontSize: 13, color: '#050505', fontWeight: 500 }}>Encrypted Checkout</span>
-                    <span style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B', marginLeft: 'auto' }}>256-bit SSL</span>
+                    <span style={{ fontFamily: F, fontSize: 12, color: '#767676', marginLeft: 'auto' }}>256-bit SSL</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '10px 14px' }}>
-                    <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Accepted</span>
+                    <span style={{ fontFamily: F, fontSize: 11, color: '#767676', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Accepted</span>
                     {/* Monochrome payment method text badges */}
                     {['Visa', 'Mastercard', 'Amex', 'Apple Pay'].map((m) => (
                       <span key={m} style={{ fontFamily: F, fontSize: 11, color: '#6B6B6B', fontWeight: 500, letterSpacing: '0.02em' }}>{m}</span>
@@ -517,7 +517,7 @@ export function MinimalCheckout() {
                 ].map((section) => (
                   <div key={section.title} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, border: '1px solid #E5E5E5', padding: '16px 18px', marginBottom: 10 }}>
                     <div>
-                      <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: 5 }}>
+                      <span style={{ fontFamily: F, fontSize: 11, color: '#767676', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: 5 }}>
                         {section.title}
                       </span>
                       {section.value.split('\n').map((line, index) => (
@@ -537,7 +537,7 @@ export function MinimalCheckout() {
                 ))}
 
                 <div style={{ margin: '22px 0 26px' }}>
-                  <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: 12 }}>
+                  <span style={{ fontFamily: F, fontSize: 11, color: '#767676', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: 12 }}>
                     Estimated Delivery
                   </span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, border: '1px solid #E5E5E5', padding: '12px 14px' }}>
@@ -590,12 +590,12 @@ export function MinimalCheckout() {
 
           {/* Trust guarantee strip — text-based per Stripe pattern */}
           <div style={{ marginTop: 32, padding: '20px 0', borderTop: '1px solid #E5E5E5' }}>
-            <p style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B', textAlign: 'center', margin: '0 0 12px', letterSpacing: '0.02em', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: F, fontSize: 12, color: '#767676', textAlign: 'center', margin: '0 0 12px', letterSpacing: '0.02em', lineHeight: 1.6 }}>
               Your payment is encrypted end-to-end with 256-bit SSL. We never store your card details on our servers.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 20, flexWrap: 'wrap' }}>
               {['Free shipping on orders $500+', '30-day returns', 'GIA certified diamonds', 'Lifetime authenticity guarantee'].map((text) => (
-                <span key={text} style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', letterSpacing: '0.02em' }}>{text}</span>
+                <span key={text} style={{ fontFamily: F, fontSize: 11, color: '#767676', letterSpacing: '0.02em' }}>{text}</span>
               ))}
             </div>
           </div>
@@ -608,7 +608,7 @@ export function MinimalCheckout() {
               { label: 'Shipping & Returns', href: '/minimal/shipping' },
               { label: 'Authenticity', href: '/minimal/authenticity' },
             ].map((link) => (
-              <Link key={link.label} href={link.href} style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', textDecoration: 'none', letterSpacing: '0.02em' }} className="minimal-link-underline">
+              <Link key={link.label} href={link.href} style={{ fontFamily: F, fontSize: 11, color: '#767676', textDecoration: 'none', letterSpacing: '0.02em' }} className="minimal-link-underline">
                 {link.label}
               </Link>
             ))}
@@ -630,7 +630,7 @@ export function MinimalCheckout() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontFamily: F, fontSize: 14, fontWeight: 500, color: '#050505', marginBottom: 2 }}>{item.product.name}</p>
-                    <p style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B' }}>{item.product.material || item.product.category}</p>
+                    <p style={{ fontFamily: F, fontSize: 12, color: '#767676' }}>{item.product.material || item.product.category}</p>
                   </div>
                   <span style={{ fontFamily: F, fontSize: 14, fontWeight: 500, color: '#050505' }}>${(item.product.price * item.quantity).toLocaleString()}</span>
                 </div>
@@ -701,8 +701,8 @@ export function MinimalCheckout() {
           {/* Sidebar security footer */}
           <div style={{ marginTop: 16, padding: '14px 0', borderTop: '1px solid #E5E5E5' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 8 }}>
-              <Lock size={12} color="#9B9B9B" />
-              <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B' }}>Secured by 256-bit SSL encryption</span>
+              <Lock size={12} color="#767676" />
+              <span style={{ fontFamily: F, fontSize: 11, color: '#767676' }}>Secured by 256-bit SSL encryption</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
               <span style={{ fontFamily: F, fontSize: 10, color: '#BFBFBF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>PCI DSS Compliant</span>

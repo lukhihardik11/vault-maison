@@ -121,7 +121,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           size={15}
           strokeWidth={1.5}
           fill={liked ? '#050505' : 'none'}
-          color={liked ? '#050505' : '#9B9B9B'}
+          color={liked ? '#050505' : '#767676'}
           style={{ transition: 'all 350ms ease' }}
         />
       </button>
@@ -132,7 +132,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           fontFamily: font,
           fontSize: '11px',
           fontWeight: 500,
-          color: '#9B9B9B',
+          color: '#767676',
           textTransform: 'uppercase',
           letterSpacing: '0.1em',
           marginBottom: '4px',
@@ -155,7 +155,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
               fontFamily: font,
               fontSize: '11px',
               fontWeight: 400,
-              color: '#9B9B9B',
+              color: '#767676',
             }}>{carat}</span>
           )}
           {certification && (

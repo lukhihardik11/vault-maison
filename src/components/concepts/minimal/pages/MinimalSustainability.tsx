@@ -122,7 +122,7 @@ export function MinimalSustainability() {
               </p>
               <p style={{
                 fontFamily: F, fontSize: '11px', fontWeight: 400,
-                color: '#9B9B9B',
+                color: '#767676',
               }}>
                 {c.detail}
               </p>
@@ -184,7 +184,7 @@ export function MinimalSustainability() {
           </p>
           <p style={{
             fontFamily: F, fontSize: '12px', fontWeight: 400,
-            color: '#9B9B9B', marginTop: '16px',
+            color: '#767676', marginTop: '16px',
           }}>
             — Vault Maison Sustainability Charter
           </p>
@@ -274,13 +274,13 @@ export function MinimalSustainability() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '32px' }}>
-          <Link href="/minimal/craftsmanship" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/craftsmanship" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Craftsmanship
           </Link>
-          <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Authenticity
           </Link>
-          <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Shipping & Returns
           </Link>
         </div>

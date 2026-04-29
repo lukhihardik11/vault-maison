@@ -116,7 +116,7 @@ function ProductMiniCard({ product }: { product: Product }) {
         </div>
       </div>
       <p style={{ fontFamily: F, fontSize: 13, color: '#050505', margin: '10px 0 2px' }}>{product.name}</p>
-      <p style={{ fontFamily: F, fontSize: 13, color: '#9B9B9B', margin: 0 }}>{product.priceDisplay}</p>
+      <p style={{ fontFamily: F, fontSize: 13, color: '#767676', margin: 0 }}>{product.priceDisplay}</p>
     </Link>
   )
 }
@@ -194,7 +194,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
                   fontSize: 10,
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
-                  color: '#9B9B9B',
+                  color: '#767676',
                   textDecoration: 'none',
                 }}
               >
@@ -223,7 +223,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
 
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-            <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>
+            <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#767676' }}>
               {product.category.replace(/-/g, ' ')}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -246,7 +246,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
             {product.name}
           </h1>
 
-          {product.subtitle && <p style={{ fontFamily: F, fontSize: 15, fontWeight: 400, color: '#9B9B9B', margin: '0 0 20px', lineHeight: 1.6 }}>{product.subtitle}</p>}
+          {product.subtitle && <p style={{ fontFamily: F, fontSize: 15, fontWeight: 400, color: '#767676', margin: '0 0 20px', lineHeight: 1.6 }}>{product.subtitle}</p>}
 
           <p style={{ fontFamily: F, fontSize: 'clamp(24px, 2.2vw, 34px)', fontWeight: 400, color: '#050505', margin: '0 0 28px', fontVariantNumeric: 'tabular-nums' }}>
             {product.priceDisplay}
@@ -261,7 +261,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
           <div style={{ marginBottom: 28 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
               <p style={{ fontFamily: F, fontSize: 13, letterSpacing: '0.05em', textTransform: 'uppercase', color: '#050505', fontWeight: 500, margin: 0 }}>
-                Ring Size: <span style={{ color: '#9B9B9B', fontWeight: 400 }}>{size}</span>
+                Ring Size: <span style={{ color: '#767676', fontWeight: 400 }}>{size}</span>
               </p>
               <button type="button" style={{ fontFamily: F, fontSize: 12, color: '#6B6B6B', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>
                 Size Guide
@@ -379,7 +379,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
               <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, padding: '16px 8px', background: '#FFFFFF', border: '1px solid #E5E5E5' }}>
                 <Icon size={18} strokeWidth={1.5} color="#050505" />
                 <span style={{ fontFamily: F, fontSize: 11, fontWeight: 500, color: '#050505', letterSpacing: '0.02em' }}>{label}</span>
-                <span style={{ fontFamily: F, fontSize: 10, color: '#9B9B9B' }}>{sub}</span>
+                <span style={{ fontFamily: F, fontSize: 10, color: '#767676' }}>{sub}</span>
               </div>
             ))}
           </div>
@@ -392,7 +392,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
         <section style={{ backgroundColor: '#FFFFFF', padding: 'clamp(64px, 10vh, 120px) 0', borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5' }}>
           <div className={minimal.cn.container}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
-              <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: 12 }}>Diamond Certification</span>
+              <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', display: 'block', marginBottom: 12 }}>Diamond Certification</span>
               <h2 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>The 4Cs</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: 16 }}>
@@ -403,9 +403,9 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
                 { label: 'Clarity', value: product.diamondSpecs.clarity, desc: 'Purity' },
               ].map((spec) => (
                 <div key={spec.label} style={{ backgroundColor: '#FFFFFF', border: '1px solid #E5E5E5', padding: 'clamp(24px, 3vw, 40px)', textAlign: 'center' }}>
-                  <p style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B', margin: '0 0 14px' }}>{spec.label}</p>
+                  <p style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#767676', margin: '0 0 14px' }}>{spec.label}</p>
                   <p style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 600, color: '#050505', margin: '0 0 6px' }}>{spec.value}</p>
-                  <p style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B', margin: 0 }}>{spec.desc}</p>
+                  <p style={{ fontFamily: F, fontSize: 11, color: '#767676', margin: 0 }}>{spec.desc}</p>
                 </div>
               ))}
             </div>
@@ -417,7 +417,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 40, alignItems: 'center' }}>
             <div>
-              <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: 12 }}>Styling</span>
+              <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', display: 'block', marginBottom: 12 }}>Styling</span>
               <h2 style={{ fontFamily: F, fontSize: 'clamp(24px, 2.5vw, 38px)', fontWeight: 600, letterSpacing: '-0.02em', color: '#050505', margin: '0 0 16px' }}>Complete the Look</h2>
               <p style={{ fontFamily: F, fontSize: 15, fontWeight: 400, color: '#6B6B6B', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 420 }}>
                 Pair this piece with complementary items from our collection for an effortlessly curated ensemble.
@@ -453,7 +453,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
           <div className={minimal.cn.container}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48 }}>
               <div>
-                <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: 12 }}>You May Also Like</span>
+                <span style={{ fontFamily: M, fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', display: 'block', marginBottom: 12 }}>You May Also Like</span>
                 <h2 style={{ fontFamily: F, fontSize: 'clamp(28px, 3vw, 48px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#050505', margin: 0 }}>Related Pieces</h2>
               </div>
               <Link

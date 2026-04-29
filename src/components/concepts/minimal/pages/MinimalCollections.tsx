@@ -31,7 +31,7 @@ export function MinimalCollections() {
       <div style={{ padding: 'clamp(64px, 10vh, 120px) 0 clamp(32px, 4vh, 48px)' }}>
         <div className={minimal.cn.container}>
           <PageEntrance variant="standard" delay={0.05}>
-          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: '16px' }}>
+          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', display: 'block', marginBottom: '16px' }}>
             Vault Maison
           </span>
           {/* Phase 6: Per-character kinetic headline */}
@@ -86,11 +86,11 @@ export function MinimalCollections() {
                       <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, letterSpacing: '-0.01em', color: '#050505', margin: 0 }}>
                         {categoryLabels[cat]}
                       </h3>
-                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#9B9B9B' }}>
+                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#767676' }}>
                         {count} pieces
                       </span>
                     </div>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#9B9B9B', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#767676', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {categoryDescriptions[cat]}
                     </p>
                     <span

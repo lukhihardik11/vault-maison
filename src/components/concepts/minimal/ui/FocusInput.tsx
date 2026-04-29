@@ -134,7 +134,7 @@ export const FocusInput = forwardRef<
         gsap.to(labelRef.current, {
           y: 0,
           scale: 1,
-          color: '#9B9B9B',
+          color: '#767676',
           duration: 0.25,
           ease: 'power2.in',
         })
@@ -203,7 +203,7 @@ export const FocusInput = forwardRef<
           fontFamily: F,
           fontSize: '14px',
           fontWeight: 400,
-          color: error ? '#C53030' : isLifted ? '#050505' : '#9B9B9B',
+          color: error ? '#C53030' : isLifted ? '#050505' : '#767676',
           pointerEvents: 'none',
           transformOrigin: 'left center',
           transform: reduced && isLifted ? 'translateY(-24px) scale(0.75)' : reduced ? 'none' : undefined,
