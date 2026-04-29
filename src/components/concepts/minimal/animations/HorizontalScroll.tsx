@@ -81,7 +81,7 @@ export function HorizontalScroll({
         ease: 'none',
         scrollTrigger: {
           trigger: container,
-          start: 'top top',
+          start: 'top top+=64',
           end: 'bottom bottom',
           scrub: 1,
           invalidateOnRefresh: true,
@@ -172,8 +172,8 @@ export function HorizontalScroll({
       */}
       <div style={{
         position: 'sticky',
-        top: 0,
-        height: '100vh',
+        top: '64px',
+        height: 'calc(100vh - 64px)',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
