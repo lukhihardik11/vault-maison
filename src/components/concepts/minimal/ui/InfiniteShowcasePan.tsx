@@ -332,6 +332,11 @@ export function InfiniteShowcasePan({
   const frameRef = useRef(0)
   const rafRef = useRef<number>(0)
   const [isReduced, setIsReduced] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -398,7 +403,7 @@ export function InfiniteShowcasePan({
           willChange: 'transform',
         }}
       >
-        {CARDS.map((c, i) => (
+        {isMounted && CARDS.map((c, i) => (
           <Card key={i} card={c} accent={accentColor} index={i} frame={0} />
         ))}
       </div>
