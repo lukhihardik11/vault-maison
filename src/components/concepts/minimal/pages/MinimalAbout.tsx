@@ -328,7 +328,7 @@ export function MinimalAbout() {
           gap: 18px;
         }
         .abt-value-card {
-          border: 1px solid #9B9B9B;
+          border: 1px solid #767676;
           background: #FFFFFF;
           padding: 24px;
           min-height: 180px;
@@ -519,7 +519,7 @@ export function MinimalAbout() {
         <div className="abt-story-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '72px', alignItems: 'center' }}>
           <FadeIn>
             <div>
-              <p style={{ margin: '0 0 12px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>Philosophy</p>
+              <p style={{ margin: '0 0 12px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#767676' }}>Philosophy</p>
               <h2 style={{ margin: '0 0 18px', fontFamily: font, fontSize: '32px', fontWeight: 600, lineHeight: 1.2, letterSpacing: '-0.02em', color: '#050505' }}>The Art of Less, Refined</h2>
               <p style={{ margin: '0 0 14px', fontFamily: font, fontSize: '14px', lineHeight: 1.85, color: '#6B6B6B' }}>
                 We focus on precision. Every curve, setting, and surface is iterated until it feels inevitable.
@@ -540,7 +540,7 @@ export function MinimalAbout() {
       <section style={{ padding: '80px 5vw', borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <FadeIn style={{ marginBottom: '34px', textAlign: 'center' }}>
-            <p style={{ margin: '0 0 10px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>Our Values</p>
+            <p style={{ margin: '0 0 10px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#767676' }}>Our Values</p>
             <h2 style={{ margin: 0, fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>What We Stand For</h2>
           </FadeIn>
           <div className="abt-values-grid">
@@ -559,7 +559,7 @@ export function MinimalAbout() {
 
       <section style={{ padding: '96px 5vw', maxWidth: '920px', margin: '0 auto' }}>
         <FadeIn style={{ textAlign: 'center', marginBottom: '44px' }}>
-          <p style={{ margin: '0 0 10px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>Journey</p>
+          <p style={{ margin: '0 0 10px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#767676' }}>Journey</p>
           <h2 style={{ margin: 0, fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Milestones</h2>
         </FadeIn>
         <div className="abt-timeline-list">
@@ -577,7 +577,7 @@ export function MinimalAbout() {
 
       <section style={{ padding: '96px 5vw', textAlign: 'center' }}>
         <FadeIn>
-          <p style={{ margin: '0 0 12px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9B9B9B' }}>Begin Your Journey</p>
+          <p style={{ margin: '0 0 12px', fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#767676' }}>Begin Your Journey</p>
           <h2 style={{ margin: '0 0 12px', fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>Let Us Create Something Lasting</h2>
           <p style={{ margin: '0 auto 28px', maxWidth: '520px', fontFamily: font, fontSize: '14px', lineHeight: 1.8, color: '#6B6B6B' }}>
             From engagement rings to bespoke heirlooms, our advisors guide each decision with clarity and care.

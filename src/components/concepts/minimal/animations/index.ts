@@ -9,3 +9,7 @@ export { KineticHeadline, HeadlineReveal } from './KineticType';
 export { RouteTransition, useTransitionState } from './RouteTransition';
 export { PreLoader } from './PreLoader';
 export { PageEntrance } from './PageEntrance';
+
+// Performance utilities
+export { initGSAP, gsap, ScrollTrigger } from './gsapInit';
+export { clearWillChange, promoteLayer, clearWillChangeBatch, onceVisible, onResizeDebounced, prefersReducedMotion, isTouchDevice } from './perfUtils';

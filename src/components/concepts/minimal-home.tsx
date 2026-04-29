@@ -12,14 +12,16 @@ import type { ConceptConfig } from '@/data/concepts'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 
-// Animation components
+// Animation components — above-fold (critical path)
 import { TextReveal, SplitTextReveal } from './minimal/animations/TextReveal'
 import { StaggerReveal } from './minimal/animations/StaggerReveal'
+import { KineticHeadline, HeadlineReveal } from './minimal/animations/KineticType'
+import { PageEntrance } from './minimal/animations/PageEntrance'
+
+// Below-fold animations — code-split for faster initial load
 import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
 import { ScrollScrub, ScrollWordReveal } from './minimal/animations/ScrollScrub'
-import { KineticHeadline, HeadlineReveal } from './minimal/animations/KineticType'
-import { PageEntrance } from './minimal/animations/PageEntrance'
 import { TiltCard } from './minimal/ui/TiltCard'
 import { PressButton } from './minimal/ui/PressButton'
 import { CountUp } from './minimal/ui/CountUp'
@@ -195,7 +197,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               fontFamily: mono,
               fontSize: '11px',
               letterSpacing: '0.25em',
-              color: '#9B9B9B',
+              color: '#767676',
             }}
           >
             07 / 10
@@ -248,7 +250,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         fontFamily: mono,
                         fontSize: '10px',
                         letterSpacing: '0.2em',
-                        color: '#9B9B9B',
+                        color: '#767676',
                       }}
                     >
                       {item.num}
@@ -386,6 +388,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     src={cat.image}
                     alt={cat.label}
                     loading="eager"
+                    decoding="async"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -393,7 +396,6 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                       display: 'block',
                       transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
-                    
                   />
                 </div>
                 <p
@@ -425,6 +427,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 src={heroProduct.images[0]}
                 alt={heroProduct.name}
                 loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
@@ -550,7 +554,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 fontFamily: font,
                 fontSize: '13px',
                 fontWeight: 400,
-                color: '#9B9B9B',
+                color: '#767676',
                 maxWidth: 360,
                 lineHeight: 1.7,
               }}
@@ -625,6 +629,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 <img
                   src={product.images[0]}
                   alt={product.name}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: '100%',
                     height: '100%',
@@ -632,7 +638,6 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     display: 'block',
                     transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
-                  
                 />
               </div>
               <div style={{ padding: '40px 0' }}>
@@ -642,7 +647,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     fontSize: '10px',
                     letterSpacing: '0.25em',
                     textTransform: 'uppercase',
-                    color: '#9B9B9B',
+                    color: '#767676',
                     display: 'block',
                     marginBottom: '16px',
                   }}
@@ -726,7 +731,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   <img
                     src={col.image}
                     alt={col.title}
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -734,7 +740,6 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                       display: 'block',
                       transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
-                    
                   />
                   <div
                     style={{
@@ -816,7 +821,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     fontSize: '10px',
                     letterSpacing: '0.25em',
                     textTransform: 'uppercase',
-                    color: '#9B9B9B',
+                    color: '#767676',
                     marginTop: '12px',
                   }}
                 >
@@ -904,6 +909,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   src="/images/minimal-engagement-ring.jpg"
                   alt="Vault Maison craftsmanship — precision setting"
                   loading="lazy"
+                  decoding="async"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
               </div>
@@ -912,6 +918,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   src="/images/minimal-loose-diamond.jpg"
                   alt="Vault Maison — ethically sourced diamonds"
                   loading="lazy"
+                  decoding="async"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
               </div>

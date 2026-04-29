@@ -84,7 +84,7 @@ export default function Breadcrumb() {
       >
         {items.map((item, index) => (
           <li key={item.href} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {index > 0 && <ChevronRight size={12} strokeWidth={1.5} style={{ color: '#9B9B9B' }} aria-hidden="true" />}
+            {index > 0 && <ChevronRight size={12} strokeWidth={1.5} style={{ color: '#767676' }} aria-hidden="true" />}
             {item.current ? (
               <span
                 style={{

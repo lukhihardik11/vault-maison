@@ -99,7 +99,7 @@ export function MinimalTerms() {
           <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
             Terms of Service
           </h1>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#9B9B9B' }}>
+          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#767676' }}>
             Effective: April 28, 2026
           </p>
         </div>
@@ -111,7 +111,7 @@ export function MinimalTerms() {
 
         {/* Table of Contents */}
         <div style={{ border: '1px solid #E5E5E5', padding: '24px 28px', marginBottom: '56px' }}>
-          <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '16px' }}>
+          <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '16px' }}>
             Contents
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
@@ -127,7 +127,7 @@ export function MinimalTerms() {
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '48px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <span style={{ fontFamily: F, fontSize: '12px', fontWeight: 500, color: '#9B9B9B', letterSpacing: '0.05em' }}>
+              <span style={{ fontFamily: F, fontSize: '12px', fontWeight: 500, color: '#767676', letterSpacing: '0.05em' }}>
                 {String(i + 1).padStart(2, '0')}
               </span>
               {s.icon}
@@ -157,7 +157,7 @@ export function MinimalTerms() {
           <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>
             Questions about these terms?
           </p>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#9B9B9B', marginBottom: '16px' }}>
+          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#767676', marginBottom: '16px' }}>
             Contact our legal team at{' '}
             <a href="mailto:legal@vaultmaison.com" style={{ color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               legal@vaultmaison.com

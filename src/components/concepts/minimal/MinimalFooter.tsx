@@ -60,7 +60,7 @@ export function MinimalFooter() {
   }
 
   return (
-    <footer style={{ borderTop: '1px solid #E5E5E5', backgroundColor: '#FFFFFF' }}>
+    <footer role="contentinfo" aria-label="Site footer" style={{ borderTop: '1px solid #E5E5E5', backgroundColor: '#FFFFFF' }}>
       <div
         style={{
           maxWidth: '1400px',
@@ -76,7 +76,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#9B9B9B',
+                color: '#767676',
                 margin: '0 0 12px',
               }}
             >
@@ -109,7 +109,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#9B9B9B',
+                color: '#767676',
                 marginBottom: '10px',
               }}
             >
@@ -163,7 +163,7 @@ export function MinimalFooter() {
                 minHeight: '18px',
                 fontFamily: font,
                 fontSize: '12px',
-                color: isSubscribed ? '#050505' : '#9B9B9B',
+                color: isSubscribed ? '#050505' : '#767676',
               }}
               aria-live="polite"
             >
@@ -188,7 +188,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#9B9B9B',
+                color: '#767676',
                 marginBottom: '20px',
               }}
             >
@@ -226,7 +226,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#9B9B9B',
+                color: '#767676',
                 marginBottom: '20px',
               }}
             >
@@ -264,7 +264,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#9B9B9B',
+                color: '#767676',
                 marginBottom: '20px',
               }}
             >
@@ -302,7 +302,7 @@ export function MinimalFooter() {
                 fontSize: '10px',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: '#9B9B9B',
+                color: '#767676',
                 marginBottom: '20px',
               }}
             >
@@ -342,7 +342,7 @@ export function MinimalFooter() {
               fontFamily: mono,
               fontSize: '10px',
               letterSpacing: '0.15em',
-              color: '#9B9B9B',
+              color: '#767676',
               margin: 0,
             }}
           >
@@ -359,7 +359,7 @@ export function MinimalFooter() {
                     fontFamily: mono,
                     fontSize: '10px',
                     letterSpacing: '0.15em',
-                    color: '#9B9B9B',
+                    color: '#767676',
                     textDecoration: 'none',
                     textTransform: 'uppercase',
                   }}

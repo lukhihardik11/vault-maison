@@ -43,7 +43,7 @@ export function MinimalProductGrid({ products, showSort = false }: MinimalProduc
               onClick={() => setSort(opt.value)}
               className="bg-transparent border-none cursor-pointer text-[11px] uppercase tracking-[0.15em] p-0 transition-colors duration-300"
               style={{
-                color: sort === opt.value ? '#050505' : '#9B9B9B',
+                color: sort === opt.value ? '#050505' : '#767676',
                 fontWeight: sort === opt.value ? 500 : 400,
               }}
             >

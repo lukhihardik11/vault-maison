@@ -74,14 +74,14 @@ export default function ActionSearchBar({ isOpen, onClose }: ActionSearchBarProp
             style={{ flex: 1, fontFamily: font, fontSize: '18px', fontWeight: 400, color: '#050505', background: 'none', border: 'none', outline: 'none' }}
           />
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
-            <X size={18} color="#9B9B9B" />
+            <X size={18} color="#767676" />
           </button>
         </div>
 
         {/* Results or Popular */}
         {results.length > 0 ? (
           <div>
-            <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '12px' }}>Results</p>
+            <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '12px' }}>Results</p>
             {results.map(p => (
               <Link key={p.id} href={`/minimal/product/${p.slug}`} onClick={onClose} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '12px 0', borderBottom: '1px solid #FAFAFA', textDecoration: 'none', color: 'inherit', transition: 'background 200ms' }}>
                 <div style={{ width: '48px', height: '48px', borderRadius: 0, overflow: 'hidden', flexShrink: 0, backgroundColor: '#FAFAFA' }}>
@@ -89,7 +89,7 @@ export default function ActionSearchBar({ isOpen, onClose }: ActionSearchBarProp
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#050505' }}>{p.name}</p>
-                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#9B9B9B' }}>{p.subtitle}</p>
+                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#767676' }}>{p.subtitle}</p>
                 </div>
                 <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, color: '#050505' }}>{p.priceDisplay}</p>
               </Link>
@@ -97,7 +97,7 @@ export default function ActionSearchBar({ isOpen, onClose }: ActionSearchBarProp
           </div>
         ) : (
           <div>
-            <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '16px' }}>Popular Searches</p>
+            <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '16px' }}>Popular Searches</p>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {popular.map(term => (
                 <button key={term} onClick={() => setQuery(term)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, padding: '8px 16px', background: '#FAFAFA', borderRadius: 0, border: 'none', cursor: 'pointer', color: '#050505', boxShadow: 'none', transition: 'all 300ms ease' }}>

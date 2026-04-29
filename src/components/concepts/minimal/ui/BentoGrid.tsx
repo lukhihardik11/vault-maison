@@ -66,7 +66,7 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
             <div style={{ position: item.image ? 'absolute' : 'relative', bottom: item.image ? '24px' : 'auto', left: item.image ? '24px' : 'auto', right: item.image ? '24px' : 'auto' }}>
               {item.icon && <div style={{ marginBottom: '12px', color: '#050505' }}>{item.icon}</div>}
               <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, color: item.image ? '#FFFFFF' : '#050505', marginBottom: '8px' }}>{item.title}</h3>
-              <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: item.image ? 'rgba(255,255,255,0.7)' : '#9B9B9B', lineHeight: 1.6 }}>{item.description}</p>
+              <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: item.image ? 'rgba(255,255,255,0.7)' : '#767676', lineHeight: 1.6 }}>{item.description}</p>
             </div>
           </div>
         ))}

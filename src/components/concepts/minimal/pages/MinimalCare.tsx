@@ -21,7 +21,7 @@ export function MinimalCare() {
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: font, fontSize: '11px', }}><span className="brutalist-section-num">01 — Jewelry Care</span></p>
         <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Care Guide</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '500px', margin: '0 auto' }}>
+        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#767676', maxWidth: '500px', margin: '0 auto' }}>
           Proper care ensures your Vault Maison pieces maintain their brilliance for generations. Follow these guidelines to protect your investment.
         </p>
       </section>

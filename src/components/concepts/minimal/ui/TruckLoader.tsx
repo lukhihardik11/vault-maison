@@ -72,7 +72,7 @@ export const TruckLoader: React.FC<TruckLoaderProps> = ({
         fontFamily: font,
         fontSize: '13px',
         fontWeight: 400,
-        color: '#9B9B9B',
+        color: '#767676',
         letterSpacing: '0.05em',
       }}>{message}</p>
       <style>{`

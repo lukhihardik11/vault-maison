@@ -71,7 +71,7 @@ export function MinimalAuthenticity() {
         <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
           Authenticity Guarantee
         </h1>
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#9B9B9B', maxWidth: '560px', margin: '0 auto' }}>
+        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#767676', maxWidth: '560px', margin: '0 auto' }}>
           Every piece we sell is verified, certified, and guaranteed authentic. No exceptions.
         </p>
       </section>
@@ -100,7 +100,7 @@ export function MinimalAuthenticity() {
               borderBottom: i < verificationSteps.length - 1 ? '1px solid #E5E5E5' : 'none',
             }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, color: '#9B9B9B', letterSpacing: '0.05em' }}>{step.step}</span>
+                <span style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, color: '#767676', letterSpacing: '0.05em' }}>{step.step}</span>
                 {step.icon}
               </div>
               <div>
@@ -202,20 +202,20 @@ export function MinimalAuthenticity() {
 
       {/* CTA + Cross-links */}
       <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#9B9B9B', marginBottom: '16px' }}>
+        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#767676', marginBottom: '16px' }}>
           Questions about authenticity or certification?
         </p>
         <Link href="/minimal/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: F, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#050505', textDecoration: 'none', marginBottom: '32px' }}>
           Contact Our Gemologists
         </Link>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '24px' }}>
-          <Link href="/minimal/privacy" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/privacy" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Privacy Policy
           </Link>
-          <Link href="/minimal/terms" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/terms" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Terms of Service
           </Link>
-          <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: '12px', color: '#9B9B9B', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Shipping & Returns
           </Link>
         </div>

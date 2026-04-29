@@ -68,7 +68,7 @@ export function MinimalProductCard({ product, index }: MinimalProductCardProps) 
               fontFamily: mono,
               fontSize: '10px',
               letterSpacing: '0.15em',
-              color: '#9B9B9B',
+              color: '#767676',
               zIndex: 1,
               backgroundColor: 'rgba(255,255,255,0.85)',
               padding: '2px 6px',
@@ -120,7 +120,7 @@ export function MinimalProductCard({ product, index }: MinimalProductCardProps) 
             fontFamily: mono,
             fontSize: '10px',
             letterSpacing: '0.15em',
-            color: '#9B9B9B',
+            color: '#767676',
           }}
         >
           VM—{productCode}

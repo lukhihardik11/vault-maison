@@ -62,14 +62,14 @@ export function MinimalCart() {
             marginBottom: 24,
           }}
         >
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9B9B9B" strokeWidth="1.5">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#767676" strokeWidth="1.5">
             <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
             <line x1="3" y1="6" x2="21" y2="6" />
             <path d="M16 10a4 4 0 01-8 0" />
           </svg>
         </div>
         <h2 style={{ fontFamily: F, fontSize: 26, color: '#050505', marginBottom: 8, fontWeight: 400, letterSpacing: '-0.02em' }}>Your bag is empty</h2>
-        <p style={{ fontFamily: F, fontSize: 15, color: '#9B9B9B', marginBottom: 32 }}>Discover our curated collection of fine jewelry</p>
+        <p style={{ fontFamily: F, fontSize: 15, color: '#767676', marginBottom: 32 }}>Discover our curated collection of fine jewelry</p>
         <Link
           href="/minimal/collections"
           style={{
@@ -117,7 +117,7 @@ export function MinimalCart() {
     <div style={{ background: '#FFFFFF', minHeight: '100vh', color: '#050505' }}>
       <div style={{ padding: '56px 24px 24px', maxWidth: 1200, margin: '0 auto' }}>
         <h1 style={{ fontFamily: F, fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 400, color: '#050505', letterSpacing: '-0.03em' }}>
-          Your Bag <span style={{ fontFamily: F, fontSize: 'clamp(16px, 3vw, 20px)', fontWeight: 400, color: '#9B9B9B' }}>({getItemCount()})</span>
+          Your Bag <span style={{ fontFamily: F, fontSize: 'clamp(16px, 3vw, 20px)', fontWeight: 400, color: '#767676' }}>({getItemCount()})</span>
         </h1>
       </div>
 
@@ -149,7 +149,7 @@ export function MinimalCart() {
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '4px 0' }}>
                   <div>
                     <h3 style={{ fontFamily: F, fontSize: 16, fontWeight: 500, color: '#050505', marginBottom: 4 }}>{item.product.name}</h3>
-                    <p style={{ fontFamily: F, fontSize: 13, color: '#9B9B9B' }}>{item.product.material || item.product.category}</p>
+                    <p style={{ fontFamily: F, fontSize: 13, color: '#767676' }}>{item.product.material || item.product.category}</p>
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
@@ -218,7 +218,7 @@ export function MinimalCart() {
                       style={{
                         background: 'none',
                         border: 'none',
-                        color: '#9B9B9B',
+                        color: '#767676',
                         cursor: 'pointer',
                         fontFamily: F,
                         fontSize: 13,
@@ -292,20 +292,20 @@ export function MinimalCart() {
               </button>
             </Link>
 
-            <p style={{ fontFamily: F, fontSize: 12, color: '#9B9B9B', textAlign: 'center', marginTop: 14, lineHeight: 1.6 }}>
+            <p style={{ fontFamily: F, fontSize: 12, color: '#767676', textAlign: 'center', marginTop: 14, lineHeight: 1.6 }}>
               Free shipping on orders over $500
             </p>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: 20, flexWrap: 'wrap' }}>
             {[
-              { icon: <Shield size={14} color="#9B9B9B" />, label: 'Secure' },
-              { icon: <Truck size={14} color="#9B9B9B" />, label: 'Free Ship 500+' },
-              { icon: <RotateCcw size={14} color="#9B9B9B" />, label: '30-Day Returns' },
+              { icon: <Shield size={14} color="#767676" />, label: 'Secure' },
+              { icon: <Truck size={14} color="#767676" />, label: 'Free Ship 500+' },
+              { icon: <RotateCcw size={14} color="#767676" />, label: '30-Day Returns' },
             ].map((badge) => (
               <div key={badge.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 {badge.icon}
-                <span style={{ fontFamily: F, fontSize: 11, color: '#9B9B9B' }}>{badge.label}</span>
+                <span style={{ fontFamily: F, fontSize: 11, color: '#767676' }}>{badge.label}</span>
               </div>
             ))}
           </div>

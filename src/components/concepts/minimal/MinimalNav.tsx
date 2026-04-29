@@ -99,6 +99,7 @@ export function MinimalNav() {
   return (
     <>
       <nav
+        aria-label="Main navigation"
         className={`minimal-nav-shell ${scrolled ? 'is-scrolled' : ''}`}
         style={{
           position: 'fixed',
@@ -276,6 +277,8 @@ export function MinimalNav() {
                 minHeight: '44px',
               }}
               aria-label="Menu"
+              aria-expanded={menuOpen}
+              aria-controls="vm-mobile-menu"
             >
               <Menu size={20} strokeWidth={1.5} />
             </button>
@@ -312,7 +315,7 @@ export function MinimalNav() {
             }}
           >
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
                 Diamonds
               </p>
               {diamondLinks.map((l) => (
@@ -336,7 +339,7 @@ export function MinimalNav() {
               ))}
             </div>
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
                 Gold
               </p>
               {goldLinks.map((l) => (
@@ -360,7 +363,7 @@ export function MinimalNav() {
               ))}
             </div>
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
                 Featured
               </p>
               <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">Wedding & Bridal</Link>
@@ -374,6 +377,10 @@ export function MinimalNav() {
       {/* Mobile Menu — Full-Screen Black Overlay (Tier 1: jilsander/celine pattern) */}
       {menuOpen && (
         <div
+          id="vm-mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
           className="minimal-mobile-overlay"
           style={{
             position: 'fixed',
@@ -531,7 +538,7 @@ export function MinimalNav() {
           left: 0;
           width: 0;
           height: 1px;
-          background: #9B9B9B;
+          background: #767676;
           transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
