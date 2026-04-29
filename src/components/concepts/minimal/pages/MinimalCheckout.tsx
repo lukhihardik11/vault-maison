@@ -441,21 +441,7 @@ export function MinimalCheckout() {
                   className="mb-6"
                 />
 
-                {/* Security assurance strip */}
-                <div style={{ border: '1px solid #E5E5E5', marginBottom: 26 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', borderBottom: '1px solid #E5E5E5' }}>
-                    <Lock size={14} color="#050505" />
-                    <span style={{ fontFamily: F, fontSize: 13, color: '#050505', fontWeight: 500 }}>Encrypted Checkout</span>
-                    <span style={{ fontFamily: F, fontSize: 12, color: '#767676', marginLeft: 'auto' }}>256-bit SSL</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '10px 14px' }}>
-                    <span style={{ fontFamily: F, fontSize: 11, color: '#767676', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Accepted</span>
-                    {/* Monochrome payment method text badges */}
-                    {['Visa', 'Mastercard', 'Amex', 'Apple Pay'].map((m) => (
-                      <span key={m} style={{ fontFamily: F, fontSize: 11, color: '#6B6B6B', fontWeight: 500, letterSpacing: '0.02em' }}>{m}</span>
-                    ))}
-                  </div>
-                </div>
+
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
                   <button
