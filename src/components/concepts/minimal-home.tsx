@@ -25,6 +25,8 @@ import { ScrollScrub, ScrollWordReveal } from './minimal/animations/ScrollScrub'
 import { TiltCard } from './minimal/ui/TiltCard'
 import { PressButton } from './minimal/ui/PressButton'
 import { CountUp } from './minimal/ui/CountUp'
+import { VaultBentoShowcase } from './minimal/ui/VaultBentoShowcase'
+import { InfiniteShowcasePan } from './minimal/ui/InfiniteShowcasePan'
 
 // Phase-2 homepage primitives — see docs/research/ui-ux-pro-max-recommendations.md
 import { MarqueeText } from './minimal/ui/MarqueeText'
@@ -603,6 +605,44 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
+      {/* ═══ SECTION 4A-PAN: INFINITE CRAFTSMANSHIP CANVAS ═══ */}
+      <section style={{ position: 'relative', overflow: 'hidden' }}>
+        <InfiniteShowcasePan height="480px" panDuration={60} />
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: 'none',
+          zIndex: 2,
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <span style={{
+              fontFamily: mono,
+              fontSize: '10px',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.45)',
+              display: 'block',
+              marginBottom: '12px',
+            }}>
+              Behind Every Piece
+            </span>
+            <h2 style={{
+              fontFamily: font,
+              fontSize: 'clamp(24px, 3.5vw, 44px)',
+              fontWeight: 200,
+              color: '#FFFFFF',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+            }}>
+              The Metrics of Mastery
+            </h2>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ SECTION 4B: HORIZONTAL SCROLL SHOWCASE ═══ */}
       <HorizontalScroll
         panelCount={curatedPieces.length}
@@ -832,6 +872,47 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           </div>
           </ScrollScrub>
         </div>
+      </section>
+
+      {/* ═══ SECTION 6-BENTO: VAULT DIFFERENTIATORS — Brutalist Bento Grid ═══ */}
+      <section style={{ padding: 'clamp(80px, 10vh, 120px) 5vw', backgroundColor: '#FFFFFF' }}>
+        <VaultBentoShowcase
+          sectionNum="06 — Why Vault Maison"
+          sectionTitle="Foundation Blocks"
+          items={[
+            {
+              title: 'Master Artisans',
+              description: 'Each piece passes through 12 hands over 6 weeks. Our atelier houses 3rd-generation craftsmen trained in Geneva and Antwerp.',
+              stat: '50',
+              statSuffix: '+',
+              variant: 'dark',
+              span: 'wide',
+            },
+            {
+              title: 'GIA Certified',
+              description: 'Every diamond above 0.30ct ships with a GIA grading report. No exceptions.',
+              stat: '100',
+              statSuffix: '%',
+              variant: 'accent',
+            },
+            {
+              title: 'Ethical Sourcing',
+              description: 'Kimberley Process compliant. Fully traceable from mine to maison.',
+              variant: 'glass',
+            },
+            {
+              title: 'Bespoke Service',
+              description: 'From sketch to stone — our design consultants bring your vision to life in 4–8 weeks.',
+              variant: 'default',
+            },
+            {
+              title: 'Lifetime Warranty',
+              description: 'Complimentary cleaning, re-polishing, and prong tightening for life. Because forever means forever.',
+              stat: '∞',
+              variant: 'dark',
+            },
+          ]}
+        />
       </section>
 
       {/* ═══ SECTION 6A: BRAND MANIFESTO — Tier 4 Dark Inversion (brutalist contrast block) ═══ */}

@@ -7,6 +7,7 @@ import { Gem, Ruler, Eye, Sparkles, Clock, Layers, ArrowRight } from 'lucide-rea
 import { ScrollWordReveal, ScrollScrub } from '../animations/ScrollScrub'
 import { HeadlineReveal } from '../animations/KineticType'
 import { PageEntrance } from '../animations/PageEntrance'
+import { InfiniteShowcasePan } from '../ui/InfiniteShowcasePan'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -262,6 +263,44 @@ export function MinimalCraftsmanship() {
           }}>
             — Vault Maison Atelier Philosophy
           </p>
+        </div>
+      </section>
+
+      {/* ── Infinite Craftsmanship Canvas — Bento Pan ─────────── */}
+      <section style={{ position: 'relative', overflow: 'hidden' }}>
+        <InfiniteShowcasePan height="500px" panDuration={55} />
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: 'none',
+          zIndex: 2,
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <span style={{
+              fontFamily: MONO,
+              fontSize: '10px',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.5)',
+              display: 'block',
+              marginBottom: '12px',
+            }}>
+              The Data Behind the Craft
+            </span>
+            <h2 style={{
+              fontFamily: F,
+              fontSize: 'clamp(28px, 4vw, 48px)',
+              fontWeight: 200,
+              color: '#FFFFFF',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+            }}>
+              Precision at Every Scale
+            </h2>
+          </div>
         </div>
       </section>
 

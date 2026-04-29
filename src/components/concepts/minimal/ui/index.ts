@@ -56,3 +56,6 @@ export { FocusInput } from './FocusInput'
 export { ToastProvider, useToast } from './Toast'
 export { CountUp } from './CountUp'
 export { ToggleSwitch } from './ToggleSwitch'
+// Phase 11: Bento Blocks
+export { VaultBentoShowcase } from './VaultBentoShowcase'
+export { InfiniteShowcasePan } from './InfiniteShowcasePan'
