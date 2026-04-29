@@ -19,6 +19,7 @@ import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSec
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
 import { ScrollScrub, ScrollWordReveal } from './minimal/animations/ScrollScrub'
 import { KineticHeadline, HeadlineReveal } from './minimal/animations/KineticType'
+import { TiltCard } from './minimal/ui/TiltCard'
 
 // Phase-2 homepage primitives — see docs/research/ui-ux-pro-max-recommendations.md
 import { MarqueeText } from './minimal/ui/MarqueeText'
@@ -414,7 +415,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       <section className={minimal.cn.section}>
         <div className={`${minimal.cn.container} grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center`}>
           <ParallaxSection speed={minimal.motion.parallax.bg}>
-            <div style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#FAFAFA' }}>
+            <div style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', backgroundColor: '#FAFAFA' }} data-cursor="view">
               <img
                 src={heroProduct.images[0]}
                 alt={heroProduct.name}
@@ -510,7 +511,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           horizontally (mouse / touch) or use ←/→ keys to scrub. Pre-
           viously a WebGL canvas — see Minimal360Viewer JSDoc for why
           we abandoned that path. */}
-      <section style={{ backgroundColor: '#050505' }}>
+      <section style={{ backgroundColor: '#050505' }} data-cursor="drag">
         <div className={minimal.cn.container} style={{ paddingTop: '40px', paddingBottom: '0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px', gap: 16, flexWrap: 'wrap' }}>
             <div>
@@ -710,8 +711,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           </div>
           <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {collections.map((col) => (
+              <TiltCard key={col.title} maxTilt={4} hoverScale={1.01} shine dataCursor="explore">
               <Link
-                key={col.title}
                 href={col.href}
                 className="group block"
                 style={{ textDecoration: 'none', color: '#050505' }}
@@ -765,6 +766,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   </div>
                 </div>
               </Link>
+              </TiltCard>
             ))}
           </StaggerReveal>
         </div>

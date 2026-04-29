@@ -10,7 +10,7 @@ import { useReducedMotionPreference } from './animations/useResponsiveMotion'
 import PageTransition from './ui/PageTransition'
 import Breadcrumb from './ui/Breadcrumb'
 import BackToTop from './ui/BackToTop'
-import CustomCursor from './ui/CustomCursor'
+import CursorFollower from './ui/CursorFollower'
 import { CommandPalette } from './ui/CommandPalette'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 import { LenisProvider } from './providers/LenisProvider'
@@ -213,7 +213,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         {!hideFooter && <MinimalFooter />}
         {!hideNav && <Toolbar />}
         <BackToTop />
-        <CustomCursor />
+        <CursorFollower />
         <FilmGrain />
         <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
       </div>

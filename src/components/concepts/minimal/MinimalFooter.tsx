@@ -4,6 +4,8 @@ import { type FormEvent, useState } from 'react'
 import Link from 'next/link'
 import { minimal } from './design-system'
 import BackToTop from './ui/BackToTop'
+import { HoverLineReveal } from './ui/HoverLineReveal'
+import { MagneticLink } from './ui/MagneticLink'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -195,6 +197,8 @@ export function MinimalFooter() {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {shopLinks.map((item) => (
                 <li key={item.label}>
+                  <MagneticLink strength={0.15} radius={40}>
+                  <HoverLineReveal color="#6B6B6B">
                   <Link
                     href={item.href}
                     className="minimal-footer-link"
@@ -208,6 +212,8 @@ export function MinimalFooter() {
                   >
                     {item.label}
                   </Link>
+                  </HoverLineReveal>
+                  </MagneticLink>
                 </li>
               ))}
             </ul>
@@ -229,6 +235,8 @@ export function MinimalFooter() {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {infoLinks.map((item) => (
                 <li key={item.label}>
+                  <MagneticLink strength={0.15} radius={40}>
+                  <HoverLineReveal color="#6B6B6B">
                   <Link
                     href={item.href}
                     className="minimal-footer-link"
@@ -242,6 +250,8 @@ export function MinimalFooter() {
                   >
                     {item.label}
                   </Link>
+                  </HoverLineReveal>
+                  </MagneticLink>
                 </li>
               ))}
             </ul>
@@ -263,6 +273,8 @@ export function MinimalFooter() {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {serviceLinks.map((item) => (
                 <li key={item.label}>
+                  <MagneticLink strength={0.15} radius={40}>
+                  <HoverLineReveal color="#6B6B6B">
                   <Link
                     href={item.href}
                     className="minimal-footer-link"
@@ -276,6 +288,8 @@ export function MinimalFooter() {
                   >
                     {item.label}
                   </Link>
+                  </HoverLineReveal>
+                  </MagneticLink>
                 </li>
               ))}
             </ul>

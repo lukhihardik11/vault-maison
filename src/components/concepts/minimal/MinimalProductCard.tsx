@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { type Product } from '@/data/products'
 import { minimal } from './design-system'
 import BlurUpImage from './ui/BlurUpImage'
+import { TiltCard } from './ui/TiltCard'
 
 interface MinimalProductCardProps {
   product: Product
@@ -46,7 +47,8 @@ export function MinimalProductCard({ product, index }: MinimalProductCardProps) 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Image — crossfade swap on hover */}
+      {/* Image — crossfade swap on hover + Phase 7 TiltCard */}
+      <TiltCard maxTilt={5} hoverScale={1.01} shine dataCursor="view">
       <div
         style={{
           position: 'relative',
@@ -108,6 +110,7 @@ export function MinimalProductCard({ product, index }: MinimalProductCardProps) 
           />
         </div>
       </div>
+      </TiltCard>
 
       {/* Product info — Tier 4: name + monospace price + code */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
