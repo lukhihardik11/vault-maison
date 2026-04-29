@@ -8,6 +8,7 @@ import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import { ScrollWordReveal } from '../animations/ScrollScrub'
 import { KineticHeadline } from '../animations/KineticType'
 import { PageEntrance } from '../animations/PageEntrance'
+import { VaultBentoShowcase } from '../ui/VaultBentoShowcase'
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'Space Mono', 'SF Mono', monospace"
@@ -180,27 +181,39 @@ export function MinimalAbout() {
 
       <section style={{ padding: '80px 5vw', background: '#E5E5E5' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <Reveal reducedMotion={reducedMotion} style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '12px' }}>03 — Our Values</span>
-            <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505' }}>What We Stand For</h2>
-          </Reveal>
-
-          <div className="abt-values-grid">
-            {values.map((value, index) => {
-              const Icon = value.icon
-              return (
-                <Reveal key={value.title} reducedMotion={reducedMotion} delay={index * 90}>
-                  <article className="abt-value-card">
-                    <div className="abt-value-icon">
-                      <Icon size={20} strokeWidth={1.5} />
-                    </div>
-                    <h3 style={{ fontFamily: font, fontSize: '17px', fontWeight: 400, color: '#050505', margin: '0 0 10px' }}>{value.title}</h3>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#6B6B6B', lineHeight: 1.7, margin: 0 }}>{value.desc}</p>
-                  </article>
-                </Reveal>
-              )
-            })}
-          </div>
+          <VaultBentoShowcase
+            sectionNum="03 — Our Values"
+            sectionTitle="What We Stand For"
+            items={[
+              {
+                title: 'Uncompromising Quality',
+                description: 'Every stone is hand-selected and every setting is precision-crafted with long-term wear in mind.',
+                icon: <Diamond size={24} strokeWidth={1.2} />,
+                variant: 'dark',
+                span: 'wide',
+              },
+              {
+                title: 'Certified Transparency',
+                description: 'Each center stone is independently certified and every quote is shared with clear material details.',
+                icon: <Award size={24} strokeWidth={1.2} />,
+                stat: '100',
+                statSuffix: '%',
+                variant: 'accent',
+              },
+              {
+                title: 'Ethical Sourcing',
+                description: 'Responsible partners and traceable sourcing shape every decision from stone origin to final polish.',
+                icon: <Globe size={24} strokeWidth={1.2} />,
+                variant: 'glass',
+              },
+              {
+                title: 'Timeless Design',
+                description: 'We design for decades, not seasons, so each piece can be worn now and inherited later.',
+                icon: <Gem size={24} strokeWidth={1.2} />,
+                variant: 'default',
+              },
+            ]}
+          />
         </div>
       </section>
 
