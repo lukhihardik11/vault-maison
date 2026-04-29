@@ -7,6 +7,7 @@ import { MinimalLayout } from '../MinimalLayout'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import { ScrollWordReveal } from '../animations/ScrollScrub'
 import { KineticHeadline } from '../animations/KineticType'
+import { PageEntrance } from '../animations/PageEntrance'
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'Space Mono', 'SF Mono', monospace"
@@ -124,6 +125,7 @@ export function MinimalAbout() {
         </div>
         <div style={{ position: 'absolute', inset: 0, background: '#050505', opacity: 0.56 }} />
         <div style={{ position: 'relative', zIndex: 2, padding: '0 5vw', maxWidth: '700px' }}>
+          <PageEntrance variant="standard" delay={0.1}>
           <span className="brutalist-section-num" style={{ color: '#E5E5E5', display: 'block', marginBottom: '16px' }}>01 — Our Story</span>
           {/* Phase 6: Per-character kinetic headline on dark hero */}
           <KineticHeadline
@@ -139,6 +141,7 @@ export function MinimalAbout() {
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, lineHeight: 1.8, color: '#E5E5E5', maxWidth: '520px' }}>
             Vault Maison was born from a simple belief: extraordinary jewelry should be transparent, personal, and built to last.
           </p>
+          </PageEntrance>
         </div>
       </section>
 

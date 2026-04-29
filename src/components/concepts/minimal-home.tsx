@@ -19,6 +19,7 @@ import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSec
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
 import { ScrollScrub, ScrollWordReveal } from './minimal/animations/ScrollScrub'
 import { KineticHeadline, HeadlineReveal } from './minimal/animations/KineticType'
+import { PageEntrance } from './minimal/animations/PageEntrance'
 import { TiltCard } from './minimal/ui/TiltCard'
 
 // Phase-2 homepage primitives — see docs/research/ui-ux-pro-max-recommendations.md
@@ -198,6 +199,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             07 / 10
           </span>
 
+          <PageEntrance variant="hero" delay={0.1}>
           <div>
             {/* Phase 6: Kinetic headline — line-by-line masked reveal */}
             <HeadlineReveal
@@ -334,6 +336,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               </div>
             </StaggerReveal>
           </div>
+          </PageEntrance>
         </div>
 
         {/* Right — Full-bleed Image with Parallax + Diamond Dust overlay */}
