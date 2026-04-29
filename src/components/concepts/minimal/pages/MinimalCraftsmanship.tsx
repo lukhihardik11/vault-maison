@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Gem, Ruler, Eye, Sparkles, Clock, Layers, ArrowRight } from 'lucide-react'
+import { ScrollWordReveal, ScrollScrub } from '../animations/ScrollScrub'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -236,16 +237,17 @@ export function MinimalCraftsmanship() {
             ))}
           </div>
         </div>
-      </section>      {/* ── Philosophy Quote — Tier 4 Dark Inversion ─────────────────────── */}
+      </section>      {/* ── Philosophy Quote — Tier 4 Dark Inversion + ScrollWordReveal ────── */}
       <section style={{ padding: '80px 5vw', backgroundColor: '#050505', margin: '0 auto' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', borderLeft: '2px solid #FFFFFF', paddingLeft: '24px' }}>
-          <p style={{
-            fontFamily: F, fontSize: '18px', fontWeight: 400,
-            lineHeight: 1.8, color: '#FFFFFF', margin: 0,
-          }}>
-            "Less, but better. Every joint, every setting, every surface must earn its place.
-            We do not add — we refine until only the essential remains."
-          </p>
+          <ScrollWordReveal
+            text='"Less, but better. Every joint, every setting, every surface must earn its place. We do not add — we refine until only the essential remains."'
+            as="p"
+            baseOpacity={0.15}
+            start="top 80%"
+            end="top 25%"
+            className="vm-craft-quote"
+          />
           <p style={{
             fontFamily: MONO, fontSize: '11px', fontWeight: 400,
             color: 'rgba(255,255,255,0.5)', marginTop: '16px',
@@ -332,6 +334,14 @@ export function MinimalCraftsmanship() {
       </section>
 
       <style>{`
+        .vm-craft-quote {
+          font-family: ${F};
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 1.8;
+          color: #FFFFFF;
+          margin: 0;
+        }
         @media (max-width: 768px) {
           .vm-craft-stats { grid-template-columns: repeat(2, 1fr) !important; }
           .vm-materials-grid { grid-template-columns: 1fr !important; }

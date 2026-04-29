@@ -17,6 +17,7 @@ import { TextReveal, SplitTextReveal } from './minimal/animations/TextReveal'
 import { StaggerReveal } from './minimal/animations/StaggerReveal'
 import { ParallaxSection, ParallaxImage } from './minimal/animations/ParallaxSection'
 import { HorizontalScroll, HorizontalPanel } from './minimal/animations/HorizontalScroll'
+import { ScrollScrub, ScrollWordReveal } from './minimal/animations/ScrollScrub'
 
 // Phase-2 homepage primitives — see docs/research/ui-ux-pro-max-recommendations.md
 import { MarqueeText } from './minimal/ui/MarqueeText'
@@ -569,12 +570,12 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           >
             Philosophy
           </span>
-          <SplitTextReveal
+          <ScrollWordReveal
             text="Crafted with obsession. Worn with intention. Every facet, every angle, every proportion — calculated to maximize brilliance while minimizing everything else."
             as="p"
-            stagger={30}
-            duration={500}
-            className=""
+            baseOpacity={0.1}
+            start="top 85%"
+            end="top 25%"
           />
           <div style={{ width: '48px', height: '1px', backgroundColor: '#6B6B6B', margin: '48px auto 24px' }} />
           <p
@@ -762,9 +763,10 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
 
       <div className={minimal.cn.container}><div className={minimal.cn.divider} /></div>
 
-      {/* ═══ SECTION 6: TRUST METRICS — Animated CountUp ═══ */}
+      {/* ═══ SECTION 6: TRUST METRICS — Animated CountUp + ScrollScrub ═══ */}
       <section className={minimal.cn.sectionCompact}>
         <div className={minimal.cn.container}>
+          <ScrollScrub from={{ y: 40, opacity: 0 }} start="top 92%" end="top 55%">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px" style={{ backgroundColor: '#E5E5E5' }}>
             {[
               { value: 50, suffix: '+', label: 'Years of Expertise' },
@@ -807,6 +809,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               </div>
             ))}
           </div>
+          </ScrollScrub>
         </div>
       </section>
 
@@ -814,6 +817,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       <section style={{ padding: 'clamp(80px, 12vh, 160px) 0', backgroundColor: '#050505', color: '#FFFFFF' }}>
         <div className={minimal.cn.container}>
           <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 'clamp(40px, 6vw, 96px)', alignItems: 'center' }}>
+            <ScrollScrub from={{ y: 50, opacity: 0 }} start="top 85%" end="top 35%">
             <div>
               <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>06A — Our Philosophy</span>
               <h2
@@ -871,6 +875,8 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 Discover Our Craft
               </Link>
             </div>
+            </ScrollScrub>
+            <ScrollScrub from={{ y: 60, opacity: 0 }} start="top 80%" end="top 30%">
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <div style={{ aspectRatio: '3 / 4', overflow: 'hidden', backgroundColor: '#F5F5F5' }}>
                 <img
@@ -889,6 +895,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 />
               </div>
             </div>
+            </ScrollScrub>
           </div>
         </div>
       </section>
@@ -975,6 +982,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
       {/* ═══ SECTION 8: NEWSLETTER — Minimal ═══ */}
       <section style={{ backgroundColor: '#FAFAFA', padding: 'clamp(64px, 10vh, 120px) 0' }}>
         <div className={minimal.cn.containerNarrow} style={{ textAlign: 'center' }}>
+          <ScrollScrub from={{ y: 30, opacity: 0 }} start="top 90%" end="top 50%">
           <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '20px' }}>08 — Stay Informed</span>
           <TextReveal duration={700} as="h2">
             <span
@@ -1045,6 +1053,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               Subscribe
             </button>
           </div>
+          </ScrollScrub>
         </div>
       </section>
 

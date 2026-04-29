@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Leaf, Shield, Globe, Recycle, Heart, ArrowRight } from 'lucide-react'
+import { ScrollWordReveal } from '../animations/ScrollScrub'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -68,14 +69,14 @@ export function MinimalSustainability() {
           Luxury Without<br />
           Compromise.
         </h1>
-        <p style={{
-          fontFamily: F, fontSize: '15px', fontWeight: 400,
-          lineHeight: 1.9, color: '#6B6B6B', maxWidth: '560px',
-        }}>
-          We believe that true luxury carries no hidden cost — not to the earth,
-          not to communities, not to future generations. Every decision we make is
-          guided by this principle.
-        </p>
+        <ScrollWordReveal
+          text="We believe that true luxury carries no hidden cost — not to the earth, not to communities, not to future generations. Every decision we make is guided by this principle."
+          as="p"
+          baseOpacity={0.15}
+          start="top 85%"
+          end="top 30%"
+          className="vm-sustain-opening"
+        />
       </section>
 
       {/* ── Full-bleed image ───────────────────────────────────── */}
@@ -277,6 +278,14 @@ export function MinimalSustainability() {
       </section>
 
       <style>{`
+        .vm-sustain-opening {
+          font-family: ${F};
+          font-size: 15px;
+          font-weight: 400;
+          line-height: 1.9;
+          color: #6B6B6B;
+          max-width: 560px;
+        }
         @media (max-width: 768px) {
           .vm-sustain-stats { grid-template-columns: repeat(2, 1fr) !important; }
         }

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ArrowRight, Award, Diamond, Gem, Globe, type LucideIcon } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
+import { ScrollWordReveal } from '../animations/ScrollScrub'
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'Space Mono', 'SF Mono', monospace"
@@ -140,9 +141,14 @@ export function MinimalAbout() {
               <h2 style={{ fontFamily: font, fontSize: '32px', fontWeight: 600, color: '#050505', marginBottom: '20px', lineHeight: 1.2 }}>
                 The Art of Less, Perfected
               </h2>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#6B6B6B', marginBottom: '16px' }}>
-                In an industry often defined by excess, we choose restraint. Every design is refined until each detail carries purpose.
-              </p>
+              <ScrollWordReveal
+                text="In an industry often defined by excess, we choose restraint. Every design is refined until each detail carries purpose."
+                as="p"
+                baseOpacity={0.15}
+                start="top 85%"
+                end="top 35%"
+                className="vm-about-philosophy"
+              />
               <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#6B6B6B', marginBottom: '16px' }}>
                 Our New York jewelers combine inherited bench technique with modern precision, balancing craft tradition and contemporary performance.
               </p>
@@ -278,6 +284,14 @@ export function MinimalAbout() {
       </section>
 
       <style>{`
+        .vm-about-philosophy {
+          font-family: ${font};
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 1.9;
+          color: #6B6B6B;
+          margin-bottom: 16px;
+        }
         .abt-fade {
           opacity: 0.9;
           transform: translateY(12px);
