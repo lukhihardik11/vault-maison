@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { MinimalLayout } from '../MinimalLayout'
 import { Pencil, Gem, Hammer, Gift, Check } from 'lucide-react'
 import { BlobGlassCard } from '../ui'
+import { FocusInput } from '../ui/FocusInput'
+import { PressButton } from '../ui/PressButton'
+import { useToast } from '../ui/Toast'
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'Space Mono', 'SF Mono', monospace"
@@ -29,6 +32,7 @@ const steps = [
 
 export function MinimalBespoke() {
   const [submitted, setSubmitted] = useState(false)
+  const { toast } = useToast()
 
   return (
     <MinimalLayout>
@@ -95,18 +99,18 @@ export function MinimalBespoke() {
               </p>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }} className="vm-bespoke-form" style={{ display: 'flex', flexDirection: 'column', gap: '20px', backgroundColor: '#FFFFFF', padding: '40px' }}>
+            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); toast('Consultation request submitted', 'success', 3000) }} className="vm-bespoke-form" style={{ display: 'flex', flexDirection: 'column', gap: '8px', backgroundColor: '#FFFFFF', padding: '40px' }}>
               <div className="vm-bespoke-form-row">
-                <div><label style={labelStyle}>First Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                <div><label style={labelStyle}>Last Name</label><input type="text" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
+                <FocusInput label="First Name" type="text" required />
+                <FocusInput label="Last Name" type="text" required />
               </div>
               <div className="vm-bespoke-form-row">
-                <div><label style={labelStyle}>Email</label><input type="email" required style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-                <div><label style={labelStyle}>Phone</label><input type="tel" style={inputStyle} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
+                <FocusInput label="Email" type="email" required />
+                <FocusInput label="Phone" type="tel" />
               </div>
-              <div>
+              <div style={{ marginBottom: '12px' }}>
                 <label style={labelStyle}>Piece Type</label>
-                <select style={{ ...inputStyle, cursor: 'pointer' }} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'}>
+                <select style={{ ...inputStyle, cursor: 'pointer' }}>
                   <option>Engagement Ring</option>
                   <option>Wedding Band</option>
                   <option>Necklace / Pendant</option>
@@ -115,16 +119,16 @@ export function MinimalBespoke() {
                   <option>Other</option>
                 </select>
               </div>
-              <div>
+              <div style={{ marginBottom: '12px' }}>
                 <label style={labelStyle}>Budget Range</label>
-                <select style={{ ...inputStyle, cursor: 'pointer' }} onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'}>
+                <select style={{ ...inputStyle, cursor: 'pointer' }}>
                   <option>$3,000 – $5,000</option>
                   <option>$5,000 – $10,000</option>
                   <option>$10,000 – $25,000</option>
                   <option>$25,000+</option>
                 </select>
               </div>
-              <div>
+              <div style={{ marginBottom: '12px' }}>
                 <label style={labelStyle}>Preferred Consultation</label>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   {['In-Person', 'Video Call', 'Phone'].map(opt => (
@@ -134,10 +138,10 @@ export function MinimalBespoke() {
                   ))}
                 </div>
               </div>
-              <div><label style={labelStyle}>Tell Us About Your Vision</label><textarea rows={4} style={{ ...inputStyle, resize: 'vertical' }} placeholder="Describe your ideal piece — style, stones, inspiration..." onFocus={(e) => e.currentTarget.style.borderColor = '#050505'} onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'} /></div>
-              <button type="submit" style={{ alignSelf: 'flex-start', padding: '16px 48px', backgroundColor: '#050505', color: '#FFFFFF', border: 'none', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}>
+              <FocusInput label="Tell Us About Your Vision" multiline rows={4} />
+              <PressButton type="submit" variant="primary" size="md" style={{ alignSelf: 'flex-start' }}>
                 Request Consultation
-              </button>
+              </PressButton>
             </form>
           )}
         </div>

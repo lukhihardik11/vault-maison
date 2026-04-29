@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { Clock, Mail, MapPin, MessageSquare, Phone, Send, type LucideIcon } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
+import { FocusInput } from '../ui/FocusInput'
+import { PressButton } from '../ui/PressButton'
+import { useToast } from '../ui/Toast'
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'Space Mono', 'SF Mono', monospace"
@@ -87,6 +90,7 @@ function Reveal({ children, reducedMotion, delay = 0, style = {} }: RevealProps)
 export function MinimalContact() {
   const [submitted, setSubmitted] = useState(false)
   const reducedMotion = useReducedMotionPreference()
+  const { toast } = useToast()
 
   return (
     <MinimalLayout>
@@ -161,38 +165,16 @@ export function MinimalContact() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '4px' }}>Send a Message</h2>
+                <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); toast('Message sent successfully', 'success', 3000) }} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '12px' }}>Send a Message</h2>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="vm-contact-name-grid">
-                    <div>
-                      <label htmlFor="minimal-contact-first-name" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#9B9B9B', display: 'block', marginBottom: '6px' }}>
-                        First Name
-                      </label>
-                      <input id="minimal-contact-first-name" type="text" required style={inputStyle} className="vm-contact-input" />
-                    </div>
-                    <div>
-                      <label htmlFor="minimal-contact-last-name" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#9B9B9B', display: 'block', marginBottom: '6px' }}>
-                        Last Name
-                      </label>
-                      <input id="minimal-contact-last-name" type="text" required style={inputStyle} className="vm-contact-input" />
-                    </div>
+                    <FocusInput label="First Name" type="text" required />
+                    <FocusInput label="Last Name" type="text" required />
                   </div>
+                  <FocusInput label="Email" type="email" required />
+                  <FocusInput label="Phone (Optional)" type="tel" />
 
-                  <div>
-                    <label htmlFor="minimal-contact-email" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#9B9B9B', display: 'block', marginBottom: '6px' }}>
-                      Email
-                    </label>
-                    <input id="minimal-contact-email" type="email" required style={inputStyle} className="vm-contact-input" />
-                  </div>
-
-                  <div>
-                    <label htmlFor="minimal-contact-phone" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#9B9B9B', display: 'block', marginBottom: '6px' }}>
-                      Phone (Optional)
-                    </label>
-                    <input id="minimal-contact-phone" type="tel" style={inputStyle} className="vm-contact-input" />
-                  </div>
-
-                  <div>
+                  <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="minimal-contact-subject" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#9B9B9B', display: 'block', marginBottom: '6px' }}>
                       Subject
                     </label>
@@ -205,17 +187,12 @@ export function MinimalContact() {
                     </select>
                   </div>
 
-                  <div>
-                    <label htmlFor="minimal-contact-message" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#9B9B9B', display: 'block', marginBottom: '6px' }}>
-                      Message
-                    </label>
-                    <textarea id="minimal-contact-message" required rows={5} style={{ ...inputStyle, resize: 'vertical' }} className="vm-contact-input" />
-                  </div>
+                  <FocusInput label="Message" multiline required rows={5} />
 
                   <div style={{ alignSelf: 'flex-start' }}>
-                    <button type="submit" className="vm-contact-submit">
+                    <PressButton type="submit" variant="primary" size="md">
                       Send Message
-                    </button>
+                    </PressButton>
                   </div>
                 </form>
               )}

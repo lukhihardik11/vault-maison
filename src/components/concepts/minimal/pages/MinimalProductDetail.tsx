@@ -10,6 +10,8 @@ import { products, type Product } from '@/data/products'
 import { useCartStore } from '@/store/cart'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import BlurUpImage from '../ui/BlurUpImage'
+import { PressButton } from '../ui/PressButton'
+import { useToast } from '../ui/Toast'
 import SmoothAccordion, { type SmoothAccordionItem } from '../ui/SmoothAccordion'
 import { ProductBounceCard } from '@/components/ui/product-bounce-card'
 
@@ -125,6 +127,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
   const product = productProp || products.find((item) => item.slug === slug) || products[0]
   const addItem = useCartStore((state) => state.addItem)
   const prefersReducedMotion = useReducedMotionPreference()
+  const { toast } = useToast()
 
   const [size, setSize] = useState('7')
   const [qty, setQty] = useState(1)
@@ -135,6 +138,7 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
   const handleAdd = () => {
     for (let index = 0; index < qty; index += 1) addItem(product, size)
     setAdded(true)
+    toast(`${product.name} added to bag`, 'success', 2500)
     window.setTimeout(() => setAdded(false), 1300)
   }
 
@@ -315,39 +319,17 @@ function MinimalProductDetailContent({ product: productProp }: { product?: Produ
           </div>
 
           <div style={{ display: 'flex', gap: 10, marginBottom: 32 }}>
-            <button
-              type="button"
+            <PressButton
               onClick={handleAdd}
-              className="minimal-pdp-add-btn"
-              style={{
-                flex: 1,
-                height: 56,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 10,
-                fontFamily: F,
-                fontSize: 13,
-                fontWeight: 500,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                backgroundColor: '#050505',
-                color: '#FFFFFF',
-                border: 'none',
-                cursor: 'pointer',
-                transition: prefersReducedMotion ? 'none' : 'opacity 180ms ease',
-              }}
+              variant="primary"
+              size="lg"
+              fullWidth
+              success={added}
+              successContent={<><Check size={16} strokeWidth={2} /> Added to Bag</>}
+              style={{ flex: 1, height: 56 }}
             >
-              {added ? (
-                <>
-                  <Check size={16} strokeWidth={2} /> Added to Bag
-                </>
-              ) : (
-                <>
-                  <ShoppingBag size={16} strokeWidth={1.5} /> Add to Bag — {product.priceDisplay}
-                </>
-              )}
-            </button>
+              <ShoppingBag size={16} strokeWidth={1.5} /> Add to Bag — {product.priceDisplay}
+            </PressButton>
             <button
               type="button"
               onClick={() => setWish(!wish)}

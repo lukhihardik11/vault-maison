@@ -21,6 +21,8 @@ import { ScrollScrub, ScrollWordReveal } from './minimal/animations/ScrollScrub'
 import { KineticHeadline, HeadlineReveal } from './minimal/animations/KineticType'
 import { PageEntrance } from './minimal/animations/PageEntrance'
 import { TiltCard } from './minimal/ui/TiltCard'
+import { PressButton } from './minimal/ui/PressButton'
+import { CountUp } from './minimal/ui/CountUp'
 
 // Phase-2 homepage primitives — see docs/research/ui-ux-pro-max-recommendations.md
 import { MarqueeText } from './minimal/ui/MarqueeText'
@@ -806,7 +808,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
-                  <SmoothCounter to={stat.value} suffix={stat.suffix} />
+                  <CountUp to={stat.value} suffix={stat.suffix} separator={stat.value >= 1000} duration={2} />
                 </p>
                 <p
                   style={{
@@ -1067,24 +1069,13 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 outline: 'none',
               }}
             />
-            <button
-              style={{
-                height: '52px',
-                padding: '0 32px',
-                backgroundColor: '#050505',
-                color: '#FFFFFF',
-                border: 'none',
-                fontFamily: font,
-                fontSize: '11px',
-                fontWeight: 500,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-              }}
-              className="vm-btn-primary"
+            <PressButton
+              variant="primary"
+              size="md"
+              style={{ height: '52px', padding: '0 32px' }}
             >
               Subscribe
-            </button>
+            </PressButton>
           </div>
           </ScrollScrub>
         </div>

@@ -16,6 +16,7 @@ import { CommandPalette } from './ui/CommandPalette'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 import { LenisProvider } from './providers/LenisProvider'
 import { FilmGrain } from './ui/FilmGrain'
+import { ToastProvider } from './ui/Toast'
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -182,6 +183,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           }
         }
       `}</style>
+      <ToastProvider>
       <RouteTransition>
       <LenisProvider lerp={0.07} disabled={prefersReducedMotion}>
       <div
@@ -222,6 +224,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
       </LenisProvider>
       <PreLoader />
       </RouteTransition>
+      </ToastProvider>
     </>
   )
 }
