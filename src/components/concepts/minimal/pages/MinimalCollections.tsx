@@ -5,6 +5,7 @@ import { MinimalLayout } from '../MinimalLayout'
 import { minimal } from '../design-system'
 import { allCategories, categoryLabels, categoryDescriptions, type ProductCategory } from '@/data/concepts'
 import { getProductsByCategory } from '@/data/products'
+import { KineticHeadline } from '../animations/KineticType'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -31,9 +32,17 @@ export function MinimalCollections() {
           <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#9B9B9B', display: 'block', marginBottom: '16px' }}>
             Vault Maison
           </span>
-          <h1 style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#050505', margin: '0 0 16px' }}>
-            Collections
-          </h1>
+          {/* Phase 6: Per-character kinetic headline */}
+          <KineticHeadline
+            text="Collections"
+            as="h1"
+            variant="slide-up"
+            style={{ fontFamily: font, fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#050505', margin: '0 0 16px' }}
+            stagger={0.03}
+            once
+            duration={0.9}
+            start="top 95%"
+          />
           <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#6B6B6B', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
             Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
           </p>

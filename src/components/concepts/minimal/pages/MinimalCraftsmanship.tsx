@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Gem, Ruler, Eye, Sparkles, Clock, Layers, ArrowRight } from 'lucide-react'
 import { ScrollWordReveal, ScrollScrub } from '../animations/ScrollScrub'
+import { HeadlineReveal } from '../animations/KineticType'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -87,14 +88,19 @@ export function MinimalCraftsmanship() {
       {/* ── Hero: Full-width typographic header ─────────────────── */}
       <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
         <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Our Craft</span>
-        <h1 style={{
-          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
-          color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
-          marginBottom: '24px', maxWidth: '800px',
-        }}>
-          Nothing Is Made Quickly.<br />
-          Everything Is Made Right.
-        </h1>
+        {/* Phase 6: Line-by-line masked headline reveal */}
+        <HeadlineReveal
+          lines={['Nothing Is Made Quickly.', 'Everything Is Made Right.']}
+          as="h1"
+          style={{
+            fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
+            color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
+            marginBottom: '24px', maxWidth: '800px',
+          }}
+          stagger={0.15}
+          duration={0.9}
+          start="top 95%"
+        />
         <p style={{
           fontFamily: F, fontSize: '15px', fontWeight: 400,
           lineHeight: 1.9, color: '#6B6B6B', maxWidth: '560px',

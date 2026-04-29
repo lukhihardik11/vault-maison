@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { MinimalLayout } from '../MinimalLayout'
 import { Leaf, Shield, Globe, Recycle, Heart, ArrowRight } from 'lucide-react'
 import { ScrollWordReveal } from '../animations/ScrollScrub'
+import { HeadlineReveal } from '../animations/KineticType'
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -61,14 +62,19 @@ export function MinimalSustainability() {
       {/* ── Hero ───────────────────────────────────────────────── */}
       <section style={{ padding: '120px 5vw 80px', maxWidth: '1200px', margin: '0 auto' }}>
         <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '24px' }}>01 — Responsibility</span>
-        <h1 style={{
-          fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
-          color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
-          marginBottom: '24px', maxWidth: '800px',
-        }}>
-          Luxury Without<br />
-          Compromise.
-        </h1>
+        {/* Phase 6: Line-by-line masked headline reveal */}
+        <HeadlineReveal
+          lines={['Luxury Without', 'Compromise.']}
+          as="h1"
+          style={{
+            fontFamily: F, fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 600,
+            color: '#050505', lineHeight: 1.1, letterSpacing: '-0.03em',
+            marginBottom: '24px', maxWidth: '800px',
+          }}
+          stagger={0.15}
+          duration={0.9}
+          start="top 95%"
+        />
         <ScrollWordReveal
           text="We believe that true luxury carries no hidden cost — not to the earth, not to communities, not to future generations. Every decision we make is guided by this principle."
           as="p"
