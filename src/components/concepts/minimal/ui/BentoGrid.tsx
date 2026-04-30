@@ -43,6 +43,7 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
           <div
             key={i}
             className={`bento-item ${item.span === 'wide' ? 'bento-wide' : ''} ${item.span === 'tall' ? 'bento-tall' : ''}`}
+            data-cursor={item.image ? 'view' : undefined}
             style={{
               background: item.image ? 'none' : 'rgba(255,255,255,0.65)',
               backdropFilter: item.image ? 'none' : 'blur(20px)',
