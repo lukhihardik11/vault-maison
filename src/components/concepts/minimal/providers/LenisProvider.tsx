@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { usePathname } from 'next/navigation'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -58,6 +59,7 @@ export function LenisProvider({
   const lenisRef = useRef<Lenis | null>(null)
   const rafRef = useRef<number>(0)
   const [lenis, setLenis] = useState<Lenis | null>(null)
+  const pathname = usePathname()
 
   /* ---------- initialise / destroy ---------- */
   useEffect(() => {
@@ -75,6 +77,10 @@ export function LenisProvider({
 
     lenisRef.current = instance
     setLenis(instance)
+
+    // Expose globally so components outside the provider tree
+    // (like RouteTransition) can reset scroll position
+    ;(window as any).__lenis = instance
 
     /* Bridge Lenis → GSAP ScrollTrigger so pinned sections, scrub
        animations, and snap all work with the smooth-scrolled position. */
@@ -97,8 +103,80 @@ export function LenisProvider({
       instance.destroy()
       lenisRef.current = null
       setLenis(null)
+      ;(window as any).__lenis = null
     }
   }, [lerp, disabled])
+
+  /* ---------- scroll-to-top on route change ---------- */
+  // Use a completely different approach: listen to Next.js navigation
+  // by intercepting pushState/replaceState which Next.js App Router uses
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    let lastUrl = window.location.href
+
+    const resetScroll = () => {
+      const instance = lenisRef.current || (window as any).__lenis
+      if (instance) {
+        instance.stop()
+        window.scrollTo(0, 0)
+        document.documentElement.scrollTop = 0
+        document.body.scrollTop = 0
+        requestAnimationFrame(() => {
+          instance.start()
+          ScrollTrigger.refresh()
+        })
+      } else {
+        window.scrollTo(0, 0)
+      }
+    }
+
+    // Monkey-patch pushState and replaceState to detect SPA navigation
+    const originalPushState = history.pushState.bind(history)
+    const originalReplaceState = history.replaceState.bind(history)
+
+    history.pushState = function (data: any, unused: string, url?: string | URL | null) {
+      originalPushState(data, unused, url)
+      const newUrl = window.location.href
+      if (newUrl !== lastUrl) {
+        lastUrl = newUrl
+        // Reset scroll after a small delay to let the page render
+        setTimeout(resetScroll, 50)
+        setTimeout(resetScroll, 200)
+        setTimeout(resetScroll, 500)
+      }
+    }
+
+    history.replaceState = function (data: any, unused: string, url?: string | URL | null) {
+      originalReplaceState(data, unused, url)
+      const newUrl = window.location.href
+      if (newUrl !== lastUrl) {
+        lastUrl = newUrl
+        setTimeout(resetScroll, 50)
+        setTimeout(resetScroll, 200)
+        setTimeout(resetScroll, 500)
+      }
+    }
+
+    // Also listen for popstate (browser back/forward)
+    const handlePopState = () => {
+      const newUrl = window.location.href
+      if (newUrl !== lastUrl) {
+        lastUrl = newUrl
+        setTimeout(resetScroll, 50)
+        setTimeout(resetScroll, 200)
+        setTimeout(resetScroll, 500)
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+
+    return () => {
+      history.pushState = originalPushState
+      history.replaceState = originalReplaceState
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, []) // Empty deps - only run once on mount
 
   /* ---------- programmatic scrollTo ---------- */
   const scrollTo = useCallback(
