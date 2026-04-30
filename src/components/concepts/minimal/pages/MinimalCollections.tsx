@@ -57,7 +57,8 @@ export function MinimalCollections() {
       {/* Category Grid — Tier 2: no zoom, opacity hover, editorial CTA */}
       <div style={{ padding: 'clamp(32px, 4vh, 56px) 0 clamp(48px, 6vh, 80px)' }}>
         <div className={minimal.cn.container}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="collections-grid-wrapper">
+          <div className="collections-grid">
             {allCategories.map((cat: ProductCategory) => {
               const count = getProductsByCategory(cat).length
               return (
@@ -72,7 +73,8 @@ export function MinimalCollections() {
                     <img
                       src={categoryImages[cat] || '/images/moody-jewelry-1.jpg'}
                       alt={categoryLabels[cat]}
-                      loading="eager"
+                      loading="lazy"
+                      decoding="async"
                       style={{
                         width: '100%',
                         height: '100%',
@@ -112,10 +114,32 @@ export function MinimalCollections() {
               )
             })}
           </div>
+          </div>
         </div>
       </div>
 
       <style>{`
+        .collections-grid-wrapper {
+          container-type: inline-size;
+          container-name: collections;
+        }
+        .collections-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        @container collections (min-width: 480px) {
+          .collections-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        }
+        @container collections (min-width: 768px) {
+          .collections-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        }
+        /* Fallback for browsers without container query support */
+        @supports not (container-type: inline-size) {
+          .collections-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+          @media (min-width: 768px) { .collections-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; } }
+          @media (min-width: 1024px) { .collections-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+        }
         .tier2-collection-tile {
           transition: opacity 0.2s ease;
         }

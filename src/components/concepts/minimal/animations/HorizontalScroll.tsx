@@ -156,7 +156,6 @@ export function HorizontalScroll({
     <section
       ref={containerRef}
       className={className}
-      data-cursor="drag"
       // Height is set imperatively in the effect above to
       // `horizontalDistance + 100vh`. SSR / first-paint fallback: size
       // roughly to the expected final height so there's no layout jump.

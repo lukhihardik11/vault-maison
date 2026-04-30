@@ -432,6 +432,11 @@ export function MinimalFooter() {
         }
         .minimal-footer-link {
           transition: color 200ms ease;
+          display: inline-block;
+          padding: 8px 0;
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
         }
         .minimal-footer-link:hover {
           opacity: 0.5;
