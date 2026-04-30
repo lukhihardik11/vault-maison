@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { ArrowRight, Award, Diamond, Gem, Globe, type LucideIcon } from 'lucide-react'
 import { MinimalLayout } from '../MinimalLayout'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
-import { MagneticButton } from '../ui/MagneticButton'
 import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
@@ -170,16 +169,12 @@ export function MinimalAbout() {
             From engagement rings to bespoke heirlooms, our advisors guide each decision with clarity and care.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <MagneticButton strength={0.25} radius={80}>
-              <Link href="/minimal/bespoke" className="abt-cta abt-cta-primary">
-                Book Consultation <ArrowRight size={14} strokeWidth={1.6} />
-              </Link>
-            </MagneticButton>
-            <MagneticButton strength={0.25} radius={80}>
-              <Link href="/minimal/collections" className="abt-cta abt-cta-secondary">
-                Browse Collections
-              </Link>
-            </MagneticButton>
+            <Link href="/minimal/bespoke" className="abt-cta abt-cta-primary">
+              Book Consultation <ArrowRight size={14} strokeWidth={1.6} />
+            </Link>
+            <Link href="/minimal/collections" className="abt-cta abt-cta-secondary">
+              Browse Collections
+            </Link>
           </div>
         </FadeIn>
       </section>
