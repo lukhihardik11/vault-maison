@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -21,7 +22,7 @@ export const ExploreButton: React.FC<ExploreButtonProps> = ({
       alignItems: 'center',
       padding: '12px 24px',
       fontFamily: font,
-      fontSize: '12px',
+      fontSize: minimal.type.caption,
       fontWeight: 500,
       letterSpacing: '0.12em',
       textTransform: 'uppercase',

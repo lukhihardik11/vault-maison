@@ -264,8 +264,8 @@ export function MinimalCheckout() {
               >
                 <span
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 44,
+                    height: 44,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

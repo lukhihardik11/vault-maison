@@ -1,7 +1,8 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import { minimal } from '../design-system';
 
-const font = "'Inter', 'Helvetica Neue', sans-serif"
+const font = minimal.font.primary
 
 interface BentoItem {
   title: string
@@ -36,14 +37,13 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
 
   return (
     <>
-      <div ref={ref} className={className} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', maxWidth: '1200px', margin: '0 auto' }}>
+      {/* Container query wrapper — grid adapts to its own width, not the viewport */}
+      <div ref={ref} className={`bento-container ${className}`}>
         {items.map((item, i) => (
           <div
             key={i}
-            className="bento-item"
+            className={`bento-item ${item.span === 'wide' ? 'bento-wide' : ''} ${item.span === 'tall' ? 'bento-tall' : ''}`}
             style={{
-              gridColumn: item.span === 'wide' ? 'span 2' : 'span 1',
-              gridRow: item.span === 'tall' ? 'span 2' : 'span 1',
               background: item.image ? 'none' : 'rgba(255,255,255,0.65)',
               backdropFilter: item.image ? 'none' : 'blur(20px)',
               border: '1px solid rgba(255,255,255,0.3)',
@@ -59,22 +59,60 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
           >
             {item.image && (
               <>
-                <img src={item.image} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+                />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.7) 0%, transparent 60%)' }} />
               </>
             )}
             <div style={{ position: item.image ? 'absolute' : 'relative', bottom: item.image ? '24px' : 'auto', left: item.image ? '24px' : 'auto', right: item.image ? '24px' : 'auto' }}>
               {item.icon && <div style={{ marginBottom: '12px', color: '#050505' }}>{item.icon}</div>}
-              <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, color: item.image ? '#FFFFFF' : '#050505', marginBottom: '8px' }}>{item.title}</h3>
-              <p style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, color: item.image ? 'rgba(255,255,255,0.7)' : '#767676', lineHeight: 1.6 }}>{item.description}</p>
+              <h3 style={{ fontFamily: font, fontSize: minimal.type.bodyLg, fontWeight: 400, color: item.image ? '#FFFFFF' : '#050505', marginBottom: '8px' }}>{item.title}</h3>
+              <p style={{ fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, color: item.image ? 'rgba(255,255,255,0.7)' : '#767676', lineHeight: 1.6 }}>{item.description}</p>
             </div>
           </div>
         ))}
       </div>
       <style>{`
+        /* Container query context */
+        .bento-container {
+          container-type: inline-size;
+          container-name: bento;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+        .bento-wide { grid-column: span 2; }
+        .bento-tall { grid-row: span 2; }
         .bento-item.bento-visible { opacity: 1 !important; transform: translateY(0) !important; }
         .bento-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06) !important; }
-        @media (max-width: 768px) { .bento-item { grid-column: span 1 !important; } }
+
+        /* Container query breakpoints — adapts to parent width, not viewport */
+        @container bento (max-width: 768px) {
+          .bento-container { grid-template-columns: repeat(2, 1fr); }
+          .bento-wide { grid-column: span 2; }
+        }
+        @container bento (max-width: 480px) {
+          .bento-container { grid-template-columns: 1fr; gap: 12px; }
+          .bento-wide, .bento-tall { grid-column: span 1; grid-row: span 1; }
+        }
+
+        /* Fallback for browsers without container query support */
+        @supports not (container-type: inline-size) {
+          @media (max-width: 768px) {
+            .bento-container { grid-template-columns: repeat(2, 1fr); }
+          }
+          @media (max-width: 480px) {
+            .bento-container { grid-template-columns: 1fr; }
+            .bento-wide, .bento-tall { grid-column: span 1 !important; grid-row: span 1 !important; }
+          }
+        }
       `}</style>
     </>
   )

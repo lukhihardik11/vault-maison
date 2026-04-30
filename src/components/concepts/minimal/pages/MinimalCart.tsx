@@ -158,8 +158,8 @@ export function MinimalCart() {
                         type="button"
                         onClick={() => handleQuantityChange(item.product.id, Math.max(1, item.quantity - 1), 'down')}
                         style={{
-                          width: 36,
-                          height: 36,
+                          width: 44,
+                          height: 44,
                           background: '#FFFFFF',
                           border: 'none',
                           cursor: 'pointer',
@@ -194,8 +194,8 @@ export function MinimalCart() {
                         type="button"
                         onClick={() => handleQuantityChange(item.product.id, item.quantity + 1, 'up')}
                         style={{
-                          width: 36,
-                          height: 36,
+                          width: 44,
+                          height: 44,
                           background: '#FFFFFF',
                           border: 'none',
                           cursor: 'pointer',

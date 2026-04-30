@@ -139,8 +139,7 @@ export function ParallaxImage({
           height: '100%',
           objectFit: 'cover',
           transform: disabled ? 'none' : `scale(${scale})`,
-        }}
-      />
+        }} loading="lazy" decoding="async"/>
     </div>
   );
 }

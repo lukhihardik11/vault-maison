@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { ChevronDown, Search, MessageSquare } from 'lucide-react'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'Space Mono', 'SF Mono', monospace"
@@ -49,12 +50,12 @@ function AccordionItem({ q, a }: { q: string; a: string }) {
   return (
     <div style={{ borderBottom: '1px solid #E5E5E5' }}>
       <button onClick={() => setOpen(!open)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
-        <span style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#050505', flex: 1, paddingRight: '16px' }}>{q}</span>
+        <span style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#050505', flex: 1, paddingRight: '16px' }}>{q}</span>
         <ChevronDown size={16} style={{ color: '#050505', transition: 'transform 300ms ease', transform: open ? 'rotate(180deg)' : 'rotate(0)', flexShrink: 0 }} />
       </button>
       {open && (
         <div style={{ paddingBottom: '20px' }}>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, lineHeight: 1.8, color: '#767676' }}>{a}</p>
+          <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 400, lineHeight: 1.8, color: '#767676' }}>{a}</p>
         </div>
       )}
     </div>
@@ -73,9 +74,9 @@ export function MinimalFAQ() {
     <MinimalLayout>
       {/* Header */}
       <section style={{ padding: '80px 5vw 0', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontFamily: font, fontSize: '11px', }}><span className="brutalist-section-num">01 — Support</span></p>
-        <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Frequently Asked Questions</h1>
-        <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#767676', marginBottom: '32px' }}>
+        <p style={{ fontFamily: font, fontSize: minimal.type.caption, }}><span className="brutalist-section-num">01 — Support</span></p>
+        <h1 style={{ fontFamily: font, fontSize: minimal.type.h2, fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Frequently Asked Questions</h1>
+        <p style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#767676', marginBottom: '32px' }}>
           Find answers to common questions about our products, services, and policies.
         </p>
         {/* Search */}
@@ -86,7 +87,7 @@ export function MinimalFAQ() {
             placeholder="Search questions..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ width: '100%', padding: '14px 16px 14px 44px', border: '1px solid #E5E5E5', fontSize: '13px', fontWeight: 400, fontFamily: font, color: '#050505', backgroundColor: '#FFFFFF', outline: 'none' }}
+            style={{ width: '100%', padding: '14px 16px 14px 44px', border: '1px solid #E5E5E5', fontSize: minimal.type.bodySm, fontWeight: 400, fontFamily: font, color: '#050505', backgroundColor: '#FFFFFF', outline: 'none' }}
             onFocus={(e) => e.currentTarget.style.borderColor = '#050505'}
             onBlur={(e) => e.currentTarget.style.borderColor = '#E5E5E5'}
           />
@@ -98,7 +99,7 @@ export function MinimalFAQ() {
         {!searchQuery && (
           <div style={{ display: 'flex', gap: '0', borderBottom: '1px solid #E5E5E5', marginBottom: '32px', overflowX: 'auto' }}>
             {categories.map(cat => (
-              <button key={cat} onClick={() => setActiveTab(cat)} style={{ fontFamily: font, fontSize: '12px', fontWeight: activeTab === cat ? 500 : 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: activeTab === cat ? '#050505' : '#767676', padding: '12px 20px', border: 'none', borderBottom: activeTab === cat ? '2px solid #050505' : '2px solid transparent', backgroundColor: 'transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 300ms ease' }}>
+              <button key={cat} onClick={() => setActiveTab(cat)} style={{ fontFamily: font, fontSize: minimal.type.caption, fontWeight: activeTab === cat ? 500 : 300, letterSpacing: '0.1em', textTransform: 'uppercase', color: activeTab === cat ? '#050505' : '#767676', padding: '12px 20px', border: 'none', borderBottom: activeTab === cat ? '2px solid #050505' : '2px solid transparent', backgroundColor: 'transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 300ms ease' }}>
                 {cat}
               </button>
             ))}
@@ -106,7 +107,7 @@ export function MinimalFAQ() {
         )}
 
         {searchQuery && (
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#767676', marginBottom: '24px' }}>
+          <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#767676', marginBottom: '24px' }}>
             {filteredFaqs.length} result{filteredFaqs.length !== 1 ? 's' : ''} for &ldquo;{searchQuery}&rdquo;
           </p>
         )}
@@ -121,11 +122,11 @@ export function MinimalFAQ() {
         {/* Still need help */}
         <div style={{ marginTop: '60px', padding: '40px', backgroundColor: '#FAFAFA', textAlign: 'center' }}>
           <MessageSquare size={28} strokeWidth={1} style={{ color: '#050505', marginBottom: '12px' }} />
-          <h3 style={{ fontFamily: font, fontSize: '18px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>Still Have Questions?</h3>
-          <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#767676', marginBottom: '20px' }}>
+          <h3 style={{ fontFamily: font, fontSize: minimal.type.h4, fontWeight: 400, color: '#050505', marginBottom: '8px' }}>Still Have Questions?</h3>
+          <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#767676', marginBottom: '20px' }}>
             Our concierge team is available Monday through Saturday, 10am to 7pm EST.
           </p>
-          <Link href="/minimal/contact" style={{ display: 'inline-block', padding: '14px 32px', backgroundColor: '#050505', color: '#FFFFFF', fontFamily: font, fontSize: '12px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>
+          <Link href="/minimal/contact" style={{ display: 'inline-block', padding: '14px 32px', backgroundColor: '#050505', color: '#FFFFFF', fontFamily: font, fontSize: minimal.type.caption, fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}>
             Contact Us
           </Link>
         </div>

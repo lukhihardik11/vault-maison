@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { ArrowRight } from 'lucide-react'
+import { minimal } from '../design-system';
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -87,7 +88,7 @@ export function MinimalSizeGuide() {
           Perfect Fit.
         </h1>
         <p style={{
-          fontFamily: F, fontSize: '15px', fontWeight: 400,
+          fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
           lineHeight: 1.9, color: '#6B6B6B', maxWidth: '560px',
         }}>
           Accurate sizing is essential for comfort and security. Use our comprehensive
@@ -104,7 +105,7 @@ export function MinimalSizeGuide() {
           {measurementTips.map((tip, i) => (
             <div key={i} style={{ padding: '32px', backgroundColor: '#FAFAFA' }}>
               <h3 style={{
-                fontFamily: F, fontSize: '15px', fontWeight: 500,
+                fontFamily: F, fontSize: minimal.type.body, fontWeight: 500,
                 color: '#050505', marginBottom: '20px',
               }}>
                 {tip.title}
@@ -112,7 +113,7 @@ export function MinimalSizeGuide() {
               <ol style={{ margin: 0, paddingLeft: '16px' }}>
                 {tip.steps.map((step, j) => (
                   <li key={j} style={{
-                    fontFamily: F, fontSize: '13px', fontWeight: 400,
+                    fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400,
                     lineHeight: 1.8, color: '#555',
                     marginBottom: j < tip.steps.length - 1 ? '8px' : '0',
                   }}>
@@ -133,7 +134,7 @@ export function MinimalSizeGuide() {
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
               style={{
-                fontFamily: F, fontSize: '11px', fontWeight: 500,
+                fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500,
                 letterSpacing: '0.15em', textTransform: 'uppercase',
                 padding: '16px 24px',
                 border: 'none', backgroundColor: 'transparent',
@@ -155,7 +156,7 @@ export function MinimalSizeGuide() {
         {activeTab === 'rings' && (
           <div>
             <h2 style={{
-              fontFamily: F, fontSize: '20px', fontWeight: 400,
+              fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
               color: '#050505', marginBottom: '24px',
             }}>
               Ring Size Chart
@@ -163,13 +164,13 @@ export function MinimalSizeGuide() {
             <div style={{ overflowX: 'auto' }}>
               <table style={{
                 width: '100%', borderCollapse: 'collapse',
-                fontFamily: F, fontSize: '13px',
+                fontFamily: F, fontSize: minimal.type.bodySm,
               }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #050505' }}>
                     {['US', 'UK', 'EU', 'Diameter (mm)', 'Circumference (mm)'].map((h) => (
                       <th key={h} style={{
-                        fontWeight: 500, fontSize: '11px',
+                        fontWeight: 500, fontSize: minimal.type.caption,
                         letterSpacing: '0.1em', textTransform: 'uppercase',
                         color: '#050505', padding: '12px 16px',
                         textAlign: 'left',
@@ -198,20 +199,20 @@ export function MinimalSizeGuide() {
         {activeTab === 'bracelets' && (
           <div>
             <h2 style={{
-              fontFamily: F, fontSize: '20px', fontWeight: 400,
+              fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
               color: '#050505', marginBottom: '24px',
             }}>
               Bracelet Size Chart
             </h2>
             <table style={{
               width: '100%', borderCollapse: 'collapse',
-              fontFamily: F, fontSize: '13px',
+              fontFamily: F, fontSize: minimal.type.bodySm,
             }}>
               <thead>
                 <tr style={{ borderBottom: '2px solid #050505' }}>
                   {['Size', 'Wrist (cm)', 'Bracelet Length (cm)'].map((h) => (
                     <th key={h} style={{
-                      fontWeight: 500, fontSize: '11px',
+                      fontWeight: 500, fontSize: minimal.type.caption,
                       letterSpacing: '0.1em', textTransform: 'uppercase',
                       color: '#050505', padding: '12px 16px',
                       textAlign: 'left',
@@ -233,7 +234,7 @@ export function MinimalSizeGuide() {
             </table>
 
             <p style={{
-              fontFamily: F, fontSize: '12px', fontWeight: 400,
+              fontFamily: F, fontSize: minimal.type.caption, fontWeight: 400,
               color: '#767676', marginTop: '16px', lineHeight: 1.7,
             }}>
               Bangle sizes are measured by internal diameter. For a snug fit, measure across the widest
@@ -245,20 +246,20 @@ export function MinimalSizeGuide() {
         {activeTab === 'necklaces' && (
           <div>
             <h2 style={{
-              fontFamily: F, fontSize: '20px', fontWeight: 400,
+              fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
               color: '#050505', marginBottom: '24px',
             }}>
               Necklace Length Guide
             </h2>
             <table style={{
               width: '100%', borderCollapse: 'collapse',
-              fontFamily: F, fontSize: '13px',
+              fontFamily: F, fontSize: minimal.type.bodySm,
             }}>
               <thead>
                 <tr style={{ borderBottom: '2px solid #050505' }}>
                   {['Style', 'Length', 'Placement'].map((h) => (
                     <th key={h} style={{
-                      fontWeight: 500, fontSize: '11px',
+                      fontWeight: 500, fontSize: minimal.type.caption,
                       letterSpacing: '0.1em', textTransform: 'uppercase',
                       color: '#050505', padding: '12px 16px',
                       textAlign: 'left',
@@ -286,7 +287,7 @@ export function MinimalSizeGuide() {
       <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ borderLeft: '2px solid #050505', paddingLeft: '24px' }}>
           <h3 style={{
-            fontFamily: F, fontSize: '16px', fontWeight: 500,
+            fontFamily: F, fontSize: minimal.type.bodyLg, fontWeight: 500,
             color: '#050505', marginBottom: '12px',
           }}>
             Professional Tips
@@ -300,7 +301,7 @@ export function MinimalSizeGuide() {
               'For surprise gifts, borrow a ring they wear on the intended finger and trace the inner circle.',
             ].map((tip, i) => (
               <li key={i} style={{
-                fontFamily: F, fontSize: '13px', fontWeight: 400,
+                fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400,
                 lineHeight: 1.8, color: '#555',
                 marginBottom: i < 4 ? '8px' : '0',
               }}>
@@ -315,13 +316,13 @@ export function MinimalSizeGuide() {
       <section style={{ padding: '0 5vw 80px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ padding: '32px', backgroundColor: '#FAFAFA' }}>
           <h3 style={{
-            fontFamily: F, fontSize: '16px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.bodyLg, fontWeight: 400,
             color: '#050505', marginBottom: '12px',
           }}>
             Complimentary Resizing
           </h3>
           <p style={{
-            fontFamily: F, fontSize: '13px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400,
             lineHeight: 1.8, color: '#555', margin: 0,
           }}>
             All Vault Maison rings include one complimentary resizing within the first year
@@ -336,13 +337,13 @@ export function MinimalSizeGuide() {
       <section style={{ padding: '0 5vw 100px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ border: '1px solid #050505', padding: '48px 32px' }}>
           <h2 style={{
-            fontFamily: F, fontSize: '20px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
             color: '#050505', marginBottom: '12px',
           }}>
             Still Unsure?
           </h2>
           <p style={{
-            fontFamily: F, fontSize: '14px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
             lineHeight: 1.8, color: '#555', marginBottom: '24px',
             maxWidth: '480px', margin: '0 auto 24px',
           }}>
@@ -353,7 +354,7 @@ export function MinimalSizeGuide() {
             href="/minimal/appointments"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
-              fontFamily: F, fontSize: '11px', fontWeight: 500,
+              fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500,
               letterSpacing: '0.15em', textTransform: 'uppercase',
               color: '#FFFFFF', backgroundColor: '#050505',
               padding: '14px 32px', textDecoration: 'none',
@@ -364,13 +365,13 @@ export function MinimalSizeGuide() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '32px' }}>
-          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Collections
           </Link>
-          <Link href="/minimal/care" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/care" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Jewelry Care
           </Link>
-          <Link href="/minimal/contact" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/contact" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Contact Us
           </Link>
         </div>

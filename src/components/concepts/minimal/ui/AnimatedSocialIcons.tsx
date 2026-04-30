@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -87,7 +88,7 @@ export const AnimatedSocialIcons: React.FC<AnimatedSocialIconsProps> = ({
               position: 'absolute',
               top: '-36px',
               fontFamily: font,
-              fontSize: '11px',
+              fontSize: minimal.type.caption,
               fontWeight: 500,
               letterSpacing: '0.05em',
               background: link.hoverColor,

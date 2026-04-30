@@ -4,6 +4,7 @@ import { useRef, useEffect, type ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useIsMobile, useReducedMotionPreference } from './useResponsiveMotion';
+import { minimal } from '../design-system';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,7 +118,7 @@ export function HorizontalScroll({
             {title && (
               <h2 style={{
                 fontFamily: 'var(--font-heading, system-ui)',
-                fontSize: '28px',
+                fontSize: minimal.type.h3,
                 fontWeight: 700,
                 color: '#050505',
                 letterSpacing: '-0.02em',
@@ -129,7 +130,7 @@ export function HorizontalScroll({
             {subtitle && (
               <p style={{
                 fontFamily: 'var(--font-body, system-ui)',
-                fontSize: '14px',
+                fontSize: minimal.type.body,
                 color: '#6B6B6B',
                 letterSpacing: '0.02em',
                 textTransform: 'uppercase' as const,
@@ -199,7 +200,7 @@ export function HorizontalScroll({
             {subtitle && (
               <p style={{
                 fontFamily: 'var(--font-body, system-ui)',
-                fontSize: '14px',
+                fontSize: minimal.type.body,
                 color: '#6B6B6B',
                 letterSpacing: '0.05em',
                 textTransform: 'uppercase' as const,

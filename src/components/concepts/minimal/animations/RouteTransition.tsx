@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback, createContext, useContext, ty
 import { usePathname } from 'next/navigation'
 import gsap from 'gsap'
 import { useReducedMotionPreference } from './useResponsiveMotion'
+import { minimal } from '../design-system';
 
 /* ================================================================== */
 /*  RouteTransition — Full-screen curtain wipe on route changes        */
@@ -164,7 +165,7 @@ export function RouteTransition({ children }: RouteTransitionProps) {
             ref={wordmarkRef}
             style={{
               fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
-              fontSize: '13px',
+              fontSize: minimal.type.bodySm,
               fontWeight: 300,
               letterSpacing: '0.35em',
               textTransform: 'uppercase',

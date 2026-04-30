@@ -31,7 +31,7 @@ export function MinimalCollections() {
       <div style={{ padding: 'clamp(40px, 6vh, 80px) 0 clamp(20px, 3vh, 32px)' }}>
         <div className={minimal.cn.container}>
           <PageEntrance variant="standard" delay={0.05}>
-          <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', display: 'block', marginBottom: '16px' }}>
+          <span style={{ fontFamily: mono, fontSize: minimal.type.micro, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', display: 'block', marginBottom: '16px' }}>
             Vault Maison
           </span>
           {/* Phase 6: Per-character kinetic headline */}
@@ -45,7 +45,7 @@ export function MinimalCollections() {
             duration={0.9}
             start="top 95%"
           />
-          <p style={{ fontFamily: font, fontSize: '15px', fontWeight: 400, color: '#6B6B6B', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
+          <p style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#6B6B6B', lineHeight: 1.8, maxWidth: '520px', margin: 0 }}>
             Ten curated categories spanning diamonds, gold, and bridal — each piece crafted for timeless precision.
           </p>
           </PageEntrance>
@@ -83,20 +83,20 @@ export function MinimalCollections() {
                   </div>
                   <div style={{ paddingTop: '16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
-                      <h3 style={{ fontFamily: font, fontSize: '16px', fontWeight: 400, letterSpacing: '-0.01em', color: '#050505', margin: 0 }}>
+                      <h3 style={{ fontFamily: font, fontSize: minimal.type.bodyLg, fontWeight: 400, letterSpacing: '-0.01em', color: '#050505', margin: 0 }}>
                         {categoryLabels[cat]}
                       </h3>
-                      <span style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', color: '#555555' }}>
+                      <span style={{ fontFamily: mono, fontSize: minimal.type.micro, letterSpacing: '0.2em', color: '#555555' }}>
                         {count} pieces
                       </span>
                     </div>
-                    <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#767676', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#767676', lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {categoryDescriptions[cat]}
                     </p>
                     <span
                       style={{
                         fontFamily: font,
-                        fontSize: '11px',
+                        fontSize: minimal.type.caption,
                         fontWeight: 500,
                         letterSpacing: '0.15em',
                         textTransform: 'uppercase',

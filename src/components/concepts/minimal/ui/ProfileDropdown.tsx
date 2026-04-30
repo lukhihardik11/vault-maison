@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { User, Heart, ShoppingBag, Settings, LogOut } from 'lucide-react'
 import Link from 'next/link'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -48,14 +49,14 @@ export default function ProfileDropdown() {
           zIndex: 100,
         }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid #E5E5E5' }}>
-            <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#050505' }}>Welcome</p>
-            <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#767676' }}>guest@vaultmaison.com</p>
+            <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#050505' }}>Welcome</p>
+            <p style={{ fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, color: '#767676' }}>guest@vaultmaison.com</p>
           </div>
           {menuItems.map(item => (
             <Link key={item.label} href={item.href} onClick={() => setOpen(false)} style={{
               display: 'flex', alignItems: 'center', gap: '12px',
               padding: '12px 20px',
-              fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#050505',
+              fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, color: '#050505',
               textDecoration: 'none', transition: 'background 200ms',
             }}>
               <item.icon size={15} strokeWidth={1.5} color="#767676" />
@@ -63,7 +64,7 @@ export default function ProfileDropdown() {
             </Link>
           ))}
           <div style={{ borderTop: '1px solid #E5E5E5' }}>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', width: '100%', fontFamily: font, fontSize: '12px', fontWeight: 400, color: '#767676', background: 'none', border: 'none', cursor: 'pointer' }}>
+            <button style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', width: '100%', fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, color: '#767676', background: 'none', border: 'none', cursor: 'pointer' }}>
               <LogOut size={15} strokeWidth={1.5} /> Sign Out
             </button>
           </div>

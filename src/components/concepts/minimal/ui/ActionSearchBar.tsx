@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Search, X } from 'lucide-react'
 import Link from 'next/link'
 import { products } from '@/data/products'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -71,7 +72,7 @@ export default function ActionSearchBar({ isOpen, onClose }: ActionSearchBarProp
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search diamonds, rings, necklaces..."
-            style={{ flex: 1, fontFamily: font, fontSize: '18px', fontWeight: 400, color: '#050505', background: 'none', border: 'none', outline: 'none' }}
+            style={{ flex: 1, fontFamily: font, fontSize: minimal.type.h4, fontWeight: 400, color: '#050505', background: 'none', border: 'none', outline: 'none' }}
           />
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
             <X size={18} color="#767676" />
@@ -81,26 +82,26 @@ export default function ActionSearchBar({ isOpen, onClose }: ActionSearchBarProp
         {/* Results or Popular */}
         {results.length > 0 ? (
           <div>
-            <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '12px' }}>Results</p>
+            <p style={{ fontFamily: font, fontSize: minimal.type.micro, fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '12px' }}>Results</p>
             {results.map(p => (
               <Link key={p.id} href={`/minimal/product/${p.slug}`} onClick={onClose} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '12px 0', borderBottom: '1px solid #FAFAFA', textDecoration: 'none', color: 'inherit', transition: 'background 200ms' }}>
                 <div style={{ width: '48px', height: '48px', borderRadius: 0, overflow: 'hidden', flexShrink: 0, backgroundColor: '#FAFAFA' }}>
-                  <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={p.images[0]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async"/>
                 </div>
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#050505' }}>{p.name}</p>
-                  <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, color: '#767676' }}>{p.subtitle}</p>
+                  <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#050505' }}>{p.name}</p>
+                  <p style={{ fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, color: '#767676' }}>{p.subtitle}</p>
                 </div>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, color: '#050505' }}>{p.priceDisplay}</p>
+                <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 500, color: '#050505' }}>{p.priceDisplay}</p>
               </Link>
             ))}
           </div>
         ) : (
           <div>
-            <p style={{ fontFamily: font, fontSize: '10px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '16px' }}>Popular Searches</p>
+            <p style={{ fontFamily: font, fontSize: minimal.type.micro, fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '16px' }}>Popular Searches</p>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {popular.map(term => (
-                <button key={term} onClick={() => setQuery(term)} style={{ fontFamily: font, fontSize: '12px', fontWeight: 400, padding: '8px 16px', background: '#FAFAFA', borderRadius: 0, border: 'none', cursor: 'pointer', color: '#050505', boxShadow: 'none', transition: 'all 300ms ease' }}>
+                <button key={term} onClick={() => setQuery(term)} style={{ fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, padding: '8px 16px', background: '#FAFAFA', borderRadius: 0, border: 'none', cursor: 'pointer', color: '#050505', boxShadow: 'none', transition: 'all 300ms ease' }}>
                   {term}
                 </button>
               ))}

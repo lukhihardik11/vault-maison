@@ -2,6 +2,7 @@
 
 import { forwardRef, type ButtonHTMLAttributes, type AnchorHTMLAttributes } from 'react'
 import Link from 'next/link'
+import { minimal } from '../design-system';
 
 /**
  * MinimalButton — Tier 3 button component with instant color invert on hover.
@@ -28,9 +29,9 @@ type LinkProps = BaseProps & { href: string } & Omit<AnchorHTMLAttributes<HTMLAn
 type Props = ButtonProps | LinkProps
 
 const sizeStyles = {
-  sm: { padding: '8px 20px', fontSize: '11px', letterSpacing: '0.08em' },
-  md: { padding: '14px 32px', fontSize: '12px', letterSpacing: '0.1em' },
-  lg: { padding: '18px 48px', fontSize: '13px', letterSpacing: '0.12em' },
+  sm: { padding: '8px 20px', fontSize: minimal.type.caption, letterSpacing: '0.08em' },
+  md: { padding: '14px 32px', fontSize: minimal.type.caption, letterSpacing: '0.1em' },
+  lg: { padding: '18px 48px', fontSize: minimal.type.bodySm, letterSpacing: '0.12em' },
 }
 
 const variantStyles = {

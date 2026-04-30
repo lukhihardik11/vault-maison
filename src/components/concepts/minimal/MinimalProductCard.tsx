@@ -66,7 +66,7 @@ export function MinimalProductCard({ product, index }: MinimalProductCardProps) 
               top: '12px',
               left: '12px',
               fontFamily: mono,
-              fontSize: '10px',
+              fontSize: minimal.type.micro,
               letterSpacing: '0.15em',
               color: '#767676',
               zIndex: 1,
@@ -118,7 +118,7 @@ export function MinimalProductCard({ product, index }: MinimalProductCardProps) 
         <span
           style={{
             fontFamily: mono,
-            fontSize: '10px',
+            fontSize: minimal.type.micro,
             letterSpacing: '0.15em',
             color: '#767676',
           }}
@@ -129,7 +129,7 @@ export function MinimalProductCard({ product, index }: MinimalProductCardProps) 
         <h3
           style={{
             fontFamily: font,
-            fontSize: '14px',
+            fontSize: minimal.type.body,
             fontWeight: 400,
             letterSpacing: '-0.01em',
             color: '#050505',
@@ -145,7 +145,7 @@ export function MinimalProductCard({ product, index }: MinimalProductCardProps) 
         <p
           style={{
             fontFamily: mono,
-            fontSize: '13px',
+            fontSize: minimal.type.bodySm,
             fontWeight: 400,
             color: '#050505',
             fontVariantNumeric: 'tabular-nums',

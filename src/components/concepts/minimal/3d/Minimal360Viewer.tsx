@@ -258,8 +258,7 @@ export default function Minimal360Viewer({
               height: '100%',
               objectFit: 'cover',
               display: 'block',
-            }}
-          />
+            }} loading="lazy" decoding="async"/>
         </div>
         {total > 1 && (
           <div
@@ -288,8 +287,7 @@ export default function Minimal360Viewer({
                   src={src}
                   alt=""
                   aria-hidden="true"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} loading="lazy" decoding="async"/>
               </button>
             ))}
           </div>
@@ -369,8 +367,7 @@ export default function Minimal360Viewer({
               opacity: i === frame ? 1 : 0,
               transition: 'opacity 200ms ease',
               pointerEvents: 'none',
-            }}
-          />
+            }} loading="lazy" decoding="async"/>
         ))}
 
         {/* Drag-hint overlay — fades out after the user interacts once. */}

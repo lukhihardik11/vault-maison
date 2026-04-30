@@ -127,7 +127,7 @@ export function MinimalNav() {
             href="/minimal"
             style={{
               fontFamily: font,
-              fontSize: '14px',
+              fontSize: minimal.type.body,
               fontWeight: 500,
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
@@ -153,7 +153,7 @@ export function MinimalNav() {
                   aria-current={isActive(link.href) ? 'page' : undefined}
                   style={{
                     fontFamily: font,
-                    fontSize: '11px',
+                    fontSize: minimal.type.caption,
                     fontWeight: isActive(link.href) ? 500 : 400,
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
@@ -248,7 +248,7 @@ export function MinimalNav() {
                     backgroundColor: '#050505',
                     color: '#FFFFFF',
                     fontFamily: font,
-                    fontSize: '9px',
+                    fontSize: minimal.type.micro,
                     fontWeight: 600,
                     display: 'flex',
                     alignItems: 'center',
@@ -315,7 +315,7 @@ export function MinimalNav() {
             }}
           >
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: minimal.type.micro, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
                 Diamonds
               </p>
               {diamondLinks.map((l) => (
@@ -325,7 +325,7 @@ export function MinimalNav() {
                   style={{
                     display: 'block',
                     fontFamily: font,
-                    fontSize: '14px',
+                    fontSize: minimal.type.body,
                     fontWeight: 400,
                     color: '#6B6B6B',
                     textDecoration: 'none',
@@ -339,7 +339,7 @@ export function MinimalNav() {
               ))}
             </div>
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: minimal.type.micro, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
                 Gold
               </p>
               {goldLinks.map((l) => (
@@ -349,7 +349,7 @@ export function MinimalNav() {
                   style={{
                     display: 'block',
                     fontFamily: font,
-                    fontSize: '14px',
+                    fontSize: minimal.type.body,
                     fontWeight: 400,
                     color: '#6B6B6B',
                     textDecoration: 'none',
@@ -363,12 +363,12 @@ export function MinimalNav() {
               ))}
             </div>
             <div>
-              <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
+              <p style={{ fontFamily: mono, fontSize: minimal.type.micro, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#767676', marginBottom: '20px' }}>
                 Featured
               </p>
-              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">Wedding & Bridal</Link>
-              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">Bespoke Creations</Link>
-              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">View All Collections</Link>
+              <Link href="/minimal/category/wedding-bridal" style={{ display: 'block', fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">Wedding & Bridal</Link>
+              <Link href="/minimal/bespoke" style={{ display: 'block', fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">Bespoke Creations</Link>
+              <Link href="/minimal/collections" style={{ display: 'block', fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#6B6B6B', textDecoration: 'none', padding: '8px 0', transition: 'opacity 0.2s ease' }} className="hover:opacity-50">View All Collections</Link>
             </div>
           </div>
         </div>
@@ -393,7 +393,7 @@ export function MinimalNav() {
         >
           {/* Top bar */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px', padding: '0 24px' }}>
-            <span style={{ fontFamily: font, fontSize: '14px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#FFFFFF' }}>
+            <span style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#FFFFFF' }}>
               Vault Maison
             </span>
             <button
@@ -446,7 +446,7 @@ export function MinimalNav() {
 
           {/* Bottom info */}
           <div style={{ padding: '24px clamp(32px, 6vw, 80px)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-            <p style={{ fontFamily: mono, fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>
+            <p style={{ fontFamily: mono, fontSize: minimal.type.micro, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>
               Vault Maison — Est. 1974
             </p>
           </div>

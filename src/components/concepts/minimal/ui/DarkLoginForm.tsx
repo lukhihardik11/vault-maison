@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { Mail, Lock, User } from 'lucide-react'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -45,7 +46,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
     width: '100%',
     color: '#d3d3d3',
     fontFamily: font,
-    fontSize: '14px',
+    fontSize: minimal.type.body,
     fontWeight: 400,
     letterSpacing: '0.02em',
   }
@@ -66,7 +67,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
       <div style={{ textAlign: 'center', marginBottom: '8px' }}>
         <p style={{
           fontFamily: font,
-          fontSize: '18px',
+          fontSize: minimal.type.h4,
           fontWeight: 400,
           letterSpacing: '0.3em',
           textTransform: 'uppercase',
@@ -75,7 +76,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
         }}>Vault Maison</p>
         <p style={{
           fontFamily: font,
-          fontSize: '12px',
+          fontSize: minimal.type.caption,
           fontWeight: 400,
           color: 'rgba(255,255,255,0.4)',
           letterSpacing: '0.1em',
@@ -125,7 +126,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
         background: 'linear-gradient(to bottom, #050505, #050505)',
         color: '#FFFFFF',
         fontFamily: font,
-        fontSize: '12px',
+        fontSize: minimal.type.caption,
         fontWeight: 500,
         letterSpacing: '0.15em',
         textTransform: 'uppercase',
@@ -145,7 +146,7 @@ export const DarkLoginForm: React.FC<DarkLoginFormProps> = ({
           backgroundColor: '#252525',
           color: 'rgba(255,255,255,0.5)',
           fontFamily: font,
-          fontSize: '12px',
+          fontSize: minimal.type.caption,
           fontWeight: 400,
           cursor: 'pointer',
           transition: 'all 350ms ease',

@@ -1,6 +1,7 @@
 'use client'
 import { useRef, useEffect } from 'react'
 import Link from 'next/link'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -39,14 +40,14 @@ export default function MinimalHeroSection({
   return (
     <section style={{ position: 'relative', height: '70vh', minHeight: '400px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
       <div ref={imgRef} style={{ position: 'absolute', inset: '-10%', transition: 'transform 0.1s linear' }}>
-        <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async"/>
       </div>
       <div style={{ position: 'absolute', inset: 0, background: overlayStyle }} />
       <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-        {eyebrow && <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>{eyebrow}</p>}
+        {eyebrow && <p style={{ fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#050505', marginBottom: '16px' }}>{eyebrow}</p>}
         <h1 style={{ fontFamily: font, fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 600, color: '#FFFFFF', lineHeight: 1.15, marginBottom: '16px', maxWidth: '600px' }}>{title}</h1>
-        {subtitle && <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: 'rgba(255,255,255,0.7)', maxWidth: '400px', marginBottom: '32px', lineHeight: 1.7 }}>{subtitle}</p>}
-        <Link href={ctaHref} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: '11px', fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#050505', padding: '12px 28px', textDecoration: 'none', transition: 'background-color 200ms ease' }}>
+        {subtitle && <p style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: 'rgba(255,255,255,0.7)', maxWidth: '400px', marginBottom: '32px', lineHeight: 1.7 }}>{subtitle}</p>}
+        <Link href={ctaHref} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#FFFFFF', backgroundColor: '#050505', padding: '12px 28px', textDecoration: 'none', transition: 'background-color 200ms ease' }}>
           {ctaText}
         </Link>
       </div>

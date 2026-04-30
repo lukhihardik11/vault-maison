@@ -8,6 +8,7 @@ import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
 import { FocusInput } from '../ui/FocusInput'
 import { PressButton } from '../ui/PressButton'
 import { useToast } from '../ui/Toast'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'Space Mono', 'SF Mono', monospace"
@@ -29,7 +30,7 @@ const inputStyle: CSSProperties = {
   width: '100%',
   padding: '14px 16px',
   border: '1px solid #E5E5E5',
-  fontSize: '13px',
+  fontSize: minimal.type.bodySm,
   fontWeight: 400,
   fontFamily: font,
   color: '#050505',
@@ -97,8 +98,8 @@ export function MinimalContact() {
       <section style={{ padding: '60px 5vw 0', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
         <Reveal reducedMotion={reducedMotion}>
           <span className="brutalist-section-num" style={{ display: 'block', marginBottom: '16px' }}>01 — Get in Touch</span>
-          <h1 style={{ fontFamily: font, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Contact Us</h1>
-          <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto' }}>
+          <h1 style={{ fontFamily: font, fontSize: minimal.type.h2, fontWeight: 600, color: '#050505', marginBottom: '12px' }}>Contact Us</h1>
+          <p style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, lineHeight: 1.8, color: '#6B6B6B', maxWidth: '500px', margin: '0 auto' }}>
             Our advisors are available for product questions, bespoke consultations, and after-purchase support.
           </p>
         </Reveal>
@@ -109,15 +110,15 @@ export function MinimalContact() {
           <Reveal reducedMotion={reducedMotion}>
             <div>
               <div style={{ marginBottom: '36px' }}>
-                <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '22px' }}>Visit Our Atelier</h2>
+                <h2 style={{ fontFamily: font, fontSize: minimal.type.h4, fontWeight: 400, color: '#050505', marginBottom: '22px' }}>Visit Our Atelier</h2>
                 {contactDetails.map((item, index) => (
                   <div key={item.label} className="vm-contact-row" style={{ display: 'flex', gap: '16px', marginBottom: index === contactDetails.length - 1 ? 0 : '10px' }}>
                     <item.icon size={18} strokeWidth={1.5} style={{ color: '#050505', flexShrink: 0, marginTop: '2px' }} />
                     <div>
-                      <p style={{ fontFamily: font, fontSize: '11px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#767676', marginBottom: '4px' }}>
+                      <p style={{ fontFamily: font, fontSize: minimal.type.caption, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#767676', marginBottom: '4px' }}>
                         {item.label}
                       </p>
-                      <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#050505', lineHeight: 1.6, whiteSpace: 'pre-line', margin: 0 }}>
+                      <p style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#050505', lineHeight: 1.6, whiteSpace: 'pre-line', margin: 0 }}>
                         {item.value}
                       </p>
                     </div>
@@ -128,9 +129,9 @@ export function MinimalContact() {
               <div className="vm-contact-consult">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
                   <MessageSquare size={18} strokeWidth={1.5} style={{ color: '#050505' }} />
-                  <h3 style={{ fontFamily: font, fontSize: '15px', fontWeight: 500, color: '#050505', margin: 0 }}>Private Consultation</h3>
+                  <h3 style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 500, color: '#050505', margin: 0 }}>Private Consultation</h3>
                 </div>
-                <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, lineHeight: 1.7, color: '#6B6B6B', marginBottom: '16px' }}>
+                <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 400, lineHeight: 1.7, color: '#6B6B6B', marginBottom: '16px' }}>
                   Schedule a one-on-one session with our gemologist for personalized guidance on engagement rings, bespoke pieces, or investment stones.
                 </p>
                 <Link
@@ -138,7 +139,7 @@ export function MinimalContact() {
                   className="vm-contact-inline-link"
                   style={{
                     fontFamily: font,
-                    fontSize: '11px',
+                    fontSize: minimal.type.caption,
                     fontWeight: 500,
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
@@ -159,14 +160,14 @@ export function MinimalContact() {
               {submitted ? (
                 <div style={{ padding: '56px 30px', textAlign: 'center', background: '#E5E5E5' }}>
                   <Send size={30} strokeWidth={1.2} style={{ color: '#050505', marginBottom: '16px' }} />
-                  <h3 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>Message Sent</h3>
-                  <p style={{ fontFamily: font, fontSize: '13px', fontWeight: 400, color: '#6B6B6B', lineHeight: 1.7, margin: 0 }}>
+                  <h3 style={{ fontFamily: font, fontSize: minimal.type.h4, fontWeight: 400, color: '#050505', marginBottom: '8px' }}>Message Sent</h3>
+                  <p style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#6B6B6B', lineHeight: 1.7, margin: 0 }}>
                     Thank you for reaching out. Our team will respond within 24 hours.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); toast('Message sent successfully', 'success', 3000) }} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <h2 style={{ fontFamily: font, fontSize: '20px', fontWeight: 400, color: '#050505', marginBottom: '12px' }}>Send a Message</h2>
+                  <h2 style={{ fontFamily: font, fontSize: minimal.type.h4, fontWeight: 400, color: '#050505', marginBottom: '12px' }}>Send a Message</h2>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="vm-contact-name-grid">
                     <FocusInput label="First Name" type="text" required />
                     <FocusInput label="Last Name" type="text" required />
@@ -175,7 +176,7 @@ export function MinimalContact() {
                   <FocusInput label="Phone (Optional)" type="tel" />
 
                   <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="minimal-contact-subject" style={{ fontFamily: font, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#767676', display: 'block', marginBottom: '6px' }}>
+                    <label htmlFor="minimal-contact-subject" style={{ fontFamily: font, fontSize: minimal.type.caption, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 500, color: '#767676', display: 'block', marginBottom: '6px' }}>
                       Subject
                     </label>
                     <select id="minimal-contact-subject" style={{ ...inputStyle, cursor: 'pointer' }} className="vm-contact-input">

@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from 'react'
 import gsap from 'gsap'
+import { minimal } from '../design-system';
 
 /* ────────────────────────────────────────────────────────────────────
  * Toast — Notification system with GSAP entrance/exit choreography
@@ -175,7 +176,7 @@ function ToastMessage({
           borderRadius: '50%',
           backgroundColor: v.barColor,
           color: '#050505',
-          fontSize: '12px',
+          fontSize: minimal.type.caption,
           fontWeight: 700,
           fontFamily: F,
           flexShrink: 0,
@@ -188,7 +189,7 @@ function ToastMessage({
       <span
         style={{
           fontFamily: F,
-          fontSize: '13px',
+          fontSize: minimal.type.bodySm,
           fontWeight: 400,
           color: '#FAFAFA',
           lineHeight: 1.5,

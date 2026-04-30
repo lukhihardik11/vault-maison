@@ -4,6 +4,7 @@ import { ArrowUp } from 'lucide-react'
 import { useEffect, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
+import { minimal } from '../design-system';
 
 interface BackToTopProps {
   mode?: 'floating' | 'inline'
@@ -56,7 +57,7 @@ export default function BackToTop({ mode = 'floating' }: BackToTopProps) {
         className="flex items-center justify-center gap-2 h-10 px-4 border border-[#050505] bg-white text-[#050505] hover:bg-[#050505] hover:text-white active:bg-[#050505] active:text-white transition-colors duration-300"
         style={{
           fontFamily: "'SF Mono', 'Fira Code', monospace",
-          fontSize: '10px',
+          fontSize: minimal.type.micro,
           fontWeight: 500,
           letterSpacing: '0.16em',
           textTransform: 'uppercase',

@@ -15,6 +15,7 @@ import { CommandPalette } from './ui/CommandPalette'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 import { LenisProvider } from './providers/LenisProvider'
 import { ToastProvider } from './ui/Toast'
+import { minimal } from './design-system';
 
 // Code-split heavy visual components — not needed for initial paint
 const CursorFollower = dynamic(() => import('./ui/CursorFollower'), { ssr: false })
@@ -204,7 +205,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
           backgroundColor: '#FFFFFF',
           color: '#050505',
           fontFamily: "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-          fontSize: '14px',
+          fontSize: minimal.type.body,
           fontWeight: 400,
           lineHeight: 1.6,
           minHeight: '100vh',
@@ -225,7 +226,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
             backgroundColor: '#050505',
             color: '#FFFFFF',
             fontFamily: "'Inter', sans-serif",
-            fontSize: '14px',
+            fontSize: minimal.type.body,
             fontWeight: 500,
             textDecoration: 'none',
             borderRadius: '0 0 4px 4px',

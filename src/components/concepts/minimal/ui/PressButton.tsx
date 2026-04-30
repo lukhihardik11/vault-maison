@@ -11,6 +11,7 @@ import {
   type ButtonHTMLAttributes,
 } from 'react'
 import gsap from 'gsap'
+import { minimal } from '../design-system';
 
 /* ────────────────────────────────────────────────────────────────────
  * PressButton — Tactile press animation with ripple + state morphs
@@ -42,9 +43,9 @@ interface PressButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const SIZE_MAP = {
-  sm: { padding: '10px 24px', fontSize: '11px', letterSpacing: '0.08em' },
-  md: { padding: '16px 36px', fontSize: '12px', letterSpacing: '0.1em' },
-  lg: { padding: '20px 52px', fontSize: '13px', letterSpacing: '0.12em' },
+  sm: { padding: '10px 24px', fontSize: minimal.type.caption, letterSpacing: '0.08em' },
+  md: { padding: '16px 36px', fontSize: minimal.type.caption, letterSpacing: '0.1em' },
+  lg: { padding: '20px 52px', fontSize: minimal.type.bodySm, letterSpacing: '0.12em' },
 }
 
 const VARIANT_MAP = {

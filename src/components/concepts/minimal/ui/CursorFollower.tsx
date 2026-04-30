@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import gsap from 'gsap'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
+import { minimal } from '../design-system';
 
 /* ================================================================== */
 /*  CursorFollower — Premium dual-layer cursor with context labels     */
@@ -257,7 +258,7 @@ export default function CursorFollower() {
           zIndex: 99999,
           opacity: 0,
           color: '#FFFFFF',
-          fontSize: '9px',
+          fontSize: minimal.type.micro,
           fontFamily: "'Space Mono', 'SF Mono', monospace",
           letterSpacing: '0.1em',
           textTransform: 'uppercase',

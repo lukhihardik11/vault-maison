@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -70,7 +71,7 @@ export const TruckLoader: React.FC<TruckLoaderProps> = ({
       </div>
       <p style={{
         fontFamily: font,
-        fontSize: '13px',
+        fontSize: minimal.type.bodySm,
         fontWeight: 400,
         color: '#767676',
         letterSpacing: '0.05em',
