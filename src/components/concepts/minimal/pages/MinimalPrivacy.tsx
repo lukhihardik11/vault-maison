@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { Shield, Lock, Eye, Database, Globe, UserCheck, Trash2, Mail } from 'lucide-react'
+import { minimal } from '../design-system';
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -105,17 +106,17 @@ export function MinimalPrivacy() {
       <section style={{ padding: '80px 5vw 100px', maxWidth: '800px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, }}><span className="brutalist-section-num">01 — Legal</span></p>
-          <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500, }}><span className="brutalist-section-num">01 — Legal</span></p>
+          <h1 style={{ fontFamily: F, fontSize: minimal.type.h2, fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
             Privacy Policy
           </h1>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#767676' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#767676' }}>
             Last updated: April 28, 2026
           </p>
         </div>
 
         {/* Intro */}
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#555', marginBottom: '24px' }}>
+        <p style={{ fontFamily: F, fontSize: minimal.type.body, fontWeight: 400, lineHeight: 1.9, color: '#555', marginBottom: '24px' }}>
           At Vault Maison, your privacy is not a feature — it is a fundamental right. We collect only what is necessary, protect it with enterprise-grade security, and never monetize your data. This policy explains exactly what we collect, why, and what control you have.
         </p>
 
@@ -124,7 +125,7 @@ export function MinimalPrivacy() {
           {['GDPR Compliant', 'CCPA Compliant', 'PCI-DSS Level 1', 'SOC 2 Type II', '256-bit TLS'].map((badge) => (
             <span key={badge} style={{
               fontFamily: F,
-              fontSize: '10px',
+              fontSize: minimal.type.micro,
               fontWeight: 500,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
@@ -141,11 +142,11 @@ export function MinimalPrivacy() {
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '48px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <span style={{ fontFamily: F, fontSize: '12px', fontWeight: 500, color: '#767676', letterSpacing: '0.05em' }}>
+              <span style={{ fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500, color: '#767676', letterSpacing: '0.05em' }}>
                 {String(i + 1).padStart(2, '0')}
               </span>
               {s.icon}
-              <h2 style={{ fontFamily: F, fontSize: '18px', fontWeight: 400, color: '#050505', margin: 0 }}>
+              <h2 style={{ fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400, color: '#050505', margin: 0 }}>
                 {s.title}
               </h2>
             </div>
@@ -153,7 +154,7 @@ export function MinimalPrivacy() {
               {s.content.map((paragraph, j) => (
                 <p key={j} style={{
                   fontFamily: F,
-                  fontSize: '14px',
+                  fontSize: minimal.type.body,
                   fontWeight: 400,
                   lineHeight: 1.9,
                   color: '#555',
@@ -168,23 +169,23 @@ export function MinimalPrivacy() {
 
         {/* Contact block */}
         <div style={{ padding: '32px', backgroundColor: '#FAFAFA', marginTop: '48px', borderLeft: '2px solid #050505' }}>
-          <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.body, fontWeight: 400, color: '#050505', marginBottom: '8px' }}>
             Questions about your privacy?
           </p>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#767676', marginBottom: '16px' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#767676', marginBottom: '16px' }}>
             Contact our Data Protection Officer at{' '}
             <a href="mailto:privacy@vaultmaison.com" style={{ color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               privacy@vaultmaison.com
             </a>
           </p>
           <div style={{ display: 'flex', gap: '16px' }}>
-            <Link href="/minimal/terms" style={{ fontFamily: F, fontSize: '12px', color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+            <Link href="/minimal/terms" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               Terms of Service
             </Link>
-            <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: '12px', color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+            <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               Shipping & Returns
             </Link>
-            <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: '12px', color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+            <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               Authenticity Guarantee
             </Link>
           </div>

@@ -3,6 +3,7 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { minimal } from '../design-system';
 
 /* ────────────────────────────────────────────────────────────────────
  * VaultBentoShowcase — Brutalist Bento Grid for Vault Maison
@@ -137,7 +138,7 @@ export function VaultBentoShowcase({
           {sectionNum && (
             <span style={{
               fontFamily: mono,
-              fontSize: '11px',
+              fontSize: minimal.type.caption,
               letterSpacing: '0.25em',
               textTransform: 'uppercase',
               color: '#767676',
@@ -265,7 +266,7 @@ export function VaultBentoShowcase({
               {item.description && (
                 <p style={{
                   fontFamily: font,
-                  fontSize: '12px',
+                  fontSize: minimal.type.caption,
                   fontWeight: 400,
                   lineHeight: 1.6,
                   color: item.variant === 'dark' || item.variant === 'accent' || item.image
@@ -285,6 +286,8 @@ export function VaultBentoShowcase({
       <style>{`
         .vm-bento-showcase {
           padding: 0;
+          container-type: inline-size;
+          container-name: vault-bento;
         }
         .vm-bento-card {
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -296,12 +299,13 @@ export function VaultBentoShowcase({
           transform: scale(1.03);
           transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @media (max-width: 1024px) {
+        /* Container query breakpoints — adapts to parent width */
+        @container vault-bento (max-width: 1024px) {
           .vm-bento-showcase > div:last-child {
             grid-template-columns: repeat(2, 1fr) !important;
           }
         }
-        @media (max-width: 640px) {
+        @container vault-bento (max-width: 640px) {
           .vm-bento-showcase > div:last-child {
             grid-template-columns: 1fr !important;
           }
@@ -309,6 +313,24 @@ export function VaultBentoShowcase({
             grid-column: span 1 !important;
             grid-row: span 1 !important;
             min-height: 200px !important;
+          }
+        }
+        /* Fallback for browsers without container query support */
+        @supports not (container-type: inline-size) {
+          @media (max-width: 1024px) {
+            .vm-bento-showcase > div:last-child {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+          @media (max-width: 640px) {
+            .vm-bento-showcase > div:last-child {
+              grid-template-columns: 1fr !important;
+            }
+            .vm-bento-card {
+              grid-column: span 1 !important;
+              grid-row: span 1 !important;
+              min-height: 200px !important;
+            }
           }
         }
         @media (prefers-reduced-motion: reduce) {

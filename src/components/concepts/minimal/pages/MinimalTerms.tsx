@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { MinimalLayout } from '../MinimalLayout'
 import { FileText, ShoppingBag, CreditCard, Truck, RotateCcw, Scale, AlertTriangle, Globe } from 'lucide-react'
+import { minimal } from '../design-system';
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -95,28 +96,28 @@ export function MinimalTerms() {
       <section style={{ padding: '80px 5vw 100px', maxWidth: '800px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, }}><span className="brutalist-section-num">01 — Legal</span></p>
-          <h1 style={{ fontFamily: F, fontSize: '40px', fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500, }}><span className="brutalist-section-num">01 — Legal</span></p>
+          <h1 style={{ fontFamily: F, fontSize: minimal.type.h2, fontWeight: 600, color: '#050505', marginBottom: '12px', letterSpacing: '-0.02em' }}>
             Terms of Service
           </h1>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#767676' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#767676' }}>
             Effective: April 28, 2026
           </p>
         </div>
 
         {/* Intro */}
-        <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, lineHeight: 1.9, color: '#555', marginBottom: '56px' }}>
+        <p style={{ fontFamily: F, fontSize: minimal.type.body, fontWeight: 400, lineHeight: 1.9, color: '#555', marginBottom: '56px' }}>
           These Terms of Service govern your use of the Vault Maison website and your purchase of products from us. Please read them carefully. By using our Site, you acknowledge that you have read, understood, and agree to be bound by these terms.
         </p>
 
         {/* Table of Contents */}
         <div style={{ border: '1px solid #E5E5E5', padding: '24px 28px', marginBottom: '56px' }}>
-          <p style={{ fontFamily: F, fontSize: '11px', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '16px' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676', marginBottom: '16px' }}>
             Contents
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             {sections.map((s, i) => (
-              <span key={i} style={{ fontFamily: F, fontSize: '13px', color: '#050505', fontWeight: 400 }}>
+              <span key={i} style={{ fontFamily: F, fontSize: minimal.type.bodySm, color: '#050505', fontWeight: 400 }}>
                 {String(i + 1).padStart(2, '0')} — {s.title}
               </span>
             ))}
@@ -127,11 +128,11 @@ export function MinimalTerms() {
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '48px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <span style={{ fontFamily: F, fontSize: '12px', fontWeight: 500, color: '#767676', letterSpacing: '0.05em' }}>
+              <span style={{ fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500, color: '#767676', letterSpacing: '0.05em' }}>
                 {String(i + 1).padStart(2, '0')}
               </span>
               {s.icon}
-              <h2 style={{ fontFamily: F, fontSize: '18px', fontWeight: 400, color: '#050505', margin: 0 }}>
+              <h2 style={{ fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400, color: '#050505', margin: 0 }}>
                 {s.title}
               </h2>
             </div>
@@ -139,7 +140,7 @@ export function MinimalTerms() {
               {s.content.map((paragraph, j) => (
                 <p key={j} style={{
                   fontFamily: F,
-                  fontSize: '14px',
+                  fontSize: minimal.type.body,
                   fontWeight: 400,
                   lineHeight: 1.9,
                   color: '#555',
@@ -154,23 +155,23 @@ export function MinimalTerms() {
 
         {/* Contact block */}
         <div style={{ padding: '32px', backgroundColor: '#FAFAFA', marginTop: '48px', borderLeft: '2px solid #050505' }}>
-          <p style={{ fontFamily: F, fontSize: '14px', fontWeight: 400, color: '#050505', marginBottom: '8px' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.body, fontWeight: 400, color: '#050505', marginBottom: '8px' }}>
             Questions about these terms?
           </p>
-          <p style={{ fontFamily: F, fontSize: '13px', fontWeight: 400, color: '#767676', marginBottom: '16px' }}>
+          <p style={{ fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400, color: '#767676', marginBottom: '16px' }}>
             Contact our legal team at{' '}
             <a href="mailto:legal@vaultmaison.com" style={{ color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               legal@vaultmaison.com
             </a>
           </p>
           <div style={{ display: 'flex', gap: '16px' }}>
-            <Link href="/minimal/privacy" style={{ fontFamily: F, fontSize: '12px', color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+            <Link href="/minimal/privacy" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               Privacy Policy
             </Link>
-            <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: '12px', color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+            <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               Shipping & Returns
             </Link>
-            <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: '12px', color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+            <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#050505', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
               Authenticity Guarantee
             </Link>
           </div>

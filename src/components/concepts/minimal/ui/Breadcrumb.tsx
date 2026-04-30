@@ -89,7 +89,7 @@ export default function Breadcrumb() {
               <span
                 style={{
                   fontFamily: mono,
-                  fontSize: '10px',
+                  fontSize: minimal.type.micro,
                   fontWeight: 500,
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
@@ -105,7 +105,7 @@ export default function Breadcrumb() {
                 className="minimal-breadcrumb-link"
                 style={{
                   fontFamily: font,
-                  fontSize: '12px',
+                  fontSize: minimal.type.caption,
                   fontWeight: 400,
                   color: '#6B6B6B',
                   textDecoration: 'none',

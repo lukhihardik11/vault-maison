@@ -73,7 +73,7 @@ export function MinimalFooter() {
             <p
               style={{
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: minimal.type.micro,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: '#767676',
@@ -106,7 +106,7 @@ export function MinimalFooter() {
               style={{
                 display: 'block',
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: minimal.type.micro,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: '#767676',
@@ -130,7 +130,7 @@ export function MinimalFooter() {
                   background: '#FFFFFF',
                   color: '#050505',
                   fontFamily: font,
-                  fontSize: '13px',
+                  fontSize: minimal.type.bodySm,
                   fontWeight: 400,
                   padding: '0 14px',
                   height: '44px',
@@ -148,7 +148,7 @@ export function MinimalFooter() {
                   height: '44px',
                   padding: '0 16px',
                   fontFamily: mono,
-                  fontSize: '10px',
+                  fontSize: minimal.type.micro,
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
                   cursor: 'pointer',
@@ -162,7 +162,7 @@ export function MinimalFooter() {
                 margin: '10px 0 0',
                 minHeight: '18px',
                 fontFamily: font,
-                fontSize: '12px',
+                fontSize: minimal.type.caption,
                 color: isSubscribed ? '#050505' : '#767676',
               }}
               aria-live="polite"
@@ -185,7 +185,7 @@ export function MinimalFooter() {
             <h3
               style={{
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: minimal.type.micro,
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
                 color: '#767676',
@@ -204,7 +204,7 @@ export function MinimalFooter() {
                     className="minimal-footer-link"
                     style={{
                       fontFamily: font,
-                      fontSize: '14px',
+                      fontSize: minimal.type.body,
                       fontWeight: 400,
                       color: '#6B6B6B',
                       textDecoration: 'none',
@@ -223,7 +223,7 @@ export function MinimalFooter() {
             <h3
               style={{
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: minimal.type.micro,
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
                 color: '#767676',
@@ -242,7 +242,7 @@ export function MinimalFooter() {
                     className="minimal-footer-link"
                     style={{
                       fontFamily: font,
-                      fontSize: '14px',
+                      fontSize: minimal.type.body,
                       fontWeight: 400,
                       color: '#6B6B6B',
                       textDecoration: 'none',
@@ -261,7 +261,7 @@ export function MinimalFooter() {
             <h3
               style={{
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: minimal.type.micro,
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
                 color: '#767676',
@@ -280,7 +280,7 @@ export function MinimalFooter() {
                     className="minimal-footer-link"
                     style={{
                       fontFamily: font,
-                      fontSize: '14px',
+                      fontSize: minimal.type.body,
                       fontWeight: 400,
                       color: '#6B6B6B',
                       textDecoration: 'none',
@@ -299,7 +299,7 @@ export function MinimalFooter() {
             <h3
               style={{
                 fontFamily: mono,
-                fontSize: '10px',
+                fontSize: minimal.type.micro,
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
                 color: '#767676',
@@ -309,13 +309,13 @@ export function MinimalFooter() {
               Contact
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', margin: 0 }}>
+              <p style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#6B6B6B', margin: 0 }}>
                 +1 (212) 555-0174
               </p>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', margin: 0 }}>
+              <p style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#6B6B6B', margin: 0 }}>
                 concierge@minimalmachine.com
               </p>
-              <p style={{ fontFamily: font, fontSize: '14px', fontWeight: 400, color: '#6B6B6B', margin: 0, lineHeight: 1.6 }}>
+              <p style={{ fontFamily: font, fontSize: minimal.type.body, fontWeight: 400, color: '#6B6B6B', margin: 0, lineHeight: 1.6 }}>
                 712 Fifth Avenue
                 <br />
                 New York, NY 10019
@@ -340,7 +340,7 @@ export function MinimalFooter() {
           <p
             style={{
               fontFamily: mono,
-              fontSize: '10px',
+              fontSize: minimal.type.micro,
               letterSpacing: '0.15em',
               color: '#767676',
               margin: 0,
@@ -357,7 +357,7 @@ export function MinimalFooter() {
                   className="minimal-footer-link"
                   style={{
                     fontFamily: mono,
-                    fontSize: '10px',
+                    fontSize: minimal.type.micro,
                     letterSpacing: '0.15em',
                     color: '#767676',
                     textDecoration: 'none',
@@ -378,8 +378,8 @@ export function MinimalFooter() {
                   className="minimal-footer-social"
                   aria-label={social.label}
                   style={{
-                    width: '36px',
-                    height: '36px',
+                    width: '44px',
+                    height: '44px',
                     border: '1px solid #E5E5E5',
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -387,7 +387,7 @@ export function MinimalFooter() {
                     color: '#6B6B6B',
                     textDecoration: 'none',
                     fontFamily: mono,
-                    fontSize: '10px',
+                    fontSize: minimal.type.micro,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                   }}

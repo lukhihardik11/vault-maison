@@ -197,7 +197,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               top: 'clamp(80px, 10vh, 140px)',
               left: 'clamp(32px, 5vw, 96px)',
               fontFamily: mono,
-              fontSize: '11px',
+              fontSize: minimal.type.caption,
               letterSpacing: '0.25em',
               color: '#767676',
             }}
@@ -250,7 +250,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     <span
                       style={{
                         fontFamily: mono,
-                        fontSize: '10px',
+                        fontSize: minimal.type.micro,
                         letterSpacing: '0.2em',
                         color: '#767676',
                       }}
@@ -260,7 +260,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     <span
                       style={{
                         fontFamily: font,
-                        fontSize: '10px',
+                        fontSize: minimal.type.micro,
                         letterSpacing: '0.25em',
                         textTransform: 'uppercase',
                         color: '#050505',
@@ -295,7 +295,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         justifyContent: 'center',
                         gap: '12px',
                         fontFamily: font,
-                        fontSize: '11px',
+                        fontSize: minimal.type.caption,
                         fontWeight: 500,
                         letterSpacing: '0.2em',
                         textTransform: 'uppercase',
@@ -322,7 +322,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontFamily: font,
-                        fontSize: '11px',
+                        fontSize: minimal.type.caption,
                         fontWeight: 500,
                         letterSpacing: '0.2em',
                         textTransform: 'uppercase',
@@ -403,7 +403,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 <p
                   style={{
                     fontFamily: font,
-                    fontSize: '13px',
+                    fontSize: minimal.type.bodySm,
                     fontWeight: 400,
                     letterSpacing: '-0.01em',
                     marginTop: '14px',
@@ -459,7 +459,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <p
               style={{
                 fontFamily: font,
-                fontSize: '14px',
+                fontSize: minimal.type.body,
                 fontWeight: 400,
                 color: '#6B6B6B',
                 lineHeight: 1.8,
@@ -529,7 +529,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               <span
                 style={{
                   fontFamily: mono,
-                  fontSize: '10px',
+                  fontSize: minimal.type.micro,
                   letterSpacing: '0.3em',
                   textTransform: 'uppercase',
                   color: '#6B6B6B',
@@ -554,7 +554,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             <p
               style={{
                 fontFamily: font,
-                fontSize: '13px',
+                fontSize: minimal.type.bodySm,
                 fontWeight: 400,
                 color: '#767676',
                 maxWidth: 360,
@@ -574,7 +574,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <span
             style={{
               fontFamily: mono,
-              fontSize: '10px',
+              fontSize: minimal.type.micro,
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
               color: '#6B6B6B',
@@ -595,7 +595,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <p
             style={{
               fontFamily: mono,
-              fontSize: '10px',
+              fontSize: minimal.type.micro,
               letterSpacing: '0.2em',
               color: '#6B6B6B',
             }}
@@ -620,7 +620,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <div style={{ textAlign: 'center', padding: '24px 40px', borderRadius: '4px', background: 'rgba(5,5,5,0.7)', backdropFilter: 'blur(8px)' }}>
             <span style={{
               fontFamily: mono,
-              fontSize: '10px',
+              fontSize: minimal.type.micro,
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.6)',
@@ -685,7 +685,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 <span
                   style={{
                     fontFamily: mono,
-                    fontSize: '10px',
+                    fontSize: minimal.type.micro,
                     letterSpacing: '0.25em',
                     textTransform: 'uppercase',
                     color: '#767676',
@@ -710,7 +710,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 <p
                   style={{
                     fontFamily: font,
-                    fontSize: '14px',
+                    fontSize: minimal.type.body,
                     fontWeight: 400,
                     color: '#6B6B6B',
                     lineHeight: 1.8,
@@ -793,7 +793,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                     <span
                       style={{
                         fontFamily: mono,
-                        fontSize: '10px',
+                        fontSize: minimal.type.micro,
                         letterSpacing: '0.25em',
                         textTransform: 'uppercase',
                         color: 'rgba(255,255,255,0.5)',
@@ -859,7 +859,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 <p
                   style={{
                     fontFamily: mono,
-                    fontSize: '10px',
+                    fontSize: minimal.type.micro,
                     letterSpacing: '0.25em',
                     textTransform: 'uppercase',
                     color: '#767676',
@@ -944,7 +944,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               <p
                 style={{
                   fontFamily: font,
-                  fontSize: '15px',
+                  fontSize: minimal.type.body,
                   fontWeight: 400,
                   color: 'rgba(255,255,255,0.6)',
                   lineHeight: 1.8,
@@ -957,7 +957,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
               <p
                 style={{
                   fontFamily: font,
-                  fontSize: '15px',
+                  fontSize: minimal.type.body,
                   fontWeight: 400,
                   color: 'rgba(255,255,255,0.6)',
                   lineHeight: 1.8,
@@ -972,7 +972,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 className="brutalist-underline-link"
                 style={{
                   fontFamily: font,
-                  fontSize: '12px',
+                  fontSize: minimal.type.caption,
                   fontWeight: 500,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
@@ -1127,7 +1127,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           <p
             style={{
               fontFamily: font,
-              fontSize: '15px',
+              fontSize: minimal.type.body,
               fontWeight: 400,
               color: '#6B6B6B',
               lineHeight: 1.7,
@@ -1152,7 +1152,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 borderRight: 'none',
                 backgroundColor: '#FFFFFF',
                 fontFamily: font,
-                fontSize: '14px',
+                fontSize: minimal.type.body,
                 fontWeight: 400,
                 color: '#050505',
                 outline: 'none',

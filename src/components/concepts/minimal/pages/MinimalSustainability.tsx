@@ -7,6 +7,7 @@ import { Leaf, Shield, Globe, Recycle, Heart, ArrowRight } from 'lucide-react'
 import { ScrollWordReveal } from '../animations/ScrollScrub'
 import { HeadlineReveal } from '../animations/KineticType'
 import { PageEntrance } from '../animations/PageEntrance'
+import { minimal } from '../design-system';
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -94,6 +95,7 @@ export function MinimalSustainability() {
           src="/images/diamond-collection-1.jpg"
           alt="Ethically sourced diamonds in natural light"
           fill
+          sizes="100vw"
           style={{ objectFit: 'cover' }}
           priority
         />
@@ -115,13 +117,13 @@ export function MinimalSustainability() {
                 {c.metric}
               </p>
               <p style={{
-                fontFamily: F, fontSize: '13px', fontWeight: 500,
+                fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 500,
                 color: '#050505', marginBottom: '4px',
               }}>
                 {c.label}
               </p>
               <p style={{
-                fontFamily: F, fontSize: '11px', fontWeight: 400,
+                fontFamily: F, fontSize: minimal.type.caption, fontWeight: 400,
                 color: '#767676',
               }}>
                 {c.detail}
@@ -155,13 +157,13 @@ export function MinimalSustainability() {
               </div>
               <div>
                 <h3 style={{
-                  fontFamily: F, fontSize: '16px', fontWeight: 500,
+                  fontFamily: F, fontSize: minimal.type.bodyLg, fontWeight: 500,
                   color: '#050505', marginBottom: '10px',
                 }}>
                   {pillar.title}
                 </h3>
                 <p style={{
-                  fontFamily: F, fontSize: '13px', fontWeight: 400,
+                  fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400,
                   lineHeight: 1.8, color: '#555', margin: 0,
                 }}>
                   {pillar.desc}
@@ -176,14 +178,14 @@ export function MinimalSustainability() {
       <section style={{ padding: '0 5vw 48px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ borderLeft: '2px solid #050505', paddingLeft: '24px' }}>
           <p style={{
-            fontFamily: F, fontSize: '18px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
             lineHeight: 1.8, color: '#050505', margin: 0,
           }}>
             "The true measure of luxury is not what it costs the buyer,
             but what it costs the world. We aim for that cost to be zero."
           </p>
           <p style={{
-            fontFamily: F, fontSize: '12px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.caption, fontWeight: 400,
             color: '#767676', marginTop: '16px',
           }}>
             — Vault Maison Sustainability Charter
@@ -194,13 +196,13 @@ export function MinimalSustainability() {
       {/* ── Lab-Grown vs Natural: Honest Perspective ───────────── */}
       <section style={{ padding: '0 5vw 48px', maxWidth: '900px', margin: '0 auto' }}>
         <h2 style={{
-          fontFamily: F, fontSize: '20px', fontWeight: 400,
+          fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
           color: '#050505', marginBottom: '24px',
         }}>
           Lab-Grown vs. Natural: Our Position
         </h2>
         <p style={{
-          fontFamily: F, fontSize: '14px', fontWeight: 400,
+          fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
           lineHeight: 1.9, color: '#555', marginBottom: '20px',
         }}>
           We offer both natural and lab-grown diamonds because we believe in informed choice,
@@ -209,7 +211,7 @@ export function MinimalSustainability() {
           environmental profile.
         </p>
         <p style={{
-          fontFamily: F, fontSize: '14px', fontWeight: 400,
+          fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
           lineHeight: 1.9, color: '#555',
         }}>
           What matters to us is transparency. Every diamond in our collection — natural or
@@ -222,7 +224,7 @@ export function MinimalSustainability() {
       <section style={{ padding: '0 5vw 48px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ padding: '32px', backgroundColor: '#FAFAFA' }}>
           <h2 style={{
-            fontFamily: F, fontSize: '16px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.bodyLg, fontWeight: 400,
             color: '#050505', marginBottom: '20px',
           }}>
             Certifications & Partnerships
@@ -230,7 +232,7 @@ export function MinimalSustainability() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
             {certifications.map((cert) => (
               <span key={cert} style={{
-                fontFamily: F, fontSize: '11px', fontWeight: 500,
+                fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500,
                 letterSpacing: '0.08em', textTransform: 'uppercase',
                 color: '#050505', border: '1px solid #050505',
                 padding: '8px 14px',
@@ -246,13 +248,13 @@ export function MinimalSustainability() {
       <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ border: '1px solid #050505', padding: '48px 32px' }}>
           <h2 style={{
-            fontFamily: F, fontSize: '20px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
             color: '#050505', marginBottom: '12px',
           }}>
             Questions About Our Practices?
           </h2>
           <p style={{
-            fontFamily: F, fontSize: '14px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
             lineHeight: 1.8, color: '#555', marginBottom: '24px',
             maxWidth: '480px', margin: '0 auto 24px',
           }}>
@@ -263,7 +265,7 @@ export function MinimalSustainability() {
             href="/minimal/contact"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
-              fontFamily: F, fontSize: '11px', fontWeight: 500,
+              fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500,
               letterSpacing: '0.15em', textTransform: 'uppercase',
               color: '#FFFFFF', backgroundColor: '#050505',
               padding: '14px 32px', textDecoration: 'none',
@@ -274,13 +276,13 @@ export function MinimalSustainability() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '32px' }}>
-          <Link href="/minimal/craftsmanship" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/craftsmanship" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Craftsmanship
           </Link>
-          <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Authenticity
           </Link>
-          <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/shipping" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Shipping & Returns
           </Link>
         </div>

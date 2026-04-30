@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -54,7 +55,7 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
         {icon && <div style={{ marginBottom: '16px', color: '#050505' }}>{icon}</div>}
         <h3 style={{
           fontFamily: font,
-          fontSize: '16px',
+          fontSize: minimal.type.bodyLg,
           fontWeight: 500,
           color: '#050505',
           marginBottom: '10px',
@@ -62,7 +63,7 @@ export const BlobGlassCard: React.FC<BlobGlassCardProps> = ({
         }}>{title}</h3>
         <p style={{
           fontFamily: font,
-          fontSize: '13px',
+          fontSize: minimal.type.bodySm,
           fontWeight: 400,
           lineHeight: 1.7,
           color: '#767676',

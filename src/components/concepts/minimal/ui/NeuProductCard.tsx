@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { Heart } from 'lucide-react'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -58,8 +59,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
             src={image}
             alt={name}
             style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 350ms ease' }}
-            className="vm-neu-img"
-          />
+            className="vm-neu-img" loading="lazy" decoding="async"/>
           {/* Price badge */}
           <span style={{
             position: 'absolute',
@@ -68,7 +68,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
             background: '#FAFAF8',
             color: '#050505',
             fontWeight: 600,
-            fontSize: '13px',
+            fontSize: minimal.type.bodySm,
             fontFamily: font,
             padding: '6px 12px',
             borderRadius: 0,
@@ -85,7 +85,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
               background: '#050505',
               color: '#fff',
               fontFamily: font,
-              fontSize: '9px',
+              fontSize: minimal.type.micro,
               fontWeight: 600,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
@@ -106,8 +106,8 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           background: 'rgba(255,255,255,0.85)',
           border: 'none',
           borderRadius: 0,
-          width: '32px',
-          height: '32px',
+          width: '44px',
+          height: '44px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -130,7 +130,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
       <div style={{ padding: '4px 10px 8px' }}>
         <p style={{
           fontFamily: font,
-          fontSize: '11px',
+          fontSize: minimal.type.caption,
           fontWeight: 500,
           color: '#767676',
           textTransform: 'uppercase',
@@ -140,7 +140,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
         <Link href={href} style={{ textDecoration: 'none' }}>
           <h3 style={{
             fontFamily: font,
-            fontSize: '14px',
+            fontSize: minimal.type.body,
             fontWeight: 500,
             color: '#050505',
             marginBottom: '8px',
@@ -153,7 +153,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           {carat && (
             <span style={{
               fontFamily: font,
-              fontSize: '11px',
+              fontSize: minimal.type.caption,
               fontWeight: 400,
               color: '#767676',
             }}>{carat}</span>
@@ -161,7 +161,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           {certification && (
             <span style={{
               fontFamily: font,
-              fontSize: '9px',
+              fontSize: minimal.type.micro,
               fontWeight: 500,
               color: '#050505',
               border: '1px solid #050505',
@@ -183,7 +183,7 @@ export const NeuProductCard: React.FC<NeuProductCardProps> = ({
           background: '#050505',
           color: '#FFFFFF',
           fontFamily: font,
-          fontSize: '11px',
+          fontSize: minimal.type.caption,
           fontWeight: 500,
           letterSpacing: '0.1em',
           textTransform: 'uppercase',

@@ -91,7 +91,7 @@ export function MarqueeText({
           </span>
           <span
             style={{
-              fontSize: '10px',
+              fontSize: minimal.type.micro,
               color: sepColor,
               lineHeight: 1,
               transform: 'translateY(-1px)',

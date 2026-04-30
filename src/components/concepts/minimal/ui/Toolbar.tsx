@@ -3,6 +3,7 @@ import { Home, Search, Heart, ShoppingBag, User } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCartStore } from '@/store/cart'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -48,7 +49,7 @@ export default function Toolbar() {
               WebkitTapHighlightColor: 'transparent',
             }}>
               <item.icon size={20} strokeWidth={1.5} style={{ color: active ? '#050505' : '#767676', transition: 'color 200ms' }} />
-              <span style={{ fontFamily: font, fontSize: '9px', fontWeight: active ? 500 : 400, color: active ? '#050505' : '#767676', letterSpacing: '0.05em' }}>{item.label}</span>
+              <span style={{ fontFamily: font, fontSize: minimal.type.micro, fontWeight: active ? 500 : 400, color: active ? '#050505' : '#767676', letterSpacing: '0.05em' }}>{item.label}</span>
               {item.label === 'Cart' && cartCount > 0 && (
                 <span style={{ position: 'absolute', top: -2, right: -2, width: '8px', height: '8px', borderRadius: 0, backgroundColor: '#050505' }} />
               )}

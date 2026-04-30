@@ -8,6 +8,7 @@ import { ScrollWordReveal, ScrollScrub } from '../animations/ScrollScrub'
 import { HeadlineReveal } from '../animations/KineticType'
 import { PageEntrance } from '../animations/PageEntrance'
 import { InfiniteShowcasePan } from '../ui/InfiniteShowcasePan'
+import { minimal } from '../design-system';
 
 const F = "'Inter', 'Helvetica Neue', sans-serif"
 const MONO = "'Space Mono', 'SF Mono', monospace"
@@ -103,7 +104,7 @@ export function MinimalCraftsmanship() {
           start="top 95%"
         />
         <p style={{
-          fontFamily: F, fontSize: '15px', fontWeight: 400,
+          fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
           lineHeight: 1.9, color: '#6B6B6B', maxWidth: '560px',
         }}>
           At Vault Maison, craftsmanship is not a marketing term — it is the foundation
@@ -119,6 +120,7 @@ export function MinimalCraftsmanship() {
           src="/images/products/classic-pendant.jpg"
           alt="Master jeweler at work in the Vault Maison atelier"
           fill
+          sizes="100vw"
           style={{ objectFit: 'cover' }}
           priority
         />
@@ -140,7 +142,7 @@ export function MinimalCraftsmanship() {
                 {stat.value}
               </p>
               <p style={{
-                fontFamily: F, fontSize: '11px', fontWeight: 500,
+                fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500,
                 letterSpacing: '0.15em', textTransform: 'uppercase', color: '#767676',
               }}>
                 {stat.label}
@@ -171,7 +173,7 @@ export function MinimalCraftsmanship() {
             }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', paddingTop: '2px' }}>
                 <span style={{
-                  fontFamily: MONO, fontSize: '11px', fontWeight: 500,
+                  fontFamily: MONO, fontSize: minimal.type.caption, fontWeight: 500,
                   color: '#767676', letterSpacing: '0.1em',
                 }}>
                   {step.step}
@@ -181,20 +183,20 @@ export function MinimalCraftsmanship() {
               <div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px' }}>
                   <h3 style={{
-                    fontFamily: F, fontSize: '16px', fontWeight: 500,
+                    fontFamily: F, fontSize: minimal.type.bodyLg, fontWeight: 500,
                     color: '#050505', margin: 0,
                   }}>
                     {step.title}
                   </h3>
                   <span style={{
-                    fontFamily: MONO, fontSize: '11px', fontWeight: 400,
+                    fontFamily: MONO, fontSize: minimal.type.caption, fontWeight: 400,
                     color: '#767676', letterSpacing: '0.05em',
                   }}>
                     {step.time}
                   </span>
                 </div>
                 <p style={{
-                  fontFamily: F, fontSize: '13px', fontWeight: 400,
+                  fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400,
                   lineHeight: 1.8, color: '#555', margin: 0,
                 }}>
                   {step.desc}
@@ -223,20 +225,20 @@ export function MinimalCraftsmanship() {
             {materials.map((m, i) => (
               <div key={i} style={{ padding: '40px 32px', backgroundColor: '#050505' }}>
                 <p style={{
-                  fontFamily: F, fontSize: '11px', fontWeight: 500,
+                  fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500,
                   letterSpacing: '0.15em', textTransform: 'uppercase',
                   color: 'rgba(255,255,255,0.4)', marginBottom: '12px',
                 }}>
                   {m.purity}
                 </p>
                 <h3 style={{
-                  fontFamily: F, fontSize: '20px', fontWeight: 400,
+                  fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
                   color: '#FFFFFF', marginBottom: '16px',
                 }}>
                   {m.title}
                 </h3>
                 <p style={{
-                  fontFamily: F, fontSize: '13px', fontWeight: 400,
+                  fontFamily: F, fontSize: minimal.type.bodySm, fontWeight: 400,
                   lineHeight: 1.8, color: 'rgba(255,255,255,0.55)', margin: 0,
                 }}>
                   {m.desc}
@@ -257,7 +259,7 @@ export function MinimalCraftsmanship() {
             className="vm-craft-quote"
           />
           <p style={{
-            fontFamily: MONO, fontSize: '11px', fontWeight: 400,
+            fontFamily: MONO, fontSize: minimal.type.caption, fontWeight: 400,
             color: 'rgba(255,255,255,0.5)', marginTop: '16px',
             letterSpacing: '0.1em',
           }}>
@@ -281,7 +283,7 @@ export function MinimalCraftsmanship() {
           <div style={{ textAlign: 'center' }}>
             <span style={{
               fontFamily: MONO,
-              fontSize: '10px',
+              fontSize: minimal.type.micro,
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.5)',
@@ -314,7 +316,7 @@ export function MinimalCraftsmanship() {
           Where It All Happens
         </h2>
         <p style={{
-          fontFamily: F, fontSize: '14px', fontWeight: 400,
+          fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
           lineHeight: 1.9, color: '#555', marginBottom: '32px', maxWidth: '640px',
         }}>
           Our atelier in New York houses twelve master artisans, each with over twenty years
@@ -324,7 +326,7 @@ export function MinimalCraftsmanship() {
           approach could accomplish alone.
         </p>
         <p style={{
-          fontFamily: F, fontSize: '14px', fontWeight: 400,
+          fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
           lineHeight: 1.9, color: '#555', maxWidth: '640px',
         }}>
           Every artisan in our workshop specializes in a specific discipline — stone setting,
@@ -339,13 +341,13 @@ export function MinimalCraftsmanship() {
       <section style={{ padding: '0 5vw 60px', maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ border: '1px solid #050505', padding: '48px 32px' }}>
           <h2 style={{
-            fontFamily: F, fontSize: '20px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.h4, fontWeight: 400,
             color: '#050505', marginBottom: '12px',
           }}>
             Commission a Bespoke Piece
           </h2>
           <p style={{
-            fontFamily: F, fontSize: '14px', fontWeight: 400,
+            fontFamily: F, fontSize: minimal.type.body, fontWeight: 400,
             lineHeight: 1.8, color: '#555', marginBottom: '24px',
             maxWidth: '480px', margin: '0 auto 24px',
           }}>
@@ -356,7 +358,7 @@ export function MinimalCraftsmanship() {
             href="/minimal/appointments"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
-              fontFamily: F, fontSize: '11px', fontWeight: 500,
+              fontFamily: F, fontSize: minimal.type.caption, fontWeight: 500,
               letterSpacing: '0.15em', textTransform: 'uppercase',
               color: '#FFFFFF', backgroundColor: '#050505',
               padding: '14px 32px', textDecoration: 'none',
@@ -367,13 +369,13 @@ export function MinimalCraftsmanship() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '32px' }}>
-          <Link href="/minimal/sustainability" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/sustainability" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Sustainability
           </Link>
-          <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/authenticity" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Authenticity
           </Link>
-          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: '12px', color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+          <Link href="/minimal/collections" style={{ fontFamily: F, fontSize: minimal.type.caption, color: '#767676', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
             Collections
           </Link>
         </div>

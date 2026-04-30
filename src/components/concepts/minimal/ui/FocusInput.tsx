@@ -11,6 +11,7 @@ import {
   type CSSProperties,
 } from 'react'
 import gsap from 'gsap'
+import { minimal } from '../design-system';
 
 /* ────────────────────────────────────────────────────────────────────
  * FocusInput — Animated form field with floating label + underline draw
@@ -171,7 +172,7 @@ export const FocusInput = forwardRef<
   const sharedInputStyle: CSSProperties = {
     width: '100%',
     fontFamily: F,
-    fontSize: '15px',
+    fontSize: minimal.type.body,
     fontWeight: 400,
     color: '#050505',
     backgroundColor: 'transparent',
@@ -201,7 +202,7 @@ export const FocusInput = forwardRef<
           left: 0,
           top: '12px',
           fontFamily: F,
-          fontSize: '14px',
+          fontSize: minimal.type.body,
           fontWeight: 400,
           color: error ? '#C53030' : isLifted ? '#050505' : '#767676',
           pointerEvents: 'none',
@@ -266,7 +267,7 @@ export const FocusInput = forwardRef<
           style={{
             display: 'block',
             fontFamily: F,
-            fontSize: '11px',
+            fontSize: minimal.type.caption,
             fontWeight: 400,
             color: '#C53030',
             marginTop: '6px',

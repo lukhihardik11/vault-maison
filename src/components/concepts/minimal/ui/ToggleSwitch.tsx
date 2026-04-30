@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback, type CSSProperties } from 'react'
 import gsap from 'gsap'
+import { minimal } from '../design-system';
 
 /* ────────────────────────────────────────────────────────────────────
  * ToggleSwitch — Animated toggle with spring physics
@@ -147,7 +148,7 @@ export function ToggleSwitch({
           onClick={handleClick}
           style={{
             fontFamily: F,
-            fontSize: '13px',
+            fontSize: minimal.type.bodySm,
             fontWeight: 400,
             color: '#050505',
             letterSpacing: '0.01em',

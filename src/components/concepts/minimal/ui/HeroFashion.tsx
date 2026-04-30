@@ -37,6 +37,7 @@ export default function HeroFashion({
                 src={heroImage}
                 alt={heroImageAlt}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
                 unoptimized
                 priority

@@ -28,6 +28,45 @@ export const minimal = {
     /** Tier 4: Brutalist monospace for prices, codes, specs — loaded via Google Fonts */
     brutalistMono: "'Space Mono', 'SF Mono', 'Fira Code', monospace",
   },
+  /**
+   * Fluid Typography Scale — Phase 1 Foundation
+   *
+   * Uses CSS clamp() for smooth scaling between mobile (375px) and desktop (1440px).
+   * Formula: clamp(minSize, preferredVw, maxSize)
+   * Preferred value calculated as: minSize + (maxSize - minSize) * ((100vw - 375px) / (1440px - 375px))
+   *
+   * Usage: style={{ fontSize: minimal.type.h1 }}
+   */
+  type: {
+    /** Display/Hero: 36px → 72px */
+    display: 'clamp(2.25rem, 1.5rem + 3.38vw, 4.5rem)',
+    /** H1: 32px → 56px */
+    h1: 'clamp(2rem, 1.43rem + 2.54vw, 3.5rem)',
+    /** H2: 28px → 42px */
+    h2: 'clamp(1.75rem, 1.42rem + 1.5vw, 2.625rem)',
+    /** H3: 22px → 32px */
+    h3: 'clamp(1.375rem, 1.14rem + 1.07vw, 2rem)',
+    /** H4: 18px → 24px */
+    h4: 'clamp(1.125rem, 0.98rem + 0.56vw, 1.5rem)',
+    /** Body Large: 16px → 18px */
+    bodyLg: 'clamp(1rem, 0.95rem + 0.19vw, 1.125rem)',
+    /** Body: 14px → 16px */
+    body: 'clamp(0.875rem, 0.83rem + 0.19vw, 1rem)',
+    /** Body Small: 13px → 14px */
+    bodySm: 'clamp(0.8125rem, 0.79rem + 0.09vw, 0.875rem)',
+    /** Caption/Label: 11px → 12px */
+    caption: 'clamp(0.6875rem, 0.66rem + 0.09vw, 0.75rem)',
+    /** Overline/Micro: 10px → 11px */
+    micro: 'clamp(0.625rem, 0.6rem + 0.09vw, 0.6875rem)',
+    /** Quote/Pullquote: 20px → 32px */
+    quote: 'clamp(1.25rem, 0.97rem + 1.22vw, 2rem)',
+    /** Price: 16px → 20px */
+    price: 'clamp(1rem, 0.91rem + 0.38vw, 1.25rem)',
+    /** Nav link: 13px → 14px */
+    nav: 'clamp(0.8125rem, 0.79rem + 0.09vw, 0.875rem)',
+    /** Button text: 12px → 13px */
+    btn: 'clamp(0.75rem, 0.73rem + 0.09vw, 0.8125rem)',
+  },
   colors: {
     bg: '#FFFFFF',
     text: '#050505',
@@ -54,6 +93,37 @@ export const minimal = {
     sectionY: 'clamp(48px, 8vh, 96px)',
     sectionYCompact: 'clamp(32px, 5vh, 64px)',
     containerX: 'clamp(20px, 5vw, 96px)',
+  },
+  /**
+   * Touch Target — Phase 1 Foundation
+   *
+   * Minimum interactive element size per WCAG 2.5.5 and Apple HIG.
+   * All buttons, links, and interactive elements must meet these minimums.
+   */
+  touch: {
+    /** Minimum touch target: 44x44px (Apple HIG) */
+    min: '44px',
+    /** Comfortable touch target: 48x48px (Material Design) */
+    comfortable: '48px',
+    /** Large touch target: 56px (primary CTAs on mobile) */
+    large: '56px',
+  },
+  /**
+   * Fluid Container Widths — Phase 1 Foundation
+   *
+   * Responsive container widths that adapt to viewport.
+   */
+  container: {
+    /** Max content width */
+    max: '1440px',
+    /** Narrow content (articles, forms) */
+    narrow: '768px',
+    /** Medium content (product grids) */
+    medium: '1200px',
+    /** Fluid horizontal padding */
+    px: 'clamp(16px, 4vw, 96px)',
+    /** Compact horizontal padding (mobile-first) */
+    pxCompact: 'clamp(16px, 3vw, 48px)',
   },
   /**
    * z-index policy. 0 base, 10 sticky header, 20 popovers, 30 modals,

@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 import { X } from 'lucide-react'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -60,7 +61,7 @@ export default function SmoothDrawer({ isOpen, onClose, title, children, side = 
       }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', borderBottom: '1px solid #E5E5E5', flexShrink: 0 }}>
-          <span style={{ fontFamily: font, fontSize: '13px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#050505' }}>{title}</span>
+          <span style={{ fontFamily: font, fontSize: minimal.type.bodySm, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#050505' }}>{title}</span>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
             <X size={18} color="#767676" />
           </button>

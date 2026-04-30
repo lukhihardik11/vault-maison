@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { minimal } from '../design-system';
 
 const font = "'Inter', 'Helvetica Neue', sans-serif"
 
@@ -44,7 +45,7 @@ export const AnimatedSendButton: React.FC<AnimatedSendButtonProps> = ({
         padding: '16px 28px',
         height: '52px',
         fontFamily: font,
-        fontSize: '13px',
+        fontSize: minimal.type.bodySm,
         fontWeight: 500,
         letterSpacing: '0.12em',
         textTransform: 'uppercase' as const,
