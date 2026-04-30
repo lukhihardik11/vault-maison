@@ -10,7 +10,6 @@ import ActionSearchBar from './ui/ActionSearchBar'
 import ProfileDropdown from './ui/ProfileDropdown'
 import { minimal } from './design-system'
 import { useReducedMotionPreference } from './animations/useResponsiveMotion'
-import { MagneticLink } from './ui/MagneticLink'
 
 const font = minimal.font.primary
 const mono = minimal.font.mono
@@ -148,128 +147,120 @@ export function MinimalNav() {
                 onMouseLeave={closeMega}
                 style={{ position: 'relative' }}
               >
-                <MagneticLink strength={0.12} radius={50}>
-                  <Link
-                    href={link.href}
-                    className={`minimal-nav-link group flex items-center ${isActive(link.href) ? 'minimal-nav-link-active' : ''}`}
-                    aria-current={isActive(link.href) ? 'page' : undefined}
-                    style={{
-                      fontFamily: font,
-                      fontSize: minimal.type.caption,
-                      fontWeight: isActive(link.href) ? 500 : 400,
-                      letterSpacing: '0.15em',
-                      textTransform: 'uppercase',
-                      textDecoration: 'none',
-                      color: isActive(link.href) ? '#050505' : '#6B6B6B',
-                      gap: '4px',
-                      paddingBottom: '2px',
-                    }}
-                  >
-                    <span>{link.label}</span>
-                    {link.mega && (
-                      <ChevronDown
-                        size={10}
-                        strokeWidth={1.5}
-                        style={{
-                          opacity: 0.4,
-                          transition: prefersReducedMotion ? 'none' : 'transform 200ms',
-                          transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)',
-                        }}
-                      />
-                    )}
-                  </Link>
-                </MagneticLink>
+                <Link
+                  href={link.href}
+                  className={`minimal-nav-link group flex items-center ${isActive(link.href) ? 'minimal-nav-link-active' : ''}`}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  style={{
+                    fontFamily: font,
+                    fontSize: minimal.type.caption,
+                    fontWeight: isActive(link.href) ? 500 : 400,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    color: isActive(link.href) ? '#050505' : '#6B6B6B',
+                    gap: '4px',
+                    paddingBottom: '2px',
+                  }}
+                >
+                  <span>{link.label}</span>
+                  {link.mega && (
+                    <ChevronDown
+                      size={10}
+                      strokeWidth={1.5}
+                      style={{
+                        opacity: 0.4,
+                        transition: prefersReducedMotion ? 'none' : 'transform 200ms',
+                        transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)',
+                      }}
+                    />
+                  )}
+                </Link>
               </div>
             ))}
           </div>
 
           {/* Icons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <MagneticLink strength={0.18} radius={40}>
-              <button
-                type="button"
-                onClick={() => {
-                  // Dispatch custom event to open command palette in Layout
-                  window.dispatchEvent(new CustomEvent('open-command-palette'))
-                }}
-                className="minimal-icon-button hidden md:flex"
-                style={{
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: '6px',
-                  minWidth: '44px',
-                  minHeight: '44px',
-                }}
-                aria-label="Search (⌘K)"
-                title="Search (⌘K)"
-              >
-                <Search size={17} strokeWidth={1.5} />
-              </button>
-            </MagneticLink>
-            <MagneticLink strength={0.18} radius={40}>
-              <Link
-                href="/minimal/wishlist"
-                className="minimal-icon-button hidden md:flex"
-                style={{
-                  position: 'relative',
-                  minWidth: '44px',
-                  minHeight: '44px',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                aria-label="Wishlist"
-              >
-                <Heart size={17} strokeWidth={1.5} />
-                {wishlistCount > 0 && (
-                  <span style={{
-                    position: 'absolute', top: '6px', right: '6px',
-                    width: '6px', height: '6px', backgroundColor: '#050505',
-                  }} />
-                )}
-              </Link>
-            </MagneticLink>
-            <MagneticLink strength={0.18} radius={40}>
-              <Link
-                href="/minimal/cart"
-                className="minimal-icon-button"
-                style={{
-                  position: 'relative',
-                  minWidth: '44px',
-                  minHeight: '44px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                aria-label={`Cart with ${cartCount} items`}
-              >
-                <ShoppingBag size={17} strokeWidth={1.5} />
-                {cartCount > 0 && (
-                  <span
-                    className={`minimal-cart-badge ${cartPulse ? 'pulse' : ''}`}
-                    style={{
-                      position: 'absolute',
-                      top: '2px',
-                      right: '2px',
-                      minWidth: '16px',
-                      height: '16px',
-                      backgroundColor: '#050505',
-                      color: '#FFFFFF',
-                      fontFamily: font,
-                      fontSize: minimal.type.micro,
-                      fontWeight: 600,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      lineHeight: 1,
-                      padding: '0 3px',
-                    }}
-                  >
-                    {cartCount > 99 ? '99+' : cartCount}
-                  </span>
-                )}
-              </Link>
-            </MagneticLink>
+            <button
+              type="button"
+              onClick={() => {
+                // Dispatch custom event to open command palette in Layout
+                window.dispatchEvent(new CustomEvent('open-command-palette'))
+              }}
+              className="minimal-icon-button hidden md:flex"
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '6px',
+                minWidth: '44px',
+                minHeight: '44px',
+              }}
+              aria-label="Search (⌘K)"
+              title="Search (⌘K)"
+            >
+              <Search size={17} strokeWidth={1.5} />
+            </button>
+            <Link
+              href="/minimal/wishlist"
+              className="minimal-icon-button hidden md:flex"
+              style={{
+                position: 'relative',
+                minWidth: '44px',
+                minHeight: '44px',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              aria-label="Wishlist"
+            >
+              <Heart size={17} strokeWidth={1.5} />
+              {wishlistCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: '6px', right: '6px',
+                  width: '6px', height: '6px', backgroundColor: '#050505',
+                }} />
+              )}
+            </Link>
+            <Link
+              href="/minimal/cart"
+              className="minimal-icon-button"
+              style={{
+                position: 'relative',
+                minWidth: '44px',
+                minHeight: '44px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              aria-label={`Cart with ${cartCount} items`}
+            >
+              <ShoppingBag size={17} strokeWidth={1.5} />
+              {cartCount > 0 && (
+                <span
+                  className={`minimal-cart-badge ${cartPulse ? 'pulse' : ''}`}
+                  style={{
+                    position: 'absolute',
+                    top: '2px',
+                    right: '2px',
+                    minWidth: '16px',
+                    height: '16px',
+                    backgroundColor: '#050505',
+                    color: '#FFFFFF',
+                    fontFamily: font,
+                    fontSize: minimal.type.micro,
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    lineHeight: 1,
+                    padding: '0 3px',
+                  }}
+                >
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
+              )}
+            </Link>
             <div className="hidden md:block">
               <ProfileDropdown />
             </div>
