@@ -38,7 +38,7 @@ export default function MinimalHeroSection({
     : 'rgba(5,5,5,0.45)'
 
   return (
-    <section style={{ position: 'relative', height: '70vh', minHeight: '400px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
+    <section data-cursor="explore" style={{ position: 'relative', height: '70vh', minHeight: '400px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
       <div ref={imgRef} style={{ position: 'absolute', inset: '-10%', transition: 'transform 0.1s linear' }}>
         <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async"/>
       </div>

@@ -188,7 +188,40 @@ export const minimal = {
    * the magnetic-pull radius remains.
    */
   magnetic: {
+    /** Default activation radius for MagneticButton (px) */
     radius: 100,
+    /** Nav link magnetic pull strength (subtle) */
+    navStrength: 0.12,
+    /** Nav link magnetic radius (px) */
+    navRadius: 50,
+    /** Icon button magnetic pull strength (stronger) */
+    iconStrength: 0.18,
+    /** Icon button magnetic radius (px) */
+    iconRadius: 40,
+    /** CTA button magnetic pull strength */
+    ctaStrength: 0.25,
+    /** CTA button magnetic radius (px) */
+    ctaRadius: 80,
+  },
+  /**
+   * Cursor — Phase 2 tokens for CursorFollower.
+   * These define the physics and visual behavior of the custom cursor.
+   */
+  cursor: {
+    /** Inner dot lerp factor (0-1). Higher = snappier tracking */
+    dotLerp: 0.28,
+    /** Outer ring lerp factor (0-1). Lower = more trailing lag */
+    ringLerp: 0.10,
+    /** Dot size in px */
+    dotSize: 6,
+    /** Ring size in px */
+    ringSize: 40,
+    /** Ring scale when hovering interactive elements */
+    interactiveScale: 1.3,
+    /** Ring scale when showing context label */
+    contextScale: 1.8,
+    /** Ring scale on click/press */
+    pressScale: 0.8,
   },
   cn: {
     heroHeadline: 'text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter leading-none text-[#050505]',
