@@ -1,33 +1,42 @@
 'use client'
 
-import { useEffect, useRef, useCallback, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useReducedMotionPreference } from '../animations/useResponsiveMotion'
-import { minimal } from '../design-system';
+import { minimal } from '../design-system'
 
 /* ================================================================== */
-/*  CursorFollower — Premium dual-layer cursor with context labels     */
+/*  CursorFollower — Diamond-faceted luxury cursor for Vault Maison    */
 /* ================================================================== */
 
 /**
- * CursorFollower — replaces the basic CustomCursor with a premium
- * dual-layer system seen on Awwwards SOTD winners.
+ * CursorFollower — A jewelry-themed cursor that replaces the generic
+ * dot+ring pattern with a faceted diamond shape.
  *
- * Architecture:
- *   - **Inner dot** (6px): fast lerp (0.25), tracks cursor tightly
- *   - **Outer ring** (40px): slow lerp (0.12), creates trailing lag
- *   - **Label layer**: context-aware text that appears over elements
- *     with `data-cursor="view"`, `data-cursor="drag"`, etc.
+ * Design Philosophy:
+ *   The cursor is a rotated square (diamond/rhombus) — evoking the
+ *   top-down view of a brilliant-cut gemstone. It uses thin strokes
+ *   and no fill, matching the minimal luxury aesthetic of the brand.
  *
- * The cursor reads `data-cursor` attributes from hovered elements:
- *   - `data-cursor="view"` → shows "View" label, ring expands
- *   - `data-cursor="drag"` → shows "Drag" label
- *   - `data-cursor="explore"` → shows "Explore" label
- *   - `data-cursor="link"` → ring shrinks, dot scales up
- *   - Any interactive element → ring scales up subtly
+ * Shape States:
+ *   - **Default**: Small diamond (12×12px rotated 45°), thin white border
+ *   - **Interactive hover**: Diamond scales up 1.5×, border brightens
+ *   - **data-cursor context**: Diamond expands 2.5×, label appears inside
+ *   - **Click/press**: Diamond compresses briefly (0.75× scale)
  *
- * Uses `mix-blend-mode: difference` so the cursor inverts against
- * both light and dark sections automatically.
+ * Movement:
+ *   Uses a single-layer approach with a responsive lerp (0.2) for
+ *   immediate feel. Luxury = precision, not laggy trailing.
+ *   GSAP ticker ensures consistent 60fps rendering.
+ *
+ * Context detection via `data-cursor` attributes:
+ *   - `data-cursor="view"` → expands, shows "View"
+ *   - `data-cursor="drag"` → expands, shows "Drag"
+ *   - `data-cursor="explore"` → expands, shows "Explore"
+ *   - Interactive elements → scales up subtly
+ *
+ * Visibility:
+ *   `mix-blend-mode: difference` inverts against any background.
  *
  * Disabled on:
  *   - Touch devices (`pointer: coarse`)
@@ -35,8 +44,7 @@ import { minimal } from '../design-system';
  *   - SSR (no window)
  */
 export default function CursorFollower() {
-  const dotRef = useRef<HTMLDivElement>(null)
-  const ringRef = useRef<HTMLDivElement>(null)
+  const diamondRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLDivElement>(null)
   const prefersReduced = useReducedMotionPreference()
   const [isTouch, setIsTouch] = useState(false)
@@ -53,135 +61,154 @@ export default function CursorFollower() {
   useEffect(() => {
     if (prefersReduced || isTouch) return
 
-    const dot = dotRef.current
-    const ring = ringRef.current
+    const diamond = diamondRef.current
     const label = labelRef.current
-    if (!dot || !ring || !label) return
+    if (!diamond || !label) return
 
+    // Position state
     let mouseX = -100
     let mouseY = -100
-    let dotX = -100
-    let dotY = -100
-    let ringX = -100
-    let ringY = -100
+    let curX = -100
+    let curY = -100
     let visible = false
     let currentLabel = ''
-    let isInteractive = false
 
-    const DOT_LERP = 0.25
-    const RING_LERP = 0.12
+    // Movement lerp — higher = more responsive = more precise
+    const LERP = 0.2
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
-    // Detect cursor context from data-cursor attribute
-    const getCursorContext = (el: Element | null): string => {
-      if (!el) return ''
-      // Walk up the DOM tree to find data-cursor
-      let node: Element | null = el
-      while (node) {
-        const attr = node.getAttribute('data-cursor')
-        if (attr) return attr
-        node = node.parentElement
-      }
-      return ''
-    }
+    // GSAP quickSetters for maximum performance
+    const setX = gsap.quickSetter(diamond, 'x', 'px')
+    const setY = gsap.quickSetter(diamond, 'y', 'px')
+    const setLabelX = gsap.quickSetter(label, 'x', 'px')
+    const setLabelY = gsap.quickSetter(label, 'y', 'px')
 
-    const checkInteractive = (el: Element | null): boolean => {
-      if (!el) return false
-      const tag = el.tagName.toLowerCase()
-      if (['a', 'button', 'input', 'textarea', 'select'].includes(tag)) return true
-      if (el.getAttribute('role') === 'button') return true
-      if (el.closest('a, button, [role="button"]')) return true
-      return false
-    }
+    // Diamond size (half-width for centering)
+    const DIAMOND_HALF = 6 // 12px / 2
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX
       mouseY = e.clientY
       if (!visible) {
         visible = true
-        gsap.to([dot, ring], { opacity: 1, duration: 0.3 })
+        gsap.to(diamond, { opacity: 1, duration: 0.3, ease: 'power2.out' })
       }
     }
 
     const onMouseLeave = () => {
       visible = false
-      gsap.to([dot, ring, label], { opacity: 0, duration: 0.3 })
+      gsap.to([diamond, label], { opacity: 0, duration: 0.25 })
     }
 
     const onMouseEnter = () => {
-      visible = true
-      gsap.to([dot, ring], { opacity: 1, duration: 0.3 })
+      if (!visible) {
+        visible = true
+        gsap.to(diamond, { opacity: 1, duration: 0.3 })
+      }
     }
 
+    const onMouseDown = () => {
+      gsap.to(diamond, {
+        scale: 0.75,
+        duration: 0.1,
+        ease: 'power3.out',
+      })
+    }
+
+    const onMouseUp = () => {
+      gsap.to(diamond, {
+        scale: currentLabel ? 2.5 : 1,
+        duration: 0.35,
+        ease: 'elastic.out(1, 0.5)',
+      })
+    }
+
+    // Context detection
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as Element
-      const context = getCursorContext(target)
-      isInteractive = checkInteractive(target)
+      let node: Element | null = target
+      let context = ''
+      let isInteractive = false
 
+      // Walk up DOM to find data-cursor or interactive element
+      while (node && node !== document.body) {
+        const attr = node.getAttribute('data-cursor')
+        if (attr) {
+          context = attr
+          break
+        }
+        const tag = node.tagName.toLowerCase()
+        if (
+          tag === 'a' ||
+          tag === 'button' ||
+          tag === 'input' ||
+          tag === 'textarea' ||
+          node.getAttribute('role') === 'button'
+        ) {
+          isInteractive = true
+        }
+        node = node.parentElement
+      }
+
+      // Context label state
       if (context && context !== currentLabel) {
         currentLabel = context
         label.textContent = context.charAt(0).toUpperCase() + context.slice(1)
-        gsap.to(label, { opacity: 1, scale: 1, duration: 0.25, ease: 'power2.out' })
-        gsap.to(ring, { scale: 1.8, borderColor: 'rgba(255,255,255,0.6)', duration: 0.3, ease: 'power2.out' })
-        gsap.to(dot, { scale: 0, duration: 0.2 })
+        gsap.to(label, { opacity: 1, duration: 0.2, ease: 'power2.out' })
+        gsap.to(diamond, {
+          scale: 2.5,
+          borderColor: 'rgba(255, 255, 255, 0.8)',
+          duration: 0.35,
+          ease: 'power2.out',
+        })
       } else if (!context && currentLabel) {
         currentLabel = ''
-        gsap.to(label, { opacity: 0, scale: 0.8, duration: 0.2, ease: 'power2.in' })
-        gsap.to(ring, { scale: 1, borderColor: 'rgba(255,255,255,0.4)', duration: 0.3, ease: 'power2.out' })
-        gsap.to(dot, { scale: 1, duration: 0.2 })
+        gsap.to(label, { opacity: 0, duration: 0.15, ease: 'power2.in' })
+        gsap.to(diamond, {
+          scale: 1,
+          borderColor: 'rgba(255, 255, 255, 0.7)',
+          duration: 0.3,
+          ease: 'power2.out',
+        })
       }
 
+      // Interactive element hover (no context label)
       if (!context && isInteractive) {
-        gsap.to(ring, { scale: 1.4, duration: 0.25, ease: 'power2.out' })
-        gsap.to(dot, { scale: 0.6, duration: 0.2 })
-      } else if (!context && !isInteractive) {
-        gsap.to(ring, { scale: 1, duration: 0.25, ease: 'power2.out' })
-        gsap.to(dot, { scale: 1, duration: 0.2 })
+        gsap.to(diamond, {
+          scale: 1.5,
+          borderColor: 'rgba(255, 255, 255, 0.9)',
+          duration: 0.25,
+          ease: 'power2.out',
+        })
+      } else if (!context && !isInteractive && !currentLabel) {
+        gsap.to(diamond, {
+          scale: 1,
+          borderColor: 'rgba(255, 255, 255, 0.7)',
+          duration: 0.25,
+          ease: 'power2.out',
+        })
       }
     }
 
+    // Animation tick — GSAP ticker for consistent frame rate
     const tick = () => {
-      dotX = lerp(dotX, mouseX, DOT_LERP)
-      dotY = lerp(dotY, mouseY, DOT_LERP)
-      ringX = lerp(ringX, mouseX, RING_LERP)
-      ringY = lerp(ringY, mouseY, RING_LERP)
+      curX = lerp(curX, mouseX, LERP)
+      curY = lerp(curY, mouseY, LERP)
 
-      dot.style.transform = `translate(${dotX - 3}px, ${dotY - 3}px)`
-      ring.style.transform = `translate(${ringX - 20}px, ${ringY - 20}px) scale(${ring.style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1})`
-      label.style.transform = `translate(${ringX - 20}px, ${ringY - 20}px)`
-
-      requestAnimationFrame(tick)
+      setX(curX - DIAMOND_HALF)
+      setY(curY - DIAMOND_HALF)
+      setLabelX(curX - 20) // Label is 40px wide, center it
+      setLabelY(curY - 20)
     }
 
-    // Use GSAP quickSetter for better performance
-    const setDotX = gsap.quickSetter(dot, 'x', 'px')
-    const setDotY = gsap.quickSetter(dot, 'y', 'px')
-    const setRingX = gsap.quickSetter(ring, 'x', 'px')
-    const setRingY = gsap.quickSetter(ring, 'y', 'px')
-    const setLabelX = gsap.quickSetter(label, 'x', 'px')
-    const setLabelY = gsap.quickSetter(label, 'y', 'px')
-
-    const tickGsap = () => {
-      dotX = lerp(dotX, mouseX, DOT_LERP)
-      dotY = lerp(dotY, mouseY, DOT_LERP)
-      ringX = lerp(ringX, mouseX, RING_LERP)
-      ringY = lerp(ringY, mouseY, RING_LERP)
-
-      setDotX(dotX - 3)
-      setDotY(dotY - 3)
-      setRingX(ringX - 20)
-      setRingY(ringY - 20)
-      setLabelX(ringX - 20)
-      setLabelY(ringY - 20)
-    }
-
-    // Use GSAP ticker for consistent frame rate
-    gsap.ticker.add(tickGsap)
+    gsap.ticker.add(tick)
 
     document.addEventListener('mousemove', onMouseMove, { passive: true })
     document.addEventListener('mouseleave', onMouseLeave)
     document.addEventListener('mouseenter', onMouseEnter)
     document.addEventListener('mouseover', onMouseOver, { passive: true })
+    document.addEventListener('mousedown', onMouseDown)
+    document.addEventListener('mouseup', onMouseUp)
 
     // Hide default cursor on the minimal-concept container
     const conceptEl = document.querySelector('.minimal-concept')
@@ -190,11 +217,13 @@ export default function CursorFollower() {
     }
 
     return () => {
-      gsap.ticker.remove(tickGsap)
+      gsap.ticker.remove(tick)
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('mouseleave', onMouseLeave)
       document.removeEventListener('mouseenter', onMouseEnter)
       document.removeEventListener('mouseover', onMouseOver)
+      document.removeEventListener('mousedown', onMouseDown)
+      document.removeEventListener('mouseup', onMouseUp)
       if (conceptEl) {
         ;(conceptEl as HTMLElement).style.cursor = ''
       }
@@ -205,44 +234,26 @@ export default function CursorFollower() {
 
   return (
     <>
-      {/* Inner dot — fast tracking */}
+      {/* Diamond cursor — rotated square evoking a brilliant-cut gem */}
       <div
-        ref={dotRef}
+        ref={diamondRef}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '6px',
-          height: '6px',
-          borderRadius: '50%',
-          backgroundColor: '#FFFFFF',
+          width: '12px',
+          height: '12px',
+          border: '1.5px solid rgba(255, 255, 255, 0.7)',
           pointerEvents: 'none',
           zIndex: 99999,
           opacity: 0,
           mixBlendMode: 'difference',
           willChange: 'transform',
+          transform: 'rotate(45deg)',
+          transformOrigin: 'center center',
         }}
       />
-      {/* Outer ring — slow trailing */}
-      <div
-        ref={ringRef}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '40px',
-          height: '40px',
-          borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.4)',
-          pointerEvents: 'none',
-          zIndex: 99998,
-          opacity: 0,
-          mixBlendMode: 'difference',
-          willChange: 'transform',
-          transition: 'border-color 0.3s ease',
-        }}
-      />
-      {/* Context label */}
+      {/* Context label — appears centered when hovering data-cursor elements */}
       <div
         ref={labelRef}
         style={{
@@ -258,10 +269,11 @@ export default function CursorFollower() {
           zIndex: 99999,
           opacity: 0,
           color: '#FFFFFF',
-          fontSize: minimal.type.micro,
-          fontFamily: "'Space Mono', 'SF Mono', monospace",
-          letterSpacing: '0.1em',
+          fontSize: '9px',
+          fontFamily: "'Cormorant Garamond', 'Times New Roman', serif",
+          letterSpacing: '0.12em',
           textTransform: 'uppercase',
+          fontWeight: 500,
           mixBlendMode: 'difference',
           willChange: 'transform',
         }}

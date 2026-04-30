@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { MagneticLink } from './ui/MagneticLink'
 import { usePathname } from 'next/navigation'
 import { Search, Heart, ShoppingBag, Menu, X, ChevronDown } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
@@ -147,35 +148,37 @@ export function MinimalNav() {
                 onMouseLeave={closeMega}
                 style={{ position: 'relative' }}
               >
-                <Link
-                  href={link.href}
-                  className={`minimal-nav-link group flex items-center ${isActive(link.href) ? 'minimal-nav-link-active' : ''}`}
-                  aria-current={isActive(link.href) ? 'page' : undefined}
-                  style={{
-                    fontFamily: font,
-                    fontSize: minimal.type.caption,
-                    fontWeight: isActive(link.href) ? 500 : 400,
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    color: isActive(link.href) ? '#050505' : '#6B6B6B',
-                    gap: '4px',
-                    paddingBottom: '2px',
-                  }}
-                >
-                  <span>{link.label}</span>
-                  {link.mega && (
-                    <ChevronDown
-                      size={10}
-                      strokeWidth={1.5}
-                      style={{
-                        opacity: 0.4,
-                        transition: prefersReducedMotion ? 'none' : 'transform 200ms',
-                        transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)',
-                      }}
-                    />
-                  )}
-                </Link>
+                <MagneticLink strength={0.15} radius={50}>
+                  <Link
+                    href={link.href}
+                    className={`minimal-nav-link group flex items-center ${isActive(link.href) ? 'minimal-nav-link-active' : ''}`}
+                    aria-current={isActive(link.href) ? 'page' : undefined}
+                    style={{
+                      fontFamily: font,
+                      fontSize: minimal.type.caption,
+                      fontWeight: isActive(link.href) ? 500 : 400,
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      textDecoration: 'none',
+                      color: isActive(link.href) ? '#050505' : '#6B6B6B',
+                      gap: '4px',
+                      paddingBottom: '2px',
+                    }}
+                  >
+                    <span>{link.label}</span>
+                    {link.mega && (
+                      <ChevronDown
+                        size={10}
+                        strokeWidth={1.5}
+                        style={{
+                          opacity: 0.4,
+                          transition: prefersReducedMotion ? 'none' : 'transform 200ms',
+                          transform: megaMenu === link.mega ? 'rotate(180deg)' : 'rotate(0)',
+                        }}
+                      />
+                    )}
+                  </Link>
+                </MagneticLink>
               </div>
             ))}
           </div>
