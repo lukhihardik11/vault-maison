@@ -2,7 +2,29 @@
 import { useEffect, useRef } from 'react'
 import { minimal } from '../design-system';
 
-const font = minimal.font.primary
+/* ────────────────────────────────────────────────────────────────────
+ * BentoGrid — Luxury Jewelry Craftsmanship Grid
+ *
+ * Redesigned from tech/SaaS to luxury jewelry aesthetic:
+ * - Warm ivory/cream backgrounds with gold accent borders
+ * - Elegant serif typography for headings
+ * - Subtle hover lift with gold shadow
+ * - Responsive: 3-col → 2-col → 1-col
+ * ──────────────────────────────────────────────────────────────── */
+
+const serif = "'Cormorant Garamond', 'Playfair Display', Georgia, serif"
+const sans = minimal.font.primary
+
+// Warm luxury color palette
+const colors = {
+  ivory: '#FDFBF7',
+  cream: '#F5F0EA',
+  gold: '#C9A96E',
+  deepCharcoal: '#2C2420',
+  warmGray: '#6B5E54',
+  borderSubtle: '#E8E2DA',
+  goldBorder: 'rgba(201,169,110,0.25)',
+}
 
 interface BentoItem {
   title: string
@@ -45,9 +67,8 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
             key={i}
             className={`bento-item ${item.span === 'wide' ? 'bento-wide' : ''} ${item.span === 'tall' ? 'bento-tall' : ''}`}
             style={{
-              background: item.image ? 'none' : 'rgba(255,255,255,0.65)',
-              backdropFilter: item.image ? 'none' : 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.3)',
+              background: item.image ? 'none' : colors.ivory,
+              border: `1px solid ${colors.borderSubtle}`,
               borderRadius: 0,
               padding: item.image ? '0' : '32px',
               overflow: 'hidden',
@@ -55,7 +76,7 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
               minHeight: '180px',
               opacity: 0,
               transform: 'translateY(20px)',
-              transition: 'opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease',
+              transition: 'opacity 0.6s ease, transform 0.6s ease, box-shadow 0.4s ease',
             }}
           >
             {item.image && (
@@ -67,13 +88,13 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
                   decoding="async"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
                 />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.7) 0%, transparent 60%)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(44,36,32,0.75) 0%, transparent 60%)' }} />
               </>
             )}
             <div style={{ position: item.image ? 'absolute' : 'relative', bottom: item.image ? '24px' : 'auto', left: item.image ? '24px' : 'auto', right: item.image ? '24px' : 'auto' }}>
-              {item.icon && <div style={{ marginBottom: '12px', color: '#050505' }}>{item.icon}</div>}
-              <h3 style={{ fontFamily: font, fontSize: minimal.type.bodyLg, fontWeight: 400, color: item.image ? '#FFFFFF' : '#050505', marginBottom: '8px' }}>{item.title}</h3>
-              <p style={{ fontFamily: font, fontSize: minimal.type.caption, fontWeight: 400, color: item.image ? 'rgba(255,255,255,0.7)' : '#767676', lineHeight: 1.6 }}>{item.description}</p>
+              {item.icon && <div style={{ marginBottom: '12px', color: colors.gold }}>{item.icon}</div>}
+              <h3 style={{ fontFamily: serif, fontSize: minimal.type.bodyLg, fontWeight: 400, color: item.image ? '#FFFFFF' : colors.deepCharcoal, marginBottom: '8px', letterSpacing: '0.02em' }}>{item.title}</h3>
+              <p style={{ fontFamily: sans, fontSize: minimal.type.caption, fontWeight: 400, color: item.image ? 'rgba(255,255,255,0.7)' : colors.warmGray, lineHeight: 1.7 }}>{item.description}</p>
             </div>
           </div>
         ))}
@@ -95,7 +116,7 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
         .bento-wide { grid-column: span 2; }
         .bento-tall { grid-row: span 2; }
         .bento-item.bento-visible { opacity: 1 !important; transform: translateY(0) !important; }
-        .bento-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06) !important; }
+        .bento-item:hover { box-shadow: 0 6px 24px rgba(201,169,110,0.08) !important; transform: translateY(-2px) !important; }
 
         /* Container query breakpoints — adapts to parent width, not viewport */
         @container bento (max-width: 768px) {

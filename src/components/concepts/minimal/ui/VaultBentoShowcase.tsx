@@ -6,13 +6,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { minimal } from '../design-system';
 
 /* ────────────────────────────────────────────────────────────────────
- * VaultBentoShowcase — Brutalist Bento Grid for Vault Maison
+ * VaultBentoShowcase — Luxury Craftsmanship Bento Grid
  *
- * Adapted from the "brutalist-bento-grid" pattern:
- * - Bold, raw grid with intentional asymmetry
- * - Luxury jewelry aesthetic: monochrome + gold accent
+ * Redesigned from brutalist/tech aesthetic to luxury jewelry:
+ * - Warm ivory/cream backgrounds with gold accent borders
+ * - Elegant serif typography (Cormorant Garamond)
+ * - Craftsmanship storytelling content
  * - GSAP scroll-triggered stagger entrance
- * - Supports images, icons, stats, and text blocks
  * - Responsive: 3-col → 2-col → 1-col
  *
  * Usage:
@@ -21,8 +21,22 @@ import { minimal } from '../design-system';
 
 gsap.registerPlugin(ScrollTrigger)
 
-const font = "'Inter', 'Helvetica Neue', sans-serif"
-const mono = "'JetBrains Mono', 'SF Mono', monospace"
+const serif = "'Cormorant Garamond', 'Playfair Display', Georgia, serif"
+const sans = "'Inter', 'Helvetica Neue', sans-serif"
+const mono = "'SF Mono', 'Fira Code', monospace"
+
+// Warm luxury color palette
+const colors = {
+  ivory: '#FDFBF7',
+  cream: '#F5F0EA',
+  warmWhite: '#FFFFFF',
+  gold: '#C9A96E',
+  goldLight: 'rgba(201,169,110,0.12)',
+  goldBorder: 'rgba(201,169,110,0.3)',
+  deepCharcoal: '#2C2420',
+  warmGray: '#6B5E54',
+  borderSubtle: '#E8E2DA',
+}
 
 export interface VaultBentoItem {
   title: string
@@ -66,7 +80,7 @@ export function VaultBentoShowcase({
     if (!cards.length) return
 
     // Set initial state
-    gsap.set(cards, { opacity: 0, y: 40, scale: 0.97 })
+    gsap.set(cards, { opacity: 0, y: 30, scale: 0.98 })
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -80,9 +94,9 @@ export function VaultBentoShowcase({
       opacity: 1,
       y: 0,
       scale: 1,
-      duration: 0.7,
-      stagger: 0.1,
-      ease: 'power3.out',
+      duration: 0.8,
+      stagger: 0.12,
+      ease: 'power2.out',
     })
 
     return () => { tl.kill() }
@@ -107,26 +121,26 @@ export function VaultBentoShowcase({
     switch (variant) {
       case 'dark':
         return {
-          backgroundColor: '#050505',
-          color: '#FFFFFF',
-          border: '1px solid rgba(255,255,255,0.08)',
+          backgroundColor: colors.ivory,
+          color: colors.deepCharcoal,
+          border: `1px solid ${colors.goldBorder}`,
         }
       case 'accent':
         return {
-          backgroundColor: '#050505',
-          color: '#FFFFFF',
-          border: '1px solid rgba(184,142,74,0.3)',
+          backgroundColor: colors.cream,
+          color: colors.deepCharcoal,
+          border: `1px solid ${colors.gold}`,
+          boxShadow: `0 4px 24px rgba(201,169,110,0.08)`,
         }
       case 'glass':
         return {
-          backgroundColor: 'rgba(250,250,250,0.6)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(0,0,0,0.06)',
+          backgroundColor: colors.warmWhite,
+          border: `1px solid ${colors.borderSubtle}`,
         }
       default:
         return {
-          backgroundColor: '#FAFAFA',
-          border: '1px solid #E5E5E5',
+          backgroundColor: colors.warmWhite,
+          border: `1px solid ${colors.borderSubtle}`,
         }
     }
   }
@@ -134,14 +148,14 @@ export function VaultBentoShowcase({
   return (
     <div className={`vm-bento-showcase ${className}`}>
       {(sectionNum || sectionTitle) && (
-        <div style={{ marginBottom: '48px' }}>
+        <div style={{ marginBottom: '48px', textAlign: 'center' }}>
           {sectionNum && (
             <span style={{
               fontFamily: mono,
-              fontSize: minimal.type.caption,
+              fontSize: minimal.type.micro,
               letterSpacing: '0.25em',
               textTransform: 'uppercase',
-              color: '#767676',
+              color: colors.gold,
               display: 'block',
               marginBottom: '12px',
             }}>
@@ -150,17 +164,24 @@ export function VaultBentoShowcase({
           )}
           {sectionTitle && (
             <h2 style={{
-              fontFamily: font,
+              fontFamily: serif,
               fontSize: 'clamp(28px, 4vw, 42px)',
               fontWeight: 300,
-              letterSpacing: '-0.02em',
+              letterSpacing: '0.02em',
               lineHeight: 1.1,
-              color: '#050505',
+              color: colors.deepCharcoal,
               margin: 0,
             }}>
               {sectionTitle}
             </h2>
           )}
+          {/* Decorative gold line */}
+          <div style={{
+            width: '48px',
+            height: '1px',
+            background: colors.gold,
+            margin: '20px auto 0',
+          }} />
         </div>
       )}
 
@@ -169,7 +190,7 @@ export function VaultBentoShowcase({
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '2px',
+          gap: '16px',
           maxWidth: '1200px',
           margin: '0 auto',
         }}
@@ -187,7 +208,7 @@ export function VaultBentoShowcase({
               padding: item.image ? '0' : '32px',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: item.stat ? 'center' : 'flex-end',
+              justifyContent: item.stat ? 'space-between' : 'flex-end',
             }}
           >
             {/* Background image */}
@@ -209,7 +230,7 @@ export function VaultBentoShowcase({
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(to top, rgba(5,5,5,0.85) 0%, rgba(5,5,5,0.2) 50%, transparent 100%)',
+                  background: 'linear-gradient(to top, rgba(44,36,32,0.8) 0%, rgba(44,36,32,0.2) 50%, transparent 100%)',
                 }} />
               </>
             )}
@@ -223,7 +244,7 @@ export function VaultBentoShowcase({
             }}>
               {/* Icon */}
               {item.icon && (
-                <div style={{ marginBottom: '16px', opacity: 0.7 }}>
+                <div style={{ marginBottom: '16px', color: colors.gold }}>
                   {item.icon}
                 </div>
               )}
@@ -231,17 +252,17 @@ export function VaultBentoShowcase({
               {/* Stat number */}
               {item.stat && (
                 <div style={{
-                  fontFamily: font,
+                  fontFamily: serif,
                   fontSize: 'clamp(36px, 5vw, 56px)',
-                  fontWeight: 200,
-                  letterSpacing: '-0.04em',
+                  fontWeight: 300,
+                  letterSpacing: '-0.02em',
                   lineHeight: 1,
-                  color: item.variant === 'dark' || item.variant === 'accent' || item.image ? '#FFFFFF' : '#050505',
+                  color: item.image ? '#FFFFFF' : colors.deepCharcoal,
                   marginBottom: '8px',
                 }}>
                   {item.stat}
                   {item.statSuffix && (
-                    <span style={{ fontSize: '0.5em', color: 'rgba(184,142,74,0.9)', marginLeft: '4px' }}>
+                    <span style={{ fontSize: '0.5em', color: colors.gold, marginLeft: '4px' }}>
                       {item.statSuffix}
                     </span>
                   )}
@@ -250,12 +271,12 @@ export function VaultBentoShowcase({
 
               {/* Title */}
               <h3 style={{
-                fontFamily: font,
-                fontSize: item.stat ? '12px' : '15px',
+                fontFamily: item.stat ? sans : serif,
+                fontSize: item.stat ? '11px' : '16px',
                 fontWeight: item.stat ? 500 : 400,
-                letterSpacing: item.stat ? '0.15em' : '-0.01em',
+                letterSpacing: item.stat ? '0.15em' : '0.02em',
                 textTransform: item.stat ? 'uppercase' : 'none',
-                color: item.variant === 'dark' || item.variant === 'accent' || item.image ? '#FFFFFF' : '#050505',
+                color: item.image ? '#FFFFFF' : colors.deepCharcoal,
                 margin: 0,
                 marginBottom: item.description ? '8px' : '0',
               }}>
@@ -265,20 +286,28 @@ export function VaultBentoShowcase({
               {/* Description */}
               {item.description && (
                 <p style={{
-                  fontFamily: font,
+                  fontFamily: sans,
                   fontSize: minimal.type.caption,
                   fontWeight: 400,
-                  lineHeight: 1.6,
-                  color: item.variant === 'dark' || item.variant === 'accent' || item.image
-                    ? 'rgba(255,255,255,0.6)'
-                    : '#767676',
+                  lineHeight: 1.7,
+                  color: item.image ? 'rgba(255,255,255,0.7)' : colors.warmGray,
                   margin: 0,
-                  maxWidth: '280px',
+                  maxWidth: '320px',
                 }}>
                   {item.description}
                 </p>
               )}
             </div>
+
+            {/* Decorative gold accent line for stat cards */}
+            {item.stat && !item.image && (
+              <div style={{
+                width: '24px',
+                height: '1px',
+                background: colors.gold,
+                marginTop: 'auto',
+              }} />
+            )}
           </div>
         ))}
       </div>
@@ -290,14 +319,15 @@ export function VaultBentoShowcase({
           container-name: vault-bento;
         }
         .vm-bento-card {
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
         }
         .vm-bento-card:hover {
-          transform: scale(0.985);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 32px rgba(201,169,110,0.08);
         }
         .vm-bento-card:hover img {
-          transform: scale(1.03);
-          transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          transform: scale(1.02);
+          transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
         /* Container query breakpoints — adapts to parent width */
         @container vault-bento (max-width: 1024px) {
