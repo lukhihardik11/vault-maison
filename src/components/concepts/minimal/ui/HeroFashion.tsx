@@ -31,7 +31,7 @@ export default function HeroFashion({
       <div className="mx-auto max-w-7xl px-5 py-12 md:py-24" style={{ fontFamily: font }}>
         <div className="grid md:grid-cols-2 gap-8 relative">
           {/* Image — right on desktop, top on mobile */}
-          <div className="md:order-2 relative">
+          <div className="md:order-2 relative" data-cursor="view">
             <div className="relative aspect-[3/4] w-full overflow-hidden">
               <Image
                 src={heroImage}
