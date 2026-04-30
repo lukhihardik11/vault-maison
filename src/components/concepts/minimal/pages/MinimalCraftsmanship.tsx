@@ -280,28 +280,29 @@ export function MinimalCraftsmanship() {
           pointerEvents: 'none',
           zIndex: 2,
         }}>
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', padding: '28px 48px', background: 'rgba(253,251,247,0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(201,169,110,0.2)' }}>
             <span style={{
               fontFamily: MONO,
               fontSize: minimal.type.micro,
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.5)',
+              color: '#C9A96E',
               display: 'block',
               marginBottom: '12px',
             }}>
-              The Data Behind the Craft
+              The Craft Behind Every Piece
             </span>
             <h2 style={{
-              fontFamily: F,
+              fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
               fontSize: 'clamp(28px, 4vw, 48px)',
-              fontWeight: 200,
-              color: '#FFFFFF',
-              letterSpacing: '-0.03em',
+              fontWeight: 300,
+              color: '#2C2420',
+              letterSpacing: '0.02em',
               lineHeight: 1.1,
             }}>
               Precision at Every Scale
             </h2>
+            <div style={{ width: '32px', height: '1px', background: '#C9A96E', margin: '14px auto 0' }} />
           </div>
         </div>
       </section>

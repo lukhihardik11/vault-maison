@@ -617,29 +617,30 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           pointerEvents: 'none',
           zIndex: 2,
         }}>
-          <div style={{ textAlign: 'center', padding: '24px 40px', borderRadius: '4px', background: 'rgba(5,5,5,0.7)', backdropFilter: 'blur(8px)' }}>
+          <div style={{ textAlign: 'center', padding: '28px 48px', background: 'rgba(253,251,247,0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(201,169,110,0.2)' }}>
             <span style={{
               fontFamily: mono,
               fontSize: minimal.type.micro,
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.6)',
+              color: '#C9A96E',
               display: 'block',
               marginBottom: '8px',
             }}>
               Behind Every Piece
             </span>
             <h2 style={{
-              fontFamily: font,
+              fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
               fontSize: 'clamp(20px, 3vw, 36px)',
               fontWeight: 300,
-              color: '#FFFFFF',
-              letterSpacing: '-0.02em',
+              color: '#2C2420',
+              letterSpacing: '0.02em',
               lineHeight: 1.1,
               margin: 0,
             }}>
-              The Metrics of Mastery
+              The Art of Creation
             </h2>
+            <div style={{ width: '32px', height: '1px', background: '#C9A96E', margin: '14px auto 0' }} />
           </div>
         </div>
       </section>
@@ -875,15 +876,15 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         </div>
       </section>
 
-      {/* ═══ SECTION 6-BENTO: VAULT DIFFERENTIATORS — Brutalist Bento Grid ═══ */}
-      <section style={{ padding: 'clamp(48px, 6vh, 80px) 5vw', backgroundColor: '#FFFFFF' }}>
+      {/* ═══ SECTION 6-BENTO: VAULT DIFFERENTIATORS — Luxury Craftsmanship Grid ═══ */}
+      <section style={{ padding: 'clamp(48px, 6vh, 80px) 5vw', backgroundColor: '#FAF8F5' }}>
         <VaultBentoShowcase
-          sectionNum="06 — Why Vault Maison"
-          sectionTitle="Foundation Blocks"
+          sectionNum="06 — The Vault Maison Difference"
+          sectionTitle="Pillars of Excellence"
           items={[
             {
               title: 'Master Artisans',
-              description: 'Each piece passes through 12 hands over 6 weeks. Our atelier houses 3rd-generation craftsmen trained in Geneva and Antwerp.',
+              description: 'Each piece passes through 12 hands over 6 weeks. Our atelier houses third-generation craftsmen trained in Geneva and Antwerp.',
               stat: '50',
               statSuffix: '+',
               variant: 'dark',
@@ -891,23 +892,23 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
             },
             {
               title: 'GIA Certified',
-              description: 'Every diamond above 0.30ct ships with a GIA grading report. No exceptions.',
+              description: 'Every diamond above 0.30ct ships with a GIA grading report. No exceptions, no compromises.',
               stat: '100',
               statSuffix: '%',
               variant: 'accent',
             },
             {
-              title: 'Ethical Sourcing',
-              description: 'Kimberley Process compliant. Fully traceable from mine to maison.',
+              title: 'Ethical Provenance',
+              description: 'Kimberley Process compliant. Fully traceable from mine to maison — because integrity is our foundation.',
               variant: 'glass',
             },
             {
-              title: 'Bespoke Service',
-              description: 'From sketch to stone — our design consultants bring your vision to life in 4–8 weeks.',
+              title: 'Bespoke Atelier',
+              description: 'From sketch to stone — our design consultants bring your vision to life in 4–8 weeks of dedicated craftsmanship.',
               variant: 'default',
             },
             {
-              title: 'Lifetime Warranty',
+              title: 'Lifetime Promise',
               description: 'Complimentary cleaning, re-polishing, and prong tightening for life. Because forever means forever.',
               stat: '∞',
               variant: 'dark',
