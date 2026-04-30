@@ -73,29 +73,52 @@ export function RouteTransition({ children }: RouteTransitionProps) {
   }, [])
 
   useEffect(() => {
+    console.log('[RouteTransition] useEffect fired', {
+      pathname,
+      isFirstMount: isFirstMount.current,
+      prevPath: prevPathRef.current,
+      prefersReduced,
+      hasCurtain: !!curtainRef.current,
+      hasWordmark: !!wordmarkRef.current,
+    })
+
     // Skip on first mount (PreLoader handles that)
     if (isFirstMount.current) {
+      console.log('[RouteTransition] Skipping - first mount')
       prevPathRef.current = pathname
       return
     }
 
     // Skip if pathname hasn't actually changed
-    if (pathname === prevPathRef.current) return
+    if (pathname === prevPathRef.current) {
+      console.log('[RouteTransition] Skipping - same pathname')
+      return
+    }
     prevPathRef.current = pathname
 
     // Skip animation for reduced motion
-    if (prefersReduced) return
+    if (prefersReduced) {
+      console.log('[RouteTransition] Skipping - reduced motion')
+      return
+    }
 
     const curtain = curtainRef.current
     const wordmark = wordmarkRef.current
-    if (!curtain || !wordmark) return
+    if (!curtain || !wordmark) {
+      console.log('[RouteTransition] Skipping - no curtain/wordmark refs')
+      return
+    }
+    console.log('[RouteTransition] Starting animation!')
 
     setIsTransitioning(true)
 
     const tl = gsap.timeline({
       onComplete: () => {
         setIsTransitioning(false)
-        // Scroll to top after transition
+        // Dispatch custom event so ScrollToTop (inside LenisProvider)
+        // can properly reset Lenis virtual scroll position
+        window.dispatchEvent(new CustomEvent('route-transition-complete'))
+        // Also attempt native scroll reset as fallback
         window.scrollTo(0, 0)
       },
     })
@@ -115,8 +138,21 @@ export function RouteTransition({ children }: RouteTransitionProps) {
       ease: 'power2.out',
     })
 
-    // Phase 3: Hold for a beat
+    // Phase 3: Hold for a beat — and reset scroll while curtain covers everything
     tl.to({}, { duration: 0.25 })
+    tl.call(() => {
+      // Reset Lenis scroll position using the global instance
+      const lenis = (window as any).__lenis
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true })
+      }
+      // Also reset native scroll as fallback
+      window.scrollTo(0, 0)
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+      // Dispatch event for any other listeners
+      window.dispatchEvent(new CustomEvent('route-transition-complete'))
+    })
 
     // Phase 4: Wordmark fades out
     tl.to(wordmark, {
