@@ -520,7 +520,7 @@ const CreditCardForm = ({
           position: absolute;
           border: 1px solid rgba(255, 255, 255, 0.65);
           box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-          border-radius: 4px;
+          border-radius: 0;
           z-index: 2;
           pointer-events: none;
           transition: ${prefersReducedMotion ? "none" : "all 0.3s ease"};
