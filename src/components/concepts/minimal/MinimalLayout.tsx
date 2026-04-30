@@ -66,8 +66,32 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
 
   return (
     <>
+      {/* Font loading optimization: preconnect + preload critical weights */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link
+        rel="preload"
+        as="style"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400&display=swap"
+      />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
+        /* Fallback font metrics to reduce CLS during font swap */
+        @font-face {
+          font-family: 'Inter Fallback';
+          src: local('Helvetica Neue'), local('Helvetica'), local('Arial');
+          size-adjust: 107%;
+          ascent-override: 90%;
+          descent-override: 22%;
+          line-gap-override: 0%;
+        }
 
         html, body {
           background: #FFFFFF !important;

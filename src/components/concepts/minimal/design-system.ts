@@ -29,43 +29,53 @@ export const minimal = {
     brutalistMono: "'Space Mono', 'SF Mono', 'Fira Code', monospace",
   },
   /**
-   * Fluid Typography Scale — Phase 1 Foundation
+   * Fluid Typography Scale — Phase 1 Foundation (v2)
    *
-   * Uses CSS clamp() for smooth scaling between mobile (375px) and desktop (1440px).
-   * Formula: clamp(minSize, preferredVw, maxSize)
-   * Preferred value calculated as: minSize + (maxSize - minSize) * ((100vw - 375px) / (1440px - 375px))
+   * Methodology: Utopia-style fluid interpolation between 375px and 1440px.
+   * Formula: clamp(min_rem, intercept_rem + slope_vw, max_rem)
+   * Where: slope = (max_px - min_px) / ((1440 - 375) / 100)
+   *        intercept = min_rem - (slope * 375 / 100 / 16)
+   *
+   * Design rationale (luxury jewelry brand):
+   *   - Display/H1: dramatic scaling for hero impact (Cartier-inspired)
+   *   - Body text: subtle scaling to maintain readability across devices
+   *   - Min/max in rem to respect user zoom preferences (WCAG 1.4.4)
+   *   - Intermediate vw value ensures smooth interpolation
+   *
+   * @see https://utopia.fyi/type/calculator
+   * @see https://web.dev/articles/baseline-in-action-fluid-type
    *
    * Usage: style={{ fontSize: minimal.type.h1 }}
    */
   type: {
-    /** Display/Hero: 36px → 72px */
+    /** Display/Hero: 36px → 72px — full-bleed hero headlines */
     display: 'clamp(2.25rem, 1.5rem + 3.38vw, 4.5rem)',
-    /** H1: 32px → 56px */
+    /** H1: 32px → 56px — page titles, section openers */
     h1: 'clamp(2rem, 1.43rem + 2.54vw, 3.5rem)',
-    /** H2: 28px → 42px */
+    /** H2: 28px → 42px — section headings */
     h2: 'clamp(1.75rem, 1.42rem + 1.5vw, 2.625rem)',
-    /** H3: 22px → 32px */
+    /** H3: 22px → 32px — subsection headings, card titles */
     h3: 'clamp(1.375rem, 1.14rem + 1.07vw, 2rem)',
-    /** H4: 18px → 24px */
+    /** H4: 18px → 24px — minor headings, large labels */
     h4: 'clamp(1.125rem, 0.98rem + 0.56vw, 1.5rem)',
-    /** Body Large: 16px → 18px */
+    /** Body Large: 16px → 18px — lead paragraphs, featured text */
     bodyLg: 'clamp(1rem, 0.95rem + 0.19vw, 1.125rem)',
-    /** Body: 14px → 16px */
+    /** Body: 14px → 16px — default paragraph text */
     body: 'clamp(0.875rem, 0.83rem + 0.19vw, 1rem)',
-    /** Body Small: 13px → 14px */
+    /** Body Small: 13px → 14px — secondary descriptions */
     bodySm: 'clamp(0.8125rem, 0.79rem + 0.09vw, 0.875rem)',
-    /** Caption/Label: 11px → 12px */
+    /** Caption/Label: 11px → 12px — form labels, image captions */
     caption: 'clamp(0.6875rem, 0.66rem + 0.09vw, 0.75rem)',
-    /** Overline/Micro: 10px → 11px */
+    /** Overline/Micro: 10px → 11px — overlines, metadata */
     micro: 'clamp(0.625rem, 0.6rem + 0.09vw, 0.6875rem)',
-    /** Quote/Pullquote: 20px → 32px */
+    /** Quote/Pullquote: 20px → 32px — editorial pullquotes */
     quote: 'clamp(1.25rem, 0.97rem + 1.22vw, 2rem)',
-    /** Price: 16px → 20px */
+    /** Price: 16px → 20px — product prices (tabular) */
     price: 'clamp(1rem, 0.91rem + 0.38vw, 1.25rem)',
-    /** Nav link: 13px → 14px */
-    nav: 'clamp(0.8125rem, 0.79rem + 0.09vw, 0.875rem)',
-    /** Button text: 12px → 13px */
-    btn: 'clamp(0.75rem, 0.73rem + 0.09vw, 0.8125rem)',
+    /** Nav link: 12px → 13px — navigation items */
+    nav: 'clamp(0.75rem, 0.73rem + 0.09vw, 0.8125rem)',
+    /** Button text: 11px → 12px — CTA button labels */
+    btn: 'clamp(0.6875rem, 0.66rem + 0.09vw, 0.75rem)',
   },
   colors: {
     bg: '#FFFFFF',
@@ -78,6 +88,10 @@ export const minimal = {
   /**
    * 8-px baseline grid + fluid clamps for hero / section padding.
    * Use over arbitrary `px` values inside components.
+   *
+   * Static steps (0–9) for component internals.
+   * Fluid steps (fl-*) for layout spacing that scales with viewport.
+   * Section/container clamps for page-level rhythm.
    */
   space: {
     0: '0',
@@ -90,6 +104,18 @@ export const minimal = {
     7: '48px',
     8: '64px',
     9: '96px',
+    /** Fluid spacing: 8px → 16px — tight gaps (icon-to-label, inline elements) */
+    'fl-xs': 'clamp(0.5rem, 0.43rem + 0.28vw, 1rem)',
+    /** Fluid spacing: 16px → 24px — standard component padding */
+    'fl-sm': 'clamp(1rem, 0.91rem + 0.38vw, 1.5rem)',
+    /** Fluid spacing: 24px → 40px — card padding, group gaps */
+    'fl-md': 'clamp(1.5rem, 1.31rem + 0.75vw, 2.5rem)',
+    /** Fluid spacing: 32px → 64px — section internal spacing */
+    'fl-lg': 'clamp(2rem, 1.63rem + 1.5vw, 4rem)',
+    /** Fluid spacing: 48px → 96px — section vertical rhythm */
+    'fl-xl': 'clamp(3rem, 2.44rem + 2.25vw, 6rem)',
+    /** Fluid spacing: 64px → 128px — hero/page-level breathing room */
+    'fl-2xl': 'clamp(4rem, 3.25rem + 3.0vw, 8rem)',
     sectionY: 'clamp(48px, 8vh, 96px)',
     sectionYCompact: 'clamp(32px, 5vh, 64px)',
     containerX: 'clamp(20px, 5vw, 96px)',
@@ -124,6 +150,59 @@ export const minimal = {
     px: 'clamp(16px, 4vw, 96px)',
     /** Compact horizontal padding (mobile-first) */
     pxCompact: 'clamp(16px, 3vw, 48px)',
+  },
+  /**
+   * Image Loading Strategy — Phase 1 Foundation
+   *
+   * Defines responsive `sizes` attributes and loading priorities.
+   * Prevents layout shift (CLS) and optimizes Largest Contentful Paint (LCP).
+   *
+   * Rules:
+   *   - Hero/above-fold images: loading="eager", fetchpriority="high"
+   *   - Below-fold images: loading="lazy", decoding="async"
+   *   - All images must have explicit width/height or aspect-ratio
+   */
+  image: {
+    /** Hero image sizes — full-width on mobile, constrained on desktop */
+    heroSizes: '(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px',
+    /** Product card sizes — responsive grid columns */
+    productSizes: '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw',
+    /** Bento grid sizes — adapts to container query context */
+    bentoSizes: '(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw',
+    /** Gallery/detail sizes — large single image */
+    detailSizes: '(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 720px',
+    /** Thumbnail sizes — small preview images */
+    thumbSizes: '(max-width: 640px) 25vw, 120px',
+  },
+  /**
+   * Font Loading Strategy — Phase 1 Foundation
+   *
+   * Critical fonts are preloaded in <head>. Non-critical fonts use
+   * font-display: swap with size-adjust fallbacks to minimize CLS.
+   *
+   * Implementation: Add these as <link rel="preload"> in _document or layout.
+   */
+  fontLoading: {
+    /** Critical font — preload for hero/nav (Inter Regular + Medium) */
+    critical: [
+      { family: 'Inter', weight: '400', style: 'normal' },
+      { family: 'Inter', weight: '500', style: 'normal' },
+    ],
+    /** Deferred font — load after first paint (Space Mono, Inter Bold) */
+    deferred: [
+      { family: 'Space Mono', weight: '400', style: 'normal' },
+      { family: 'Inter', weight: '600', style: 'normal' },
+      { family: 'Inter', weight: '700', style: 'normal' },
+    ],
+    /** Fallback metrics for Inter — reduces CLS during font swap */
+    fallbackMetrics: {
+      family: 'Inter',
+      fallback: 'Helvetica Neue',
+      sizeAdjust: '107%',
+      ascentOverride: '90%',
+      descentOverride: '22%',
+      lineGapOverride: '0%',
+    },
   },
   /**
    * z-index policy. 0 base, 10 sticky header, 20 popovers, 30 modals,

@@ -40,7 +40,7 @@ export default function MinimalHeroSection({
   return (
     <section style={{ position: 'relative', height: '70vh', minHeight: '400px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
       <div ref={imgRef} style={{ position: 'absolute', inset: '-10%', transition: 'transform 0.1s linear' }}>
-        <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async"/>
+        <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="eager" decoding="async" fetchPriority="high" />
       </div>
       <div style={{ position: 'absolute', inset: 0, background: overlayStyle }} />
       <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>

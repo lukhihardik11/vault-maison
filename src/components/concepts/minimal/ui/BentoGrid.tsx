@@ -38,7 +38,8 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
   return (
     <>
       {/* Container query wrapper — grid adapts to its own width, not the viewport */}
-      <div ref={ref} className={`bento-container ${className}`}>
+      <div className={`bento-wrapper ${className}`}>
+      <div ref={ref} className="bento-container">
         {items.map((item, i) => (
           <div
             key={i}
@@ -77,16 +78,19 @@ export default function BentoGrid({ items, className = '' }: BentoGridProps) {
           </div>
         ))}
       </div>
+      </div>
       <style>{`
-        /* Container query context */
-        .bento-container {
+        /* Container query context — wrapper is the size container */
+        .bento-wrapper {
           container-type: inline-size;
           container-name: bento;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+        .bento-container {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 16px;
-          max-width: 1200px;
-          margin: 0 auto;
         }
         .bento-wide { grid-column: span 2; }
         .bento-tall { grid-row: span 2; }
