@@ -1,22 +1,20 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import gsap from 'gsap'
 
 /* ────────────────────────────────────────────────────────────────────
  * InfiniteShowcasePan — Luxury Craftsmanship Canvas
  *
- * Redesigned from tech/SaaS dashboard to luxury jewelry aesthetic:
+ * Desktop: Diagonal auto-pan with GSAP, hover-pause
+ * Mobile:  Touch-draggable canvas with momentum + snap-back
+ *
+ * Features:
  * - Warm ivory/cream backgrounds with gold accents
  * - Elegant serif typography (Cormorant Garamond)
- * - Craftsmanship storytelling cards (heritage, materials, artisans)
- * - Diagonal auto-pan with subtle parallax depth
- * - Radial vignette overlay for cinematic depth
- * - Respects prefers-reduced-motion
- *
- * Usage:
- *   <InfiniteShowcasePan />
- *   <InfiniteShowcasePan accentColor="#C9A96E" panDuration={60} />
+ * - Craftsmanship storytelling cards
+ * - Respects prefers-reduced-motion (shows static grid)
+ * - Touch-optimized for mobile with inertia
  * ──────────────────────────────────────────────────────────────── */
 
 const SERIF = "'Cormorant Garamond', 'Playfair Display', Georgia, serif"
@@ -99,7 +97,6 @@ const CARDS: CardDef[] = [
 
 // Individual card renderer — luxury jewelry aesthetic
 function Card({ card }: { card: CardDef }) {
-  // Warm luxury color palette
   const ivory = '#FDFBF7'
   const cream = '#F5F0EA'
   const warmGold = '#C9A96E'
@@ -242,7 +239,6 @@ function Card({ card }: { card: CardDef }) {
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
       }}>
-        {/* Decorative gold circle */}
         <div style={{
           position: 'absolute',
           top: '50%',
@@ -301,7 +297,7 @@ function Card({ card }: { card: CardDef }) {
     )
   }
 
-  // Accent card — warm gold gradient
+  // Accent card
   return (
     <div style={{
       ...baseStyle,
@@ -346,9 +342,29 @@ export function InfiniteShowcasePan({
   const canvasRef = useRef<HTMLDivElement>(null)
   const [isReduced, setIsReduced] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const panTl = useRef<gsap.core.Timeline | null>(null)
+
+  // Touch drag state
+  const dragState = useRef({
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    currentX: 0,
+    currentY: 0,
+    velocityX: 0,
+    velocityY: 0,
+    lastMoveTime: 0,
+    lastMoveX: 0,
+    lastMoveY: 0,
+  })
 
   useEffect(() => {
     setIsMounted(true)
+    setIsTouchDevice(
+      typeof window !== 'undefined' &&
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    )
   }, [])
 
   useEffect(() => {
@@ -359,26 +375,119 @@ export function InfiniteShowcasePan({
     return () => mq.removeEventListener('change', handler)
   }, [])
 
+  // Desktop: Auto-pan with GSAP
   useEffect(() => {
-    if (isReduced) return
+    if (isReduced || isTouchDevice) return
 
     const canvas = canvasRef.current
     if (!canvas) return
 
-    // Animate the pan using GSAP for smooth diagonal movement
-    const tl = gsap.timeline({ repeat: -1, yoyo: true })
     const maxX = SUPER_W - 1280
     const maxY = SUPER_H - 600
 
+    const tl = gsap.timeline({ repeat: -1, yoyo: true })
     tl.fromTo(canvas,
       { x: 0, y: 0 },
       { x: -maxX, y: -maxY, duration: panDuration, ease: 'none' }
     )
+    panTl.current = tl
 
-    return () => {
-      tl.kill()
+    return () => { tl.kill() }
+  }, [isReduced, panDuration, isTouchDevice])
+
+  // Mobile: Touch-drag with momentum
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (!isTouchDevice) return
+    const touch = e.touches[0]
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    // Pause any running GSAP animation
+    if (panTl.current) panTl.current.pause()
+
+    // Kill any inertia animation
+    gsap.killTweensOf(canvas)
+
+    const transform = new DOMMatrix(getComputedStyle(canvas).transform)
+    dragState.current = {
+      isDragging: true,
+      startX: touch.clientX - transform.m41,
+      startY: touch.clientY - transform.m42,
+      currentX: transform.m41,
+      currentY: transform.m42,
+      velocityX: 0,
+      velocityY: 0,
+      lastMoveTime: Date.now(),
+      lastMoveX: touch.clientX,
+      lastMoveY: touch.clientY,
     }
-  }, [isReduced, panDuration])
+  }, [isTouchDevice])
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!dragState.current.isDragging) return
+    const touch = e.touches[0]
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const now = Date.now()
+    const dt = now - dragState.current.lastMoveTime
+    if (dt > 0) {
+      dragState.current.velocityX = (touch.clientX - dragState.current.lastMoveX) / dt * 16
+      dragState.current.velocityY = (touch.clientY - dragState.current.lastMoveY) / dt * 16
+    }
+    dragState.current.lastMoveTime = now
+    dragState.current.lastMoveX = touch.clientX
+    dragState.current.lastMoveY = touch.clientY
+
+    let newX = touch.clientX - dragState.current.startX
+    let newY = touch.clientY - dragState.current.startY
+
+    // Clamp with rubber-band effect
+    const containerWidth = containerRef.current?.clientWidth || 375
+    const containerHeight = containerRef.current?.clientHeight || 600
+    const maxX = 0
+    const minX = -(SUPER_W - containerWidth)
+    const maxY = 0
+    const minY = -(SUPER_H - containerHeight)
+
+    if (newX > maxX) newX = maxX + (newX - maxX) * 0.3
+    if (newX < minX) newX = minX + (newX - minX) * 0.3
+    if (newY > maxY) newY = maxY + (newY - maxY) * 0.3
+    if (newY < minY) newY = minY + (newY - minY) * 0.3
+
+    dragState.current.currentX = newX
+    dragState.current.currentY = newY
+
+    gsap.set(canvas, { x: newX, y: newY })
+  }, [])
+
+  const handleTouchEnd = useCallback(() => {
+    if (!dragState.current.isDragging) return
+    dragState.current.isDragging = false
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const containerWidth = containerRef.current?.clientWidth || 375
+    const containerHeight = containerRef.current?.clientHeight || 600
+    const minX = -(SUPER_W - containerWidth)
+    const minY = -(SUPER_H - containerHeight)
+
+    // Apply momentum with deceleration
+    let targetX = dragState.current.currentX + dragState.current.velocityX * 20
+    let targetY = dragState.current.currentY + dragState.current.velocityY * 20
+
+    // Clamp to bounds
+    targetX = Math.max(minX, Math.min(0, targetX))
+    targetY = Math.max(minY, Math.min(0, targetY))
+
+    gsap.to(canvas, {
+      x: targetX,
+      y: targetY,
+      duration: 0.8,
+      ease: 'power3.out',
+    })
+  }, [])
 
   return (
     <div
@@ -390,7 +499,12 @@ export function InfiniteShowcasePan({
         height,
         overflow: 'hidden',
         background: '#FAF8F5',
+        touchAction: isTouchDevice ? 'none' : 'auto',
+        cursor: isTouchDevice ? 'grab' : 'default',
       }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <div
         ref={canvasRef}
@@ -416,7 +530,7 @@ export function InfiniteShowcasePan({
         pointerEvents: 'none',
       }} />
 
-      {/* Top/bottom fade for seamless blending */}
+      {/* Top/bottom fade */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -435,6 +549,40 @@ export function InfiniteShowcasePan({
         background: 'linear-gradient(to top, #FAF8F5, transparent)',
         pointerEvents: 'none',
       }} />
+
+      {/* Mobile: Touch hint indicator */}
+      {isTouchDevice && (
+        <div
+          className="vm-touch-hint"
+          style={{
+            position: 'absolute',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 16px',
+            background: 'rgba(253,251,247,0.9)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(201,169,110,0.2)',
+            pointerEvents: 'none',
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" strokeWidth="1.5">
+            <path d="M7 11L12 6L17 11M7 13L12 18L17 13" />
+          </svg>
+          <span style={{
+            fontFamily: SANS,
+            fontSize: '10px',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: '#6B5E54',
+          }}>
+            Drag to explore
+          </span>
+        </div>
+      )}
     </div>
   )
 }
