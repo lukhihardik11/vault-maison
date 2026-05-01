@@ -6,15 +6,18 @@ import gsap from 'gsap'
 /* ────────────────────────────────────────────────────────────────────
  * InfiniteShowcasePan — Luxury Craftsmanship Canvas
  *
- * Desktop: Diagonal auto-pan with GSAP, hover-pause
- * Mobile:  Touch-draggable canvas with momentum + snap-back
+ * A visually rich, magazine-quality panning canvas showcasing
+ * luxury craftsmanship through dramatic card designs:
+ *   - Heritage cards with warm gradients and gold foil numbers
+ *   - Stat cards with shimmer text effects
+ *   - Quote cards with elegant serif italic and accent borders
+ *   - Material cards with radial gradient gem-like backgrounds
+ *   - Process cards with step indicators
+ *   - Accent cards with centered calligraphic text
  *
- * Features:
- * - Warm ivory/cream backgrounds with gold accents
- * - Elegant serif typography (Cormorant Garamond)
- * - Craftsmanship storytelling cards
- * - Respects prefers-reduced-motion (shows static grid)
- * - Touch-optimized for mobile with inertia
+ * Desktop: Diagonal auto-pan with GSAP, hover-pause
+ * Mobile:  Touch-draggable with momentum + snap-back
+ *          Uses touch-action: pan-y (NOT none) for iOS compatibility
  * ──────────────────────────────────────────────────────────────── */
 
 const SERIF = "'Cormorant Garamond', 'Playfair Display', Georgia, serif"
@@ -95,12 +98,18 @@ const CARDS: CardDef[] = [
   { x: 2020, y: 1680, w: 340, h: 220, kind: 'process', label: 'Promise', value: 'Clean · Polish · Protect' },
 ]
 
-// Individual card renderer — luxury jewelry aesthetic
+// SVG noise texture for luxury paper feel
+const noiseTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")`
+
+/* ─── Enhanced Card Renderer ─────────────────────────────────────── */
 function Card({ card }: { card: CardDef }) {
+  const gold = '#C9A96E'
+  const goldLight = '#D4B87A'
+  const goldDark = '#A88B52'
   const ivory = '#FDFBF7'
   const cream = '#F5F0EA'
-  const warmGold = '#C9A96E'
-  const deepCharcoal = '#2C2420'
+  const deepCharcoal = '#1A1614'
+  const charcoal = '#2C2420'
   const warmGray = '#6B5E54'
 
   const baseStyle: React.CSSProperties = {
@@ -112,35 +121,47 @@ function Card({ card }: { card: CardDef }) {
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
+    borderRadius: '2px',
   }
 
+  // ─── Heritage Card: Rich warm gradient + gold foil number ───
   if (card.kind === 'heritage') {
     return (
       <div style={{
         ...baseStyle,
-        background: ivory,
-        border: `1px solid ${warmGold}33`,
-        padding: '28px 24px',
+        background: `linear-gradient(155deg, ${ivory} 0%, ${cream} 60%, rgba(201,169,110,0.06) 100%)`,
+        border: `1px solid rgba(201,169,110,0.3)`,
+        padding: '32px 28px',
         justifyContent: 'space-between',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02)',
       }}>
+        {/* Noise texture */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: noiseTexture, backgroundRepeat: 'repeat', backgroundSize: '200px', pointerEvents: 'none' }} />
+        {/* Corner accent */}
+        <div style={{ position: 'absolute', top: 0, right: 0, width: '60px', height: '60px', background: `linear-gradient(225deg, rgba(201,169,110,0.1) 0%, transparent 70%)`, pointerEvents: 'none' }} />
         <span style={{
           fontSize: 10,
           fontFamily: MONO,
-          color: warmGold,
-          letterSpacing: '0.2em',
+          color: gold,
+          letterSpacing: '0.25em',
           textTransform: 'uppercase',
+          position: 'relative',
+          zIndex: 1,
         }}>
           {card.label}
         </span>
-        <div>
+        <div style={{ position: 'relative', zIndex: 1 }}>
           <div style={{
             fontFamily: SERIF,
-            fontSize: card.value && card.value.length > 6 ? 28 : 44,
+            fontSize: card.value && card.value.length > 6 ? 28 : 48,
             fontWeight: 300,
-            color: deepCharcoal,
-            letterSpacing: '-0.02em',
-            lineHeight: 1.1,
-            marginBottom: 6,
+            letterSpacing: '-0.03em',
+            lineHeight: 0.9,
+            marginBottom: 8,
+            background: `linear-gradient(135deg, ${goldDark} 0%, ${gold} 40%, ${goldLight} 70%, ${gold} 100%)`,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
           }}>
             {card.value}
           </div>
@@ -150,78 +171,113 @@ function Card({ card }: { card: CardDef }) {
               fontFamily: SANS,
               color: warmGray,
               fontWeight: 400,
+              letterSpacing: '0.02em',
             }}>
               {card.subtitle}
             </span>
           )}
         </div>
+        {/* Bottom gold line */}
+        <div style={{ position: 'absolute', bottom: 0, left: '28px', width: '40px', height: '2px', background: `linear-gradient(90deg, ${gold}, transparent)`, borderRadius: '1px' }} />
       </div>
     )
   }
 
+  // ─── Stat Card: Dark background + gold shimmer number ───
   if (card.kind === 'stat') {
     return (
       <div style={{
         ...baseStyle,
-        background: '#FFFFFF',
-        border: `1px solid #E8E2DA`,
-        padding: '24px 20px',
+        background: `linear-gradient(145deg, ${deepCharcoal} 0%, ${charcoal} 70%, #3D3530 100%)`,
+        border: 'none',
+        padding: '28px 24px',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.04)',
       }}>
+        {/* Noise texture */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: noiseTexture, backgroundRepeat: 'repeat', backgroundSize: '200px', pointerEvents: 'none', opacity: 0.5 }} />
+        {/* Decorative circle */}
+        <div style={{ position: 'absolute', top: '16px', right: '16px', width: '18px', height: '18px', border: `1px solid rgba(201,169,110,0.3)`, borderRadius: '50%', pointerEvents: 'none' }} />
         <span style={{
           fontSize: 10,
           fontFamily: MONO,
-          color: warmGray,
-          letterSpacing: '0.15em',
+          color: 'rgba(255,255,255,0.5)',
+          letterSpacing: '0.2em',
           textTransform: 'uppercase',
+          position: 'relative',
+          zIndex: 1,
         }}>
           {card.label}
         </span>
-        <div style={{
-          fontFamily: SERIF,
-          fontSize: 36,
-          fontWeight: 300,
-          color: deepCharcoal,
-          letterSpacing: '-0.02em',
-          lineHeight: 1,
-        }}>
-          {card.value}
+        <div style={{ position: 'relative', zIndex: 1 }}>
           <div style={{
-            width: 24,
-            height: 1,
-            background: warmGold,
-            marginTop: 8,
+            fontFamily: SERIF,
+            fontSize: 40,
+            fontWeight: 300,
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
+            background: `linear-gradient(90deg, ${gold} 0%, #E8D5A8 30%, ${gold} 60%, #E8D5A8 100%)`,
+            backgroundSize: '200% 100%',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}>
+            {card.value}
+          </div>
+          <div style={{
+            width: 28,
+            height: 2,
+            background: `linear-gradient(90deg, ${gold}, transparent)`,
+            marginTop: 10,
+            borderRadius: '1px',
           }} />
         </div>
       </div>
     )
   }
 
+  // ─── Quote Card: Elegant serif italic with left gold border ───
   if (card.kind === 'quote') {
     return (
       <div style={{
         ...baseStyle,
         background: cream,
-        border: `1px solid ${warmGold}22`,
-        padding: '28px 24px',
+        borderLeft: `3px solid ${gold}`,
+        borderTop: `1px solid rgba(201,169,110,0.15)`,
+        borderRight: `1px solid rgba(201,169,110,0.15)`,
+        borderBottom: `1px solid rgba(201,169,110,0.15)`,
+        padding: '32px 28px',
         justifyContent: 'center',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.03)',
       }}>
+        {/* Noise texture */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: noiseTexture, backgroundRepeat: 'repeat', backgroundSize: '200px', pointerEvents: 'none' }} />
+        {/* Large decorative quotation mark */}
         <div style={{
-          width: 20,
-          height: 2,
-          background: warmGold,
-          marginBottom: 16,
-        }} />
+          position: 'absolute',
+          top: '16px',
+          right: '20px',
+          fontFamily: SERIF,
+          fontSize: '72px',
+          fontWeight: 300,
+          color: `rgba(201,169,110,0.12)`,
+          lineHeight: 1,
+          pointerEvents: 'none',
+        }}>
+          "
+        </div>
         <p style={{
           fontFamily: SERIF,
-          fontSize: 15,
+          fontSize: 16,
           fontWeight: 400,
           fontStyle: 'italic',
-          color: deepCharcoal,
-          lineHeight: 1.6,
+          color: charcoal,
+          lineHeight: 1.7,
           margin: 0,
           letterSpacing: '0.01em',
+          position: 'relative',
+          zIndex: 1,
         }}>
           {card.label}
         </p>
@@ -229,34 +285,53 @@ function Card({ card }: { card: CardDef }) {
     )
   }
 
+  // ─── Material Card: Radial gradient gem-like background ───
   if (card.kind === 'material') {
     return (
       <div style={{
         ...baseStyle,
-        background: `linear-gradient(145deg, ${cream} 0%, ${ivory} 50%, rgba(201,169,110,0.08) 100%)`,
-        border: `1px solid ${warmGold}44`,
-        padding: '20px',
+        background: `radial-gradient(ellipse at 30% 30%, rgba(201,169,110,0.15) 0%, ${cream} 40%, ${ivory} 100%)`,
+        border: `1px solid rgba(201,169,110,0.25)`,
+        padding: '24px',
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
+        boxShadow: '0 2px 16px rgba(201,169,110,0.06)',
       }}>
+        {/* Noise texture */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: noiseTexture, backgroundRepeat: 'repeat', backgroundSize: '200px', pointerEvents: 'none' }} />
+        {/* Decorative gem circle */}
         <div style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 48,
-          height: 48,
+          width: 56,
+          height: 56,
           borderRadius: '50%',
-          border: `1px solid ${warmGold}55`,
-          opacity: 0.6,
+          border: `1.5px solid rgba(201,169,110,0.35)`,
+          background: `radial-gradient(circle, rgba(201,169,110,0.08) 0%, transparent 70%)`,
+          pointerEvents: 'none',
+        }} />
+        {/* Inner diamond shape */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%) rotate(45deg)',
+          width: 20,
+          height: 20,
+          border: `1px solid rgba(201,169,110,0.25)`,
+          pointerEvents: 'none',
         }} />
         <span style={{
           fontSize: 11,
           fontFamily: SANS,
-          fontWeight: 500,
-          color: warmGold,
-          letterSpacing: '0.12em',
+          fontWeight: 600,
+          color: gold,
+          letterSpacing: '0.15em',
           textTransform: 'uppercase',
+          position: 'relative',
+          zIndex: 1,
         }}>
           {card.label}
         </span>
@@ -264,21 +339,29 @@ function Card({ card }: { card: CardDef }) {
     )
   }
 
+  // ─── Process Card: Step-by-step with arrow indicators ───
   if (card.kind === 'process') {
     return (
       <div style={{
         ...baseStyle,
-        background: ivory,
-        border: `1px solid #E8E2DA`,
-        padding: '24px 20px',
+        background: `linear-gradient(160deg, ${ivory} 0%, #FFFFFF 100%)`,
+        border: `1px solid ${cream}`,
+        padding: '28px 24px',
         justifyContent: 'space-between',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.03)',
       }}>
+        {/* Noise texture */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: noiseTexture, backgroundRepeat: 'repeat', backgroundSize: '200px', pointerEvents: 'none' }} />
+        {/* Top decorative line */}
+        <div style={{ position: 'absolute', top: 0, left: '24px', right: '24px', height: '1px', background: `linear-gradient(90deg, transparent, ${gold}40, transparent)` }} />
         <span style={{
           fontSize: 10,
           fontFamily: MONO,
-          color: warmGold,
-          letterSpacing: '0.2em',
+          color: gold,
+          letterSpacing: '0.25em',
           textTransform: 'uppercase',
+          position: 'relative',
+          zIndex: 1,
         }}>
           {card.label}
         </span>
@@ -287,39 +370,58 @@ function Card({ card }: { card: CardDef }) {
           fontSize: 13,
           fontWeight: 400,
           color: warmGray,
-          lineHeight: 1.6,
+          lineHeight: 1.7,
           margin: 0,
-          letterSpacing: '0.02em',
+          letterSpacing: '0.03em',
+          position: 'relative',
+          zIndex: 1,
         }}>
           {card.value}
         </p>
+        {/* Bottom gold dot */}
+        <div style={{ position: 'absolute', bottom: '16px', right: '16px', width: '6px', height: '6px', background: gold, borderRadius: '50%', opacity: 0.6 }} />
       </div>
     )
   }
 
-  // Accent card
+  // ─── Accent Card: Centered calligraphic with radial glow ───
   return (
     <div style={{
       ...baseStyle,
-      background: `linear-gradient(135deg, rgba(201,169,110,0.12) 0%, rgba(201,169,110,0.04) 50%, ${ivory} 100%)`,
-      border: `1px solid ${warmGold}33`,
+      background: `radial-gradient(ellipse at center, rgba(201,169,110,0.1) 0%, rgba(201,169,110,0.04) 40%, ${ivory} 100%)`,
+      border: `1px solid rgba(201,169,110,0.25)`,
       padding: '24px 20px',
       justifyContent: 'center',
       alignItems: 'center',
+      boxShadow: '0 2px 12px rgba(201,169,110,0.04)',
     }}>
+      {/* Noise texture */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: noiseTexture, backgroundRepeat: 'repeat', backgroundSize: '200px', pointerEvents: 'none' }} />
+      {/* Decorative border frame */}
+      <div style={{
+        position: 'absolute',
+        inset: '8px',
+        border: `1px solid rgba(201,169,110,0.15)`,
+        borderRadius: '1px',
+        pointerEvents: 'none',
+      }} />
       <span style={{
         fontFamily: SERIF,
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 400,
         fontStyle: 'italic',
-        color: warmGold,
-        letterSpacing: '0.08em',
+        color: gold,
+        letterSpacing: '0.06em',
+        position: 'relative',
+        zIndex: 1,
       }}>
         {card.label}
       </span>
     </div>
   )
 }
+
+/* ─── Main Component ─────────────────────────────────────────────── */
 
 export interface InfiniteShowcasePanProps {
   /** Duration of one full pan cycle in seconds */
@@ -499,7 +601,8 @@ export function InfiniteShowcasePan({
         height,
         overflow: 'hidden',
         background: '#FAF8F5',
-        touchAction: isTouchDevice ? 'none' : 'auto',
+        // iOS fix: use pan-y (NOT none) so vertical page scroll still works
+        touchAction: isTouchDevice ? 'pan-y' : 'auto',
         cursor: isTouchDevice ? 'grab' : 'default',
       }}
       onTouchStart={handleTouchStart}
@@ -526,7 +629,7 @@ export function InfiniteShowcasePan({
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'radial-gradient(ellipse at center, transparent 30%, rgba(250,248,245,0.5) 65%, rgba(250,248,245,0.9) 100%)',
+        background: 'radial-gradient(ellipse at center, transparent 25%, rgba(250,248,245,0.4) 55%, rgba(250,248,245,0.85) 100%)',
         pointerEvents: 'none',
       }} />
 
@@ -536,7 +639,7 @@ export function InfiniteShowcasePan({
         top: 0,
         left: 0,
         right: 0,
-        height: '80px',
+        height: '100px',
         background: 'linear-gradient(to bottom, #FAF8F5, transparent)',
         pointerEvents: 'none',
       }} />
@@ -545,7 +648,7 @@ export function InfiniteShowcasePan({
         bottom: 0,
         left: 0,
         right: 0,
-        height: '80px',
+        height: '100px',
         background: 'linear-gradient(to top, #FAF8F5, transparent)',
         pointerEvents: 'none',
       }} />
@@ -556,17 +659,20 @@ export function InfiniteShowcasePan({
           className="vm-touch-hint"
           style={{
             position: 'absolute',
-            bottom: '20px',
+            bottom: '24px',
             left: '50%',
             transform: 'translateX(-50%)',
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '8px 16px',
-            background: 'rgba(253,251,247,0.9)',
+            padding: '10px 18px',
+            background: 'rgba(253,251,247,0.92)',
             backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(201,169,110,0.2)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '1px solid rgba(201,169,110,0.25)',
+            borderRadius: '2px',
             pointerEvents: 'none',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
           }}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" strokeWidth="1.5">
