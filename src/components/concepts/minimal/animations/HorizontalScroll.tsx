@@ -1,9 +1,9 @@
 'use client';
 
-import { useRef, useEffect, type ReactNode } from 'react';
+import { useRef, useEffect, useState, type ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useIsMobile, useReducedMotionPreference } from './useResponsiveMotion';
+import { useReducedMotionPreference } from './useResponsiveMotion';
 import { minimal } from '../design-system';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,18 +11,6 @@ gsap.registerPlugin(ScrollTrigger);
 interface HorizontalScrollProps {
   children: ReactNode;
   className?: string;
-  /**
-   * Number of panels/cards.
-   *
-   * Previously used as a vh multiplier for the outer section height
-   * (`panelCount * heightPerPanel vh`), which caused a big empty block
-   * after the section: the outer container was sized to, e.g., 500vh,
-   * but GSAP's pin only ran for the horizontal translate distance
-   * (a few thousand px). Anything past the pin end was empty runway.
-   *
-   * Now kept only for the mobile fallback (semantic count of items)
-   * and retained in the type for backward compatibility.
-   */
   panelCount: number;
   /** Section title displayed above the scroll area */
   title?: string;
@@ -32,11 +20,17 @@ interface HorizontalScrollProps {
 
 /**
  * HorizontalScroll — Pinned horizontal scroll showcase
- * Container sticks to viewport while content scrolls horizontally.
- * Vertical scroll is converted to horizontal translation.
  *
- * Mobile fallback: standard vertical scroll with snap.
- * Respects prefers-reduced-motion (instant scroll, no spring).
+ * Strategy for iOS compatibility:
+ * 1. Always render the native horizontal scroll layout (works on ALL devices)
+ * 2. On desktop (non-touch, wide viewport), GSAP enhances it with pin+scrub
+ * 3. On iOS/mobile/tablet, the native CSS scroll-snap just works
+ *
+ * This avoids:
+ * - Hydration mismatches (same HTML on server and client)
+ * - iOS Safari sticky/pin bugs
+ * - Text overlap from GSAP transforms on iOS
+ * - Touch event conflicts
  */
 export function HorizontalScroll({
   children,
@@ -45,184 +39,201 @@ export function HorizontalScroll({
   title,
   subtitle,
 }: HorizontalScrollProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const prefersReduced = useReducedMotionPreference();
-  const isMobile = useIsMobile();
+  const [useGSAP, setUseGSAP] = useState(false);
 
+  // Determine if we should use GSAP (desktop, non-touch, non-iOS)
   useEffect(() => {
-    const container = containerRef.current;
+    if (prefersReduced) return;
+
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isWide = window.innerWidth >= 1024;
+
+    // Only use GSAP on desktop with no touch and not iOS
+    if (isWide && !isTouch && !isIOS) {
+      setUseGSAP(true);
+    }
+  }, [prefersReduced]);
+
+  // GSAP ScrollTrigger setup (only runs on qualifying desktops)
+  useEffect(() => {
+    if (!useGSAP) return;
+
+    const section = sectionRef.current;
     const track = trackRef.current;
-    if (!container || !track || prefersReduced || isMobile) return;
+    if (!section || !track) return;
 
-    const ctx = gsap.context(() => {
-      const getDistance = () => Math.max(track.scrollWidth - window.innerWidth, 0);
+    // Hide the native scroll version, show the GSAP version
+    const nativeEl = section.querySelector('[data-scroll-native]') as HTMLElement;
+    const gsapEl = section.querySelector('[data-scroll-gsap]') as HTMLElement;
+    if (nativeEl) nativeEl.style.display = 'none';
+    if (gsapEl) gsapEl.style.display = 'flex';
 
-      // Size the outer section = `distance + 100vh`. Combined with the
-      // inner wrapper's `position: sticky; top: 0; height: 100vh`, this
-      // means the inner sticks for `section.height - 100vh === distance`
-      // pixels of scroll — exactly the amount we need to play the
-      // horizontal translation. When the section ends, the next section
-      // (Collections) starts immediately. No empty runway.
-      //
-      // Why not `pin: true`? GSAP's pin adds `padding-bottom = duration`
-      // to its pinSpacer AND keeps the trigger's own height on top, so
-      // the pinSpacer is `trigger.height + duration` tall. The trigger's
-      // height portion (100vh) is empty padding that scrolls by AFTER
-      // the pin releases — visibly a big blank block after the section.
-      // The sticky + scrub pattern has no such spacer.
-      const syncHeight = () => {
-        const distance = getDistance();
-        container.style.height = `${distance + window.innerHeight}px`;
+    const imgs = Array.from(track.querySelectorAll('img'));
+
+    const initGSAP = () => {
+      const ctx = gsap.context(() => {
+        const getScrollDistance = () => Math.max(track.scrollWidth - window.innerWidth, 0);
+
+        // Set section height to create scroll runway
+        const syncHeight = () => {
+          const distance = getScrollDistance();
+          section.style.height = `${distance + window.innerHeight}px`;
+        };
+        syncHeight();
+
+        gsap.to(track, {
+          x: () => -getScrollDistance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1,
+            invalidateOnRefresh: true,
+            onRefresh: syncHeight,
+          },
+        });
+      }, section);
+
+      return ctx;
+    };
+
+    let ctx: gsap.Context | undefined;
+    const allLoaded = imgs.every(img => img.complete);
+
+    if (allLoaded) {
+      ctx = initGSAP();
+    } else {
+      let loadCount = 0;
+      const totalToLoad = imgs.filter(img => !img.complete).length;
+      const onLoad = () => {
+        loadCount++;
+        if (loadCount >= totalToLoad && !ctx) {
+          ctx = initGSAP();
+        }
       };
-      syncHeight();
-
-      gsap.to(track, {
-        x: () => -getDistance(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top top+=64',
-          end: 'bottom bottom',
-          scrub: 1,
-          invalidateOnRefresh: true,
-          onRefresh: syncHeight,
-        },
-      });
-
-      // Belt-and-braces: image loads inside the panels can change the
-      // track's `scrollWidth` *after* the initial measurement, leaving
-      // the user "stuck" on the first card because GSAP only mapped a
-      // tiny fraction of the real distance. Re-run the measurement
-      // once each panel image has decoded. (Cheap — a handful of
-      // events for the curated pieces in the row.)
-      const imgs = Array.from(track.querySelectorAll('img'));
-      const refresh = () => ScrollTrigger.refresh();
-      imgs.forEach((img) => {
+      imgs.forEach(img => {
         if (!img.complete) {
-          img.addEventListener('load', refresh, { once: true });
-          img.addEventListener('error', refresh, { once: true });
+          img.addEventListener('load', onLoad, { once: true });
+          img.addEventListener('error', onLoad, { once: true });
         }
       });
-    }, container);
+      // Fallback timeout
+      const timeout = setTimeout(() => {
+        if (!ctx) ctx = initGSAP();
+      }, 2000);
 
-    return () => ctx.revert();
-  }, [isMobile, panelCount, prefersReduced]);
+      return () => {
+        clearTimeout(timeout);
+        ctx?.revert();
+        // Restore native scroll visibility
+        if (nativeEl) nativeEl.style.display = '';
+        if (gsapEl) gsapEl.style.display = 'none';
+      };
+    }
 
-  // Mobile: vertical scroll with snap
-  if (isMobile) {
-    return (
-      <section className={className}>
-        {(title || subtitle) && (
-          <div style={{ padding: '60px 20px 30px', backgroundColor: '#FFFFFF' }}>
-            {title && (
-              <h2 style={{
-                fontFamily: 'var(--font-heading, system-ui)',
-                fontSize: minimal.type.h3,
-                fontWeight: 700,
-                color: '#050505',
-                letterSpacing: '-0.02em',
-                marginBottom: subtitle ? '12px' : '0',
-              }}>
-                {title}
-              </h2>
-            )}
-            {subtitle && (
-              <p style={{
-                fontFamily: 'var(--font-body, system-ui)',
-                fontSize: minimal.type.body,
-                color: '#6B6B6B',
-                letterSpacing: '0.02em',
-                textTransform: 'uppercase' as const,
-              }}>
-                {subtitle}
-              </p>
-            )}
-          </div>
-        )}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-          padding: '0 20px 60px',
-        }}>
-          {children}
-        </div>
-      </section>
-    );
-  }
+    return () => {
+      ctx?.revert();
+      // Restore native scroll visibility
+      if (nativeEl) nativeEl.style.display = '';
+      if (gsapEl) gsapEl.style.display = 'none';
+      section.style.height = '';
+    };
+  }, [useGSAP, panelCount]);
 
   return (
     <section
-      ref={containerRef}
+      ref={sectionRef}
       className={className}
-      data-cursor="drag"
-      // Height is set imperatively in the effect above to
-      // `horizontalDistance + 100vh`. SSR / first-paint fallback: size
-      // roughly to the expected final height so there's no layout jump.
       style={{
-        height: `${panelCount * 100}vh`,
         position: 'relative',
+        backgroundColor: '#FFFFFF',
       }}
     >
-      {/*
-        Inner sticky wrapper sticks at `top: 0` for `section.height -
-        100vh === distance` pixels of scroll. GSAP animates the track's
-        `x` in sync with that scroll progress, via ScrollTrigger's
-        `scrub: 1`. No `pin: true`, no pinSpacer — therefore no empty
-        space after the section ends.
-      */}
-      <div style={{
-        position: 'sticky',
-        top: '64px',
-        height: 'calc(100vh - 64px)',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
-        {/* Header */}
-        {(title || subtitle) && (
-          <div style={{
-            padding: '40px 60px 20px',
-            flexShrink: 0,
-          }}>
-            {title && (
-              <h2 style={{
-                fontFamily: 'var(--font-heading, system-ui)',
-                fontSize: 'clamp(32px, 4vw, 48px)',
-                fontWeight: 700,
-                color: '#050505',
-                letterSpacing: '-0.02em',
-                marginBottom: subtitle ? '12px' : '0',
-              }}>
-                {title}
-              </h2>
-            )}
-            {subtitle && (
-              <p style={{
-                fontFamily: 'var(--font-body, system-ui)',
-                fontSize: minimal.type.body,
-                color: '#6B6B6B',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase' as const,
-              }}>
-                {subtitle}
-              </p>
-            )}
-          </div>
-        )}
+      {/* Header — always visible */}
+      {(title || subtitle) && (
+        <div style={{
+          padding: 'clamp(32px, 5vw, 60px) clamp(20px, 4vw, 60px) clamp(16px, 2vw, 30px)',
+        }}>
+          {title && (
+            <h2 style={{
+              fontFamily: 'var(--font-heading, system-ui)',
+              fontSize: 'clamp(28px, 4vw, 48px)',
+              fontWeight: 700,
+              color: '#050505',
+              letterSpacing: '-0.02em',
+              marginBottom: subtitle ? '12px' : '0',
+            }}>
+              {title}
+            </h2>
+          )}
+          {subtitle && (
+            <p style={{
+              fontFamily: 'var(--font-body, system-ui)',
+              fontSize: minimal.type.body,
+              color: '#6B6B6B',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase' as const,
+            }}>
+              {subtitle}
+            </p>
+          )}
+        </div>
+      )}
 
-        {/* Scrolling track */}
+      {/* ═══ Native horizontal scroll (default, works everywhere) ═══ */}
+      <div
+        data-scroll-native
+        className="no-scrollbar"
+        style={{
+          display: 'flex',
+          gap: 'clamp(16px, 3vw, 40px)',
+          overflowX: 'auto',
+          overflowY: 'hidden',
+          WebkitOverflowScrolling: 'touch',
+          scrollSnapType: 'x proximity',
+          scrollBehavior: 'smooth',
+          paddingLeft: 'clamp(20px, 4vw, 60px)',
+          paddingRight: 'clamp(20px, 4vw, 60px)',
+          paddingBottom: '48px',
+          // iOS scroll fixes
+          overscrollBehaviorX: 'contain',
+          overscrollBehaviorY: 'auto',
+          touchAction: 'pan-x pan-y',
+        }}
+      >
+        {children}
+      </div>
+
+      {/* ═══ GSAP track (hidden by default, shown via JS on desktop) ═══ */}
+      <div
+        data-scroll-gsap
+        style={{
+          display: 'none', // Hidden by default, JS shows it on qualifying desktops
+          position: 'sticky',
+          top: '64px',
+          height: 'calc(100vh - 64px)',
+          overflow: 'hidden',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
         <div
           ref={trackRef}
           style={{
             display: 'flex',
-            flex: 1,
             alignItems: 'center',
             gap: '40px',
             paddingLeft: '60px',
             paddingRight: '60px',
+            height: '70%',
             width: 'max-content',
+            willChange: 'transform',
           }}
         >
           {children}
@@ -253,10 +264,13 @@ export function HorizontalPanel({
       style={{
         minWidth: width,
         width: width,
+        maxWidth: '1200px',
         flexShrink: 0,
-        height: '100%',
+        height: 'auto',
+        minHeight: '300px',
         display: 'flex',
         alignItems: 'center',
+        scrollSnapAlign: 'start',
       }}
     >
       {children}

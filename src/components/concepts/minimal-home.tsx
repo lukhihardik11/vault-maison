@@ -652,22 +652,25 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         subtitle="Scroll to explore"
       >
         {curatedPieces.map((product) => (
-          <HorizontalPanel key={product.id} width="70vw">
+          <HorizontalPanel key={product.id} width="min(85vw, 900px)">
             <Link
               href={`/minimal/product/${product.slug}`}
-              className="group block vm-featured-card"
+              className="group block vm-featured-card vm-curated-panel"
               style={{
                 textDecoration: 'none',
                 color: '#050505',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                gap: '40px',
+                gap: '24px',
                 width: '100%',
-                height: '70vh',
+                height: 'auto',
+                minHeight: '400px',
+                maxHeight: '70vh',
                 alignItems: 'center',
+                isolation: 'isolate',
               }}
             >
-              <div style={{ overflow: 'hidden', backgroundColor: '#FAFAFA', height: '100%', position: 'relative' }}>
+              <div style={{ overflow: 'hidden', backgroundColor: '#FAFAFA', height: '100%', minHeight: '300px', maxHeight: '60vh', position: 'relative', borderRadius: '4px' }}>
                 <img
                   src={product.images[0]}
                   alt={product.name}
@@ -682,7 +685,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   }}
                 />
               </div>
-              <div style={{ padding: '40px 20px 40px 0', position: 'relative', zIndex: 2, backgroundColor: '#FFFFFF' }}>
+              <div style={{ padding: '24px 16px 24px 0', position: 'relative', zIndex: 2, backgroundColor: '#FFFFFF', overflow: 'hidden' }}>
                 <span
                   style={{
                     fontFamily: mono,
