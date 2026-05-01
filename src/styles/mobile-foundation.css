@@ -24,12 +24,17 @@
 .vm-scroll-snap-x {
   display: flex;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scroll-padding: 0 20px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  gap: 12px;
+  gap: 16px;
   padding: 0 20px;
+  touch-action: pan-x pan-y;
+  overscroll-behavior-x: contain;
+  /* iOS Safari fix: ensure the container creates a proper scroll context */
+  -webkit-transform: translateZ(0);
+  will-change: scroll-position;
 }
 
 .vm-scroll-snap-x::-webkit-scrollbar {
@@ -40,7 +45,7 @@
   flex: 0 0 85vw;
   max-width: 340px;
   scroll-snap-align: center;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
 }
 
 /* Wider items for feature cards */
@@ -83,12 +88,15 @@
     display: flex !important;
     grid-template-columns: unset !important;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
     scroll-padding: 0 20px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    gap: 12px;
+    gap: 16px;
     padding: 0 20px;
+    touch-action: pan-x pan-y;
+    overscroll-behavior-x: contain;
+    -webkit-transform: translateZ(0);
   }
 
   .vm-bento-mobile-scroll::-webkit-scrollbar {
@@ -99,7 +107,7 @@
     flex: 0 0 85vw;
     max-width: 340px;
     scroll-snap-align: center;
-    scroll-snap-stop: always;
+    scroll-snap-stop: normal;
     grid-column: unset !important;
     grid-row: unset !important;
   }
