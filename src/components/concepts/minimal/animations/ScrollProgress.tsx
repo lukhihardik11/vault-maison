@@ -3,18 +3,23 @@
 import * as React from 'react'
 import { motion, useScroll, useSpring, type HTMLMotionProps } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useReducedMotionPreference } from './useResponsiveMotion'
 
 export function ScrollProgress({
   className,
   ...props
 }: HTMLMotionProps<'div'>) {
   const { scrollYProgress } = useScroll()
+  const prefersReducedMotion = useReducedMotionPreference()
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 250,
     damping: 40,
     bounce: 0,
   })
+
+  // Hide progress bar when user prefers reduced motion
+  if (prefersReducedMotion) return null
 
   return (
     <motion.div

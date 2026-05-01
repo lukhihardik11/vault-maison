@@ -3,20 +3,23 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { minimal } from '../design-system';
+import { minimal } from '../design-system'
+import { useIsMobile } from '../hooks/useMediaQuery'
+import { usePrefersReducedMotion } from '../hooks/useMediaQuery'
 
 /* ────────────────────────────────────────────────────────────────────
  * VaultBentoShowcase — Luxury Craftsmanship Bento Grid
  *
- * Redesigned from brutalist/tech aesthetic to luxury jewelry:
+ * Desktop: 3-column CSS Grid with span variants
+ * Mobile:  Horizontal scroll-snap carousel with peek design
+ *
+ * Features:
  * - Warm ivory/cream backgrounds with gold accent borders
  * - Elegant serif typography (Cormorant Garamond)
- * - Craftsmanship storytelling content
- * - GSAP scroll-triggered stagger entrance
- * - Responsive: 3-col → 2-col → 1-col
- *
- * Usage:
- *   <VaultBentoShowcase items={[...]} />
+ * - GSAP scroll-triggered stagger entrance (desktop)
+ * - Scroll-snap with momentum (mobile)
+ * - Container queries for component-level responsiveness
+ * - Respects prefers-reduced-motion
  * ──────────────────────────────────────────────────────────────── */
 
 gsap.registerPlugin(ScrollTrigger)
@@ -71,15 +74,19 @@ export function VaultBentoShowcase({
   className = '',
 }: VaultBentoShowcaseProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
+  // GSAP stagger entrance — desktop only
   useEffect(() => {
+    if (isMobile || prefersReducedMotion) return
     const el = containerRef.current
     if (!el) return
 
     const cards = el.querySelectorAll<HTMLElement>('.vm-bento-card')
     if (!cards.length) return
 
-    // Set initial state
     gsap.set(cards, { opacity: 0, y: 30, scale: 0.98 })
 
     const tl = gsap.timeline({
@@ -100,9 +107,10 @@ export function VaultBentoShowcase({
     })
 
     return () => { tl.kill() }
-  }, [])
+  }, [isMobile, prefersReducedMotion])
 
   const getGridSpan = (span?: string) => {
+    if (isMobile) return {} // No spanning on mobile
     switch (span) {
       case 'wide': return { gridColumn: 'span 2' }
       case 'tall': return { gridRow: 'span 2' }
@@ -145,10 +153,131 @@ export function VaultBentoShowcase({
     }
   }
 
+  // Separate items into "hero" (feature/wide) and "scrollable" for mobile
+  const heroItems = items.filter(item => item.span === 'feature')
+  const scrollableItems = items.filter(item => item.span !== 'feature')
+
+  const renderCard = (item: VaultBentoItem, i: number) => (
+    <div
+      key={i}
+      className="vm-bento-card"
+      style={{
+        ...getGridSpan(item.span),
+        ...getVariantStyles(item.variant, !!item.image),
+        position: 'relative',
+        overflow: 'hidden',
+        minHeight: isMobile ? '200px' : (item.span === 'tall' || item.span === 'feature' ? '360px' : '180px'),
+        padding: item.image ? '0' : '32px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: item.stat ? 'space-between' : 'flex-end',
+        ...(isMobile ? { borderRadius: '0' } : {}),
+      }}
+    >
+      {/* Background image */}
+      {item.image && (
+        <>
+          <img
+            src={item.image}
+            alt={item.title}
+            loading="lazy"
+            decoding="async"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, rgba(44,36,32,0.8) 0%, rgba(44,36,32,0.2) 50%, transparent 100%)',
+          }} />
+        </>
+      )}
+
+      {/* Content */}
+      <div style={{
+        position: 'relative',
+        zIndex: 1,
+        padding: item.image ? '32px' : '0',
+        marginTop: item.image ? 'auto' : undefined,
+      }}>
+        {/* Icon */}
+        {item.icon && (
+          <div style={{ marginBottom: '16px', color: colors.gold }}>
+            {item.icon}
+          </div>
+        )}
+
+        {/* Stat number */}
+        {item.stat && (
+          <div style={{
+            fontFamily: serif,
+            fontSize: isMobile ? 'clamp(32px, 8vw, 48px)' : 'clamp(36px, 5vw, 56px)',
+            fontWeight: 300,
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
+            color: item.image ? '#FFFFFF' : colors.deepCharcoal,
+            marginBottom: '8px',
+          }}>
+            {item.stat}
+            {item.statSuffix && (
+              <span style={{ fontSize: '0.5em', color: colors.gold, marginLeft: '4px' }}>
+                {item.statSuffix}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Title */}
+        <h3 style={{
+          fontFamily: item.stat ? sans : serif,
+          fontSize: item.stat ? '11px' : '16px',
+          fontWeight: item.stat ? 500 : 400,
+          letterSpacing: item.stat ? '0.15em' : '0.02em',
+          textTransform: item.stat ? 'uppercase' : 'none',
+          color: item.image ? '#FFFFFF' : colors.deepCharcoal,
+          margin: 0,
+          marginBottom: item.description ? '8px' : '0',
+        }}>
+          {item.title}
+        </h3>
+
+        {/* Description */}
+        {item.description && (
+          <p style={{
+            fontFamily: sans,
+            fontSize: minimal.type.caption,
+            fontWeight: 400,
+            lineHeight: 1.7,
+            color: item.image ? 'rgba(255,255,255,0.7)' : colors.warmGray,
+            margin: 0,
+            maxWidth: '320px',
+          }}>
+            {item.description}
+          </p>
+        )}
+      </div>
+
+      {/* Decorative gold accent line for stat cards */}
+      {item.stat && !item.image && (
+        <div style={{
+          width: '24px',
+          height: '1px',
+          background: colors.gold,
+          marginTop: 'auto',
+        }} />
+      )}
+    </div>
+  )
+
   return (
     <div className={`vm-bento-showcase ${className}`}>
       {(sectionNum || sectionTitle) && (
-        <div style={{ marginBottom: '48px', textAlign: 'center' }}>
+        <div style={{ marginBottom: isMobile ? '32px' : '48px', textAlign: 'center' }}>
           {sectionNum && (
             <span style={{
               fontFamily: mono,
@@ -165,12 +294,13 @@ export function VaultBentoShowcase({
           {sectionTitle && (
             <h2 style={{
               fontFamily: serif,
-              fontSize: 'clamp(28px, 4vw, 42px)',
+              fontSize: 'clamp(24px, 4vw, 42px)',
               fontWeight: 300,
               letterSpacing: '0.02em',
               lineHeight: 1.1,
               color: colors.deepCharcoal,
               margin: 0,
+              padding: '0 20px',
             }}>
               {sectionTitle}
             </h2>
@@ -185,132 +315,91 @@ export function VaultBentoShowcase({
         </div>
       )}
 
-      <div
-        ref={containerRef}
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '16px',
-          maxWidth: '1200px',
-          margin: '0 auto',
-        }}
-      >
-        {items.map((item, i) => (
+      {/* Mobile Layout: Hero full-width + horizontal scroll row */}
+      {isMobile ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Hero items full-width */}
+          {heroItems.map((item, i) => (
+            <div key={`hero-${i}`} style={{ padding: '0 20px' }}>
+              {renderCard(item, i)}
+            </div>
+          ))}
+
+          {/* Scrollable row with peek design */}
           <div
-            key={i}
-            className="vm-bento-card"
+            ref={scrollRef}
+            className="vm-scroll-snap-x"
+            role="region"
+            aria-label="Scroll through highlights"
+            aria-roledescription="carousel"
             style={{
-              ...getGridSpan(item.span),
-              ...getVariantStyles(item.variant, !!item.image),
-              position: 'relative',
-              overflow: 'hidden',
-              minHeight: item.span === 'tall' || item.span === 'feature' ? '360px' : '180px',
-              padding: item.image ? '0' : '32px',
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: item.stat ? 'space-between' : 'flex-end',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollPadding: '0 20px',
+              WebkitOverflowScrolling: 'touch',
+              gap: '12px',
+              padding: '0 20px',
+              scrollbarWidth: 'none',
             }}
           >
-            {/* Background image */}
-            {item.image && (
-              <>
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  loading="lazy"
-                  decoding="async"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
-                />
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(to top, rgba(44,36,32,0.8) 0%, rgba(44,36,32,0.2) 50%, transparent 100%)',
-                }} />
-              </>
-            )}
-
-            {/* Content */}
-            <div style={{
-              position: 'relative',
-              zIndex: 1,
-              padding: item.image ? '32px' : '0',
-              marginTop: item.image ? 'auto' : undefined,
-            }}>
-              {/* Icon */}
-              {item.icon && (
-                <div style={{ marginBottom: '16px', color: colors.gold }}>
-                  {item.icon}
-                </div>
-              )}
-
-              {/* Stat number */}
-              {item.stat && (
-                <div style={{
-                  fontFamily: serif,
-                  fontSize: 'clamp(36px, 5vw, 56px)',
-                  fontWeight: 300,
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1,
-                  color: item.image ? '#FFFFFF' : colors.deepCharcoal,
-                  marginBottom: '8px',
-                }}>
-                  {item.stat}
-                  {item.statSuffix && (
-                    <span style={{ fontSize: '0.5em', color: colors.gold, marginLeft: '4px' }}>
-                      {item.statSuffix}
-                    </span>
-                  )}
-                </div>
-              )}
-
-              {/* Title */}
-              <h3 style={{
-                fontFamily: item.stat ? sans : serif,
-                fontSize: item.stat ? '11px' : '16px',
-                fontWeight: item.stat ? 500 : 400,
-                letterSpacing: item.stat ? '0.15em' : '0.02em',
-                textTransform: item.stat ? 'uppercase' : 'none',
-                color: item.image ? '#FFFFFF' : colors.deepCharcoal,
-                margin: 0,
-                marginBottom: item.description ? '8px' : '0',
-              }}>
-                {item.title}
-              </h3>
-
-              {/* Description */}
-              {item.description && (
-                <p style={{
-                  fontFamily: sans,
-                  fontSize: minimal.type.caption,
-                  fontWeight: 400,
-                  lineHeight: 1.7,
-                  color: item.image ? 'rgba(255,255,255,0.7)' : colors.warmGray,
-                  margin: 0,
-                  maxWidth: '320px',
-                }}>
-                  {item.description}
-                </p>
-              )}
-            </div>
-
-            {/* Decorative gold accent line for stat cards */}
-            {item.stat && !item.image && (
-              <div style={{
-                width: '24px',
-                height: '1px',
-                background: colors.gold,
-                marginTop: 'auto',
-              }} />
-            )}
+            {scrollableItems.map((item, i) => (
+              <div
+                key={`scroll-${i}`}
+                className="vm-scroll-snap-item"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${i + 1} of ${scrollableItems.length}`}
+                style={{
+                  flex: '0 0 85vw',
+                  maxWidth: '340px',
+                  scrollSnapAlign: 'center',
+                  scrollSnapStop: 'always',
+                }}
+              >
+                {renderCard(item, heroItems.length + i)}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+
+          {/* Scroll indicator dots */}
+          <div
+            aria-hidden="true"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '6px',
+              padding: '12px 0',
+            }}
+          >
+            {scrollableItems.slice(0, Math.min(scrollableItems.length, 6)).map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  backgroundColor: i === 0 ? colors.gold : colors.borderSubtle,
+                  transition: 'background-color 0.3s ease',
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        /* Desktop Layout: CSS Grid with spans */
+        <div
+          ref={containerRef}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '16px',
+            maxWidth: '1200px',
+            margin: '0 auto',
+          }}
+        >
+          {items.map((item, i) => renderCard(item, i))}
+        </div>
+      )}
 
       <style>{`
         .vm-bento-showcase {
@@ -321,13 +410,15 @@ export function VaultBentoShowcase({
         .vm-bento-card {
           transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
         }
-        .vm-bento-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 32px rgba(201,169,110,0.08);
-        }
-        .vm-bento-card:hover img {
-          transform: scale(1.02);
-          transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        @media (hover: hover) {
+          .vm-bento-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(201,169,110,0.08);
+          }
+          .vm-bento-card:hover img {
+            transform: scale(1.02);
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+          }
         }
         /* Container query breakpoints — adapts to parent width */
         @container vault-bento (max-width: 1024px) {
@@ -335,33 +426,9 @@ export function VaultBentoShowcase({
             grid-template-columns: repeat(2, 1fr) !important;
           }
         }
-        @container vault-bento (max-width: 640px) {
-          .vm-bento-showcase > div:last-child {
-            grid-template-columns: 1fr !important;
-          }
-          .vm-bento-card {
-            grid-column: span 1 !important;
-            grid-row: span 1 !important;
-            min-height: 200px !important;
-          }
-        }
-        /* Fallback for browsers without container query support */
-        @supports not (container-type: inline-size) {
-          @media (max-width: 1024px) {
-            .vm-bento-showcase > div:last-child {
-              grid-template-columns: repeat(2, 1fr) !important;
-            }
-          }
-          @media (max-width: 640px) {
-            .vm-bento-showcase > div:last-child {
-              grid-template-columns: 1fr !important;
-            }
-            .vm-bento-card {
-              grid-column: span 1 !important;
-              grid-row: span 1 !important;
-              min-height: 200px !important;
-            }
-          }
+        /* Hide scrollbar on mobile carousel */
+        .vm-scroll-snap-x::-webkit-scrollbar {
+          display: none;
         }
         @media (prefers-reduced-motion: reduce) {
           .vm-bento-card {

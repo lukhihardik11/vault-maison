@@ -21,6 +21,8 @@ import { minimal } from './design-system';
 const CursorFollower = dynamic(() => import('./ui/CursorFollower'), { ssr: false })
 const FilmGrain = dynamic(() => import('./ui/FilmGrain').then(m => ({ default: m.FilmGrain })), { ssr: false })
 const PreLoader = dynamic(() => import('./animations/PreLoader').then(m => ({ default: m.PreLoader })), { ssr: false })
+const MobileBottomNav = dynamic(() => import('./MobileBottomNav'), { ssr: false })
+const ServiceWorkerRegistration = dynamic(() => import('./ServiceWorkerRegistration'), { ssr: false })
 
 interface MinimalLayoutProps {
   children: ReactNode
@@ -66,6 +68,11 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
 
   return (
     <>
+      {/* PWA manifest */}
+      <link rel="manifest" href="/manifest.json" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="apple-mobile-web-app-title" content="Vault Maison" />
       {/* Font loading optimization: preconnect + preload critical weights */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -276,6 +283,8 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         <CursorFollower />
         <FilmGrain />
         <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
+        {!hideNav && <MobileBottomNav />}
+        <ServiceWorkerRegistration />
       </div>
       </LenisProvider>
       <PreLoader />

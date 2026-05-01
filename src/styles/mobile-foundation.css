@@ -1,0 +1,237 @@
+/* ═══════════════════════════════════════════════════════════════════
+ * Vault Maison — Mobile Foundation CSS (Phase 3A)
+ *
+ * Mobile-first responsive utilities, scroll-snap helpers, safe areas,
+ * and reduced-motion overrides.
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Dynamic Viewport Units ──────────────────────────────────────── */
+
+:root {
+  --vh: 1vh;
+  --dvh: 1dvh;
+  --svh: 1svh;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --bottom-nav-height: 64px;
+  --bottom-nav-total: calc(var(--bottom-nav-height) + var(--safe-bottom));
+}
+
+/* ─── Scroll Snap Utilities ───────────────────────────────────────── */
+
+.vm-scroll-snap-x {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 12px;
+  padding: 0 20px;
+}
+
+.vm-scroll-snap-x::-webkit-scrollbar {
+  display: none;
+}
+
+.vm-scroll-snap-item {
+  flex: 0 0 85vw;
+  max-width: 340px;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* Wider items for feature cards */
+.vm-scroll-snap-item--wide {
+  flex: 0 0 90vw;
+  max-width: 400px;
+}
+
+/* ─── Bottom Navigation Spacing ───────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .minimal-main-content {
+    padding-bottom: var(--bottom-nav-total) !important;
+  }
+  
+  /* Ensure footer doesn't get hidden behind bottom nav */
+  .minimal-footer {
+    padding-bottom: var(--bottom-nav-total) !important;
+  }
+}
+
+/* ─── Touch Target Enforcement ────────────────────────────────────── */
+
+@media (hover: none) and (pointer: coarse) {
+  /* Ensure all interactive elements meet 44px minimum */
+  .minimal-concept button,
+  .minimal-concept a,
+  .minimal-concept [role="button"],
+  .minimal-concept input[type="checkbox"],
+  .minimal-concept input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* ─── Mobile Bento Grid Override ──────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .vm-bento-mobile-scroll {
+    display: flex !important;
+    grid-template-columns: unset !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 20px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 12px;
+    padding: 0 20px;
+  }
+
+  .vm-bento-mobile-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vm-bento-mobile-scroll > * {
+    flex: 0 0 85vw;
+    max-width: 340px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    grid-column: unset !important;
+    grid-row: unset !important;
+  }
+
+  /* Full-width items that should NOT be in the scroll row */
+  .vm-bento-full-width {
+    width: 100%;
+    max-width: 100%;
+    flex: none;
+    margin: 0 20px;
+  }
+}
+
+/* ─── Reduced Motion — Global Override ────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .vm-scroll-snap-x {
+    scroll-snap-type: none;
+  }
+
+  /* Disable parallax and transforms */
+  [data-parallax],
+  [data-tilt] {
+    transform: none !important;
+  }
+}
+
+/* ─── Safe Area Padding Utilities ─────────────────────────────────── */
+
+.vm-safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.vm-safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.vm-safe-x {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* ─── Overscroll Behavior ─────────────────────────────────────────── */
+
+html {
+  overscroll-behavior-y: none;
+}
+
+.vm-scroll-snap-x {
+  overscroll-behavior-x: contain;
+}
+
+/* ─── Touch Action Utilities ──────────────────────────────────────── */
+
+.vm-touch-pan-y {
+  touch-action: pan-y;
+}
+
+.vm-touch-pan-x {
+  touch-action: pan-x;
+}
+
+.vm-touch-none {
+  touch-action: none;
+}
+
+.vm-touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* ─── Mobile Typography Adjustments ───────────────────────────────── */
+
+@media (max-width: 767px) {
+  /* Prevent text inflation on mobile */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Balance headings to avoid orphans */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  /* Pretty wrap for body text */
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ─── Scroll-Driven Animation Utilities (Progressive Enhancement) ── */
+
+@supports (animation-timeline: scroll()) {
+  .vm-scroll-reveal {
+    animation: vm-fade-in-up linear;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+
+  @keyframes vm-fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ─── Content Visibility for Off-Screen Performance ───────────────── */
+
+.vm-content-lazy {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
+}
+
+/* ─── Viewport Fit for Notched Devices ────────────────────────────── */
+
+@supports (padding: env(safe-area-inset-top)) {
+  .vm-notch-aware {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+}
