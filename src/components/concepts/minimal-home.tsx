@@ -217,7 +217,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                 fontFamily: font,
                 fontWeight: 700,
                 letterSpacing: '-0.04em',
-                lineHeight: 0.88,
+                lineHeight: 0.92,
                 color: '#050505',
                 textTransform: 'uppercase',
                 margin: 0,
@@ -1271,7 +1271,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           }
           .vm-hero-left {
             flex: 1 1 auto !important;
-            padding: 48px 24px 64px !important;
+            padding: 40px clamp(16px, 5vw, 24px) 48px !important;
           }
           .vm-hero-right {
             flex: 0 0 45vh !important;
