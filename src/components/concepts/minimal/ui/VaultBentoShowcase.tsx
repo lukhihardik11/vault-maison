@@ -414,7 +414,7 @@ export function VaultBentoShowcase({
           {items.filter(item => item.stat && item.stat !== '∞').length >= 2 && (
             <div style={{
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
               gap: '12px',
             }}>
               {items.filter(item => item.stat && item.stat !== '∞').map((item, i) => (

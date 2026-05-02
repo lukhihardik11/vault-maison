@@ -134,6 +134,9 @@ export function MinimalNav() {
               textTransform: 'uppercase',
               color: '#050505',
               textDecoration: 'none',
+              minHeight: '44px',
+              display: 'inline-flex',
+              alignItems: 'center',
             }}
           >
             Minimal Machine
