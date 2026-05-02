@@ -211,7 +211,7 @@ export function MobileBottomNav() {
           /* Safe area padding for bottom */
           padding-bottom: env(safe-area-inset-bottom, 0px);
         }
-        @media (min-width: 768px) {
+        @media (min-width: 1024px) {
           .vm-bottom-nav {
             display: none !important;
           }

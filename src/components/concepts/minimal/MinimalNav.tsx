@@ -143,7 +143,7 @@ export function MinimalNav() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center" style={{ gap: '36px' }}>
+          <div className="hidden lg:flex items-center" style={{ gap: 'clamp(16px, 2vw, 36px)' }}>
             {navLinks.map((link) => (
               <div
                 key={link.href}
@@ -157,6 +157,8 @@ export function MinimalNav() {
                     className={`minimal-nav-link group flex items-center ${isActive(link.href) ? 'minimal-nav-link-active' : ''}`}
                     aria-current={isActive(link.href) ? 'page' : undefined}
                     style={{
+                      minHeight: '44px',
+                      padding: '12px 0',
                       fontFamily: font,
                       fontSize: minimal.type.caption,
                       fontWeight: isActive(link.href) ? 500 : 400,
@@ -194,7 +196,7 @@ export function MinimalNav() {
                 // Dispatch custom event to open command palette in Layout
                 window.dispatchEvent(new CustomEvent('open-command-palette'))
               }}
-              className="minimal-icon-button hidden md:flex"
+              className="minimal-icon-button hidden lg:flex"
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',
@@ -210,7 +212,7 @@ export function MinimalNav() {
             </button>
             <Link
               href="/minimal/wishlist"
-              className="minimal-icon-button hidden md:flex"
+              className="minimal-icon-button hidden lg:flex"
               style={{
                 position: 'relative',
                 minWidth: '44px',
@@ -267,13 +269,13 @@ export function MinimalNav() {
                 </span>
               )}
             </Link>
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <ProfileDropdown />
             </div>
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
-              className="minimal-icon-button md:hidden"
+              className="minimal-icon-button lg:hidden"
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',

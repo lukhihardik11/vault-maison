@@ -197,6 +197,7 @@ export function MinimalLayout({ children, hideNav = false, hideFooter = false }:
         .minimal-concept {
           opacity: 1;
           transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1);
+          overflow-x: hidden;
         }
         .minimal-concept.is-loading {
           opacity: 0.94;

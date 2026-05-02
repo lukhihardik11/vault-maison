@@ -176,7 +176,7 @@ export function MinimalFooter() {
           className="minimal-footer-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))',
             gap: 'clamp(32px, 4vw, 48px)',
             paddingBottom: 'clamp(48px, 6vh, 72px)',
           }}
@@ -456,6 +456,10 @@ export function MinimalFooter() {
         .minimal-footer-social:focus-visible {
           outline: 1px solid #050505;
           outline-offset: 2px;
+        }
+        .minimal-footer-grid {
+          overflow: hidden;
+          max-width: 100%;
         }
         @media (max-width: 900px) {
           .minimal-footer-intro {
