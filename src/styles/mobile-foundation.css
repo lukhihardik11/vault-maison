@@ -380,3 +380,248 @@ html {
     padding-right: max(20px, env(safe-area-inset-right));
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+ * COMPREHENSIVE RESPONSIVE QA FIXES
+ * Applied after full device matrix audit (29 devices × 4 pages)
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Tablet Portrait (768px – 1023px) ────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Overflow protection for tablet portrait */
+  html, body {
+    overflow-x: hidden !important;
+  }
+
+  /* Bottom nav spacing for tablet (now showing bottom nav at this size) */
+  .minimal-main-content {
+    padding-bottom: var(--bottom-nav-total) !important;
+  }
+
+  .minimal-footer {
+    padding-bottom: var(--bottom-nav-total) !important;
+  }
+
+  /* Bento showcase: 2-column grid on tablet */
+  .vm-bento-showcase > div:last-child {
+    grid-template-columns: repeat(2, 1fr) !important;
+    max-width: 100% !important;
+  }
+
+  /* Embla carousel: show 3 slides on tablet */
+  .vm-embla-slide {
+    flex-basis: 32% !important;
+  }
+
+  /* Philosophy text container: prevent overflow */
+  .max-w-3xl {
+    max-width: calc(100vw - 40px) !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Contact grid: stack on tablet portrait */
+  .vm-contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* Featured product card: stack on tablet portrait */
+  .vm-featured-card {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    gap: 24px !important;
+  }
+}
+
+/* ─── Tablet Landscape (1024px – 1199px) ──────────────────────────── */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  /* Tighter nav link spacing at small desktop */
+  .minimal-nav-link {
+    font-size: 10px !important;
+    letter-spacing: 0.1em !important;
+  }
+}
+
+/* ─── Galaxy Fold & Ultra-Narrow — Enhanced (< 300px) ─────────────── */
+@media (max-width: 300px) {
+  /* Global containment */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  /* Main content wrapper containment */
+  .minimal-concept,
+  .minimal-main-content,
+  main {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Nav shell: constrain to viewport */
+  .minimal-nav-shell {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .minimal-nav-shell > div {
+    padding: 0 8px !important;
+    gap: 4px !important;
+  }
+
+  /* Nav icons: compact but still usable on fold */
+  .minimal-icon-button {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: 4px !important;
+  }
+
+  /* Container padding: tighter */
+  .max-w-7xl,
+  .max-w-3xl,
+  [class*="mx-auto"][class*="px-"] {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  /* Philosophy section text: prevent overflow */
+  .max-w-3xl p {
+    font-size: clamp(14px, 5vw, 20px) !important;
+    max-width: calc(100vw - 16px) !important;
+  }
+
+  /* Bottom nav: compact layout */
+  .vm-bottom-nav > div:last-child {
+    gap: 0 !important;
+    padding: 0 2px !important;
+  }
+
+  .vm-bottom-nav a {
+    padding: 6px 4px !important;
+    min-width: 40px !important;
+    min-height: 44px !important;
+  }
+
+  /* Bottom nav labels: smaller and no truncation */
+  .vm-bottom-nav span {
+    font-size: 8px !important;
+    letter-spacing: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Newsletter section: prevent overflow */
+  form {
+    max-width: calc(100vw - 16px) !important;
+  }
+
+  form input,
+  form button {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Bento cards: reduce min-height */
+  .vm-bento-card {
+    min-height: 140px !important;
+  }
+
+  /* Hero section: constrain */
+  .vm-hero-split {
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+
+  .vm-hero-left {
+    padding: 32px 8px 48px !important;
+  }
+}
+
+/* ─── Touch Target Enforcement — All Touch Devices (Enhanced) ─────── */
+@media (hover: none) and (pointer: coarse) {
+  /* Nav links: ensure touch-friendly sizing */
+  .minimal-nav-link {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  /* Contact page: Book Now and inline links */
+  .vm-contact-inline-link {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  /* Form inputs: ensure minimum height */
+  input, textarea, select {
+    min-height: 48px !important;
+  }
+}
+
+/* ─── Ultrawide Monitors (> 2560px) ───────────────────────────────── */
+@media (min-width: 2561px) {
+  /* Expand container max-width for ultrawide */
+  .max-w-7xl {
+    max-width: 1600px !important;
+  }
+
+  /* Bento grid: expand for ultrawide */
+  .vm-bento-showcase > div:last-child {
+    max-width: 1600px !important;
+  }
+
+  /* Hero section: cap content width but allow image to fill */
+  .vm-hero-left {
+    max-width: 800px !important;
+  }
+}
+
+/* ─── 4K Displays (> 3840px) ──────────────────────────────────────── */
+@media (min-width: 3841px) {
+  .max-w-7xl {
+    max-width: 1920px !important;
+  }
+
+  .vm-bento-showcase > div:last-child {
+    max-width: 1920px !important;
+  }
+}
+
+/* ─── Landscape Phone (short + narrow) ────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Reduce hero height */
+  .vm-hero-split {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  /* Hide bottom nav in landscape phone */
+  .vm-bottom-nav {
+    display: none !important;
+  }
+
+  /* Reduce section padding */
+  section {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+  }
+}
+
+/* ─── Print Styles ────────────────────────────────────────────────── */
+@media print {
+  .vm-bottom-nav,
+  .minimal-nav-shell,
+  .vm-scroll-snap-x {
+    display: none !important;
+  }
+
+  section {
+    page-break-inside: avoid;
+  }
+
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

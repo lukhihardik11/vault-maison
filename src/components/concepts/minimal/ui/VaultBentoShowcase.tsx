@@ -3,8 +3,7 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useIsMobile } from '../hooks/useMediaQuery'
-import { usePrefersReducedMotion } from '../hooks/useMediaQuery'
+import { useIsMobile, useIsTablet, usePrefersReducedMotion } from '../hooks/useMediaQuery'
 
 /* ────────────────────────────────────────────────────────────────────
  * VaultBentoShowcase — Luxury Craftsmanship Bento Grid
@@ -72,6 +71,7 @@ export function VaultBentoShowcase({
 }: VaultBentoShowcaseProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const isMobile = useIsMobile()
+  const isTablet = useIsTablet()
   const prefersReducedMotion = usePrefersReducedMotion()
 
   // GSAP stagger entrance — desktop only
@@ -377,7 +377,7 @@ export function VaultBentoShowcase({
               lineHeight: 1.1,
               color: colors.deepCharcoal,
               margin: 0,
-              padding: '0 20px',
+              padding: '0 clamp(8px, 4vw, 20px)',
             }}>
               {sectionTitle}
             </h2>
@@ -414,7 +414,7 @@ export function VaultBentoShowcase({
           {items.filter(item => item.stat && item.stat !== '∞').length >= 2 && (
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(120px, 100%), 1fr))',
               gap: '12px',
             }}>
               {items.filter(item => item.stat && item.stat !== '∞').map((item, i) => (
@@ -431,6 +431,21 @@ export function VaultBentoShowcase({
               {renderCard(item, items.indexOf(item))}
             </div>
           ))}
+        </div>
+      ) : isTablet ? (
+        /* ═══ TABLET LAYOUT: 2-column grid ═══ */
+        <div
+          ref={containerRef}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '16px',
+            maxWidth: '100%',
+            margin: '0 auto',
+            padding: '0 20px',
+          }}
+        >
+          {items.map((item, i) => renderCard(item, i))}
         </div>
       ) : (
         /* ═══ DESKTOP LAYOUT: CSS Grid with spans ═══ */

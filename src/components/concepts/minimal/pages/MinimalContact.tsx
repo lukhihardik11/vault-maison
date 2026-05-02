@@ -147,6 +147,9 @@ export function MinimalContact() {
                     textDecoration: 'none',
                     borderBottom: '1px solid #050505',
                     paddingBottom: '2px',
+                    minHeight: '44px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
                   }}
                 >
                   Book Now

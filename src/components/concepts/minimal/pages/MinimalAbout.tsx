@@ -123,7 +123,7 @@ export function MinimalAbout() {
         </div>
       </section>
 
-      <section style={{ padding: '80px 5vw', borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5' }}>
+      <section style={{ padding: '80px 5vw', borderTop: '1px solid #E5E5E5', borderBottom: '1px solid #E5E5E5', overflow: 'hidden', maxWidth: '100vw', boxSizing: 'border-box' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <FadeIn style={{ marginBottom: '34px', textAlign: 'center' }}>
             <p style={{ margin: '0 0 10px', fontFamily: font, fontSize: minimal.type.caption, fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#767676' }}>Our Values</p>

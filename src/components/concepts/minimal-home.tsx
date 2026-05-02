@@ -181,6 +181,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
         <div
           style={{
             flex: '0 0 55%',
+            minWidth: 0,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-end',
@@ -982,6 +983,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
                   textTransform: 'uppercase',
                   color: '#FFFFFF',
                   transition: 'opacity 0.2s ease',
+                  minHeight: '44px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
                 }}
               >
                 Discover Our Craft
@@ -1258,7 +1262,7 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           }
         }
 
-        /* Hero responsive */
+        /* Hero responsive — covers iPad Pro 12 portrait (1024px) and iPad Mini landscape (1024px) */
         @media (max-width: 1023px) {
           .vm-hero-split {
             flex-direction: column-reverse !important;
