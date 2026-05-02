@@ -1,28 +1,20 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { minimal } from '../design-system'
 import { useIsMobile } from '../hooks/useMediaQuery'
 import { usePrefersReducedMotion } from '../hooks/useMediaQuery'
 
 /* ────────────────────────────────────────────────────────────────────
  * VaultBentoShowcase — Luxury Craftsmanship Bento Grid
  *
- * A visually rich, magazine-quality bento grid that communicates
- * luxury through:
- *   - Layered backgrounds with subtle noise textures
- *   - Gold foil accent effects on stat numbers
- *   - Dramatic gradient overlays on image cards
- *   - Elegant serif/sans pairing with generous whitespace
- *   - Staggered reveal animations
- *
  * Desktop: 3-column CSS Grid with span variants
- * Mobile:  Horizontal scroll carousel (scroll-snap: proximity for iOS)
+ * Mobile (iPhone): Vertical stacked cards — full-width, magazine-style
  *
- * iOS Safari Fix: Uses `proximity` instead of `mandatory` and
- * `touch-action: pan-x pan-y` to prevent scroll locking.
+ * The mobile layout uses a vertical stack (NOT horizontal scroll)
+ * because these are brand pillars that should be read sequentially,
+ * not swiped through. Each card gets full attention.
  * ──────────────────────────────────────────────────────────────── */
 
 gsap.registerPlugin(ScrollTrigger)
@@ -31,7 +23,6 @@ const serif = "'Cormorant Garamond', 'Playfair Display', Georgia, serif"
 const sans = "'Inter', 'Helvetica Neue', sans-serif"
 const mono = "'SF Mono', 'Fira Code', monospace"
 
-// Rich luxury color palette
 const colors = {
   ivory: '#FDFBF7',
   cream: '#F5F0EA',
@@ -48,37 +39,27 @@ const colors = {
   borderSubtle: '#E8E2DA',
   borderGold: 'rgba(201,169,110,0.35)',
   shadowGold: 'rgba(201,169,110,0.12)',
-  // Card backgrounds
   cardDark: 'linear-gradient(145deg, #1A1614 0%, #2C2420 60%, #3D3530 100%)',
   cardAccent: 'linear-gradient(145deg, #FDFBF7 0%, #F5F0EA 100%)',
   cardGlass: 'linear-gradient(145deg, rgba(255,253,249,0.9) 0%, rgba(245,240,234,0.7) 100%)',
 }
 
-// SVG noise texture as data URI for luxury paper feel
 const noiseTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")`
 
 export interface VaultBentoItem {
   title: string
   description?: string
-  /** Stat number to display prominently */
   stat?: string
-  /** Stat suffix (e.g., "+", "%", "ct") */
   statSuffix?: string
-  /** Icon or ReactNode to display */
   icon?: ReactNode
-  /** Background image URL */
   image?: string
-  /** Grid span: 'wide' = 2 cols, 'tall' = 2 rows, 'feature' = 2x2 */
   span?: 'normal' | 'wide' | 'tall' | 'feature'
-  /** Card variant for styling */
   variant?: 'default' | 'dark' | 'accent' | 'glass'
 }
 
 interface VaultBentoShowcaseProps {
   items: VaultBentoItem[]
-  /** Section title displayed above the grid */
   sectionTitle?: string
-  /** Section number label */
   sectionNum?: string
   className?: string
 }
@@ -90,10 +71,8 @@ export function VaultBentoShowcase({
   className = '',
 }: VaultBentoShowcaseProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
   const isMobile = useIsMobile()
   const prefersReducedMotion = usePrefersReducedMotion()
-  const [activeIndex, setActiveIndex] = useState(0)
 
   // GSAP stagger entrance — desktop only
   useEffect(() => {
@@ -126,20 +105,6 @@ export function VaultBentoShowcase({
     return () => { tl.kill() }
   }, [isMobile, prefersReducedMotion])
 
-  // Mobile scroll indicator tracking
-  useEffect(() => {
-    if (!isMobile || !scrollRef.current) return
-    const el = scrollRef.current
-    const handleScroll = () => {
-      const scrollLeft = el.scrollLeft
-      const itemWidth = el.scrollWidth / scrollableItems.length
-      const index = Math.round(scrollLeft / itemWidth)
-      setActiveIndex(Math.min(index, scrollableItems.length - 1))
-    }
-    el.addEventListener('scroll', handleScroll, { passive: true })
-    return () => el.removeEventListener('scroll', handleScroll)
-  }, [isMobile])
-
   const getGridSpan = (span?: string) => {
     if (isMobile) return {}
     switch (span) {
@@ -155,7 +120,7 @@ export function VaultBentoShowcase({
       return {
         background: 'none',
         border: 'none',
-        borderRadius: '2px',
+        borderRadius: '4px',
       }
     }
     switch (variant) {
@@ -164,7 +129,7 @@ export function VaultBentoShowcase({
           background: colors.cardDark,
           color: '#FFFFFF',
           border: 'none',
-          borderRadius: '2px',
+          borderRadius: '4px',
           boxShadow: '0 8px 40px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.05)',
         }
       case 'accent':
@@ -172,7 +137,7 @@ export function VaultBentoShowcase({
           background: colors.cardAccent,
           color: colors.deepCharcoal,
           border: `1.5px solid ${colors.borderGold}`,
-          borderRadius: '2px',
+          borderRadius: '4px',
           boxShadow: `0 4px 24px ${colors.shadowGold}, 0 1px 3px rgba(0,0,0,0.04)`,
         }
       case 'glass':
@@ -181,22 +146,18 @@ export function VaultBentoShowcase({
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           border: `1px solid rgba(201,169,110,0.2)`,
-          borderRadius: '2px',
+          borderRadius: '4px',
           boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
         }
       default:
         return {
           background: colors.warmWhite,
           border: `1px solid ${colors.borderSubtle}`,
-          borderRadius: '2px',
+          borderRadius: '4px',
           boxShadow: '0 2px 12px rgba(0,0,0,0.03)',
         }
     }
   }
-
-  // Separate items into "hero" (feature/wide) and "scrollable" for mobile
-  const heroItems = items.filter(item => item.span === 'feature')
-  const scrollableItems = items.filter(item => item.span !== 'feature')
 
   const renderCard = (item: VaultBentoItem, i: number) => {
     const isDark = item.variant === 'dark' || !!item.image
@@ -211,14 +172,14 @@ export function VaultBentoShowcase({
           ...getVariantStyles(item.variant, !!item.image),
           position: 'relative',
           overflow: 'hidden',
-          minHeight: isMobile ? '220px' : (item.span === 'tall' || item.span === 'feature' ? '380px' : '200px'),
-          padding: item.image ? '0' : '36px',
+          minHeight: isMobile ? '180px' : (item.span === 'tall' || item.span === 'feature' ? '380px' : '200px'),
+          padding: item.image ? '0' : isMobile ? '28px 24px' : '36px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: item.stat ? 'space-between' : 'flex-end',
         }}
       >
-        {/* Noise texture overlay for paper-like luxury feel */}
+        {/* Noise texture overlay */}
         {!item.image && (
           <div
             aria-hidden="true"
@@ -283,7 +244,6 @@ export function VaultBentoShowcase({
                 objectFit: 'cover',
               }}
             />
-            {/* Rich multi-layer gradient overlay */}
             <div style={{
               position: 'absolute',
               inset: 0,
@@ -292,7 +252,6 @@ export function VaultBentoShowcase({
                 linear-gradient(to right, rgba(26,22,20,0.2) 0%, transparent 50%)
               `,
             }} />
-            {/* Gold accent line at bottom */}
             <div style={{
               position: 'absolute',
               bottom: 0,
@@ -310,20 +269,8 @@ export function VaultBentoShowcase({
           position: 'relative',
           zIndex: 1,
           padding: item.image ? '36px' : '0',
-          marginTop: item.image ? 'auto' : undefined,
         }}>
-          {/* Icon */}
-          {item.icon && (
-            <div style={{
-              marginBottom: '20px',
-              color: isDark ? colors.goldLight : colors.gold,
-              filter: isDark ? 'drop-shadow(0 2px 4px rgba(201,169,110,0.3))' : 'none',
-            }}>
-              {item.icon}
-            </div>
-          )}
-
-          {/* Stat number with gold foil effect */}
+          {/* Stat number with gold shimmer */}
           {item.stat && (
             <div style={{
               fontFamily: serif,
@@ -336,23 +283,20 @@ export function VaultBentoShowcase({
               position: 'relative',
             }}>
               <span style={{
-                background: isDark
-                  ? colors.goldShimmer
-                  : colors.goldGradient,
-                backgroundSize: isDark ? '200% 100%' : '100% 100%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+                background: isDark ? colors.goldShimmer : 'none',
+                backgroundSize: isDark ? '200% 100%' : 'auto',
+                WebkitBackgroundClip: isDark ? 'text' : 'unset',
+                WebkitTextFillColor: isDark ? 'transparent' : 'inherit',
+                backgroundClip: isDark ? 'text' : 'unset',
               }}>
                 {item.stat}
               </span>
               {item.statSuffix && (
                 <span style={{
-                  fontSize: '0.4em',
-                  color: colors.gold,
-                  marginLeft: '4px',
+                  fontSize: '0.5em',
                   verticalAlign: 'super',
-                  WebkitTextFillColor: colors.gold,
+                  color: isDark ? colors.gold : colors.goldDark,
+                  marginLeft: '2px',
                 }}>
                   {item.statSuffix}
                 </span>
@@ -363,10 +307,12 @@ export function VaultBentoShowcase({
           {/* Title */}
           <h3 style={{
             fontFamily: item.stat ? sans : serif,
-            fontSize: item.stat ? '11px' : '18px',
+            fontSize: item.stat
+              ? (isMobile ? '11px' : '11px')
+              : (isMobile ? '20px' : '18px'),
             fontWeight: item.stat ? 600 : 400,
             letterSpacing: item.stat ? '0.2em' : '0.01em',
-            textTransform: item.stat ? 'uppercase' : 'none',
+            textTransform: item.stat ? 'uppercase' as const : 'none' as const,
             color: isDark ? 'rgba(255,255,255,0.9)' : colors.deepCharcoal,
             margin: 0,
             marginBottom: item.description ? '10px' : '0',
@@ -378,12 +324,12 @@ export function VaultBentoShowcase({
           {item.description && (
             <p style={{
               fontFamily: sans,
-              fontSize: '13px',
+              fontSize: isMobile ? '14px' : '13px',
               fontWeight: 400,
               lineHeight: 1.7,
               color: isDark ? 'rgba(255,255,255,0.6)' : colors.warmGray,
               margin: 0,
-              maxWidth: '300px',
+              maxWidth: '360px',
             }}>
               {item.description}
             </p>
@@ -406,8 +352,9 @@ export function VaultBentoShowcase({
 
   return (
     <div className={`vm-bento-showcase ${className}`}>
+      {/* Section Header */}
       {(sectionNum || sectionTitle) && (
-        <div style={{ marginBottom: isMobile ? '36px' : '56px', textAlign: 'center' }}>
+        <div style={{ marginBottom: isMobile ? '32px' : '56px', textAlign: 'center' }}>
           {sectionNum && (
             <span style={{
               fontFamily: mono,
@@ -455,81 +402,38 @@ export function VaultBentoShowcase({
         </div>
       )}
 
-      {/* Mobile Layout: Hero full-width + horizontal scroll row */}
+      {/* ═══ MOBILE LAYOUT: Vertical stacked cards ═══ */}
       {isMobile ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {/* Hero items full-width */}
-          {heroItems.map((item, i) => (
-            <div key={`hero-${i}`} style={{ padding: '0 20px' }}>
-              {renderCard(item, i)}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+          padding: '0 20px',
+        }}>
+          {/* First row: 2 cards side by side (stat cards) */}
+          {items.filter(item => item.stat && item.stat !== '∞').length >= 2 && (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '12px',
+            }}>
+              {items.filter(item => item.stat && item.stat !== '∞').map((item, i) => (
+                <div key={`stat-${i}`}>
+                  {renderCard(item, i)}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Remaining cards: full width stacked */}
+          {items.filter(item => !item.stat || item.stat === '∞').map((item, i) => (
+            <div key={`card-${i}`}>
+              {renderCard(item, items.indexOf(item))}
             </div>
           ))}
-
-          {/* Scrollable row — iOS-safe: proximity + pan-x pan-y */}
-          <div
-            ref={scrollRef}
-            className="vm-scroll-snap-x"
-            role="region"
-            aria-label="Scroll through highlights"
-            aria-roledescription="carousel"
-            style={{
-              display: 'flex',
-              overflowX: 'auto',
-              scrollSnapType: 'x proximity',
-              scrollPadding: '0 20px',
-              WebkitOverflowScrolling: 'touch',
-              gap: '16px',
-              padding: '0 20px',
-              scrollbarWidth: 'none',
-              touchAction: 'pan-x pan-y',
-              overscrollBehaviorX: 'contain',
-            }}
-          >
-            {scrollableItems.map((item, i) => (
-              <div
-                key={`scroll-${i}`}
-                className="vm-scroll-snap-item"
-                role="group"
-                aria-roledescription="slide"
-                aria-label={`${i + 1} of ${scrollableItems.length}`}
-                style={{
-                  flex: '0 0 82vw',
-                  maxWidth: '320px',
-                  scrollSnapAlign: 'center',
-                  scrollSnapStop: 'normal',
-                }}
-              >
-                {renderCard(item, heroItems.length + i)}
-              </div>
-            ))}
-          </div>
-
-          {/* Scroll indicator dots */}
-          <div
-            aria-hidden="true"
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '8px',
-              padding: '16px 0',
-            }}
-          >
-            {scrollableItems.slice(0, Math.min(scrollableItems.length, 6)).map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  width: activeIndex === i ? '20px' : '6px',
-                  height: '6px',
-                  borderRadius: '3px',
-                  backgroundColor: activeIndex === i ? colors.gold : colors.borderSubtle,
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-              />
-            ))}
-          </div>
         </div>
       ) : (
-        /* Desktop Layout: CSS Grid with spans */
+        /* ═══ DESKTOP LAYOUT: CSS Grid with spans ═══ */
         <div
           ref={containerRef}
           style={{
@@ -563,15 +467,11 @@ export function VaultBentoShowcase({
             transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
           }
         }
-        /* Container query breakpoints */
+        /* Container query for tablet */
         @container vault-bento (max-width: 1024px) {
           .vm-bento-showcase > div:last-child {
             grid-template-columns: repeat(2, 1fr) !important;
           }
-        }
-        /* Hide scrollbar on mobile carousel */
-        .vm-scroll-snap-x::-webkit-scrollbar {
-          display: none;
         }
         @media (prefers-reduced-motion: reduce) {
           .vm-bento-card {
