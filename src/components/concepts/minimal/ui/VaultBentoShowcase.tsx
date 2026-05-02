@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useRef, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -12,9 +11,11 @@ import { usePrefersReducedMotion } from '../hooks/useMediaQuery'
  * Desktop: 3-column CSS Grid with span variants
  * Mobile (iPhone): Vertical stacked cards — full-width, magazine-style
  *
- * The mobile layout uses a vertical stack (NOT horizontal scroll)
- * because these are brand pillars that should be read sequentially,
- * not swiped through. Each card gets full attention.
+ * OVERFLOW FIX:
+ * - Mobile cards use height:auto (no minHeight constraint)
+ * - Stat font sizes reduced for 2-col grid
+ * - Description text clamped to 3 lines on stat cards
+ * - All cards have overflow:hidden + word-break:break-word
  * ──────────────────────────────────────────────────────────────── */
 
 gsap.registerPlugin(ScrollTrigger)
@@ -79,12 +80,9 @@ export function VaultBentoShowcase({
     if (isMobile || prefersReducedMotion) return
     const el = containerRef.current
     if (!el) return
-
     const cards = el.querySelectorAll<HTMLElement>('.vm-bento-card')
     if (!cards.length) return
-
     gsap.set(cards, { opacity: 0, y: 40, scale: 0.96 })
-
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: el,
@@ -92,7 +90,6 @@ export function VaultBentoShowcase({
         once: true,
       },
     })
-
     tl.to(cards, {
       opacity: 1,
       y: 0,
@@ -101,7 +98,6 @@ export function VaultBentoShowcase({
       stagger: 0.1,
       ease: 'power3.out',
     })
-
     return () => { tl.kill() }
   }, [isMobile, prefersReducedMotion])
 
@@ -120,7 +116,7 @@ export function VaultBentoShowcase({
       return {
         background: 'none',
         border: 'none',
-        borderRadius: '4px',
+        borderRadius: '6px',
       }
     }
     switch (variant) {
@@ -129,7 +125,7 @@ export function VaultBentoShowcase({
           background: colors.cardDark,
           color: '#FFFFFF',
           border: 'none',
-          borderRadius: '4px',
+          borderRadius: '6px',
           boxShadow: '0 8px 40px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.05)',
         }
       case 'accent':
@@ -137,7 +133,7 @@ export function VaultBentoShowcase({
           background: colors.cardAccent,
           color: colors.deepCharcoal,
           border: `1.5px solid ${colors.borderGold}`,
-          borderRadius: '4px',
+          borderRadius: '6px',
           boxShadow: `0 4px 24px ${colors.shadowGold}, 0 1px 3px rgba(0,0,0,0.04)`,
         }
       case 'glass':
@@ -146,22 +142,36 @@ export function VaultBentoShowcase({
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           border: `1px solid rgba(201,169,110,0.2)`,
-          borderRadius: '4px',
+          borderRadius: '6px',
           boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
         }
       default:
         return {
           background: colors.warmWhite,
           border: `1px solid ${colors.borderSubtle}`,
-          borderRadius: '4px',
+          borderRadius: '6px',
           boxShadow: '0 2px 12px rgba(0,0,0,0.03)',
         }
     }
   }
 
-  const renderCard = (item: VaultBentoItem, i: number) => {
+  /* ─── Render a single card ─────────────────────────────────── */
+  const renderCard = (item: VaultBentoItem, i: number, isInStatGrid = false) => {
     const isDark = item.variant === 'dark' || !!item.image
     const isAccent = item.variant === 'accent'
+
+    // Mobile stat grid cards need smaller fonts to prevent overflow
+    const statFontSize = isInStatGrid
+      ? 'clamp(28px, 8vw, 36px)'
+      : isMobile
+        ? 'clamp(32px, 9vw, 44px)'
+        : 'clamp(42px, 5vw, 64px)'
+
+    const cardPadding = isInStatGrid
+      ? '20px 16px'
+      : isMobile
+        ? '24px 20px'
+        : '36px'
 
     return (
       <div
@@ -172,11 +182,17 @@ export function VaultBentoShowcase({
           ...getVariantStyles(item.variant, !!item.image),
           position: 'relative',
           overflow: 'hidden',
-          minHeight: isMobile ? '180px' : (item.span === 'tall' || item.span === 'feature' ? '380px' : '200px'),
-          padding: item.image ? '0' : isMobile ? '28px 24px' : '36px',
+          // Mobile: let cards grow to fit content (no fixed minHeight)
+          // Desktop: use minHeight for visual consistency
+          ...(isMobile
+            ? { minHeight: isInStatGrid ? 'auto' : 'auto' }
+            : { minHeight: item.span === 'tall' || item.span === 'feature' ? '380px' : '200px' }
+          ),
+          padding: item.image ? '0' : cardPadding,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: item.stat ? 'space-between' : 'flex-end',
+          wordBreak: 'break-word',
         }}
       >
         {/* Noise texture overlay */}
@@ -203,8 +219,8 @@ export function VaultBentoShowcase({
               position: 'absolute',
               top: 0,
               right: 0,
-              width: '80px',
-              height: '80px',
+              width: '60px',
+              height: '60px',
               background: `linear-gradient(225deg, ${colors.gold}15 0%, transparent 70%)`,
               pointerEvents: 'none',
             }}
@@ -217,10 +233,10 @@ export function VaultBentoShowcase({
             aria-hidden="true"
             style={{
               position: 'absolute',
-              top: '16px',
-              right: '16px',
-              width: '20px',
-              height: '20px',
+              top: '12px',
+              right: '12px',
+              width: '16px',
+              height: '16px',
               border: `1px solid rgba(201,169,110,0.4)`,
               borderRadius: '50%',
               pointerEvents: 'none',
@@ -252,15 +268,6 @@ export function VaultBentoShowcase({
                 linear-gradient(to right, rgba(26,22,20,0.2) 0%, transparent 50%)
               `,
             }} />
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: '36px',
-              right: '36px',
-              height: '1px',
-              background: `linear-gradient(90deg, ${colors.gold} 0%, transparent 100%)`,
-              opacity: 0.5,
-            }} />
           </>
         )}
 
@@ -268,18 +275,19 @@ export function VaultBentoShowcase({
         <div style={{
           position: 'relative',
           zIndex: 1,
-          padding: item.image ? '36px' : '0',
+          padding: item.image ? (isMobile ? '20px' : '36px') : '0',
+          overflow: 'hidden',
         }}>
           {/* Stat number with gold shimmer */}
           {item.stat && (
             <div style={{
               fontFamily: serif,
-              fontSize: isMobile ? 'clamp(36px, 10vw, 52px)' : 'clamp(42px, 5vw, 64px)',
+              fontSize: statFontSize,
               fontWeight: 300,
               letterSpacing: '-0.03em',
-              lineHeight: 0.9,
+              lineHeight: 1,
               color: isDark ? '#FFFFFF' : colors.deepCharcoal,
-              marginBottom: '12px',
+              marginBottom: isInStatGrid ? '8px' : '12px',
               position: 'relative',
             }}>
               <span style={{
@@ -308,14 +316,15 @@ export function VaultBentoShowcase({
           <h3 style={{
             fontFamily: item.stat ? sans : serif,
             fontSize: item.stat
-              ? (isMobile ? '11px' : '11px')
-              : (isMobile ? '20px' : '18px'),
+              ? (isInStatGrid ? '10px' : isMobile ? '11px' : '11px')
+              : (isMobile ? '16px' : '18px'),
             fontWeight: item.stat ? 600 : 400,
             letterSpacing: item.stat ? '0.2em' : '0.01em',
-            textTransform: item.stat ? 'uppercase' as const : 'none' as const,
+            textTransform: item.stat ? 'uppercase' : 'none',
             color: isDark ? 'rgba(255,255,255,0.9)' : colors.deepCharcoal,
             margin: 0,
-            marginBottom: item.description ? '10px' : '0',
+            marginBottom: item.description ? (isInStatGrid ? '6px' : '10px') : 0,
+            lineHeight: 1.3,
           }}>
             {item.title}
           </h3>
@@ -324,12 +333,18 @@ export function VaultBentoShowcase({
           {item.description && (
             <p style={{
               fontFamily: sans,
-              fontSize: isMobile ? '14px' : '13px',
+              fontSize: isInStatGrid ? '11px' : isMobile ? '13px' : '13px',
               fontWeight: 400,
-              lineHeight: 1.7,
+              lineHeight: 1.6,
               color: isDark ? 'rgba(255,255,255,0.6)' : colors.warmGray,
               margin: 0,
-              maxWidth: '360px',
+              // On mobile stat grid, limit to 3 lines to prevent overflow
+              ...(isInStatGrid ? {
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical' as const,
+                overflow: 'hidden',
+              } : {}),
             }}>
               {item.description}
             </p>
@@ -337,12 +352,12 @@ export function VaultBentoShowcase({
         </div>
 
         {/* Bottom decorative gold accent line for stat cards */}
-        {item.stat && !item.image && (
+        {item.stat && !item.image && !isInStatGrid && (
           <div style={{
             width: '32px',
             height: '2px',
             background: colors.goldGradient,
-            marginTop: 'auto',
+            marginTop: '16px',
             borderRadius: '1px',
           }} />
         )}
@@ -354,7 +369,7 @@ export function VaultBentoShowcase({
     <div className={`vm-bento-showcase ${className}`}>
       {/* Section Header */}
       {(sectionNum || sectionTitle) && (
-        <div style={{ marginBottom: isMobile ? '32px' : '56px', textAlign: 'center' }}>
+        <div style={{ marginBottom: isMobile ? '28px' : '56px', textAlign: 'center' }}>
           {sectionNum && (
             <span style={{
               fontFamily: mono,
@@ -371,7 +386,7 @@ export function VaultBentoShowcase({
           {sectionTitle && (
             <h2 style={{
               fontFamily: serif,
-              fontSize: 'clamp(26px, 4vw, 44px)',
+              fontSize: 'clamp(24px, 4vw, 44px)',
               fontWeight: 300,
               letterSpacing: '0.02em',
               lineHeight: 1.1,
@@ -388,12 +403,12 @@ export function VaultBentoShowcase({
             alignItems: 'center',
             justifyContent: 'center',
             gap: '12px',
-            margin: '20px auto 0',
+            margin: '16px auto 0',
           }}>
             <div style={{ width: '32px', height: '1px', background: colors.goldGradient }} />
             <div style={{
-              width: '6px',
-              height: '6px',
+              width: '5px',
+              height: '5px',
               background: colors.gold,
               transform: 'rotate(45deg)',
             }} />
@@ -407,19 +422,19 @@ export function VaultBentoShowcase({
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '16px',
-          padding: '0 20px',
+          gap: '14px',
+          padding: '0 16px',
         }}>
-          {/* First row: 2 cards side by side (stat cards) */}
+          {/* First row: 2 stat cards side by side */}
           {items.filter(item => item.stat && item.stat !== '∞').length >= 2 && (
             <div style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gap: '12px',
+              gap: '10px',
             }}>
               {items.filter(item => item.stat && item.stat !== '∞').map((item, i) => (
-                <div key={`stat-${i}`}>
-                  {renderCard(item, i)}
+                <div key={`stat-${i}`} style={{ overflow: 'hidden', borderRadius: '6px' }}>
+                  {renderCard(item, i, true)}
                 </div>
               ))}
             </div>
@@ -427,8 +442,8 @@ export function VaultBentoShowcase({
 
           {/* Remaining cards: full width stacked */}
           {items.filter(item => !item.stat || item.stat === '∞').map((item, i) => (
-            <div key={`card-${i}`}>
-              {renderCard(item, items.indexOf(item))}
+            <div key={`card-${i}`} style={{ overflow: 'hidden', borderRadius: '6px' }}>
+              {renderCard(item, items.indexOf(item), false)}
             </div>
           ))}
         </div>
@@ -444,7 +459,7 @@ export function VaultBentoShowcase({
             margin: '0 auto',
           }}
         >
-          {items.map((item, i) => renderCard(item, i))}
+          {items.map((item, i) => renderCard(item, i, false))}
         </div>
       )}
 
