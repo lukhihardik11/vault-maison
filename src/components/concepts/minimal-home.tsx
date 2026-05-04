@@ -191,8 +191,9 @@ export function MinimalHome({ concept }: { concept: ConceptConfig }) {
           }}
           className="vm-hero-left"
         >
-          {/* Decorative index number */}
+          {/* Decorative index number — hidden on mobile to prevent overlap with headline */}
           <span
+            className="vm-hero-index"
             style={{
               position: 'absolute',
               top: 'clamp(80px, 10vh, 140px)',
