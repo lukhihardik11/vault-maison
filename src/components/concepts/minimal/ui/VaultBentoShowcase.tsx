@@ -172,7 +172,7 @@ export function VaultBentoShowcase({
           ...getVariantStyles(item.variant, !!item.image),
           position: 'relative',
           overflow: 'hidden',
-          minHeight: isMobile ? '180px' : (item.span === 'tall' || item.span === 'feature' ? '380px' : '200px'),
+          minHeight: isMobile ? (item.stat ? '140px' : '120px') : (item.span === 'tall' || item.span === 'feature' ? '380px' : '200px'),
           padding: item.image ? '0' : isMobile ? '28px 24px' : '36px',
           display: 'flex',
           flexDirection: 'column',
@@ -308,7 +308,7 @@ export function VaultBentoShowcase({
           <h3 style={{
             fontFamily: item.stat ? sans : serif,
             fontSize: item.stat
-              ? (isMobile ? '11px' : '11px')
+              ? (isMobile ? '12px' : '11px')
               : (isMobile ? '20px' : '18px'),
             fontWeight: item.stat ? 600 : 400,
             letterSpacing: item.stat ? '0.2em' : '0.01em',
@@ -402,33 +402,17 @@ export function VaultBentoShowcase({
         </div>
       )}
 
-      {/* ═══ MOBILE LAYOUT: Vertical stacked cards ═══ */}
+      {/* ═══ MOBILE LAYOUT: All cards full-width stacked ═══ */}
       {isMobile ? (
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '16px',
-          padding: '0 20px',
+          gap: '14px',
+          padding: '0 clamp(16px, 4vw, 24px)',
         }}>
-          {/* First row: 2 cards side by side (stat cards) */}
-          {items.filter(item => item.stat && item.stat !== '∞').length >= 2 && (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(120px, 100%), 1fr))',
-              gap: '12px',
-            }}>
-              {items.filter(item => item.stat && item.stat !== '∞').map((item, i) => (
-                <div key={`stat-${i}`}>
-                  {renderCard(item, i)}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Remaining cards: full width stacked */}
-          {items.filter(item => !item.stat || item.stat === '∞').map((item, i) => (
+          {items.map((item, i) => (
             <div key={`card-${i}`}>
-              {renderCard(item, items.indexOf(item))}
+              {renderCard(item, i)}
             </div>
           ))}
         </div>

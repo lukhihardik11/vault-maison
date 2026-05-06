@@ -268,6 +268,7 @@ export function HeadlineReveal({
           style={{
             display: 'block',
             overflow: 'hidden',
+            paddingBottom: '0.08em',
           }}
         >
           <span

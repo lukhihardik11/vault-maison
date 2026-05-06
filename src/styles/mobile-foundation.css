@@ -154,7 +154,7 @@
     font-size: clamp(18px, 5vw, 24px) !important;
   }
 
-  .vm-curated-panel > div:last-child p {
+   .vm-curated-panel > div:last-child p {
     font-size: 14px !important;
     line-height: 1.6 !important;
     display: -webkit-box;
@@ -162,8 +162,11 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  /* Hide decorative "07 / 10" index on mobile/tablet — overlaps headline in column-reverse layout */
+  .vm-hero-index {
+    display: none !important;
+  }
 }
-
 /* ─── Reduced Motion — Global Override ────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -534,6 +537,10 @@ html {
 
   .vm-hero-left {
     padding: 32px 8px 48px !important;
+  }
+  /* Hide decorative index number on mobile — overlaps headline */
+  .vm-hero-index {
+    display: none !important;
   }
 }
 

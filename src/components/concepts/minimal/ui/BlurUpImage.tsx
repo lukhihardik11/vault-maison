@@ -65,7 +65,7 @@ export default function BlurUpImage({
     const markUnloaded = () => {
       if (!cancelled) setLoaded(false)
     }
-    const safety = window.setTimeout(markLoaded, 1800)
+    const safety = window.setTimeout(markLoaded, 800)
 
     if (img.complete && img.naturalWidth > 0) {
       markLoaded()
@@ -112,9 +112,9 @@ export default function BlurUpImage({
           height: '100%',
           objectFit: 'cover',
           display: 'block',
-          opacity: loaded ? 1 : 0.82,
-          filter: loaded ? 'blur(0px)' : 'blur(14px)',
-          transform: loaded ? 'scale(1)' : 'scale(1.04)',
+          opacity: loaded ? 1 : 0.92,
+          filter: loaded ? 'blur(0px)' : 'blur(8px)',
+          transform: loaded ? 'scale(1)' : 'scale(1.02)',
           transition: prefersReducedMotion
             ? 'none'
             : 'opacity 240ms ease, filter 320ms ease, transform 320ms ease',
